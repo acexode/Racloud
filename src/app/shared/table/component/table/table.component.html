@@ -1,0 +1,469 @@
+<ngx-datatable
+  #table
+  class="bootstrap m-0"
+  [rows]="rows"
+  [columnMode]="ColumnMode.flex"
+  [footerHeight]="config?.footerHeight || 50"
+  [rowHeight]="config?.rowHeight || 40"
+  [limit]="config?.limit || 10"
+  [count]="config?.count"
+  [selected]="selected"
+  [selectionType]="config?.selectable ? SelectionType.checkbox : null"
+  (activate)="onActivate($event)"
+  (select)="onSelect($event)"
+  [scrollbarH]="true"
+  [rowClass]="rowClass"
+  [reorderable]="false"
+  [sorts]="[{ dir: 'asc' }]"
+  [externalPaging]="config?.externalPaging"
+  [externalSorting]="config?.externalSorting"
+  [loadingIndicator]="config?.loadingIndicator"
+>
+  <ngx-datatable-row-detail
+    *ngIf="config?.selectDetail"
+    [rowHeight]="'auto'"
+    #myDetailRow
+  >
+    <ng-template
+      let-row="row"
+      let-expanded="expanded"
+      ngx-datatable-row-detail-template
+    >
+      <ng-container
+        *ngIf="config?.selectDetail && config?.selectDetailTemplate"
+        [ngTemplateOutlet]="config?.selectDetailTemplate"
+        [ngTemplateOutletContext]="{ row: row }"
+      >
+      </ng-container>
+    </ng-template>
+  </ngx-datatable-row-detail>
+  <ng-container *ngIf="config?.selectable && !config?.selectDetail">
+    <ngx-datatable-column
+      [width]="40"
+      [minWidth]="40"
+      [sortable]="false"
+      [canAutoResize]="false"
+      [draggable]="false"
+      [resizeable]="false"
+      [headerClass]="selectableClass"
+      [cellClass]="selectableClass"
+    >
+      <ng-template
+        ngx-datatable-header-template
+        let-value="value"
+        let-allRowsSelected="allRowsSelected"
+        let-selectFn="selectFn"
+      >
+        <div class="d-flex flex-column">
+          <div
+            class="first-row d-flex datatable-body-cell-label custom-control custom-checkbox form-check"
+          >
+            <ng-container *ngIf="config?.selectable">
+              <input
+                type="checkbox"
+                class="custom-control-input no-focus"
+                id="customCheckH"
+                [checked]="allRowsSelected"
+                (change)="selectFn(!allRowsSelected)"
+              />
+              <label class="custom-control-label" for="customCheckH"></label>
+            </ng-container>
+          </div>
+          <div class="second-row d-flex"></div>
+        </div>
+      </ng-template>
+      <ng-template
+        let-rowIndex="rowIndex"
+        ngx-datatable-cell-template
+        let-expanded="expanded"
+        let-value="value"
+        let-row="row"
+        let-isSelected="isSelected"
+        let-onCheckboxChangeFn="onCheckboxChangeFn"
+      >
+        <div class="d-flex flex-row m-0 p-0">
+          <div
+            *ngIf="config?.selectable"
+            class="datatable-body-cell-label custom-control custom-checkbox form-check"
+          >
+            <input
+              type="checkbox"
+              class="custom-control-input no-focus"
+              id="{{ rowIndex }}"
+              [checked]="isSelected"
+              (change)="onCheckboxChangeFn($event)"
+            />
+            <label
+              class="datatable-body-cell-label custom-control-label pl-0"
+              for="{{ rowIndex }}"
+            ></label>
+          </div>
+        </div> </ng-template></ngx-datatable-column
+  ></ng-container>
+  <ng-container *ngIf="config?.selectable && config?.selectDetail">
+    <ngx-datatable-column
+      [width]="80"
+      [minWidth]="80"
+      [sortable]="false"
+      [canAutoResize]="false"
+      [draggable]="false"
+      [resizeable]="false"
+      [headerClass]="selectableClass"
+      [cellClass]="selectableClass"
+    >
+      <ng-template
+        ngx-datatable-header-template
+        let-value="value"
+        let-allRowsSelected="allRowsSelected"
+        let-selectFn="selectFn"
+      >
+        <div class="d-flex flex-column">
+          <div
+            class="first-row d-flex datatable-body-cell-label custom-control custom-checkbox form-check"
+          >
+            <ng-container *ngIf="config?.selectable">
+              <input
+                type="checkbox"
+                class="custom-control-input no-focus"
+                id="customCheckH"
+                [checked]="allRowsSelected"
+                (change)="selectFn(!allRowsSelected)"
+              />
+              <label class="custom-control-label" for="customCheckH"></label>
+            </ng-container>
+          </div>
+          <div class="second-row d-flex"></div>
+        </div>
+      </ng-template>
+      <ng-template
+        let-rowIndex="rowIndex"
+        ngx-datatable-cell-template
+        let-expanded="expanded"
+        let-value="value"
+        let-row="row"
+        let-isSelected="isSelected"
+        let-onCheckboxChangeFn="onCheckboxChangeFn"
+      >
+        <div class="d-flex flex-row m-0 p-0">
+          <div
+            *ngIf="config?.selectable"
+            class="datatable-body-cell-label custom-control custom-checkbox form-check"
+          >
+            <input
+              type="checkbox"
+              class="custom-control-input no-focus"
+              id="{{ rowIndex }}"
+              [checked]="isSelected"
+              (change)="onCheckboxChangeFn($event)"
+            />
+            <label
+              class="datatable-body-cell-label custom-control-label pl-0"
+              for="{{ rowIndex }}"
+            ></label>
+          </div>
+          <div class="detail-arrow pl-3" *ngIf="config?.selectDetail">
+            <svg-icon
+              *ngIf="expanded"
+              [src]="'../assets/images/Chevron-down-green.svg'"
+              applyClass="true"
+              alt="Icon"
+              (click)="toggleExpandRow(row)"
+            ></svg-icon>
+            <svg-icon
+              *ngIf="!expanded"
+              [src]="'../assets/images/Chevron-right-green.svg'"
+              class="detail-icon"
+              applyClass="true"
+              alt="Icon"
+              (click)="toggleExpandRow(row)"
+            ></svg-icon>
+          </div>
+        </div> </ng-template></ngx-datatable-column
+  ></ng-container>
+  <ngx-datatable-column
+    *ngFor="let data of config?.columns; let last = last"
+    name="{{ data.label }}"
+    [prop]="data.identifier"
+    [draggable]="false"
+    [resizeable]="false"
+    [sortable]="data?.sortable"
+    [canAutoResize]="true"
+    [width]="data?.width || null"
+    [minWidth]="data?.minWidth || null"
+    [maxWidth]="data?.maxWidth || null"
+    [flexGrow]="data?.noGrow ? 0 : 1"
+  >
+    <ng-template
+      let-value="value"
+      let-column="column"
+      ngx-datatable-header-template
+      let-sort="sortFn"
+    >
+      <div class="d-flex flex-column">
+        <div
+          class="first-row d-flex flex-row"
+          (click)="config?.externalSorting ? updateSorting(data) : sort()"
+        >
+          <ng-container *ngIf="config.externalSorting">
+            <ng-container
+              *ngTemplateOutlet="
+                iconsExternalSorting;
+                context: { $implicit: 'left', colConf: data }
+              "
+            ></ng-container>
+          </ng-container>
+          <ng-container *ngIf="!config.externalSorting">
+            <ng-container
+              *ngTemplateOutlet="
+                icons;
+                context: { $implicit: 'left', colConf: data }
+              "
+            ></ng-container>
+          </ng-container>
+
+          <div
+            class="d-flex flex-start flex-1 flex-grow-1 flex-shrink-1 flex-baseline"
+            [ngClass]="
+              'text-align-' +
+              (data?.labelPosition ? data.labelPosition : 'left') +
+              ' justify-content-' +
+              (data?.labelPosition === 'right' ? 'end' : 'start')
+            "
+          >
+            {{ column.name }}
+          </div>
+          <ng-container *ngIf="config.externalSorting">
+            <ng-container
+              *ngTemplateOutlet="
+                iconsExternalSorting;
+                context: { $implicit: 'right', colConf: data }
+              "
+            ></ng-container>
+          </ng-container>
+          <ng-container *ngIf="!config.externalSorting">
+            <ng-container
+              *ngTemplateOutlet="
+                icons;
+                context: { $implicit: 'right', colConf: data }
+              "
+            ></ng-container>
+          </ng-container>
+        </div>
+        <div class="second-row d-flex">
+          <ng-container
+            *ngTemplateOutlet="tableInput; context: { $implicit: data }"
+          ></ng-container>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template
+      let-value="value"
+      let-column="column"
+      let-row="row"
+      ngx-datatable-cell-template
+    >
+      <ng-container *ngIf="!data?.cellTemplate">
+        <div
+          class="d-flex"
+          [ngClass]="
+            'text-align-' +
+            (data?.labelPosition ? data.labelPosition : 'left') +
+            ' justify-content-' +
+            (data?.labelPosition === 'right' ? 'end' : 'start')
+          "
+        >
+          {{ value }}
+        </div>
+      </ng-container>
+      <ng-container
+        *ngIf="data.cellTemplate"
+        [ngTemplateOutlet]="data.cellTemplate"
+        [ngTemplateOutletContext]="{
+          cellValue: value,
+          column: column,
+          row: row
+        }"
+      >
+      </ng-container>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    *ngIf="config?.hoverDetail"
+    [sortable]="false"
+    [canAutoResize]="false"
+    [headerClass]="'d-none'"
+    [draggable]="false"
+    [width]="0"
+    [flexGrow]="0"
+    [cellClass]="
+      'position-fixed hover-detail px-0 justify-content-end border-none'
+    "
+  >
+    <ng-template
+      let-value="value"
+      let-column="column"
+      let-row="row"
+      ngx-datatable-header-template
+    ></ng-template>
+    <ng-template
+      let-value="value"
+      let-column="column"
+      let-row="row"
+      ngx-datatable-cell-template
+    >
+      <ng-container
+        *ngIf="config?.hoverDetail && config?.hoverDetailTemplate"
+        [ngTemplateOutlet]="config?.hoverDetailTemplate"
+        [ngTemplateOutletContext]="{ row: row, column: column }"
+      >
+      </ng-container>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-footer>
+    <ng-template
+      ngx-datatable-footer-template
+      let-rowCount="rowCount"
+      let-pageSize="pageSize"
+      let-selectedCount="selectedCount"
+      let-curPage="curPage"
+      let-offset="offset"
+      let-isVisible="isVisible"
+    >
+      <div class="pageCount">
+        <span class="bold"
+          >Afisare {{ curPage === 1 ? 1 : (curPage - 1) * pageSize + 1 }} la
+          {{
+            curPage * pageSize > rowCount ? rowCount : curPage * pageSize
+          }}</span
+        >
+        din
+        <span class="bold"> {{ rowCount }}</span>
+      </div>
+      <datatable-pager
+        class="align-items-center"
+        [pagerLeftArrowIcon]="'datatable-icon-left'"
+        [pagerRightArrowIcon]="'datatable-icon-right'"
+        [pagerPreviousIcon]="'datatable-icon-prev'"
+        [pagerNextIcon]="'datatable-icon-skip'"
+        [page]="curPage"
+        [size]="pageSize"
+        [count]="rowCount"
+        [hidden]="!(rowCount / pageSize > 1)"
+        (change)="
+          config?.externalPaging
+            ? updatePagination($event)
+            : table.onFooterPage($event)
+        "
+      ></datatable-pager>
+    </ng-template>
+  </ngx-datatable-footer>
+</ngx-datatable>
+
+<ng-template #tableInput let-data>
+  <app-table-filter
+    [filterConfig]="data?.filterConfig"
+    [identificator]="data?.identifier"
+    class="d-flex w-100"
+    (filterChange)="
+      updateFilter(data?.identifier, $event, data?.filterConfig?.filterType)
+    "
+  >
+  </app-table-filter>
+</ng-template>
+
+<ng-template #icons let-position let-colConf="colConf">
+  <div
+    class="d-flex"
+    [ngClass]="{
+      'flex-start': position === 'left',
+      'flex-end': position === 'right'
+    }"
+  >
+    <svg-icon
+      *ngIf="
+        position === 'right' &&
+        colConf?.sortable &&
+        (colConf?.sortIconPosition === position || !colConf?.sortIconPosition)
+      "
+      [ngClass]="'right-icon sort-icon mr-n1'"
+      [src]="defaultSortIcon"
+      applyClass="true"
+      alt="Icon"
+    ></svg-icon>
+    <svg-icon
+      *ngIf="
+        colConf?.headerHasFilterIcon &&
+        (position === colConf?.headerIconPosition ||
+          ((position === 'left' || !position) && !colConf?.headerIconPosition))
+      "
+      [ngClass]="position + '-icon filter-icon'"
+      [src]="colConf?.customHeaderIcon || defaultFilterIcon"
+      alt="Icon"
+      applyClass="true"
+    ></svg-icon>
+    <svg-icon
+      *ngIf="
+        position === 'left' &&
+        colConf?.sortable &&
+        position === colConf?.sortIconPosition
+      "
+      [ngClass]="'left-icon sort-icon ml-n1'"
+      [src]="defaultSortIcon"
+      applyClass="true"
+      alt="Icon"
+    ></svg-icon>
+  </div>
+</ng-template>
+
+<ng-template #iconsExternalSorting let-position let-colConf="colConf">
+  <div
+    class="d-flex"
+    [ngClass]="{
+      'flex-start': position === 'left',
+      'flex-end': position === 'right'
+    }"
+  >
+    <svg-icon
+      *ngIf="
+        position === 'right' &&
+        colConf?.sortable &&
+        (colConf?.sortIconPosition === position ||
+          !colConf?.sortIconPosition) &&
+        colConf.sorting
+      "
+      [ngClass]="{
+        'right-icon mr-n1': colConf.sorting === true,
+        'ext-sort-icon-down': colConf.sorting === true && colConf.isDesc
+      }"
+      [src]="defaultSortIcon"
+      applyClass="true"
+      alt="Icon"
+    ></svg-icon>
+    <svg-icon
+      *ngIf="
+        colConf?.headerHasFilterIcon &&
+        (position === colConf?.headerIconPosition ||
+          ((position === 'left' || !position) && !colConf?.headerIconPosition))
+      "
+      [ngClass]="position + '-icon filter-icon'"
+      [src]="colConf?.customHeaderIcon || defaultFilterIcon"
+      alt="Icon"
+      applyClass="true"
+    ></svg-icon>
+    <svg-icon
+      *ngIf="
+        position === 'left' &&
+        colConf?.sortable &&
+        position === colConf?.sortIconPosition &&
+        colConf.sorting
+      "
+      [ngClass]="{
+        'left-icon  ml-n1': colConf.sorting === true,
+        'ext-sort-icon-down': colConf.sorting === true && colConf.isDesc
+      }"
+      [src]="defaultSortIcon"
+      applyClass="true"
+      alt="Icon"
+    ></svg-icon>
+  </div>
+</ng-template>

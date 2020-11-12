@@ -1,0 +1,79 @@
+@import "../../assets/variables";
+@import "../../assets/mixins";
+
+.day-title {
+  font-size: rem(16);
+  letter-spacing: rem(-0.1);
+  line-height: rem(22);
+  color: $grey4;
+}
+.day-group-title {
+  font-size: rem(13);
+  font-weight: bold;
+  letter-spacing: rem(-0.2);
+  line-height: rem(16);
+  color: $grey4;
+}
+.log-icon {
+  height: rem(42);
+  width: rem(42);
+  border-radius: rem(4);
+}
+
+.date-input {
+  position: relative;
+}
+.date-input input {
+  border: none;
+  background-color: $white;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+.date-input svg-icon {
+  position: absolute;
+  right: rem(8);
+}
+
+.title {
+  line-height: rem(22);
+  font-weight: 500;
+}
+
+svg {
+  fill: currentColor;
+}
+
+.log-text-bold {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 0;
+  line-height: 28px;
+}
+.badge-progress {
+  line-height: 16px;
+  text-align: center;
+  color: $white;
+  background-color: $dark-yellow;
+}
+
+.badge-accepted {
+  line-height: 16px;
+  text-align: center;
+  color: $white;
+  background-color: $green;
+}
+
+.badge-rejected {
+  line-height: 16px;
+  text-align: center;
+  color: $white;
+  background-color: $red;
+}
+
+.badge-grey {
+  line-height: 16px;
+  text-align: center;
+  font-weight: bold;
+  background-color: $light-grey-2;
+}

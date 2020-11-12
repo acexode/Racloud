@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="20px" viewBox="0 0 16 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>User</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Styleguide" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-301.000000, -8003.000000)" fill="#4C4F51" id="Group-86">
+            <g transform="translate(0.000000, 3420.000000)">
+                <g id="Group-85" transform="translate(136.000000, 4376.000000)">
+                    <g id="Icon/User" transform="translate(163.000000, 207.000000)">
+                        <path d="M2,20 L2.79475775,13.641938 C2.92076047,12.6338238 3.54842994,11.7579853 4.46257141,11.3146838 C7.15419047,10.0094169 8.5,9.07118898 8.5,8.5 C8.5,7.5 7,6 7,4 C7,1.5 8,0 10,0 C12,0 13,1.5 13,4 C13,6 11.5,7.5 11.5,8.5 C11.5,9.07118959 12.8458124,10.0094189 15.5374372,11.314688 C16.4515645,11.7579987 17.0792287,12.6338298 17.2052417,13.6419339 L18,20 L18,20 L2,20 Z" id="🍎-Culoare" fill="currentcolor" ></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,124 @@
+@import "../variables";
+@import "../mixins";
+// Alerts
+//
+// Define alert colors, border radius, and padding.
+
+
+@mixin alert-variant($background, $alt, $color) {
+  background-color: $background;
+  border-color: $alt;
+  color: $color;
+  font-size: rem(14);
+  line-height: rem(16);
+  font-weight: 500;
+  .close-button {
+    color: $alt;
+  }
+}
+
+.alert:focus {
+  outline: none;
+}
+
+.alert {
+  // Specified to prevent conflicts of changing $headings-color
+  color: $base-text-color;
+  width: 100%;
+
+  .alert-content {
+    opacity: 0.87;
+  }
+
+  &.alert-danger {
+    @include alert-variant($danger-alert, $danger-alert-alt, $base-text-color);
+  }
+
+  &.alert-warning {
+    @include alert-variant(
+      $warning-alert,
+      $warning-alert-alt,
+      $base-text-color
+    );
+  }
+  &.alert-success {
+    @include alert-variant(
+      $success-alert,
+      $success-alert-alt,
+      $base-text-color
+    );
+  }
+
+  &.alert-info {
+    @include alert-variant($info-alert, $info-alert-alt, $base-text-color);
+  }
+
+  &.alert-general {
+    @include alert-variant(
+      $general-alert,
+      $general-alert-alt,
+      $base-text-color
+    );
+    .close-button {
+      color: $grey2;
+    }
+  }
+
+  // Dismissible alerts
+  //
+  // Expand the right padding and account for the close button's positioning.
+
+  &.alert-dismissible {
+    padding-right: $alert-padding-x;
+    .btn-wrp {
+      position: relative;
+      width: $alert-icon-width + rem(24);
+      min-width: $alert-icon-width + rem(24);
+    }
+    // Adjust close link position
+    .close {
+      display: none;
+      &.close-button {
+        display: block;
+        top: -$alert-padding-y;
+        right: -$alert-padding-x;
+        padding: $alert-padding-y $alert-padding-x $alert-padding-y
+        $alert-padding-x + rem(1);
+        opacity: 1;
+        line-height: 1;
+        font-size: rem(16);
+        width: $alert-icon-width + rem(24) + $alert-padding-x;
+        min-width: $alert-icon-width + rem(24) + $alert-padding-x;
+        svg {
+          margin-top: rem(-1);
+        }
+      }
+    }
+    .close:focus {
+      outline: none;
+    }
+  }
+}
+
+alert:last-of-type .alert {
+  margin-bottom: 0;
+}
+
+// Icon present on alert.
+//
+// Make sure we properly align text tot the right of the icon.
+.has-icon {
+  .alert-icon {
+    width: auto;
+    float: left;
+    height: $alert-icon-height;
+    width: $alert-icon-width;
+    min-width: $alert-icon-width;
+    position: relative;
+    img {
+      position: absolute;
+      width: $alert-icon-width;
+      height: $alert-icon-height;
+    }
+  }
+}

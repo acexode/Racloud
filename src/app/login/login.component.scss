@@ -1,0 +1,13 @@
+@import "~src/assets/mixins";
+
+app-card {
+  /* TODO: mobile and tablet padding */
+  padding-top: rem(56);
+  @include media-breakpoint-up(sm) {
+    padding-top: rem(112);
+  }
+}
+.logo {
+  max-width: rem(230);
+  width: 100%;
+}

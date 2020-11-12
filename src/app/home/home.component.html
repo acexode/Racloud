@@ -1,0 +1,18 @@
+<app-page-container [config]="containerConfig" >
+    <div container-body>
+      <app-table
+        [rows]="tableData | async"
+        [config]="tableConfig"
+      ></app-table>
+    </div>
+  </app-page-container>
+  
+  <ng-template #hoverDetailTpl let-column="column" let-row="row">
+    <div class="d-flex justify-content-end w-100">
+      <div class="d-flex bg-container justify-content-end py-10 mt-n10">
+        <div class="row-detail d-flex align-items-center"></div>
+      </div>
+    </div>
+  </ng-template>
+
+  

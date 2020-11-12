@@ -1,0 +1,66 @@
+<app-card
+  [componentClasses]="classes"
+  [classes]="
+    'justify-content-center col-12 max-w-570 d-flex px-0 py-3 rounded-lg'
+  "
+  class="d-flex justify-content-center"
+>
+  <ng-container card-body>
+    <div class="flex-column d-flex col-12 justify-content-center flex-column">
+      <div
+        class="my-64 mx-auto col-12 col-lg-6 flex-grow-0 px-0 flex-shrink-1 justify-content-center"
+      >
+        <img
+          class="image img-fluid logo mx-auto d-flex my-0"
+          src="/assets/images/Logo.svg"
+        />
+      </div>
+      <form
+        [formGroup]="loginForm"
+        class="col-12 col-lg-8 px-0 d-flex mx-auto flex-1 flex-shrink-1"
+        (ngSubmit)="submitForm()"
+      >
+        <div
+          class="d-flex flex-column w-100 flex-grow-1 flex-shrink-0 mx-lg-n5p"
+        >
+          <div class="form-group d-flex flex-column mb-32">
+            <label class="input-label small" for="email">Email</label>
+            <input
+              type="text"
+              class="form-control"
+              id="email"
+              placeholder="Email"
+              formControlName="email"
+            />
+            <app-error-messages
+              [control]="loginForm?.controls?.email"
+            ></app-error-messages>
+          </div>
+
+          <div class="form-group d-flex flex-column mb-32">
+            <label class="input-label small" for="password">Parola</label>
+            <input
+              type="password"
+              class="form-control custom-password"
+              id="password"
+              placeholder="Password"
+              formControlName="password"
+            />
+            <app-error-messages
+              [control]="loginForm?.controls?.password"
+            ></app-error-messages>
+          </div>
+
+          <div class="d-flex justify-content-center mb-3">
+            <button type="submit" class="btn btn-primary w-100">
+              Log in
+            </button>
+          </div>
+          <div class="h6-grey text-center mb-0">
+            Daca ati uitat parola, va rugam sa contactati xxxxxxxxxx
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-container>
+</app-card>

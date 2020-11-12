@@ -1,0 +1,19 @@
+@import "../variables";
+@import "../mixins";
+
+@include make-container-max-widths-important();
+
+.content-container {
+  @extend .col-md-12;
+  @extend .col-xl-12;
+  @extend .px-0;
+}
+
+.footer {
+  background-color: transparent;
+  bottom: 0;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 98;
+}

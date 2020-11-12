@@ -1,0 +1,11 @@
+<div class="card shadow border-0" [ngStyle]="styles" [ngClass]="classes">
+  <div class="card-header" [ngClass]="componentClasses?.header">
+    <ng-content select="[card-header]"></ng-content>
+  </div>
+  <div class="card-body" [ngClass]="componentClasses?.body">
+    <ng-content select="[card-body]"></ng-content>
+  </div>
+  <div class="card-footer" [ngClass]="componentClasses?.footer">
+    <ng-content select="[card-footer]"></ng-content>
+  </div>
+</div>

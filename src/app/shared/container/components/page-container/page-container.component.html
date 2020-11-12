@@ -1,0 +1,57 @@
+<div class="d-flex flex-column page-container">
+  <ng-container *ngIf="!loading">
+    <div class="d-flex w-100 justify-content-between mb-3 align-items-center">
+      <div class="d-flex">
+        <ng-content select="[container-title]"></ng-content>
+      </div>
+      <div class="d-flex">
+        <ng-content select="[container-buttons]"></ng-content>
+      </div>
+    </div>
+    <div class="d-flex w-100">
+      <app-card
+        [componentClasses]="classes"
+        [classes]="
+          'justify-content-center col-12 p-0 ' +
+          (config?.theme ? config?.theme : 'transparent') +
+          ' ' +
+          (config?.shadow ? 'has-shadow' : 'shadow-none')
+        "
+        class="d-flex justify-content-center w-100"
+      >
+        <ng-container card-header>
+          <div
+            class="d-flex w-100 h-100 align-items-center"
+            [ngClass]="{
+              'has-close': config?.closeButton
+            }"
+          >
+            <div
+              class="d-flex w-100 align-items-center container-header-wrp"
+              [ngClass]="{
+                'mr-n5': config?.closeButton
+              }"
+            >
+              <ng-content select="[container-header]"></ng-content>
+            </div>
+          </div>
+          <div
+            class="d-flex close-wrp justify-content-center align-items-center mt-32 mr-32 mb-2"
+            *ngIf="config?.closeButton"
+            (click)="doClose()"
+          >
+            <svg-icon
+              class="d-flex close-icon justify-content-center align-items-center"
+              src="/assets/images/close.svg"
+              [applyClass]="true"
+            ></svg-icon>
+          </div>
+        </ng-container>
+        <ng-container card-body>
+          <ng-content select="[container-body]"></ng-content>
+        </ng-container>
+      </app-card>
+    </div>
+  </ng-container>
+  <div *ngIf="loading">Incarcam informatiile</div>
+</div>

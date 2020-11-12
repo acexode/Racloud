@@ -1,0 +1,36 @@
+<div class="d-flex flex-column h-100 w-100">
+  <app-header
+    class="w-100 d-flex"
+    *ngIf="(account | async)"
+  ></app-header>
+  <div class="container content-container d-flex flex-grow-1 flex-shrink-1">
+    <app-sidebar
+      class="d-flex px-0 col-2"
+      *ngIf="(account | async)"
+    ></app-sidebar>
+    <div
+      class="mx-0 d-flex flex-column"
+      [ngClass]="{
+        'col-10 p-32': (account | async),
+        'col-12': (account | async) === null
+      }"
+    >
+      <app-messages
+        class="w-100 mt-n32 mb-32"
+        [listClass]="'mt-32 mt-sm-3'"
+      ></app-messages>
+      <router-outlet></router-outlet>
+      <div class="d-flex align-self-end w-100 mt-auto d-flex flex-column">
+        <app-footer class="w-100 d-flex flex-column mt-32"></app-footer>
+      </div>
+    </div>
+  </div>
+  <div
+    class="w-100 h6 mt-auto d-flex justify-content-center text-center font-weight-normal"
+    *ngIf="(account | async) === null"
+  >
+    <span class="my-3"
+      >© Toate drepturile rezervate.</span
+    >
+  </div>
+</div>

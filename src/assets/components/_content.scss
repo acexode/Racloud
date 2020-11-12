@@ -1,0 +1,52 @@
+@import "../variables";
+@import "../mixins";
+
+.content-group {
+  .group-content {
+    .field-value-group {
+      padding-bottom: rem(8);
+    }
+  }
+}
+
+.page-container {
+  .card {
+    .card-header {
+      background-color: transparent;
+      .close-icon > svg {
+        color: $medium-grey;
+      }
+    }
+
+    &.green {
+      .card-header {
+        background: $green-gradient-1;
+        .close-icon > svg {
+          color: $white;
+        }
+      }
+    }
+    &.lightGreen {
+      .card-header {
+        background: $green-gradient-2;
+        .close-icon > svg {
+          color: $medium-grey;
+        }
+      }
+    }
+    &.transparent {
+      background-color: transparent;
+    }
+    .d-flex.d-none {
+      display: none !important;
+    }
+  }
+}
+
+.chart-title {
+  font-size: rem(18);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: rem(22);
+  border-left: 2px solid $red;
+}

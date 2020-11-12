@@ -1,0 +1,199 @@
+@import "../variables";
+@import "../mixins";
+
+$custom-forms-transition: background-color 0.15s ease-in-out,
+  border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !default;
+
+$pass-border-top: $input-bg rem(1), transparent rem(7);
+$pass-border-bottom: $input-border-color rem(1), transparent rem(7);
+$pass-border-bottom-f: $input-focus-border-color rem(1), transparent rem(7);
+
+input {
+  filter: none;
+}
+input:focus {
+  outline: 0;
+}
+.checkbox:focus {
+  box-shadow: none;
+}
+
+.custom-radio {
+  padding-left: rem(32);
+  .custom-control-input {
+    height: rem(20);
+    width: rem(32);
+    margin-top: 0;
+
+    ~ .custom-control-label {
+      line-height: rem(22);
+      height: rem(22);
+      &:before,
+      &:after {
+        height: rem(20);
+        width: rem(20);
+        margin-top: rem(-3);
+        left: rem(-32);
+      }
+      &:before {
+        border-width: rem(2);
+        background-color: $ultra-light-green;
+      }
+      &:after {
+        background-size: rem(12);
+      }
+    }
+    &[disabled],
+    &:disabled {
+      ~ .custom-control-label {
+        &:before {
+          border-color: $disabled-radio-border-color;
+        }
+      }
+    }
+    &:checked ~ .custom-control-label {
+      font-weight: 500;
+    }
+  }
+}
+
+.custom-checkbox {
+  .custom-control-label {
+    font-size: rem(18);
+    line-height: rem(24);
+    padding-left: rem(8);
+    .terms {
+      color: $blue;
+    }
+    &:before {
+      border: 2px solid #a7aaac;
+    }
+    &:after {
+      background: none;
+    }
+  }
+  .custom-control-input {
+    height: rem(20);
+    &:not(:disabled):active ~ .custom-control-label::before {
+      color: $custom-control-indicator-active-color;
+      background-color: transparent;
+      border-color: $green;
+    }
+    &:not(:disabled):hover ~ .custom-control-label::before {
+      background-color: transparent;
+      border-color: $green;
+    }
+    &:focus:not(:checked) ~ .custom-control-label::before {
+      border-color: $green;
+    }
+  }
+}
+.noFocus:focus {
+  outline: none !important;
+}
+
+.custom-control-label::before,
+.custom-file-label,
+.custom-select {
+  transition: none;
+}
+
+
+
+.input-label {
+  font-size: $h5-font-size;
+  line-height: rem(20);
+  font-weight: 500;
+  &.small {
+    font-weight: normal;
+    font-size: rem(14);
+    line-height: rem(16);
+  }
+}
+
+#inputText,
+#inputNumber,
+#inputSelect {
+  padding: rem(4) rem(8);
+}
+
+.form-control {
+  &[readonly],
+  &:disabled,
+  &.readonly {
+    background-color: $white !important;
+    border: none;
+    padding-right: 0;
+    padding-left: 0;
+    &:focus {
+      color: $black;
+    }
+  }
+}
+
+.form-control {
+  height: rem(40);
+  line-height: rem(28);
+  font-size: rem(18);
+  border-color: $input-bg $input-bg $input-border-color $input-bg;
+  border-left: 0;
+  border-right: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  &[type="password"].custom-password {
+    font-family: $pass-font;
+  }
+  &:focus {
+    border-color: $input-bg $input-bg $input-focus-border-color $input-bg;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.form-control.is-invalid {
+  background-color: $white;
+}
+.invalid-feedback {
+  font-size: $h6-font-size;
+  font-weight: 500;
+  line-height: rem(14);
+}
+.selected-column {
+  background: linear-gradient(180deg, #4fb0a7 0%, #7ac799 100%);
+  padding: rem(30) rem(32);
+  color: $white;
+  font-weight: normal;
+}
+// Hack
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus input:-webkit-autofill,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+input:-internal-autofill-previewed {
+  -webkit-text-fill-color: $input-color;
+  @include box-shadow(0 0 0px 1000px $input-bg inset);
+  transition: $input-bg 5000s ease-in-out 0s;
+  line-height: rem(28);
+  font-size: rem(18);
+  //font-family: $font-family-base;
+  &[type="password"].custom-password {
+    font-size: rem(18);
+    font-family: $pass-font !important;
+  }
+}
+input:-webkit-autofill::first-line,
+input:-webkit-autofill:hover::first-line,
+input:-webkit-autofill:focus::first-line {
+  font-size: rem(18);
+  font-family: $font-family-base;
+}
+// For some reason the order matters for this.
+input[type="password"].custom-password:-webkit-autofill::first-line {
+  font-size: rem(18);
+  font-family: $pass-font !important;
+}
+//End Hack

@@ -1,0 +1,17 @@
+@import "../../../../../assets/variables";
+@import "../../../../../assets/mixins";
+
+.close-wrp svg-icon {
+  width: rem(16);
+  height: rem(16);
+}
+
+.has-close {
+  .container-header-wrp {
+    right: rem(-64);
+  }
+}
+
+.d-flex.d-none {
+  display: none !important;
+}

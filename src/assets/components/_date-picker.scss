@@ -1,0 +1,518 @@
+@import "../../../node_modules/ngx-bootstrap/datepicker/bs-datepicker";
+@import "../variables";
+@import "../mixins";
+@import "./buttons";
+
+$main-bg: $white;
+$custom-range-bg: $white;
+$font-color-01: $text-grey-1;
+$font-color-other: rgba(50, 49, 64, 0.6);
+$font-color-03: $text-grey-1;
+$highlighted: $light-green;
+$selected-bg: $medium-green-3;
+
+$btn-bg: transparent;
+$btn-bg-hover: transparent;
+
+$btn-bg2: transparent;
+$btn-bg2-hover: transparent;
+
+$disabled-background: rgba(221, 221, 221, 0.3);
+$disabled-color: $text-grey-1d;
+
+.bs-datepicker {
+  box-shadow: 0 rem(2) rem(5) 0 rgba(0, 0, 0, 0.12),
+    0 10px 20px 0 rgba(0, 0, 0, 0.12);
+  background-color: $white;
+  flex-direction: row-reverse;
+  bs-days-calendar-view {
+    bs-datepicker-navigation-view {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      .current {
+        margin-left: auto;
+        margin-right: 0;
+      }
+      .current ~ .current {
+        margin-right: auto;
+        margin-left: 0;
+      }
+    }
+  }
+
+  .bs-datepicker-head {
+    button {
+      color: $black;
+      font-weight: 500;
+      font-size: rem(16);
+      line-height: rem(22);
+    }
+  }
+  .bs-datepicker-body {
+    table {
+      td {
+        span {
+          border-radius: 0;
+          width: 100%;
+        }
+      }
+    }
+  }
+  bs-day-picker {
+    float: left;
+  }
+
+  /* .bs-datepicker-multiple */
+  &-multiple {
+    border-radius: 0;
+
+    & + & {
+      margin-left: rem(32);
+    }
+  }
+
+  /* button */
+  button:hover,
+  button:focus,
+  button:active,
+  input:hover,
+  input:focus,
+  input:active,
+  &-btns button:hover,
+  &-btns button:focus,
+  &-btns button:active,
+  &-predefined-btns button:active,
+  &-predefined-btns button:focus {
+    outline: none;
+  }
+
+  /* .bs-datepicker-head */
+  &-head {
+    min-width: rem(264);
+    width: rem(264);
+    height: rem(50);
+    padding: 0 rem(12);
+    border-radius: 0;
+    text-align: justify;
+
+    &:after {
+      content: "";
+      display: inline-block;
+      vertical-align: top;
+      width: 100%;
+    }
+
+    /* .bs-datepicker-head button */
+    button {
+      display: inline-block;
+      vertical-align: top;
+      padding: 0;
+      height: rem(22);
+      line-height: rem(22);
+      border: 0;
+      background: transparent;
+      text-align: center;
+      cursor: pointer;
+      color: $font-color-01;
+      transition: 0.3s;
+
+      &[disabled],
+      &[disabled]:hover,
+      &[disabled]:active {
+        background: $disabled-background;
+        color: $disabled-color;
+        cursor: not-allowed;
+      }
+
+      &.next,
+      &.previous {
+        position: relative;
+        border-radius: 0;
+        width: rem(30);
+        height: rem(14);
+        color: $green;
+        margin-top: auto;
+        margin-bottom: auto;
+
+        span {
+          font-size: rem(28);
+          line-height: 1;
+          display: inline-block;
+          position: relative;
+          height: 100%;
+          width: 100%;
+          border-radius: 0;
+          content: "";
+          display: none;
+          margin: auto 0;
+        }
+      }
+
+      &.next {
+        &:before {
+          position: absolute;
+          top: 0;
+          right: 0;
+          content: "";
+          color: $green;
+          margin: auto 0;
+          background: url("/assets/images/Chevron-right-green.svg") center
+            center no-repeat;
+          width: rem(8);
+          height: rem(14);
+        }
+      }
+      &.previous {
+        &:before {
+          position: absolute;
+          top: 0;
+          left: 0;
+          content: "";
+          color: $green;
+          background: url("/assets/images/Chevron-left-green.svg") center center
+            no-repeat;
+          width: rem(8);
+          height: rem(14);
+        }
+      }
+      &.current {
+        text-transform: capitalize;
+        border-radius: 0;
+        max-width: rem(155);
+        padding: 0 rem(2);
+      }
+    }
+  }
+
+  &-head {
+    button {
+      &:hover {
+        background-color: transparent;
+      }
+      &:active {
+        background-color: transparent;
+      }
+    }
+  }
+
+  /* .bs-datepicker-body */
+  &-body {
+    padding: rem(10) 0;
+    min-height: rem(232);
+    min-width: rem(264);
+    border: 0;
+
+    .days.weeks {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* .bs-datepicker-body table */
+    table {
+      width: 100%;
+      border: 0;
+      border-collapse: collapse;
+      border-spacing: 0;
+
+      th {
+        font-size: rem(13);
+        color: $font-color-01;
+        font-weight: 500;
+        text-align: center;
+        padding-bottom: rem(24);
+        &:not(:first-of-type) {
+          padding-left: rem(10);
+        }
+      }
+
+      td {
+        color: $font-color-03;
+        text-align: center;
+        position: relative;
+        padding: 0;
+        // todo: check first :not(.disabled) usage
+        &:not(.disabled):not(.week) span:not(.disabled):not(.is-other-month) {
+          cursor: pointer;
+        }
+
+        &.is-highlighted:not(.disabled):not(.selected) span,
+        span.is-highlighted:not(.disabled):not(.selected) {
+          background-color: $selected-bg;
+          transition: 0s;
+        }
+
+        &.is-active-other-month:not(.disabled):not(.selected) span,
+        span.is-active-other-month:not(.disabled):not(.selected) {
+          background-color: $highlighted;
+          transition: 0s;
+          cursor: pointer;
+        }
+
+        span.disabled,
+        &.disabled span {
+          color: $font-color-02;
+        }
+
+        span.selected,
+        &.selected span {
+          color: $font-color-01;
+        }
+
+        span.is-other-month,
+        &.is-other-month span {
+          color: $font-color-other;
+        }
+
+        span.active.select-start:after,
+        span.active.select-end:after,
+        &.active.select-start span:after,
+        &.active.select-end span:after {
+          content: "";
+          display: block;
+          position: absolute;
+          z-index: -1;
+          width: 100%;
+          height: 100%;
+          transition: 0.3s;
+          top: 0;
+          border-radius: 0;
+        }
+
+        &:before,
+        span:before {
+          content: "";
+          min-width: rem(32);
+          display: block;
+          position: absolute;
+          z-index: -1;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          box-sizing: content-box;
+          background: transparent;
+          &.selected {
+            background-color: $selected-bg;
+          }
+        }
+        span.selected:before {
+          background-color: $selected-bg;
+        }
+        &.active.select-start + td.active:before {
+          left: -20%;
+        }
+
+        &:last-child.active:before {
+          border-radius: 0 rem(3) rem(3) 0;
+          width: 125%;
+          left: -25%;
+        }
+
+        span[class*="select-"],
+        &[class*="select-"] span {
+          border-radius: 0;
+          color: $font-color-01;
+        }
+      }
+
+      /* .bs-datepicker-body table.days */
+      &.days {
+        td,
+        span {
+          &.active:not(.select-start):not(.select-end):before,
+          &.in-range:not(.select-start):not(.select-end):before {
+            background: $highlighted;
+          }
+        }
+
+        span {
+          text-align: center;
+          &.select-start {
+            z-index: 2;
+          }
+          &.is-highlighted.in-range:before,
+          &.in-range.select-end:before {
+            right: 0;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: $highlighted;
+          }
+        }
+        &.is-highlighted.in-range:before {
+          &:last-of-type {
+            background: transparent;
+          }
+          background: transparent;
+        }
+
+        tr {
+          border-bottom: rem(2) solid $white;
+          td:first-child {
+            width: rem(28);
+            span {
+              margin-left: 0;
+              margin-right: 0;
+              min-width: rem(28);
+              width: 100%;
+              &:before {
+                min-width: rem(28);
+              }
+            }
+          }
+          td:last-child {
+            span {
+              &:before {
+                min-width: rem(28);
+              }
+              margin-right: 0;
+            }
+          }
+          td:nth-of-type(6),
+          td:nth-of-type(7) {
+            color: $font-color-other;
+          }
+        }
+        td {
+          position: relative;
+          > span {
+            margin-right: 0;
+            margin-left: auto;
+            text-align: center;
+            position: static;
+            line-height: rem(28);
+            width: rem(28);
+            height: rem(28);
+            &:before {
+              width: 100%;
+            }
+            &.select-start,
+            &.select-end {
+              background: $selected-bg;
+              &:before {
+                background: $highlighted;
+              }
+            }
+            &.select-start {
+              &:before {
+                background: transparent;
+              }
+            }
+            &.selected:not(.select-start):not(.select-end) {
+              background: $selected-bg;
+              &:before {
+                background: transparent;
+              }
+            }
+          }
+          &:before {
+            min-width: rem(28);
+          }
+          &.select-start + td.select-end:before,
+          &.select-start + td.is-highlighted:before,
+          &.active + td.is-highlighted:before,
+          &.active + td.select-end:before,
+          &.in-range + td.is-highlighted:before,
+          &.in-range + td.select-end:before {
+            background: $highlighted;
+            width: 100%;
+          }
+        }
+      }
+
+      &.years {
+        td {
+          height: rem(46);
+          span {
+            width: rem(46);
+            height: rem(32);
+            line-height: rem(32);
+            margin: auto;
+          }
+        }
+      }
+
+      &.months {
+        td {
+          height: rem(46);
+
+          span {
+            padding: rem(6);
+            border-radius: 0;
+          }
+        }
+      }
+    }
+  }
+
+  /*.bs-datepicker-custom-range */
+  &-custom-range {
+    padding: 15px;
+    background: $custom-range-bg;
+  }
+
+  /* .bs-datepicker-predefined-btns */
+  &-predefined-btns {
+    margin-top: rem(10);
+    button {
+      @extend .btn;
+      @extend .btn-tertiary;
+      padding: rem(8) rem(17);
+      &.selected {
+        background-color: $green;
+        border-color: $green !important;
+        color: $white;
+      }
+      margin-bottom: rem(8);
+      font-weight: normal;
+      height: auto;
+      text-align: center;
+      width: 100%;
+      &:last-child {
+        text-indent: -9999px;
+        line-height: 0;
+        &:after {
+          // No existing translation.
+          content: "Interval personalizat";
+          text-indent: 0;
+          display: block;
+          line-height: rem(24);
+        }
+      }
+    }
+  }
+
+  /* .bs-datepicker-buttons */
+  &-buttons {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+    padding-top: 10px;
+    border-top: 1px solid $border-color;
+
+    .btn-default {
+      margin-left: 10px;
+    }
+  }
+}
+
+/* screen size < 1024px */
+@media (max-width: 768px) {
+  .bs-datepicker {
+    flex-direction: row;
+    justify-content: center;
+    &-container {
+      width: 100%;
+    }
+    &-multiple {
+      display: flex;
+      justify-content: center;
+      & + & {
+        margin-top: 10px;
+        margin-left: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,95 @@
+<div
+  class="messages-list"
+  [ngClass]="(messages | async)?.length ? listClass : ''"
+>
+  <ng-container *ngFor="let message of messages | async">
+    <alert
+      #alert
+      [class]="
+        message?.customClass
+          ? baseAlertClass + message?.customClass
+          : baseAlertClass
+      "
+      [ngClass]="{
+        'has-icon': message?.hasIcon && iconList && iconList[message?.type]
+      }"
+      [type]="message?.type"
+      [dismissOnTimeout]="message?.timeout"
+      [dismissible]="message?.dismissible"
+      (onClosed)="remove(message)"
+      (onClose)="remove(message)"
+    >
+      <div class="icon-wrp d-flex justify-content-between">
+        <ng-container
+          [ngTemplateOutlet]="icon"
+          *ngIf="message?.hasIcon"
+          [ngTemplateOutletContext]="{ $implicit: message?.type }"
+        ></ng-container>
+        <div class="alert-content d-flex flex-grow-1">
+          {{ message.text }}
+        </div>
+        <div
+          class="d-flex justify-content-center align-items-center btn-wrp"
+          *ngIf="message.dismissible"
+        >
+          <button
+            type="button"
+            class="close close-button dismissible"
+            aria-label="Close"
+            (click)="alert.close()"
+          >
+            <ng-container *ngTemplateOutlet="closeIcon"></ng-container>
+          </button>
+        </div>
+      </div>
+    </alert>
+  </ng-container>
+</div>
+
+<ng-template #closeIcon>
+  <svg
+    width="12px"
+    height="12px"
+    viewBox="0 0 12 12"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+  >
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Icon/Close</title>
+    <desc>Created with Sketch.</desc>
+    <g
+      id="Style-Guide"
+      stroke="none"
+      stroke-width="1"
+      fill="none"
+      fill-rule="evenodd"
+    >
+      <g
+        id="Styleguide"
+        transform="translate(-426.000000, -5259.000000)"
+        fill="currentColor"
+      >
+        <g id="Group-22" transform="translate(135.000000, 5217.000000)">
+          <g id="Group-21" transform="translate(0.000000, 40.000000)">
+            <g id="Icon/Close" transform="translate(289.000000, 0.000000)">
+              <path
+                d="M9.41421356,8 L13.6568542,12.2426407 C14.0473785,12.633165 14.0473785,13.26633 13.6568542,13.6568542 C13.26633,14.0473785 12.633165,14.0473785 12.2426407,13.6568542 L8,9.41421356 L3.75735931,13.6568542 C3.36683502,14.0473785 2.73367004,14.0473785 2.34314575,13.6568542 C1.95262146,13.26633 1.95262146,12.633165 2.34314575,12.2426407 L6.58578644,8 L2.34314575,3.75735931 C1.95262146,3.36683502 1.95262146,2.73367004 2.34314575,2.34314575 C2.73367004,1.95262146 3.36683502,1.95262146 3.75735931,2.34314575 L8,6.58578644 L12.2426407,2.34314575 C12.633165,1.95262146 13.26633,1.95262146 13.6568542,2.34314575 C14.0473785,2.73367004 14.0473785,3.36683502 13.6568542,3.75735931 L9.41421356,8 Z"
+                id="Path"
+              ></path>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </svg>
+</ng-template>
+
+<ng-template #icon let-type>
+  <div
+    class="alert-icon align-middle mr-3 ml-0 d-flex"
+    *ngIf="iconList && iconList[type]"
+  >
+    <img [src]="iconList[type]" />
+  </div>
+</ng-template>

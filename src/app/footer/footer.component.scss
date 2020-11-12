@@ -1,0 +1,13 @@
+@import "../../assets/variables";
+@import "../../assets/mixins";
+
+.footer {
+  .follow {
+    .follow-icon {
+      margin-top: rem(-2);
+      height: rem(20);
+      width: rem(20);
+      opacity: 1;
+    }
+  }
+}

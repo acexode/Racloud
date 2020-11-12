@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="9px" height="16px" viewBox="0 0 9 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>arrow left</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icon/Arrows/Caret-left" transform="translate(-6.000000, -2.000000)" fill="#008641">
+            <path d="M6.36611652,16.8838835 C5.91050485,16.4282718 5.88013074,15.7084514 6.27499419,15.2176119 L6.36611652,15.1161165 L11.483,10 L6.36611652,4.88388348 C5.91050485,4.4282718 5.88013074,3.70845138 6.27499419,3.21761187 L6.36611652,3.11611652 C6.8217282,2.66050485 7.54154862,2.63013074 8.03238813,3.02499419 L8.13388348,3.11611652 L14.1338835,9.11611652 C14.5894952,9.5717282 14.6198693,10.2915486 14.2250058,10.7823881 L14.1338835,10.8838835 L8.13388348,16.8838835 C7.64572811,17.3720388 6.85427189,17.3720388 6.36611652,16.8838835 Z" id="Path"></path>
+        </g>
+    </g>
+</svg>
