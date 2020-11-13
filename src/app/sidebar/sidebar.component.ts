@@ -7,6 +7,7 @@ import { Router, NavigationEnd } from '@angular/router';
 })
 export class SidebarComponent implements OnInit {
   @Input() currentYear: number;
+  public currentVersion: string = require('../../assets/version.json').version;
   constructor(public routerS: Router) {}
   selected = false;
   adminRoute = false;
@@ -17,7 +18,16 @@ export class SidebarComponent implements OnInit {
       url: '/',
       icon: '../../assets/images/Acasa.svg',
       children: null,
-    }
+    },
+    {
+      name: 'Administrare',
+      url: '/admin',
+      icon: '../../assets/images/setari.svg',
+      children: [
+        { name: 'Utilizatori', url: '#', icon: '' },
+        { name: 'Documente', url: '#', icon: '' },
+      ],
+    },
   ];
 
   ngOnInit(): void {

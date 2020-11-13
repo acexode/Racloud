@@ -15,7 +15,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { CoreModule } from './core/core.module';
 import { CardModule } from './shared/card/card.module';
-import { OmnDatePickerModule } from './shared/date-picker/date-picker.module';
 import { ErrorMessagesModule } from './shared/error-messages/error-messages.module';
 import { MessagesModule } from './shared/messages/messages.module';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -26,6 +25,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { JwtInterceptor } from './core/interceptors/JWTInterceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { OmnDatePickerModule } from './shared/date-picker/date-picker.module';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
     FooterComponent,
     SidebarComponent,
     HomeComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,12 +56,14 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
     NgSelectModule,
     BsDropdownModule.forRoot(),
     ContainerModule,
-    TableModule
+    TableModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: LocationStrategy, useClass: PathLocationStrategy},
-  ],  bootstrap: [AppComponent]
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
+  ],
+  bootstrap: [AppComponent],
+  schemas: [],
 })
-export class AppModule { }
+export class AppModule {}

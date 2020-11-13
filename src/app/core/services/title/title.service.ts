@@ -9,7 +9,7 @@ import { CustomRouterService } from '../custom-router/custom-router.service';
   providedIn: 'root',
 })
 export class TitleService {
-  baseTitle = 'Omniasig';
+  baseTitle = 'RA-Cloud';
   initTitle = '';
   titleStore: BehaviorSubject<string> = new BehaviorSubject(this.initTitle);
 

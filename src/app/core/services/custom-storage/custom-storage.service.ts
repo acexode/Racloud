@@ -16,7 +16,7 @@ export class CustomStorageService {
   private readonly cache: NgForageCache;
   constructor(dif: DedicatedInstanceFactory) {
     const conf = {
-      name: 'omna-auth',
+      name: 'app-auth',
       driver: [
         // defaults to indexedDB -> webSQL -> localStorage
         Driver.INDEXED_DB,
