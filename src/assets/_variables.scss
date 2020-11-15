@@ -294,6 +294,13 @@ $rc-light-grey: #F7F9FB;
 // Tones
 $rc-accent-blue-30:#D2D4E0; /* accent 30% */
 $rc-accent-blue-60: #A4A7BF; /* accent 60% */
-$rc-accent-blue-160: #464976; /* accent 160% */
+$rc-accent-blue-160: #464976; /* accent 160% (text-color)*/
 $rc-primary-5: #FBECE8; /* primary (orange) 05% */
 $rc-primary-30: #EDC4BB; /* primary (orange) 30% */
+
+// general color
+$rc-black: #161A37; /* (text-color) */
+$rc-grey: #878999; /* text color */
+$rc-shadow: 0px 3px 10px 0px #00385B, 0px 0px 10px -3px #00385B;
+$rc-green: #3AB12D;
+$rc-red: #EE1111;
