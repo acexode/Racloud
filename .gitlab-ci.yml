@@ -1,4 +1,4 @@
-image: softescu/centos:nodejs
+image: softescu/centos:node12
 stages:
   - ng-lint
   # - ENV-testing
