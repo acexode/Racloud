@@ -7,20 +7,20 @@ stages:
   - prodENV-deploy
   - demoENV-deploy
 
-ng-lint:
-  stage: ng-lint
-  tags:
-    - docker-runner
-  except:
-    -  /^cherry-pick*/
-    - first-setup
-    - demo
-    - master
-    - develop
-    - test
-  script:
-    - npm install
-    - ng lint ./
+#ng-lint:
+#  stage: ng-lint
+#  tags:
+#    - docker-runner
+#  except:
+#    -  /^cherry-pick*/
+#    - first-setup
+#    - demo
+#    - master
+#    - develop
+#    - test
+#  script:
+#    - npm install
+#    - ng lint ./
 
 # ENV-testing:
 #   stage: ENV-testing
