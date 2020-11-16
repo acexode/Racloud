@@ -1,23 +1,27 @@
 <div [formGroup]="formGroup">
-    <label class="" [ngClass]="config?.inputLabel?.classes"
-        >{{ config?.inputLabel?.text }}</label>
+    <label 
+        class="rc-color-grey s12-h16 montserrat-regular-font "
+        [ngClass]="config?.inputLabel?.classes"
+    >{{ config?.inputLabel?.text }}
+    </label>
     <div class="">
         <div class="">
             <input 
-            [type]="config?.type" 
-            #input 
-            formControlName="input" 
-            [placeholder]="config?.placeholder"
-            [maxlength]="config?.maxLength" 
-            [minlength]="config?.minLength" 
-            [size]="config?.size"
-            [step]="config?.step" 
-            [min]="config?.min" 
-            [max]="config?.max" 
-            [disabled]="config?.disabled" 
-            [autocomplete]="config?.autoComplete"
-            [autocapitalize]="config?.autoCapitalize !== '' ? config?.autoCapitalize : 'none'"
-            [class]="config?.inputClasses"
+                [type]="config?.type" 
+                #input 
+                formControlName="input" 
+                class="rc-input"
+                [placeholder]="config?.placeholder"
+                [maxlength]="config?.maxLength" 
+                [minlength]="config?.minLength" 
+                [size]="config?.size"
+                [step]="config?.step" 
+                [min]="config?.min" 
+                [max]="config?.max" 
+                [disabled]="config?.disabled" 
+                [autocomplete]="config?.autoComplete"
+                [autocapitalize]="config?.autoCapitalize !== '' ? config?.autoCapitalize : 'none'"
+                [class]="config?.inputClasses"
             >
         </div>
     </div>

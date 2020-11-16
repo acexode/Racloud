@@ -20,6 +20,13 @@ import { InputConfig } from '../shared/inputs/models/Input-config';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
+  config: InputConfig = {
+    inputLabel: {
+      text: 'label'
+    },
+    type: 'text',
+    placeholder: 'Default'
+  };
   loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],

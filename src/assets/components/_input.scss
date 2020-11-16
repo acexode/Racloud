@@ -1,0 +1,13 @@
+@import "../mixins";
+@import "../variables";
+
+.rc-input {
+    font-family: $font-helveticaNeue-regular;
+    color: $rc-grey;
+    font-size: rem(14) !important;
+    line-height: rem(16) !important;
+    @include inputPlaceholder() {
+        color: $rc-grey;
+        opacity: 1;
+    }
+}

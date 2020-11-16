@@ -4,6 +4,14 @@
 $font-size-base: 1rem;
 $font-family-base: $font-family-sans-serif;
 
+.montserrat-regular-font {
+  font-family: $font-montserrat-regular;
+}
+
+.helvetica-neue-regular {
+  font-family: $font-helveticaNeue-regular;
+}
+
 h1,
 h2 {
   font-weight: 500;
