@@ -10,11 +10,6 @@ export interface InputConfig {
     max?: number;
     disabled?: boolean;
     inputClasses?: string;
-    spinnerConfig?: {
-        // Number input.
-        step?: number;
-    };
-
     // Text types.
     clearable?: boolean;
     clearOnEdit?: boolean;
