@@ -27,6 +27,7 @@ import { JwtInterceptor } from './core/interceptors/JWTInterceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { OmnDatePickerModule } from './shared/date-picker/date-picker.module';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { InputsModule } from './shared/inputs/inputs.module';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     BsDropdownModule.forRoot(),
     ContainerModule,
     TableModule,
+    InputsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -1,0 +1,16 @@
+<div [formGroup]="formGroup">
+    <label class="" [ngClass]="config?.inputLabel?.classes"
+        [color]="config?.inputLabel?.color">{{ config?.inputLabel?.text }}</label>
+    <div class="">
+        <div class="">
+            <input [type]="config?.type" #input formControlName="input" [placeholder]="config?.placeholder"
+                [maxlength]="config?.maxLength" [minlength]="config?.minLength" [size]="config?.size"
+                [step]="config?.spinnerConfig?.step" [min]="config?.min" [max]="config?.max"
+                [disabled]="config?.disabled" [clearInput]="config?.clearable" [autocorrect]="config?.autoCorrect"
+                [autocomplete]="config?.autoComplete"
+                [autocapitalize]="config?.autoCapitalize !== '' ? config?.autoCapitalize : 'none'"
+                [inputmode]="config?.inputMode" [class]="config?.inputClasses"}">
+            </input>
+        </div>
+    </div>
+</div>
