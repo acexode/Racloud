@@ -147,6 +147,8 @@ export class TableComponent implements OnInit {
           filterType: config.filterType,
           data: config.inputData,
         };
+        console.log(config)
+        console.log(this.filterInputData)
         this.filterData.emit(this.filterInputData);
       });
   }
