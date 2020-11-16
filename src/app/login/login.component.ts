@@ -10,7 +10,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Subscription } from 'rxjs';
-import { InputConfig } from '../shared/inputs/models/Input-config';
 
 @Component({
   selector: 'app-login',
@@ -20,13 +19,6 @@ import { InputConfig } from '../shared/inputs/models/Input-config';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  config: InputConfig = {
-    inputLabel: {
-      text: 'label'
-    },
-    type: 'text',
-    placeholder: 'Default'
-  };
   loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],

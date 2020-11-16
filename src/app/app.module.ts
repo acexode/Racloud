@@ -28,6 +28,7 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { OmnDatePickerModule } from './shared/date-picker/date-picker.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { InputsModule } from './shared/inputs/inputs.module';
+import { StyleGuideComponent } from './style-guide/style-guide.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { InputsModule } from './shared/inputs/inputs.module';
     SidebarComponent,
     HomeComponent,
     NotFoundComponent,
+    StyleGuideComponent,
   ],
   imports: [
     BrowserModule,
