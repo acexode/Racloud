@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Subscription } from 'rxjs';
+import { InputConfig } from '../shared/inputs/models/Input-config';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ import { Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit, OnDestroy {
+
   loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
@@ -35,9 +37,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     private cdRef: ChangeDetectorRef,
     private aRoute: ActivatedRoute,
     private msgS: MessagesService,
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   submitForm() {
     const formV = this.loginForm.value;

@@ -3,7 +3,22 @@
         >{{ config?.inputLabel?.text }}</label>
     <div class="">
         <div class="">
-            <input [type]="config?.type" #input formControlName="input" >
+            <input 
+            [type]="config?.type" 
+            #input 
+            formControlName="input" 
+            [placeholder]="config?.placeholder"
+            [maxlength]="config?.maxLength" 
+            [minlength]="config?.minLength" 
+            [size]="config?.size"
+            [step]="config?.step" 
+            [min]="config?.min" 
+            [max]="config?.max" 
+            [disabled]="config?.disabled" 
+            [autocomplete]="config?.autoComplete"
+            [autocapitalize]="config?.autoCapitalize !== '' ? config?.autoCapitalize : 'none'"
+            [class]="config?.inputClasses"
+            >
         </div>
     </div>
 </div>

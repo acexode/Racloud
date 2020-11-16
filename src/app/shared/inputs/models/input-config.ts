@@ -21,4 +21,5 @@ export interface InputConfig {
     autoCorrect?: boolean;
     autoCapitalize?: string;
     inputMode?: string;
+    step?: number;
 }
