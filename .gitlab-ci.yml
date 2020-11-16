@@ -16,7 +16,7 @@ ng-lint:
     - test
   script:
     - npm install
-    - ng lint ./
+    - ng lint
 
 devENV-deploy:
   stage: devENV-deploy
