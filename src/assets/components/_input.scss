@@ -6,8 +6,24 @@
     color: $rc-grey;
     font-size: rem(14) !important;
     line-height: rem(16) !important;
+    padding: rem(4) rem(12);
+    border-radius: rem(2);
+    letter-spacing: 0;
+    border: $rc-accent-blue-60-outline;
     @include inputPlaceholder() {
         color: $rc-grey;
         opacity: 1;
+    }
+    &.rc-error {
+        border: $rc-red-outline;
+        @include inputPlaceholder() {
+            color: $rc-red;
+        }
+    }
+    &:hover {
+        border: $rc-secondary-ouline;
+    }
+    &:focus {
+        border: $rc-secondary-focus-outline;
     }
 }

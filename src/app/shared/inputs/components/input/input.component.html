@@ -1,6 +1,6 @@
 <div [formGroup]="formGroup">
     <label 
-        class="rc-color-grey s12-h16 montserrat-regular-font "
+        class="rc-color-grey s12-h16 montserrat-regular-font text-weight-normal"
         [ngClass]="config?.inputLabel?.classes"
     >{{ config?.inputLabel?.text }}
     </label>
@@ -10,7 +10,7 @@
                 [type]="config?.type" 
                 #input 
                 formControlName="input" 
-                class="rc-input"
+                class="rc-input w-100"
                 [placeholder]="config?.placeholder"
                 [maxlength]="config?.maxLength" 
                 [minlength]="config?.minLength" 

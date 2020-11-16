@@ -12,6 +12,18 @@ $font-family-base: $font-family-sans-serif;
   font-family: $font-helveticaNeue-regular;
 }
 
+.text-weight-medium {
+  font-weight: 500 !important;
+}
+
+.text-weight-normal {
+  font-weight: normal !important;
+}
+
+.text-weight-bold {
+  font-weight: 600;
+}
+
 h1,
 h2 {
   font-weight: 500;
