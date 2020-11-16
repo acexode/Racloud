@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { InputConfig } from './../../models/Input-config';
 
 @Component({
@@ -9,7 +10,11 @@ import { InputConfig } from './../../models/Input-config';
 export class InputComponent implements OnInit {
 
   @Input() config: InputConfig;
-  constructor() { }
+
+  formGroup = this.fb.group({
+    input: this.fb.control(null),
+  });
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
   }
