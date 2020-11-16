@@ -4,12 +4,43 @@
       class="header-content d-flex flex-column justify-content-between w-100"
     >
       <div
-        class="d-flex flex-row status-area justify-content-between px-32 py-2"
-      >
-      </div>
-      <div
         class="d-flex flex-row py-31 align-items-center justify-content-between"
       >
+        <div
+          class="left-side col-2 d-flex flex-row align-items-center justify-content-between p-0 px-32"
+          dropdown
+          #dropdown="bs-dropdown"
+        >
+          <div
+            class="user-info align-items-center d-flex flex-fill flex-row"
+            (click)="dropdown.isOpen = !dropdown.isOpen"
+          >
+            <div class="mr-2">
+              <img class="avatar" src="../../assets/images/avatar.png" />
+            </div>
+            <div class="username header-text d-flex flex-column">
+              <div class="firstName">Username</div>
+            </div>
+          </div>
+          <nav class="navbar navbar-default">
+            <ul class="nav navbar-nav">
+              <li class="dropdown">
+                <a
+                  class="arrow"
+                  role="button"
+                  (click)="dropdown.isOpen = !dropdown.isOpen"
+                >
+                  <img src="../../assets/images/chevron.svg" /><span
+                    class="caret"
+                  ></span
+                ></a>
+                <div *dropdownMenu class="dropdown-menu">
+                  <a class="dropdown-item" (click)="userLogOut()">Iesire</a>
+                </div>
+              </li>
+            </ul>
+          </nav>
+        </div>
         <div class="d-flex col-10 p-0 pr-32 justify-content-between">
           <div class="pl-32 text-title">{{ pageTitle$ | async }}</div>
 

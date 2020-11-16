@@ -1,12 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import {
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FooterService } from '../core/services/footer/footer.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
+import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
+import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
 import { TableFilterType } from '../shared/table/models/table-filter-types';
 import { TableI } from '../shared/table/models/table.interface';
 import { TableService } from '../shared/table/services/table.service';
@@ -34,10 +32,31 @@ export class HomeComponent implements OnInit {
   };
   rows = [];
   rowDetailIcons = [
-    '../assets/images/Reset.svg',
-    '../assets/images/Edit.svg',
-    '../assets/images/Log.svg',
+    '../../assets/images/Edit.svg',
+    '../../assets/images/Log.svg',
   ];
+  bsConfig = omnBsConfig({
+    ranges: [
+      {
+        value: [new Date(), new Date()],
+        label: 'Azi',
+      },
+      {
+        value: [
+          new Date(new Date().setDate(new Date().getDate() - 7)),
+          new Date(),
+        ],
+        label: 'Ultima săptămână',
+      },
+      {
+        value: [
+          new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
+          new Date(new Date().getFullYear(), new Date().getMonth(), 0),
+        ],
+        label: 'Ultima lună',
+      },
+    ],
+  });
   tableConfig: TableI = {
     selectable: false,
     selectDetail: false,
@@ -51,7 +70,7 @@ export class HomeComponent implements OnInit {
     private tS: TableService,
     private footerS: FooterService,
     private http: HttpClient
-  ){}
+  ) {}
   ngOnInit(): void {
     let cell = document.getElementsByClassName('.datatable-body-cell') as HTMLCollectionOf<HTMLElement>;
     console.log(cell)
