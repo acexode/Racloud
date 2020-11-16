@@ -8,7 +8,7 @@
   [limit]="config?.limit || 10"
   [count]="config?.count"
   [selected]="selected"
-  [selectionType]="config?.selectable ? SelectionType.checkbox : null"
+  [selectionType]="config?.selectable ? SelectionType.single : null"
   (activate)="onActivate($event)"
   (select)="onSelect($event)"
   [scrollbarH]="true"
@@ -37,7 +37,7 @@
       </ng-container>
     </ng-template>
   </ngx-datatable-row-detail>
-  <ng-container *ngIf="config?.selectable && !config?.selectDetail">
+  <!-- <ng-container *ngIf="config?.selectable && !config?.selectDetail">
     <ngx-datatable-column
       [width]="40"
       [minWidth]="40"
@@ -99,7 +99,7 @@
             ></label>
           </div>
         </div> </ng-template></ngx-datatable-column
-  ></ng-container>
+  ></ng-container> -->
   <ng-container *ngIf="config?.selectable && config?.selectDetail">
     <ngx-datatable-column
       [width]="80"
@@ -319,44 +319,51 @@
       </ng-container>
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-footer>
-    <ng-template
-      ngx-datatable-footer-template
-      let-rowCount="rowCount"
-      let-pageSize="pageSize"
-      let-selectedCount="selectedCount"
-      let-curPage="curPage"
-      let-offset="offset"
-      let-isVisible="isVisible"
-    >
-      <div class="pageCount">
-        <span class="bold"
-          >Afisare {{ curPage === 1 ? 1 : (curPage - 1) * pageSize + 1 }} la
-          {{
-            curPage * pageSize > rowCount ? rowCount : curPage * pageSize
-          }}</span
-        >
-        din
-        <span class="bold"> {{ rowCount }}</span>
-      </div>
-      <datatable-pager
-        class="align-items-center"
-        [pagerLeftArrowIcon]="'datatable-icon-left'"
-        [pagerRightArrowIcon]="'datatable-icon-right'"
-        [pagerPreviousIcon]="'datatable-icon-prev'"
-        [pagerNextIcon]="'datatable-icon-skip'"
-        [page]="curPage"
-        [size]="pageSize"
-        [count]="rowCount"
-        [hidden]="!(rowCount / pageSize > 1)"
-        (change)="
-          config?.externalPaging
-            ? updatePagination($event)
-            : table.onFooterPage($event)
-        "
-      ></datatable-pager>
-    </ng-template>
-  </ngx-datatable-footer>
+  <div class="footer-container">
+    <ngx-datatable-footer>
+      <ng-template
+      class="mt-4"
+        ngx-datatable-footer-template
+        let-rowCount="rowCount"
+        let-pageSize="pageSize"
+        let-selectedCount="selectedCount"
+        let-curPage="curPage"
+        let-offset="offset"
+        let-isVisible="isVisible"
+      >     
+        <div class="pageCount mr-5">
+         <button class="btn btn-export rounded-0">Export</button>
+        </div>
+        <div class="pageCount ml-5">
+          <span class="bold"
+            >{{ curPage === 1 ? 1 : (curPage - 1) * pageSize + 1 }} -
+            {{
+              curPage * pageSize > rowCount ? rowCount : curPage * pageSize
+            }}</span
+          >
+          of
+          <span class="bold"> {{ rowCount }}</span>
+        </div>
+        <datatable-pager
+          class="align-items-center"
+          [pagerLeftArrowIcon]="'datatable-icon-left'"
+          [pagerRightArrowIcon]="'datatable-icon-right'"
+          [pagerPreviousIcon]="'datatable-icon-prev'"
+          [pagerNextIcon]="'datatable-icon-skip'"
+          [page]="curPage"
+          [size]="pageSize"
+          [count]="rowCount"
+          [hidden]="!(rowCount / pageSize > 1)"
+          (change)="
+            config?.externalPaging
+              ? updatePagination($event)
+              : table.onFooterPage($event)
+          "
+        ></datatable-pager>
+      </ng-template>
+    </ngx-datatable-footer>
+
+  </div>
 </ngx-datatable>
 
 <ng-template #tableInput let-data>
@@ -369,6 +376,7 @@
     "
   >
   </app-table-filter>
+
 </ng-template>
 
 <ng-template #icons let-position let-colConf="colConf">

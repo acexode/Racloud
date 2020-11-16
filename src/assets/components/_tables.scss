@@ -22,15 +22,15 @@
       }
       .datatable-header-cell {
         border-bottom: 1px solid $medium-grey-2;
-        border-right: 1px solid $medium-grey-2;
+        // border-right: 1px solid $medium-grey-2;
         border-top: 1px solid $medium-grey-2;
       }
       .datatable-header-cell:first-of-type,
       .datatable-body-cell:first-of-type {
-        border-left: 1px solid $medium-grey-2;
+        // border-left: 1px solid $medium-grey-2;
       }
       .datatable-body-cell {
-        border-right: 1px solid $medium-grey-2;
+        // border-right: 1px solid $medium-grey-2;
         border-bottom: 1px solid $medium-grey-2;
       }
       &:not(.cell-selection) .datatable-body-row:hover,
@@ -78,13 +78,15 @@
     background-color: $white;
     &.active {
       color: $base-text-color !important;
-      background-color: $medium-green-3 !important;
+      background-color: $ultra-light-red !important;
+      border-bottom: 1px solid #D9471F;
+
     }
     .datatable-header-cell {
       vertical-align: bottom;
       padding: 0;
-      border-bottom: 1px solid $medium-grey-2;
-      border-right: 1px solid $medium-grey-2;
+      // border-bottom: 1px solid $medium-grey-2;
+      // border-right: 1px solid $medium-grey-2;
       font-size: $font-size-base;
       font-weight: bold;
       letter-spacing: 0;
@@ -93,7 +95,7 @@
         border-right: none;
       }
       .first-row {
-        border-bottom: 1px solid $medium-grey-2;
+        // border-bottom: 1px solid $medium-grey-2;
         padding: rem(8) rem(12) rem(7) rem(12);
         height: rem(40);
         svg {
@@ -152,7 +154,8 @@
     .datatable-row-group
     .datatable-body-cell {
     &:not(.hover-detail) {
-      background-color: $medium-green-3;
+      background-color: $ultra-light-red;
+      border-bottom: 1px solid #D9471F;
       .datatable-body-cell-label {
         .custom-control-label {
           &:before {
@@ -167,7 +170,8 @@
       width: 100% !important;
       @include flexbox();
       .bg-container {
-        background-color: $medium-green-3;
+        
+        border-bottom: 1px solid #D9471F;
       }
     }
   }
@@ -179,23 +183,27 @@
     vertical-align: top;
     border: none !important;
     &.datatable-row-even {
-      background-color: $ultra-light-green !important;
+      background-color: white !important;
     }
     &.datatable-row-odd {
       background-color: $white !important;
     }
     &.active {
       color: $base-text-color !important;
-      background-color: $medium-green-3 !important;
+      background-color: $ultra-light-red !important;
+      border-bottom: 1px solid #D9471F;
     }
     &.hover {
       color: $base-text-color !important;
-      background-color: $medium-green-3 !important;
+      background-color: $ultra-light-red !important;
+      border-bottom: 1px solid #D9471F;
       &.datatable-row-even {
-        background-color: $medium-green-3 !important;
+        background-color: $ultra-light-red !important;
+        border-bottom: 1px solid #D9471F;
       }
       &.datatable-row-odd {
-        background-color: $medium-green-3 !important;
+        background-color: $ultra-light-red !important;
+        border-bottom: 1px solid #D9471F;
       }
     }
     .datatable-body-cell {
@@ -205,7 +213,7 @@
       color: $grey2;
       text-align: left;
       vertical-align: top;
-      border-right: 1px solid $medium-grey-2;
+      border-bottom: 1px dotted $medium-grey-2;
       &:last-child {
         border-right: none;
       }
@@ -254,8 +262,8 @@
         &:not(.disabled) {
           &.active {
             a {
-              background-color: $green !important;
-              color: $white !important;
+              border: 2px solid #D9471F !important;
+              color: #D9471F !important;
               font-weight: bold;
             }
           }

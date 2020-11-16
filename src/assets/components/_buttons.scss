@@ -79,7 +79,7 @@ $def-box-shadow: rgba(0, 0, 0, 0.15);
 }
 
 // @mixin button-variant($background, $border, $hover-background: darken($background, 7.5%), $hover-border: darken($border, 10%), $active-background: darken($background, 10%), $active-border: darken($border, 12.5%)) {
-.btn,
+
 .btn-primary {
   @include button-style(
     $btn-primary-bg,
@@ -159,4 +159,8 @@ $def-box-shadow: rgba(0, 0, 0, 0.15);
     $medium-green-2,
     $grey4
   );
+}
+.btn-export{
+  background-color: transparent !important;
+  border: 2px solid #D9471F !important ;
 }
