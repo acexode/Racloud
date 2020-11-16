@@ -1,9 +1,7 @@
 image: softescu/centos:node12
 stages:
   - ng-lint
-  - ENV-testing
   - devENV-deploy
-
 
 ng-lint:
   stage: ng-lint
@@ -11,41 +9,14 @@ ng-lint:
     - docker-runner
   except:
     -  /^cherry-pick*/
+    - first-setup
+    - demo
     - master
     - develop
     - test
   script:
     - npm install
     - ng lint ./
-
- ENV-testing:
-   stage: ENV-testing
-   tags:
-     - docker-runner
-   except:
-     -  /^cherry-pick*/
-     -  /^revert*/
-     - /^demo*/
-     - master
-     - develop
-   variables:
-     NG_PARAM_1: $DEV_NG_PARAM_1
-     NG_PARAM_2: $DEV_NG_PARAM_2
-     NG_PARAM_3: $DEV_NG_PARAM_3
-     BUILD_DIRECTORY: $CI_PROJECT_DIR
-   script:
-    - eval $(ssh-agent -s)
-    ### Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
-    - ssh-add <(echo "${SSH_PRIVATE_KEY}")
-    - mkdir -p ~/.ssh
-    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - git clone git@gitlab.softescu.com:DevOps/DeployServiceAngular.git
-    - if [ -n "${BUILD_DIRECTORY}" ]; then echo "BUILD_DIRECTORY exists. Continue..."; else exit 1;fi
-    - make commit --directory=$CI_PROJECT_DIR/DeployServiceAngular/commit
-    ###
-    # Customizations
-    ###
-
 
 devENV-deploy:
   stage: devENV-deploy
