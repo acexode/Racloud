@@ -63,6 +63,17 @@
                 }
             }
         }
+        &.rc-form-group-without-prefix-disabled {
+            pointer-events: none;
+            input {
+                border: $rc-secondary-ouline;
+                background: $rc-light-grey;
+                color: $rc-accent-blue-30;
+                @include inputPlaceholder() {
+                    color: $rc-accent-blue-30;
+                }
+            }
+        }
     }
     &.rc-form-group-with-prefix {
         border: $rc-accent-blue-60-outline;
@@ -118,6 +129,29 @@
             > .input-prefix {
                 .input-prefix-text {
                     color: $rc-red;
+                }
+            }
+        }
+        &.rc-form-group-with-prefix-filled {
+            > .input-prefix {
+                .input-prefix-text {
+                     color: $rc-black !important;
+                }
+            }
+        }
+        &.rc-form-group-with-prefix-disabled {
+            pointer-events: none;
+            border: $rc-secondary-ouline;
+            background: $rc-light-grey;
+            input {
+                color: $rc-accent-blue-30;
+                @include inputPlaceholder() {
+                    color: $rc-accent-blue-30;
+                }
+            }
+            > .input-prefix {
+                .input-prefix-text {
+                     color: $rc-accent-blue-30;
                 }
             }
         }

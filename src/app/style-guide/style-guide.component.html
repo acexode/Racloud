@@ -13,9 +13,18 @@
             <app-input [config]="configFilled" formControlName="text"></app-input>
         </div>
         <div class="col-4">
-            <app-input [config]="configFilledWithPrefix"formControlName="textWithPrefix"></app-input>
+            <app-input [config]="configFilledWithPrefix" formControlName="textWithPrefix"></app-input>
         </div>
     </form>
+
+    <div class="row">
+        <div class="col-4">
+            <app-input [config]="configDisabled"></app-input>
+        </div>
+        <div class="col-4">
+            <app-input [config]="configDisabledWithPrefix"></app-input>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-4">

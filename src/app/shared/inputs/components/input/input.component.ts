@@ -53,12 +53,13 @@ export class InputComponent implements OnInit, ControlValueAccessor {
         this.onChange(this.getFieldValue());
       }
     });
+    if (this.isDisable) {
+      this.formGroup.disable();
+    }
   }
 
-  get configInput() {
-    return {
-      disabled: get(this.config, 'disabled', false)
-    };
+  get isDisable() {
+    return get(this.config?.inputStatus, 'isDisabled', false);
   }
 
 }

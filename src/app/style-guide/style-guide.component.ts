@@ -25,6 +25,28 @@ export class StyleGuideComponent implements OnInit {
   configFilled: InputConfig = configFilled();
   configFilledWithPrefix: InputConfig = configFilledWithPrefix();
   configWithPrefix: InputConfig = configWithPrefix();
+  configDisabled: InputConfig = {
+    inputLabel: {
+      text: 'Label'
+    },
+    type: 'text',
+    placeholder: 'Default',
+    prefix: false,
+    inputStatus: {
+      isDisabled: true
+    }
+  };
+  configDisabledWithPrefix: InputConfig = {
+    inputLabel: {
+      text: 'Label'
+    },
+    type: 'text',
+    placeholder: 'Default',
+    prefix: true,
+    inputStatus: {
+      isDisabled: true
+    }
+  };
   configFocusWithPrefix: InputConfig = {
     inputLabel: {
       text: 'Label'

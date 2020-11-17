@@ -10,6 +10,9 @@
                 'rc-form-group-without-prefix': !config?.prefix,
                 'rc-form-group-without-prefix-error': !config?.prefix && config?.inputStatus?.isError,
                 'rc-form-group-without-prefix-focus': !config?.prefix && config?.inputStatus?.isFocus,
+                'rc-form-group-without-prefix-disabled': !config?.prefix && config?.inputStatus?.isDisabled,
+                'rc-form-group-with-prefix-filled': config?.prefix && config?.inputStatus?.isFilled,
+                'rc-form-group-with-prefix-disabled': config?.prefix && config?.inputStatus?.isDisabled,
                 'rc-form-group-with-prefix': config?.prefix,
                 'rc-form-group-with-prefix-focus': config?.prefix && config?.inputStatus?.isFocus, 
                 'rc-form-group-with-prefix-error': config?.prefix && config?.inputStatus?.isError

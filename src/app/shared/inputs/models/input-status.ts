@@ -3,4 +3,5 @@ export interface InputStatus {
     isActive?: boolean;
     isFocus?: boolean;
     isFilled?: boolean;
+    isDisabled?: boolean;
 }
