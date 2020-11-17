@@ -1,3 +1,5 @@
+import { FormPrefix } from './input-prefix-config';
+import { InputStatus } from './input-status';
 import { LabelConfig } from './label-config';
 
 export interface InputConfig {
@@ -22,4 +24,9 @@ export interface InputConfig {
     autoCapitalize?: string;
     inputMode?: string;
     step?: number;
+
+    // prefix option
+    prefix?: boolean;
+
+    inputStatus?: InputStatus;
 }

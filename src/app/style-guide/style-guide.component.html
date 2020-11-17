@@ -1,3 +1,30 @@
-<div class="w-50">
-    <app-input [config]="config"></app-input>
+<div class="w-100">
+    <div class="row">
+        <div class="col-4">
+            <app-input [config]="configError"></app-input>
+        </div>
+        <div class="col-4">
+            <app-input [config]="configWithPrefix"></app-input>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-4">
+            <app-input [config]="config"></app-input>
+        </div>
+        <div class="col-4">
+            <app-input [config]="configErrorWithPrefix"></app-input>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            <app-input [config]="config"></app-input>
+        </div>
+        <div class="col-4">
+            <app-input [config]="configFocusWithPrefix"></app-input>
+        </div>
+    </div>
+    
 </div>

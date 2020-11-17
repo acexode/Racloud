@@ -17,7 +17,7 @@ export class InputComponent implements OnInit {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    console.log(this.configInput);
+    console.log(this.config);
   }
 
   get configInput() {

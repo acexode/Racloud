@@ -8,8 +8,8 @@
     @include align-items(stretch);
     @include flex-wrap(wrap);
     input {
-        font-family: $font-helveticaNeue-regular;
-        color: $rc-grey;
+        font-family: $font-helveticaNeue;
+        color: $rc-black;
         font-size: rem(14) !important;
         line-height: rem(16) !important;
         padding: rem(4) rem(12);
@@ -18,14 +18,18 @@
         width: 100%;
         border: none;
         background: none;
+        border: $rc-accent-blue-60-outline;
         @include inputPlaceholder() {
             color: $rc-grey;
             opacity: 1;
         }
-        &.input {
-            border: $rc-accent-blue-60-outline;
+        &.rc-input-error {
+            border: $rc-red-outline;
+            @include inputPlaceholder() {
+                color: $rc-red;
+            }
         }
-        &.rc-error {
+        &:invalid {
             border: $rc-red-outline;
             @include inputPlaceholder() {
                 color: $rc-red;
@@ -35,13 +39,8 @@
             border: $rc-secondary-ouline;
         }
         &:focus {
+            color: $rc-black !important;
             border: $rc-secondary-focus-outline;
-        }
-        &.rc-i {
-            position: relative;
-            -ms-flex: 1 1 auto;
-            flex: 1 1 auto;
-            width: 1%;
         }
         
     }
@@ -53,15 +52,54 @@
         }
         input {
             padding: rem(4) rem(12) rem(4) 0;
+            border: none !important;
+            position: relative;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            width: 1%;
             &:focus {
                 border: none;
-            }
+                & + .input-prefix {
+                    .input-prefix {
+                         color: $rc-black !important;
+                    }
+                }
+            } 
             &:hover {
                 border: none;
             }
         }
         &:focus-within {
             border: $rc-secondary-focus-outline;
+        }
+
+        &.rc-form-group-with-prefix-focus {
+            border: $rc-secondary-focus-outline;
+            input {
+                color: $rc-black !important;
+                @include inputPlaceholder() {
+                    color: $rc-black !important;
+                }
+            }
+            > .input-prefix {
+                .input-prefix-text {
+                    color: $rc-black !important;
+                }
+            }
+        }
+        &.rc-form-group-with-prefix-error {
+            border: $rc-red-outline;
+            input {
+                color: $rc-red;
+                @include inputPlaceholder() {
+                    color: $rc-red;
+                }
+            }
+            > .input-prefix {
+                .input-prefix-text {
+                    color: $rc-red;
+                }
+            }
         }
     }
     > .input-prefix {
@@ -71,10 +109,16 @@
         @include flex-wrap(wrap);
         padding: rem(4) rem(12);
         .input-prefix-text {
-            font-family: $font-helveticaNeue-regular;
+            font-family: $font-helveticaNeue;
             font-size: rem(14) !important;
             line-height: rem(16) !important;
+            color: $rc-grey;
+            &.input-prefix-text-focus {
+                 color: $rc-black !important;
+            }
+            &.input-prefix-text-error {
+                 color: $rc-red !important;
+            }
         }
-        
     }
 }

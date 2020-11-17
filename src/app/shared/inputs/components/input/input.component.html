@@ -1,33 +1,23 @@
 <ng-container [formGroup]="formGroup">
     <label 
-        class="rc-color-grey s12-h16 montserrat-regular-font text-weight-normal"
+        class="rc-color-grey s12-h16 montserrat-regular-font text-weight-normal m-0"
         [ngClass]="config?.inputLabel?.classes"
     >{{ config?.inputLabel?.text }}
     </label>
     <div class="">
-        <div class="rc-form-group">
-            <input 
-                [type]="config?.type" 
-                #input 
-                formControlName="input" 
-                class="input"
-                [placeholder]="config?.placeholder"
-                [maxlength]="config?.maxLength" 
-                [minlength]="config?.minLength" 
-                [min]="config?.min" 
-                [max]="config?.max"  
-                [autocomplete]="config?.autoComplete"
-                [autocapitalize]="config?.autoCapitalize !== '' ? config?.autoCapitalize : 'none'"
-                [class]="config?.inputClasses"
-            >
-        </div>
-        <br>
-        <br>
-        <div class="rc-form-group rc-form-group-with-prefix">
-            <div class="input-prefix">
-                <span class="input-prefix-text">$</span>
-            </div>
-            <input [type]="config?.type" #input formControlName="input" class="rc-i" [placeholder]="config?.placeholder"
+        <div class="rc-form-group"
+            [ngClass]="{'rc-form-group-with-prefix': config?.prefix,
+                'rc-form-group-with-prefix-focus': config?.inputStatus?.isFocus, 
+                        'rc-form-group-with-prefix-error': config?.inputStatus?.isError}"
+        >
+           <ng-container  *ngIf="config?.prefix">
+                <div class="input-prefix">
+                    <span 
+                        class="input-prefix-text"
+                    >$</span>
+                </div>
+           </ng-container>
+            <input [type]="config?.type" #input formControlName="input" [placeholder]="config?.placeholder"
                 [maxlength]="config?.maxLength" [minlength]="config?.minLength" [min]="config?.min" [max]="config?.max"
                 [autocomplete]="config?.autoComplete"
                 [autocapitalize]="config?.autoCapitalize !== '' ? config?.autoCapitalize : 'none'"
