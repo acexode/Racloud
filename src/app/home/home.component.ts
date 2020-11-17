@@ -72,12 +72,6 @@ export class HomeComponent implements OnInit {
     private http: HttpClient
   ) {}
   ngOnInit(): void {
-    let cell = document.getElementsByClassName('.datatable-body-cell') as HTMLCollectionOf<HTMLElement>;
-    console.log(cell)
-    if(cell.length){
-      cell[0].style.overflow = 'visible'
-
-    }
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
@@ -207,7 +201,6 @@ export class HomeComponent implements OnInit {
         cellContentPosition: 'right',
         hasFilter: true,
         cellTemplate: this.actionDropdown
-        
       },
     ];
     this.getJSON().subscribe((data) => {
@@ -243,7 +236,13 @@ filterTable(filterObj: TableFilterConfig) {
 }
 
 removeRow(id){
-  console.log(id)
+  console.log(id);
+}
+manageSub(id){
+  console.log(id);
+}
+renewSub(id){
+  console.log(id);
 }
 
 }
