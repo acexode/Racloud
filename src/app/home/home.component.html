@@ -13,8 +13,10 @@
         </div>
       </div>
       <app-table
-        [rows]="tableData | async"
-        [config]="tableConfig"
+      [rows]="tableData | async"
+      [config]="tableConfig"
+      (filterData)="filterTable($event)"
+      [rowDetailConfig]="rowDetailIcons"
       ></app-table>
     </div>
   </app-page-container>
