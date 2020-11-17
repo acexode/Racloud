@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { InputConfig } from './../../models/Input-config';
-
+import { get } from 'lodash';
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
@@ -17,6 +17,13 @@ export class InputComponent implements OnInit {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    console.log(this.configInput);
+  }
+
+  get configInput() {
+    return {
+      disabled: get(this.config, 'disabled', false)
+    }
   }
 
 }

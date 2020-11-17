@@ -5,7 +5,8 @@ $font-size-base: 1rem;
 $font-family-base: $font-family-sans-serif;
 
 .montserrat-regular-font {
-  font-family: $font-montserrat-regular;
+  font-family: $font-montserrat;
+  font-size: normal;
 }
 
 .helvetica-neue-regular {
@@ -26,9 +27,9 @@ $font-family-base: $font-family-sans-serif;
 
 h1,
 h2 {
+  font-family: $font-montserrat;
   font-weight: 500;
   letter-spacing: 0;
-  font-family: $font-montserrat-medium;
   color: $rc-accent-blue-160;
 }
 h1 {

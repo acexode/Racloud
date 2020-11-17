@@ -12,6 +12,7 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     component: StyleGuideComponent,
+    data: { title: 'style guide' },
   },
   /* {
     path: '',
@@ -34,7 +35,8 @@ const routes: Routes = [
   },
   {
     path: 'style',
-    component: StyleGuideComponent
+    component: StyleGuideComponent,
+    data: { title: 'style guide' },
   },
   { path: '**', redirectTo: '/not-found' },
 ];
