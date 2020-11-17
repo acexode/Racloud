@@ -65,6 +65,13 @@ export class StyleGuideComponent implements OnInit {
           Validators.minLength(10),
         ],
       ],
+      textWithPrefix: [
+        'Filled / Activated',
+        [
+          Validators.required,
+          Validators.minLength(10),
+        ],
+      ],
     });
   }
 

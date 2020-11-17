@@ -8,20 +8,14 @@
         </div>
     </div>
 
-    <div class="row">
-        <form [formGroup]="styleForm" class="col-4" (ngSubmit)="submitIt()">
-            <div class="w-100">
-                <app-input [config]="configFilled" formControlName="text"></app-input>
-                
-            </div>
-            <div class="w-100">
-                <button type="submit">submit</button>
-            </div>
-        </form>
+    <form [formGroup]="styleForm" class="row" (ngSubmit)="submitIt()">
         <div class="col-4">
-            <app-input [config]="configFilledWithPrefix"></app-input>
+            <app-input [config]="configFilled" formControlName="text"></app-input>
         </div>
-    </div>
+        <div class="col-4">
+            <app-input [config]="configFilledWithPrefix"formControlName="textWithPrefix"></app-input>
+        </div>
+    </form>
 
     <div class="row">
         <div class="col-4">

@@ -8,5 +8,8 @@ export const configFilledWithPrefix = (): InputConfig => {
         type: 'text',
         placeholder: 'Default',
         prefix: true,
+        inputStatus: {
+            isFilled: true
+        }
     };
 };
