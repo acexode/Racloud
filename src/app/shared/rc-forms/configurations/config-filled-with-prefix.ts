@@ -1,12 +1,15 @@
 import { InputConfig } from '../models/Input-config';
 
-export const configWithPrefix = (): InputConfig => {
+export const configFilledWithPrefix = (): InputConfig => {
     return {
         inputLabel: {
             text: 'Label'
         },
         type: 'text',
         placeholder: 'Default',
-        prefix: true,
+        prefixIcon: true,
+        inputStatus: {
+            isFilled: true
+        }
     };
 };

@@ -27,8 +27,8 @@ import { JwtInterceptor } from './core/interceptors/JWTInterceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { OmnDatePickerModule } from './shared/date-picker/date-picker.module';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { InputsModule } from './shared/inputs/inputs.module';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
+import { RcFormsModule } from './shared/rc-forms/rc-forms.module';
 
 @NgModule({
   declarations: [
@@ -60,7 +60,7 @@ import { StyleGuideComponent } from './style-guide/style-guide.component';
     BsDropdownModule.forRoot(),
     ContainerModule,
     TableModule,
-    InputsModule,
+    RcFormsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

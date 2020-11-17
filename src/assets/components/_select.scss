@@ -23,6 +23,24 @@ $ng-select-value-font-size: 0.9em;
   }
 }
 
+
+.rc-select {
+  width: 100%;
+  background: transparent url("~src/assets/images/chevron.svg") no-repeat right
+    rem(12) center/rem(10) rem(10);
+  font-size: rem(14) !important;
+  line-height: rem(16) !important;
+  padding: rem(4) rem(12);
+  border: $rc-accent-blue-60-outline;
+  box-shadow: none;
+  color: $rc-grey;
+  /* remove the default arrow */
+  -webkit-appearance: none;
+  appearance: none;
+  /*  */
+}
+
+
 .custom-select {
   background: transparent url("~src/assets/images/chevron.svg") no-repeat right
     0.75rem center/16px 16px;

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { configFilled } from '../shared/inputs/configurations/config-filled';
-import { configFilledWithPrefix } from '../shared/inputs/configurations/config-filled-with-prefix';
-import { configWithError } from '../shared/inputs/configurations/config-with-error';
-import { configWithPrefix } from '../shared/inputs/configurations/config-with-prefix';
-import { configWithFocus } from '../shared/inputs/configurations/configure-with-focus';
-import { InputConfig } from '../shared/inputs/models/Input-config';
+import { configFilled } from '../shared/rc-forms/configurations/config-filled';
+import { configFilledWithPrefix } from '../shared/rc-forms/configurations/config-filled-with-prefix';
+import { configWithError } from '../shared/rc-forms/configurations/config-with-error';
+import { configWithPrefix } from '../shared/rc-forms/configurations/config-with-prefix';
+import { configWithFocus } from '../shared/rc-forms/configurations/configure-with-focus';
+import { InputConfig } from '../shared/rc-forms/models/Input-config';
 
 @Component({
   selector: 'app-style-guide',
@@ -31,7 +31,7 @@ export class StyleGuideComponent implements OnInit {
     },
     type: 'text',
     placeholder: 'Default',
-    prefix: false,
+    prefixIcon: false,
     inputStatus: {
       isDisabled: true
     }
@@ -42,7 +42,7 @@ export class StyleGuideComponent implements OnInit {
     },
     type: 'text',
     placeholder: 'Default',
-    prefix: true,
+    prefixIcon: true,
     inputStatus: {
       isDisabled: true
     }
@@ -53,7 +53,7 @@ export class StyleGuideComponent implements OnInit {
     },
     type: 'text',
     placeholder: 'Default',
-    prefix: true,
+    prefixIcon: true,
     inputStatus: {
       isFocus: true
     }
@@ -66,7 +66,7 @@ export class StyleGuideComponent implements OnInit {
     },
     type: 'text',
     placeholder: 'Default',
-    prefix: true,
+    prefixIcon: true,
     inputStatus: {
       isError: true
     }
@@ -102,6 +102,6 @@ export class StyleGuideComponent implements OnInit {
   }
 
   submitIt(): void {
-    console.log(this.theInputText.value)
+    console.log(this.theInputText.value);
   }
 }

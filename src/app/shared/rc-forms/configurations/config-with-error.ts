@@ -7,7 +7,7 @@ export const configWithError = (): InputConfig => {
         },
         type: 'text',
         placeholder: 'Default',
-        prefix: false,
+        prefixIcon: false,
         inputStatus: {
             isError: true
         }

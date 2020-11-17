@@ -1,12 +1,15 @@
 import { InputConfig } from '../models/Input-config';
 
-export const configFilled = (): InputConfig => {
+export const configWithFocus = (): InputConfig => {
     return {
         inputLabel: {
             text: 'Label'
         },
         type: 'text',
         placeholder: 'Default',
-        prefix: false,
+        prefixIcon: false,
+        inputStatus: {
+            isFocus: true
+        }
     };
 };

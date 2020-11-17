@@ -1,4 +1,3 @@
-import { FormPrefix } from './input-prefix-config';
 import { InputStatus } from './input-status';
 import { LabelConfig } from './label-config';
 
@@ -26,7 +25,7 @@ export interface InputConfig {
     step?: number;
 
     // prefix option
-    prefix?: boolean;
+    prefixIcon?: boolean;
 
     inputStatus?: InputStatus;
 }
