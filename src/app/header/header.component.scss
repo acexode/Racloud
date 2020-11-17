@@ -2,15 +2,26 @@
 @import "../../assets/mixins";
 
 .header {
-  background-color: $white;
+  background-color: #F7F9FB;
   .status-area {
     background-color: $light-grey-2;
+  }
+  .bg-sidebar{
+    background-color: $sidebar;
   }
   .logo {
     width: rem(135);
     img {
       height: rem(40);
     }
+  }
+  .logo-title{  
+    color: #FFFFFF;
+    font-family: Comfortaa;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 18px;
   }
   .oval-red {
     height: rem(8);
@@ -37,8 +48,7 @@
   line-height: rem(16);
   letter-spacing: -0.2px;
 }
-.left-side {
-  border-right: 2px solid $red;
+.left-side {  
   cursor: pointer;
   .avatar {
     width: rem(42);

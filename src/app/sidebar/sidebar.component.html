@@ -1,21 +1,21 @@
 <div class="sidebar d-flex flex-column w-100">
-  <div class="nav flex-column mb-30">
+  <div class="nav flex-column mb-30 pt-5">
     <div *ngFor="let menu of menuJSON">
       <div
         *ngIf="!menu.children || (menu.children && menu.children.length === 0)"
-        class="nav-item menu-item d-flex flex-row justify-content-end py-11"
+        class="nav-item menu-item d-flex flex-row justify-content-apart py-11 px-11 mx-11"
         [routerLink]="[menu.url]"
         routerLinkActive="active-link"
         [routerLinkActiveOptions]="{ exact: true }"
         (click)="hideSubmenu()"
-      >
-        <a class="text-body">{{ menu.name }}</a>
+      >      
         <svg-icon
-          class="nav-icon ml-3"
+          class="nav-icon mr-3 "
           src="{{ menu.icon }}"
           [applyClass]="true"
         ></svg-icon>
-        <div class="rectangle align-self-center ml-32"></div>
+        <a class="text-links">{{ menu.name }}</a>
+        <!-- <div class="rectangle align-self-center ml-32"></div> -->
       </div>
       <div
         *ngIf="menu.children && menu.children.length > 0"

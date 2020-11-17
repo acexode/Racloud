@@ -4,10 +4,10 @@
       class="header-content d-flex flex-column justify-content-between w-100"
     >
       <div
-        class="d-flex flex-row py-31 align-items-center justify-content-between"
+        class="d-flex flex-row  align-items-center justify-content-between"
       >
         <div
-          class="left-side col-2 d-flex flex-row align-items-center justify-content-between p-0 px-32"
+          class="left-side col-2 d-flex flex-row  justify-content-between py-3 px-4  bg-sidebar"
           dropdown
           #dropdown="bs-dropdown"
         >
@@ -15,21 +15,27 @@
             class="user-info align-items-center d-flex flex-fill flex-row"
             (click)="dropdown.isOpen = !dropdown.isOpen"
           >
-            <div class="mr-2">
-              <img class="avatar" src="../../assets/images/avatar.png" />
+            <div class="mr-1">
+              <img class="avatar" src="../../assets/images/Simbol.svg" />
             </div>
-            <div class="username header-text d-flex flex-column">
-              <div class="firstName">Username</div>
+            <div class="header-text d-flex flex-column">
+              <div class="logo-title">Ra Cloud</div>
             </div>
           </div>
-          <nav class="navbar navbar-default">
+          
+        </div>
+        <div class="d-flex col-10 p-0 pr-32 justify-content-end">
+          <div class="pl-32 text-title pr-5"><img class="border-right pr-5" src="../../assets/images/Cart.svg" /></div>
+
+          <nav class="navbar navbar-default ml-5">
             <ul class="nav navbar-nav">
-              <li class="dropdown">
+              <li class="dropdown">                
                 <a
                   class="arrow"
                   role="button"
                   (click)="dropdown.isOpen = !dropdown.isOpen"
                 >
+                Albert Robertsson
                   <img src="../../assets/images/chevron.svg" /><span
                     class="caret"
                   ></span
@@ -40,11 +46,6 @@
               </li>
             </ul>
           </nav>
-        </div>
-        <div class="d-flex col-10 p-0 pr-32 justify-content-between">
-          <div class="pl-32 text-title">{{ pageTitle$ | async }}</div>
-
-          <img class="logo" src="../../assets/images/Logo.svg" alt="logo" />
         </div>
       </div>
     </div>

@@ -14,20 +14,50 @@ export class SidebarComponent implements OnInit {
   showArrow = false;
   menuJSON = [
     {
-      name: 'Acasa',
+      name: 'Customers',
       url: '/',
-      icon: '../../assets/images/Acasa.svg',
+      icon: '../../assets/images/Customer.svg',
       children: null,
     },
     {
-      name: 'Administrare',
-      url: '/admin',
-      icon: '../../assets/images/setari.svg',
-      children: [
-        { name: 'Utilizatori', url: '#', icon: '' },
-        { name: 'Documente', url: '#', icon: '' },
-      ],
+      name: 'Licenses',
+      url: '/licenses',
+      icon: '../../assets/images/License.svg',  
+      children: null,
     },
+    {
+      name: 'Users',
+      url: '/users',
+      icon: '../../assets/images/User.svg', 
+      children: null,
+    },
+    {
+      name: 'Orders',
+      url: '/orders',
+      icon: '../../assets/images/Orders.svg',
+      children: null,
+    },
+    {
+      name: 'Shop',
+      url: '/shop',
+      icon: '../../assets/images/Shop.svg',
+      children: null,
+    },
+    {
+      name: 'Products',
+      url: '/products',
+      icon: '../../assets/images/Product.svg',
+      children: null
+    },
+    // {
+    //   name: 'Shop',
+    //   url: '/shop',
+    //   icon: '../../assets/images/setari.svg',
+    //   children: [
+    //     { name: 'Utilizatori', url: '#', icon: '' },
+    //     { name: 'Documente', url: '#', icon: '' },
+    //   ],
+    // },
   ];
 
   ngOnInit(): void {
