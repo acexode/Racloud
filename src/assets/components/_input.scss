@@ -44,6 +44,19 @@
         }
         
     }
+    > .input-prefix {
+        @include flexbox;
+        @include justify-content(center);
+        @include align-items(center);
+        @include flex-wrap(wrap);
+        padding: rem(4) rem(12);
+        .input-prefix-text {
+            font-family: $font-helveticaNeue;
+            font-size: rem(14) !important;
+            line-height: rem(16) !important;
+            color: $rc-grey;
+        }
+    }
     &.rc-form-group-without-prefix {
         &.rc-form-group-without-prefix-focus {
             input {
@@ -121,7 +134,7 @@
         &.rc-form-group-with-prefix-error {
             border: $rc-red-outline;
             input {
-                color: $rc-red;
+                color: $rc-red !important;
                 @include inputPlaceholder() {
                     color: $rc-red;
                 }
@@ -153,25 +166,6 @@
                 .input-prefix-text {
                      color: $rc-accent-blue-30;
                 }
-            }
-        }
-    }
-    > .input-prefix {
-        @include flexbox;
-        @include justify-content(center);
-        @include align-items(center);
-        @include flex-wrap(wrap);
-        padding: rem(4) rem(12);
-        .input-prefix-text {
-            font-family: $font-helveticaNeue;
-            font-size: rem(14) !important;
-            line-height: rem(16) !important;
-            color: $rc-grey;
-            &.input-prefix-text-focus {
-                 color: $rc-black !important;
-            }
-            &.input-prefix-text-error {
-                 color: $rc-red !important;
             }
         }
     }
