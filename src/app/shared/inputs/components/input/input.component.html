@@ -6,9 +6,14 @@
     </label>
     <div class="">
         <div class="rc-form-group"
-            [ngClass]="{'rc-form-group-with-prefix': config?.prefix,
-                'rc-form-group-with-prefix-focus': config?.inputStatus?.isFocus, 
-                        'rc-form-group-with-prefix-error': config?.inputStatus?.isError}"
+            [ngClass]="{
+                'rc-form-group-without-prefix': !config?.prefix,
+                'rc-form-group-without-prefix-error': !config?.prefix && config?.inputStatus?.isError,
+                'rc-form-group-without-prefix-focus': !config?.prefix && config?.inputStatus?.isFocus,
+                'rc-form-group-with-prefix': config?.prefix,
+                'rc-form-group-with-prefix-focus': config?.prefix && config?.inputStatus?.isFocus, 
+                'rc-form-group-with-prefix-error': config?.prefix && config?.inputStatus?.isError
+            }"
         >
            <ng-container  *ngIf="config?.prefix">
                 <div class="input-prefix">

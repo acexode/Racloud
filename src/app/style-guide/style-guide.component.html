@@ -1,17 +1,31 @@
 <div class="w-100">
     <div class="row">
         <div class="col-4">
-            <app-input [config]="configError"></app-input>
+            <app-input [config]="config"></app-input>
         </div>
         <div class="col-4">
             <app-input [config]="configWithPrefix"></app-input>
         </div>
     </div>
 
+    <div class="row">
+        <form [formGroup]="styleForm" class="col-4" (ngSubmit)="submitIt()">
+            <div class="w-100">
+                <app-input [config]="configFilled" formControlName="text"></app-input>
+                
+            </div>
+            <div class="w-100">
+                <button type="submit">submit</button>
+            </div>
+        </form>
+        <div class="col-4">
+            <app-input [config]="configFilledWithPrefix"></app-input>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-4">
-            <app-input [config]="config"></app-input>
+            <app-input [config]="configError"></app-input>
         </div>
         <div class="col-4">
             <app-input [config]="configErrorWithPrefix"></app-input>
@@ -20,7 +34,7 @@
 
     <div class="row">
         <div class="col-4">
-            <app-input [config]="config"></app-input>
+            <app-input [config]="configWithFocus"></app-input>
         </div>
         <div class="col-4">
             <app-input [config]="configFocusWithPrefix"></app-input>

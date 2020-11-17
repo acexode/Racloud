@@ -44,6 +44,26 @@
         }
         
     }
+    &.rc-form-group-without-prefix {
+        &.rc-form-group-without-prefix-focus {
+            input {
+                color: $rc-black !important;
+                border: $rc-secondary-focus-outline !important;
+                @include inputPlaceholder() {
+                    color: $rc-black !important;
+                }
+            }
+        }
+        &.rc-form-group-without-prefix-error {
+            input {
+                color: $rc-red !important;
+                border: $rc-red-outline !important;
+                @include inputPlaceholder() {
+                    color: $red !important;
+                }
+            }
+        }
+    }
     &.rc-form-group-with-prefix {
         border: $rc-accent-blue-60-outline;
         border-radius: rem(2);
