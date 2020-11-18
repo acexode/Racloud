@@ -179,7 +179,7 @@ export class HomeComponent implements OnInit {
         label: 'Sub.fee',
         sortable: true,
         minWidth: 130,
-        noGrow: true,  
+        noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -215,7 +215,6 @@ export class HomeComponent implements OnInit {
       }
     });
   }
-  
   public getJSON(): Observable<any> {
     return this.http.get('./assets/ra-table.json');
 }
