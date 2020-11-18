@@ -38,7 +38,8 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
     return this.vConfig;
   }
   @Input() set options(opts: Array<any>) {
-    this.opts = opts ? opts : [{id: 'id', option: 'Default', isSelect: true}];
+    console.log('sffsf');
+    this.opts = opts ? opts : [];
     this.updateItems();
   }
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) { }
@@ -95,12 +96,8 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   updateItems() {
     const labelK = get(this.config, 'labelKey', 'option');
     const idK = get(this.config, 'idKey', 'id');
-    if (this.opts.length === 1) {
-      this.opts = [{
-        ...this.opts[0],
-        isSelected: true,
-      }];
-    }
+    console.log(this.opts);
+    this.opts = this.opts.length !== 0 ? this.opts : [{ id: 'id', option: 'Default', isSelected: true }];
     const items = this.opts
       .map((v) => {
         return {

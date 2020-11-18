@@ -31,17 +31,24 @@
         border: $rc-secondary-focus-outline;
     }
   }
-  &.rc-select-diable {
-      select {
-        pointer-events: none;
-        border: $rc-secondary-ouline;
-        background: $rc-light-grey;
-      }
-  }
   &.rc-select-filled {
       select {
         color: $rc-black !important;
       }
+  }
+  &.rc-select-disabled {
+    select {
+      pointer-events: none;
+      border: $rc-secondary-ouline;
+      background: $rc-light-grey;
+      color: $rc-accent-blue-30;
+    }
+  }
+  &.rc-select-error {
+    select {
+      color: $rc-red;
+      border: $rc-red-outline !important;
+    }
   }
 }
 /* Target Internet Explorer 9 to undo the custom arrow */

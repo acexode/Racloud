@@ -3,7 +3,14 @@
         [ngClass]="config?.selectLabel?.classes">{{ config?.selectLabel?.text }}
     </label>
     <div>
-        <div class="rc-select" [ngClass]="{'rc-select-filled': config?.formStatus?.isFilled}">
+        <div 
+            class="rc-select" 
+            [ngClass]="{
+                'rc-select-filled': config?.formStatus?.isFilled,
+                'rc-select-error': config?.formStatus?.isError,
+                'rc-select-disabled': config?.formStatus?.isDisabled
+            }"
+        >
            <select formControlName="select">
                <option *ngFor="let item of items | async" [value]="item.id" [selected]='item.isSelected'>
                    {{item.option}}

@@ -39,6 +39,10 @@ export class StyleGuideComponent implements OnInit {
     {
       id: 'filled',
       option: 'Filled / Activated'
+    },
+    {
+      id: 'sub-filled',
+      option: 'sub-Filled / Activated'
     }
   ]
   selectConfig: SelectConfig = {
