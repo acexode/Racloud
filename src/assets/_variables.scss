@@ -24,7 +24,8 @@ $rc-secodary-focus:#76BEEC;
 $rc-bg-none: none;
 
 // rc outlines
-$rc-accent-blue-60-outline: 1px solid $rc-accent-blue-60;
+$rc-accent-blue-30-outline: 2px solid $rc-accent-blue-30;
+$rc-accent-blue-60-outline: 2px solid $rc-accent-blue-60;
 $rc-primary-outline: 2px solid $rc-primary;
 $rc-primary-hover-outline: 2px solid $rc-primary-hover;
 $rc-secondary-hover-outline: 2px solid $rc-secondary-hover;
@@ -32,6 +33,7 @@ $rc-disabled-ouline: 2px solid $rc-disable-bg;
 $rc-red-outline: 1px solid $rc-red;
 $rc-secondary-ouline: 1px solid $rc-secondary; 
 $rc-secondary-focus-outline: 1px solid #76BEEC;
+$rc-grey-outline: $rc-grey;
 
 // font
 $font-montserrat: "Montserrat", "Roboto", "Helvetica Neue", Arial, sans-serif;

@@ -37,7 +37,7 @@ $def-box-shadow: rgba(0, 0, 0, 0.15);
     border: $hover-border !important;
     color: $hover-color;
     box-shadow: 0 rem(2) rem(8) 0 $hover-shadow;
-    @if($hover-border == 'none') {
+    @if($hover-border == 'none' & $hover-color != 'none') {
       text-decoration: underline;
     }
   }

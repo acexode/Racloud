@@ -1,0 +1,63 @@
+@import "../variables";
+@import "../mixins";
+@import "./buttons";
+
+@mixin chips-style(
+  $background,
+  $border,
+  $color,
+  $disabled-bg,
+  $disabled-border,
+  $disabled-color
+) {
+  color: $color;
+  background: $background;
+  border: $border;
+  box-shadow: none !important;
+  outline: $rc-none;
+  &:disabled,
+  &.disabled {
+    background: $disabled-bg !important;
+    border: $disabled-border !important;
+    color: $disabled-color !important;
+    opacity: 1;
+    text-decoration: $rc-none;
+  }
+}
+
+.chips {
+    font-weight: bold;
+    min-width: $rc-btn-min-width;
+    @include button-size(
+        $btn-padding-y,
+        $btn-padding-x,
+        $btn-font-size,
+        $btn-line-height,
+        $btn-border-radius
+    );
+    &.default {
+        $def-shadow: transparent;
+        @include chips-style(
+            $white,
+            $rc-accent-blue-60-outline,
+            $rc-grey,
+            $white,
+            $rc-accent-blue-30-outline,
+            $rc-accent-blue-60,
+        );
+        background-image: none;
+    }
+
+    &.selected {
+        $def-shadow: transparent;
+        @include chips-style(
+            $rc-secondary-hover,
+            $rc-primary-outline,
+            $rc-primary,
+            $white,
+            $rc-disabled-ouline,
+            $rc-disable-bg
+        );
+        background-image: none;
+    }
+}
