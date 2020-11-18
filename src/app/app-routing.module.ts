@@ -14,14 +14,14 @@ const routes: Routes = [
     component: StyleGuideComponent,
     data: { title: 'style guide' },
   },
-  /* {
-    path: '',
-    pathMatch: 'full',
+  {
+    path: 'home',
     canActivate: [AuthGuard],
     component: HomeComponent,
-    data: { title: 'Acasa'
-   },
-  }, */
+    data: {
+      title: 'Acasa'
+    },
+  },
   {
     path: 'login',
     data: { title: 'Login' },
