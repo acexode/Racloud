@@ -283,3 +283,36 @@ $tooltip-margin: rem(8);
 // dropdowns
 $dropdown-link-active-color: $grey2;
 $dropdown-link-active-bg: $ultra-light-grey-2;
+
+
+// app main colors
+$rc-primary:  #D9471F; /* primary (orange)*/
+$rc-secondary: #CDE0EC;  /* secondary (blue)*/
+$rc-accent-blue: #6A7098;
+$rc-light-grey: #F7F9FB;
+
+// Tones
+$rc-accent-blue-30:#D2D4E0; /* accent 30% */
+$rc-accent-blue-60: #A4A7BF; /* accent 60% */
+$rc-accent-blue-160: #464976; /* accent 160% (text-color)*/
+$rc-primary-5: #FBECE8; /* primary (orange) 05% */
+$rc-primary-30: #EDC4BB; /* primary (orange) 30% */
+
+// general color
+$rc-black: #161A37; /* (text-color) */
+$rc-grey: #878999; /* text color */
+$rc-shadow: 0px 3px 10px 0px #00385B, 0px 0px 10px -3px #00385B;
+$rc-green: #3AB12D;
+$rc-red: #EE1111;
+$rc-secodary-focus:#76BEEC;
+
+// rc outlines
+$rc-accent-blue-60-outline: 1px solid $rc-accent-blue-60;
+$rc-primary-outline: 2px solid $rc-primary;
+$rc-red-outline: 1px solid $rc-red;
+$rc-secondary-ouline: 1px solid $rc-secondary; 
+$rc-secondary-focus-outline: 1px solid #76BEEC;
+
+// font
+$font-montserrat: "Montserrat", "Roboto", "Helvetica Neue", Arial, sans-serif;
+$font-helveticaNeue: "Helvetica Neue", Arial, sans-serif;
