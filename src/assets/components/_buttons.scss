@@ -47,6 +47,7 @@ $def-box-shadow: rgba(0, 0, 0, 0.15);
     border: $disabled-border !important;
     color: $disabled-color !important;
     opacity: 1;
+    text-decoration: $rc-none;
   }
   &:not(:disabled):not(.disabled):active,
   &:not(:disabled):not(.disabled).active,
@@ -119,9 +120,9 @@ $def-box-shadow: rgba(0, 0, 0, 0.15);
     $rc-primary-outline,
     $rc-primary,
     $def-shadow,
-    $rc-disable-bg,
+    $white,
     $rc-disabled-ouline,
-    $white
+    $rc-disable-bg
   );
   background-image: none;
 }

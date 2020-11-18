@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef, } from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -7,10 +7,33 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ButtonComponent implements OnInit {
   @Input() type: string;
-  constructor() { }
+  @Input() color: string;
+  @Input() disabled: boolean;
+
+  btnClasses = {
+    primary: 'btn-primary',
+    secondary: 'btn-secondary',
+    tertiary: 'btn-tertiary',
+  };
+  constructor(private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    console.log(this.type)
+
   }
 
+  get btnClass() {
+    if (typeof this.color === 'undefined') {
+      return this.btnClasses.primary;
+    } else {
+      return this.btnClasses[this.color];
+    }
+  }
+
+  get isDisabled() {
+    if (typeof this.disabled === 'undefined' || typeof this.disabled === null) {
+      return false;
+    } else {
+      return this.disabled;
+    }
+  }
 }
