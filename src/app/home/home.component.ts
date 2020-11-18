@@ -215,14 +215,7 @@ export class HomeComponent implements OnInit {
       }
     });
   }
-  visible(){
-    let cell = document.getElementsByClassName('datatable-body-cell') as HTMLCollectionOf<HTMLElement>;
-    console.log(cell)
-    if(cell.length){
-      cell[0].style.overflow = 'visible'
-
-    }
-  }
+  
   public getJSON(): Observable<any> {
     return this.http.get('./assets/ra-table.json');
 }
