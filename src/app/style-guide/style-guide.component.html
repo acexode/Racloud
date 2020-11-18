@@ -1,0 +1,62 @@
+<div class="w-100">
+    <div class="row">
+        <div class="col-4">
+            <app-input [config]="inputConfig"></app-input>
+        </div>
+        <div class="col-4">
+            <app-select [config]="selectConfig"></app-select>
+        </div>
+        <div class="col-4">
+            <app-input [config]="configWithPrefix"></app-input>
+        </div>
+    </div>
+
+    <form [formGroup]="styleForm" class="row" (ngSubmit)="submitIt()">
+        <div class="col-4">
+            <app-input [config]="configFilled" formControlName="text"></app-input>
+        </div>
+        <div class="col-4">
+            <app-select [config]="selectConfigFilled" [options]='selectOptions'></app-select>
+        </div>
+        <div class="col-4">
+            <app-input [config]="configFilledWithPrefix" formControlName="textWithPrefix"></app-input>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-4">
+            <app-input [config]="configDisabled"></app-input>
+        </div>
+        <div class="col-4">
+            <app-select [config]="configWithPrefix"></app-select>
+        </div>
+        <div class="col-4">
+            <app-input [config]="configDisabledWithPrefix"></app-input>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            <app-input [config]="configError"></app-input>
+        </div>
+        <div class="col-4">
+            <app-select [config]="configWithPrefix"></app-select>
+        </div>
+        <div class="col-4">
+            <app-input [config]="configErrorWithPrefix"></app-input>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            <app-input [config]="configWithFocus"></app-input>
+        </div>
+        <div class="col-4">
+            <app-select [config]="configWithPrefix"></app-select>
+        </div>
+        <div class="col-4">
+            <app-input [config]="configFocusWithPrefix"></app-input>
+        </div>
+    </div>
+    
+</div>

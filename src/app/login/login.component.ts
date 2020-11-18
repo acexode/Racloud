@@ -18,6 +18,7 @@ import { Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit, OnDestroy {
+
   loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
@@ -35,9 +36,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     private cdRef: ChangeDetectorRef,
     private aRoute: ActivatedRoute,
     private msgS: MessagesService,
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   submitForm() {
     const formV = this.loginForm.value;
