@@ -38,7 +38,6 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
     return this.vConfig;
   }
   @Input() set options(opts: Array<any>) {
-    console.log('sffsf');
     this.opts = opts ? opts : [];
     this.updateItems();
   }
@@ -86,6 +85,13 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
         this.cdRef.detectChanges();
       }
     });
+    if (this.isDisable) {
+      this.formGroup.disable();
+    }
+
+  }
+  get isDisable() {
+    return get(this.config?.formStatus, 'isDisabled', false);
   }
 
   selectChange() {
@@ -96,7 +102,6 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   updateItems() {
     const labelK = get(this.config, 'labelKey', 'option');
     const idK = get(this.config, 'idKey', 'id');
-    console.log(this.opts);
     this.opts = this.opts.length !== 0 ? this.opts : [{ id: 'id', option: 'Default', isSelected: true }];
     const items = this.opts
       .map((v) => {

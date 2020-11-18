@@ -60,6 +60,37 @@ export class StyleGuideComponent implements OnInit {
       isFilled: true,
     }
   };
+  selectConfigError: SelectConfig = {
+    selectLabel: {
+      text: 'Label'
+    },
+    idKey: 'id',
+    labelKey: 'option',
+    formStatus: {
+      isError: true,
+    }
+  };
+  selectConfigFocus: SelectConfig = {
+    selectLabel: {
+      text: 'Label'
+    },
+    idKey: 'id',
+    labelKey: 'option',
+    formStatus: {
+      isFocus: true,
+    }
+  };
+
+  selectConfigDisabled: SelectConfig = {
+    selectLabel: {
+      text: 'Label'
+    },
+    idKey: 'id',
+    labelKey: 'option',
+    formStatus: {
+      isDisabled: true,
+    }
+  };
   styleForm: FormGroup;
   constructor(private fb: FormBuilder) { }
 

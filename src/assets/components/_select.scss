@@ -38,7 +38,6 @@
   }
   &.rc-select-disabled {
     select {
-      pointer-events: none;
       border: $rc-secondary-ouline;
       background: $rc-light-grey;
       color: $rc-accent-blue-30;
@@ -48,6 +47,12 @@
     select {
       color: $rc-red;
       border: $rc-red-outline !important;
+    }
+  }
+  &.rc-select-focus {
+    select {
+      color: $rc-black !important;
+      border: $rc-secondary-focus-outline !important;
     }
   }
 }

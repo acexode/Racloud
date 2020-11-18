@@ -8,7 +8,8 @@
             [ngClass]="{
                 'rc-select-filled': config?.formStatus?.isFilled,
                 'rc-select-error': config?.formStatus?.isError,
-                'rc-select-disabled': config?.formStatus?.isDisabled
+                'rc-select-disabled': config?.formStatus?.isDisabled,
+                'rc-select-focus': config?.formStatus?.isFocus
             }"
         >
            <select formControlName="select">
