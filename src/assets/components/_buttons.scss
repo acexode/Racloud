@@ -21,27 +21,30 @@ $def-box-shadow: rgba(0, 0, 0, 0.15);
 ) {
   color: $color;
   background: $background;
-  border-color: $border;
+  border: $border;
   box-shadow: none !important;
   &:focus,
   &.focus {
     outline: 0 !important;
     box-shadow: 0 rem(2) rem(8) 0 $hover-shadow;
     background: $hover-bg !important;
-    border-color: $hover-border !important;
+    border: $hover-border !important;
     color: $hover-color;
   }
   &:hover,
   &.hover {
     background: $hover-bg !important;
-    border-color: $hover-border !important;
+    border: $hover-border !important;
     color: $hover-color;
     box-shadow: 0 rem(2) rem(8) 0 $hover-shadow;
+    @if($hover-border == 'none') {
+      text-decoration: underline;
+    }
   }
   &:disabled,
   &.disabled {
     background: $disabled-bg !important;
-    border-color: $disabled-border !important;
+    border: $disabled-border !important;
     color: $disabled-color !important;
     opacity: 1;
   }
@@ -50,7 +53,7 @@ $def-box-shadow: rgba(0, 0, 0, 0.15);
   .show > &.dropdown-toggle {
     color: $active-color;
     background: $active-background;
-    border-color: $active-border;
+    border: $active-border;
   }
 }
 
@@ -69,6 +72,7 @@ $def-box-shadow: rgba(0, 0, 0, 0.15);
 
 .btn {
   font-weight: bold;
+  min-width: $rc-btn-min-width;
   @include button-size(
     $btn-padding-y,
     $btn-padding-x,
@@ -83,18 +87,18 @@ $def-box-shadow: rgba(0, 0, 0, 0.15);
 .btn-primary {
   @include button-style(
     $btn-primary-bg,
-    $green,
+    $rc-primary-outline,
     $white,
-    $dark-green-2,
-    $dark-green-2,
+    $btn-primary-bg,
+    $btn-primary-bg,
     $white,
-    $dark-green-2,
-    $dark-green-2,
+    $rc-primary-hover,
+    $rc-primary-hover-outline,
     $white,
     $def-box-shadow,
-    $medium-green-2,
-    $medium-green-2,
-    $grey4
+    $rc-disable-bg,
+    $rc-disabled-ouline,
+    $white,
   );
   // &:not(:active):not(:hover):not(:focus) {
   //   background: $btn-primary-bg;
@@ -105,38 +109,38 @@ $def-box-shadow: rgba(0, 0, 0, 0.15);
 .btn-secondary {
   $def-shadow: transparent;
   @include button-style(
-    $light-green,
-    $green,
-    $dark-green,
-    $medium-green-3,
-    $medium-green-3,
-    $dark-green,
-    $medium-green-3,
-    $medium-green-3,
-    $dark-green,
+    $white,
+    $rc-primary-outline,
+    $rc-primary,
+    $white,
+    $rc-primary-outline,
+    $rc-primary,
+    $rc-secondary-hover,
+    $rc-primary-outline,
+    $rc-primary,
     $def-shadow,
-    $light-grey-2,
-    $medium-green-2,
-    $grey4
+    $rc-disable-bg,
+    $rc-disabled-ouline,
+    $white
   );
   background-image: none;
 }
 .btn-tertiary {
   $def-shadow: transparent;
   @include button-style(
-    $light-green,
-    $light-green,
-    $dark-green,
-    $green,
-    $green,
-    $white,
-    $green,
-    $green,
-    $white,
+    $rc-bg-none,
+    $rc-none,
+    $rc-primary,
+    $rc-none,
+    $rc-none,
+    $rc-primary,
+    $rc-none,
+    $rc-none,
+    $rc-primary,
     $def-shadow,
-    $light-grey,
-    $light-grey,
-    $grey4
+    $rc-none,
+    $rc-none,
+    $rc-primary-30
   );
   font-weight: 500;
   background-image: none;
