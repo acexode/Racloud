@@ -123,22 +123,30 @@
         <div class="col-3 px-3">
             <h3>Tertiary</h3>
         </div>
+        <div class="col-3 px-3">
+            <h3>Link Type</h3>
+        </div>
     </div>
 
     <div class="row">
         <div class="col-3 p-3">
             <app-button type="submit" color="primary">
-                Passed in
+                Primary
             </app-button>
         </div>
         <div class="col-3 p-3">
             <app-button type="submit" color="secondary">
-                Passed in
+                Secondary
             </app-button>
         </div>
         <div class="col-3 p-3">
             <app-button type="submit" color="tertiary">
-                Passed in
+                Tertiary
+            </app-button>
+        </div>
+        <div class="col-3 p-3">
+            <app-button type="submit" color="tertiary">
+                link type
             </app-button>
         </div>
     </div>
@@ -157,6 +165,11 @@
         <div class="col-3 p-3">
             <app-button type="submit" color="tertiary" [disabled]="true">
                 Passed in
+            </app-button>
+        </div>
+        <div class="col-3 p-3">
+            <app-button type="submit" color="tertiary" [disabled]="true">
+                link
             </app-button>
         </div>
     </div>
