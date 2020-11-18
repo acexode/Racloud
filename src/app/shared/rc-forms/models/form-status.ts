@@ -1,4 +1,4 @@
-export interface InputStatus {
+export interface FormStatus {
     isError?: boolean;
     isActive?: boolean;
     isFocus?: boolean;

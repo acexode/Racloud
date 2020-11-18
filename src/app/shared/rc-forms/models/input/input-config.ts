@@ -1,5 +1,5 @@
-import { InputStatus } from './input-status';
-import { LabelConfig } from './label-config';
+import { FormStatus } from '../form-status';
+import { LabelConfig } from '../label-config';
 
 export interface InputConfig {
     inputLabel?: LabelConfig;
@@ -27,5 +27,5 @@ export interface InputConfig {
     // prefix option
     prefixIcon?: boolean;
 
-    inputStatus?: InputStatus;
+    formStatus?: FormStatus;
 }

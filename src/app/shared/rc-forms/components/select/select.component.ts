@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { get, has } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
+import { SelectConfig } from '../../models/select/select-config';
 
 @Component({
   selector: 'app-select',
@@ -27,9 +28,9 @@ import { BehaviorSubject } from 'rxjs';
   ],
 })
 export class SelectComponent implements OnInit, ControlValueAccessor {
-  private vConfig: any;
+  private vConfig: SelectConfig;
   @Input()
-  set config(c: any) {
+  set config(c: SelectConfig) {
     this.vConfig = c;
     this.updateItems();
   }
@@ -37,16 +38,13 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
     return this.vConfig;
   }
   @Input() set options(opts: Array<any>) {
-    this.opts = opts ? opts : [];
+    this.opts = opts ? opts : [{id: 'id', option: 'Default', isSelect: true}];
     this.updateItems();
   }
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) { }
 
   items: BehaviorSubject<
-    Array<{
-      id: any;
-      label: string;
-    }>
+    Array<any>
   > = new BehaviorSubject([]);
   private opts: Array<any> = [];
 
@@ -95,13 +93,20 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   }
 
   updateItems() {
-    const labelK = get(this.config, 'labelKey', 'label');
+    const labelK = get(this.config, 'labelKey', 'option');
     const idK = get(this.config, 'idKey', 'id');
+    if (this.opts.length === 1) {
+      this.opts = [{
+        ...this.opts[0],
+        isSelected: true,
+      }];
+    }
     const items = this.opts
       .map((v) => {
         return {
           id: get(v, idK, null),
-          label: get(v, labelK, null),
+          option: get(v, labelK, null),
+          isSelected: v.isSelected ? v.isSelected : false,
         };
       })
       .filter((vv) => {
@@ -170,4 +175,5 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   get selectField() {
     return this.formGroup.get('select');
   }
+
 }

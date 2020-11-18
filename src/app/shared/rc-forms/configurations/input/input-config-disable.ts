@@ -1,6 +1,6 @@
-import { InputConfig } from '../models/Input-config';
+import { InputConfig } from '../../models/input/Input-config';
 
-export const configWithFocus = (): InputConfig => {
+export const InputConfigDisabled = (): InputConfig => {
     return {
         inputLabel: {
             text: 'Label'
@@ -8,8 +8,8 @@ export const configWithFocus = (): InputConfig => {
         type: 'text',
         placeholder: 'Default',
         prefixIcon: false,
-        inputStatus: {
-            isFocus: true
+        formStatus: {
+            isDisabled: true
         }
     };
 };

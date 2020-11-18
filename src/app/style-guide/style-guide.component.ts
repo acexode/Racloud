@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { configFilled } from '../shared/rc-forms/configurations/config-filled';
-import { configFilledWithPrefix } from '../shared/rc-forms/configurations/config-filled-with-prefix';
-import { configWithError } from '../shared/rc-forms/configurations/config-with-error';
-import { configWithPrefix } from '../shared/rc-forms/configurations/config-with-prefix';
-import { configWithFocus } from '../shared/rc-forms/configurations/configure-with-focus';
-import { InputConfig } from '../shared/rc-forms/models/Input-config';
+import { InputConfigDisabled } from '../shared/rc-forms/configurations/input/input-config-disable';
+import { InputConfigDisabledWithPrefix } from '../shared/rc-forms/configurations/input/input-config-disabled-with-prefix';
+import { InputConfigErrorWithPrefix } from '../shared/rc-forms/configurations/input/input-config-Error-with-prefix';
+import { InputConfigFilled } from '../shared/rc-forms/configurations/input/input-config-filled';
+import { InputConfigFilledWithPrefix } from '../shared/rc-forms/configurations/input/input-config-filled-with-prefix';
+import { InputConfigFocusWithPrefix } from '../shared/rc-forms/configurations/input/input-config-focus-with-prefix';
+import { InputConfigWithError } from '../shared/rc-forms/configurations/input/input-config-with-error';
+import { InputConfigWithPrefix } from '../shared/rc-forms/configurations/input/input-config-with-prefix';
+import { InputConfigWithFocus } from '../shared/rc-forms/configurations/input/input-configure-with-focus';
+import { InputConfig } from '../shared/rc-forms/models/input/Input-config';
+import { SelectConfig } from '../shared/rc-forms/models/select/select-config';
 
 @Component({
   selector: 'app-style-guide',
@@ -13,62 +18,42 @@ import { InputConfig } from '../shared/rc-forms/models/Input-config';
   styleUrls: ['./style-guide.component.scss']
 })
 export class StyleGuideComponent implements OnInit {
-  config: InputConfig = {
+  inputConfig: InputConfig = {
     inputLabel: {
       text: 'Label'
     },
     type: 'text',
     placeholder: 'Default',
   };
-  configError: InputConfig = configWithError();
-  configWithFocus: InputConfig = configWithFocus();
-  configFilled: InputConfig = configFilled();
-  configFilledWithPrefix: InputConfig = configFilledWithPrefix();
-  configWithPrefix: InputConfig = configWithPrefix();
-  configDisabled: InputConfig = {
-    inputLabel: {
-      text: 'Label'
-    },
-    type: 'text',
-    placeholder: 'Default',
-    prefixIcon: false,
-    inputStatus: {
-      isDisabled: true
+  configError: InputConfig = InputConfigWithError();
+  configWithFocus: InputConfig = InputConfigWithFocus();
+  configFilled: InputConfig = InputConfigFilled();
+  configFilledWithPrefix: InputConfig = InputConfigFilledWithPrefix();
+  configWithPrefix: InputConfig = InputConfigWithPrefix();
+  configDisabled: InputConfig = InputConfigDisabled();
+  configDisabledWithPrefix: InputConfig = InputConfigDisabledWithPrefix();
+  configFocusWithPrefix: InputConfig = InputConfigFocusWithPrefix();
+  configErrorWithPrefix: InputConfig = InputConfigErrorWithPrefix();
+/*  */
+  selectOptions = [
+    {
+      id: 'filled',
+      option: 'Filled / Activated'
     }
-  };
-  configDisabledWithPrefix: InputConfig = {
-    inputLabel: {
+  ]
+  selectConfig: SelectConfig = {
+    selectLabel: {
       text: 'Label'
     },
-    type: 'text',
-    placeholder: 'Default',
-    prefixIcon: true,
-    inputStatus: {
-      isDisabled: true
-    }
   };
-  configFocusWithPrefix: InputConfig = {
-    inputLabel: {
+  selectConfigFilled: SelectConfig = {
+    selectLabel: {
       text: 'Label'
     },
-    type: 'text',
-    placeholder: 'Default',
-    prefixIcon: true,
-    inputStatus: {
-      isFocus: true
-    }
-  };
-
-
-  configErrorWithPrefix: InputConfig = {
-    inputLabel: {
-      text: 'Label'
-    },
-    type: 'text',
-    placeholder: 'Default',
-    prefixIcon: true,
-    inputStatus: {
-      isError: true
+    idKey: 'id',
+    labelKey: 'option',
+    formStatus: {
+      isFilled: true,
     }
   };
   styleForm: FormGroup;

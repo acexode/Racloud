@@ -1,6 +1,6 @@
-import { InputConfig } from '../models/Input-config';
+import { InputConfig } from '../../models/input/Input-config';
 
-export const configWithPrefix = (): InputConfig => {
+export const InputConfigWithPrefix = (): InputConfig => {
     return {
         inputLabel: {
             text: 'Label'

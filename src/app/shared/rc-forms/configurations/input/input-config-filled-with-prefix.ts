@@ -1,6 +1,6 @@
-import { InputConfig } from '../models/Input-config';
+import { InputConfig } from '../../models/input/Input-config';
 
-export const configFilledWithPrefix = (): InputConfig => {
+export const InputConfigFilledWithPrefix = (): InputConfig => {
     return {
         inputLabel: {
             text: 'Label'
@@ -8,7 +8,7 @@ export const configFilledWithPrefix = (): InputConfig => {
         type: 'text',
         placeholder: 'Default',
         prefixIcon: true,
-        inputStatus: {
+        formStatus: {
             isFilled: true
         }
     };

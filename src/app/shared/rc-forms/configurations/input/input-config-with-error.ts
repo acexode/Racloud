@@ -1,6 +1,6 @@
-import { InputConfig } from '../models/Input-config';
+import { InputConfig } from '../../models/input/Input-config';
 
-export const configWithError = (): InputConfig => {
+export const InputConfigWithError = (): InputConfig => {
     return {
         inputLabel: {
             text: 'Label'
@@ -8,7 +8,7 @@ export const configWithError = (): InputConfig => {
         type: 'text',
         placeholder: 'Default',
         prefixIcon: false,
-        inputStatus: {
+        formStatus: {
             isError: true
         }
     }

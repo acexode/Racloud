@@ -1,6 +1,6 @@
-import { InputConfig } from '../models/Input-config';
+import { InputConfig } from '../../models/input/Input-config';
 
-export const configFilled = (): InputConfig => {
+export const InputConfigFilled = (): InputConfig => {
     return {
         inputLabel: {
             text: 'Label'

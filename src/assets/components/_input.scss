@@ -19,6 +19,7 @@
         border: none;
         background: none;
         border: $rc-accent-blue-60-outline;
+        display: block;
         @include inputPlaceholder() {
             color: $rc-grey;
             opacity: 1;

@@ -1,6 +1,6 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormBuilder, Validators } from '@angular/forms';
-import { InputConfig } from './../../models/Input-config';
+import { InputConfig } from './../../models/input/Input-config';
 import { get } from 'lodash';
 @Component({
   selector: 'app-input',
@@ -59,7 +59,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   }
 
   get isDisable() {
-    return get(this.config?.inputStatus, 'isDisabled', false);
+    return get(this.config?.formStatus, 'isDisabled', false);
   }
 
 }
