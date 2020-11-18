@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: StyleGuideComponent,
+    component: HomeComponent,
     data: { title: 'style guide' },
   },
   /* {

@@ -122,7 +122,6 @@ export class TableService {
     orderByOptions?: any
   ) {
     const columns = Object.keys(filterObj);
-    console.log(columns)
     let urlOptions = {};
     const filters = [];
     columns.forEach((el) => {

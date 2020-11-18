@@ -161,6 +161,23 @@ $def-box-shadow: rgba(0, 0, 0, 0.15);
   );
 }
 .btn-export{
-  background-color: transparent !important;
-  border: 2px solid #D9471F !important ;
+  background-color: transparent !important;  
+  box-sizing: border-box;
+  border: 2px solid #D9471F;
+  border-radius: 3px !important;
+  color: $rc-black;
+  font-family: Montserrat;
+  font-size: rem(12);
+  letter-spacing: 0;
+  line-height: rem(16);
+  text-align: center;
+}
+.add-customer{ 
+  color: #FFFFFF;
+  font-family: Montserrat;
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 16px;
+  text-align: center;
+  border-radius: 3px !important;
 }

@@ -9,6 +9,14 @@
 html {
   height: 100%;
 }
+.a-ellipse{
+  z-index: 100 !important;
+}
+.dropdown-menu{
+  z-index: 10000 !important;  
+  left: auto !important;
+  right: 0 !important;
+}
 .datatable-body-cell{
   overflow: visible !important;
 }

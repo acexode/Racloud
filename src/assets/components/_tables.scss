@@ -83,14 +83,13 @@
 
     }
     .datatable-header-cell {
-      vertical-align: bottom;
-      padding: 0;
-      // border-bottom: 1px solid $medium-grey-2;
-      // border-right: 1px solid $medium-grey-2;
-      font-size: $font-size-base;
+      color: $rc-accent-blue-160;
+      font-family: Montserrat;
+      font-size: 12px;
       font-weight: bold;
       letter-spacing: 0;
-      line-height: rem(24);
+      line-height: 12px;
+      line-height: rem(12);
       &:last-child {
         border-right: none;
       }
@@ -209,8 +208,8 @@
     .datatable-body-cell {
       padding: rem(8) rem(12);
       font-size: rem(14);
-      line-height: rem(23);
-      color: $grey2;
+      line-height: rem(16);
+      color: $rc-black;
       text-align: left;
       vertical-align: top;
       border-bottom: 1px dotted $medium-grey-2;

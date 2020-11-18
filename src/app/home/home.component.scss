@@ -1,17 +1,7 @@
-.a-ellipse{
-    z-index: 100 !important;
-  
-}
-.dropdown-menu{
-    z-index: 10000 !important;  
-    left: auto !important;
-    right: 0 !important;
-}
-.datatable-body-cell{
-    overflow: visible !important;
-}
+@import '../../assets/variables';
+
 .pyramid-title {  
-    color: #6A7098;
+    color: $rc-accent-blue;
     font-family: Montserrat;
     font-size: 11px;
     font-weight: 600;
@@ -20,22 +10,11 @@
     margin-bottom: 0px;
   }
 
-  .customers-title {
-    height: 40px;
-    width: 200px;
+  .customers-title {    
     color: #D9471F;
     font-family: Montserrat;
     font-size: 37px;
     font-weight: 500;
     letter-spacing: 0;
     line-height: 40px;
-  }
-  .add-customer{ 
-    color: #FFFFFF;
-    font-family: Montserrat;
-    font-size: 12px;
-    letter-spacing: 0;
-    line-height: 16px;
-    text-align: center;
-    border-radius: 3px;
   }
