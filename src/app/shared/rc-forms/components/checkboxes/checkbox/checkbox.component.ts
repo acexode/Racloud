@@ -14,7 +14,6 @@ export class CheckboxComponent implements OnInit {
   }
 
   get isChecked() {
-    console.log(this.checked);
     return this.checked ?? false;
   }
 
