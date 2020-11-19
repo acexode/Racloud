@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="14px" height="7px" viewBox="0 0 14 7" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
-    <title>icon/chevron</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Style-Guide" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Styleguide" transform="translate(-377.000000, -5262.000000)" fill="#161A37">
-            <g id="Group-22" transform="translate(135.000000, 5217.000000)">
-                <g id="Group-21" transform="translate(0.000000, 40.000000)">
-                    <g id="icon/chevron" transform="translate(241.000000, 0.000000)">
-                        <polygon id="Path-4" points="1 5 15 5 7.8626098 12"></polygon>
-                    </g>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>02E97C17-F8D0-4A4F-9769-F28176E85513</title>
+    <g id="🎨-Styleguide" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="00-01-Styleguide" transform="translate(-375.000000, -5172.000000)" fill="#6A7098">
+            <g id="Group-9" transform="translate(87.000000, 5116.000000)">
+                <g id="Icon" transform="translate(288.000000, 56.000000)">
+                    <path d="M7.32,6.24 L11.9333333,9.7 C12.3751611,10.0313708 12.4647042,10.6581722 12.1333333,11.1 C12.0764791,11.1758057 12.009139,11.2431458 11.9333333,11.3 L7.32,14.76 C7.23163444,14.8262742 7.10627417,14.8083656 7.04,14.72 C7.01403557,14.6853808 7,14.643274 7,14.6 L7,6.4 C7,6.28954305 7.08954305,6.2 7.2,6.2 C7.24327404,6.2 7.28538077,6.21403557 7.32,6.24 Z" id="🍎-Color" transform="translate(10.000000, 10.500000) rotate(-270.000000) translate(-10.000000, -10.500000) "></path>
                 </g>
             </g>
         </g>

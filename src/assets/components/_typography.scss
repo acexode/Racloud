@@ -4,6 +4,49 @@
 $font-size-base: 1rem;
 $font-family-base: $font-family-sans-serif;
 
+.montserrat-regular-font {
+  font-family: $font-montserrat;
+  font-size: normal;
+}
+
+.helvetica-neue-regular {
+  font-family: $font-helveticaNeue;
+}
+
+.text-weight-medium {
+  font-weight: 500 !important;
+}
+
+.text-weight-normal {
+  font-weight: normal !important;
+}
+
+.text-weight-bold {
+  font-weight: 600;
+}
+
+h1,
+h2 {
+  font-family: $font-montserrat;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: $rc-accent-blue-160;
+}
+h1 {
+  font-size: rem(37) !important;
+  line-height: rem(40) !important;
+}
+
+h2 {
+  font-size: rem(30) !important;
+  line-height: rem(40) !important;
+}
+
+h3 {
+  font-size: rem(22) !important;
+  line-height: rem(32) !important;
+}
+
 .text2 {
   font-size: rem(14);
   line-height: rem(20);
@@ -105,4 +148,44 @@ $font-family-base: $font-family-sans-serif;
   font-weight: normal;
   padding-bottom: rem(4);
   border-bottom: rem(1) solid $red;
+}
+
+.text-small {
+  font-size: rem(12);
+  line-height: rem(16);
+}
+
+.text-x-small {
+  font-size: rem(11);
+  line-height: rem(16);
+}
+
+.s11-h16 {
+  font-size: rem(11) !important;
+  line-height: rem(16) !important;
+}
+
+.s12-h16 {
+  font-size: rem(12) !important;
+  line-height: rem(16) !important;
+}
+
+.s14-h16 {
+  font-size: rem(14) !important;
+  line-height: rem(16) !important;
+}
+
+.s22-h32 {
+  font-size: rem(30) !important;
+  line-height: rem(40) !important;
+}
+
+.s30-h40 {
+  font-size: rem(30) !important;
+  line-height: rem(40) !important;
+}
+
+.s37-h40 {
+  font-size: rem(37) !important;
+  line-height: rem(40) !important;
 }
