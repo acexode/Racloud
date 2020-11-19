@@ -257,11 +257,14 @@
     ul {
       li {
         margin: 10px 0px;
-
+        line-height: 16px;
         &:not(.disabled) {
           &.active {
-            a {
-              border: 2px solid #D9471F !important;
+            box-sizing: border-box;
+            border: 2px solid #D9471F !important;
+            border-radius: 3px;
+            text-align: center;
+            a {  
               color: #D9471F !important;
               font-weight: bold;
             }
@@ -302,29 +305,39 @@
     .datatable-icon-skip,
     .datatable-icon-right,
     .datatable-icon-prev {
-      width: rem(20);
-      height: rem(20);
-      padding: 0 !important;
+      width: rem(32);
+      height: rem(32);
+      color: $rc-primary;
+      font-family: Montserrat;
+      font-size: rem(16);
+      font-weight: bold;
+      letter-spacing: 0;
+      line-height: rem(16);
+      text-align: center;
+      
     }
     .datatable-icon-left:before {
-      content: url("~src/assets/images/dubble-left.svg");
+      content: url("~src/assets/images/caret-left.svg");
       background-color: transparent;
     }
     .datatable-icon-right:before {
-      content: url("~src/assets/images/dubble-right.svg");
+      content: url("~src/assets/images/caret-right.svg");
     }
-    .datatable-icon-prev:before {
-      content: url("~src/assets/images/dubble-arrow-left.svg");
-    }
-    .datatable-icon-skip:before {
-      content: url("~src/assets/images/dubble-arrow-right.svg");
-    }
-    .datatable-icon-detail:before {
-      content: url("~src/assets/images/arrow-right.svg");
-    }
+    // .datatable-icon-prev:before {
+    //   content: url("~src/assets/images/dubble-arrow-left.svg");
+    // }
+    // .datatable-icon-skip:before {
+    //   content: url("~src/assets/images/dubble-arrow-right.svg");
+    // }
+    // .datatable-icon-detail:before {
+    //   content: url("~src/assets/images/arrow-right.svg");
+    // }
   }
 }
-
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li {     
+      width: rem(32);
+      height: rem(32);
+}
 .left-icon {
   margin-right: rem(12);
   // width: rem(20);
@@ -339,18 +352,20 @@
 .ngx-datatable {
   /* height */
   ::-webkit-scrollbar {
-    height: rem(8);
+    height: rem(8); 
   }
 
   /* Track */
   ::-webkit-scrollbar-track {
-    background: $ultra-light-grey-2;
+    background: $rc-light-grey;
     border: 1px solid $light-grey;
   }
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: $light-grey;
+    background: $rc-secondary;
+    width: rem(60) !important;
+    height: rem(8);
     border-radius: rem(4);
   }
 

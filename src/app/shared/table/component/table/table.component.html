@@ -322,7 +322,7 @@
   <div class="footer-container">
     <ngx-datatable-footer>
       <ng-template
-      class="mt-4"
+      class="mt-4 row"
         ngx-datatable-footer-template
         let-rowCount="rowCount"
         let-pageSize="pageSize"
@@ -331,10 +331,10 @@
         let-offset="offset"
         let-isVisible="isVisible"
       >     
-        <div class="pageCount mr-5">
+        <div class="pageCount col-2 ">
          <button class="btn btn-export rounded-0">Export</button>
         </div>
-        <div class="pageCount ml-5">
+        <div class="pageCount col-6 text-center">
           <span class="bold"
             >{{ curPage === 1 ? 1 : (curPage - 1) * pageSize + 1 }} -
             {{
@@ -345,11 +345,9 @@
           <span class="bold"> {{ rowCount }}</span>
         </div>
         <datatable-pager
-          class="align-items-center"
+          class="align-items-center col-4"
           [pagerLeftArrowIcon]="'datatable-icon-left'"
           [pagerRightArrowIcon]="'datatable-icon-right'"
-          [pagerPreviousIcon]="'datatable-icon-prev'"
-          [pagerNextIcon]="'datatable-icon-skip'"
           [page]="curPage"
           [size]="pageSize"
           [count]="rowCount"

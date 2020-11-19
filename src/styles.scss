@@ -12,6 +12,20 @@ html {
 .a-ellipse{
   z-index: 100 !important;
 }
+.dropdown-item{ 
+  height: rem(40);
+  color: $rc-grey;
+  font-family: Montserrat;
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 24px;
+  transition: all 0.5s ease;
+}
+.dropdown-item:hover, .dropdown-item:focus{ 
+  background-color: $rc-light-grey;
+  font-weight: 500;
+  color: $rc-accent-blue-160;
+}
 .dropdown-menu{
   z-index: 10000 !important;  
   left: auto !important;
