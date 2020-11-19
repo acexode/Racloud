@@ -12,7 +12,7 @@
         color: $rc-black;
         font-size: rem(14) !important;
         line-height: rem(16) !important;
-        padding: rem(4) rem(12);
+        padding: rem(8) rem(12);
         border-radius: rem(2);
         letter-spacing: 0;
         width: 100%;
@@ -50,7 +50,7 @@
         @include justify-content(center);
         @include align-items(center);
         @include flex-wrap(wrap);
-        padding: rem(4) rem(12);
+        padding: rem(8) rem(8) rem(8) rem(12);
         .input-prefix-text {
             font-family: $font-helveticaNeue;
             font-size: rem(14) !important;
@@ -58,6 +58,7 @@
             color: $rc-grey;
         }
     }
+    
     &.rc-form-group-without-prefix {
         &.rc-form-group-without-prefix-focus {
             input {
@@ -89,6 +90,7 @@
             }
         }
     }
+
     &.rc-form-group-with-prefix {
         border: $rc-accent-blue-60-outline;
         border-radius: rem(2);
@@ -96,7 +98,7 @@
            border: $rc-secondary-ouline;
         }
         input {
-            padding: rem(4) rem(12) rem(4) 0;
+            padding: rem(8) rem(12) rem(8) 0;
             border: none !important;
             position: relative;
             -ms-flex: 1 1 auto;

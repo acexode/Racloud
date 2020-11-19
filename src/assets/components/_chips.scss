@@ -23,6 +23,12 @@
     opacity: 1;
     text-decoration: $rc-none;
   }
+  &:hover,
+  &.hover {
+    background: $white !important;
+    border: $rc-accent-blue-outline !important;
+    color: $rc-black;
+  }
 }
 
 .chips {

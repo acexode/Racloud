@@ -5,10 +5,10 @@
   select {
     width: 100%;
     background: transparent url("~src/assets/images/chevron.svg") no-repeat right
-      rem(12) center/rem(20) rem(20);
+      rem(3) center/rem(20) rem(20);
     font-size: rem(14) !important;
     line-height: rem(16) !important;
-    padding: rem(4) rem(12);
+    padding: rem(8) rem(6) rem(8) rem(12);
     border: none;
     border: $rc-accent-blue-60-outline;
     box-shadow: none;
