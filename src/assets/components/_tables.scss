@@ -154,6 +154,11 @@
     .datatable-body-cell {
     &:not(.hover-detail) {
       background-color: $ultra-light-red;
+      color: $rc-black;
+      font-family: "Helvetica Neue";
+      font-size: 14px;
+      letter-spacing: 0;
+      line-height: 16px;
       border-bottom: 1px solid #D9471F;
       .datatable-body-cell-label {
         .custom-control-label {
