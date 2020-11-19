@@ -71,5 +71,13 @@ export class RadioComponent implements OnInit, ControlValueAccessor {
     return field ? field.value : null;
   }
 
+  get radioFg() {
+    return this.formGroup.get('radio');
+  }
+
+  toggleRadio(item) {
+    this.radioFg.setValue(item.id);
+    this.cdRef.markForCheck();
+  }
 
 }
