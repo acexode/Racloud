@@ -8,6 +8,9 @@
     @include align-items(center);
     label {
         margin: 0;
+        color: $rc-grey;
+    }
+    .checked {
         color: $rc-black;
     }
     .rc-checkbox-icon {

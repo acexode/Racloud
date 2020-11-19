@@ -16,15 +16,22 @@
         /* make */
         &:checked{
             & + .rc-custom-radio-icon::after {
-            display: block;
+                background: $rc-primary;
+                display: block;
             }
+            & + .rc-custom-radio-icon {
+                border: $rc-primary-outline;
+            }
+            & ~ .rc-radio-label {
+                    color: $rc-black;
+                }
         }
     }
     
     .rc-custom-radio-icon {
         width: rem(20);
         height: rem(20);
-        border: $rc-primary-outline;
+        border: $rc-accent-blue-60-outline;
         border-radius: 50%;
         display: block;
         padding: rem(2);
@@ -33,12 +40,12 @@
             content: "";
             height: 100%;
             width: 100%;
-            background: $rc-primary;
+            background: none;
             display: none;
             border-radius: 50%;
         }
     }
     .rc-radio-label {
-        color: $rc-black;
+        color: $rc-grey;
     }
 }

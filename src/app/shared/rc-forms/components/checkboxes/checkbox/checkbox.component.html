@@ -12,7 +12,7 @@
             alt="Checkbox-unmarked" 
             class="rc-checkbox-icon"
         >
-        <label for="" class="s14-h16">
+        <label for="" class="s14-h16" [ngClass]="{'checked': isChecked}">
             <ng-content></ng-content>
         </label>
     </div>
