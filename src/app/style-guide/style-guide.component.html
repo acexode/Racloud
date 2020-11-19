@@ -196,7 +196,34 @@
 
     <div class="row">
         <div class="col-3 p-3">
-            <app-checkbox></app-checkbox>
+
+            <app-checkbox [checked]="false">
+                Default, not checked
+            </app-checkbox>
+
+            <app-checkbox [checked]="true">
+                Selected, checked
+            </app-checkbox>
+
+            <!-- multiple -->
+            <app-checkboxes title="All options">
+                <app-checkbox [checked]="true">
+                    First Option
+                </app-checkbox>
+                
+                <app-checkbox [checked]="true">
+                    second Option
+                </app-checkbox>
+
+                <app-checkbox [checked]="false">
+                    First Option
+                </app-checkbox>
+                
+                <app-checkbox [checked]="false">
+                    second Option
+                </app-checkbox>
+
+            </app-checkboxes>
         </div>
     </div>
 

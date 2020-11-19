@@ -1,0 +1,19 @@
+<ng-container>
+    <div class="rc-checkbox">
+        <img
+            *ngIf="!isChecked"
+            src="assets/images/Checkbox-unmarked.svg" 
+            alt="Checkbox-unmarked" 
+            class="rc-checkbox-icon"
+        >
+        <img 
+            *ngIf="isChecked"
+            src="assets/images/Checkbox-marked.svg" 
+            alt="Checkbox-unmarked" 
+            class="rc-checkbox-icon"
+        >
+        <label for="" class="s14-h16">
+            <ng-content></ng-content>
+        </label>
+    </div>
+</ng-container>
