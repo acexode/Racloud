@@ -89,29 +89,30 @@
   position: absolute;
 }
 
-.arrow {
-  @media (min-width: 768px) and (max-width: 991.98px) {
-    padding-left: rem(78);
-  }
-  @media (min-width: 992px) and (max-width: 1199.98px) {
-    padding-left: rem(112);
-  }
-  @media (min-width: 1200px) and (max-width: 1365px) {
-    padding-left: rem(134);
-  }
-  @media (min-width: 1366px) and (max-width: 1439px) {
-    padding-left: rem(162);
-  }
-  @media (min-width: 1440px) and (max-width: 1600px) {
-    padding-left: rem(172);
-  }
-  @media (min-width: 1601px) and (max-width: 1919px) {
-    padding-left: rem(172);
-  }
-  @media (min-width: 1920px) {
-    padding-left: rem(252);
-  }
-}
+// .arrow {
+//   @media (min-width: 768px) and (max-width: 991.98px) {
+//     padding-left: rem(78);
+//   }
+//   @media (min-width: 992px) and (max-width: 1199.98px) {
+//     padding-left: rem(112);
+//   }
+//   @media (min-width: 1200px) and (max-width: 1365px) {
+//     padding-left: rem(134);
+//   }
+//   @media (min-width: 1366px) and (max-width: 1439px) {
+//     padding-left: rem(162);
+//   }
+//   @media (min-width: 1440px) and (max-width: 1600px) {
+//     padding-left: rem(172);
+//   }
+//   @media (min-width: 1601px) and (max-width: 1919px) {
+//     padding-left: rem(172);
+//   }
+//   @media (min-width: 1920px) {
+//     padding-left: rem(252);
+//   }
+// }
+
 .navbar-nav .dropdown-menu {
   position: absolute;
   top: rem(38) !important;
@@ -131,4 +132,20 @@
 
 .dropdown-divider {
   border-top: 1px solid $dark-green;
+}
+.name {
+  color: #464976;
+  font-family: Montserrat;
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 24px;
+  text-align: right;
+}
+.organization { 
+  color: #878999;  
+  font-family: Montserrat;
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 16px;
+  float: right
 }
