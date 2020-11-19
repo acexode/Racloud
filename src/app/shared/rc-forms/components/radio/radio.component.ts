@@ -11,7 +11,7 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 @Component({
-  selector: 'app-radios',
+  selector: 'app-radio',
   templateUrl: './radio.component.html',
   styleUrls: ['./radio.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
