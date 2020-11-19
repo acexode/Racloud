@@ -14,7 +14,7 @@
         display: none;
 
         /* make */
-        &:checked{
+        &:checked {
             & + .rc-custom-radio-icon::after {
                 background: $rc-primary;
                 display: block;
