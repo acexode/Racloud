@@ -22,13 +22,13 @@ export class SidebarComponent implements OnInit {
     {
       name: 'Licenses',
       url: '/licenses',
-      icon: '../../assets/images/License.svg',  
+      icon: '../../assets/images/License.svg', 
       children: null,
     },
     {
       name: 'Users',
       url: '/users',
-      icon: '../../assets/images/User.svg', 
+      icon: '../../assets/images/User.svg',
       children: null,
     },
     {
