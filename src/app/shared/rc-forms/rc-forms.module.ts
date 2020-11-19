@@ -7,15 +7,16 @@ import { ButtonComponent } from './components/button/button.component';
 import { ChipsComponent } from './components/chips/chips.component';
 import { CheckboxComponent } from './components/checkboxes/checkbox/checkbox.component';
 import { CheckboxesComponent } from './components/checkboxes/checkboxes.component';
+import { RadioComponent } from './components/radio/radio.component';
 
 
 
 @NgModule({
-  declarations: [InputComponent, SelectComponent, ButtonComponent, ChipsComponent, CheckboxComponent, CheckboxesComponent],
+  declarations: [InputComponent, SelectComponent, ButtonComponent, ChipsComponent, CheckboxComponent, CheckboxesComponent, RadioComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule
   ],
-  exports: [InputComponent, SelectComponent, ButtonComponent, ChipsComponent, CheckboxComponent, CheckboxesComponent],
+  exports: [InputComponent, SelectComponent, ButtonComponent, ChipsComponent, CheckboxComponent, CheckboxesComponent, RadioComponent],
 })
 export class RcFormsModule { }

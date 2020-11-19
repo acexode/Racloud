@@ -1,0 +1,44 @@
+@import "../variables";
+@import "../mixins";
+
+.rc-radio {
+    margin: rem(16) 0;
+    @include flexbox;
+    @include flex-direction(row);
+    @include justify-content(flex-start);
+    @include align-items(center);
+
+    cursor: pointer;
+    
+    input[type='radio']{
+        display: none;
+
+        /* make */
+        &:checked{
+            & + .rc-custom-radio-icon::after {
+            display: block;
+            }
+        }
+    }
+    
+    .rc-custom-radio-icon {
+        width: rem(20);
+        height: rem(20);
+        border: $rc-primary-outline;
+        border-radius: 50%;
+        display: block;
+        padding: rem(2);
+        margin-right: rem(12);
+        &::after {
+            content: "";
+            height: 100%;
+            width: 100%;
+            background: $rc-primary;
+            display: none;
+            border-radius: 50%;
+        }
+    }
+    .rc-radio-label {
+        color: $rc-black;
+    }
+}

@@ -8,8 +8,9 @@
     @include align-items(center);
     label {
         margin: 0;
+        color: $rc-black;
     }
-    .rc-checkbox-icon{
+    .rc-checkbox-icon {
         width: rem(16);
         height: rem(16);
         margin-right: rem(12);
