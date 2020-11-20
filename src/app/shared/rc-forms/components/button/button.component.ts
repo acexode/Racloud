@@ -8,17 +8,19 @@ import { Component, Input, OnInit, ChangeDetectorRef, } from '@angular/core';
 export class ButtonComponent implements OnInit {
   @Input() type: string;
   @Input() color: string;
+
+  @Input() class: string;
   @Input() disabled: boolean;
 
   btnClasses = {
-    primary: 'btn-primary',
-    secondary: 'btn-secondary',
-    tertiary: 'btn-tertiary',
+    primary: 'btn btn-primary',
+    secondary: 'btn btn-secondary',
+    tertiary: 'btn-no-padding btn-tertiary',
   };
   constructor(private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-
+    console.log(this.type)
   }
 
   get btnClass() {

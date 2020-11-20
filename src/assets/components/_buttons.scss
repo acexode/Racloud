@@ -4,6 +4,8 @@
 $btn-font-family: $font-family-base;
 $btn-primary-color: $white;
 $def-box-shadow: rgba(0, 0, 0, 0.15);
+$btn-padding-y-zero: 0;
+$btn-padding-x-zero: 0;
 @mixin button-style(
   $background,
   $border,
@@ -48,6 +50,7 @@ $def-box-shadow: rgba(0, 0, 0, 0.15);
     color: $disabled-color !important;
     opacity: 1;
     text-decoration: $rc-none;
+    pointer-events: none;
   }
   &:not(:disabled):not(.disabled):active,
   &:not(:disabled):not(.disabled).active,
@@ -72,7 +75,8 @@ $def-box-shadow: rgba(0, 0, 0, 0.15);
 }
 
 .btn {
-  font-weight: bold;
+  font-family: $font-montserrat;
+  font-weight: normal;
   min-width: $rc-btn-min-width;
   @include button-size(
     $btn-padding-y,
@@ -82,7 +86,19 @@ $def-box-shadow: rgba(0, 0, 0, 0.15);
     $btn-border-radius
   );
 }
-
+.btn-no-padding {
+  font-family: $font-montserrat;
+  font-weight: normal;
+  min-width: $rc-btn-min-width;
+  @include button-size(
+    $btn-padding-y-zero,
+    $btn-padding-x-zero,
+    $btn-font-size,
+    $btn-line-height,
+    $btn-border-radius
+  );
+  cursor: pointer;
+}
 // @mixin button-variant($background, $border, $hover-background: darken($background, 7.5%), $hover-border: darken($border, 10%), $active-background: darken($background, 10%), $active-border: darken($border, 12.5%)) {
 .btn,
 .btn-primary {

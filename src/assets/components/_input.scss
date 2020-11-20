@@ -50,7 +50,7 @@
         @include justify-content(center);
         @include align-items(center);
         @include flex-wrap(wrap);
-        padding: rem(8) rem(8) rem(8) rem(12);
+        padding: rem(7) rem(8) rem(9) rem(12);
         .input-prefix-text {
             font-family: $font-helveticaNeue;
             font-size: rem(14) !important;

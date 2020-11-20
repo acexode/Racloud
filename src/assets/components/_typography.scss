@@ -6,7 +6,19 @@ $font-family-base: $font-family-sans-serif;
 
 .montserrat-regular-font {
   font-family: $font-montserrat;
-  font-size: normal;
+  font-weight: normal;
+}
+.montserrat-medium-font {
+  font-family: $font-montserrat;
+  font-weight: 500;
+}
+.montserrat-bold-font {
+  font-family: $font-montserrat;
+  font-weight: bold;
+}
+.montserrat-semibold-font {
+  font-family: $font-montserrat;
+  font-weight: 600;
 }
 
 .helvetica-neue-regular {
@@ -23,6 +35,10 @@ $font-family-base: $font-family-sans-serif;
 
 .text-weight-bold {
   font-weight: 600;
+}
+
+.ls-0 {
+  letter-spacing: 0 !important;
 }
 
 h1,
@@ -174,6 +190,11 @@ h3 {
 .s14-h16 {
   font-size: rem(14) !important;
   line-height: rem(16) !important;
+}
+
+.s15-h24 {
+  font-size: rem(15) !important;
+  line-height: rem(24) !important;
 }
 
 .s22-h32 {

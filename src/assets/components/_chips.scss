@@ -13,6 +13,7 @@
   color: $color;
   background: $background;
   border: $border;
+  border-radius: rem(4);
   box-shadow: none !important;
   outline: $rc-none;
   &:disabled,
@@ -26,7 +27,8 @@
 }
 
 .chips {
-    font-weight: bold;
+    font-family: $font-montserrat;
+    font-weight: normal;
     min-width: $rc-btn-min-width;
     @include button-size(
         $btn-padding-y,
@@ -52,7 +54,7 @@
         $def-shadow: transparent;
         @include chips-style(
             $rc-secondary-hover,
-            $rc-primary-outline,
+            $rc-primary-hover-outline,
             $rc-primary,
             $white,
             $rc-disabled-ouline,
