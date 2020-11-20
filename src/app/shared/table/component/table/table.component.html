@@ -334,7 +334,7 @@
         <div class="pageCount col-2 ">
          <button class="btn btn-export rounded-0">Export</button>
         </div>
-        <div class="pageCount col-6 text-center">
+        <div class="pageCount col-5 text-center">
           <span class="bold"
             >{{ curPage === 1 ? 1 : (curPage - 1) * pageSize + 1 }} -
             {{
@@ -345,7 +345,7 @@
           <span class="bold"> {{ rowCount }}</span>
         </div>
         <datatable-pager
-          class="align-items-center col-4"
+          class="align-items-center justify-content-end col-5"
           [pagerLeftArrowIcon]="'datatable-icon-left'"
           [pagerRightArrowIcon]="'datatable-icon-right'"
           [page]="curPage"
