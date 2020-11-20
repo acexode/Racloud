@@ -32,7 +32,8 @@
             display: block;
             width: rem(28);
             height: rem(14);
-            // background: transparent url("~src/assets/images/Close-toggle.svg") no-repeat right rem(0) center/rem(20) rem(20);
+            background: transparent url("~src/assets/images/Toggle-off.svg") no-repeat right rem(0) center/rem(8) rem(8);
+            background-position: center center !important;
         }
     }
     input[type='checkbox']{
@@ -43,10 +44,9 @@
             & + .toggle-icon {
                 background: $rc-primary;
                 @include transform-translate-X(16);
-                /*.icon {
-                     background: transparent url("~src/assets/images/check.svg") no-repeat right
-                    rem(0) center/rem(20) rem(20); 
-                }*/
+                .icon {
+                     background: transparent url("~src/assets/images/Toggle-Check.svg") no-repeat right rem(0) center/rem(8) rem(8);
+                }
             }
             & ~ .slider {
                 background: $rc-primary-30;
