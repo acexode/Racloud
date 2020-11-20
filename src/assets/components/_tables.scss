@@ -328,18 +328,22 @@
     ul {
       li {
         margin: 10px 0px;
-        line-height: 16px;
+        
         &:not(.disabled) {
           &.active {
             box-sizing: border-box;
             border: 2px solid #D9471F !important;
             border-radius: 3px;
+            letter-spacing: 0; 
             // text-align: center;
-            padding-right: rem(6);
-            padding-top: rem(3);
+            padding-top: 4px;
+            padding-right: rem(8);
             a {  
-              color: #D9471F !important;
+              color: #D9471F !important; 
+              font-family: Montserrat;
+              font-size: 12px;
               font-weight: bold;
+             
             }
           }
         }
