@@ -43,3 +43,22 @@ margin-top: 0.5em !important;
 padding-top: 15px;
 height: 120px !important;
 }
+.pyramid-title {  
+  color: $rc-accent-blue;
+  font-family: Montserrat;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  line-height: 16px;
+  margin-top: rem(24);
+  margin-bottom: 0px;
+}
+
+.customers-title {    
+  color: #D9471F;
+  font-family: Montserrat;
+  font-size: 37px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 40px;
+}

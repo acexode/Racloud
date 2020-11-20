@@ -73,8 +73,8 @@
     pointer-events: none !important;
   }
   .datatable-header {
-    height: rem(80) !important;
-
+    height: rem(85) !important;
+    border-bottom: 1px dotted $medium-grey-2;
     background-color: $white;
     &.active {
       color: $base-text-color !important;
@@ -107,7 +107,7 @@
         }
       }
       .second-row {
-        padding: 0;
+        padding: 0;  
       }
       &:first-child {
         .first-row {
@@ -116,6 +116,7 @@
         }
         .second-row {
           padding: 0;
+          
         }
       }
       &:not(.sort-active) {
