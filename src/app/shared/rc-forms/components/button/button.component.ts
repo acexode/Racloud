@@ -20,7 +20,6 @@ export class ButtonComponent implements OnInit {
   constructor(private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    console.log(this.type)
   }
 
   get btnClass() {
