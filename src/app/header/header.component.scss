@@ -149,3 +149,41 @@
   line-height: 16px;
   float: right
 }
+
+.choose-company {
+  height: 16px;  
+  color: #878999;
+  font-family: Montserrat;
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 16px;
+}
+.rc-dropdown .dropdown-item{
+  border-bottom: none !important;
+}
+.rc-item{
+  height: 56;
+  padding: 8px 16px;
+}
+.rc-divider-item{
+  height: 40;
+  padding: 8px 16px;
+}
+.rc-item a {  
+  color: #878999;
+  font-family: Montserrat;
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+.rc-item .secondary { 
+  color: #878999;
+  font-family: Montserrat;
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 16px;
+}
+.rc-dropdown-divider{
+  border-top: 1px solid #CDE0EC !important;
+  margin: 8px 0px;
+}

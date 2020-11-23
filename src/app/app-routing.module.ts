@@ -11,17 +11,16 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: HomeComponent,
-    data: { title: 'style guide' },
+    redirectTo: '/style'
   },
-  /* {
-    path: '',
-    pathMatch: 'full',
+  {
+    path: 'home',
     canActivate: [AuthGuard],
     component: HomeComponent,
-    data: { title: 'Acasa'
-   },
-  }, */
+    data: {
+      title: 'Acasa'
+    },
+  },
   {
     path: 'login',
     data: { title: 'Login' },

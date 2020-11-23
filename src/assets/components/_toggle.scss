@@ -1,0 +1,56 @@
+@import "../variables";
+@import "../mixins";
+
+.rc-toggle {
+    @include flexbox;
+    @include flex-direction(row);
+    @include justify-content(flex-start);
+    @include align-items(center);
+
+    cursor: pointer;
+    position: relative;
+
+    .slider {
+        width: rem(36);
+        height: rem(14);
+        background: $rc-accent-blue-30;
+        border-radius: rem(7);
+        position: relative;
+    }
+    .toggle-icon {
+        position: absolute;
+        z-index: 2;
+        width: rem(20);
+        height: rem(20);
+        background: $rc-accent-blue-60;
+        border-radius: 50%;
+        @include flexbox;
+        @include justify-content(center);
+        @include align-items(center);
+        transition: 0.5s all ease-in-out;
+        .icon {
+            display: block;
+            width: rem(28);
+            height: rem(14);
+            background: transparent url("~src/assets/images/Toggle-off.svg") no-repeat right rem(0) center/rem(8) rem(8);
+            background-position: center center !important;
+        }
+    }
+    input[type='checkbox']{
+        display: none;
+
+        /* make */
+        &:checked{
+            & + .toggle-icon {
+                background: $rc-primary;
+                @include transform-translate-X(16);
+                .icon {
+                     background: transparent url("~src/assets/images/Toggle-Check.svg") no-repeat right rem(0) center/rem(8) rem(8);
+                }
+            }
+            & ~ .slider {
+                background: $rc-primary-30;
+            }
+        } 
+    }
+}
