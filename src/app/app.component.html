@@ -12,7 +12,7 @@
     <div
       class="mx-0 d-flex flex-column"
       [ngClass]="{
-        'col-10 p-32': (account | async) && this.notFound === false,
+        'col-10': (account | async) && this.notFound === false,
         'col-12': (account | async) === null || this.notFound === true
       }"
     >
@@ -25,16 +25,19 @@
         <app-footer class="w-100 d-flex flex-column mt-32"></app-footer>
       </div>
       <footer
-        class="row footer d-flex justify-content-between"
+        class="row footer d-flex justify-content-between mx-0"
        
       >
-        <div class="col-6">
+        <div class="col-6 footer-links">
           <a href="">Privacy Policy</a>
           <a href="">Support</a>
         </div>
-        <span 
-          >© Copyright{{ currentYear }}, RA-Cloud Workshop</span
-        >
+        <div class="col-6  text-right">
+          <span class="copyright-2020-ra"
+            >© Copyright{{ currentYear }}, RA-Cloud Workshop</span
+          >
+
+        </div>
       </footer>
     </div>
   </div>

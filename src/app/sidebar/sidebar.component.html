@@ -3,14 +3,14 @@
     <div *ngFor="let menu of menuJSON">
       <div
         *ngIf="!menu.children || (menu.children && menu.children.length === 0)"
-        class="nav-item menu-item d-flex flex-row justify-content-apart py-11 px-11 mx-11"
+        class="nav-item menu-item d-flex flex-row justify-content-apart"
         [routerLink]="[menu.url]"
         routerLinkActive="active-link"
         [routerLinkActiveOptions]="{ exact: true }"
         (click)="hideSubmenu()"
       >      
         <svg-icon
-          class="nav-icon mr-3 "
+          class="nav-icon"
           src="{{ menu.icon }}"
           [applyClass]="true"
         ></svg-icon>
