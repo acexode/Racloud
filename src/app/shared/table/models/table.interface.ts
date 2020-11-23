@@ -37,4 +37,5 @@ export interface TableI {
   externalPaging?: boolean;
   externalSorting?: boolean;
   loadingIndicator?: boolean;
+  action?: boolean;
 }

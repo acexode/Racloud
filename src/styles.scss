@@ -9,3 +9,58 @@
 html {
   height: 100%;
 }
+.a-ellipse{
+  z-index: 100 !important;
+}
+.dropdown-item{ 
+  height: rem(40);
+  color: $rc-grey;
+  font-family: Montserrat;
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 24px;
+  transition: all 0.5s ease;
+}
+.dropdown-item:hover, .dropdown-item:focus{ 
+  background-color: $rc-light-grey;
+  font-weight: 500;
+  color: $rc-accent-blue-160;
+}
+.dropdown-menu{
+  z-index: 10000 !important;  
+  left: auto !important;
+  right: 0 !important;
+}
+.datatable-body-cell{
+  overflow: visible !important;
+}
+.datatable-footer-inner[style]{
+  height: 100px !important;
+}
+.ngx-datatable.bootstrap .datatable-header .datatable-header-cell {
+   border-bottom: 1px dotted $rc-accent-blue-160; 
+}
+.footer-container{
+margin-top: 0.5em !important;
+padding-top: 15px;
+height: 120px !important;
+}
+.pyramid-title {  
+  color: $rc-accent-blue;
+  font-family: Montserrat;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  line-height: 16px;
+  margin-top: rem(24);
+  margin-bottom: 0px;
+}
+
+.customers-title {    
+  color: #D9471F;
+  font-family: Montserrat;
+  font-size: 37px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 40px;
+}
