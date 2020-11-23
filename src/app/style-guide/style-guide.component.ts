@@ -34,7 +34,7 @@ export class StyleGuideComponent implements OnInit {
   configDisabledWithPrefix: InputConfig = InputConfigDisabledWithPrefix();
   configFocusWithPrefix: InputConfig = InputConfigFocusWithPrefix();
   configErrorWithPrefix: InputConfig = InputConfigErrorWithPrefix();
-/*  */
+  /*  */
   selectOptions = [
     {
       id: 'filled',
@@ -44,7 +44,7 @@ export class StyleGuideComponent implements OnInit {
       id: 'sub-filled',
       option: 'sub-Filled / Activated'
     }
-  ]
+  ];
   selectConfig: SelectConfig = {
     selectLabel: {
       text: 'Label'
@@ -92,6 +92,16 @@ export class StyleGuideComponent implements OnInit {
     }
   };
   styleForm: FormGroup;
+
+  tabSwitch = 'tab1';
+  tabA = {
+    name: 'Tab1',
+    role: 'header'
+  };
+  tabB = {
+    name: 'Tab2',
+    role: 'notSelected'
+  };
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
@@ -123,5 +133,9 @@ export class StyleGuideComponent implements OnInit {
 
   submitIt(): void {
     console.log(this.theInputText.value);
+  }
+
+  switchTab(tabName: string) {
+    this.tabSwitch = tabName;
   }
 }

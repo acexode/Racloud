@@ -29,7 +29,7 @@ import { OmnDatePickerModule } from './shared/date-picker/date-picker.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { RcFormsModule } from './shared/rc-forms/rc-forms.module';
-import { TabComponent } from './shared/tab/tab.component';
+import { TabsModule } from './shared/tabs/tabs.module';
 
 @NgModule({
   declarations: [
@@ -41,7 +41,6 @@ import { TabComponent } from './shared/tab/tab.component';
     HomeComponent,
     NotFoundComponent,
     StyleGuideComponent,
-    TabComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,6 +62,7 @@ import { TabComponent } from './shared/tab/tab.component';
     ContainerModule,
     TableModule,
     RcFormsModule,
+    TabsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -281,7 +281,25 @@
 <div class="w-100">
     <div class="row">
         <div class="col-6">
-           <app-tab></app-tab>
+           <app-tabs>
+
+               <app-tab-bar>
+                   <app-tab-button class="btn" (click)="switchTab(tabA.name)">{{ tabA.name }}</app-tab-button>
+                   <app-tab-button class="btn" (click)="switchTab(tabB.name)">{{ tabB.name }}</app-tab-button>
+                </app-tab-bar>
+
+               <div tab-content>
+                  
+                   <ng-container [ngSwitch]="tabSwitch">
+
+                       <div *ngSwitchCase="tabA.name">{{tabA.name}}</div>
+                        <div *ngSwitchCase="tabB.name">{{tabB.name}}</div>
+                       <div *ngSwitchDefault>default woutput</div>
+
+                   </ng-container>
+               </div>
+
+           </app-tabs>
         </div>
     </div>
 </div>
