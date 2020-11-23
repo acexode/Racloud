@@ -22,7 +22,7 @@ export class SidebarComponent implements OnInit {
     {
       name: 'Licenses',
       url: '/licenses',
-      icon: '../../assets/images/License.svg', 
+      icon: '../../assets/images/License.svg',
       children: null,
     },
     {
@@ -48,7 +48,7 @@ export class SidebarComponent implements OnInit {
       url: '/products',
       icon: '../../assets/images/Product.svg',
       children: null
-    },
+    }
     // {
     //   name: 'Shop',
     //   url: '/shop',

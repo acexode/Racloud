@@ -1,5 +1,5 @@
 <div class="sidebar d-flex flex-column w-100">
-  <div class="nav flex-column mb-30 pt-5">
+  <div class="nav flex-column rc-nav">
     <div *ngFor="let menu of menuJSON">
       <div
         *ngIf="!menu.children || (menu.children && menu.children.length === 0)"
@@ -64,8 +64,5 @@
       </div>
     </div>
   </div>
-  <div class="footer d-flex justify-content-center">
-    © {{ currentYear }}, RA-Cloud. Toate drepturile rezervate |
-    {{ currentVersion }}
-  </div>
+
 </div>

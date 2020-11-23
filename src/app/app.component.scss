@@ -1,0 +1,9 @@
+@import "../assets/variables";
+@import "../assets/mixins";
+
+.footer{
+    padding-left: rem(64);
+    padding-right: rem(40);
+    height: rem(32);
+    background: $rc-light-grey;
+}

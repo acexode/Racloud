@@ -3,6 +3,7 @@
 
 .header {
   background-color: #F7F9FB;
+  height: rem(56);
   .status-area {
     background-color: $light-grey-2;
   }
@@ -51,9 +52,8 @@
 .left-side {  
   cursor: pointer;
   .avatar {
-    width: rem(42);
-    height: rem(42);
-    border-radius: rem(2);
+    width: rem(50);
+    height: rem(36);
   }
   .username {
     flex-wrap: wrap;

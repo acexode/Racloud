@@ -24,14 +24,18 @@
       <div class="d-flex align-self-end w-100 mt-auto d-flex flex-column">
         <app-footer class="w-100 d-flex flex-column mt-32"></app-footer>
       </div>
+      <footer
+        class="row footer d-flex justify-content-between"
+       
+      >
+        <div class="col-6">
+          <a href="">Privacy Policy</a>
+          <a href="">Support</a>
+        </div>
+        <span 
+          >© Copyright{{ currentYear }}, RA-Cloud Workshop</span
+        >
+      </footer>
     </div>
-  </div>
-  <div
-    class="w-100 h6 mt-auto d-flex justify-content-center text-center font-weight-normal"
-    *ngIf="(account | async) === null || this.notFound === true"
-  >
-    <span class="my-3"
-      >© {{ currentYear }}, RA-Cloud. Toate drepturile rezervate.</span
-    >
   </div>
 </div>
