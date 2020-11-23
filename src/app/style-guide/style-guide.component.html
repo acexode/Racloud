@@ -1,0 +1,287 @@
+<div class="w-100 mt-20">
+    <h1 class="my-64">Typography</h1>
+    <h1 class="mb-12">H1 - Montserrat Medium 37px; line height 40 px</h1>
+    <h2 class="my-12">H2 - Montserrat Medium 30px; line height 40 px</h2>
+    <h3 class="my-12">H3 - Montserrat Medium 30px; line height 40 px</h3>
+    <p>
+        <span class="s14-h16 helvetica-neue-regular"> Body - Helvetica Regular14 px; line height 16 px <b>(on Mac OS)</b>, </span>
+        <span class="s14-h16 helvetica-neue-regular"><b>On Windows</b>, the Body will be Arial Regular14 px; line height 16 px</span>
+    </p>
+    <p class="rc-accent-blue-160 s12-h16 montserrat-regular-font">
+        Small - Montserrat Regular/<span class="text-weight-bold">Bold</span> 
+        <span class="ml-12">12px; line height 16 px</span>
+    </p>
+</div>
+
+<div class="w-100 mt-64">
+    <h1>Inputs</h1>
+</div>
+<div class="w-100">
+
+    <div class="row">
+        <div class="col-4">
+            <h3>Simple</h3>
+        </div>
+        <div class="col-4">
+            <h3>Icon on right</h3>
+        </div>
+        <div class="col-4">
+            <h3>With prefix</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            <app-input [config]="inputConfig"></app-input>
+        </div>
+        <div class="col-4">
+            <app-select [config]="selectConfig"></app-select>
+        </div>
+        <div class="col-4">
+            <app-input [config]="configWithPrefix"></app-input>
+        </div>
+    </div>
+
+    <form [formGroup]="styleForm" class="row" (ngSubmit)="submitIt()">
+        <div class="col-4">
+            <app-input [config]="configFilled" formControlName="text"></app-input>
+        </div>
+        <div class="col-4">
+            <app-select [config]="selectConfigFilled" [options]='selectOptions'></app-select>
+        </div>
+        <div class="col-4">
+            <app-input [config]="configFilledWithPrefix" formControlName="textWithPrefix"></app-input>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-4">
+            <app-input [config]="configDisabled"></app-input>
+        </div>
+        <div class="col-4">
+            <app-select [config]="selectConfigDisabled"></app-select>
+        </div>
+        <div class="col-4">
+            <app-input [config]="configDisabledWithPrefix"></app-input>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            <app-input [config]="configError"></app-input>
+        </div>
+        <div class="col-4">
+            <app-select [config]="selectConfigError"></app-select>
+        </div>
+        <div class="col-4">
+            <app-input [config]="configErrorWithPrefix"></app-input>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            <app-input [config]="configWithFocus"></app-input>
+        </div>
+        <div class="col-4">
+            <app-select [config]="selectConfigFocus"></app-select>
+        </div>
+        <div class="col-4">
+            <app-input [config]="configFocusWithPrefix"></app-input>
+        </div>
+    </div>
+    
+</div>
+<!--  -->
+<div class="w-100 mt-64">
+    <h3>Chips</h3>
+</div>
+
+<div class="w-100">
+
+    <div class="row">
+        <div class="col-3">
+            <app-chips class="mr-2" color="default">
+                Default
+            </app-chips>
+            <app-chips color="selected">
+                Selected
+            </app-chips>
+        </div>
+
+        <div class="col-4">
+            <app-chips class="mr-2" color="default" disabled="true">
+                Default Disabled
+            </app-chips>
+            <app-chips color="selected" disabled="true">
+                Selected Disabled
+            </app-chips>
+        </div>
+
+        
+    </div>
+</div>
+
+
+<!--  -->
+<div class="w-100 mt-64">
+    <h1>Buttons</h1>
+</div>
+<div class="w-100 mt-10">
+
+    <div class="row">
+        <div class="col-3 px-3">
+            <h3>Primary</h3>
+        </div>
+        <div class="col-3 px-3">
+            <h3>Secondary</h3>
+        </div>
+        <div class="col-3 px-3">
+            <h3>Tertiary</h3>
+        </div>
+        <div class="col-3 px-3">
+            <h3>Link Type</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-3 p-3">
+            <app-button type="submit" color="primary">
+                Primary
+            </app-button>
+        </div>
+        <div class="col-3 p-3">
+            <app-button type="submit" color="secondary">
+                Secondary
+            </app-button>
+        </div>
+        <div class="col-3 p-3">
+            <app-button type="submit" color="tertiary">
+                Tertiary
+            </app-button>
+        </div>
+        <div class="col-3 p-3">
+            <app-button type="link" color="tertiary">
+                link type
+            </app-button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-3 p-3">
+            <app-button type="submit" color="primary" disabled="true">
+                Add new something
+            </app-button>
+        </div>
+        <div class="col-3 p-3">
+            <app-button type="submit" color="secondary" [disabled]="true">
+                Passed in
+            </app-button>
+        </div>
+        <div class="col-3 p-3">
+            <app-button type="submit" color="tertiary" [disabled]="true">
+                Passed in
+            </app-button>
+        </div>
+        <div class="col-3 p-3">
+            <app-button type="link" color="tertiary" [disabled]="true">
+                link
+            </app-button>
+        </div>
+    </div>
+
+</div>
+
+<div class="w-100 mt-64">
+    <h1>Selectors</h1>
+</div>
+
+<div class="w-100 mt-10">
+
+    <div class="row">
+        <div class="col-3 px-3">
+            <h3>Checkboxes</h3>
+        </div>
+        <div class="col-3 px-3">
+            <h3>Radio buttons</h3>
+        </div>
+        <div class="col-3 px-3">
+            <h3>Tertiary</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-3 p-3">
+
+            <app-checkbox [checked]="false">
+                Default, not checked
+            </app-checkbox>
+
+            <app-checkbox [checked]="true">
+                Selected, checked
+            </app-checkbox>
+
+            <!-- multiple -->
+            <app-checkboxes title="All options">
+                <app-checkbox [checked]="true">
+                    First Option
+                </app-checkbox>
+                
+                <app-checkbox [checked]="true">
+                    second Option
+                </app-checkbox>
+
+                <app-checkbox [checked]="false">
+                    First Option
+                </app-checkbox>
+                
+                <app-checkbox [checked]="false">
+                    second Option
+                </app-checkbox>
+
+            </app-checkboxes>
+
+        </div>
+
+        <div class="col-3 p-3">
+            <app-radio>
+                Radio button OFF
+            </app-radio>
+            <app-radio [checked]="true">
+                Radio button OFF
+            </app-radio>
+        </div>
+
+        <div class="col-3 p-3">
+            <app-toggle>
+                Radio button OFF
+            </app-toggle>
+        </div>
+        
+
+    </div>
+
+</div>
+
+
+<div class="w-100 mt-64">
+    <h3>Cards</h3>
+</div>
+<div class="w-100">
+    <div class="row">
+        <div class="col-6">
+            <app-shop-card></app-shop-card>
+        </div>
+    </div>
+</div>
+
+
+<div class="w-100 mt-64">
+    <h3>Navigation</h3>
+</div>
+<div class="w-100">
+    <div class="row">
+        <div class="col-6">
+           <app-tab></app-tab>
+        </div>
+    </div>
+</div>

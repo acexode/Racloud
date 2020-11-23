@@ -48,6 +48,12 @@
   display: flex;
 }
 
+// grid
+@mixin display-grid {
+  display: -ms-grid;
+  display: grid;
+}
+
 @mixin flex-direction($direction: row) {
   -webkit-box-orient: $direction;
   -webkit-box-direction: $direction;
@@ -76,4 +82,40 @@
   -ms-align-items: $align;
   -ms-flex-align: $align;
   align-items: $align;
+}
+// placeholder mixin
+@mixin inputPlaceholder() {
+    $selector: '';
+    $prefixes: (
+        moz: "::-moz",
+        webkit: "::-webkit",
+        ie: ":-ms"
+    );
+    @each $prop, $value in $prefixes {
+        @if $prop != "moz" {
+            $selector: #{$value}-input-placeholder;
+        } @else {
+            $selector: #{$value}-placeholder;
+        }
+        @if & {
+            &#{$selector} {
+                @content;
+            }
+        } @else {
+            #{$selector} {
+                @content;
+            }
+        }
+    }
+    &::placeholder {
+      @content;
+    }
+}
+
+// transform
+
+@mixin transform-translate-X($val) {
+  -webkit-transform: translateX(rem($val));
+  -ms-transform: translateX(rem($val));
+  transform: translateX(rem($val));
 }

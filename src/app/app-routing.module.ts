@@ -5,15 +5,21 @@ import { LoginGuard } from './core/guards/login/login.guard';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { StyleGuideComponent } from './style-guide/style-guide.component';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
+    redirectTo: '/style'
+  },
+  {
+    path: 'home',
     canActivate: [AuthGuard],
     component: HomeComponent,
-    data: { title: 'Acasa'
-   },
+    data: {
+      title: 'Acasa'
+    },
   },
   {
     path: 'login',
@@ -25,6 +31,11 @@ const routes: Routes = [
     path: 'not-found',
     component: NotFoundComponent,
     data: { title: 'Not found' },
+  },
+  {
+    path: 'style',
+    component: StyleGuideComponent,
+    data: { title: 'style guide' },
   },
   { path: '**', redirectTo: '/not-found' },
 ];

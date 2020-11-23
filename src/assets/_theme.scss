@@ -3,6 +3,7 @@
 @import "./components/alert";
 @import "./components/buttons";
 @import "./components/custom-forms";
+@import "./components/custom-select";
 @import "./components/grid";
 @import "./components/modal";
 @import "./components/content";
@@ -10,8 +11,18 @@
 @import "./components/select";
 @import "./components/date-picker";
 @import "./components/log";
+@import "./components/fonts";
+@import "./components/colors";
+@import "./components/input";
+@import "./components/chips";
+@import "./components/checkbox";
+@import "./components/radio";
+@import "./components/toggle";
+@import "./components/card";
 
 html,
 body {
   font-family: $font-family-base !important;
+  background-color: $white;
+
 }

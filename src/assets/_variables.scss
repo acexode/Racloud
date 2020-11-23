@@ -1,3 +1,53 @@
+// app main colors
+$rc-primary:  #D9471F; /* primary (orange)*/
+$rc-secondary: #CDE0EC;  /* secondary (blue)*/
+$rc-accent-blue: #6A7098;
+$rc-light-grey: #F7F9FB;
+
+// Tones
+$rc-primary-hover: #F25A30; /* majorly for button hover */
+$rc-secondary-hover: #FBECE8;
+$rc-disable-bg: #EDC4BB; /* major: button */
+$rc-accent-blue-30:#D2D4E0; /* accent 30% */
+$rc-accent-blue-60: #A4A7BF; /* accent 60% */
+$rc-accent-blue-160: #464976; /* accent 160% (text-color)*/
+$rc-primary-5: #FBECE8; /* primary (orange) 05% */
+$rc-primary-30: #EDC4BB; /* primary (orange) 30% */
+
+// general color
+$rc-black: #161A37; /* (text-color) */
+$rc-grey: #878999; /* text color */
+$rc-shadow: 0 rem(3) rem(10) 0 #00385B, 0 0 rem(10) rem(-3) #00385B;
+$rc-card-box-shadow: 0 rem(3) rem(10) 0 rgba(0,56,91,0.21), 0 rem(50) rem(50) rem(-20) rgba(0,56,91,0.1);
+$rc-green: #3AB12D;
+$rc-red: #EE1111;
+$rc-secodary-focus:#76BEEC;
+$rc-bg-none: none;
+
+// rc outlines
+$rc-accent-blue-outline: rem(1) solid $rc-accent-blue;
+$rc-accent-blue-outline-b: rem(2) solid $rc-accent-blue;
+$rc-accent-blue-30-outline: rem(1) solid $rc-accent-blue-30;
+$rc-accent-blue-60-outline: rem(1) solid $rc-accent-blue-60;
+$rc-primary-outline: rem(2) solid $rc-primary;
+$rc-primary-hover-outline: rem(2) solid $rc-primary-hover;
+$rc-secondary-hover-outline: rem(1) solid $rc-secondary-hover;
+$rc-disabled-ouline: rem(1) solid $rc-disable-bg;
+$rc-red-outline: rem(1) solid $rc-red;
+$rc-secondary-ouline: rem(1) solid $rc-secondary; 
+$rc-secondary-focus-outline: rem(1) solid #76BEEC;
+$rc-grey-outline: rem(1) solid $rc-grey;
+$rc-accent-blue-60-outline-b: rem(3) solid $rc-accent-blue-60;
+// font
+$font-montserrat: "Montserrat", "Roboto", "Helvetica Neue", Arial, sans-serif;
+$font-helveticaNeue: "Helvetica Neue", Arial, sans-serif;
+
+// for btn
+$rc-btn-min-width: rem(96);
+$rc-none: none;
+
+
+
 @font-face {
   font-family: "pass-font";
   src: url("/assets/font/pass-font.eot?zzz");
@@ -79,7 +129,7 @@ $blue: #0087ea;
 
 //Primary
 $green: #008641;
-$red: #e1261c;
+$red: #D9471F;
 $black: #191a1a;
 $blue: #0087ea;
 
@@ -103,6 +153,7 @@ $medium-green-3: #bfe2d0;
 $light-green: #e5f2ec;
 $light-green-3: #2d7d43;
 $ultra-light-green: #f2f9f5;
+$ultra-light-red: #FBECE8;
 
 // Other colors
 $light-yellow: #fbf1cd;
@@ -168,13 +219,14 @@ $body-color: $base-text-color;
 
 // Buttons
 $btn-font-weight: 500;
-$btn-padding-y: 7px;
-$btn-padding-x: 31px;
+$btn-padding-y: rem(8);
+$btn-padding-x: rem(16);
 $btn-padding-sm-x: 57px;
-$btn-font-size: 16px;
-$btn-line-height: 24px;
-$btn-border-radius: rem(20);
-$btn-primary-bg: linear-gradient(135deg, $green 0%, $dark-green 100%);
+$btn-font-size: rem(12);
+$btn-line-height: rem(16);
+$btn-border-radius: rem(3);
+// $btn-primary-bg: linear-gradient(135deg, $green 0%, $dark-green 100%);
+$btn-primary-bg: $rc-primary;
 $btn-danger-bg: linear-gradient(135deg, $red 0%, $light-red 100%);
 
 // Custom Controls

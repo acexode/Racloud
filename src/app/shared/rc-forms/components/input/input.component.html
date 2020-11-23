@@ -1,0 +1,33 @@
+<ng-container [formGroup]="formGroup">
+    <label 
+        class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0"
+        [ngClass]="config?.inputLabel?.classes"
+    >{{ config?.inputLabel?.text }}
+    </label>
+    <div class="rc-form-group"
+        [ngClass]="{
+            'rc-form-group-without-prefix': !config?.prefixIcon,
+            'rc-form-group-without-prefix-error': !config?.prefixIcon && config?.formStatus?.isError,
+            'rc-form-group-without-prefix-focus': !config?.prefixIcon && config?.formStatus?.isFocus,
+            'rc-form-group-without-prefix-disabled': !config?.prefixIcon && config?.formStatus?.isDisabled,
+            'rc-form-group-with-prefix-filled': config?.prefixIcon && config?.formStatus?.isFilled,
+            'rc-form-group-with-prefix-disabled': config?.prefixIcon && config?.formStatus?.isDisabled,
+            'rc-form-group-with-prefix': config?.prefixIcon,
+            'rc-form-group-with-prefix-focus': config?.prefixIcon && config?.formStatus?.isFocus, 
+            'rc-form-group-with-prefix-error': config?.prefixIcon && config?.formStatus?.isError
+        }"
+    >
+        <ng-container  *ngIf="config?.prefixIcon">
+            <div class="input-prefix">
+                <span 
+                    class="input-prefix-text"
+                >$</span>
+            </div>
+        </ng-container>
+        <input [type]="config?.type" #input formControlName="input" [placeholder]="config?.placeholder"
+            [maxlength]="config?.maxLength" [minlength]="config?.minLength" [min]="config?.min" [max]="config?.max"
+            [autocomplete]="config?.autoComplete"
+            [autocapitalize]="config?.autoCapitalize !== '' ? config?.autoCapitalize : 'none'"
+            [class]="config?.inputClasses">
+    </div>
+</ng-container>
