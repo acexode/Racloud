@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     password: ['', Validators.required],
   });
   classes = {
-    body: 'p-0 d-flex justify-content-center flex-column',
+    body: 'p-0 d-flex justify-content-center flex-column no-gutters',
     header: 'd-none',
     footer: 'd-none',
   };
