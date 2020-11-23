@@ -14,7 +14,7 @@
     }
     .rc-product-fees-section {
         width: 100%;
-        display: grid;
+        @include display-grid;
         grid-template-columns: repeat(2, 50%);
         margin-bottom: rem(16);
         .rc-product-fees-group {
@@ -25,6 +25,8 @@
     .rc-sh-card-body { 
         .rc-product-description {
             min-height: rem(132);
+            @include flexbox;
+            @include align-items(center);
         }
         .rc-sh-card-body-link {
             margin-top: rem(8);
