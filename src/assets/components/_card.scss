@@ -12,17 +12,14 @@
     .rc-full-title {
         margin: rem(16px) 0;
     }
-    .product-fees-section {
+    .rc-product-fees-section {
         width: 100%;
-        @include flexbox;
-        @include flex-direction(row);
+        display: grid;
+        grid-template-columns: repeat(2, 50%);
         margin-bottom: rem(16);
-        .product-fees-group {
+        .rc-product-fees-group {
             @include flexbox;
             @include flex-direction(column);
-            &:nth-child(2) {
-                margin-left: rem(50);
-            }
         }
     }
     .rc-sh-card-body { 
