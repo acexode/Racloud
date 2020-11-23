@@ -121,18 +121,15 @@
   border: 1px solid $medium-grey-2 !important;
   border-radius: rem(8) !important;
   padding: rem(16) 0;
-  max-width: rem(200);
-  width: 194px;
+
 }
 .dropdown-item {
-  padding: rem(8);
+  padding: rem(8) 16px;
   border-bottom: 1px solid $medium-green-3 !important;
   cursor: pointer;
 }
 
-.dropdown-divider {
-  border-top: 1px solid $dark-green;
-}
+
 .name {
   color: #464976;
   font-family: Montserrat;
@@ -151,7 +148,6 @@
 }
 
 .choose-company {
-  height: 16px;  
   color: #878999;
   font-family: Montserrat;
   font-size: 12px;
@@ -162,11 +158,10 @@
   border-bottom: none !important;
 }
 .rc-item{
-  height: 56;
   padding: 8px 16px;
 }
 .rc-divider-item{
-  height: 40;
+ 
   padding: 8px 16px;
 }
 .rc-item a {  
