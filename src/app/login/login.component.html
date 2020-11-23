@@ -1,7 +1,7 @@
 <app-card
   [componentClasses]="classes"
   [classes]="
-    'justify-content-center col-12 max-w-570 d-flex px-0 py-0 rounded-lg'
+    'justify-content-center col-12 max-w-448 d-flex px-0 py-0 rounded-lg'
   "
   class="d-flex justify-content-center"
 >
@@ -20,35 +20,24 @@
       </div>
       <form
         [formGroup]="loginForm"
-        class="col-12 col-lg-8 px-0 d-flex mx-auto flex-1 flex-shrink-1"
+        class="col-12 col-lg-12 px-0 d-flex mx-auto px-64 pt-64 pb-32 flex-1 flex-shrink-1"
         (ngSubmit)="submitForm()"
       >
         <div
           class="d-flex flex-column w-100 flex-grow-1 flex-shrink-0 mx-lg-n5p"
         >
-          <div class="form-group d-flex flex-column mb-32">
-            <label class="input-label small" for="email">Email</label>
-            <input
-              type="text"
-              class="form-control"
-              id="email"
-              placeholder="Email"
-              formControlName="email"
-            />
+          <h2>Log in</h2>
+
+          <div class="d-flex flex-column mb-14">
+            <app-input [config]="emailInputConfig" formControlName="email" id="email"></app-input>
             <app-error-messages
               [control]="loginForm?.controls?.email"
             ></app-error-messages>
           </div>
 
-          <div class="form-group d-flex flex-column mb-32">
-            <label class="input-label small" for="password">Parola</label>
-            <input
-              type="password"
-              class="form-control custom-password"
-              id="password"
-              placeholder="Password"
-              formControlName="password"
-            />
+          <div class="d-flex flex-column mb-32">
+            <app-input [config]="passwordInputConfig" formControlName="email" id="email"></app-input>
+
             <app-error-messages
               [control]="loginForm?.controls?.password"
             ></app-error-messages>
