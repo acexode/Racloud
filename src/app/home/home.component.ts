@@ -16,6 +16,8 @@ import { TableService } from '../shared/table/services/table.service';
 })
 export class HomeComponent implements OnInit {
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl;
+  @ViewChild('actionDropdown', { static: true }) actionDropdown;
+  @ViewChild('selectT', { static: true }) selectT;
 
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
@@ -56,12 +58,13 @@ export class HomeComponent implements OnInit {
     ],
   });
   tableConfig: TableI = {
-    selectable: true,
+    selectable: false,
     selectDetail: false,
     hoverDetail: true,
     columns: [],
     externalPaging: false,
     externalSorting: false,
+    action: true
   };
   constructor(
     private tS: TableService,
@@ -73,7 +76,7 @@ export class HomeComponent implements OnInit {
     this.tableConfig.columns = [
       {
         identifier: 'name',
-        label: 'Nume',
+        label: 'Name',
         sortable: true,
         minWidth: 200,
         width: 90,
@@ -84,10 +87,10 @@ export class HomeComponent implements OnInit {
         },
       },
       {
-        identifier: 'gender',
-        label: 'Gen',
+        identifier: 'city',
+        label: 'City',
         sortable: true,
-        minWidth: 200,
+        minWidth: 150,
         width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -98,10 +101,10 @@ export class HomeComponent implements OnInit {
         },
       },
       {
-        identifier: 'company',
-        label: 'Companie',
+        identifier: 'phone',
+        label: 'Phone',
         sortable: true,
-        minWidth: 450,
+        minWidth: 150,
         width: 300,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -112,19 +115,92 @@ export class HomeComponent implements OnInit {
         },
       },
       {
-        identifier: 'age',
-        label: 'Varsta',
+        identifier: 'email',
+        label: 'Email',
         sortable: true,
-        minWidth: 130,
+        minWidth: 250,
         noGrow: true,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
+        sortIconPosition: 'right',
+        labelPosition: 'left',
         cellContentPosition: 'right',
         hasFilter: true,
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
         },
+      },
+      {
+        identifier: 'type',
+        label: 'Type',
+        sortable: true,
+        minWidth: 130,
+        noGrow: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'right',
+        hasFilter: true,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+        },
+      },
+      {
+        identifier: 'parent',
+        label: 'Parent',
+        sortable: true,
+        minWidth: 130,
+        noGrow: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'right',
+        hasFilter: true,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+        },
+      },
+      {
+        identifier: 'anniv-date',
+        label: 'Anniv-date',
+        sortable: true,
+        minWidth: 130,
+        noGrow: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'right',
+        hasFilter: true,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+        },
+      },
+      {
+        identifier: 'fee',
+        label: 'Sub.fee',
+        sortable: true,
+        minWidth: 130,
+        noGrow: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'right',
+        hasFilter: true,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+        },
+      },
+      {
+        identifier: 'action',
+        label: '',
+        sortable: true,
+        minWidth: 60,
+        noGrow: true,
+        headerHasFilterIcon: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'right',
+        hasFilter: true,
+        cellTemplate: this.actionDropdown
       },
     ];
     this.getJSON().subscribe((data) => {
@@ -139,17 +215,26 @@ export class HomeComponent implements OnInit {
       }
     });
   }
-
   public getJSON(): Observable<any> {
-    return this.http.get('./assets/table.json');
-  }
+    return this.http.get('./assets/ra-table.json');
+}
+filterTable(filterObj: TableFilterConfig) {
+  const newRows = this.tS.filterRowInputs(
+    this.tableConfig?.columns,
+    this.rowData,
+    filterObj
+  );
+  this.tableData.next(newRows);
+}
 
-  filterTable(filterObj: TableFilterConfig) {
-    const newRows = this.tS.filterRowInputs(
-      this.tableConfig?.columns,
-      this.rowData,
-      filterObj
-    );
-    this.tableData.next(newRows);
-  }
+removeRow(id){
+  console.log(id);
+}
+manageSub(id){
+  console.log(id);
+}
+renewSub(id){
+  console.log(id);
+}
+
 }
