@@ -1,7 +1,7 @@
 <app-card
   [componentClasses]="classes"
   [classes]="
-    'justify-content-center col-12 max-w-448 d-flex px-0 py-0 rounded-lg'
+    'justify-content-center col-12 max-w-448 d-flex px-0 py-0 border-radius-2'
   "
   class="d-flex justify-content-center"
 >
@@ -26,7 +26,13 @@
         <div
           class="d-flex flex-column w-100 flex-grow-1 flex-shrink-0 mx-lg-n5p"
         >
+
           <h2>Log in</h2>
+
+          <div class="mt-24 mb-30">
+            <span class="s15-h24 rc-grey-color montserrat-regular-font ls-0">Don't have a user account?</span>
+            <span class="ml-8 s15-h24 rc-grey-color montserrat-regular-font rc-accent-blue-160-color ls-0">Sign up.</span>
+          </div>
 
           <div class="d-flex flex-column mb-14">
             <app-input [config]="emailInputConfig" formControlName="email" id="email"></app-input>
@@ -43,14 +49,21 @@
             ></app-error-messages>
           </div>
 
-          <div class="d-flex justify-content-center mb-3">
-            <button type="submit" class="btn btn-primary w-100">
+          <div class="d-flex align-items-center justify-content-between mb-24">
+            <app-button type="link" color="tertiary">
+              Cancel
+            </app-button>
+          
+            <app-button type="Submit" color="primary">
               Log in
-            </button>
+            </app-button>
+          
           </div>
-          <div class="h6-grey text-center mb-0">
-            Daca ati uitat parola, va rugam sa contactati xxxxxxxxxx
+
+          <div class="d-flex align-items-center justify-content-end">
+            <span class="s12-h16 rc-grey-color montserrat-regular-font ls-0">Forgot your password?</span>
           </div>
+
         </div>
       </form>
     </div>
