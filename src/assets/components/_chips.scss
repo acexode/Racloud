@@ -8,7 +8,11 @@
   $color,
   $disabled-bg,
   $disabled-border,
-  $disabled-color
+  $disabled-color,
+  $hover-bg,
+  $hover-border,
+  $hover-color,
+
 ) {
   color: $color;
   background: $background;
@@ -23,6 +27,13 @@
     color: $disabled-color !important;
     opacity: 1;
     text-decoration: $rc-none;
+    pointer-events: none;
+  }
+  &:hover,
+  &.hover {
+    background: $hover-bg !important;
+    border: $hover-border !important;
+    color: $hover-color;
   }
 }
 
@@ -46,6 +57,9 @@
             $white,
             $rc-accent-blue-30-outline,
             $rc-accent-blue-60,
+            $rc-light-grey,
+            $rc-accent-blue-outline,
+            $rc-black
         );
         background-image: none;
     }
@@ -58,7 +72,10 @@
             $rc-primary,
             $white,
             $rc-disabled-ouline,
-            $rc-disable-bg
+            $rc-disable-bg,
+            $rc-light-grey,
+            $rc-accent-blue-outline-b,
+            $rc-black
         );
         background-image: none;
     }
