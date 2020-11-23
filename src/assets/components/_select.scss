@@ -5,10 +5,10 @@
   select {
     width: 100%;
     background: transparent url("~src/assets/images/chevron.svg") no-repeat right
-      rem(12) center/rem(20) rem(20);
+      rem(6) center/rem(20) rem(20);
     font-size: rem(14) !important;
     line-height: rem(16) !important;
-    padding: rem(4) rem(12);
+    padding: rem(8) rem(6) rem(8) rem(12);
     border: none;
     border: $rc-accent-blue-60-outline;
     box-shadow: none;
@@ -31,17 +31,29 @@
         border: $rc-secondary-focus-outline;
     }
   }
-  &.rc-select-diable {
-      select {
-        pointer-events: none;
-        border: $rc-secondary-ouline;
-        background: $rc-light-grey;
-      }
-  }
   &.rc-select-filled {
       select {
         color: $rc-black !important;
       }
+  }
+  &.rc-select-disabled {
+    select {
+      border: $rc-secondary-ouline;
+      background: $rc-light-grey;
+      color: $rc-accent-blue-30;
+    }
+  }
+  &.rc-select-error {
+    select {
+      color: $rc-red;
+      border: $rc-red-outline !important;
+    }
+  }
+  &.rc-select-focus {
+    select {
+      color: $rc-black !important;
+      border: $rc-secondary-focus-outline !important;
+    }
   }
 }
 /* Target Internet Explorer 9 to undo the custom arrow */

@@ -39,6 +39,10 @@ export class StyleGuideComponent implements OnInit {
     {
       id: 'filled',
       option: 'Filled / Activated'
+    },
+    {
+      id: 'sub-filled',
+      option: 'sub-Filled / Activated'
     }
   ]
   selectConfig: SelectConfig = {
@@ -54,6 +58,37 @@ export class StyleGuideComponent implements OnInit {
     labelKey: 'option',
     formStatus: {
       isFilled: true,
+    }
+  };
+  selectConfigError: SelectConfig = {
+    selectLabel: {
+      text: 'Label'
+    },
+    idKey: 'id',
+    labelKey: 'option',
+    formStatus: {
+      isError: true,
+    }
+  };
+  selectConfigFocus: SelectConfig = {
+    selectLabel: {
+      text: 'Label'
+    },
+    idKey: 'id',
+    labelKey: 'option',
+    formStatus: {
+      isFocus: true,
+    }
+  };
+
+  selectConfigDisabled: SelectConfig = {
+    selectLabel: {
+      text: 'Label'
+    },
+    idKey: 'id',
+    labelKey: 'option',
+    formStatus: {
+      isDisabled: true,
     }
   };
   styleForm: FormGroup;

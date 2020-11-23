@@ -1,0 +1,82 @@
+@import "../variables";
+@import "../mixins";
+@import "./buttons";
+
+@mixin chips-style(
+  $background,
+  $border,
+  $color,
+  $disabled-bg,
+  $disabled-border,
+  $disabled-color,
+  $hover-bg,
+  $hover-border,
+  $hover-color,
+
+) {
+  color: $color;
+  background: $background;
+  border: $border;
+  border-radius: rem(4);
+  box-shadow: none !important;
+  outline: $rc-none;
+  &:disabled,
+  &.disabled {
+    background: $disabled-bg !important;
+    border: $disabled-border !important;
+    color: $disabled-color !important;
+    opacity: 1;
+    text-decoration: $rc-none;
+    pointer-events: none;
+  }
+  &:hover,
+  &.hover {
+    background: $hover-bg !important;
+    border: $hover-border !important;
+    color: $hover-color;
+  }
+}
+
+.chips {
+    font-family: $font-montserrat;
+    font-weight: normal;
+    min-width: $rc-btn-min-width;
+    @include button-size(
+        $btn-padding-y,
+        $btn-padding-x,
+        $btn-font-size,
+        $btn-line-height,
+        $btn-border-radius
+    );
+    &.default {
+        $def-shadow: transparent;
+        @include chips-style(
+            $white,
+            $rc-accent-blue-60-outline,
+            $rc-grey,
+            $white,
+            $rc-accent-blue-30-outline,
+            $rc-accent-blue-60,
+            $rc-light-grey,
+            $rc-accent-blue-outline,
+            $rc-black
+        );
+        background-image: none;
+    }
+
+    &.selected {
+        $def-shadow: transparent;
+        @include chips-style(
+            $rc-secondary-hover,
+            $rc-primary-hover-outline,
+            $rc-primary,
+            $white,
+            $rc-disabled-ouline,
+            $rc-disable-bg,
+            $rc-light-grey,
+            $rc-accent-blue-outline-b,
+            $rc-black
+        );
+        background-image: none;
+    }
+}
