@@ -11,8 +11,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: HomeComponent,
-    data: { title: 'style guide' },
+    redirectTo: '/style'
   },
   {
     path: 'home',
