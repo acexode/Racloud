@@ -30,6 +30,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { RcFormsModule } from './shared/rc-forms/rc-forms.module';
 import { TabComponent } from './shared/tab/tab.component';
+import { AccessDeniedComponent } from './access-denied/access-denied.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { TabComponent } from './shared/tab/tab.component';
     NotFoundComponent,
     StyleGuideComponent,
     TabComponent,
+    AccessDeniedComponent,
   ],
   imports: [
     BrowserModule,
