@@ -19,7 +19,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: HomeComponent,
     data: {
-      title: 'Acasa'
+      title: 'Home'
     },
   },
   {

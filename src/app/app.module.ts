@@ -31,6 +31,7 @@ import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { RcFormsModule } from './shared/rc-forms/rc-forms.module';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { TabsModule } from './shared/tabs/tabs.module';
+import { CustomerListingComponent } from './customer-listing/customer-listing.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { TabsModule } from './shared/tabs/tabs.module';
     NotFoundComponent,
     StyleGuideComponent,
     AccessDeniedComponent,
+    CustomerListingComponent,
   ],
   imports: [
     BrowserModule,

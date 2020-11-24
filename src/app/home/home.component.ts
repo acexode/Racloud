@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
     private tS: TableService,
     private footerS: FooterService,
     private http: HttpClient
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
@@ -217,24 +217,24 @@ export class HomeComponent implements OnInit {
   }
   public getJSON(): Observable<any> {
     return this.http.get('./assets/ra-table.json');
-}
-filterTable(filterObj: TableFilterConfig) {
-  const newRows = this.tS.filterRowInputs(
-    this.tableConfig?.columns,
-    this.rowData,
-    filterObj
-  );
-  this.tableData.next(newRows);
-}
+  }
+  filterTable(filterObj: TableFilterConfig) {
+    const newRows = this.tS.filterRowInputs(
+      this.tableConfig?.columns,
+      this.rowData,
+      filterObj
+    );
+    this.tableData.next(newRows);
+  }
 
-removeRow(id){
-  console.log(id);
-}
-manageSub(id){
-  console.log(id);
-}
-renewSub(id){
-  console.log(id);
-}
+  removeRow(id) {
+    console.log(id);
+  }
+  manageSub(id) {
+    console.log(id);
+  }
+  renewSub(id) {
+    console.log(id);
+  }
 
 }

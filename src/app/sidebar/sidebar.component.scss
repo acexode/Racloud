@@ -2,6 +2,8 @@
 @import "../../assets/mixins";
 
 .sidebar {
+  width: rem(200) !important;
+  overflow-x: hidden;
   background-color: $sidebar;
   box-shadow: 0 2px 5px -2px rgba(0, 66, 32, 0.12),
     0 10px 20px -1px rgba(0, 134, 65, 0.12);
