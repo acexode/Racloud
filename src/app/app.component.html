@@ -24,37 +24,22 @@
       <div class="d-flex align-self-end w-100 mt-auto d-flex flex-column">
         <app-footer class="w-100 d-flex flex-column mt-32"></app-footer>
       </div>
-      <footer
-        class="row footer d-flex justify-content-between mx-0"
-       
-      >
-        <div class="col-6 footer-links">
-          <a href="">Privacy Policy</a>
-          <a href="">Support</a>
-        </div>
-        <div class="col-6  text-right">
-          <span class="copyright-2020-ra"
-            >© Copyright{{ currentYear }}, RA-Cloud Workshop</span
-          >
-
-        </div>
-      </footer>
     </div>
   </div>
-  <div
+  <footer
     class="w-100 d-flex justify-content-between align-items-center rc-light-grey-bg h32"
     *ngIf="(account | async) === null || this.notFound === true"
   >
-    <span class="ml-64 montserrat-regular-font s12-h16 rc-black-color">
-      <span>
+    <span class="pl-64">
+      <a href="" class="text-decoration-none montserrat-regular-font s12-h16 rc-black-color ls-0">
         Privacy Policy
-      </span>
-      <span class="ml-32">
+      </a>
+      <a href="" class="ml-32 text-decoration-none montserrat-regular-font s12-h16 rc-black-color ls-0">
         Support
-      </span>
+      </a>
     </span>
-    <span class="mr-40 montserrat-regular-font s12-h16 rc-black-color"
+    <span class="mr-40 montserrat-regular-font s12-h16 rc-black-color ls-0"
       >© Copyright {{ currentYear }} RA Workshop.</span
     >
-  </div>
+  </footer>
 </div>
