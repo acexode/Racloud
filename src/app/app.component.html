@@ -27,11 +27,19 @@
     </div>
   </div>
   <div
-    class="w-100 h6 mt-auto d-flex justify-content-center text-center font-weight-normal"
+    class="w-100 d-flex justify-content-between align-items-center rc-light-grey-bg h32"
     *ngIf="(account | async) === null || this.notFound === true"
   >
-    <span class="my-3"
-      >© {{ currentYear }}, RA-Cloud. Toate drepturile rezervate.</span
+    <span class="ml-64 montserrat-regular-font s12-h16 rc-black-color">
+      <span>
+        Privacy Policy
+      </span>
+      <span class="ml-32">
+        Support
+      </span>
+    </span>
+    <span class="mr-40 montserrat-regular-font s12-h16 rc-black-color"
+      >© Copyright {{ currentYear }} RA Workshop.</span
     >
   </div>
 </div>
