@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Subscription } from 'rxjs';
-import { InputConfig } from '../shared/rc-forms/models/input/Input-config';
+import { InputConfig } from '../shared/rc-forms/models/input/input-config';
 
 @Component({
   selector: 'app-login',
