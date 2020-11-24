@@ -1,0 +1,6 @@
+@import '../variables.scss';
+@import "../mixins";
+
+.border-radius-2 {
+    border-radius: rem(2);
+}

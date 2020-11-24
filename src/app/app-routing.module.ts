@@ -1,3 +1,4 @@
+import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './core/guards/auth/auth.guard';
@@ -31,6 +32,11 @@ const routes: Routes = [
     path: 'not-found',
     component: NotFoundComponent,
     data: { title: 'Not found' },
+  },
+  {
+    path: 'access-denied',
+    component: AccessDeniedComponent,
+    data: { title: 'Access Denied' },
   },
   {
     path: 'style',

@@ -1,0 +1,22 @@
+@import "../variables";
+@import "../mixins";
+
+.ra-logo-group-1 {
+
+    @include flexbox;
+    @include flex-direction(row);
+    @include align-items(center);
+    height: rem(48);
+    width: rem(178);
+    .ra-logo {
+        height: rem(47.95);
+        width: rem(66.84);
+    }
+
+    .ra-cloud-wordmark {
+        margin-left: rem(12.47) !important;
+        height: rem(17.09);
+        width: rem(97.6);
+    }
+
+}

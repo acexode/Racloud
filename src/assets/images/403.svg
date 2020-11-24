@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="80px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>9735F50A-C25B-4C01-B055-08992780BA6A</title>
+    <defs>
+        <linearGradient x1="50%" y1="1.0079764%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FF8766" offset="0%"></stop>
+            <stop stop-color="#D9471F" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="🖥-Wireframe-V3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="00-03-403" transform="translate(-560.000000, -253.000000)" fill="url(#linearGradient-1)">
+            <g id="403" transform="translate(496.000000, 173.000000)">
+                <path d="M104,80 C126.09139,80 144,97.90861 144,120 C144,142.09139 126.09139,160 104,160 C81.90861,160 64,142.09139 64,120 C64,97.90861 81.90861,80 104,80 Z M79.3743561,102.861278 C75.9866504,107.719781 74,113.627887 74,120 C74,136.568542 87.4314575,150 104,150 C110.371676,150 116.279408,148.013622 121.137722,144.626341 L121.137722,144.626341 Z M104,90 C97.4137829,90 91.3232781,92.122397 86.3751146,95.7205621 L86.3751146,95.7205621 L128.279438,137.624885 C131.877603,132.676722 134,126.586217 134,120 C134,103.431458 120.568542,90 104,90 Z" id="Forbidden-sign"></path>
+            </g>
+        </g>
+    </g>
+</svg>
