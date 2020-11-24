@@ -9,7 +9,7 @@ import { InputConfigFocusWithPrefix } from '../shared/rc-forms/configurations/in
 import { InputConfigWithError } from '../shared/rc-forms/configurations/input/input-config-with-error';
 import { InputConfigWithPrefix } from '../shared/rc-forms/configurations/input/input-config-with-prefix';
 import { InputConfigWithFocus } from '../shared/rc-forms/configurations/input/input-configure-with-focus';
-import { InputConfig } from '../shared/rc-forms/models/input/Input-config';
+import { InputConfig } from '../shared/rc-forms/models/input/input-config';
 import { SelectConfig } from '../shared/rc-forms/models/select/select-config';
 
 @Component({
