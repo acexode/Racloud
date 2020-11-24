@@ -1,20 +1,9 @@
 <ng-container>
+
     <div class="">
         <ng-content></ng-content>
     </div>
 
-    <div class="">
-            <ng-content select="[tab-content]"></ng-content>
-    </div>
-   <!--  <div class="rc-primary-bg">
-        <ng-content select="[data-role=selected]"></ng-content>
-    </div>
+    <ng-container *ngTemplateOutlet="selectedTemplate"></ng-container>
 
-    <div class="">
-        <ng-content select="div[role=header]"></ng-content>
-    </div>
-    <div class="">
-        <ng-content select="div[role=body]"></ng-content>
-    </div> -->
-    
 </ng-container>
