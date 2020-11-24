@@ -1,0 +1,28 @@
+@import "../assets/variables";
+@import "../assets/mixins";
+
+.footer{
+    padding-left: rem(64);
+    padding-right: rem(40);
+    height: rem(32);
+    background: $rc-light-grey;
+}
+
+.footer-links a{
+    margin-right: rem(32);
+    color: #161A37;
+    font-family: Montserrat;
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+.copyright-2020-ra {
+    height: 32px;
+    width: 192px;
+    color: #6A7098;
+    font-family: Montserrat;
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: 16px;
+    text-align: right;
+  }

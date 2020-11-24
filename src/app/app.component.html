@@ -12,7 +12,7 @@
     <div
       class="mx-0 d-flex flex-column"
       [ngClass]="{
-        'col-10 p-32': (account | async) && this.notFound === false,
+        'col-10': (account | async) && this.notFound === false,
         'col-12': (account | async) === null || this.notFound === true
       }"
     >
@@ -24,14 +24,21 @@
       <div class="d-flex align-self-end w-100 mt-auto d-flex flex-column">
         <app-footer class="w-100 d-flex flex-column mt-32"></app-footer>
       </div>
+      <footer
+        class="row footer d-flex justify-content-between mx-0"
+       
+      >
+        <div class="col-6 footer-links">
+          <a href="">Privacy Policy</a>
+          <a href="">Support</a>
+        </div>
+        <div class="col-6  text-right">
+          <span class="copyright-2020-ra"
+            >© Copyright{{ currentYear }}, RA-Cloud Workshop</span
+          >
+
+        </div>
+      </footer>
     </div>
-  </div>
-  <div
-    class="w-100 h6 mt-auto d-flex justify-content-center text-center font-weight-normal"
-    *ngIf="(account | async) === null || this.notFound === true"
-  >
-    <span class="my-3"
-      >© {{ currentYear }}, RA-Cloud. Toate drepturile rezervate.</span
-    >
   </div>
 </div>
