@@ -29,6 +29,7 @@ import { OmnDatePickerModule } from './shared/date-picker/date-picker.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { RcFormsModule } from './shared/rc-forms/rc-forms.module';
+import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { TabsModule } from './shared/tabs/tabs.module';
 
 @NgModule({
@@ -41,6 +42,7 @@ import { TabsModule } from './shared/tabs/tabs.module';
     HomeComponent,
     NotFoundComponent,
     StyleGuideComponent,
+    AccessDeniedComponent,
   ],
   imports: [
     BrowserModule,

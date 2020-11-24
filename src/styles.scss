@@ -9,6 +9,9 @@
 html {
   height: 100%;
 }
+.nav-row{
+  flex-direction: row !important;
+}
 .a-ellipse{
   z-index: 100 !important;
 }
@@ -30,6 +33,9 @@ html {
   z-index: 10000 !important;  
   left: auto !important;
   right: 0 !important;
+}
+.btn-group.show .dropdown-toggle {
+   box-shadow: none 
 }
 .datatable-body-cell{
   overflow: visible !important;
@@ -63,4 +69,13 @@ height: 120px !important;
   font-weight: 500;
   letter-spacing: 0;
   line-height: 40px;
+}
+.rc-dropdown{
+  box-sizing: border-box;
+  border: 1px solid #CDE0EC;
+  padding-right: rem(16);
+  padding-left: rem(16);
+  border-radius: 3px;
+  background-color: #FFFFFF;
+  box-shadow: 0 3px 10px 0 rgba(0,56,91,0.21), 0 50px 50px -20px rgba(0,56,91,0.1);
 }
