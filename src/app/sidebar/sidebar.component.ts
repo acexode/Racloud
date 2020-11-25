@@ -6,7 +6,6 @@ import { Router, NavigationEnd } from '@angular/router';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  raLogoType = 'group2';
   @Input() currentYear: number;
   public currentVersion: string = require('../../assets/version.json').version;
   constructor(public routerS: Router) {}

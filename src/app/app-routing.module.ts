@@ -13,7 +13,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/style'
+    redirectTo: 'customer-listing'
   },
   {
     path: 'home',

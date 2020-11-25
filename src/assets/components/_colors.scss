@@ -10,10 +10,10 @@
     color: $rc-accent-blue-160;
 }
 .rc-primary-color {
-    color: $rc-primary;
+    color: $rc-primary !important;
 }
 .rc-primary-bg {
-    background: $rc-primary;
+    background: $rc-primary !important;
 }
 .rc-black-color {
     color: $rc-black !important;
