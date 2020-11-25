@@ -32,6 +32,7 @@ import { RcFormsModule } from './shared/rc-forms/rc-forms.module';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { TabsModule } from './shared/tabs/tabs.module';
 import { CustomerListingComponent } from './customer-listing/customer-listing.component';
+import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { CustomerListingComponent } from './customer-listing/customer-listing.co
     StyleGuideComponent,
     AccessDeniedComponent,
     CustomerListingComponent,
+    RaLogoComponent,
   ],
   imports: [
     BrowserModule,
