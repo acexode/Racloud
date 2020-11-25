@@ -6,21 +6,21 @@
   <div class="container content-container d-flex flex-grow-1 flex-shrink-1">
     <app-sidebar
       [currentYear]="currentYear"
-      class="d-flex px-0 col-2"
+      class="d-flex px-0"
     ></app-sidebar>
     <div
-      class="mx-0 d-flex flex-column position-relative"
-      [ngClass]="{
-        'col-10': (account | async) && this.notFound === false,
-        'col-12': (account | async) === null || this.notFound === true
-      }"
+      class="mx-0 d-flex flex-column px-0 col"
     >
       <app-messages
         class="w-100 mt-n32 mb-32"
         [listClass]="'mt-32 mt-sm-3'"
       ></app-messages>
-      <router-outlet></router-outlet>
-      <div class="d-flex align-self-end w-100 mt-auto d-flex flex-column position-relative">
+
+      <div class="pl-64">
+        <router-outlet></router-outlet>
+      </div>
+      
+      <div class="d-flex align-self-end w-100 mt-auto d-flex flex-column">
         <app-footer class="w-100 d-flex flex-column mt-32"></app-footer>
       </div>
     </div>

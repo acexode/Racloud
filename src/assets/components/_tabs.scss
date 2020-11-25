@@ -18,10 +18,9 @@ app-tabs {
             @include flex-wrap(wrap);
             position: relative;
             overflow: hidden;
-            .tab-bar-line {
-                height: auto;
-                -ms-flex: 1 1 auto;
-                flex: 1 1 auto;
+            position: relative;
+            .tab-bar-button-holder {
+                width: 100%;
                 border-bottom: $rc-secondary-ouline;
             }
 
@@ -46,7 +45,7 @@ app-tabs {
                 color: $rc-grey;
                 background: $white;
                 border: $rc-none;
-                border-bottom: $rc-secondary-ouline;
+                /* border-bottom: $rc-secondary-ouline; */
                 outline: $rc-none !important;
 
                 &.selected {
