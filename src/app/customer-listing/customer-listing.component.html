@@ -1,1 +1,40 @@
-<p>customer-listing works!</p>
+<app-page-container [config]="containerConfig">
+    <div class="w-100" container-body>
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <p class="pyramid-title">Pyramid</p>
+
+                    <h1 class="customers-title">Customers</h1>
+                </div>
+                <div class="col-auto float-right ml-auto">
+                    <button class="btn btn-danger rounded-75 add-customer"> Add Customer</button>
+                </div>
+            </div>
+        </div>
+        <app-table [rows]="tableData | async" [config]="tableConfig" (filterData)="filterTable($event)"
+            [rowDetailConfig]="rowDetailIcons"></app-table>
+    </div>
+</app-page-container>
+
+<ng-template #hoverDetailTpl let-column="column" let-row="row">
+    <div class="d-flex justify-content-end w-100">
+        <div class="d-flex bg-container justify-content-end py-10 mt-n10">
+            <div class="row-detail d-flex align-items-center"></div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #actionDropdown let-column="column" let-row="row">
+    <div class="btn-group" dropdown>
+        <a id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse" aria-controls="dropdown-basic">
+            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+        </a>
+        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+            <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item" href="#">Manage</a></li>
+            <li (click)="renewSub(row)" role="menuitem"><a class="dropdown-item" href="#">Renew Subscription</a></li>
+            <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item" href="#">Delete</a></li>
+
+        </ul>
+    </div>
+
+</ng-template>

@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
+import { CustomerListingComponent } from './customer-listing/customer-listing.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,11 @@ const routes: Routes = [
     path: 'style',
     component: StyleGuideComponent,
     data: { title: 'style guide' },
+  },
+  {
+    path: 'customer-listing',
+    component: CustomerListingComponent,
+    data: { title: 'Customer Listing' },
   },
   { path: '**', redirectTo: '/not-found' },
 ];

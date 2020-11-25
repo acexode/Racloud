@@ -43,7 +43,6 @@ export class TableComponent implements OnInit {
 
   filterInputData: TableFilterConfig = {};
   actualData: any;
-  tempData = this.actualData;
 
   selected = [];
   ColumnMode = ColumnMode;
