@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './core/services/auth/auth.service';
+import { FooterService } from './core/services/footer/footer.service';
 import { TitleService } from './core/services/title/title.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class AppComponent implements OnInit {
   account = this.authS.getAccountData();
   notFound = false;
 
-  constructor(private authS: AuthService, private titleService: TitleService) {
+  constructor(private authS: AuthService, private titleService: TitleService ) {
     this.currentYear = this.getYear();
     this.titleService.handleNavigationTitle();
   }

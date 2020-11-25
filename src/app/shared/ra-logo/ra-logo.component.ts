@@ -17,7 +17,6 @@ export class RaLogoComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.groupTypeClass, this.groupType);
   }
 
   get groupTypeClass() {

@@ -9,7 +9,7 @@
       class="d-flex px-0 col-2"
     ></app-sidebar>
     <div
-      class="mx-0 d-flex flex-column"
+      class="mx-0 d-flex flex-column position-relative"
       [ngClass]="{
         'col-10': (account | async) && this.notFound === false,
         'col-12': (account | async) === null || this.notFound === true
@@ -20,25 +20,10 @@
         [listClass]="'mt-32 mt-sm-3'"
       ></app-messages>
       <router-outlet></router-outlet>
-      <div class="d-flex align-self-end w-100 mt-auto d-flex flex-column">
+      <div class="d-flex align-self-end w-100 mt-auto d-flex flex-column position-relative">
         <app-footer class="w-100 d-flex flex-column mt-32"></app-footer>
       </div>
     </div>
   </div>
-  <footer
-    class="w-100 d-flex justify-content-between align-items-center rc-light-grey-bg h32 fixed-bottom"
-    *ngIf="(account | async) === null || this.notFound === true"
-  >
-    <span class="pl-64">
-      <a href="" class="text-decoration-none montserrat-regular-font s12-h16 rc-black-color ls-0">
-        Privacy Policy
-      </a>
-      <a href="" class="ml-32 text-decoration-none montserrat-regular-font s12-h16 rc-black-color ls-0">
-        Support
-      </a>
-    </span>
-    <span class="mr-40 montserrat-regular-font s12-h16 rc-black-color ls-0"
-      >© Copyright {{ currentYear }} RA Workshop.</span
-    >
-  </footer>
+  
 </div>
