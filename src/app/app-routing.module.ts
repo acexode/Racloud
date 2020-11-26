@@ -13,7 +13,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'customer-listing'
+    redirectTo: 'customer'
   },
   {
     path: 'home',
@@ -45,7 +45,7 @@ const routes: Routes = [
     data: { title: 'style guide' },
   },
   {
-    path: 'customer-listing',
+    path: 'customer',
     component: CustomerListingComponent,
     data: { title: 'Customer Listing' },
   },

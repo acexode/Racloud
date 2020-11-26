@@ -239,7 +239,67 @@
     width: 100% !important;
   }
 }
-.datatable-footer {
+.ngx-datatable.bootstrap {
+  .datatable-footer {
+    background: $rc-none !important;
+    color: $rc-accent-blue-160 !important;
+    margin-top: rem(0) !important;
+    .page-count {
+      line-height: 50px;
+      height: 50px;
+      padding: 0 1.2rem;
+    }
+    .datatable-pager {
+      margin: 0 !important;
+      vertical-align: baseline !important;
+      ul {
+        margin: rem(16) 0 0 0 !important;
+        padding: 0 !important;
+        li {
+          margin: 0 !important;
+          padding: 0 !important;
+          &:not(.disabled) {
+            &.active,
+            &:hover {
+              a {
+                background-color: $white;
+                font-weight: normal !important;
+              }
+            }
+            &.active{
+              a {
+                border: $rc-primary-outline;
+              }
+            }
+            
+          }
+        }
+      }
+      a {
+        height: rem(32);
+        min-width: rem(32);
+        font-size: rem(12);
+        line-height: rem(30);
+        border-radius: rem(3);
+        margin: 0 !important;
+        text-align: center !important;
+        vertical-align: none !important;
+        text-decoration: none;
+        color: $rc-accent-blue-160 !important;
+        border: $rc-white-outline;
+      }
+      .datatable-icon-left,
+      .datatable-icon-skip,
+      .datatable-icon-right,
+      .datatable-icon-prev {
+        font-size: rem(12);
+        line-height: rem(16);
+        padding: 0 3px;
+      }
+    }
+  }
+}
+/* .datatable-footer {
   background: transparent !important;
   color: #ededed;
   margin-top: -1px;
@@ -258,41 +318,37 @@
     margin: rem(16) 0 0 0 !important;
     vertical-align: top;
     padding: 0 !important;
+    background: green;
     ul {
       margin: 0 !important;
       padding: 0 !important;
       li {
+        background: yellow;
         &:hover { 
             background: none !important;
         }
 
         a { 
           display: inline-block !important;  
-          line-height: rem(16);
-          padding: 0;
-          border-radius: 0 !important;
-          /* margin: 0 4px !important; */
+          font-size: rem(12) !important;
+          line-height: rem(16) !important;
           text-align: center;
           text-decoration: none;
-          color: #191a19 !important;
+          color: $rc-black !important;
+          background: $white !important;
           font-weight: bold;
           &:hover { 
-              background: none !important;
+              background: $white !important;
           }
         }
 
         &:not(.disabled) {
           &.active {
-            border-radius: 3px;
-            letter-spacing: 0;
-            padding: 0 !important; 
             a {  
               color: #D9471F !important;
-              background: none !important;            
+              border-radius: 3px;
+              border: $rc-primary-outline !important;         
             }
-            &:last-child {
-                display: none !important;
-              }
           }
         }
       }
@@ -335,18 +391,18 @@
       content: url("~src/assets/images/caret-right.svg");
     }
   }
-}
-.ngx-datatable.bootstrap .datatable-pager ul li {     
+} */
+/* .ngx-datatable.bootstrap .datatable-pager ul li {     
       width: rem(32);
       height: rem(32);
       margin-right: rem(8);
-}
-.left-icon {
+} */
+/* .left-icon {
   margin-right: rem(12);
 }
 .right-icon {
   margin-left: rem(12);
-}
+} */
 
 .ngx-datatable {
   /* height */

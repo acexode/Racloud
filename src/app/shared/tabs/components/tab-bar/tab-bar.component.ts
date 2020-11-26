@@ -12,8 +12,5 @@ export class TabBarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  clickIt() {
-    console.log('clicked');
-  }
 
 }
