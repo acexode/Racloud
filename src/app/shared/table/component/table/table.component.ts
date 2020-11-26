@@ -82,8 +82,6 @@ export class TableComponent implements OnInit {
       '' +
       (this.config.selectDetail ? 'has-select-detail ' : '') +
       (this.config.selectable ? 'has-selectable' : '');
-      const table_header = document.querySelector(".datatable-header")
-      console.log(table_header)
   }
 
   @HostListener('window:resize', ['$event'])

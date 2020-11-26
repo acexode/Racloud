@@ -82,7 +82,6 @@ export class ProductsComponent implements OnInit {
         minWidth: 200,
         width: 90,
         noGrow: true,
-       
       },
       {
         identifier: 'currency',
@@ -159,7 +158,5 @@ removeRow(id){
 manageSub(id){
   console.log(id);
 }
-renewSub(id){
-  console.log(id);
-}
+
 }
