@@ -1,3 +1,4 @@
+import { ProductsComponent } from './products/products.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -20,6 +21,14 @@ const routes: Routes = [
     component: HomeComponent,
     data: {
       title: 'Acasa'
+    },
+  },
+  {
+    path: 'products',
+    canActivate: [AuthGuard],
+    component: ProductsComponent,
+    data: {
+      title: 'Products'
     },
   },
   {

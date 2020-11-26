@@ -77,8 +77,7 @@
     cursor: inherit;
     pointer-events: none !important;
   }
-  .datatable-header {
-    height: rem(85) !important;
+  .datatable-header { 
     background-color: $white;
     &.active {
       color: $base-text-color !important;
