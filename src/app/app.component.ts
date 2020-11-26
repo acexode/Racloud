@@ -22,7 +22,11 @@ export class AppComponent implements OnInit {
     this.titleService.handleNavigationTitle().subscribe((v) => {
       if (v && v === 'Not found') {
         this.notFound = true;
-      } else {
+      } 
+      else if (v && v === 'Access Denied') {
+        this.notFound = true;
+      } 
+      else {
         this.notFound = false;
       }
     });
