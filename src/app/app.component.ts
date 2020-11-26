@@ -36,7 +36,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.titleService.handleNavigationTitle().subscribe((v) => {
-      console.log(v);
       if (v && v === 'Not found') {
 
         this.notFound = true;
