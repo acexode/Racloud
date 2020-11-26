@@ -14,7 +14,6 @@ export interface InputConfig {
     // Text types.
     clearable?: boolean;
     clearOnEdit?: boolean;
-
     // General properties.
     maxLength?: number;
     minLength?: number;
@@ -23,9 +22,7 @@ export interface InputConfig {
     autoCapitalize?: string;
     inputMode?: string;
     step?: number;
-
     // prefix option
     prefixIcon?: boolean;
-
     formStatus?: FormStatus;
 }

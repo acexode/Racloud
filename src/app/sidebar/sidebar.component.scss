@@ -2,21 +2,37 @@
 @import "../../assets/mixins";
 
 .sidebar {
-  background-color: $light-grey-2;
+  background-color: $sidebar;
   box-shadow: 0 2px 5px -2px rgba(0, 66, 32, 0.12),
     0 10px 20px -1px rgba(0, 134, 65, 0.12);
   // box-shadow: 0 2px 5px 0 rgba(0,66,32,0.12), 0 10px 20px 0 rgba(0,134,65,0.12);
+}
+.rc-nav{
+  padding-top: rem(40);
 }
 .nav-icon,
 .submenu-icon {
   width: rem(20);
   height: rem(20);
+  margin-right: rem(16);
+ 
+}
+.menu-item{
+  margin: 0 16px;
+  height: rem(44);
+  padding: rem(10) rem(12);
 }
 .menu-item:focus,
 .menu-item.active-link {
-  background-color: $white;
+  border-radius: 3px;
+  background-color: #161A37;
+  color: #fff !important;
   outline: none;
 }
+
+.menu-item:focus  .nav-icon {
+   color: #fff;
+ }
 .child-item:focus {
   outline: none;
   a:focus {
@@ -33,20 +49,23 @@
 .nav-item:focus,
 .nav-item.active-link {
   outline: none;
-  color: $green;
+  color: #fff;
   .rectangle {
     visibility: visible;
   }
 
   a {
-    color: $green !important;
-    font-weight: bold;
+    color: #FFFFFF;
+    font-family: Montserrat;
+    font-size: 15px;
+    letter-spacing: 0;
+    line-height: 24px;
   }
   svg {
     fill: currentColor;
   }
   svg-icon svg {
-    color: $green;
+    color:  #fff;
   }
   .child-item {
     a {
@@ -76,8 +95,11 @@
   color: $green;
 
   a {
-    color: $black !important;
-    font-weight: normal;
+    color: #FFFFFF;
+    font-family: Montserrat;
+    font-size: 15px;
+    letter-spacing: 0;
+    line-height: 24px;
   }
   svg {
     fill: currentColor;
@@ -85,10 +107,16 @@
 }
 
 .submenu-icon {
-  visibility: hidden;
+  // visibility: hidden;
   margin-left: rem(18);
 }
-
+.text-links{
+  color: #FFFFFF;
+  font-family: Montserrat;
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
 .rectangle {
   height: rem(20);
   width: rem(2);

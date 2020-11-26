@@ -3,6 +3,9 @@
 .rc-grey-color {
     color: $rc-grey;
 }
+.rc-light-grey-bg {
+    background: $rc-light-grey;
+}
 .rc-accent-blue-160-color {
     color: $rc-accent-blue-160;
 }
@@ -11,4 +14,10 @@
 }
 .rc-primary-bg {
     background: $rc-primary;
+}
+.rc-black-color {
+    color: $rc-black !important;
+}
+.rc-accent-blue-bg {
+    background: $rc-accent-blue;
 }

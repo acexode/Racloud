@@ -29,8 +29,8 @@ import { OmnDatePickerModule } from './shared/date-picker/date-picker.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { RcFormsModule } from './shared/rc-forms/rc-forms.module';
-import { TabComponent } from './shared/tab/tab.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
+import { TabsModule } from './shared/tabs/tabs.module';
 
 @NgModule({
   declarations: [
@@ -42,7 +42,6 @@ import { AccessDeniedComponent } from './access-denied/access-denied.component';
     HomeComponent,
     NotFoundComponent,
     StyleGuideComponent,
-    TabComponent,
     AccessDeniedComponent,
   ],
   imports: [
@@ -65,6 +64,7 @@ import { AccessDeniedComponent } from './access-denied/access-denied.component';
     ContainerModule,
     TableModule,
     RcFormsModule,
+    TabsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

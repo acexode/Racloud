@@ -1,6 +1,6 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormBuilder, Validators } from '@angular/forms';
-import { InputConfig } from './../../models/input/Input-config';
+import { InputConfig } from './../../models/input/input-config';
 import { get } from 'lodash';
 @Component({
   selector: 'app-input',
