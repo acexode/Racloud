@@ -18,7 +18,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   /* shoul be removed later */
   showSideHeaderAndFooter = false;
-  noSideBarAndHeader = ['Login'];
+  noSideBarAndHeader = ['Login', 'not-found', 'access-denied'];
   /*  */
   constructor(
     private authS: AuthService,
