@@ -1,26 +1,16 @@
-<div class="footer d-flex flex-row align-items-center w-100">
+ <!-- <div class="footer d-flex flex-row align-items-center w-100">
   <div
     class="full-width-container flex-column bottom d-flex full-width-container d-flex flex-grow-1 w-100 mx-n32 mb-n32"
   >
-    <ng-container *ngFor="let tConf of templateList$ | async">
+   <ng-container *ngFor="let tConf of templateList$ | async">
       <ng-container
         [ngTemplateOutlet]="tConf?.tRef"
         [ngTemplateOutletContext]="tConf?.tContext"
       ></ng-container>
-    </ng-container>
+    </ng-container> 
   </div>
-</div>
+</div>-->
 
-
-<footer class="w-100 d-flex justify-content-between align-items-center rc-light-grey-bg h32">
-  <span class="pl-64">
-    <a href="" class="text-decoration-none montserrat-regular-font s12-h16 rc-black-color ls-0">
-      Privacy Policy
-    </a>
-    <a href="" class="ml-32 text-decoration-none montserrat-regular-font s12-h16 rc-black-color ls-0">
-      Support
-    </a>
-  </span>
-  <span class="mr-40 montserrat-regular-font s12-h16 rc-black-color ls-0">© Copyright {{ currentYear }} RA
-    Workshop.</span>
-</footer>
+<ng-container *ngFor="let tConf of templateList$ | async">
+  <ng-container [ngTemplateOutlet]="tConf?.tRef" [ngTemplateOutletContext]="tConf?.tContext"></ng-container>
+</ng-container>
