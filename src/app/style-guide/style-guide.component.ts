@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InputConfigDisabled } from '../shared/rc-forms/configurations/input/input-config-disable';
 import { InputConfigDisabledWithPrefix } from '../shared/rc-forms/configurations/input/input-config-disabled-with-prefix';
@@ -17,7 +17,7 @@ import { SelectConfig } from '../shared/rc-forms/models/select/select-config';
   templateUrl: './style-guide.component.html',
   styleUrls: ['./style-guide.component.scss']
 })
-export class StyleGuideComponent implements OnInit {
+export class StyleGuideComponent implements OnInit, AfterViewInit {
   inputConfig: InputConfig = {
     inputLabel: {
       text: 'Label'
@@ -93,16 +93,31 @@ export class StyleGuideComponent implements OnInit {
   };
   styleForm: FormGroup;
 
-  tabSwitch = 'tab1';
-  tabA = {
-    name: 'Tab1',
-    role: 'header'
-  };
-  tabB = {
-    name: 'Tab2',
-    role: 'notSelected'
-  };
-  constructor(private fb: FormBuilder) { }
+  /* tab */
+
+  @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
+  @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
+  @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
+  tabSwitch: any;
+  tabs = [
+    {
+      name: 'Tab 1',
+      template: 'firstTab',
+      isSelected: true
+    },
+    {
+      name: 'Tab 2 Default',
+      template: 'secondTab',
+      isSelected: false
+    },
+    {
+      name: 'Tab 3 Default',
+      template: 'thirdTab',
+      isSelected: false
+    }
+  ];
+  /*  */
+  constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -135,7 +150,24 @@ export class StyleGuideComponent implements OnInit {
     console.log(this.theInputText.value);
   }
 
-  switchTab(tabName: string) {
-    this.tabSwitch = tabName;
+  ngAfterViewInit() {
+    this.showDefaultTab();
+    this.cdref.detectChanges();
+  }
+
+  showDefaultTab() {
+    this.tabSwitch = this.firstTab;
+  }
+
+  switchTab(tabName: string, index: number) {
+    this.tabSwitch = this[tabName];
+    this.ressetTabSelectStatus();
+    // set as active
+    this.tabs[index].isSelected = true;
+  }
+  ressetTabSelectStatus() {
+    for (const tab of this.tabs) {
+      tab.isSelected = false;
+    }
   }
 }

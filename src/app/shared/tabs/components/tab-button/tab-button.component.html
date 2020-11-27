@@ -1,5 +1,9 @@
 <ng-container>
-    <app-button type="button" color="tertiary">
-        Add new something
-    </app-button>
+
+    <button class="tab-btn" type="button" [ngClass]="{'selected': selected}">
+
+        <ng-content></ng-content>
+
+    </button>
+
 </ng-container>
