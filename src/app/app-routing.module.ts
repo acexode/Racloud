@@ -23,6 +23,14 @@ const routes: Routes = [
     },
   },
   {
+    path: 'users',
+    canActivate: [AuthGuard],
+    component: HomeComponent,
+    data: {
+      title: 'Users'
+    },
+  },
+  {
     path: 'login',
     data: { title: 'Login' },
     canActivate: [LoginGuard],
