@@ -157,7 +157,7 @@
     &:not(.hover-detail) {
       background-color: $ultra-light-red;
       color: $rc-black;
-      font-family: "Helvetica Neue";
+      font-family: $font-helveticaNeue;
       font-size: 14px;
       letter-spacing: 0;
       line-height: 16px;
@@ -193,12 +193,12 @@
       background-color: $white !important;
     }
     &.active {
-      color: $base-text-color !important;
+      color: $rc-black !important;
       background-color: $ultra-light-red !important;
       border-bottom: 1px solid #D9471F;
     }
     &.hover {
-      color: $base-text-color !important;
+      color: $rc-black !important;
       background-color: $ultra-light-red !important;
       border-bottom: 1px solid #D9471F;
       &.datatable-row-even {
@@ -212,9 +212,10 @@
     }
     .datatable-body-cell {
       padding: rem(8) rem(12);
+      font-family: $font-helveticaNeue !important;
       font-size: rem(14);
       line-height: rem(16);
-      color: $rc-black;
+      color: $rc-grey;
       text-align: left;
       vertical-align: top;
       border-bottom: 1px dotted $medium-grey-2;

@@ -7,6 +7,7 @@
       [src]="searchIcon"
       [ngClass]="'input-icon position-absolute'"
       [applyClass]="true"
+      *ngIf="!filterConfig?.noIcon"
     ></svg-icon>
     <input
       type="text"
@@ -23,6 +24,7 @@
       [src]="searchIcon"
       [ngClass]="'input-icon position-absolute'"
       [applyClass]="true"
+       *ngIf="!filterConfig?.noIcon"
     ></svg-icon>
     <input
       type="number"
@@ -63,6 +65,7 @@
       [src]="calendarIcon"
       [ngClass]="'input-icon position-absolute'"
       [applyClass]="true"
+       *ngIf="!filterConfig?.noIcon"
     ></svg-icon>
     <input
       type="text"
@@ -82,6 +85,7 @@
       [src]="calendarIcon"
       [ngClass]="'input-icon position-absolute'"
       [applyClass]="true"
+       *ngIf="!filterConfig?.noIcon"
     ></svg-icon>
     <input
       type="text"

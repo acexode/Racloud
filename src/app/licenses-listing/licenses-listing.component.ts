@@ -100,6 +100,7 @@ export class LicensesListingComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
+          noIcon: true
         },
       },
       {
@@ -114,6 +115,7 @@ export class LicensesListingComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
+          noIcon: true
         },
       },
       {
@@ -129,6 +131,7 @@ export class LicensesListingComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
+          noIcon: true
         },
       },
       {
@@ -144,6 +147,7 @@ export class LicensesListingComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
+          noIcon: true
         },
       },
       {
@@ -159,7 +163,21 @@ export class LicensesListingComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
+          noIcon: true
         },
+      },
+      {
+        identifier: 'action',
+        label: '',
+        sortable: true,
+        minWidth: 60,
+        noGrow: true,
+        headerHasFilterIcon: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'right',
+        hasFilter: true,
+        cellTemplate: this.actionDropdown
       },
     ];
     this.getJSON().subscribe((data) => {
