@@ -75,22 +75,10 @@ export class LicensesListingComponent implements OnInit {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'name',
-        label: 'Name',
+        identifier: 'product-name',
+        label: 'Product Name',
         sortable: true,
-        minWidth: 200,
-        width: 90,
-        noGrow: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-        },
-      },
-      {
-        identifier: 'city',
-        label: 'City',
-        sortable: true,
-        minWidth: 150,
+        minWidth: 237,
         width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -101,10 +89,24 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'phone',
-        label: 'Phone',
+        identifier: 'purchased',
+        label: 'Purchased',
         sortable: true,
-        minWidth: 150,
+        minWidth: 160,
+        width: 100,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'right',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+        },
+      },
+      {
+        identifier: 'expires',
+        label: 'Expires',
+        sortable: true,
+        minWidth: 160,
         width: 300,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -115,10 +117,10 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'email',
-        label: 'Email',
+        identifier: 'status',
+        label: 'Status',
         sortable: true,
-        minWidth: 250,
+        minWidth: 161,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -130,10 +132,10 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'type',
-        label: 'Type',
+        identifier: 'partner-license',
+        label: 'Partner license',
         sortable: true,
-        minWidth: 130,
+        minWidth: 160,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -145,10 +147,10 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'parent',
-        label: 'Parent',
+        identifier: 'renew',
+        label: 'Renew by User Company',
         sortable: true,
-        minWidth: 130,
+        minWidth: 220,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -158,49 +160,6 @@ export class LicensesListingComponent implements OnInit {
           data: null,
           filterType: TableFilterType.TEXT,
         },
-      },
-      {
-        identifier: 'anniv-date',
-        label: 'Anniv-date',
-        sortable: true,
-        minWidth: 130,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-        },
-      },
-      {
-        identifier: 'fee',
-        label: 'Sub.fee',
-        sortable: true,
-        minWidth: 130,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-        },
-      },
-      {
-        identifier: 'action',
-        label: '',
-        sortable: true,
-        minWidth: 60,
-        noGrow: true,
-        headerHasFilterIcon: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: true,
-        cellTemplate: this.actionDropdown
       },
     ];
     this.getJSON().subscribe((data) => {
@@ -216,7 +175,7 @@ export class LicensesListingComponent implements OnInit {
     });
   }
   public getJSON(): Observable<any> {
-    return this.http.get('./assets/ra-table.json');
+    return this.http.get('./assets/ra-table-license.json');
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
