@@ -33,6 +33,7 @@ import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { TabsModule } from './shared/tabs/tabs.module';
 import { CustomerListingComponent } from './customer-listing/customer-listing.component';
 import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
+import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
     AccessDeniedComponent,
     CustomerListingComponent,
     RaLogoComponent,
+    LicensesListingComponent,
   ],
   imports: [
     BrowserModule,

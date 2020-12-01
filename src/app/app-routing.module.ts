@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { CustomerListingComponent } from './customer-listing/customer-listing.component';
+import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
 
 const routes: Routes = [
   {
@@ -48,6 +49,11 @@ const routes: Routes = [
     path: 'customer',
     component: CustomerListingComponent,
     data: { title: 'Customer Listing' },
+  },
+  {
+    path: 'licenses',
+    component: LicensesListingComponent,
+    data: { title: 'Licenses Listing' },
   },
   { path: '**', redirectTo: '/not-found' },
 ];
