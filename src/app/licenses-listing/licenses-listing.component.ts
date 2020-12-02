@@ -19,6 +19,9 @@ export class LicensesListingComponent implements OnInit {
   @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
   @ViewChild('selectT', { static: true }) selectT: any;
 
+  @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
+
+
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   containerConfig: PageContainerConfig = {
@@ -129,6 +132,7 @@ export class LicensesListingComponent implements OnInit {
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
+        cellTemplate: this.expiredIconTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,

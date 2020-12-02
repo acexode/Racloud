@@ -45,3 +45,16 @@
     </div>
 
 </ng-template>
+
+
+<ng-template #expiredIconTemplate let-column="column" let-value="cellValue">
+    <div class="table-status-column">
+        <ng-container [ngSwitch]="value">
+            <span *ngSwitchCase="1">Active</span>
+            <span *ngSwitchCase="2">InActive</span>
+            <span *ngSwitchCase="0">Expired</span>
+            <span *ngSwitchDefault>Expired</span>
+        </ng-container>
+        <img src="./../../assets/images/expired.svg" alt="expired-icon" class="isExpired" />
+    </div>
+</ng-template>
