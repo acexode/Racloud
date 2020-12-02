@@ -18,9 +18,7 @@ export class TableFilterComponent implements OnInit {
   filterType = TableFilterType;
   constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.filterConfig)
-  }
+  ngOnInit(): void {}
 
   outputFilter() {
     this.filterChange.emit(this.fieldModel);

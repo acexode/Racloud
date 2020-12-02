@@ -64,6 +64,7 @@ export class LicensesListingComponent implements OnInit {
     columns: [],
     externalPaging: false,
     externalSorting: false,
+    loadingIndicator: true,
     action: true
   };
   constructor(
@@ -86,6 +87,7 @@ export class LicensesListingComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
+          placeholder: 'Search'
         },
       },
       {
@@ -94,8 +96,8 @@ export class LicensesListingComponent implements OnInit {
         sortable: true,
         minWidth: 160,
         width: 100,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
+        sortIconPosition: 'left',
+        labelPosition: 'right',
         cellContentPosition: 'right',
         filterConfig: {
           data: null,
@@ -109,8 +111,8 @@ export class LicensesListingComponent implements OnInit {
         sortable: true,
         minWidth: 160,
         width: 300,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
+        sortIconPosition: 'left',
+        labelPosition: 'right',
         cellContentPosition: 'right',
         filterConfig: {
           data: null,

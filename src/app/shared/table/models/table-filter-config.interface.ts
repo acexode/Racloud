@@ -13,6 +13,7 @@ export interface TableFilterConfigItem {
   };
   filterType: TableFilterType;
   noIcon?: boolean;
+  placeholder?: string;
 }
 export interface TableFilterConfig {
   [filterKey: string]: TableFilterConfigItem;

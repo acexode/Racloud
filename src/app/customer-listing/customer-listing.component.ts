@@ -84,6 +84,7 @@ export class CustomerListingComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
+          placeholder: 'Search here'
         },
       },
       {
@@ -98,6 +99,7 @@ export class CustomerListingComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
+          noIcon: true
         },
       },
       {
@@ -112,6 +114,7 @@ export class CustomerListingComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
+          noIcon: true
         },
       },
       {
@@ -127,6 +130,7 @@ export class CustomerListingComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
+          noIcon: true
         },
       },
       {
@@ -142,6 +146,7 @@ export class CustomerListingComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
+          noIcon: true
         },
       },
       {
@@ -157,6 +162,7 @@ export class CustomerListingComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
+          noIcon: true
         },
       },
       {
@@ -172,6 +178,7 @@ export class CustomerListingComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
+          noIcon: true
         },
       },
       {
@@ -187,6 +194,7 @@ export class CustomerListingComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
+          noIcon: true
         },
       },
       {
