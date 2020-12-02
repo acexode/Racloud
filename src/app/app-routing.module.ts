@@ -26,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: 'users',
-    component: UsersComponent,  
+    component: UsersComponent,
     data: {
       title: 'Users'
     },
