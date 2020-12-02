@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FooterService } from '../core/services/footer/footer.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
@@ -12,10 +12,11 @@ import { TableService } from '../shared/table/services/table.service';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  isDropup = false;
+  isDropup = true;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl;
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
   @ViewChild('selectT', { static: true }) selectT;
@@ -70,7 +71,8 @@ export class UsersComponent implements OnInit {
   constructor(
     private tS: TableService,
     private footerS: FooterService,
-    private http: HttpClient
+    private http: HttpClient,
+    private ref: ChangeDetectorRef
   ) {}
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -161,6 +163,7 @@ setDropUp(row) {
   }else {
     this.isDropup = true;
   }
+  this.ref.detectChanges()
 }
 removeRow(id){
   console.log(id);
