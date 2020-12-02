@@ -74,7 +74,6 @@ export class ProductsComponent implements OnInit {
     private http: HttpClient,
     private ref: ChangeDetectorRef
   ) {}
-  
 
   ngOnInit(): void {
     document.addEventListener('scroll', (e) =>{
@@ -107,7 +106,7 @@ export class ProductsComponent implements OnInit {
         minWidth: 100,
         width: 100,
         sortIconPosition: 'right',
-        labelPosition: 'left',
+        labelPosition: 'right',
         cellContentPosition: 'right',
       },
       {
@@ -159,8 +158,8 @@ filterTable(filterObj: TableFilterConfig) {
   this.tableData.next(newRows);
 }
 setDropUp(row) {
-  const idx = this.rowData.findIndex(e => e.id == row.id) + 1;
-  const mod = idx % 10 == 0 ? 10 : idx % 10;
+  const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
+  const mod = idx % 10 === 0 ? 10 : idx % 10;
   console.log(idx)
   console.log(mod)
   if(mod < 6) {
