@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FooterService } from '../core/services/footer/footer.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
@@ -12,10 +12,11 @@ import { TableService } from '../shared/table/services/table.service';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent implements OnInit {
-  isDropup = false;
+  isDropup = true;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl;
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
   @ViewChild('selectT', { static: true }) selectT;
@@ -70,7 +71,8 @@ export class ProductsComponent implements OnInit {
   constructor(
     private tS: TableService,
     private footerS: FooterService,
-    private http: HttpClient
+    private http: HttpClient,
+    private ref: ChangeDetectorRef
   ) {}
   
 
@@ -159,12 +161,15 @@ filterTable(filterObj: TableFilterConfig) {
 setDropUp(row) {
   const idx = this.rowData.findIndex(e => e.id == row.id) + 1;
   const mod = idx % 10 == 0 ? 10 : idx % 10;
+  console.log(idx)
   console.log(mod)
   if(mod < 6) {
     this.isDropup = false;
   }else {
     this.isDropup = true;
   }
+  this.ref.detectChanges()
+  console.log(this.isDropup)
 }
 removeRow(id){
   console.log(id);
