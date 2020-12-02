@@ -155,15 +155,13 @@ filterTable(filterObj: TableFilterConfig) {
 }
 setDropUp(row) {
   const idx = this.rowData.findIndex(e => e.id == row.id) + 1;
-  console.log(idx)
   const mod = idx % 10 === 0 ? 10 : idx % 10;
-  console.log(mod)
   if(mod < 6) {
     this.isDropup = false;
   }else {
     this.isDropup = true;
   }
-  this.ref.detectChanges()
+  this.ref.detectChanges();
 }
 removeRow(id){
   console.log(id);
