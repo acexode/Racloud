@@ -25,7 +25,6 @@ const routes: Routes = [
   },
   {
     path: 'orders',
-    canActivate: [AuthGuard],
     component: OrdersComponent,
     data: {
       title: 'Order'
