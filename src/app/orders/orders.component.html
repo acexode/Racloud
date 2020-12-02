@@ -2,13 +2,23 @@
     <div container-body>
       <div class="page-header">
         <div class="row align-items-center">
-          <div class="col">  
+          <div class="col-9">  
               <p class="pyramid-title">Pyramid</p>
             
             <h1 class="customers-title">Orders</h1>
           </div>
-          <div class="col-auto float-right ml-auto">
-            <button  class="btn btn-danger rounded-75 add-customer"> Add Order</button>
+          <div class="col-3 float-right ml-auto">
+            <div class="row ">
+              <div class="col-9 pt-2 d-flex justify-content-end float-right text-right">
+                <app-toggle class="toggle-right"></app-toggle>
+                <span class="toggle-label">All orders</span>
+            </div>
+              <div class="col-3">
+                
+                <button  class="btn btn-danger rounded-75 add-customer"> Add Order</button>
+            </div>
+            
+          </div>
           </div>
         </div>
       </div>
@@ -29,8 +39,8 @@
     </div>
   </ng-template>
   <ng-template #actionDropdown let-column="column" let-row="row">
-    <div class="btn-group" dropdown>
-      <a id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
+    <div class="btn-group" dropdown [dropup]="isDropup">
+      <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
               aria-controls="dropdown-basic">
               <i class="fa fa-ellipsis-h" aria-hidden="true"></i> 
       </a>
