@@ -8,6 +8,7 @@ import { TitleService } from '../core/services/title/title.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
+  raLogoType = 'group2';
   pageTitle$ = this.titleService.titleStore;
   constructor(
     private titleService: TitleService,

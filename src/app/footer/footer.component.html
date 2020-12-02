@@ -1,12 +1,16 @@
-<div class="footer d-flex flex-row align-items-center w-100">
+ <!-- <div class="footer d-flex flex-row align-items-center w-100">
   <div
     class="full-width-container flex-column bottom d-flex full-width-container d-flex flex-grow-1 w-100 mx-n32 mb-n32"
   >
-    <ng-container *ngFor="let tConf of templateList$ | async">
+   <ng-container *ngFor="let tConf of templateList$ | async">
       <ng-container
         [ngTemplateOutlet]="tConf?.tRef"
         [ngTemplateOutletContext]="tConf?.tContext"
       ></ng-container>
-    </ng-container>
+    </ng-container> 
   </div>
-</div>
+</div>-->
+
+<ng-container *ngFor="let tConf of templateList$ | async">
+  <ng-container [ngTemplateOutlet]="tConf?.tRef" [ngTemplateOutletContext]="tConf?.tContext"></ng-container>
+</ng-container>

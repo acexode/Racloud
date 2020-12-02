@@ -38,6 +38,7 @@ $rc-secondary-ouline: rem(1) solid $rc-secondary;
 $rc-secondary-focus-outline: rem(1) solid #76BEEC;
 $rc-grey-outline: rem(1) solid $rc-grey;
 $rc-accent-blue-60-outline-b: rem(3) solid $rc-accent-blue-60;
+$rc-white-outline: rem(2) solid #fff;
 // font
 $font-montserrat: "Montserrat", "Roboto", "Helvetica Neue", Arial, sans-serif;
 $font-helveticaNeue: "Helvetica Neue", Arial, sans-serif;
@@ -83,6 +84,7 @@ $spacers: map-merge(
     12: rem(12),
     14: rem(14),
     15: rem(15),
+    16: rem(16),
     18: rem(18),
     20: rem(20),
     22: rem(22),
