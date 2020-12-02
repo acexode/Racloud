@@ -20,3 +20,24 @@
     }
 
 }
+
+.ra-logo-group-2 {
+
+    @include flexbox;
+    @include flex-direction(row);
+    @include align-items(center);
+    height: rem(36);
+    width: rem(133);
+    .ra-logo {
+        height: rem(35.96);
+        width: rem(49.97);
+
+    }
+
+    .ra-cloud-wordmark {
+        margin-left: rem(12.47) !important;
+        height: rem(13);
+        width: rem(75);
+    }
+
+}

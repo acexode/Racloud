@@ -19,7 +19,7 @@ import { InputConfig } from '../shared/rc-forms/models/input/input-config';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit, OnDestroy {
-
+  raLogoType = 'group1';
   emailInputConfig: InputConfig = {
     inputLabel: {
       text: 'Email'

@@ -43,7 +43,6 @@ export class TableComponent implements OnInit {
 
   filterInputData: TableFilterConfig = {};
   actualData: any;
-  tempData = this.actualData;
 
   selected = [];
   ColumnMode = ColumnMode;
@@ -137,7 +136,6 @@ export class TableComponent implements OnInit {
   }
 
   doFilterActions() {
-    console.log('object')
     this.contentFilterSubs = this.contentFilterSubj
       // Throttle input for text input case.
       .pipe(debounce((val) => timer(val.throttle ? 120 : 0)))

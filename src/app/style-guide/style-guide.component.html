@@ -278,28 +278,25 @@
 <div class="w-100 mt-64">
     <h3>Navigation</h3>
 </div>
-<div class="w-100">
+<div class="w-100 mb-64">
     <div class="row">
-        <div class="col-6">
-           <app-tabs>
+        <div class="col-12">
+           <ng-container [style.display]="tabSwitch ? 'block' : 'none'">
 
-               <app-tab-bar>
-                   <app-tab-button class="btn" (click)="switchTab(tabA.name)">{{ tabA.name }}</app-tab-button>
-                   <app-tab-button class="btn" (click)="switchTab(tabB.name)">{{ tabB.name }}</app-tab-button>
-                </app-tab-bar>
-
-               <div tab-content>
-                  
-                   <ng-container [ngSwitch]="tabSwitch">
-
-                       <div *ngSwitchCase="tabA.name">{{tabA.name}}</div>
-                        <div *ngSwitchCase="tabB.name">{{tabB.name}}</div>
-                       <div *ngSwitchDefault>default woutput</div>
-
-                   </ng-container>
-               </div>
-
-           </app-tabs>
+                <app-tabs [selectedTemplate]="tabSwitch">
+                
+                    <app-tab-bar>
+                        <app-tab-button [selected]="tab.isSelected" (click)="switchTab(tab.template, i)" *ngFor="let tab of tabs; let i = index" >{{ tab.name }}</app-tab-button>
+                    </app-tab-bar>
+                
+                
+                
+                    <ng-template #firstTab> First Tab </ng-template>
+                    <ng-template #secondTab> second Tab </ng-template>
+                    <ng-template #thirdTab> third Tab </ng-template>
+                
+                </app-tabs>
+           </ng-container>
         </div>
     </div>
 </div>
