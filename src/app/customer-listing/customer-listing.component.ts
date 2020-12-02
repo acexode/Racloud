@@ -64,6 +64,7 @@ export class CustomerListingComponent implements OnInit {
     columns: [],
     externalPaging: false,
     externalSorting: false,
+    loadingIndicator: true,
     action: true
   };
   constructor(
