@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FooterService } from '../core/services/footer/footer.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
@@ -15,7 +15,7 @@ import { TableService } from '../shared/table/services/table.service';
   styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent implements OnInit {
-
+  isDropup = false;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl;
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
   @ViewChild('selectT', { static: true }) selectT;
@@ -72,7 +72,12 @@ export class ProductsComponent implements OnInit {
     private footerS: FooterService,
     private http: HttpClient
   ) {}
+  
+
   ngOnInit(): void {
+    document.addEventListener('scroll', (e) =>{
+      console.log(e.target)
+    })
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
@@ -151,7 +156,16 @@ filterTable(filterObj: TableFilterConfig) {
   );
   this.tableData.next(newRows);
 }
-
+setDropUp(row) {
+  const idx = this.rowData.findIndex(e => e.id == row.id) + 1;
+  const mod = idx % 10 == 0 ? 10 : idx % 10;
+  console.log(mod)
+  if(mod < 6) {
+    this.isDropup = false;
+  }else {
+    this.isDropup = true;
+  }
+}
 removeRow(id){
   console.log(id);
 }

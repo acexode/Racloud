@@ -28,9 +28,9 @@
       </div>
     </div>
   </ng-template>
-  <ng-template #actionDropdown let-column="column" let-row="row">
-    <div class="btn-group" dropdown>
-      <a id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
+  <ng-template #actionDropdown let-column="column" let-row="row" let-rowIndex="rowIndex">
+    <div class="btn-group" dropdown [dropup]="isDropup">
+      <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
       id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-ellipsis-h" aria-hidden="true"></i> 
       </a>
