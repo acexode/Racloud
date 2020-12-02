@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { RcFormsModule } from '../rc-forms/rc-forms.module';
 import { TableFilterComponent } from './component/table-filter/table-filter.component';
 import { TableComponent } from './component/table/table.component';
 import { TableService } from './services/table.service';
@@ -16,6 +17,7 @@ import { TableService } from './services/table.service';
     FormsModule,
     AngularSvgIconModule,
     BsDatepickerModule,
+    RcFormsModule
   ],
   exports: [TableComponent],
   providers: [TableService],

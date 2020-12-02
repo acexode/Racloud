@@ -8,19 +8,20 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
+import { CustomerListingComponent } from './customer-listing/customer-listing.component';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/style'
+    redirectTo: 'customer'
   },
   {
     path: 'home',
     canActivate: [AuthGuard],
     component: HomeComponent,
     data: {
-      title: 'Acasa'
+      title: 'Home'
     },
   },
   {
@@ -50,6 +51,11 @@ const routes: Routes = [
     path: 'style',
     component: StyleGuideComponent,
     data: { title: 'style guide' },
+  },
+  {
+    path: 'customer',
+    component: CustomerListingComponent,
+    data: { title: 'Customer Listing' },
   },
   { path: '**', redirectTo: '/not-found' },
 ];
