@@ -1,0 +1,61 @@
+@import "../variables";
+@import "../mixins";
+@import "./buttons";
+
+
+$tab-btn-font-size: rem(15);
+$tab-btn-line-height: rem(24);
+
+app-tabs {
+
+    app-tab-bar {
+        
+        .tab-bar {
+            width: 100%;
+            @include flexbox;
+            @include justify-content(flex-start);
+            @include align-items(stretch);
+            @include flex-wrap(wrap);
+            position: relative;
+            overflow: hidden;
+            position: relative;
+            .tab-bar-button-holder {
+                width: 100%;
+                border-bottom: $rc-secondary-ouline;
+            }
+
+        }
+        
+        app-tab-button {
+
+            button {
+            
+                font-family: $font-montserrat;
+                font-weight: normal;
+                min-width: $rc-btn-min-width;
+
+                @include button-size(
+                    $btn-padding-y,
+                    $btn-padding-x,
+                    $tab-btn-font-size,
+                    $tab-btn-line-height,
+                    $rc-none
+                );
+
+                color: $rc-grey;
+                background: $white;
+                border: $rc-none;
+                /* border-bottom: $rc-secondary-ouline; */
+                outline: $rc-none !important;
+
+                &.selected {
+                    color: $rc-primary !important;
+                    border-bottom: $rc-primary-outline !important;
+                }
+            }
+
+        }
+
+    }
+
+}

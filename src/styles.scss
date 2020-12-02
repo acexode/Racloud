@@ -41,15 +41,16 @@ html {
   overflow: visible !important;
 }
 .datatable-footer-inner[style]{
-  height: 100px !important;
+  height: auto !important;
+  align-items: start !important;
 }
 .ngx-datatable.bootstrap .datatable-header .datatable-header-cell {
    border-bottom: 1px dotted $rc-accent-blue-160; 
 }
-.footer-container{
-margin-top: 0.5em !important;
-padding-top: 15px;
-height: 120px !important;
+.footer-container {
+  margin-top: 0.5em !important;
+  padding-top: 15px;
+  height: 120px !important;
 }
 .pyramid-title {  
   color: $rc-accent-blue;
