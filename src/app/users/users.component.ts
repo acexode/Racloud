@@ -15,7 +15,7 @@ import { TableService } from '../shared/table/services/table.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-
+  isDropup = false;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl;
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
   @ViewChild('selectT', { static: true }) selectT;
@@ -120,7 +120,7 @@ export class UsersComponent implements OnInit {
         sortable: true,
         minWidth: 60,
         noGrow: true,
-        headerHasFilterIcon: true,
+        headerHasFilterIcon: false,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -151,7 +151,17 @@ filterTable(filterObj: TableFilterConfig) {
   );
   this.tableData.next(newRows);
 }
-
+setDropUp(row) {
+  const idx = this.rowData.findIndex(e => e.id == row.id) + 1;
+  console.log(idx)
+  const mod = idx % 10 == 0 ? 10 : idx % 10;
+  console.log(mod)
+  if(mod < 6) {
+    this.isDropup = false;
+  }else {
+    this.isDropup = true;
+  }
+}
 removeRow(id){
   console.log(id);
 }
