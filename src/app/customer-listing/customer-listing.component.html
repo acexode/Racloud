@@ -29,11 +29,11 @@
     </div>
 </ng-template>
 <ng-template #actionDropdown let-column="column" let-row="row">
-    <div class="btn-group" dropdown>
+    <div class="btn-group" >
         <a id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse" aria-controls="dropdown-basic">
             <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
         </a>
-        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+        <ul id="dropdown-basic"  class="dropdown-menu" role="menu" aria-labelledby="button-basic">
             <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item" href="#">Manage</a></li>
             <li (click)="renewSub(row)" role="menuitem"><a class="dropdown-item" href="#">Renew Subscription</a></li>
             <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item" href="#">Delete</a></li>
