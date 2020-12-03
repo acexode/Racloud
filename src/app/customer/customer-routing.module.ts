@@ -11,6 +11,7 @@ const routes: Routes = [
     {
         path: 'create',
         component: CreateEditCustomerComponent,
+        data: { title: 'Create Customer' },
     },
 ];
 
