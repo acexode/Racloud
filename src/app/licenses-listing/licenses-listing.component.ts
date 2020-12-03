@@ -10,14 +10,17 @@ import { TableI } from '../shared/table/models/table.interface';
 import { TableService } from '../shared/table/services/table.service';
 
 @Component({
-  selector: 'app-customer-listing',
-  templateUrl: './customer-listing.component.html',
-  styleUrls: ['./customer-listing.component.scss']
+  selector: 'app-licenses-listing',
+  templateUrl: './licenses-listing.component.html',
+  styleUrls: ['./licenses-listing.component.scss']
 })
-export class CustomerListingComponent implements OnInit {
+export class LicensesListingComponent implements OnInit {
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
   @ViewChild('selectT', { static: true }) selectT: any;
+
+  @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
+
 
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
@@ -76,23 +79,10 @@ export class CustomerListingComponent implements OnInit {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'name',
-        label: 'Name',
+        identifier: 'product-name',
+        label: 'Product Name',
         sortable: true,
-        minWidth: 200,
-        width: 90,
-        noGrow: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          placeholder: 'Search here'
-        },
-      },
-      {
-        identifier: 'city',
-        label: 'City',
-        sortable: true,
-        minWidth: 150,
+        minWidth: 237,
         width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -100,17 +90,32 @@ export class CustomerListingComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
+          placeholder: 'Search'
+        },
+      },
+      {
+        identifier: 'purchased',
+        label: 'Purchased',
+        sortable: true,
+        minWidth: 160,
+        width: 100,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
           noIcon: true
         },
       },
       {
-        identifier: 'phone',
-        label: 'Phone',
+        identifier: 'expires',
+        label: 'Expires',
         sortable: true,
-        minWidth: 150,
+        minWidth: 160,
         width: 300,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
+        sortIconPosition: 'left',
+        labelPosition: 'right',
         cellContentPosition: 'right',
         filterConfig: {
           data: null,
@@ -119,10 +124,27 @@ export class CustomerListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'email',
-        label: 'Email',
+        identifier: 'status',
+        label: 'Status',
         sortable: true,
-        minWidth: 250,
+        minWidth: 161,
+        noGrow: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'right',
+        cellTemplate: this.expiredIconTemplate,
+        hasFilter: true,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        },
+      },
+      {
+        identifier: 'partner-license',
+        label: 'Partner license',
+        sortable: true,
+        minWidth: 160,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -135,58 +157,10 @@ export class CustomerListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'type',
-        label: 'Type',
+        identifier: 'renew',
+        label: 'Renew by User Company',
         sortable: true,
-        minWidth: 130,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'parent',
-        label: 'Parent',
-        sortable: true,
-        minWidth: 130,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'anniv-date',
-        label: 'Anniv-date',
-        sortable: true,
-        minWidth: 130,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'fee',
-        label: 'Sub.fee',
-        sortable: true,
-        minWidth: 130,
+        minWidth: 220,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -225,7 +199,7 @@ export class CustomerListingComponent implements OnInit {
     });
   }
   public getJSON(): Observable<any> {
-    return this.http.get('./assets/ra-table.json');
+    return this.http.get('./assets/ra-table-license.json');
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(

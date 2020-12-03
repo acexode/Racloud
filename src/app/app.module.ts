@@ -34,6 +34,7 @@ import { TabsModule } from './shared/tabs/tabs.module';
 import { ProductsComponent } from './products/products.component';
 import { CustomerListingComponent } from './customer-listing/customer-listing.component';
 import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
+import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
     ProductsComponent,
     CustomerListingComponent,
     RaLogoComponent,
+    LicensesListingComponent,
   ],
   imports: [
     BrowserModule,
