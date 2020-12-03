@@ -7,7 +7,7 @@
                     <!--  -->
                     <app-button color="tertiary" [routerLink]="[backUrl]" [class]="'d-flex align-items-center rc-accent-blue-160-color montserrat-semibold-font ml-n20'">
                         <svg-icon
-                            [class]="'icon-w16-h16 mr-8'"
+                            [class]="'icon-w16-h16 mr-10'"
                             [src]="caretLeftIcon"
                             alt="Icon"
                             applyClass="true"
@@ -22,6 +22,68 @@
             </div>
         </div>
         <div class="line-h1 rc-secondary-bg mt-24 mb-38"></div>
+        <div class="col">
+
+            <form [formGroup]="componentForm" class="row">
+                <div class="col-12 col-md-3">
+                    <div class="row">
+                        <div class="col-12 mb-14">
+                            <app-input [config]="inputConfig('Name')" formControlName="name"></app-input>
+                        </div>
+                        <div class="col-12 mb-14">
+                            <app-select [config]="selectionConfig('Type')" formControlName="type"></app-select>
+                        </div>
+                        <div class="col-12">
+                            <app-input [config]="inputConfig('Parent')" formControlName="parent"></app-input>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="row">
+                        <div class="col-12 mb-14">
+                            <app-input [config]="inputConfig('City')" formControlName="city"></app-input>
+                        </div>
+                        <div class="col-12 mb-14">
+                            <app-input [config]="inputConfig('Phone', 'tel')" formControlName="phone"></app-input>
+                        </div>
+                        <div class="col-12">
+                            <app-input [config]="inputConfig('Email', 'email')" formControlName="email"></app-input>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="row">
+                        <div class="col-12 mb-14">
+                            <app-input [config]="inputConfig('Anniversary date')" formControlName="anniversaryDate"></app-input>
+                        </div>
+                        <div class="col-12 mb-14">
+                            <app-input 
+                                [config]="inputConfig('Subscription fee', 'text', '', true)" 
+                                formControlName="subscriptionFee"
+                            >
+                            </app-input>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="row">
+                        <div class="col-12 mb-14">
+                            <app-input [config]="inputConfig('Support hours contract')" formControlName="supportHoursContract"></app-input>
+                        </div>
+                        <div class="col-12 mb-14">
+                            <app-input [config]="inputConfig('Support hours available')" formControlName="supportHoursAvailable">
+                            </app-input>
+                        </div>
+                    </div>
+                </div>
+
+
+            </form>
+
+        </div>
         
     </div>
 </app-page-container>

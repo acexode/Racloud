@@ -7,6 +7,7 @@ import { ContainerModule } from '../shared/container/container.module';
 import { RcFormsModule } from '../shared/rc-forms/rc-forms.module';
 import { TableModule } from '../shared/table/table.module';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -18,7 +19,9 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
     ContainerModule,
     RcFormsModule,
     TableModule,
-    AngularSvgIconModule
+    AngularSvgIconModule,
+    FormsModule,
+    ReactiveFormsModule,
   ]
 })
 export class CustomerModule { }
