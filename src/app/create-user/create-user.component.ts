@@ -113,7 +113,7 @@ export class CreateUserComponent implements OnInit {
       role: [
         '',
         [
-          Validators.required, 
+          Validators.required,
         ],
       ]
     });
