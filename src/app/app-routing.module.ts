@@ -1,5 +1,4 @@
-import { UsersComponent } from './users/users.component';
-import { ProductsComponent } from './products/products.component';
+import { OrdersComponent } from './orders/orders.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -11,6 +10,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { CustomerListingComponent } from './customer-listing/customer-listing.component';
 import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
+import { UsersComponent } from './users/users.component';
+import { ProductsComponent } from './products/products.component';
 
 const routes: Routes = [
   {
@@ -27,11 +28,18 @@ const routes: Routes = [
     },
   },
   {
+    path: 'orders',
+    component: OrdersComponent,
+    data: {
+      title: 'Order'
+    }
+  },
+  {
     path: 'users',
     component: UsersComponent,
     data: {
       title: 'Users'
-    },
+    }
   },
   {
     path: 'products',
