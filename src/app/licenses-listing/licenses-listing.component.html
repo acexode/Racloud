@@ -33,7 +33,7 @@
 </ng-template>
 <ng-template #actionDropdown let-column="column" let-row="row">
 
-    <div class="btn-group dropup" dropdown>
+    <div class="btn-group" dropdown>
         <a id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse" aria-controls="dropdown-basic">
             <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
         </a>
@@ -44,6 +44,8 @@
             <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item" href="#">Delete</a></li>
 
         </ul>
+        
+        
     </div>
 
 </ng-template>
