@@ -1,0 +1,36 @@
+@import "../../assets/variables";
+@import "../../assets/mixins";
+
+
+
+$tab-btn-font-size: rem(15);
+$tab-btn-line-height: rem(24);
+
+
+.tab-bar-button-holder {
+        width: 100%;
+        height: 1px;
+        border-bottom: $rc-secondary-ouline;
+}
+.user-form{
+    padding-top: 40px;
+}
+
+.personal-details { 
+    color: #464976;
+    font-family: Montserrat;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+  }
+.role-row{
+    margin: 32px 0px 14px;
+}
+
+.submit-row {
+    padding: 16px;
+    background-color: #F7F9FB;
+    display: flex;
+    justify-content: flex-end;
+}

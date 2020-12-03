@@ -1,0 +1,59 @@
+<div container-body>
+    
+<div class="w-100 mt-64">
+    <div class="page-header">
+        <div class="row align-items-center">
+          <div class="col">  
+              <p class="pyramid-title">Pyramid</p>
+            
+            <h3>New User</h3>            
+          </div>       
+        </div>
+  </div>
+</div>
+
+<div class="w-100 mb-64">
+    <div class="row">
+        <div class="col-12">
+            <div class="app-tabs"></div>
+           <ng-container>
+                <app-tabs>                
+                    <app-tab-bar></app-tab-bar>
+
+                    <form [formGroup]="userForm" class="row user-form" (ngSubmit)="submitIt()">
+                        <div class="col-12">
+                            <span class="personal-details">Personal Details</span>
+                        </div>
+                        <div class="col-4">
+                            <app-input [config]="firstnameConfig" formControlName="firstname"></app-input>
+                        </div>
+                        <div class="col-4">
+                            <app-input [config]="lastnameConfig" formControlName="lastname"></app-input>
+                        </div>
+                        <div class="col-4">
+                            <app-input [config]="emailConfig" formControlName="email"></app-input>
+                        </div>                        
+                        <div class="col-12 role-row">
+                            <span class="personal-details">Role</span>
+                        </div>
+                        <div class="col-4">
+                            <app-select [config]="companyConfig" [options]='companyOptions'></app-select>
+                        </div>
+                        <div class="col-4">
+                            <app-select [config]="roleConfig" [options]='roleOptions'></app-select>
+                        </div>
+                        <div class="col-12 submit-row mt-2">
+                            <app-button  color="secondary" class="mr-1">
+                                Cancel
+                            </app-button>
+                            <app-button type="submit" color="primary">
+                                Primary
+                            </app-button>
+                        </div>
+                        
+                    </form>
+            </app-tabs>
+           </ng-container>
+        </div>
+    </div>
+</div>
