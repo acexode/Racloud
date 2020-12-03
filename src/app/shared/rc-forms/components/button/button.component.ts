@@ -15,12 +15,12 @@ export class ButtonComponent implements OnInit {
   btnClasses = {
     primary: 'btn btn-primary',
     secondary: 'btn btn-secondary',
+    secondaryB: 'btn btn-secondary-b',
     tertiary: 'btn-no-padding btn-tertiary',
   };
   constructor(private cdRef: ChangeDetectorRef) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   get btnClass() {
     if (typeof this.color === 'undefined') {

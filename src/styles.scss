@@ -30,9 +30,18 @@ html {
   color: $rc-accent-blue-160;
 }
 .dropdown-menu{
+  position: absolute !important;
   z-index: 10000 !important;  
   left: auto !important;
   right: 0 !important;
+}
+.dropdown-menu-b {
+  display: block;
+  left: auto !important;
+  right: 0 !important;
+}
+.custom-dropdown-menu {
+  bottom: rem(30) !important;
 }
 .btn-group.show .dropdown-toggle {
    box-shadow: none 

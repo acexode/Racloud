@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FooterService } from '../core/services/footer/footer.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
@@ -70,10 +70,13 @@ export class LicensesListingComponent implements OnInit {
     loadingIndicator: true,
     action: true
   };
+  isDropup: boolean;
   constructor(
     private tS: TableService,
     private footerS: FooterService,
-    private http: HttpClient
+    private http: HttpClient,
+
+    private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -218,6 +221,17 @@ export class LicensesListingComponent implements OnInit {
   }
   renewSub(id: any) {
     console.log(id);
+  }
+
+  setDropUp(row) {
+    const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
+    const mod = idx % 10 === 0 ? 10 : idx % 10;
+    if (mod < 6) {
+      this.isDropup = false;
+    } else {
+      this.isDropup = true;
+    }
+    this.ref.detectChanges();
   }
 
 }
