@@ -6,12 +6,14 @@ export interface TableFilterConfigItem {
   config?: {
     selectConfig?: {
       emptyLabel: string;
-      options: Array<{ key: any; label: string }>;
+      options: Array<{ key: any; label: string; }>;
     };
     bsConfig?: BsDatepickerConfig;
     bsPlacement?: string;
   };
   filterType: TableFilterType;
+  noIcon?: boolean;
+  placeholder?: string;
 }
 export interface TableFilterConfig {
   [filterKey: string]: TableFilterConfigItem;

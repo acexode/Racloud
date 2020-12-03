@@ -1,4 +1,4 @@
-<div class="d-flex flex-column h-100 w-100 overflow-hidden">
+<div class="d-flex flex-column h-100 w-100 vh-100 overflow-x">
   <app-header
     class="w-100 d-flex"
     *ngIf="(account | async) === null && this.notFound === false && showSideHeaderAndFooter"
@@ -20,7 +20,7 @@
         [listClass]="'mt-32 mt-sm-3'"
       ></app-messages>
 
-      <div class="pl-64 pr-40" [ngClass]="{'vh-100': !showSideHeaderAndFooter}">
+      <div class="pl-64 pr-40">
         <router-outlet></router-outlet>
       </div>
       

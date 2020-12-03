@@ -15,7 +15,7 @@ export class SidebarComponent implements OnInit {
   menuJSON = [
     {
       name: 'Customers',
-      url: '/',
+      url: '/customer',
       icon: '../../assets/images/Customer.svg',
       children: null,
     },

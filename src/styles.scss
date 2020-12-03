@@ -30,9 +30,18 @@ html {
   color: $rc-accent-blue-160;
 }
 .dropdown-menu{
+  position: absolute !important;
   z-index: 10000 !important;  
   left: auto !important;
   right: 0 !important;
+}
+.dropdown-menu-b {
+  display: block;
+  left: auto !important;
+  right: 0 !important;
+}
+.custom-dropdown-menu {
+  bottom: rem(30) !important;
 }
 .btn-group.show .dropdown-toggle {
    box-shadow: none 
@@ -66,10 +75,11 @@ html {
 .customers-title {    
   color: #D9471F;
   font-family: Montserrat;
-  font-size: 37px;
+  font-size: rem(30);
   font-weight: 500;
   letter-spacing: 0;
   line-height: 40px;
+  margin-bottom: rem(24);
 }
 .rc-dropdown{
   box-sizing: border-box;
@@ -80,3 +90,4 @@ html {
   background-color: #FFFFFF;
   box-shadow: 0 3px 10px 0 rgba(0,56,91,0.21), 0 50px 50px -20px rgba(0,56,91,0.1);
 }
+

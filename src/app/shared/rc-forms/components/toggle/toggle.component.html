@@ -1,15 +1,21 @@
 <ng-container>
-    <label for="toggle-rc" class="rc-toggle">
+    <div class="toggleDiv">
+            <label for="toggle-rc" class="rc-toggle">
+            
+                <input type="checkbox" id="toggle-rc">
+            
+                <div class="toggle-icon">
+            
+                    <div class="icon"></div>
+            
+                </div>
+            
+                <div class="slider"></div>
 
-        <input type="checkbox" id="toggle-rc">
-
-        <div class="toggle-icon">
-
-            <div class="icon"></div>
-
-        </div>
-
-        <div class="slider"></div>
-        
-    </label>
+                <span class="toggle-text">
+                    <ng-content></ng-content>
+                </span>
+                
+            </label>
+    </div>
 </ng-container>

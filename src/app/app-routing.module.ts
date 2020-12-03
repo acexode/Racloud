@@ -9,12 +9,15 @@ import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { CustomerListingComponent } from './customer-listing/customer-listing.component';
+import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
+import { UsersComponent } from './users/users.component';
+import { ProductsComponent } from './products/products.component';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'customer'
+    redirectTo: 'style'
   },
   {
     path: 'home',
@@ -29,6 +32,20 @@ const routes: Routes = [
     component: OrdersComponent,
     data: {
       title: 'Order'
+    }
+  },
+  {
+    path: 'users',
+    component: UsersComponent,
+    data: {
+      title: 'Users'
+    }
+  },
+  {
+    path: 'products',
+    component: ProductsComponent,
+    data: {
+      title: 'Products'
     },
   },
   {
@@ -56,6 +73,11 @@ const routes: Routes = [
     path: 'customer',
     component: CustomerListingComponent,
     data: { title: 'Customer Listing' },
+  },
+  {
+    path: 'licenses',
+    component: LicensesListingComponent,
+    data: { title: 'Licenses Listing' },
   },
   { path: '**', redirectTo: '/not-found' },
 ];

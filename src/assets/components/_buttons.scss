@@ -142,6 +142,27 @@ $btn-padding-x-zero: 0;
   );
   background-image: none;
 }
+
+.btn-secondary-b {
+  $def-shadow: transparent;
+  @include button-style(
+    $white,
+    $rc-primary-outline,
+    $rc-black,
+    $white,
+    $rc-primary-outline,
+    $rc-primary,
+    $rc-secondary-hover,
+    $rc-primary-outline,
+    $rc-primary,
+    $def-shadow,
+    $white,
+    $rc-disabled-ouline,
+    $rc-disable-bg
+  );
+  background-image: none;
+}
+
 .btn-tertiary {
   $def-shadow: transparent;
   @include button-style(

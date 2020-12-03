@@ -71,8 +71,7 @@
     cursor: inherit;
     pointer-events: none !important;
   }
-  .datatable-header {
-    height: rem(85) !important;
+  .datatable-header { 
     background-color: $white;
     &.active {
       color: $base-text-color !important;
@@ -83,19 +82,23 @@
     .datatable-header-cell {
       vertical-align: bottom;
       padding: 0;
-      font-size: $font-size-base;
+      font-family: $font-montserrat;
+      font-size: $rc-table-font-size-base;
       font-weight: bold;
       letter-spacing: 0;
-      line-height: rem(24);
+      line-height: rem(12);
+      color: $rc-accent-blue-160;
       &:last-child {
         border-right: none;
       }
       .first-row {
-        border-bottom: 1px solid $rc-accent-blue-60;
-        padding: rem(8) rem(12) rem(7) rem(12);
+        @include flexbox;
+        @include align-items(center);
+        border-bottom: rem(1) solid $rc-accent-blue-60;
+        padding: rem(8) rem(12) rem(8) rem(12);
         height: rem(40);
         svg {
-          color: $grey-4;
+          color: $rc-accent-blue;
         }
         svg-icon {
           &.ext-sort-icon-down {
@@ -109,8 +112,8 @@
       }
       &:first-child {
         .first-row {
-          padding-left: rem(37);
-          padding-bottom: rem(31);
+          padding-left: rem(8); /* changed by ereyomi from rem(37) to rem(0) to remove left padding */
+          padding-bottom: rem(8);
         }
         .second-row {
           padding: 0;
@@ -153,7 +156,7 @@
     &:not(.hover-detail) {
       background-color: $ultra-light-red;
       color: $rc-black;
-      font-family: "Helvetica Neue";
+      font-family: $font-helveticaNeue;
       font-size: 14px;
       letter-spacing: 0;
       line-height: 16px;
@@ -189,12 +192,12 @@
       background-color: $white !important;
     }
     &.active {
-      color: $base-text-color !important;
+      color: $rc-black !important;
       background-color: $ultra-light-red !important;
       border-bottom: 1px solid #D9471F;
     }
     &.hover {
-      color: $base-text-color !important;
+      color: $rc-black !important;
       background-color: $ultra-light-red !important;
       border-bottom: 1px solid #D9471F;
       &.datatable-row-even {
@@ -208,9 +211,10 @@
     }
     .datatable-body-cell {
       padding: rem(8) rem(12);
+      font-family: $font-helveticaNeue !important;
       font-size: rem(14);
       line-height: rem(16);
-      color: $rc-black;
+      color: $rc-grey;
       text-align: left;
       vertical-align: top;
       border-bottom: 1px dotted $medium-grey-2;
@@ -536,4 +540,10 @@
     opacity: 0;
     transform: translateX(-50%) scale(0, 1);
   }
+}
+
+.table-status-column {
+  @include flexbox;
+  @include flex-direction(row);
+  @include justify-content(space-between);
 }
