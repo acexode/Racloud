@@ -94,7 +94,7 @@ export class CreateUserComponent implements OnInit {
       lastname: [
         '',
         [
-          Validators.required, 
+          Validators.required,
         ],
       ],
       email: [
@@ -113,11 +113,9 @@ export class CreateUserComponent implements OnInit {
       role: [
         '',
         [
-          Validators.required,  
+          Validators.required, 
         ],
-      ],
+      ]
     });
   }
-
-
 }
