@@ -78,8 +78,8 @@ export class OrdersComponent implements OnInit {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'name',
-        label: 'Name',
+        identifier: 'number',
+        label: 'Number',
         sortable: true,
         minWidth: 200,
         width: 90,
@@ -150,14 +150,14 @@ export class OrdersComponent implements OnInit {
       {
         identifier: 'action',
         label: '',
-        sortable: true,
+        sortable: false,
         minWidth: 60,
         noGrow: true,
         headerHasFilterIcon: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
-        hasFilter: true,
+        hasFilter: false,
         cellTemplate: this.actionDropdown
       },
     ];
