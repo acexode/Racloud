@@ -39,16 +39,17 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (v && v === 'Not found') {
 
         this.notFound = true;
-        this.showSideHeaderAndFooter = false;
-
-      } else {
+      }
+      else if (v && v === 'Access Denied') {
+        this.notFound = true;
+      }
+      else {
         this.notFound = false;
         if (this.noSideBarAndHeader.includes(v)) {
           this.showSideHeaderAndFooter = false;
         } else {
           this.showSideHeaderAndFooter = true;
         }
-
       }
     });
   }

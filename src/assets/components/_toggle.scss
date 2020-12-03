@@ -1,15 +1,20 @@
 @import "../variables";
 @import "../mixins";
 
+.toggleDiv {
+    @include flexbox;
+    @include flex-direction(row);
+    @include justify-content(flex-start);
+    @include align-items(center);
+    height: rem(24);
+}
 .rc-toggle {
     @include flexbox;
     @include flex-direction(row);
     @include justify-content(flex-start);
     @include align-items(center);
-
     cursor: pointer;
-    position: relative;
-
+    margin-top: rem(8);
     .slider {
         width: rem(36);
         height: rem(14);
@@ -27,7 +32,7 @@
         @include flexbox;
         @include justify-content(center);
         @include align-items(center);
-        transition: 0.5s all ease-in-out;
+        transition: 0.3s all ease-in-out;
         .icon {
             display: block;
             width: rem(28);
@@ -36,6 +41,16 @@
             background-position: center center !important;
         }
     }
+
+    .toggle-text {
+        font-family: $font-helveticaNeue;
+        font-weight: normal;
+        color: $rc-grey;
+        font-size: rem(14);
+        line-height: rem(16);
+        margin-left: rem(12);
+    }
+
     input[type='checkbox']{
         display: none;
 
@@ -50,6 +65,9 @@
             }
             & ~ .slider {
                 background: $rc-primary-30;
+            }
+            & ~ .toggle-text {
+                color: $rc-black;
             }
         } 
     }
