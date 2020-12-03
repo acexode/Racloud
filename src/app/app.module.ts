@@ -34,7 +34,6 @@ import { TabsModule } from './shared/tabs/tabs.module';
 import { OrdersComponent } from './orders/orders.component';
 import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
-import { CustomerListingComponent } from './customer-listing/customer-listing.component';
 import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
 import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
 
@@ -52,7 +51,6 @@ import { LicensesListingComponent } from './licenses-listing/licenses-listing.co
     OrdersComponent,
     UsersComponent,
     ProductsComponent,
-    CustomerListingComponent,
     RaLogoComponent,
     LicensesListingComponent,
   ],
@@ -86,4 +84,4 @@ import { LicensesListingComponent } from './licenses-listing/licenses-listing.co
   bootstrap: [AppComponent],
   schemas: [],
 })
-export class AppModule {}
+export class AppModule { }
