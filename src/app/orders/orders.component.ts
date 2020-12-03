@@ -84,9 +84,13 @@ export class OrdersComponent implements OnInit {
         minWidth: 200,
         width: 90,
         noGrow: true,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
+          placeholder: 'Search'
         },
       },
       {
@@ -95,8 +99,8 @@ export class OrdersComponent implements OnInit {
         sortable: true,
         minWidth: 150,
         width: 100,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
+        sortIconPosition: 'left',
+        labelPosition: 'right',
         cellContentPosition: 'right',
         filterConfig: {
           data: null,
@@ -118,13 +122,13 @@ export class OrdersComponent implements OnInit {
         },
       },
       {
-        identifier: 'discount',
-        label: 'Discount',
+        identifier: 'value',
+        label: 'Value',
         sortable: true,
         minWidth: 150,
         noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
+        sortIconPosition: 'left',
+        labelPosition: 'right',
         cellContentPosition: 'right',
         hasFilter: true,
         filterConfig: {
@@ -133,13 +137,13 @@ export class OrdersComponent implements OnInit {
         },
       },
       {
-        identifier: 'value',
-        label: 'Value',
+        identifier: 'discount',
+        label: 'Discount',
         sortable: true,
         minWidth: 150,
         noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
+        sortIconPosition: 'left',
+        labelPosition: 'right',
         cellContentPosition: 'right',
         hasFilter: true,
         filterConfig: {
@@ -153,8 +157,8 @@ export class OrdersComponent implements OnInit {
         sortable: true,
         minWidth: 130,
         noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
+        sortIconPosition: 'left',
+        labelPosition: 'right',
         cellContentPosition: 'right',
         hasFilter: true,
         filterConfig: {
