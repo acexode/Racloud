@@ -6,6 +6,7 @@ import { CustomerRoutingModule } from './customer-routing.module';
 import { ContainerModule } from '../shared/container/container.module';
 import { RcFormsModule } from '../shared/rc-forms/rc-forms.module';
 import { TableModule } from '../shared/table/table.module';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 
 
@@ -16,7 +17,8 @@ import { TableModule } from '../shared/table/table.module';
     CustomerRoutingModule,
     ContainerModule,
     RcFormsModule,
-    TableModule
+    TableModule,
+    AngularSvgIconModule
   ]
 })
 export class CustomerModule { }

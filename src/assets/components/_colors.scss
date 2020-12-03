@@ -7,7 +7,7 @@
     background: $rc-light-grey;
 }
 .rc-accent-blue-160-color {
-    color: $rc-accent-blue-160;
+    color: $rc-accent-blue-160 !important;
 }
 .rc-primary-color {
     color: $rc-primary !important;
@@ -20,4 +20,7 @@
 }
 .rc-accent-blue-bg {
     background: $rc-accent-blue;
+}
+.rc-secondary-bg {
+    background: $rc-secondary !important;
 }
