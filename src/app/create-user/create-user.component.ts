@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { InputConfig } from '../shared/rc-forms/models/input/input-config';
 import { SelectConfig } from '../shared/rc-forms/models/select/select-config';
 
@@ -9,6 +10,18 @@ import { SelectConfig } from '../shared/rc-forms/models/select/select-config';
   styleUrls: ['./create-user.component.scss']
 })
 export class CreateUserComponent implements OnInit {
+  caretLeftIcon = '../assets/images/caret-left.svg';
+  backUrl = '/users';
+  containerConfig: PageContainerConfig = {
+    closeButton: true,
+    theme: 'transparent',
+    shadow: false,
+    panelClasses: {
+      header: 'd-none',
+      body: 'no-shadow',
+    },
+  }
+
   companyOptions = [
     {
       id: '',
@@ -76,21 +89,19 @@ export class CreateUserComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(10),
         ],
       ],
       lastname: [
         '',
         [
-          Validators.required,
-          Validators.minLength(10),
+          Validators.required, 
         ],
       ],
       email: [
         '',
         [
           Validators.required,
-          Validators.minLength(10),
+          Validators.email
         ],
       ],
       company: [
