@@ -1,3 +1,4 @@
+import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { NgModule } from '@angular/core';
@@ -23,6 +24,13 @@ const routes: Routes = [
     component: HomeComponent,
     data: {
       title: 'Home'
+    },
+  },
+  {
+    path: 'users',
+    component: UsersComponent,
+    data: {
+      title: 'Users'
     },
   },
   {
