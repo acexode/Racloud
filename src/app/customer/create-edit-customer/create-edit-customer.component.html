@@ -21,11 +21,13 @@
                 </div>
             </div>
         </div>
-        <div class="row line-h1 rc-secondary-bg mt-24 mb-38"></div>
+
+        <div class="line-h1 rc-secondary-bg mt-24 mb-39"></div>
+        
         <div class="w-100">
 
-            <form [formGroup]="componentForm" class="row">
-                <div class="col-12 col-md-3">
+            <form [formGroup]="componentForm" class="row no-gutters">
+                <div class="col-12 col-md-3 px-0 pr-0 pr-md-16">
                     <div class="row">
                         <div class="col-12 mb-14">
                             <app-input [config]="inputConfig('Name')" formControlName="name"></app-input>
@@ -34,12 +36,12 @@
                             <app-select [config]="selectionConfig('Type')" formControlName="type"></app-select>
                         </div>
                         <div class="col-12">
-                            <app-input [config]="inputConfig('Parent')" formControlName="parent"></app-input>
+                            <app-select [config]="selectionConfig('Parent')" formControlName="parent"></app-select>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-3 px-md-16">
                     <div class="row">
                         <div class="col-12 mb-14">
                             <app-input [config]="inputConfig('City')" formControlName="city"></app-input>
@@ -53,7 +55,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-3 px-md-16">
                     <div class="row">
                         <div class="col-12 mb-14">
                             <app-input [config]="inputConfig('Anniversary date')" formControlName="anniversaryDate"></app-input>
@@ -68,7 +70,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-3 px-0 pl-md-16">
                     <div class="row">
                         <div class="col-12 mb-14">
                             <app-input [config]="inputConfig('Support hours contract')" formControlName="supportHoursContract"></app-input>
