@@ -25,7 +25,7 @@ $tab-btn-line-height: rem(24);
     line-height: 24px;
   }
 .role-row{
-    margin: 32px 0px 14px;
+    margin: 32px 0px 0px;
 }
 
 .submit-row {
@@ -33,6 +33,7 @@ $tab-btn-line-height: rem(24);
     background-color: #F7F9FB;
     display: flex;
     justify-content: flex-end;
+    margin-top: 16px;
 }
 
 .select-dropdown {
@@ -59,3 +60,31 @@ $tab-btn-line-height: rem(24);
     margin-top: 6px;
     border-top: 5px solid #6A7098;
 }
+.pyramid {
+    color: #6A7098;
+    font-family: Montserrat;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    line-height: 16px;
+  }
+  .new-user {
+    color: #464976;
+    font-family: Montserrat;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 40px;
+  }
+  .back-button{
+      position: absolute;
+      top: 6px;
+      left: -25px;
+  }
+
+  .cancel-btn{
+      margin-right: 8px;
+  }
+  .companyLabel{
+    font-size: 0.75rem !important;
+  }

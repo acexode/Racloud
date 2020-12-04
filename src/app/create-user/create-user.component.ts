@@ -22,7 +22,7 @@ export class CreateUserComponent implements OnInit {
       body: 'no-shadow',
     },
   }
-  defaultLabel = "Select";
+  defaultLabel = 'Select';
   companyOptions = [
     {
       id: 'pyramid',
@@ -100,7 +100,7 @@ export class CreateUserComponent implements OnInit {
       company: [
         '',
         [
-          Validators.required,  
+          Validators.required, 
         ],
       ],
       role: [
@@ -112,11 +112,14 @@ export class CreateUserComponent implements OnInit {
     });
   }
   addCompany(){
-      this.router.navigate(["/users"]);
+      this.router.navigate(['/users']);
   }
   setCompany(company){
     this.userForm.get('company').setValue(company);
     this.defaultLabel = company;
+  }
+  submit(){
+    console.log(this.userForm.value)
   }
 
 }
