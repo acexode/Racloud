@@ -9,6 +9,7 @@ import { CheckboxComponent } from './components/checkboxes/checkbox/checkbox.com
 import { CheckboxesComponent } from './components/checkboxes/checkboxes.component';
 import { RadioComponent } from './components/radio/radio.component';
 import { ToggleComponent } from './components/toggle/toggle.component';
+import { TextareaComponent } from './components/textarea/textarea.component';
 
 
 
@@ -21,7 +22,8 @@ import { ToggleComponent } from './components/toggle/toggle.component';
     CheckboxComponent,
     CheckboxesComponent,
     RadioComponent,
-    ToggleComponent
+    ToggleComponent,
+    TextareaComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +37,8 @@ import { ToggleComponent } from './components/toggle/toggle.component';
     CheckboxComponent,
     CheckboxesComponent,
     RadioComponent,
-    ToggleComponent
+    ToggleComponent,
+    TextareaComponent
   ],
 })
 export class RcFormsModule { }

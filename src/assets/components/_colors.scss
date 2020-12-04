@@ -1,7 +1,7 @@
 @import "../variables";
 
 .rc-grey-color {
-    color: $rc-grey;
+    color: $rc-grey !important;
 }
 .rc-light-grey-bg {
     background: $rc-light-grey;

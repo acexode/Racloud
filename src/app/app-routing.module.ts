@@ -11,6 +11,7 @@ import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
 import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
+import { SignupComponent } from './signup/signup.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,12 @@ const routes: Routes = [
     data: { title: 'Login' },
     canActivate: [LoginGuard],
     component: LoginComponent,
+  },
+  {
+    path: 'signup',
+    data: { title: 'signup' },
+    canActivate: [LoginGuard],
+    component: SignupComponent,
   },
   {
     path: 'not-found',
