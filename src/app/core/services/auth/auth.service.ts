@@ -42,7 +42,7 @@ export class AuthService {
     // Load account state from local/session/cookie storage.
     this.storeS
       .getItem('token')
-      .subscribe((tokenData: { token: string; exp: string, username: string }) => {
+      .subscribe((tokenData: { token: string; exp: string, username: string; }) => {
         if (tokenData !== null) {
           this.authState.next({
             init: true,
@@ -85,7 +85,7 @@ export class AuthService {
   getUsername() {
     return this.getAuthState().pipe(
       map((val: AuthState) => {
-        if ( val && val.account && val.account.username) {
+        if (val && val.account && val.account.username) {
           return val.account.username;
         } else {
           return null;
@@ -100,9 +100,8 @@ export class AuthService {
     aRoute: ActivatedRoute;
   }) {
     const reqData: Login = {
-      userName: loginData.email,
+      email: loginData.email,
       password: loginData.password,
-      rememberMe: false,
     };
     return this.reqS.post<LoginResponse>(authEndpoints.login, reqData).pipe(
       switchMap((val) => {
@@ -117,17 +116,19 @@ export class AuthService {
     );
   }
 
-  processAuthResponse(data: LoginResponse, email: string ) {
+  processAuthResponse(data: LoginResponse, email: string) {
     const account = {
       username: email,
       image: null,
+      user: data?.user || null,
     };
     const tokenData = data.token;
     const expirationDate = data.expiration;
     const auth = {
       token: tokenData,
-      exp: expirationDate,
+      exp: expirationDate || null,
       username: email,
+      user: data?.user || null,
     };
     return this.storeS.setItem('token', auth).pipe(
       tap(() => {
@@ -135,7 +136,7 @@ export class AuthService {
           init: true,
           account,
           authToken: tokenData,
-          expiryDate: expirationDate,
+          expiryDate: expirationDate || null,
         });
       }),
       map((v) => data)
