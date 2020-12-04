@@ -1,105 +1,132 @@
 <app-page-container [config]="containerConfig">
-    <div class="w-100" container-body>
+  <div class="w-100" container-body>
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <!--  -->
+          <app-button
+            color="tertiary"
+            [routerLink]="[backUrl]"
+            [class]="
+              'd-flex align-items-center rc-accent-blue-160-color montserrat-semibold-font ml-n20'
+            "
+          >
+            <svg-icon
+              [class]="'icon-w16-h16 mr-10'"
+              [src]="caretLeftIcon"
+              alt="Icon"
+              applyClass="true"
+            >
+            </svg-icon>
+            CUSTOMERS
+          </app-button>
+          <!--  -->
 
-        <div class="page-header">
-            <div class="row align-items-center">
-                <div class="col">
-                    <!--  -->
-                    <app-button color="tertiary" [routerLink]="[backUrl]" [class]="'d-flex align-items-center rc-accent-blue-160-color montserrat-semibold-font ml-n20'">
-                        <svg-icon
-                            [class]="'icon-w16-h16 mr-10'"
-                            [src]="caretLeftIcon"
-                            alt="Icon"
-                            applyClass="true"
-                            >
-                        </svg-icon>
-                            CUSTOMERS
-                    </app-button>
-                    <!--  -->
-
-                    <h1 class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0">New customer</h1>
-                </div>
-            </div>
+          <h1
+            class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0"
+          >
+            New customer
+          </h1>
         </div>
-
-        <div class="line-h1 rc-secondary-bg mt-24 mb-39"></div>
-        
-        <div class="w-100">
-
-            <form [formGroup]="componentForm" class="row no-gutters">
-                <div class="col-12 col-md-3 px-0 pr-0 pr-md-16">
-                    <div class="row">
-                        <div class="col-12 mb-14">
-                            <app-input [config]="inputConfig('Name')" formControlName="name"></app-input>
-                        </div>
-                        <div class="col-12 mb-14">
-                            <app-select [config]="selectionConfig('Type')" formControlName="type"></app-select>
-                        </div>
-                        <div class="col-12">
-                            <app-select [config]="selectionConfig('Parent')" formControlName="parent"></app-select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-3 px-md-16">
-                    <div class="row">
-                        <div class="col-12 mb-14">
-                            <app-input [config]="inputConfig('City')" formControlName="city"></app-input>
-                        </div>
-                        <div class="col-12 mb-14">
-                            <app-input [config]="inputConfig('Phone', 'tel')" formControlName="phone"></app-input>
-                        </div>
-                        <div class="col-12">
-                            <app-input [config]="inputConfig('Email', 'email')" formControlName="email"></app-input>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-3 px-md-16">
-                    <div class="row">
-                        <div class="col-12 mb-14">
-                            <app-input [config]="inputConfig('Anniversary date')" formControlName="anniversaryDate"></app-input>
-                        </div>
-                        <div class="col-12 mb-14">
-                            <app-input 
-                                [config]="inputConfig('Subscription fee', 'text', '', true)" 
-                                formControlName="subscriptionFee"
-                            >
-                            </app-input>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-3 px-0 pl-md-16">
-                    <div class="row">
-                        <div class="col-12 mb-14">
-                            <app-input [config]="inputConfig('Support hours contract')" formControlName="supportHoursContract"></app-input>
-                        </div>
-                        <div class="col-12 mb-14">
-                            <app-input [config]="inputConfig('Support hours available')" formControlName="supportHoursAvailable">
-                            </app-input>
-                        </div>
-                    </div>
-                </div>
-
-
-            </form>
-
-        </div>
-
-        <div class="w-100">
-            <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-end">
-
-                <app-button type="button" color="secondaryB" class="mr-8">
-                    Cancle
-                </app-button>
-
-                <app-button type="button" color="primary">
-                    Save
-                </app-button>
-
-            </div>
-        </div>
-        
+      </div>
     </div>
+
+    <div class="line-h1 rc-secondary-bg mt-24 mb-39"></div>
+
+    <div class="w-100 pt-40">
+      <form [formGroup]="componentForm" class="row no-gutters">
+        <div class="col-12 col-md-3 px-0 pr-0 pr-md-16">
+          <div class="row">
+            <div class="col-12 mb-14">
+              <app-input
+                [config]="inputConfig('Name')"
+                formControlName="name"
+              ></app-input>
+            </div>
+            <div class="col-12 mb-14">
+              <app-select
+                [config]="selectionConfig('Type')"
+                formControlName="type"
+              ></app-select>
+            </div>
+            <div class="col-12">
+              <app-select
+                [config]="selectionConfig('Parent')"
+                formControlName="parent"
+              ></app-select>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-3 px-md-16">
+          <div class="row">
+            <div class="col-12 mb-14">
+              <app-input
+                [config]="inputConfig('City')"
+                formControlName="city"
+              ></app-input>
+            </div>
+            <div class="col-12 mb-14">
+              <app-input
+                [config]="inputConfig('Phone', 'tel')"
+                formControlName="phone"
+              ></app-input>
+            </div>
+            <div class="col-12">
+              <app-input
+                [config]="inputConfig('Email', 'email')"
+                formControlName="email"
+              ></app-input>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-3 px-md-16">
+          <div class="row">
+            <div class="col-12 mb-14">
+              <app-input
+                [config]="inputConfig('Anniversary date')"
+                formControlName="anniversaryDate"
+              ></app-input>
+            </div>
+            <div class="col-12 mb-14">
+              <app-input
+                [config]="inputConfig('Subscription fee', 'text', '', true)"
+                formControlName="subscriptionFee"
+              >
+              </app-input>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-3 px-0 pl-md-16">
+          <div class="row">
+            <div class="col-12 mb-14">
+              <app-input
+                [config]="inputConfig('Support hours contract')"
+                formControlName="supportHoursContract"
+              ></app-input>
+            </div>
+            <div class="col-12 mb-14">
+              <app-input
+                [config]="inputConfig('Support hours available')"
+                formControlName="supportHoursAvailable"
+              >
+              </app-input>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="w-100">
+      <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-end">
+        <app-button type="button" color="secondaryB" class="mr-8">
+          Cancel
+        </app-button>
+
+        <app-button type="button" color="primary"> Save </app-button>
+      </div>
+    </div>
+  </div>
 </app-page-container>
