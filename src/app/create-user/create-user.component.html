@@ -43,11 +43,22 @@
                             </div>                        
                             <div class="col-12 role-row">
                                 <span class="personal-details">Role</span>
+                            </div>                            
+                            <div class="col-4">                                
+                                <div class="btn-group w-100 d-flex flex-column" dropdown>
+                                    <label class="rc-grey-color s12-h14 montserrat-regular-font text-weight-normal m-0">Company </label>
+                                    <a id="button-basic" dropdownToggle type="button" class="select-dropdown dropdown-toggle" aria-controls="dropdown-basic">
+                                        {{defaultLabel}}
+                                    </a>
+                                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu w-100" formControlName="company" role="menu" aria-labelledby="button-basic">
+                                        <li (click)="addCompany()" role="menuitem"><a class="dropdown-item">Add new company   <i class="pl-1 pt-2 fa fa-plus plus" aria-hidden="true"></i></a></li>
+                                        <li class="divider dropdown-divider"></li>
+                                        <li *ngFor="let company of companyOptions" (click)="setCompany(company.id)" role="menuitem"><a class="dropdown-item">{{company.option}}</a></li>
+                                        
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="col-4">
-                                <app-select [config]="companyConfig" [options]='companyOptions'></app-select>
-                            </div>
-                            <div class="col-4">
+                            <div class="col-4">                                
                                 <app-select [config]="roleConfig" [options]='roleOptions'></app-select>
                             </div>
                             <div class="col-12 submit-row mt-2">

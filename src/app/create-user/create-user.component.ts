@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
@@ -21,16 +22,8 @@ export class CreateUserComponent implements OnInit {
       body: 'no-shadow',
     },
   }
-
+  defaultLabel = "Select"
   companyOptions = [
-    {
-      id: '',
-      option: 'Select'
-    },
-    {
-      id: 'new',
-      option: 'Add new Company'
-    },
     {
       id: 'pyramid',
       option: 'Pyramid'
@@ -78,7 +71,7 @@ export class CreateUserComponent implements OnInit {
     placeholder: 'Select'
   };
   userForm: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private router : Router) { }
 
   ngOnInit(): void {
     this.initForm()
@@ -118,4 +111,13 @@ export class CreateUserComponent implements OnInit {
       ]
     });
   }
+  addCompany(){
+      this.router.navigate(["/users"])
+  }
+  setCompany(company){
+    this.userForm.get('company').setValue(company)  
+    this.defaultLabel = company
+    
+  }
+
 }
