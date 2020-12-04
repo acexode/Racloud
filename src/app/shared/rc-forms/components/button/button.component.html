@@ -5,7 +5,7 @@
 </ng-container>
 
 <ng-container *ngIf="type === 'link'">
-    <a class="btn-no-padding btn-tertiary" [ngClass]="{'disabled': isDisabled}">
+    <a href class="btn-no-padding btn-tertiary" [ngClass]="{'disabled': isDisabled}" [class]="class">
         <ng-container [ngTemplateOutlet]="content"></ng-container>
     </a>
 </ng-container>

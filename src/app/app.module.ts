@@ -31,9 +31,9 @@ import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { RcFormsModule } from './shared/rc-forms/rc-forms.module';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { TabsModule } from './shared/tabs/tabs.module';
+import { OrdersComponent } from './orders/orders.component';
 import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
-import { CustomerListingComponent } from './customer-listing/customer-listing.component';
 import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
 import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
 import { CreateUserComponent } from './create-user/create-user.component';
@@ -49,9 +49,9 @@ import { CreateUserComponent } from './create-user/create-user.component';
     NotFoundComponent,
     StyleGuideComponent,
     AccessDeniedComponent,
+    OrdersComponent,
     UsersComponent,
     ProductsComponent,
-    CustomerListingComponent,
     RaLogoComponent,
     LicensesListingComponent,
     CreateUserComponent,
@@ -86,4 +86,4 @@ import { CreateUserComponent } from './create-user/create-user.component';
   bootstrap: [AppComponent],
   schemas: [],
 })
-export class AppModule {}
+export class AppModule { }

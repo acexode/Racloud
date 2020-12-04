@@ -2,16 +2,23 @@
     <div container-body>
       <div class="page-header">
         <div class="row align-items-center">
-          <div class="col">  
-              <p class="pyramid-title">PYRAMID</p>
-            
-            <h1 class="customers-title">Users</h1>
-          </div>
-          <div class="col-auto float-right ml-auto">
-            <button routerLink="/create-user"  class="btn btn-danger rounded-75 add-customer"> Add User</button>
-          </div>
+            <div class="col">
+                <p class="pyramid-title">PYRAMID</p>
+
+                <h1 class="customers-title">Orders</h1>
+            </div>
+            <div class="col-auto float-right ml-auto d-flex flex-direction-row align-items-center">
+                <app-toggle class="mr-32">
+                    All orders
+                </app-toggle>
+                <!--  -->
+                <app-button type="button" color="primary">
+                    Add order
+                </app-button>
+                <!--  -->
+            </div>
         </div>
-      </div>
+    </div>
       <app-table
       [rows]="tableData | async"
       [config]="tableConfig"
@@ -43,5 +50,4 @@
     </div>
     
   </ng-template>
-
 
