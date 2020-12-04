@@ -10,11 +10,11 @@ import { TableI } from '../shared/table/models/table.interface';
 import { TableService } from '../shared/table/services/table.service';
 
 @Component({
-  selector: 'app-customer-listing',
-  templateUrl: './customer-listing.component.html',
-  styleUrls: ['./customer-listing.component.scss']
+  selector: 'app-customer',
+  templateUrl: './customer.component.html',
+  styleUrls: ['./customer.component.scss']
 })
-export class CustomerListingComponent implements OnInit {
+export class CustomerComponent implements OnInit {
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
   @ViewChild('selectT', { static: true }) selectT: any;

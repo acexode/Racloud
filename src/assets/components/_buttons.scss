@@ -182,6 +182,7 @@ $btn-padding-x-zero: 0;
   );
   font-weight: 500;
   background-image: none;
+  display: inline-block !important;
 }
 
 .btn-danger {
@@ -222,4 +223,14 @@ $btn-padding-x-zero: 0;
   line-height: 16px;
   text-align: center;
   border-radius: 3px !important;
+}
+.pyramid-title {  
+  color: $rc-accent-blue;
+  font-family: Montserrat;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  line-height: 16px;
+  margin-top: rem(24);
+  margin-bottom: 0px;
 }

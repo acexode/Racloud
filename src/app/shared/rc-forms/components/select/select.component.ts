@@ -102,7 +102,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   updateItems() {
     const labelK = get(this.config, 'labelKey', 'option');
     const idK = get(this.config, 'idKey', 'id');
-    this.opts = this.opts.length !== 0 ? this.opts : [{ id: 'id', option: 'Default', isSelected: true }];
+    this.opts = this.opts.length !== 0 ? this.opts : [{ id: 'id', option: 'Select', isSelected: true }];
     const items = this.opts
       .map((v) => {
         return {

@@ -24,9 +24,9 @@ export class ButtonComponent implements OnInit {
 
   get btnClass() {
     if (typeof this.color === 'undefined') {
-      return this.btnClasses.primary;
+      return `${ this.btnClasses.primary } ${ this.class || '' }`;
     } else {
-      return this.btnClasses[this.color];
+      return `${ this.btnClasses[this.color] } ${ this.class || '' }`;
     }
   }
 
