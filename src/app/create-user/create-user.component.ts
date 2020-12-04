@@ -100,7 +100,7 @@ export class CreateUserComponent implements OnInit {
       company: [
         '',
         [
-          Validators.required, 
+          Validators.required,
         ],
       ],
       role: [
