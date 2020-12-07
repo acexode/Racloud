@@ -7,6 +7,6 @@ export const baseEndpoints = {
 };
 
 export const authEndpoints = {
-  login: serverBaseUrl + baseEndpoints.customers + '/login',
+  login: serverBaseUrl + '/auth/login',
 };
 
