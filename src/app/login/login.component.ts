@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   submitForm() {
     const formV = this.loginForm.value;
+
     if (this.loginForm.valid) {
       this.resetSubs();
       this.loginSubs = this.authS

@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   hmr: false,
-  serverUrl: '',
+  serverUrl: 'https://ra-core.azure.softescu.com',
   fakeBackend: true,
   recaptchaKey: null,
 };

@@ -30,7 +30,7 @@
             <span class="s15-h24 rc-grey-color montserrat-regular-font ls-0">Don't have a user account?</span>
             <span class="ml-8 s15-h24 rc-grey-color montserrat-regular-font rc-accent-blue-160-color ls-0">Sign up.</span>
           </div>
-
+          
           <div class="d-flex flex-column mb-14">
             <app-input [config]="emailInputConfig" formControlName="email" id="email"></app-input>
             <app-error-messages
@@ -39,11 +39,12 @@
           </div>
 
           <div class="d-flex flex-column mb-32">
-            <app-input [config]="passwordInputConfig" formControlName="email" id="email"></app-input>
+            <app-input [config]="passwordInputConfig" formControlName="password" id="password"></app-input>
 
             <app-error-messages
               [control]="loginForm?.controls?.password"
             ></app-error-messages>
+
           </div>
 
           <div class="d-flex align-items-center justify-content-between mb-24">
@@ -51,7 +52,7 @@
               Cancel
             </app-button>
           
-            <app-button type="Submit" color="primary">
+            <app-button type="Submit" color="primary" [disabled]="!loginForm?.valid">
               Log in
             </app-button>
           

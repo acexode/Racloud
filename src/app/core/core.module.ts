@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { fakeBackendProvider } from './interceptors/fake-backend';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { JwtInterceptor } from './interceptors/JWTInterceptor';
 import { AuthService } from './services/auth/auth.service';
 import { ConfigService } from './services/config/config.service';
 import { CustomStorageService } from './services/custom-storage/custom-storage.service';
@@ -14,7 +15,8 @@ import { PasswordDirective } from './validators/password-validator/password.dire
   declarations: [PasswordDirective],
   imports: [CommonModule, HttpClientModule],
   providers: [
-    fakeBackendProvider,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     RequestService,
     ConfigService,
     AuthService,
