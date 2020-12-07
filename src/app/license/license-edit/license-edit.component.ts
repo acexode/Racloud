@@ -161,7 +161,7 @@ export class LicenseEditComponent implements OnInit {
     }
   }
   isPartnerLicense(button) {
-    if (button == this.selectedPartnerLicenseBtn) {
+    if (button === this.selectedPartnerLicenseBtn) {
       this.setFormValue('partner',button.title);
       this.selectedPartnerLicenseBtn = undefined;
     } else {
@@ -170,7 +170,7 @@ export class LicenseEditComponent implements OnInit {
     }
 }
   renewbyUserCompany(button) {
-    if (button == this.selectedRenewBtn) {
+    if (button === this.selectedRenewBtn) {
       this.selectedRenewBtn = undefined;
       this.setFormValue('renew',button.title);
     } else {
@@ -178,7 +178,6 @@ export class LicenseEditComponent implements OnInit {
       this.selectedRenewBtn = button;
     }
   }
-  
 setFormValue(field,value){
   this.infoForm.get(field).patchValue(value, {
     onlySelf: false
