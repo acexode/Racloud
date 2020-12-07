@@ -144,11 +144,9 @@ export class LicenseEditComponent implements OnInit {
     this.showDefaultTab();
     this.cdref.detectChanges();
   }
-  
   showDefaultTab() {
     this.tabSwitch = this.firstTab;
   }
-
   switchTab(tabName: string, index: number) {
     this.tabSwitch = this[tabName];
     this.ressetTabSelectStatus();
@@ -168,7 +166,7 @@ export class LicenseEditComponent implements OnInit {
       this.setFormValue('partner', button.title);
       this.selectedPartnerLicenseBtn = button;
     }
-}
+  }
   renewbyUserCompany(button) {
     if (button === this.selectedRenewBtn) {
       this.selectedRenewBtn = undefined;
