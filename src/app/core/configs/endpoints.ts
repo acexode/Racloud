@@ -1,7 +1,12 @@
 import { environment } from '../../../environments/environment';
 
-export const serverBaseUrl = environment.serverUrl  + '/api';
+export const serverBaseUrl = environment.serverUrl + '/api';
+
+export const baseEndpoints = {
+  customers: '/customers',
+};
 
 export const authEndpoints = {
-  login: serverBaseUrl + '/login',
+  login: serverBaseUrl + '/auth/login',
 };
+
