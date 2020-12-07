@@ -64,7 +64,13 @@ export class LicenseEditComponent implements OnInit {
       prefixIcon: prefixIcon || false,
     };
   }
-
+  selectionConfig(label: string): SelectConfig {
+    return {
+      selectLabel: {
+        text: label || '',
+      },
+    };
+  }
   ngOnInit(): void {
     this.initForm();
   }

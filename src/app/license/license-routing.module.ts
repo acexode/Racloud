@@ -6,12 +6,12 @@ import { LicensesListingComponent } from './licenses-listing/licenses-listing.co
 
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: LicensesListingComponent,
     data: { title: 'Licenses' }
   },
   {
-    path: "license-edit",
+    path: 'license-edit',
     component: LicenseEditComponent,
     data: { title: 'Licenses' }
   }
