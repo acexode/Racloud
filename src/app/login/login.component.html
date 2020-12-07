@@ -39,7 +39,7 @@
             </app-button>
             <!--  -->
           </div>
-
+          
           <div class="d-flex flex-column mb-14">
             <app-input [config]="emailInputConfig" formControlName="email" id="email"></app-input>
             <app-error-messages
@@ -48,11 +48,12 @@
           </div>
 
           <div class="d-flex flex-column mb-32">
-            <app-input [config]="passwordInputConfig" formControlName="email" id="email"></app-input>
+            <app-input [config]="passwordInputConfig" formControlName="password" id="password"></app-input>
 
             <app-error-messages
               [control]="loginForm?.controls?.password"
             ></app-error-messages>
+
           </div>
 
           <div class="d-flex align-items-center justify-content-between mb-24">
@@ -60,7 +61,7 @@
               Cancel
             </app-button>
           
-            <app-button type="Submit" color="primary">
+            <app-button type="Submit" color="primary" [disabled]="!loginForm?.valid">
               Log in
             </app-button>
           
