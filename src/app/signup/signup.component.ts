@@ -5,11 +5,8 @@ import {
 } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Subscription } from 'rxjs';
 import { InputConfig } from '../shared/rc-forms/models/input/input-config';
-import { MessagesService } from './../shared/messages/services/messages.service';
 import { TextAreaConfig } from '../shared/rc-forms/models/textarea/textarea-config';
 
 @Component({
@@ -64,8 +61,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       placeholder: placeholder || '',
       prefixIcon: prefixIcon || false,
     };
-  } 
-
+  }
   submitForm(): void {
   }
   resetSubs() {
