@@ -41,8 +41,8 @@ export class LicenseEditComponent implements OnInit {
   ];
   infoForm: FormGroup;
   partnerLicense= [
-    {title: "Yes", name: "button1"},
-    {title: "No", name: "button2"},
+    {title: 'Yes', name: 'button1'},
+    {title: 'No', name: 'button2'},
   ]
   selectedPartnerLicenseBtn;
   selectedRenewBtn;
