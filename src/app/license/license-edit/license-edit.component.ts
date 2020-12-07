@@ -46,7 +46,7 @@ export class LicenseEditComponent implements OnInit {
   ]
   selectedPartnerLicenseBtn;
   selectedRenewBtn;
-  
+
   controlStore: { [key: string]: AbstractControl; } = {};
   constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef) { }
   inputConfig(
