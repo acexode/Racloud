@@ -35,7 +35,6 @@ import { OrdersComponent } from './orders/orders.component';
 import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
 import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
-import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 
 @NgModule({
@@ -53,8 +52,8 @@ import { CreateUserComponent } from './create-user/create-user.component';
     UsersComponent,
     ProductsComponent,
     RaLogoComponent,
-    LicensesListingComponent,
     CreateUserComponent,
+    
   ],
   imports: [
     BrowserModule,

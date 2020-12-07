@@ -9,7 +9,6 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
-import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
 import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
 
@@ -79,7 +78,10 @@ const routes: Routes = [
   },
   {
     path: 'licenses',
-    component: LicensesListingComponent,
+    loadChildren: () =>
+      import('./license/license.module').then(
+        (m) => m.LicenseModule
+      ),
     data: { title: 'Licenses Listing' },
   },
   {
