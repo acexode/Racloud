@@ -1,3 +1,4 @@
+import { CreateUserComponent } from './create-user/create-user.component';
 import { OrdersComponent } from './orders/orders.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { NgModule } from '@angular/core';
@@ -80,6 +81,11 @@ const routes: Routes = [
     path: 'licenses',
     component: LicensesListingComponent,
     data: { title: 'Licenses Listing' },
+  },
+  {
+    path: 'create-user',
+    component: CreateUserComponent,
+    data: { title: 'Create User' },
   },
   { path: '**', redirectTo: '/not-found' },
 ];
