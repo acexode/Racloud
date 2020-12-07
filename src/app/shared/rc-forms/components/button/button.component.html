@@ -1,5 +1,5 @@
 <ng-container *ngIf="type !== 'link'">
-    <button [class]="btnClass" [type]='type' [disabled]="isDisabled">
+    <button [class]="btnClass" [type]="type || 'button'" [disabled]="isDisabled">
         <ng-container [ngTemplateOutlet]="content"></ng-container>
     </button>
 </ng-container>

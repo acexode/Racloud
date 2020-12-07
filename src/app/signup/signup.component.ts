@@ -1,6 +1,4 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   OnInit,
   OnDestroy,
@@ -44,13 +42,11 @@ export class SignupComponent implements OnInit, OnDestroy {
     footer: 'd-none',
   };
   returnUrl: '/';
-  loginSubs: Subscription;
+  signUpSubs: Subscription;
 
   loginUrl = '/login';
   constructor(
     private fb: FormBuilder,
-    private cdRef: ChangeDetectorRef,
-    private aRoute: ActivatedRoute,
   ) { }
 
   ngOnInit(): void { }
@@ -68,13 +64,13 @@ export class SignupComponent implements OnInit, OnDestroy {
       placeholder: placeholder || '',
       prefixIcon: prefixIcon || false,
     };
-  }
+  } 
 
   submitForm(): void {
   }
   resetSubs() {
-    if (this.loginSubs) {
-      this.loginSubs.unsubscribe();
+    if (this.signUpSubs) {
+      this.signUpSubs.unsubscribe();
     }
   }
   ngOnDestroy(): void {
