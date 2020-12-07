@@ -12,6 +12,8 @@ export class ButtonComponent implements OnInit {
   @Input() class: string;
   @Input() disabled: boolean;
 
+  @Input() href: string;
+
   btnClasses = {
     primary: 'btn btn-primary',
     secondary: 'btn btn-secondary',

@@ -1,5 +1,5 @@
-<ng-container>
+<ng-container [formGroup]="formGroup">
     <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0"
-        [ngClass]="config?.textLabel?.classes">{{ config?.textLabel?.text }} </label>
-    <textarea></textarea>
+        [ngClass]="config?.textAreaLabel?.classes">{{ config?.textAreaLabel?.text }} </label>
+    <textarea formControlName="textarea" class="rc-form-textArea"></textarea>
 </ng-container>

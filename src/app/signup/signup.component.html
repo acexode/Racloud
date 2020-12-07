@@ -26,7 +26,6 @@
                         <!-- -->
                         <app-button
                             color="tertiary" 
-                            type="link" 
                             [routerLink]="[loginUrl]" 
                             [class]="'ml-8 s15-h24 rc-grey-color montserrat-regular-font rc-accent-blue-160-color ls-0'
                         ">
@@ -73,8 +72,15 @@
                         <app-error-messages [control]="signUpForm?.controls?.companyPhone"></app-error-messages>
                     </div>
 
+                    <div class="d-flex flex-column mb-14">
+                        <app-textarea [config]="textAreaConfig" formControlName="address" id="country"></app-textarea>
+                    
+                        <app-error-messages [control]="signUpForm?.controls?.address"></app-error-messages>
+                    </div>
+
                     <div class="d-flex flex-column mb-40">
-                        <app-input [config]="inputConfig('Country', 'text', 'Type here')" formControlName="country" id="country"></app-input>
+                        <app-input [config]="inputConfig('Country', 'text', 'Type here')" formControlName="country" id="country">
+                        </app-input>
                     
                         <app-error-messages [control]="signUpForm?.controls?.country"></app-error-messages>
                     </div>

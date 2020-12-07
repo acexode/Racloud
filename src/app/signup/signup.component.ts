@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Subscription } from 'rxjs';
 import { InputConfig } from '../shared/rc-forms/models/input/input-config';
 import { MessagesService } from './../shared/messages/services/messages.service';
+import { TextAreaConfig } from '../shared/rc-forms/models/textarea/textarea-config';
 
 @Component({
   selector: 'app-signup',
@@ -43,6 +44,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     lastName: ['', Validators.required],
     companyName: ['', Validators.required],
     companyPhone: ['', Validators.required],
+    address: ['', Validators.required],
     country: ['', Validators.required],
   });
   classes = {
@@ -76,6 +78,13 @@ export class SignupComponent implements OnInit, OnDestroy {
       prefixIcon: prefixIcon || false,
     };
   }
+
+  textAreaConfig: TextAreaConfig = {
+    textAreaLabel: {
+      text: 'Address'
+    },
+    placeholder: 'Type Here'
+  };
 
   submitForm(): void {
   }

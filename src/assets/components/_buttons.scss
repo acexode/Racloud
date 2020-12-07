@@ -89,7 +89,6 @@ $btn-padding-x-zero: 0;
 .btn-no-padding {
   font-family: $font-montserrat;
   font-weight: normal;
-  min-width: $rc-btn-min-width;
   @include button-size(
     $btn-padding-y-zero,
     $btn-padding-x-zero,
