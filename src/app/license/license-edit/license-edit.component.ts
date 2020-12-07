@@ -37,13 +37,12 @@ export class LicenseEditComponent implements OnInit {
       template: 'secondTab',
       isSelected: false
     }
-    
   ];
   infoForm: FormGroup;
   partnerLicense= [
     {title: 'Yes', name: 'button1'},
     {title: 'No', name: 'button2'},
-  ]
+  ];
   selectedPartnerLicenseBtn;
   selectedRenewBtn;
 
@@ -176,15 +175,13 @@ export class LicenseEditComponent implements OnInit {
       this.selectedRenewBtn = button;
     }
   }
-setFormValue(field,value){
-  this.infoForm.get(field).patchValue(value, {
-    onlySelf: false
-  });
-}
-submitForm(){
+  setFormValue(field,value){
+    this.infoForm.get(field).patchValue(value, {
+      onlySelf: false
+    });
+  }
+  submitForm(){
   console.log(this.infoForm.value);
-}
-
-
+  }
 }
 
