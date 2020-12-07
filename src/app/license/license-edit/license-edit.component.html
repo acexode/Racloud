@@ -67,6 +67,7 @@
                             <div class="col-6">                               
                                 <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Renew by User Company</label>
                                 <div class="rc-form-group rc-form-group-without-prefix" >
+                                    <input type="text" hidden formControlName="renew">
                                     <app-chips *ngFor="let button of partnerLicense" class="mr-2"  [color]="(selectedRenewBtn == button) ? 'selected' : 'default'" (click)="renewbyUserCompany(button)">
                                         {{button.title}}
                                     </app-chips>
@@ -94,7 +95,9 @@
                             </div>
                         </form>
                     </ng-template>
-                    <ng-template #secondTab> second Tab </ng-template>
+                    <ng-template #secondTab> 
+                        Tab 2    
+                    </ng-template>
                     
                 
                 </app-tabs>

@@ -66,7 +66,7 @@ export class LicenseEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initForm()
+    this.initForm();
   }
   initForm() {
     this.infoForm = this.fb.group({
@@ -156,30 +156,30 @@ export class LicenseEditComponent implements OnInit {
   }
   isPartnerLicense(button) {
     if (button == this.selectedPartnerLicenseBtn) {
-        this.setFormValue('partner',false)
-        this.selectedPartnerLicenseBtn = undefined
+      this.setFormValue('partner',button.title);
+      this.selectedPartnerLicenseBtn = undefined;
     } else {
-      this.setFormValue('partner',true)
-        this.selectedPartnerLicenseBtn = button
+      this.setFormValue('partner', button.title);
+      this.selectedPartnerLicenseBtn = button;
     }
 }
   renewbyUserCompany(button) {
     if (button == this.selectedRenewBtn) {
-        this.selectedRenewBtn = undefined
-        this.setFormValue('renew',false)
+      this.selectedRenewBtn = undefined;
+      this.setFormValue('renew',button.title);
     } else {
-      this.setFormValue('renew',true)
-        this.selectedRenewBtn = button
+      this.setFormValue('renew', button.title);
+      this.selectedRenewBtn = button;
     }
-}
-
+  }
+  
 setFormValue(field,value){
-  this.infoForm.get(field).setValue(value,{
-    onlySelf: true
-  })
+  this.infoForm.get(field).patchValue(value, {
+    onlySelf: false
+  });
 }
 submitForm(){
-  
+  console.log(this.infoForm.value);
 }
 
 
