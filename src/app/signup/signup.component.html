@@ -38,12 +38,12 @@
                     </div>
 
                     <div class="d-flex flex-column mb-14">
-                        <app-input [config]="emailInputConfig" formControlName="email" id="email"></app-input>
+                        <app-input [config]="inputConfig('Email', 'email', 'Type here')" formControlName="email" id="email"></app-input>
                         <app-error-messages [control]="signUpForm?.controls?.email"></app-error-messages>
                     </div>
 
                     <div class="d-flex flex-column mb-14">
-                        <app-input [config]="passwordInputConfig" formControlName="password" id="password"></app-input>
+                        <app-input [config]="inputConfig('Password', 'password', 'Type here')" formControlName="password" id="password"></app-input>
 
                         <app-error-messages [control]="signUpForm?.controls?.password"></app-error-messages>
                     </div>

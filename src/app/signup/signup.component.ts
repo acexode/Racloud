@@ -21,20 +21,11 @@ import { TextAreaConfig } from '../shared/rc-forms/models/textarea/textarea-conf
 })
 export class SignupComponent implements OnInit, OnDestroy {
   raLogoType = 'group1';
-  emailInputConfig: InputConfig = {
-    inputLabel: {
-      text: 'Email'
+  textAreaConfig: TextAreaConfig = {
+    textAreaLabel: {
+      text: 'Address'
     },
-    type: 'email',
-    placeholder: 'Type Here',
-  };
-
-  passwordInputConfig: InputConfig = {
-    inputLabel: {
-      text: 'Password'
-    },
-    type: 'password',
-    placeholder: 'Type Here',
+    placeholder: 'Type Here'
   };
 
   signUpForm: FormGroup = this.fb.group({
@@ -78,13 +69,6 @@ export class SignupComponent implements OnInit, OnDestroy {
       prefixIcon: prefixIcon || false,
     };
   }
-
-  textAreaConfig: TextAreaConfig = {
-    textAreaLabel: {
-      text: 'Address'
-    },
-    placeholder: 'Type Here'
-  };
 
   submitForm(): void {
   }

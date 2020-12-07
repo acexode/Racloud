@@ -3,4 +3,6 @@
 
 .rc-form-textArea {
     width: 100%;
+    border: $rc-accent-blue-60-outline;
+    resize: vertical;
 }
