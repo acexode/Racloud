@@ -52,8 +52,7 @@ import { CreateUserComponent } from './create-user/create-user.component';
     UsersComponent,
     ProductsComponent,
     RaLogoComponent,
-    CreateUserComponent,
-    
+    CreateUserComponent
   ],
   imports: [
     BrowserModule,
