@@ -106,7 +106,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'multipart/form-data' 
+        'Content-Type': 'multipart/form-data'
       })
     };
     this.reqS.post<any>(authEndpoints.customersSignUp, data, httpOptions)
