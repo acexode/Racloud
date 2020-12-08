@@ -16,7 +16,7 @@ import { PasswordDirective } from './validators/password-validator/password.dire
   imports: [CommonModule, HttpClientModule],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     RequestService,
     ConfigService,
     AuthService,
@@ -25,4 +25,4 @@ import { PasswordDirective } from './validators/password-validator/password.dire
     FooterService,
   ],
 })
-export class CoreModule {}
+export class CoreModule { }

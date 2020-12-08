@@ -90,20 +90,19 @@ export class SignupComponent implements OnInit, OnDestroy {
   submitForm(): void {
     console.log(this.signUpForm.value, authEndpoints.customersSignUp);
     const data = {
-    Address: '100, test streeet',
-    City: 'Test',
-    // CompanyEmail: "test@gmail.com",
-    CompanyName: 'Test',
-    CompanyType: 'Partner',
-    ConfirmPassword: 'test',
-    Email: 'test@gmail.com',
-    FirstName: 'Test',
-    Language: 'Eng',
-    LastName: 'Test',
-    Password: 'test',
-    PhoneNumber: '123456789',
-    UserName: 'Test',
-  }
+      Address: '100, test streeet',
+      City: 'Test',
+      CompanyName: 'Test',
+      CompanyType: 'Fabricator',
+      ConfirmPassword: 'test',
+      Email: 'test@gmail.com',
+      FirstName: 'Test',
+      Language: 'Eng',
+      LastName: 'Test',
+      Password: 'test',
+      PhoneNumber: '123456789',
+      UserName: 'Test',
+    };
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'multipart/form-data'
