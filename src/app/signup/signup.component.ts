@@ -47,12 +47,11 @@ export class SignupComponent implements OnInit, OnDestroy {
     ConfirmPassword: ['', Validators.required],
     FirstName: ['', Validators.required],
     LastName: ['', Validators.required],
-    UserName: ['', Validators.required],
     CompanyName: ['', Validators.required],
     PhoneNumber: ['', Validators.required],
     CompanyEmail: ['', Validators.required],
     Address: ['', Validators.required],
-    City: ['', Validators.required],
+    Country: ['', Validators.required],
     Language: ['', Validators.required],
   }, {
     validator: MustMatch('Password', 'ConfirmPassword')
@@ -91,17 +90,17 @@ export class SignupComponent implements OnInit, OnDestroy {
     console.log(this.signUpForm.value, authEndpoints.customersSignUp);
     const data = {
       Address: '100, test streeet',
-      City: 'Test',
+      Country: 'Test',
       CompanyName: 'Test',
       CompanyType: 'Fabricator',
       ConfirmPassword: 'test',
+      CompanyEmail: 'test',
       Email: 'test@gmail.com',
       FirstName: 'Test',
       Language: 'Eng',
       LastName: 'Test',
       Password: 'test',
       PhoneNumber: '123456789',
-      UserName: 'Test',
     };
     const httpOptions = {
       headers: new HttpHeaders({
