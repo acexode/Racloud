@@ -36,60 +36,88 @@
                     </div>
 
                     <div class="d-flex flex-column mb-14">
-                        <app-input [config]="inputConfig('Email', 'email', 'Type here')" formControlName="email" id="email"></app-input>
+                        <app-input [config]="inputConfig('Email', 'email', 'Type here')" formControlName="Email" id="email"></app-input>
                         <app-error-messages [control]="signUpForm?.controls?.email"></app-error-messages>
                     </div>
 
                     <div class="d-flex flex-column mb-14">
-                        <app-input [config]="inputConfig('Password', 'password', 'Type here')" formControlName="password" id="password"></app-input>
+                        <app-input [config]="inputConfig('Password', 'password', 'Type here')" formControlName="Password" id="password"></app-input>
 
                         <app-error-messages [control]="signUpForm?.controls?.password"></app-error-messages>
                     </div>
 
                     <div class="d-flex flex-column mb-14">
-                        <app-input [config]="inputConfig('First Name', 'text', 'Type here')" formControlName="firstName" id="firstName"></app-input>
+                        <app-input [config]="inputConfig('Confirm Password', 'password', 'Type here')" formControlName="ConfirmPassword" id="cPassword"></app-input>
+
+                        <app-error-messages [control]="signUpForm?.controls?.ConfirmPassword"></app-error-messages>
+                    </div>
+
+                    <div class="d-flex flex-column mb-14">
+                        <app-input [config]="inputConfig('First Name', 'text', 'Type here')" formControlName="FirstName" id="FirstName"></app-input>
                     
                         <app-error-messages [control]="signUpForm?.controls?.firstName"></app-error-messages>
                     </div>
 
                     <div class="d-flex flex-column mb-14">
-                        <app-input [config]="inputConfig('Last Name', 'text', 'Type here')" formControlName="lastName" id="lastName"></app-input>
+                        <app-input [config]="inputConfig('Last Name', 'text', 'Type here')" formControlName="LastName" id="LastName"></app-input>
                     
                         <app-error-messages [control]="signUpForm?.controls?.lastName"></app-error-messages>
                     </div>
 
                     <div class="d-flex flex-column mb-14">
-                        <app-input [config]="inputConfig('Company name', 'text', 'Type here')" formControlName="companyName" id="companyName"></app-input>
+                        <app-input [config]="inputConfig('User Name', 'text', 'Type here')" formControlName="UserName" id="UserName"></app-input>
+                    
+                        <app-error-messages [control]="signUpForm?.controls?.userName"></app-error-messages>
+                    </div>
+
+                    <div class="d-flex flex-column mb-14">
+                        <app-input [config]="inputConfig('Company name', 'text', 'Type here')" formControlName="CompanyName" id="CompanyName"></app-input>
                     
                         <app-error-messages [control]="signUpForm?.controls?.companyName"></app-error-messages>
                     </div>
 
                     <div class="d-flex flex-column mb-14">
-                        <app-input [config]="inputConfig('Company Phone', 'text', 'Type here')" formControlName="companyPhone" id="companyPhone"></app-input>
+                        <app-input [config]="inputConfig('Company Phone', 'tel', 'Type here')" formControlName="PhoneNumber" id="CompanyPhone"></app-input>
                     
                         <app-error-messages [control]="signUpForm?.controls?.companyPhone"></app-error-messages>
                     </div>
 
+
                     <div class="d-flex flex-column mb-14">
-                        <app-textarea [config]="textAreaConfig" formControlName="address" id="country"></app-textarea>
+                        <app-input [config]="inputConfig('Company E-mail', 'text', 'Type here')" formControlName="CompanyEmail" id="CompanyEmail"></app-input>
+                    
+                        <app-error-messages [control]="signUpForm?.controls?.companyEmail"></app-error-messages>
+                    </div>
+
+
+                    <div class="d-flex flex-column mb-14">
+                        <app-textarea [config]="textAreaConfig" formControlName="Address" id="Address"></app-textarea>
                     
                         <app-error-messages [control]="signUpForm?.controls?.address"></app-error-messages>
                     </div>
 
-                    <div class="d-flex flex-column mb-40">
-                        <app-input [config]="inputConfig('Country', 'text', 'Type here')" formControlName="country" id="country">
+                    <div class="d-flex flex-column mb-14">
+                        <app-input [config]="inputConfig('City', 'text', 'Type here')" formControlName="City" id="City">
                         </app-input>
                     
                         <app-error-messages [control]="signUpForm?.controls?.country"></app-error-messages>
                     </div>
 
+
+                    <div class="d-flex flex-column mb-40">
+                        <app-input [config]="inputConfig('Language', 'text', 'Type here')" formControlName="Language" id="Language">
+                        </app-input>
+                    
+                        <app-error-messages [control]="signUpForm?.controls?.language"></app-error-messages>
+                    </div>
+
+                    <!-- [disabled]="!signUpForm?.valid" -->
                     <div class="d-flex align-items-center justify-content-between">
                         <app-button type="link" color="tertiary">
                             Cancel
                         </app-button>
-
                         <app-button type="Submit" color="primary">
-                            Log in
+                            Sign up
                         </app-button>
 
                     </div>

@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import {
   Component,
   OnInit,
@@ -6,9 +7,11 @@ import {
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { authEndpoints } from '../core/configs/endpoints';
+import { RequestService } from '../core/services/request/request.service';
+import { MustMatch } from '../shared/rc-forms/helpers/must-match-validator';
 import { InputConfig } from '../shared/rc-forms/models/input/input-config';
 import { TextAreaConfig } from '../shared/rc-forms/models/textarea/textarea-config';
-
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -23,15 +26,36 @@ export class SignupComponent implements OnInit, OnDestroy {
     placeholder: 'Type Here'
   };
 
+  companyTypeOptions = [
+    {
+      id: 1,
+      option: 'Partner'
+    },
+    {
+      id: 2,
+      option: 'Reseller'
+    },
+    {
+      id: 3,
+      option: 'Fabricator'
+    }
+  ];
+
   signUpForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required],
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    companyName: ['', Validators.required],
-    companyPhone: ['', Validators.required],
-    address: ['', Validators.required],
-    country: ['', Validators.required],
+    Email: ['', [Validators.required, Validators.email]],
+    Password: ['', Validators.required],
+    ConfirmPassword: ['', Validators.required],
+    FirstName: ['', Validators.required],
+    LastName: ['', Validators.required],
+    UserName: ['', Validators.required],
+    CompanyName: ['', Validators.required],
+    PhoneNumber: ['', Validators.required],
+    CompanyEmail: ['', Validators.required],
+    Address: ['', Validators.required],
+    City: ['', Validators.required],
+    Language: ['', Validators.required],
+  }, {
+    validator: MustMatch('Password', 'ConfirmPassword')
   });
   classes = {
     body: 'p-0 d-flex justify-content-center flex-column no-gutters',
@@ -44,6 +68,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   loginUrl = '/login';
   constructor(
     private fb: FormBuilder,
+    private reqS: RequestService,
   ) { }
 
   ngOnInit(): void { }
@@ -63,6 +88,33 @@ export class SignupComponent implements OnInit, OnDestroy {
     };
   }
   submitForm(): void {
+    console.log(this.signUpForm.value, authEndpoints.customersSignUp);
+    const data = {
+    Address: "100, test streeet",
+    City: "Test",
+    // CompanyEmail: "test@gmail.com",
+    CompanyName: "Test",
+    CompanyType: "Partner",
+    ConfirmPassword: "test",
+    Email: "test@gmail.com",
+    FirstName: "Test",
+    Language: "Eng",
+    LastName: "Test",
+    Password: "test",
+    PhoneNumber: "123456789",
+    UserName: "Test",
+  }
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "multipart/form-data" 
+      })
+    };
+    this.reqS.post<any>(authEndpoints.customersSignUp, data, httpOptions)
+      .subscribe(
+        res => console.log(res),
+        error => console.log(error)
+      );
+
   }
   resetSubs() {
     if (this.signUpSubs) {
