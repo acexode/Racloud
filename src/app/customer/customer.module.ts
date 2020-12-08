@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateCustomerComponent } from './create-customer/create-customer.component';
 import { ManageCustomerComponent } from './manage-customer/manage-customer.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TabsModule } from '../shared/tabs/tabs.module';
 
 
 
@@ -25,6 +26,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     FormsModule,
     ReactiveFormsModule,
     BsDropdownModule.forRoot(),
+    TabsModule
   ]
 })
 export class CustomerModule { }

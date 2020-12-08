@@ -251,9 +251,9 @@ export class CustomerComponent implements OnInit {
   removeRow(id: any) {
     console.log(id);
   }
-  manageSub(id: any) {
-    console.log(id);
-    this.router.navigate(['manage'], { relativeTo: this.route });
+  manageSub(data: any) {
+    console.log(data);
+    this.router.navigate(['manage', data.id], { relativeTo: this.route });
   }
   renewSub(id: any) {
     console.log(id);

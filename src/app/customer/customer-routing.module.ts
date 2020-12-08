@@ -15,7 +15,7 @@ const routes: Routes = [
         data: { title: 'Create Customer' },
     },
     {
-        path: 'manage',
+        path: 'manage/:id',
         component: ManageCustomerComponent,
         data: { title: 'Create Customer' },
     },
