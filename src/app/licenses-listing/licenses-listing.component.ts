@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FooterService } from '../core/services/footer/footer.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
 import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
@@ -73,9 +72,7 @@ export class LicensesListingComponent implements OnInit {
   isDropup: boolean;
   constructor(
     private tS: TableService,
-    private footerS: FooterService,
     private http: HttpClient,
-
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
