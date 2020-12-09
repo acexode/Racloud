@@ -65,7 +65,7 @@ export class LicenseOptionsComponent implements OnInit {
     },
     type: 'text',
     placeholder: 'Type here',
-  }; 
+  };
   optionForm: FormGroup;
   selectedType = '';
   selectedStatus: any;
