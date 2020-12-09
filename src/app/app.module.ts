@@ -38,7 +38,8 @@ import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
 import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
 import { SignupComponent } from './signup/signup.component';
 import { CreateUserComponent } from './create-user/create-user.component';
-import { LoaderComponent } from './shared/loader/loader.component';
+import { CustomerModule } from './customer/customer.module';
+import { LoaderModule } from './shared/loader/loader.module';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,6 @@ import { LoaderComponent } from './shared/loader/loader.component';
     LicensesListingComponent,
     SignupComponent,
     CreateUserComponent,
-    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,6 +81,8 @@ import { LoaderComponent } from './shared/loader/loader.component';
     TableModule,
     RcFormsModule,
     TabsModule,
+    CustomerModule,
+    LoaderModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

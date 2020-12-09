@@ -11,6 +11,8 @@ import { CreateCustomerComponent } from './create-customer/create-customer.compo
 import { ManageCustomerComponent } from './manage-customer/manage-customer.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from '../shared/tabs/tabs.module';
+import { LoaderComponent } from '../shared/loader/loader.component';
+import { LoaderModule } from '../shared/loader/loader.module';
 
 
 
@@ -26,7 +28,8 @@ import { TabsModule } from '../shared/tabs/tabs.module';
     FormsModule,
     ReactiveFormsModule,
     BsDropdownModule.forRoot(),
-    TabsModule
+    TabsModule,
+    LoaderModule
   ]
 })
 export class CustomerModule { }

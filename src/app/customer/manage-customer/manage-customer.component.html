@@ -50,18 +50,7 @@
 
     
 
-    <div class="w-100">
-      <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-end">
-        <app-button type="button" color="secondaryB" class="mr-8">
-          Renew Subscription
-        </app-button>
-
-        <app-button type="button" color="primary"> 
-            Update profile 
-        </app-button>
-
-      </div>
-    </div>
+    
   </div>
 </app-page-container>
 
@@ -72,6 +61,7 @@
 <!-- tab templates -->
 
  <ng-template #detailsTab> 
+
     <div class="w-100 pt-40">
         <form [formGroup]="componentForm" class="row no-gutters">
             <div class="col-12 col-md-3 px-0 pr-0 pr-md-16">
@@ -165,10 +155,35 @@
             </div>
             </div>
         </form>
-        </div>
+    </div>
+    <div class="w-100">
+      <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-end">
+        <app-button type="button" color="secondaryB" class="mr-8">
+          Renew Subscription
+        </app-button>
+
+        <app-button type="button" color="primary"> 
+            Update profile 
+        </app-button>
+
+      </div>
+    </div>
+
 </ng-template>
 
 <!--  -->
-<ng-template #secondTab> second Tab </ng-template>   
+<ng-template #licenseTab> second Tab 
 
+</ng-template>   
+
+<ng-template #loaderTemplate>
+
+    <div class="w-100 pt-60 pb-30 d-flex flex-column justify-content-center align-items-center">
+        <app-loader type="button"></app-loader>
+        <div class="rc-accent-blue-160-color montserrat-semibold-font s15-h24">
+            Please wait...
+        </div>
+    </div>
+    
+</ng-template>
 <!-- end of tab templates -->

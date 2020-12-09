@@ -46,3 +46,12 @@
     </div>
 
 </ng-template>
+
+<ng-template #subFeeTemplate let-column="column" let-row="row" let-value="cellValue">
+    <span>
+        $
+    </span>
+    <span>
+        {{ value }}
+    </span>
+</ng-template>

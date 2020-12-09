@@ -16,6 +16,7 @@ import { TableService } from '../shared/table/services/table.service';
 })
 export class CustomerComponent implements OnInit {
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
+  @ViewChild('subFeeTemplate', { static: true }) subFeeTemplate: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
   @ViewChild('selectT', { static: true }) selectT: any;
 
@@ -92,8 +93,8 @@ export class CustomerComponent implements OnInit {
         },
       },
       {
-        identifier: 'city',
-        label: 'City',
+        identifier: 'country',
+        label: 'Country',
         sortable: true,
         minWidth: 150,
         width: 100,
@@ -170,7 +171,7 @@ export class CustomerComponent implements OnInit {
         },
       },
       {
-        identifier: 'anniv-date',
+        identifier: 'anniversaryDate',
         label: 'Anniv-date',
         sortable: true,
         minWidth: 130,
@@ -194,6 +195,7 @@ export class CustomerComponent implements OnInit {
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
+        cellTemplate: this.subFeeTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,

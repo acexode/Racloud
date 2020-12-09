@@ -1,5 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
@@ -14,7 +15,8 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
 
   /* for tab */
   @ViewChild('detailsTab', { read: TemplateRef }) detailsTab: TemplateRef<any>;
-  @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
+  @ViewChild('loaderTemplate', { read: TemplateRef }) loaderTemplate: TemplateRef<any>;
+  @ViewChild('licenseTab', { read: TemplateRef }) licenseTab: TemplateRef<any>;
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
   tabMarked = {
     left: '0px',
@@ -29,8 +31,8 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
       defaultSelected: true,
     },
     {
-      name: 'Tab 2 Default',
-      template: 'secondTab',
+      name: 'License',
+      template: 'licenseTab',
       isSelected: false,
       defaultSelected: false,
     },
@@ -129,9 +131,19 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
       ],
     ],
   });
-  constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef) { }
+  constructor(
+    private fb: FormBuilder,
+    private cdref: ChangeDetectorRef,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe(
+      params => {
+        const id: any = params.get('id');
+        console.log(id);
+      }
+    );
   }
   selectionConfig(label: string): SelectConfig {
     return {
@@ -156,6 +168,15 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
     };
   }
 
+  fetchDataForDetails() {
+
+  }
+  updateValueForForm(data: any) {
+    this.componentForm.setValue({ 
+
+    });
+  }
+
   /* tab */
   ngAfterViewInit() {
     this.showDefaultTab();
@@ -163,7 +184,7 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
   }
 
   showDefaultTab() {
-    this.tabSwitch = this.detailsTab;
+    this.tabSwitch = this.loaderTemplate;
   }
 
   switchTab(event: any, tabName: string, index: number) {
