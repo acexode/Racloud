@@ -88,7 +88,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
   submitForm(): void {
     console.log(this.signUpForm.value, authEndpoints.customersSignUp);
-    const data = {
+    const data = this.signUpForm.value;
+    /* const data = {
       Address: '100, test streeet',
       Country: 'Test',
       CompanyName: 'Test',
@@ -101,7 +102,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       LastName: 'Test',
       Password: 'test',
       PhoneNumber: '123456789',
-    };
+    }; */
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'multipart/form-data'
