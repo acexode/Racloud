@@ -1,0 +1,122 @@
+<app-page-container [config]="containerConfig">
+
+    <div container-body>
+        
+    <div class="w-100">
+        <div class="page-header position-relative">
+           <a [routerLink]="[backUrl]">
+            <svg-icon
+            [class]="'back-button'"
+            [src]="caretLeftIcon"
+            alt="Icon"
+            applyClass="true"
+            >
+        </svg-icon>
+           </a>
+            <div class="row align-items-center">
+                <div class="col">  
+                  <a [routerLink]="[backUrl]" class="pyramid-title">
+                   <span class="pyramid">Options</span></a>
+                <h3 class="new-user">New Option</h3>            
+              </div>       
+            </div>
+      </div>
+    </div>
+    
+    <div class="w-100 mb-64">
+        <div class="row">
+            <div class="col-12">
+                <div class="app-tabs"></div>
+               <ng-container>
+                    <app-tabs>                
+                        <app-tab-bar></app-tab-bar>
+    
+                        <form [formGroup]="optionForm" class=" user-form mt-38" (ngSubmit)="submit()">
+                           
+                            <div class="form-row mb-14">                                
+                                <div class="col-6">
+                                    <app-input [config]="optionName" formControlName="optionName"></app-input>
+                                </div>
+                            </div>
+                            <div class="form-row mb-14">                                
+                                <div class="col-2">
+                                   <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Option Type </label>
+                                    <div class="rc-select">
+                                        <select formcontrolname="optionType" (change)="onChange($event.target.value)" class="ng-pristine ng-valid ng-touched">
+                                            <option  disabled > Select </option>
+                                            <option *ngFor="let type of OptionList" [value]="type.id"> {{type.option}} </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="selectedType == 'string'" class="form-row mb-14">                                
+                                <div class="col-6">
+                                    <app-input [config]="optionName" formControlName="optionString"></app-input>
+                                </div>
+                            </div>
+                            <div *ngIf="selectedType == 'boolean'" class="form-row mb-14">                                
+                                <div class="col-6">
+                                    <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Default Status</label>
+                                <div class="rc-form-group rc-form-group-without-prefix" >
+                                    <input type="text" hidden formControlName="defaultStatus">
+                                    <app-chips *ngFor="let button of booleanOptions" class="mr-2"  [color]="(selectedStatus == button) ? 'selected' : 'default'" (click)="setStatus(button)">
+                                        {{button.title}}
+                                    </app-chips>
+                                </div>
+
+                                </div>
+                            </div>
+                            <div *ngIf="selectedType == 'list'" class="form-row mb-14">                                
+                                <div class="col-5">
+                                    <app-input [config]="valueListConfig"  formControlName="optionListName"></app-input>
+                                </div>
+                                <div class="col-1">
+                                    <button (click)="addValue()" class="addBtn"><img                                        
+                                        src="assets/images/Plus.svg" 
+                                        class="rc-checkbox-icon"
+                                    ></button>
+                                </div>
+                                <div class="col-5" formArrayName="valueList">
+                                    <div class="row" *ngFor="let item of valueLists.controls; let valueIndex=index" [formGroupName]="valueIndex">
+                                    <div class="col-11">
+                                        <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">
+                                        Value {{valueIndex + 1}} 
+                                    </label>
+                                    <input class="form-input" formControlName="value" />                                 
+
+                                    </div>
+                                    <div class="col-1">
+                                        <button (click)="deleteValue(valueIndex)" class="addBtn del"><img                                        
+                                            src="assets/images/Delete.svg" 
+                                                
+                                                class="rc-checkbox-icon"
+                                            ></button>
+
+                                    </div>
+                                    
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="form-row mb-14">                                
+                                <div class="col-12 submit-row">
+                                    <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn mr-8">
+                                        Cancel
+                                    </app-button>
+                                    <app-button type="submit" color="primary">
+                                        Save
+                                    </app-button>
+                                </div>
+                            </div>
+                            <div class="col-12 submit-row">
+                               
+                            </div>
+                            
+                        </form>
+                </app-tabs>
+               </ng-container>
+            </div>
+        </div>
+    </div>
+    </div>
+</app-page-container>

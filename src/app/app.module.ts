@@ -37,6 +37,7 @@ import { ProductsComponent } from './products/products.component';
 import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
 import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { LicenseOptionsComponent } from './license-options/license-options.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { CreateUserComponent } from './create-user/create-user.component';
     RaLogoComponent,
     LicensesListingComponent,
     CreateUserComponent,
+    LicenseOptionsComponent,
   ],
   imports: [
     BrowserModule,
