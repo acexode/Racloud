@@ -58,7 +58,6 @@ export class LicenseOptionsComponent implements OnInit {
     type: 'text',
     placeholder: 'Type here',
   };
-  
   valueListConfig: InputConfig = {
     inputLabel: {
       text: 'Value 1'
