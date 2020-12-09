@@ -1,3 +1,4 @@
+import { ShopComponent } from './shop/shop.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { OrdersComponent } from './orders/orders.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
@@ -86,6 +87,11 @@ const routes: Routes = [
     path: 'create-user',
     component: CreateUserComponent,
     data: { title: 'Create User' },
+  },
+  {
+    path: 'shop',
+    component: ShopComponent,
+    data: { title: 'Shop' },
   },
   { path: '**', redirectTo: '/not-found' },
 ];
