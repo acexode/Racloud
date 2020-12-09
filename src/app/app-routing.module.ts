@@ -57,6 +57,7 @@ const routes: Routes = [
   },
   {
     path: 'signup',
+    canActivate: [LoginGuard],
     data: { title: 'signup' },
     component: SignupComponent,
   },
