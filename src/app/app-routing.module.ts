@@ -18,7 +18,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'style'
+    redirectTo: 'customer'
   },
   {
     path: 'home',
@@ -82,6 +82,7 @@ const routes: Routes = [
       import('./customer/customer.module').then(
         (m) => m.CustomerModule
       ),
+    canActivate: [AuthGuard],
     data: { title: 'Customer Listing' },
   },
   {
