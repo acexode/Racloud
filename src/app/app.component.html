@@ -1,14 +1,14 @@
 <div class="d-flex flex-column h-100 w-100 vh-100 overflow-x">
   <app-header
     class="w-100 d-flex"
-    *ngIf="(account | async) === null && this.notFound === false && showSideHeaderAndFooter"
+    *ngIf="(account | async) !== null && this.notFound === false && showSideHeaderAndFooter"
   ></app-header>
   <div class="container content-container d-flex flex-grow-1 flex-shrink-1 px-0">
 
     <app-sidebar
       [currentYear]="currentYear"
       class="d-flex px-0"
-      *ngIf="(account | async) === null && this.notFound === false && showSideHeaderAndFooter"
+      *ngIf="(account | async) !== null && this.notFound === false && showSideHeaderAndFooter"
     ></app-sidebar>
 
     <div
