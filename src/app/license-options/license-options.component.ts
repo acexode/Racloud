@@ -103,7 +103,7 @@ export class LicenseOptionsComponent implements OnInit {
   }
   get valueLists() {
     return this.optionForm.get('valueList') as FormArray;
-  } 
+  }
   addValue(){
     const val = this.optionForm.get('optionListName').value;
     this.valueLists.push(this.fb.group({value:val}));
