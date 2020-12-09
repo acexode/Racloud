@@ -94,7 +94,6 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   isLoadingStatus() {
-    console.log('kfskfnksf');
     this.isLoading = !this.isLoading;
   }
   submitForm(): void {
@@ -114,7 +113,6 @@ export class SignupComponent implements OnInit, OnDestroy {
           });
           // reset form
           this.signUpForm.reset();
-          
         },
         err => {
           this.msgS.addMessage({
