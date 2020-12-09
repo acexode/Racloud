@@ -95,10 +95,8 @@ export class LicenseOptionsComponent implements OnInit {
         ],
       ],
       optionString: [''],
-
       valueList: this.fb.array([]),
       defaultStatus: ['']
-      
     });
   }
   get valueLists() {
