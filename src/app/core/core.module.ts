@@ -25,4 +25,4 @@ import { PasswordDirective } from './validators/password-validator/password.dire
     FooterService,
   ],
 })
-export class CoreModule {}
+export class CoreModule { }

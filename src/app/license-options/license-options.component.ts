@@ -31,16 +31,24 @@ export class LicenseOptionsComponent implements OnInit {
 
   OptionList = [
     {
+      id: 'select',
+      option: 'Select',
+      disabled: true
+    },
+    {
       id: 'string',
-      option: 'String'
+      option: 'String',
+      disabled: false
     },
     {
       id: 'boolean',
-      option: 'Boolean'
+      option: 'Boolean',
+      disabled: false
     },
     {
       id: 'list',
-      option: 'Value list'
+      option: 'Value list',
+      disabled: false
     }
   ];
   optionName: InputConfig = {
