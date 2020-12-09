@@ -1,6 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { baseEndpoints } from 'src/app/core/configs/endpoints';
+import { RequestService } from 'src/app/core/services/request/request.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
@@ -135,13 +137,13 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     private cdref: ChangeDetectorRef,
     private route: ActivatedRoute,
+    private reqS: RequestService,
   ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(
       params => {
         const id: any = params.get('id');
-        console.log(id);
       }
     );
   }
@@ -168,12 +170,12 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
     };
   }
 
-  fetchDataForDetails() {
-
+  fetchDataForDetails(id: any) {
+    const queryEndpoint = baseEndpoints.customers + id;
+    return this.reqS.get(queryEndpoint);
   }
   updateValueForForm(data: any) {
-    this.componentForm.setValue({ 
-
+    this.componentForm.setValue({
     });
   }
 
