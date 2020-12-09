@@ -12,7 +12,7 @@ import { catchError } from 'rxjs/operators';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-  constructor(private authenticationService: AuthService) {}
+  constructor(private authenticationService: AuthService) { }
 
   intercept(
     request: HttpRequest<any>,
@@ -26,8 +26,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           // tslint:disable-next-line: deprecation
           location.reload(true);
         }
-        const error = err.error.message || err.statusText;
-        return throwError(error);
+        return throwError(err);
       })
     );
   }

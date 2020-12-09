@@ -1,0 +1,138 @@
+<app-card [componentClasses]="classes" [classes]="
+    'justify-content-center col-12 max-w-448 d-flex px-0 py-0 border-radius-2 my-64'
+  " class="d-flex justify-content-center">
+    <ng-container card-body>
+        <div class="flex-column d-flex col-12 justify-content-center flex-column">
+            <div
+                class="mx-auto col-12 col-lg-12 flex-grow-0 px-0 pl-64 pt-24 pb-8 flex-shrink-1 justify-content-center align-items-center rc-accent-blue-bg">
+                <!-- RC side bar logo -->
+                <app-ra-logo [groupType]="raLogoType"></app-ra-logo>
+                <!--  -->
+
+            </div>
+            <form [formGroup]="signUpForm"
+                class="col-12 col-lg-12 px-0 d-flex mx-auto px-64 pt-64 pb-32 flex-1 flex-shrink-1"
+                (ngSubmit)="submitForm()">
+                <div class="d-flex flex-column w-100 flex-grow-1 flex-shrink-0 mx-lg-n5p">
+
+                    <h2>Sign up</h2>
+
+                    <div class="mt-24 mb-30">
+
+                        <span class="s15-h24 rc-grey-color montserrat-regular-font ls-0">
+                            Already have a user account?
+                        </span>
+
+                        <app-button
+                            color="tertiary" 
+                            [routerLink]="[loginUrl]" 
+                            [class]="'ml-8 s15-h24 rc-grey-color montserrat-regular-font rc-accent-blue-160-color ls-0'
+                        ">
+                        
+                            Log in.
+                        </app-button>
+
+
+                    </div>
+
+                    <div class="d-flex flex-column mb-14">
+                        <app-input [config]="inputConfig('Email', 'email', 'Type here')" formControlName="email" id="email"></app-input>
+                        <app-error-messages [control]="signUpForm?.controls?.email"></app-error-messages>
+                    </div>
+
+                    <div class="d-flex flex-column mb-14">
+                        <app-input [config]="inputConfig('Password', 'password', 'Type here')" formControlName="password" id="password"></app-input>
+
+                        <app-error-messages [control]="signUpForm?.controls?.password"></app-error-messages>
+                    </div>
+
+                    <div class="d-flex flex-column mb-14">
+                        <app-input [config]="inputConfig('Confirm Password', 'password', 'Type here')" formControlName="confirmPassword" id="confirmPassword"></app-input>
+
+                        <app-error-messages [control]="signUpForm?.controls?.confirmPassword"></app-error-messages>
+                    </div>
+
+                    <div class="d-flex flex-column mb-14">
+                        <app-input [config]="inputConfig('First Name', 'text', 'Type here')" formControlName="firstName" id="firstName"></app-input>
+                    
+                        <app-error-messages [control]="signUpForm?.controls?.firstName"></app-error-messages>
+                    </div>
+
+                    <div class="d-flex flex-column mb-14">
+                        <app-input [config]="inputConfig('Last Name', 'text', 'Type here')" formControlName="lastName" id="lastName"></app-input>
+                    
+                        <app-error-messages [control]="signUpForm?.controls?.lastName"></app-error-messages>
+                    </div>
+
+                    <div class="d-flex flex-column mb-14">
+                        <app-input [config]="inputConfig('Company name', 'text', 'Type here')" formControlName="companyName" id="companyName"></app-input>
+                    
+                        <app-error-messages [control]="signUpForm?.controls?.companyName"></app-error-messages>
+                    </div>
+
+                    <div class="d-flex flex-column mb-14">
+                        <app-input [config]="inputConfig('Company Phone', 'tel', 'Type here')" formControlName="phoneNumber" id="companyPhone"></app-input>
+                    
+                        <app-error-messages [control]="signUpForm?.controls?.companyPhone"></app-error-messages>
+                    </div>
+
+
+                    <div class="d-flex flex-column mb-14">
+                        <app-input [config]="inputConfig('Company E-mail', 'text', 'Type here')" formControlName="companyEmail" id="companyEmail"></app-input>
+                    
+                        <app-error-messages [control]="signUpForm?.controls?.companyEmail"></app-error-messages>
+                    </div>
+
+
+                    <div class="d-flex flex-column mb-14">
+                        <app-textarea [config]="textAreaConfig" formControlName="address" id="address"></app-textarea>
+                    
+                        <app-error-messages [control]="signUpForm?.controls?.address"></app-error-messages>
+                    </div>
+
+                    <div class="d-flex flex-column mb-14">
+                        <app-input [config]="inputConfig('Country', 'text', 'Type here')" formControlName="country" id="country">
+                        </app-input>
+                    
+                        <app-error-messages [control]="signUpForm?.controls?.country"></app-error-messages>
+                    </div>
+
+
+                    <div class="d-flex flex-column mb-40">
+                        <app-input [config]="inputConfig('Language', 'text', 'Type here')" formControlName="language" id="language">
+                        </app-input>
+                    
+                        <app-error-messages [control]="signUpForm?.controls?.language"></app-error-messages>
+                    </div>
+
+                    
+                    <div class="d-flex align-items-center justify-content-between">
+                        <app-button type="link" color="tertiary">
+                            Cancel
+                        </app-button>
+                        <app-button type="Submit" color="primary" [disabled]="!signUpForm?.valid">
+                             <app-loader type="button" *ngIf="isLoading"></app-loader>
+                            <span *ngIf="!isLoading">Sign up</span>
+                        </app-button>
+
+                       
+
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-end mt-24">
+                       
+                        <app-button 
+                            color="tertiary" 
+                            type="link"
+                            [class]="'s12-h16 rc-grey-color montserrat-regular-font ls-0'"
+                        >
+                            Forgot your password?
+                        </app-button>
+
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </ng-container>
+</app-card>
