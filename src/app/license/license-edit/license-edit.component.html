@@ -44,10 +44,10 @@
                 
                     <ng-template #firstTab> 
                         <form [formGroup]="infoForm" class="row infoForm" (ngSubmit)="submitForm()">
-                            <div class="col-6">
+                            <div class="col-6 mb-14">
                                 <app-input [config]="inputConfig('Product Name', 'text')" formControlName="productName"></app-input>
                             </div>
-                            <div class="col-6">                               
+                            <div class="col-6 mb-14">                               
                                 <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Is Partner License</label>
                                 <div class="rc-form-group rc-form-group-without-prefix" >
                                     <app-chips *ngFor="let button of partnerLicense" class="mr-2"  [color]="(selectedPartnerLicenseBtn == button) ? 'selected' : 'default'" (click)="isPartnerLicense(button)">
@@ -55,16 +55,16 @@
                                     </app-chips>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 mb-14">
                                 <app-input [config]="inputConfig('Customer', 'text')" formControlName="customer"></app-input>
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 mb-14">
                                 <app-input [config]="inputConfig('User Company', 'text')" formControlName="userCompany"></app-input>
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 mb-14">
                                 <app-input [config]="inputConfig('Purchased', 'text')" formControlName="purchased"></app-input>
                             </div>
-                            <div class="col-6">                               
+                            <div class="col-6 mb-14">                               
                                 <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Renew by User Company</label>
                                 <div class="rc-form-group rc-form-group-without-prefix" >
                                     <input type="text" hidden formControlName="renew">
@@ -73,20 +73,20 @@
                                     </app-chips>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 mb-14">
                                 <app-input [config]="inputConfig('Expires', 'text')" formControlName="expires"></app-input>
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 mb-14">
                                 <app-input [config]="inputConfig('Is Assigned', 'text')" formControlName="isAssigned"></app-input>
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 mb-14">
                                 <app-select
                                     [config]="selectionConfig('Status')"
                                     formControlName="status"
                                 ></app-select>
                                 
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 mb-14">
                                 <app-select
                                 [config]="selectionConfig('Assigned to')"
                                 formControlName="assignedTo"

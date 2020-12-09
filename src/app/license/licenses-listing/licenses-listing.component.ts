@@ -192,7 +192,6 @@ export class LicensesListingComponent implements OnInit {
     ];
     this.getJSON().subscribe((data) => {
       if (data) {
-        console.log(data)
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
         const cloneData = data.map((v: any) => {
@@ -215,15 +214,9 @@ export class LicensesListingComponent implements OnInit {
     this.tableData.next(newRows);
   }
 
-  removeRow(id: any) {
-    console.log(id);
-  }
-  manageSub(id: any) {
-    console.log(id);
-  }
-  renewSub(id: any) {
-    console.log(id);
-  }
+  removeRow(id: any) {}
+  manageSub(id: any) {}
+  renewSub(id: any) {}
 
   setDropUp(row) {
     const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
