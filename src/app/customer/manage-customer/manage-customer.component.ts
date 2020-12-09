@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
+import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea-config';
 
 @Component({
   selector: 'app-manage-customer',
@@ -15,18 +16,23 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
   @ViewChild('detailsTab', { read: TemplateRef }) detailsTab: TemplateRef<any>;
   @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
-
+  tabMarked = {
+    left: '0px',
+    width: '0px',
+  };
   tabSwitch: any;
   tabs = [
     {
       name: 'Details',
       template: 'detailsTab',
-      isSelected: true
+      isSelected: false,
+      defaultSelected: true,
     },
     {
       name: 'Tab 2 Default',
       template: 'secondTab',
-      isSelected: false
+      isSelected: false,
+      defaultSelected: false,
     },
   ];
   /*  */
@@ -41,6 +47,13 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
       header: 'd-none',
       body: 'no-shadow',
     },
+  };
+
+  textAreaConfig: TextAreaConfig = {
+    textAreaLabel: {
+      text: 'Address'
+    },
+    placeholder: ''
   };
   componentForm = this.fb.group({
     name: [
@@ -66,11 +79,16 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
         Validators.required,
       ],
     ],
-    city: [
+    address: [
       '',
       [
         Validators.required,
-        Validators.maxLength(50),
+      ],
+    ],
+    country: [
+      '',
+      [
+        Validators.required,
       ],
     ],
     phone: [
@@ -137,6 +155,7 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
       prefixIcon: prefixIcon || false,
     };
   }
+
   /* tab */
   ngAfterViewInit() {
     this.showDefaultTab();
@@ -147,15 +166,20 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
     this.tabSwitch = this.detailsTab;
   }
 
-  switchTab(tabName: string, index: number) {
+  switchTab(event: any, tabName: string, index: number) {
     this.tabSwitch = this[tabName];
     this.ressetTabSelectStatus();
     // set as active
+    this.tabMarked = {
+      left: `${ event.target.offsetLeft }px`,
+      width: `${ event.target.offsetWidth }px`
+    };
     this.tabs[index].isSelected = true;
   }
   ressetTabSelectStatus() {
     for (const tab of this.tabs) {
       tab.isSelected = false;
+      tab.defaultSelected = false;
     }
   }
   /*  */

@@ -35,108 +35,14 @@
         <ng-container [style.display]="tabSwitch ? 'block' : 'none'">
 
             <app-tabs [selectedTemplate]="tabSwitch">
-            
-                <app-tab-bar>
-                    <app-tab-button [selected]="tab.isSelected" (click)="switchTab(tab.template, i)" *ngFor="let tab of tabs; let i = index" >{{ tab.name }}</app-tab-button>
-                </app-tab-bar>
-            
-            
-            
-                <ng-template #detailsTab> 
-                    <div class="w-100 pt-40">
-                        <form [formGroup]="componentForm" class="row no-gutters">
-                            <div class="col-12 col-md-3 px-0 pr-0 pr-md-16">
-                                <div class="row">
-                                    <div class="col-12 mb-14">
-                                        <app-input
-                                            [config]="inputConfig('Name')"
-                                            formControlName="name"
-                                        ></app-input>
-                                    </div>
-                                    <div class="col-12 mb-14">
-                                        <app-input
-                                            [config]="inputConfig('Contact person')"
-                                            formControlName="contactPerson"
-                                        ></app-input>
-                                    </div>
-                                    <div class="col-12 mb-14">
-                                        <app-select
-                                            [config]="selectionConfig('Type')"
-                                            formControlName="type"
-                                        ></app-select>
-                                    </div>
-                                    <div class="col-12">
-                                        <app-select
-                                            [config]="selectionConfig('Parent')"
-                                            formControlName="parent"
-                                        ></app-select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-3 px-md-16">
-                                <div class="row">
-                                    <div class="col-12 mb-14">
-                                        <app-input
-                                            [config]="inputConfig('Country')"
-                                            formControlName="city"
-                                        ></app-input>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-3 px-md-16">
-                                <div class="row">
-                                    <div class="col-12 mb-14">
-                                        <app-input
-                                            [config]="inputConfig('Phone', 'tel')"
-                                            formControlName="phone"
-                                        ></app-input>
-                                    </div>
-                                    <div class="col-12">
-                                        <app-input
-                                            [config]="inputConfig('Email', 'email')"
-                                            formControlName="email"
-                                        ></app-input>
-                                    </div>
-                                    <div class="col-12 mb-14">
-                                        <app-input
-                                            [config]="inputConfig('Anniversary date')"
-                                            formControlName="anniversaryDate"
-                                        ></app-input>
-                                    </div>
-                                    <div class="col-12 mb-14">
-                                        <app-input
-                                            [config]="inputConfig('Subscription fee', 'text', '', true)"
-                                            formControlName="subscriptionFee"
-                                        >
-                                        </app-input>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-3 px-0 pl-md-16">
-                            <div class="row">
-                                <div class="col-12 mb-14">
-                                <app-input
-                                    [config]="inputConfig('Support hours contract')"
-                                    formControlName="supportHoursContract"
-                                ></app-input>
-                                </div>
-                                <div class="col-12 mb-14">
-                                <app-input
-                                    [config]="inputConfig('Support hours available')"
-                                    formControlName="supportHoursAvailable"
-                                >
-                                </app-input>
-                                </div>
-                            </div>
-                            </div>
-                        </form>
-                        </div>
-                </ng-template>
-
-                <ng-template #secondTab> second Tab </ng-template>   
+                <app-tab-bar [marked]="tabMarked">
+                    <app-tab-button 
+                        [selected]="tab.isSelected" 
+                        [defaultSelected]="tab.defaultSelected" 
+                        (click)="switchTab($event, tab.template, i)" 
+                        *ngFor="let tab of tabs; let i = index" 
+                    >{{ tab.name }}</app-tab-button>
+                </app-tab-bar>  
 
             </app-tabs>
         </ng-container>
@@ -158,3 +64,111 @@
     </div>
   </div>
 </app-page-container>
+
+
+
+
+
+<!-- tab templates -->
+
+ <ng-template #detailsTab> 
+    <div class="w-100 pt-40">
+        <form [formGroup]="componentForm" class="row no-gutters">
+            <div class="col-12 col-md-3 px-0 pr-0 pr-md-16">
+                <div class="row">
+                    <div class="col-12 mb-14">
+                        <app-input
+                            [config]="inputConfig('Name')"
+                            formControlName="name"
+                        ></app-input>
+                    </div>
+                    <div class="col-12 mb-14">
+                        <app-input
+                            [config]="inputConfig('Contact person')"
+                            formControlName="contactPerson"
+                        ></app-input>
+                    </div>
+                    <div class="col-12 mb-14">
+                        <app-select
+                            [config]="selectionConfig('Type')"
+                            formControlName="type"
+                        ></app-select>
+                    </div>
+                    <div class="col-12">
+                        <app-select
+                            [config]="selectionConfig('Parent')"
+                            formControlName="parent"
+                        ></app-select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-3 px-md-16">
+                <div class="row">
+                    <div class="col-12 mb-14">
+                        <app-textarea [config]="textAreaConfig" formControlName="address" id="address"></app-textarea>
+                    </div>
+                    <div class="col-12 mb-14">
+                        <app-input
+                            [config]="inputConfig('Country')"
+                            formControlName="country"
+                        ></app-input>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-3 px-md-16">
+                <div class="row">
+                    <div class="col-12 mb-14">
+                        <app-input
+                            [config]="inputConfig('Phone', 'tel')"
+                            formControlName="phone"
+                        ></app-input>
+                    </div>
+                    <div class="col-12">
+                        <app-input
+                            [config]="inputConfig('Email', 'email')"
+                            formControlName="email"
+                        ></app-input>
+                    </div>
+                    <div class="col-12 mb-14">
+                        <app-input
+                            [config]="inputConfig('Anniversary date')"
+                            formControlName="anniversaryDate"
+                        ></app-input>
+                    </div>
+                    <div class="col-12 mb-14">
+                        <app-input
+                            [config]="inputConfig('Subscription fee', 'text', '', true)"
+                            formControlName="subscriptionFee"
+                        >
+                        </app-input>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-3 px-0 pl-md-16">
+            <div class="row">
+                <div class="col-12 mb-14">
+                <app-input
+                    [config]="inputConfig('Support hours contract')"
+                    formControlName="supportHoursContract"
+                ></app-input>
+                </div>
+                <div class="col-12 mb-14">
+                <app-input
+                    [config]="inputConfig('Support hours available')"
+                    formControlName="supportHoursAvailable"
+                >
+                </app-input>
+                </div>
+            </div>
+            </div>
+        </form>
+        </div>
+</ng-template>
+
+<!--  -->
+<ng-template #secondTab> second Tab </ng-template>   
+
+<!-- end of tab templates -->
