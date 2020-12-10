@@ -17,7 +17,7 @@
                 <div class="col">  
                   <a [routerLink]="[backUrl]" class="pyramid-title">
                    <span class="pyramid">OPTIONS</span></a>
-                <h3 class="new-option">New Option</h3>            
+                <span class="new-option">New Option</span>            
               </div>       
             </div>
       </div>
@@ -34,7 +34,7 @@
                         <form [formGroup]="optionForm" class=" user-form" (ngSubmit)="submit()">
                            
                             <div class="form-row mb-14">                                
-                                <div class="col-6">
+                                <div class="col-5">
                                     <app-input [config]="optionName" formControlName="optionName"></app-input>
                                 </div>
                             </div>
@@ -49,13 +49,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div *ngIf="selectedType == 'string'" class="form-row mb-14">                                
-                                <div class="col-6">
+                            <div *ngIf="selectedType == 'string'" class="form-row">                                
+                                <div class="col-5">
                                     <app-input [config]="optionName" formControlName="optionString"></app-input>
                                 </div>
                             </div>
-                            <div *ngIf="selectedType == 'boolean'" class="form-row mb-14">                                
-                                <div class="col-6">
+                            <div *ngIf="selectedType == 'boolean'" class="form-row">                                
+                                <div class="col-5">
                                     <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Default Status</label>
                                 <div class="rc-form-group rc-form-group-without-prefix" >
                                     <input type="text" hidden formControlName="defaultStatus">
@@ -66,26 +66,28 @@
 
                                 </div>
                             </div>
-                            <div *ngIf="selectedType == 'list'" class="form-row mb-14">                                
+                            <div *ngIf="selectedType == 'list'" class="form-row">                                
                                 <div class="col-5">
-                                    <app-input [config]="valueListConfig"  formControlName="optionListName"></app-input>
+                                    <div class="row w-100">
+                                        <app-input [config]="valueListConfig" class="input-85"  formControlName="optionListName"></app-input>
+                                        <button (click)="addValue()" class="addBtn"><img                                        
+                                            src="assets/images/Plus.svg" 
+                                            class="rc-checkbox-icon"
+                                        ></button>
+
+                                    </div>
                                 </div>
-                                <div class="col-1">
-                                    <button (click)="addValue()" class="addBtn"><img                                        
-                                        src="assets/images/Plus.svg" 
-                                        class="rc-checkbox-icon"
-                                    ></button>
-                                </div>
+                                
                                 <div class="col-5" formArrayName="valueList">
                                     <div class="row" *ngFor="let item of valueLists.controls; let valueIndex=index" [formGroupName]="valueIndex">
-                                    <div class="col-11">
+                                    <div >
                                         <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">
                                         Value {{valueIndex + 1}} 
                                     </label>
                                     <input class="form-input" formControlName="value" />                                 
 
                                     </div>
-                                    <div class="col-1">
+                                    <div>
                                         <button (click)="deleteValue(valueIndex)" class="addBtn del"><img                                        
                                             src="assets/images/Delete.svg" 
                                                 
@@ -99,7 +101,7 @@
                                 
                             </div>
                             <div class="form-row">                                
-                                <div class="col-6 submit-row">
+                                <div class="col-5 submit-row">
                                     <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn mr-8">
                                         Cancel
                                     </app-button>

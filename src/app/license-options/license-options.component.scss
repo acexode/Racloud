@@ -16,6 +16,7 @@ $tab-btn-line-height: rem(24);
     padding-top: 40px;
 }
 .new-option{
+  display: block;
   color: #464976;
   font-family: Montserrat;
   font-size: 30px;
@@ -63,7 +64,10 @@ $tab-btn-line-height: rem(24);
 .plus{
     color: #6A7098
 }
-
+.input-85{
+  width: 85% !important;
+  margin-left: 14px;
+}
 .dropdown-toggle::after {
     float: right;
     margin-top: 6px;
@@ -116,5 +120,5 @@ $tab-btn-line-height: rem(24);
 
   .del{
     background: #6A7098;
-    margin-left: -1rem;
+    margin-left: 8px;
   }
