@@ -20,6 +20,7 @@ import { InputConfig } from '../shared/rc-forms/models/input/input-config';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   raLogoType = 'group1';
+  signUpUrl = '/signup';
   emailInputConfig: InputConfig = {
     inputLabel: {
       text: 'Email'

@@ -11,12 +11,14 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
+import { SignupComponent } from './signup/signup.component';
+
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'style'
+    redirectTo: 'customer'
   },
   {
     path: 'home',
@@ -54,6 +56,12 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
+    path: 'signup',
+    canActivate: [LoginGuard],
+    data: { title: 'signup' },
+    component: SignupComponent,
+  },
+  {
     path: 'not-found',
     component: NotFoundComponent,
     data: { title: 'Not found' },
@@ -74,6 +82,7 @@ const routes: Routes = [
       import('./customer/customer.module').then(
         (m) => m.CustomerModule
       ),
+    canActivate: [AuthGuard],
     data: { title: 'Customer Listing' },
   },
   {

@@ -35,7 +35,13 @@ import { OrdersComponent } from './orders/orders.component';
 import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
 import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
+<<<<<<< HEAD
+=======
+import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
+import { SignupComponent } from './signup/signup.component';
+>>>>>>> 8f80b227755fb66c39d3251cfc0ea4258fe9d346
 import { CreateUserComponent } from './create-user/create-user.component';
+import { LoaderComponent } from './shared/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +58,14 @@ import { CreateUserComponent } from './create-user/create-user.component';
     UsersComponent,
     ProductsComponent,
     RaLogoComponent,
+<<<<<<< HEAD
     CreateUserComponent
+=======
+    LicensesListingComponent,
+    SignupComponent,
+    CreateUserComponent,
+    LoaderComponent,
+>>>>>>> 8f80b227755fb66c39d3251cfc0ea4258fe9d346
   ],
   imports: [
     BrowserModule,
