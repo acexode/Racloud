@@ -74,7 +74,6 @@ export class LicensesListingComponent implements OnInit {
     loadingIndicator: true,
     action: true
   };
-  
   constructor(
     private tS: TableService,
     private footerS: FooterService,
