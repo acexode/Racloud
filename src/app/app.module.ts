@@ -38,6 +38,7 @@ import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
 import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
 import { SignupComponent } from './signup/signup.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { LicenseOptionsComponent } from './license-options/license-options.component';
 import { LoaderComponent } from './shared/loader/loader.component';
 
 @NgModule({
@@ -58,6 +59,7 @@ import { LoaderComponent } from './shared/loader/loader.component';
     LicensesListingComponent,
     SignupComponent,
     CreateUserComponent,
+    LicenseOptionsComponent,
     LoaderComponent,
   ],
   imports: [
