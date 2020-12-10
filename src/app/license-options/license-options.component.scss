@@ -37,7 +37,9 @@ $tab-btn-line-height: rem(24);
 .role-row{
     margin: 32px 0px 0px;
 }
-
+.form-row{
+  position: relative;
+}
 .submit-row {
     padding: 16px;
     background-color: #F7F9FB;
