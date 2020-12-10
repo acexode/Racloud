@@ -39,6 +39,7 @@ import { LicensesListingComponent } from './licenses-listing/licenses-listing.co
 import { SignupComponent } from './signup/signup.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { ShopComponent } from './shop/shop.component';
+import { LicenseOptionsComponent } from './license-options/license-options.component';
 import { LoaderComponent } from './shared/loader/loader.component';
 
 @NgModule({
@@ -60,6 +61,7 @@ import { LoaderComponent } from './shared/loader/loader.component';
     SignupComponent,
     CreateUserComponent,
     ShopComponent,
+    LicenseOptionsComponent,
     LoaderComponent,
   ],
   imports: [
