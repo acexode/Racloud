@@ -1,3 +1,4 @@
+import { LicenseOptionsComponent } from './license-options/license-options.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { OrdersComponent } from './orders/orders.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
@@ -91,6 +92,11 @@ const routes: Routes = [
       import('./license/license.module').then(
         (m) => m.LicenseModule
       ),
+    data: { title: 'Licenses Listing' },
+  },
+  {
+    path: 'licenses-options',
+    component: LicenseOptionsComponent,
     data: { title: 'Licenses Listing' },
   },
   {
