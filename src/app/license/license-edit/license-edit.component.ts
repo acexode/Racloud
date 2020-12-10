@@ -76,8 +76,8 @@ export class LicenseEditComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.initForm();
     if(id){
-      this.http.get('./assets/ra-table-license.json').subscribe((e:any) =>{
-        const data = e.filter(e => e.id === id)[0];
+      this.http.get('./assets/ra-table-license.json').subscribe((obj:any) =>{
+        const data = obj.filter(e => e.id === id)[0];
         this.selectedPartnerLicenseBtn = this.setBoolean( data.partnerLicense );
         this.selectedRenewBtn = this.setBoolean( data.renew );
         this.infoForm.patchValue({
