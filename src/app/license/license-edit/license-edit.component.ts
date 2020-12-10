@@ -74,26 +74,21 @@ export class LicenseEditComponent implements OnInit {
   }
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    console.log(id)
     this.initForm();
     if(id){
       this.http.get('./assets/ra-table-license.json').subscribe((e:any) =>{
-        const data = e.filter(e => e.id == id)[0]
-        console.log(data)
-        this.selectedPartnerLicenseBtn = this.setBoolean(data['partner-license'] )
-        this.selectedRenewBtn = this.setBoolean(data['renew'] )
+        const data = e.filter(e => e.id == id)[0];
+        this.selectedPartnerLicenseBtn = this.setBoolean( data['partner-license'] );
+        this.selectedRenewBtn = this.setBoolean( data['renew'] );
         this.infoForm.patchValue({
           productName: data['product-name'],
           partner: data['partner-license'],
           purchased: data['purchased'],
           renew: data['renew'],
           expires: data['expires'],
-          customer: data['customer'],
-
-        })
-        
-        console.log(this.selectedRenewBtn)
-      })
+          customer: data['customer']
+        });
+      });
     }
   }
   initForm() {
@@ -205,8 +200,7 @@ export class LicenseEditComponent implements OnInit {
     });
   }
   setBoolean(data){
-    return this.partnerLicense.filter(e => e.title == data)[0]
-        
+    return this.partnerLicense.filter(e => e.title == data)[0];
   }
   submitForm(){
   console.log(this.infoForm.value);
