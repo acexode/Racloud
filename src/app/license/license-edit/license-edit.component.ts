@@ -78,15 +78,15 @@ export class LicenseEditComponent implements OnInit {
     if(id){
       this.http.get('./assets/ra-table-license.json').subscribe((e:any) =>{
         const data = e.filter(e => e.id === id)[0];
-        this.selectedPartnerLicenseBtn = this.setBoolean( data['partner-license'] );
-        this.selectedRenewBtn = this.setBoolean( data['renew'] );
+        this.selectedPartnerLicenseBtn = this.setBoolean( data.partnerLicense );
+        this.selectedRenewBtn = this.setBoolean( data.renew );
         this.infoForm.patchValue({
-          productName: data['product-name'],
-          partner: data['partner-license'],
-          purchased: data['purchased'],
-          renew: data['renew'],
-          expires: data['expires'],
-          customer: data['customer']
+          productName: data.productName,
+          partner: data.partnerLicense,
+          purchased: data.purchased,
+          renew: data.renew,
+          expires: data.expires,
+          customer: data.customers
         });
       });
     }

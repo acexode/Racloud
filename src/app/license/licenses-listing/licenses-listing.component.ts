@@ -85,7 +85,7 @@ export class LicensesListingComponent implements OnInit {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'product-name',
+        identifier: 'productName',
         label: 'Product Name',
         sortable: true,
         minWidth: 237,
@@ -147,7 +147,7 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'partner-license',
+        identifier: 'partnerLicense',
         label: 'Partner license',
         sortable: true,
         minWidth: 160,
