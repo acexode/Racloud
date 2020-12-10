@@ -40,6 +40,7 @@ import { SignupComponent } from './signup/signup.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { CustomerModule } from './customer/customer.module';
 import { LoaderModule } from './shared/loader/loader.module';
+import { LicenseOptionsComponent } from './license-options/license-options.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { LoaderModule } from './shared/loader/loader.module';
     LicensesListingComponent,
     SignupComponent,
     CreateUserComponent,
+    LicenseOptionsComponent,
   ],
   imports: [
     BrowserModule,
