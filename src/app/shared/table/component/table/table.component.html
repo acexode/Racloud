@@ -29,11 +29,12 @@
       let-expanded="expanded"
       ngx-datatable-row-detail-template
     >
+    <!-- *ngIf="config?.selectDetail && config?.selectDetailTemplate" -->
       <ng-container
-        *ngIf="config?.selectDetail && config?.selectDetailTemplate"
         [ngTemplateOutlet]="config?.selectDetailTemplate"
         [ngTemplateOutletContext]="{ row: row }"
       >
+        hello world
       </ng-container>
     </ng-template>
   </ngx-datatable-row-detail>
@@ -164,14 +165,14 @@
           <div class="detail-arrow pl-3" *ngIf="config?.selectDetail">
             <svg-icon
               *ngIf="expanded"
-              [src]="'../assets/images/Chevron-down-green.svg'"
+              [src]="'../assets/images/Minus.svg'"
               applyClass="true"
               alt="Icon"
               (click)="toggleExpandRow(row)"
             ></svg-icon>
             <svg-icon
               *ngIf="!expanded"
-              [src]="'../assets/images/Chevron-right-green.svg'"
+              [src]="'../assets/images/darkPlus.svg'"
               class="detail-icon"
               applyClass="true"
               alt="Icon"

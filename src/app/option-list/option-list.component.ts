@@ -62,8 +62,8 @@ export class OptionListComponent implements OnInit {
     ],
   });
   tableConfig: TableI = {
-    selectable: false,
-    selectDetail: false,
+    selectable: true,
+    selectDetail: true,
     hoverDetail: true,
     columns: [],
     externalPaging: false,
