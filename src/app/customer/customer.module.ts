@@ -11,13 +11,26 @@ import { CreateCustomerComponent } from './create-customer/create-customer.compo
 import { ManageCustomerComponent } from './manage-customer/manage-customer.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from '../shared/tabs/tabs.module';
-import { LoaderComponent } from '../shared/loader/loader.component';
 import { LoaderModule } from '../shared/loader/loader.module';
+import { UserTabComponent } from './manage-customer/user-tab/user-tab.component';
+import { OrderTabComponent } from './manage-customer/order-tab/order-tab.component';
+import { CustomerTabComponent } from './manage-customer/customer-tab/customer-tab.component';
+import { LicensesTabComponent } from './manage-customer/licenses-tab/licenses-tab.component';
+import { DetailsTabComponent } from './manage-customer/details-tab/details-tab.component';
 
 
 
 @NgModule({
-  declarations: [CustomerComponent, CreateCustomerComponent, ManageCustomerComponent],
+  declarations: [
+    CustomerComponent,
+    CreateCustomerComponent,
+    ManageCustomerComponent,
+    LicensesTabComponent,
+    DetailsTabComponent,
+    UserTabComponent,
+    OrderTabComponent,
+    CustomerTabComponent
+  ],
   imports: [
     CommonModule,
     CustomerRoutingModule,

@@ -1,0 +1,108 @@
+<ng-container>
+    <div class="w-100 pt-40">
+        <form [formGroup]="componentForm" class="row no-gutters">
+            <div class="col-12 col-md-3 px-0 pr-0 pr-md-16">
+                <div class="row">
+                    <div class="col-12 mb-14">
+                        <app-input
+                            [config]="inputConfig('Name')"
+                            formControlName="name"
+                        ></app-input>
+                    </div>
+                    <div class="col-12 mb-14">
+                        <app-input
+                            [config]="inputConfig('Contact person')"
+                            formControlName="contactPerson"
+                        ></app-input>
+                    </div>
+                    <div class="col-12 mb-14">
+                        <app-select
+                            [config]="selectionConfig('Type')"
+                            formControlName="type"
+                        ></app-select>
+                    </div>
+                    <div class="col-12">
+                        <app-select
+                            [config]="selectionConfig('Parent')"
+                            formControlName="parent"
+                        ></app-select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-3 px-md-16">
+                <div class="row">
+                    <div class="col-12 mb-14">
+                        <app-textarea [config]="textAreaConfig" formControlName="address" id="address"></app-textarea>
+                    </div>
+                    <div class="col-12 mb-14">
+                        <app-input
+                            [config]="inputConfig('Country')"
+                            formControlName="country"
+                        ></app-input>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-3 px-md-16">
+                <div class="row">
+                    <div class="col-12 mb-14">
+                        <app-input
+                            [config]="inputConfig('Phone', 'tel')"
+                            formControlName="phone"
+                        ></app-input>
+                    </div>
+                    <div class="col-12">
+                        <app-input
+                            [config]="inputConfig('Email', 'email')"
+                            formControlName="email"
+                        ></app-input>
+                    </div>
+                    <div class="col-12 mb-14">
+                        <app-input
+                            [config]="inputConfig('Anniversary date')"
+                            formControlName="anniversaryDate"
+                        ></app-input>
+                    </div>
+                    <div class="col-12 mb-14">
+                        <app-input
+                            [config]="inputConfig('Subscription fee', 'text', '', true)"
+                            formControlName="subscriptionFee"
+                        >
+                        </app-input>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-3 px-0 pl-md-16">
+            <div class="row">
+                <div class="col-12 mb-14">
+                <app-input
+                    [config]="inputConfig('Support hours contract')"
+                    formControlName="supportHoursContract"
+                ></app-input>
+                </div>
+                <div class="col-12 mb-14">
+                <app-input
+                    [config]="inputConfig('Support hours available')"
+                    formControlName="supportHoursAvailable"
+                >
+                </app-input>
+                </div>
+            </div>
+            </div>
+        </form>
+    </div>
+    <div class="w-100">
+      <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-end">
+        <app-button type="button" color="secondaryB" class="mr-8">
+          Renew Subscription
+        </app-button>
+
+        <app-button type="button" color="primary"> 
+            Update profile 
+        </app-button>
+
+      </div>
+    </div>
+</ng-container>

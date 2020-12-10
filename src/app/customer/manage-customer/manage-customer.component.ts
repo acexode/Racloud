@@ -1,25 +1,37 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
-import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
-import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
-import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea-config';
 
 @Component({
   selector: 'app-manage-customer',
   templateUrl: './manage-customer.component.html',
-  styleUrls: ['./manage-customer.component.scss']
+  styleUrls: ['./manage-customer.component.scss'],
 })
 export class ManageCustomerComponent implements OnInit, AfterViewInit {
+  mock = {
+    name: 'Abracadabra SRL',
+    contactPerson: 'Albert Robertsson',
+    type: 'Partner',
+    parent: 'Pyramid',
+    address: 'Kromme Nieuwegracht, 3512 HK Utrecht',
+    country: 'Netherlands',
+    phone: '0123 456 789',
+    email: 'abracadabra@email.com',
+    anniversaryDate: '31 December 2021',
+    subscriptionFee: '123',
+    supportHoursContract: '12',
+    supportHoursAvailable: '5',
+  }
 
   /* for tab */
   @ViewChild('detailsTab', { read: TemplateRef }) detailsTab: TemplateRef<any>;
   @ViewChild('loaderTemplate', { read: TemplateRef }) loaderTemplate: TemplateRef<any>;
   @ViewChild('licenseTab', { read: TemplateRef }) licenseTab: TemplateRef<any>;
-  @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
+  @ViewChild('userTab', { read: TemplateRef }) userTab: TemplateRef<any>;
+  @ViewChild('ordersTab', { read: TemplateRef }) ordersTab: TemplateRef<any>;
+  @ViewChild('customersTab', { read: TemplateRef }) customersTab: TemplateRef<any>;
   tabMarked = {
     left: '0px',
     width: '0px',
@@ -38,6 +50,24 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
       isSelected: false,
       defaultSelected: false,
     },
+    {
+      name: 'Users',
+      template: 'userTab',
+      isSelected: false,
+      defaultSelected: false,
+    },
+    {
+      name: 'Orders',
+      template: 'ordersTab',
+      isSelected: false,
+      defaultSelected: false,
+    },
+    {
+      name: 'Customers',
+      template: 'customersTab',
+      isSelected: false,
+      defaultSelected: false,
+    },
   ];
   /*  */
   caretLeftIcon = '../assets/images/caret-left.svg';
@@ -52,133 +82,25 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
       body: 'no-shadow',
     },
   };
-
-  textAreaConfig: TextAreaConfig = {
-    textAreaLabel: {
-      text: 'Address'
-    },
-    placeholder: ''
-  };
-  componentForm = this.fb.group({
-    name: [
-      '',
-      [
-        Validators.required,
-        Validators.maxLength(50),
-      ],
-    ],
-    contactPerson: [
-      '',
-      Validators.required,
-    ],
-    type: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    parent: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    address: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    country: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    phone: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    email: [
-      '',
-      [
-        Validators.required,
-        Validators.email
-      ],
-    ],
-    anniversaryDate: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    subscriptionFee: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    supportHoursContract: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    supportHoursAvailable: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-  });
   constructor(
-    private fb: FormBuilder,
     private cdref: ChangeDetectorRef,
     private route: ActivatedRoute,
     private reqS: RequestService,
   ) { }
 
   ngOnInit(): void {
+    this.cdref.markForCheck();
     this.route.paramMap.subscribe(
       params => {
         const id: any = params.get('id');
       }
     );
   }
-  selectionConfig(label: string): SelectConfig {
-    return {
-      selectLabel: {
-        text: label || '',
-      },
-    };
-  }
-  inputConfig(
-    label: string,
-    type: string = 'text',
-    placeholder: string = '',
-    prefixIcon: boolean = false)
-    : InputConfig {
-    return {
-      inputLabel: {
-        text: label || '',
-      },
-      type: type || 'text',
-      placeholder: placeholder || '',
-      prefixIcon: prefixIcon || false,
-    };
-  }
 
   fetchDataForDetails(id: any) {
     const queryEndpoint = baseEndpoints.customers + id;
     return this.reqS.get(queryEndpoint);
   }
-  updateValueForForm(data: any) {
-    this.componentForm.setValue({
-    });
-  }
-
   /* tab */
   ngAfterViewInit() {
     this.showDefaultTab();
@@ -186,7 +108,7 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
   }
 
   showDefaultTab() {
-    this.tabSwitch = this.loaderTemplate;
+    this.tabSwitch = this.detailsTab;
   }
 
   switchTab(event: any, tabName: string, index: number) {
