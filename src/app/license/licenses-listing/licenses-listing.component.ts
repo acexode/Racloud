@@ -20,12 +20,10 @@ import { TableService } from 'src/app/shared/table/services/table.service';
 export class LicensesListingComponent implements OnInit {
   isDropup = true;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
-  @ViewChild('actionDropdown', { static: true }) actionDropdown
+  @ViewChild('actionDropdown', { static: true }) actionDropdown;
   @ViewChild('selectT', { static: true }) selectT: any;
 
   @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
-
-  
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   containerConfig: PageContainerConfig = {
