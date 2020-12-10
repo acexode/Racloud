@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
@@ -47,7 +49,7 @@ export class LicenseEditComponent implements OnInit {
   selectedRenewBtn;
 
   controlStore: { [key: string]: AbstractControl; } = {};
-  constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef) { }
+  constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef,private http: HttpClient, private route: ActivatedRoute,) { }
   inputConfig(
     label: string,
     type: string = 'text',
@@ -71,7 +73,28 @@ export class LicenseEditComponent implements OnInit {
     };
   }
   ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    console.log(id)
     this.initForm();
+    if(id){
+      this.http.get('./assets/ra-table-license.json').subscribe((e:any) =>{
+        const data = e.filter(e => e.id == id)[0]
+        console.log(data)
+        this.selectedPartnerLicenseBtn = this.setBoolean(data['partner-license'] )
+        this.selectedRenewBtn = this.setBoolean(data['renew'] )
+        this.infoForm.patchValue({
+          productName: data['product-name'],
+          partner: data['partner-license'],
+          purchased: data['purchased'],
+          renew: data['renew'],
+          expires: data['expires'],
+          customer: data['customer'],
+
+        })
+        
+        console.log(this.selectedRenewBtn)
+      })
+    }
   }
   initForm() {
     this.infoForm = this.fb.group({
@@ -167,6 +190,7 @@ export class LicenseEditComponent implements OnInit {
     }
   }
   renewbyUserCompany(button) {
+    console.log(button)
     if (button === this.selectedRenewBtn) {
       this.selectedRenewBtn = undefined;
       this.setFormValue('renew',button.title);
@@ -179,6 +203,10 @@ export class LicenseEditComponent implements OnInit {
     this.infoForm.get(field).patchValue(value, {
       onlySelf: false
     });
+  }
+  setBoolean(data){
+    return this.partnerLicense.filter(e => e.title == data)[0]
+        
   }
   submitForm(){
   console.log(this.infoForm.value);

@@ -1,5 +1,6 @@
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FooterService } from 'src/app/core/services/footer/footer.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
@@ -13,16 +14,18 @@ import { TableService } from 'src/app/shared/table/services/table.service';
 @Component({
   selector: 'app-licenses-listing',
   templateUrl: './licenses-listing.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./licenses-listing.component.scss']
 })
 export class LicensesListingComponent implements OnInit {
+  isDropup = true;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
-  @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
+  @ViewChild('actionDropdown', { static: true }) actionDropdown
   @ViewChild('selectT', { static: true }) selectT: any;
 
   @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
 
-
+  
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   containerConfig: PageContainerConfig = {
@@ -71,15 +74,17 @@ export class LicensesListingComponent implements OnInit {
     loadingIndicator: true,
     action: true
   };
-  isDropup: boolean;
+  
   constructor(
     private tS: TableService,
     private footerS: FooterService,
     private http: HttpClient,
+    private router: Router,
 
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
+    console.log(this.actionDropdown)
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
@@ -215,7 +220,10 @@ export class LicensesListingComponent implements OnInit {
   }
 
   removeRow(id: any) {}
-  manageSub(id: any) {}
+  manageSub(data: any) {
+    this.router.navigate(['licenses/license-edit', { id: data.id }]);
+    console.log(data)
+  }
   renewSub(id: any) {}
 
   setDropUp(row) {

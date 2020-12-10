@@ -11,6 +11,7 @@ import { CustomerRoutingModule } from '../customer/customer-routing.module';
 import { ContainerModule } from '../shared/container/container.module';
 import { RcFormsModule } from '../shared/rc-forms/rc-forms.module';
 import { TableModule } from '../shared/table/table.module';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { TableModule } from '../shared/table/table.module';
     TabsModule,
     AngularSvgIconModule,
     FormsModule,
+    BsDropdownModule.forRoot(),
     ReactiveFormsModule,
   ]
 })
