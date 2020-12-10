@@ -17,6 +17,37 @@ export class DetailsTabComponent implements OnInit {
     },
     placeholder: ''
   };
+
+  typeOptions = [
+    {
+      id: 'mock',
+      option: 'Mock'
+    },
+    {
+      id: 'partner',
+      option: 'Partner'
+    }
+  ];
+  parentOptions = [
+    {
+      id: 'mock',
+      option: 'Mock'
+    },
+    {
+      id: 'pyramid',
+      option: 'Pyramid'
+    }
+  ];
+  countryOptions = [
+    {
+      id: 'mock',
+      option: 'Mock'
+    },
+    {
+      id: 'netherlands',
+      option: 'Netherlands'
+    }
+  ];
   componentForm = this.fb.group({
     name: [
       '',
@@ -95,13 +126,17 @@ export class DetailsTabComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateValueForForm(this.detailsData);
-    console.log(this.componentForm.value);
   }
   selectionConfig(label: string): SelectConfig {
     return {
       selectLabel: {
-        text: label || '',
+        text: label
       },
+      idKey: 'id',
+      labelKey: 'option',
+      formStatus: {
+        isFilled: true,
+      }
     };
   }
   inputConfig(
@@ -123,6 +158,9 @@ export class DetailsTabComponent implements OnInit {
     this.componentForm.setValue({
       ...data
     });
+  }
+  updateProfile() {
+    console.log(this.componentForm.value);
   }
 
 }

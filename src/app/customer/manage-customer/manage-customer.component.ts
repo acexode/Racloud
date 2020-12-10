@@ -13,10 +13,10 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
   mock = {
     name: 'Abracadabra SRL',
     contactPerson: 'Albert Robertsson',
-    type: 'Partner',
-    parent: 'Pyramid',
+    type: 'partner',
+    parent: 'pyramid',
     address: 'Kromme Nieuwegracht, 3512 HK Utrecht',
-    country: 'Netherlands',
+    country: 'netherlands',
     phone: '0123 456 789',
     email: 'abracadabra@email.com',
     anniversaryDate: '31 December 2021',
