@@ -39,6 +39,7 @@ import { LicensesListingComponent } from './licenses-listing/licenses-listing.co
 import { SignupComponent } from './signup/signup.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { LoaderComponent } from './shared/loader/loader.component';
+import { OptionListComponent } from './option-list/option-list.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { LoaderComponent } from './shared/loader/loader.component';
     SignupComponent,
     CreateUserComponent,
     LoaderComponent,
+    OptionListComponent,
   ],
   imports: [
     BrowserModule,
