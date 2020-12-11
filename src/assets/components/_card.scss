@@ -1,6 +1,11 @@
 @import "../variables";
 @import "../mixins";
-
+.rc-card-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(rem(292), 1fr));
+  gap: rem(2);
+}
 .rc-sh-card {
     width: rem(292);
     min-height: rem(376);
@@ -24,9 +29,11 @@
     }
     .rc-sh-card-body { 
         .rc-product-description {
-            max-height: 132px !important;
+            height: 132px !important;
+            /* max-height: 132px !important; */
             margin-top: rem(16);
             overflow: hidden;
+            text-overflow: ellipsis;
         }
         .rc-sh-card-body-link {
             margin-top: rem(8);
