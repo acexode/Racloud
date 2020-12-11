@@ -1,4 +1,5 @@
 import { OptionListComponent } from './option-list/option-list.component';
+import { LicenseOptionsComponent } from './license-options/license-options.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { OrdersComponent } from './orders/orders.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
@@ -94,6 +95,10 @@ const routes: Routes = [
   {
     path: 'options',
     component: OptionListComponent,
+  },
+  {
+    path: 'licenses-options',
+    component: LicensesListingComponent,
     data: { title: 'Licenses Listing' },
   },
   {
