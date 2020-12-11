@@ -99,11 +99,11 @@ const routes: Routes = [
   {
     path: 'options',
     component: OptionListComponent,
-  },  
+  },
   {
     path: 'new-option',
     component: LicenseOptionsComponent,
-  },  
+  },
   {
     path: 'create-user',
     component: CreateUserComponent,
