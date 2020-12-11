@@ -17,6 +17,7 @@ import { TableService } from '../shared/table/services/table.service';
 export class OptionListComponent implements OnInit {
 
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
+  @ViewChild('selectDetailTemplate', { static: true }) selectDetailTemplate: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
   @ViewChild('selectT', { static: true }) selectT: any;
 
@@ -63,8 +64,9 @@ export class OptionListComponent implements OnInit {
   });
   tableConfig: TableI = {
     selectable: true,
-    selectDetail: true,
+    selectDetail: false,
     hoverDetail: true,
+    expand: true,
     columns: [],
     externalPaging: false,
     externalSorting: true,
@@ -81,12 +83,13 @@ export class OptionListComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
+    this.tableConfig.selectDetailTemplate = this.selectDetailTemplate
     this.tableConfig.columns = [
       {
         identifier: 'option-name',
         label: 'Option Name',
         sortable: true,
-        minWidth: 206,
+        minWidth: 276,
         width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -117,7 +120,7 @@ export class OptionListComponent implements OnInit {
         identifier: 'value',
         label: 'Value',
         sortable: false,
-        minWidth: 511,
+        minWidth: 611,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -169,8 +172,8 @@ export class OptionListComponent implements OnInit {
     this.tableData.next(newRows);
   }
 
-  removeRow(id: any) {
-    console.log(id);
+  removeRow(row,col) {
+    console.log(row,col);
   }
   manageSub(id: any) {
     console.log(id);

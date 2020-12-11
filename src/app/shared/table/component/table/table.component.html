@@ -14,13 +14,14 @@
   [scrollbarH]="true"
   [rowClass]="rowClass"
   [reorderable]="false"
+  [displayCheck]="displayCheck"
   [sorts]="[{ dir: 'asc' }]"
   [externalPaging]="config?.externalPaging"
   [externalSorting]="config?.externalSorting"
   [loadingIndicator]="config?.loadingIndicator"
 >
   <ngx-datatable-row-detail
-    *ngIf="config?.selectDetail"
+    *ngIf="config?.expand"
     [rowHeight]="'auto'"
     #myDetailRow
   >
@@ -34,7 +35,7 @@
         [ngTemplateOutlet]="config?.selectDetailTemplate"
         [ngTemplateOutletContext]="{ row: row }"
       >
-        hello world
+       
       </ng-container>
     </ng-template>
   </ngx-datatable-row-detail>
@@ -101,7 +102,7 @@
           </div>
         </div> </ng-template></ngx-datatable-column
   ></ng-container> -->
-  <ng-container *ngIf="config?.selectable && config?.selectDetail">
+  <ng-container *ngIf="config?.selectable">
     <ngx-datatable-column
       [width]="80"
       [minWidth]="80"
@@ -147,7 +148,7 @@
       >
         <div class="d-flex flex-row m-0 p-0">
           <div
-            *ngIf="config?.selectable"
+            *ngIf="config?.selectable && config.selectDetail"
             class="datatable-body-cell-label custom-control custom-checkbox form-check"
           >
             <input
@@ -162,7 +163,7 @@
               for="{{ rowIndex }}"
             ></label>
           </div>
-          <div class="detail-arrow pl-3" *ngIf="config?.selectDetail">
+          <div class="detail-arrow pl-3" *ngIf="config?.expand">
             <svg-icon
               *ngIf="expanded"
               [src]="'../assets/images/Minus.svg'"
@@ -171,7 +172,7 @@
               (click)="toggleExpandRow(row)"
             ></svg-icon>
             <svg-icon
-              *ngIf="!expanded"
+              *ngIf="!expanded && isArray(row)"
               [src]="'../assets/images/darkPlus.svg'"
               class="detail-icon"
               applyClass="true"

@@ -25,7 +25,7 @@
     <div class="d-flex justify-content-end w-100">
         <div class="d-flex bg-container justify-content-end py-10 mt-n10">
             <div class="row-detail d-flex align-items-center">
-                lorem ipsiu,
+                
             </div>
         </div>
     </div>
@@ -38,8 +38,8 @@
         </a>
         <ul aria-labelledby="dropdownMenuButton" *dropdownMenu class="dropdown-menu" role="menu"
             aria-labelledby="button-basic">
-            <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item" href="#">Manage</a></li>
-            <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item" href="#">Delete</a></li>
+            <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
+            <li (click)="removeRow(row,column)" role="menuitem"><a class="dropdown-item" >Delete</a></li>
 
         </ul>
     </div>
@@ -66,5 +66,20 @@
             <span *ngSwitchDefault>{{value}}</span>
         </ng-container>
         <img *ngIf="value === 0" src="./../../assets/images/expired.svg" alt="expired-icon" class="isExpired" />
+    </div>
+</ng-template>
+<ng-template #selectDetailTemplate let-column="column" let-row="row" let-value="cellValue">
+    <div class="table-status-column w-100">
+        <table class="w-100">
+            <tbody class="w-100">
+                <tr *ngFor="let val of row.value" class="tables-cell8">
+                    <td style="width:80px"></td>
+                    <td style="width:276px"></td>
+                    <td style="width:169px"></td>
+                    <td style="width:611px;">{{val}}</td>
+                </tr>
+            </tbody>
+        </table>
+        
     </div>
 </ng-template>

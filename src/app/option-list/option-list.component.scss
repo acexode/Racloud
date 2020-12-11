@@ -1,3 +1,4 @@
+@import "../../assets/variables";
 .rc-checkbox {
     margin: 0 !important;
 }
@@ -63,4 +64,10 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+  }
+  .tables-cell8 {
+    width: 100%;
+    height: 40px !important;
+    background-color:#F6F6F8;
+    border-bottom: 1px dotted $medium-grey-2;
   }
