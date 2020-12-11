@@ -28,16 +28,22 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     },
   };
   tabSwitch: any;
+  tabMarked = {
+    left: '0px',
+    width: '0px',
+  };
   tabs = [
     {
       name: 'Info',
       template: 'firstTab',
-      isSelected: true
+      isSelected: false,
+      defaultSelected: true,
     },
     {
       name: 'Options',
       template: 'secondTab',
-      isSelected: false
+      isSelected: false,
+      defaultSelected: false,
     }
   ];
   infoForm: FormGroup;
@@ -164,15 +170,20 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   showDefaultTab() {
     this.tabSwitch = this.firstTab;
   }
-  switchTab(tabName: string, index: number) {
+  switchTab(event: any, tabName: string, index: number) {
     this.tabSwitch = this[tabName];
     this.ressetTabSelectStatus();
     // set as active
+    this.tabMarked = {
+      left: `${ event.target.offsetLeft }px`,
+      width: `${ event.target.offsetWidth }px`
+    };
     this.tabs[index].isSelected = true;
   }
   ressetTabSelectStatus() {
     for (const tab of this.tabs) {
       tab.isSelected = false;
+      tab.defaultSelected = false;
     }
   }
   isPartnerLicense(button) {

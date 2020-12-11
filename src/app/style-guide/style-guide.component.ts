@@ -94,7 +94,7 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
   styleForm: FormGroup;
 
   /* tab */
-
+  c
   @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
   @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
@@ -103,20 +103,23 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
     {
       name: 'Tab 1',
       template: 'firstTab',
-      isSelected: true
+      isSelected: false,
+      defaultSelected: true,
     },
     {
       name: 'Tab 2 Default',
       template: 'secondTab',
-      isSelected: false
+      isSelected: false,
+      defaultSelected: false,
     },
     {
       name: 'Tab 3 Default',
       template: 'thirdTab',
-      isSelected: false
+      isSelected: false,
+      defaultSelected: false,
     }
   ];
-  /*  */
+  /* end of tab */
   constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
@@ -161,7 +164,7 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
   submitIt(): void {
     console.log(this.theInputText.value);
   }
-
+  /* tab */
   ngAfterViewInit() {
     this.showDefaultTab();
     this.cdref.detectChanges();
@@ -171,15 +174,21 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
     this.tabSwitch = this.firstTab;
   }
 
-  switchTab(tabName: string, index: number) {
+  switchTab(event: any, tabName: string, index: number) {
     this.tabSwitch = this[tabName];
     this.ressetTabSelectStatus();
     // set as active
+    this.tabMarked = {
+      left: `${ event.target.offsetLeft }px`,
+      width: `${ event.target.offsetWidth }px`
+    };
     this.tabs[index].isSelected = true;
   }
   ressetTabSelectStatus() {
     for (const tab of this.tabs) {
       tab.isSelected = false;
+      tab.defaultSelected = false;
     }
   }
+  /* End of tab */
 }
