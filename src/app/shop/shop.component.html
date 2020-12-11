@@ -2,9 +2,9 @@
     <span class="shop">Shop</span>
 </div>
 <div class="w-100">
-    <div class="rc-card-grid">
+    <div class="rc-card-grid row">
 
-        <div *ngFor="let shop of shops" class=" mb-32">
+        <div *ngFor="let shop of shops" class="col-3 mb-32">
             
             <app-shop-card [item]="shop" ></app-shop-card>
         </div>
