@@ -130,8 +130,7 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
       defaultSelected: false,
     }
   ];
-/* end of tab */
-  
+  /* end of tab */
   formGroup = this.fb.group({
     select: this.fb.control(null),
   });
