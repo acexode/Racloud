@@ -132,6 +132,18 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
           Validators.minLength(10),
         ],
       ],
+      selectionGeneralDropDown: [
+        '',
+        [
+          Validators.required,
+        ],
+      ],
+      selectWithPrefixAndFill: [
+        'filled',
+        [
+          Validators.required,
+        ],
+      ],
       textWithPrefix: [
         'Filled / Activated',
         [

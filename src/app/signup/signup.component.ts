@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { authEndpoints } from '../core/configs/endpoints';
 import { LoginResponse } from '../core/models/login-response.interface';
@@ -74,6 +75,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     private reqS: RequestService,
     private msgS: MessagesService,
     private cdRef: ChangeDetectorRef,
+    private routerS: Router,
   ) { }
 
   ngOnInit(): void { }
@@ -108,18 +110,20 @@ export class SignupComponent implements OnInit, OnDestroy {
             text: res.message,
             type: 'success',
             dismissible: true,
-            timeout: 3000,
+            timeout: 5000,
             customClass: 'mt-32'
           });
           // reset form
           this.signUpForm.reset();
+          // redirect to login page
+          this.routerS.navigateByUrl('/login');
         },
         err => {
           this.msgS.addMessage({
             text: err.error,
             type: 'danger',
             dismissible: true,
-            timeout: 3000,
+            timeout: 5000,
             customClass: 'mt-32'
           });
           this.signUpForm.markAllAsTouched();

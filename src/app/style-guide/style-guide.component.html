@@ -16,7 +16,7 @@
 <div class="w-100 mt-64">
     <h1>Inputs</h1>
 </div>
-<div class="w-100">
+<div class="w-100" [formGroup]="styleForm" (ngSubmit)="submitIt()">
 
     <div class="row">
         <div class="col-4">
@@ -35,31 +35,38 @@
             <app-input [config]="inputConfig"></app-input>
         </div>
         <div class="col-4">
-            <app-select [config]="selectConfig"></app-select>
+            <app-select [config]="selectConfig" formControlName="selectionGeneralDropDown"></app-select>
         </div>
         <div class="col-4">
             <app-input [config]="configWithPrefix"></app-input>
         </div>
     </div>
 
-    <form [formGroup]="styleForm" class="row" (ngSubmit)="submitIt()">
+    <div class="row">
         <div class="col-4">
             <app-input [config]="configFilled" formControlName="text"></app-input>
         </div>
         <div class="col-4">
-            <app-select [config]="selectConfigFilled" [options]='selectOptions'></app-select>
+            <app-select 
+                [config]="selectConfigFilled" 
+                [options]='selectOptions' 
+                formControlName="selectWithPrefixAndFill"
+            ></app-select>
         </div>
         <div class="col-4">
             <app-input [config]="configFilledWithPrefix" formControlName="textWithPrefix"></app-input>
         </div>
-    </form>
+    </div>
 
     <div class="row">
         <div class="col-4">
             <app-input [config]="configDisabled"></app-input>
         </div>
-        <div class="col-4">
-            <app-select [config]="selectConfigDisabled"></app-select>
+       <div class="col-4">
+            <app-select 
+                [config]="selectConfigDisabled"
+                formControlName="selectionGeneralDropDown"
+            ></app-select>
         </div>
         <div class="col-4">
             <app-input [config]="configDisabledWithPrefix"></app-input>
@@ -71,7 +78,12 @@
             <app-input [config]="configError"></app-input>
         </div>
         <div class="col-4">
-            <app-select [config]="selectConfigError"></app-select>
+            <app-select 
+                [config]="selectConfigError"
+                formControlName="selectionGeneralDropDown"
+            >
+ 
+            </app-select>
         </div>
         <div class="col-4">
             <app-input [config]="configErrorWithPrefix"></app-input>
@@ -83,7 +95,8 @@
             <app-input [config]="configWithFocus"></app-input>
         </div>
         <div class="col-4">
-            <app-select [config]="selectConfigFocus"></app-select>
+            <app-select [config]="selectConfigFocus"
+            formControlName="selectionGeneralDropDown"></app-select>
         </div>
         <div class="col-4">
             <app-input [config]="configFocusWithPrefix"></app-input>
