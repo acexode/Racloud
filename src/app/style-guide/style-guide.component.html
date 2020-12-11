@@ -1,3 +1,13 @@
+<div class="w-100 mt-32 mb-64">
+
+    <div class="row" [formGroup]="formGroup">
+        <div class="col-4">
+            <app-select [config]="selectConfigSearchAndSelect"
+            formControlName="select"></app-select>
+        </div>
+    </div>
+</div>
+
 <div class="w-100 mt-20">
     <h1 class="my-64">Typography</h1>
     <h1 class="mb-12">H1 - Montserrat Medium 37px; line height 40 px</h1>
@@ -100,6 +110,13 @@
         </div>
         <div class="col-4">
             <app-input [config]="configFocusWithPrefix"></app-input>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            <app-select [config]="selectConfigSearchAndSelect"
+            formControlName="selectionGeneralDropDown"></app-select>
         </div>
     </div>
     

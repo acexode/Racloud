@@ -1,5 +1,6 @@
 @import "../variables";
 @import "../mixins";
+@import "./input";
 
 .rc-select {
   select {
@@ -54,6 +55,10 @@
       color: $rc-black !important;
       border: $rc-secondary-focus-outline !important;
     }
+  }
+  @extend .rc-form-group;
+  datalist {
+      display: none;
   }
 }
 /* Target Internet Explorer 9 to undo the custom arrow */

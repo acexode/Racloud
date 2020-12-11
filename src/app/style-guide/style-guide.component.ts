@@ -91,10 +91,21 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
       isDisabled: true,
     }
   };
+  selectConfigSearchAndSelect: SelectConfig = {
+    selectLabel: {
+      text: 'Label'
+    },
+    idKey: 'id',
+    labelKey: 'option',
+    searchable: true,
+  };
   styleForm: FormGroup;
 
   /* tab */
-  c
+  tabMarked = {
+    left: '0px',
+    width: '0px',
+  };
   @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
   @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
@@ -119,7 +130,11 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
       defaultSelected: false,
     }
   ];
-  /* end of tab */
+/* end of tab */
+  
+  formGroup = this.fb.group({
+    select: this.fb.control(null),
+  });
   constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef) { }
 
   ngOnInit(): void {

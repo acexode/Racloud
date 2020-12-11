@@ -13,6 +13,7 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { get, has } from 'lodash';
+import { SelectConfig } from '../../models/select/select-config';
 
 @Component({
   selector: 'app-select',
@@ -29,8 +30,7 @@ import { get, has } from 'lodash';
 })
 export class SelectComponent implements OnInit, ControlValueAccessor {
 
-  @Input() config: any;
-
+  @Input() config: SelectConfig;
   @Input() options: Array<any>;
   @Input() formControl: FormControl;
   @Input() formControlName: string;
@@ -140,9 +140,9 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
         return false;
       }
     }
-  }
+  };
   // get ahold of FormControl instance no matter formControl or formControlName is given.;
-// If formControlName is given, then controlContainer.control is the parent FormGroup/FormArray instance.
+  // If formControlName is given, then controlContainer.control is the parent FormGroup/FormArray instance.
   get parentControl() {
     return (
       this.formControl ||
@@ -162,5 +162,8 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   }
   get selectField() {
     return this.formGroup.get('select');
+  }
+  getVal(event) {
+    console.log(event.target.dataset.value);
   }
 }
