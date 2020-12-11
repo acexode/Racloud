@@ -1,4 +1,5 @@
 import { OptionListComponent } from './option-list/option-list.component';
+import { ShopComponent } from './shop/shop.component';
 import { LicenseOptionsComponent } from './license-options/license-options.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { OrdersComponent } from './orders/orders.component';
@@ -11,10 +12,10 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
-import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
 import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
 import { SignupComponent } from './signup/signup.component';
+
 
 const routes: Routes = [
   {
@@ -89,22 +90,29 @@ const routes: Routes = [
   },
   {
     path: 'licenses',
-    component: LicensesListingComponent,
+    loadChildren: () =>
+      import('./license/license.module').then(
+        (m) => m.LicenseModule
+      ),
     data: { title: 'Licenses Listing' },
   },
   {
     path: 'options',
     component: OptionListComponent,
-  },
+  },  
   {
-    path: 'licenses-options',
-    component: LicensesListingComponent,
-    data: { title: 'Licenses Listing' },
-  },
+    path: 'new-option',
+    component: LicenseOptionsComponent,
+  },  
   {
     path: 'create-user',
     component: CreateUserComponent,
     data: { title: 'Create User' },
+  },
+  {
+    path: 'shop',
+    component: ShopComponent,
+    data: { title: 'Shop' },
   },
   { path: '**', redirectTo: '/not-found' },
 ];

@@ -35,12 +35,14 @@ import { OrdersComponent } from './orders/orders.component';
 import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
 import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
-import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
 import { SignupComponent } from './signup/signup.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { ShopComponent } from './shop/shop.component';
+import { CustomerModule } from './customer/customer.module';
+import { LoaderModule } from './shared/loader/loader.module';
 import { LicenseOptionsComponent } from './license-options/license-options.component';
-import { LoaderComponent } from './shared/loader/loader.component';
 import { OptionListComponent } from './option-list/option-list.component';
+
 
 @NgModule({
   declarations: [
@@ -57,11 +59,11 @@ import { OptionListComponent } from './option-list/option-list.component';
     UsersComponent,
     ProductsComponent,
     RaLogoComponent,
-    LicensesListingComponent,
+    CreateUserComponent,
     SignupComponent,
     CreateUserComponent,
+    ShopComponent,
     LicenseOptionsComponent,
-    LoaderComponent,
     OptionListComponent,
   ],
   imports: [
@@ -85,6 +87,8 @@ import { OptionListComponent } from './option-list/option-list.component';
     TableModule,
     RcFormsModule,
     TabsModule,
+    CustomerModule,
+    LoaderModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

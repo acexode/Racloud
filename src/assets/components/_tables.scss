@@ -97,6 +97,7 @@
         border-bottom: rem(1) solid $rc-accent-blue-60;
         padding: rem(8) rem(12) rem(8) rem(12);
         height: rem(40);
+        word-wrap: break-word !important;
         svg {
           color: $rc-accent-blue;
         }
@@ -104,6 +105,9 @@
           &.ext-sort-icon-down {
             transform: rotate(180deg);
           }
+        }
+        .first-row > div::nth-child(2){
+          background: green;
         }
       }
       .second-row {
