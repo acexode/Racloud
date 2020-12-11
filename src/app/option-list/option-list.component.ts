@@ -83,7 +83,7 @@ export class OptionListComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
-    this.tableConfig.selectDetailTemplate = this.selectDetailTemplate
+    this.tableConfig.selectDetailTemplate = this.selectDetailTemplate;
     this.tableConfig.columns = [
       {
         identifier: 'option-name',
@@ -94,7 +94,6 @@ export class OptionListComponent implements OnInit {
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
-       
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -172,8 +171,8 @@ export class OptionListComponent implements OnInit {
     this.tableData.next(newRows);
   }
 
-  removeRow(row,col) {
-    console.log(row,col);
+  removeRow(row) {
+    console.log(row);
   }
   manageSub(id: any) {
     console.log(id);
