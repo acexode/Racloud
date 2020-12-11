@@ -1,3 +1,4 @@
+import { ShopComponent } from './shop/shop.component';
 import { LicenseOptionsComponent } from './license-options/license-options.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { OrdersComponent } from './orders/orders.component';
@@ -103,6 +104,11 @@ const routes: Routes = [
     path: 'create-user',
     component: CreateUserComponent,
     data: { title: 'Create User' },
+  },
+  {
+    path: 'shop',
+    component: ShopComponent,
+    data: { title: 'Shop' },
   },
   { path: '**', redirectTo: '/not-found' },
 ];
