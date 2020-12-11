@@ -1,27 +1,29 @@
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FooterService } from '../core/services/footer/footer.service';
-import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
-import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
-import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
-import { TableFilterType } from '../shared/table/models/table-filter-types';
-import { TableI } from '../shared/table/models/table.interface';
-import { TableService } from '../shared/table/services/table.service';
+import { FooterService } from 'src/app/core/services/footer/footer.service';
+import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
+import { omnBsConfig } from 'src/app/shared/date-picker/data/omn-bsConfig';
+import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
+import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
+import { TableI } from 'src/app/shared/table/models/table.interface';
+import { TableService } from 'src/app/shared/table/services/table.service';
+
 
 @Component({
   selector: 'app-licenses-listing',
   templateUrl: './licenses-listing.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./licenses-listing.component.scss']
 })
 export class LicensesListingComponent implements OnInit {
+  isDropup = true;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
-  @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
+  @ViewChild('actionDropdown', { static: true }) actionDropdown;
   @ViewChild('selectT', { static: true }) selectT: any;
 
   @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
-
-
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   containerConfig: PageContainerConfig = {
@@ -70,19 +72,20 @@ export class LicensesListingComponent implements OnInit {
     loadingIndicator: true,
     action: true
   };
-  isDropup: boolean;
   constructor(
     private tS: TableService,
     private footerS: FooterService,
     private http: HttpClient,
+    private router: Router,
 
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
+    console.log(this.actionDropdown)
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'product-name',
+        identifier: 'productName',
         label: 'Product Name',
         sortable: true,
         minWidth: 237,
@@ -144,7 +147,7 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'partner-license',
+        identifier: 'partnerLicense',
         label: 'Partner license',
         sortable: true,
         minWidth: 160,
@@ -213,15 +216,12 @@ export class LicensesListingComponent implements OnInit {
     this.tableData.next(newRows);
   }
 
-  removeRow(id: any) {
-    console.log(id);
+  removeRow(id: any) {}
+  manageSub(data: any) {
+    this.router.navigate(['licenses/license-edit', { id: data.id }]);
+    console.log(data)
   }
-  manageSub(id: any) {
-    console.log(id);
-  }
-  renewSub(id: any) {
-    console.log(id);
-  }
+  renewSub(id: any) {}
 
   setDropUp(row) {
     const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
