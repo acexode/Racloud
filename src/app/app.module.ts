@@ -61,6 +61,7 @@ import { LicenseOptionsComponent } from './license-options/license-options.compo
     SignupComponent,
     CreateUserComponent,
     LicenseOptionsComponent,
+
   ],
   imports: [
     BrowserModule,
