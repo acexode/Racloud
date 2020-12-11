@@ -35,7 +35,6 @@ import { OrdersComponent } from './orders/orders.component';
 import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
 import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
-import { LicensesListingComponent } from './licenses-listing/licenses-listing.component';
 import { SignupComponent } from './signup/signup.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { CustomerModule } from './customer/customer.module';
@@ -57,7 +56,7 @@ import { LicenseOptionsComponent } from './license-options/license-options.compo
     UsersComponent,
     ProductsComponent,
     RaLogoComponent,
-    LicensesListingComponent,
+    CreateUserComponent,
     SignupComponent,
     CreateUserComponent,
     LicenseOptionsComponent,
