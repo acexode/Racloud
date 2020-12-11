@@ -1,32 +1,11 @@
-<app-page-container [config]="containerConfig" >
-    <div container-body>
-      <div class="page-header">
-        <div class="row align-items-center">
-            <div class="col">
-                <p class="pyramid-title">PYRAMID</p>
-
-                <h1 class="customers-title">Orders</h1>
-            </div>
-            <div class="col-auto float-right ml-auto d-flex flex-direction-row align-items-center">
-                <app-toggle class="mr-32">
-                    All orders
-                </app-toggle>
-                <!--  -->
-                <app-button type="button" color="primary">
-                    Add order
-                </app-button>
-                <!--  -->
-            </div>
-        </div>
-    </div>
+<ng-container>
       <app-table
       [rows]="tableData | async"
       [config]="tableConfig"
       (filterData)="filterTable($event)"
       [rowDetailConfig]="rowDetailIcons"
       ></app-table>
-    </div>
-  </app-page-container>
+</ng-container>
   
   <ng-template #hoverDetailTpl let-column="column" let-row="row">
     <div class="d-flex justify-content-end w-100">
@@ -35,6 +14,7 @@
       </div>
     </div>
   </ng-template>
+
   <ng-template #actionDropdown let-column="column" let-row="row">
     <div class="btn-group" dropdown [dropup]="isDropup">
       <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"

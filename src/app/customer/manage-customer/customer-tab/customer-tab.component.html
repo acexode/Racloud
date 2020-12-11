@@ -1,25 +1,7 @@
-<app-page-container [config]="containerConfig">
-    <div class="w-100" container-body>
-        <div class="page-header">
-            <div class="row align-items-center">
-                <div class="col">
-                    <p class="pyramid-title">PYRAMID</p>
-
-                    <h1 class="customers-title">Customers</h1>
-                </div>
-                <div class="col-auto float-right ml-auto">
-                    <!--  -->
-                    <app-button type="button" color="primary" [routerLink]="['create']" >
-                        Add Customer
-                    </app-button>
-                    <!--  -->
-                </div>
-            </div>
-        </div>
+<ng-container>
         <app-table [rows]="tableData | async" [config]="tableConfig" (filterData)="filterTable($event)"
             [rowDetailConfig]="rowDetailIcons"></app-table>
-    </div>
-</app-page-container>
+</ng-container>
 
 <ng-template #hoverDetailTpl let-column="column" let-row="row">
     <div class="d-flex justify-content-end w-100">

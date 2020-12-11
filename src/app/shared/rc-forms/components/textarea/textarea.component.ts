@@ -17,7 +17,6 @@ import { TextAreaConfig } from '../../models/textarea/textarea-config';
 
 export class TextareaComponent implements OnInit, ControlValueAccessor {
   @Input() config: TextAreaConfig;
-
   onChange: (_: any) => void;
   onTouched: () => void;
   value: any;

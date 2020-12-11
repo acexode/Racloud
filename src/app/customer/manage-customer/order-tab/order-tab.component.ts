@@ -1,39 +1,28 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FooterService } from '../core/services/footer/footer.service';
-import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
-import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
-import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
-import { TableFilterType } from '../shared/table/models/table-filter-types';
-import { TableI } from '../shared/table/models/table.interface';
-import { TableService } from '../shared/table/services/table.service';
+import { FooterService } from 'src/app/core/services/footer/footer.service';
+import { omnBsConfig } from 'src/app/shared/date-picker/data/omn-bsConfig';
+import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
+import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
+import { TableI } from 'src/app/shared/table/models/table.interface';
+import { TableService } from 'src/app/shared/table/services/table.service';
 
 @Component({
-  selector: 'app-orders',
-  templateUrl: './orders.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./orders.component.scss']
+  selector: 'app-order-tab',
+  templateUrl: './order-tab.component.html',
+  styleUrls: ['./order-tab.component.scss']
 })
-export class OrdersComponent implements OnInit {
+export class OrderTabComponent implements OnInit {
   isDropup = true;
-  @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl;
-  @ViewChild('actionDropdown', { static: true }) actionDropdown;
+  @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
+  @ViewChild('actionDropdown', { static: true }) actionDropdown: TemplateRef<any>;
   @ViewChild('valueTemplate', { static: true }) valueTemplate: TemplateRef<any>;
   @ViewChild('discountTemplate', { static: true }) discountTemplate: TemplateRef<any>;
   @ViewChild('selectT', { static: true }) selectT;
 
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
-  containerConfig: PageContainerConfig = {
-    closeButton: true,
-    theme: 'transparent',
-    shadow: false,
-    panelClasses: {
-      header: 'd-none',
-      body: 'no-shadow',
-    },
-  };
   rows = [];
   rowDetailIcons = [
     '../../assets/images/Edit.svg',
@@ -75,7 +64,7 @@ export class OrdersComponent implements OnInit {
     private footerS: FooterService,
     private http: HttpClient,
     private ref: ChangeDetectorRef
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
@@ -83,7 +72,7 @@ export class OrdersComponent implements OnInit {
         identifier: 'number',
         label: 'Number',
         sortable: true,
-        minWidth: 200,
+        minWidth: 183,
         width: 90,
         noGrow: true,
         sortIconPosition: 'left',
@@ -99,7 +88,7 @@ export class OrdersComponent implements OnInit {
         identifier: 'date',
         label: 'Date',
         sortable: true,
-        minWidth: 150,
+        minWidth: 182,
         width: 100,
         sortIconPosition: 'left',
         labelPosition: 'right',
@@ -114,7 +103,7 @@ export class OrdersComponent implements OnInit {
         identifier: 'status',
         label: 'Status',
         sortable: true,
-        minWidth: 150,
+        minWidth: 183,
         width: 300,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -129,7 +118,7 @@ export class OrdersComponent implements OnInit {
         identifier: 'value',
         label: 'Value',
         sortable: true,
-        minWidth: 150,
+        minWidth: 183,
         noGrow: true,
         sortIconPosition: 'left',
         labelPosition: 'right',
@@ -146,7 +135,7 @@ export class OrdersComponent implements OnInit {
         identifier: 'discount',
         label: 'Discount',
         sortable: true,
-        minWidth: 150,
+        minWidth: 182,
         noGrow: true,
         sortIconPosition: 'left',
         labelPosition: 'right',
@@ -163,7 +152,7 @@ export class OrdersComponent implements OnInit {
         identifier: 'total',
         label: 'Total value',
         sortable: true,
-        minWidth: 130,
+        minWidth: 183,
         noGrow: true,
         sortIconPosition: 'left',
         labelPosition: 'right',
@@ -193,8 +182,8 @@ export class OrdersComponent implements OnInit {
     this.getJSON().subscribe((data) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
-        this.rowData = data;
-        const cloneData = data.map((v) => {
+        this.rowData = data.slice(0, 5);
+        const cloneData = data.slice(0, 5).map((v) => {
           return { ...v };
         });
         this.tableData.next(cloneData);
@@ -204,31 +193,31 @@ export class OrdersComponent implements OnInit {
   }
   public getJSON(): Observable<any> {
     return this.http.get('./assets/orders.json');
-}
-filterTable(filterObj: TableFilterConfig) {
-  const newRows = this.tS.filterRowInputs(
-    this.tableConfig?.columns,
-    this.rowData,
-    filterObj
-  );
-  this.tableData.next(newRows);
-}
-setDropUp(row) {
-  const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
-  const mod = idx % 10 === 0 ? 10 : idx % 10;
-  if(mod < 6) {
-    this.isDropup = false;
-  }else {
-    this.isDropup = true;
   }
-  this.ref.detectChanges();
-}
-removeRow(id){
-  console.log(id);
-}
-manageSub(id){
-  console.log(id);
-}
+  filterTable(filterObj: TableFilterConfig) {
+    const newRows = this.tS.filterRowInputs(
+      this.tableConfig?.columns,
+      this.rowData,
+      filterObj
+    );
+    this.tableData.next(newRows);
+  }
+  setDropUp(row) {
+    const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
+    const mod = idx % 10 === 0 ? 10 : idx % 10;
+    if (mod < 6) {
+      this.isDropup = false;
+    } else {
+      this.isDropup = true;
+    }
+    this.ref.detectChanges();
+  }
+  removeRow(id) {
+    console.log(id);
+  }
+  manageSub(id) {
+    console.log(id);
+  }
 
 
 }

@@ -2,7 +2,6 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FooterService } from 'src/app/core/services/footer/footer.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { omnBsConfig } from 'src/app/shared/date-picker/data/omn-bsConfig';
 import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
@@ -74,10 +73,8 @@ export class LicensesListingComponent implements OnInit {
   };
   constructor(
     private tS: TableService,
-    private footerS: FooterService,
     private http: HttpClient,
     private router: Router,
-
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {

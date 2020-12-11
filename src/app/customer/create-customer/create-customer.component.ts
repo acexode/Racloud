@@ -4,11 +4,11 @@ import { PageContainerConfig } from 'src/app/shared/container/models/page-contai
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 @Component({
-  selector: 'app-create-edit-customer',
-  templateUrl: './create-edit-customer.component.html',
-  styleUrls: ['./create-edit-customer.component.scss']
+  selector: 'app-edit-customer',
+  templateUrl: './create-customer.component.html',
+  styleUrls: ['./create-customer.component.scss']
 })
-export class CreateEditCustomerComponent implements OnInit {
+export class CreateCustomerComponent implements OnInit {
 
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/customer';

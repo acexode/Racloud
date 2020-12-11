@@ -22,6 +22,18 @@ app-tabs {
             .tab-bar-button-holder {
                 width: 100%;
                 border-bottom: $rc-secondary-ouline;
+                @include flexbox;
+                @include flex-direction(row);
+                position: relative;
+
+                #marked {
+                    position: absolute;
+                    bottom: 0;
+                    height: rem(2);
+                    width: 0;
+                    background: $rc-primary;
+                    transition: 0.5s all ease-in-out;
+                }
             }
 
         }
@@ -33,7 +45,7 @@ app-tabs {
                 font-family: $font-montserrat;
                 font-weight: normal;
                 min-width: $rc-btn-min-width;
-
+                position: relative;
                 @include button-size(
                     $btn-padding-y,
                     $btn-padding-x,
@@ -47,8 +59,13 @@ app-tabs {
                 border: $rc-none;
                 /* border-bottom: $rc-secondary-ouline; */
                 outline: $rc-none !important;
-
+                transition: 0.5s all ease-in-out;
+                
                 &.selected {
+                    color: $rc-primary !important;
+                    /* border-bottom: $rc-primary-outline !important; */
+                }
+                &.defaultSelected {
                     color: $rc-primary !important;
                     border-bottom: $rc-primary-outline !important;
                 }

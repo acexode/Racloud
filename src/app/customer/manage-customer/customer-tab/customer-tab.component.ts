@@ -1,20 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
-import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
-import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
-import { TableFilterType } from '../shared/table/models/table-filter-types';
-import { TableI } from '../shared/table/models/table.interface';
-import { TableService } from '../shared/table/services/table.service';
+import { omnBsConfig } from 'src/app/shared/date-picker/data/omn-bsConfig';
+import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
+import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
+import { TableI } from 'src/app/shared/table/models/table.interface';
+import { TableService } from 'src/app/shared/table/services/table.service';
 
 @Component({
-  selector: 'app-customer',
-  templateUrl: './customer.component.html',
-  styleUrls: ['./customer.component.scss']
+  selector: 'app-customer-tab',
+  templateUrl: './customer-tab.component.html',
+  styleUrls: ['./customer-tab.component.scss']
 })
-export class CustomerComponent implements OnInit {
+  export class CustomerTabComponent implements OnInit {
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('subFeeTemplate', { static: true }) subFeeTemplate: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
@@ -22,15 +21,6 @@ export class CustomerComponent implements OnInit {
 
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
-  containerConfig: PageContainerConfig = {
-    closeButton: true,
-    theme: 'transparent',
-    shadow: false,
-    panelClasses: {
-      header: 'd-none',
-      body: 'no-shadow',
-    },
-  };
   rows = [];
   rowDetailIcons = [
     '../../assets/images/Edit.svg',
@@ -220,8 +210,8 @@ export class CustomerComponent implements OnInit {
     this.getJSON().subscribe((data) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
-        this.rowData = data;
-        const cloneData = data.map((v: any) => {
+        this.rowData = data.slice(0, 16);
+        const cloneData = data.slice(0, 16).map((v: any) => {
           return { ...v };
         });
         this.tableData.next(cloneData);
