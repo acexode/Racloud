@@ -37,12 +37,9 @@ import { ProductsComponent } from './products/products.component';
 import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
 import { SignupComponent } from './signup/signup.component';
 import { CreateUserComponent } from './create-user/create-user.component';
-<<<<<<< HEAD
 import { ShopComponent } from './shop/shop.component';
-=======
 import { CustomerModule } from './customer/customer.module';
 import { LoaderModule } from './shared/loader/loader.module';
->>>>>>> 14dd6587adc884e0d721fb3399f58db94c03db7b
 import { LicenseOptionsComponent } from './license-options/license-options.component';
 
 @NgModule({
