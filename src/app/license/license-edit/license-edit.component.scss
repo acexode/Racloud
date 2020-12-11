@@ -1,0 +1,23 @@
+.infoForm{
+    width: 70%;
+    padding-top: 39px;
+}
+.w-auto{
+    width: auto !important;
+}
+.submit-row {
+    padding: 16px;
+    background-color: #F7F9FB;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+.back-button{
+    position: absolute;
+    top: 6px;
+    left: -25px;
+}
+
+.cancel-btn{
+    margin-right: 8px;
+}

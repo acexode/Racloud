@@ -1,38 +1,28 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FooterService } from '../core/services/footer/footer.service';
-import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
-import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
-import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
-import { TableFilterType } from '../shared/table/models/table-filter-types';
-import { TableI } from '../shared/table/models/table.interface';
-import { TableService } from '../shared/table/services/table.service';
+import { FooterService } from 'src/app/core/services/footer/footer.service';
+import { omnBsConfig } from 'src/app/shared/date-picker/data/omn-bsConfig';
+import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
+import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
+import { TableI } from 'src/app/shared/table/models/table.interface';
+import { TableService } from 'src/app/shared/table/services/table.service';
 
 @Component({
-  selector: 'app-licenses-listing',
-  templateUrl: './licenses-listing.component.html',
-  styleUrls: ['./licenses-listing.component.scss']
+  selector: 'app-order-tab',
+  templateUrl: './order-tab.component.html',
+  styleUrls: ['./order-tab.component.scss']
 })
-export class LicensesListingComponent implements OnInit {
+export class OrderTabComponent implements OnInit {
+  isDropup = true;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
-  @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
-  @ViewChild('selectT', { static: true }) selectT: any;
-
-  @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
-
+  @ViewChild('actionDropdown', { static: true }) actionDropdown: TemplateRef<any>;
+  @ViewChild('valueTemplate', { static: true }) valueTemplate: TemplateRef<any>;
+  @ViewChild('discountTemplate', { static: true }) discountTemplate: TemplateRef<any>;
+  @ViewChild('selectT', { static: true }) selectT;
 
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
-  containerConfig: PageContainerConfig = {
-    closeButton: true,
-    theme: 'transparent',
-    shadow: false,
-    panelClasses: {
-      header: 'd-none',
-      body: 'no-shadow',
-    },
-  };
   rows = [];
   rowDetailIcons = [
     '../../assets/images/Edit.svg',
@@ -67,28 +57,26 @@ export class LicensesListingComponent implements OnInit {
     columns: [],
     externalPaging: false,
     externalSorting: false,
-    loadingIndicator: true,
     action: true
   };
-  isDropup: boolean;
   constructor(
     private tS: TableService,
     private footerS: FooterService,
     private http: HttpClient,
-
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'product-name',
-        label: 'Product Name',
+        identifier: 'number',
+        label: 'Number',
         sortable: true,
-        minWidth: 237,
-        width: 100,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
+        minWidth: 183,
+        width: 90,
+        noGrow: true,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
         cellContentPosition: 'right',
         filterConfig: {
           data: null,
@@ -97,26 +85,11 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'purchased',
-        label: 'Purchased',
+        identifier: 'date',
+        label: 'Date',
         sortable: true,
-        minWidth: 160,
+        minWidth: 182,
         width: 100,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'expires',
-        label: 'Expires',
-        sortable: true,
-        minWidth: 160,
-        width: 300,
         sortIconPosition: 'left',
         labelPosition: 'right',
         cellContentPosition: 'right',
@@ -130,12 +103,27 @@ export class LicensesListingComponent implements OnInit {
         identifier: 'status',
         label: 'Status',
         sortable: true,
-        minWidth: 161,
-        noGrow: true,
+        minWidth: 183,
+        width: 300,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
-        cellTemplate: this.expiredIconTemplate,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        },
+      },
+      {
+        identifier: 'value',
+        label: 'Value',
+        sortable: true,
+        minWidth: 183,
+        noGrow: true,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
+        cellTemplate: this.valueTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -144,14 +132,15 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'partner-license',
-        label: 'Partner license',
+        identifier: 'discount',
+        label: 'Discount',
         sortable: true,
-        minWidth: 160,
+        minWidth: 182,
         noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
+        sortIconPosition: 'left',
+        labelPosition: 'right',
         cellContentPosition: 'right',
+        cellTemplate: this.discountTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -160,40 +149,41 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'renew',
-        label: 'Renew by User Company',
+        identifier: 'total',
+        label: 'Total value',
         sortable: true,
-        minWidth: 220,
+        minWidth: 183,
         noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
+        sortIconPosition: 'left',
+        labelPosition: 'right',
         cellContentPosition: 'right',
+        cellTemplate: this.valueTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
           noIcon: true
-        },
+        }
       },
       {
         identifier: 'action',
         label: '',
-        sortable: true,
+        sortable: false,
         minWidth: 60,
         noGrow: true,
         headerHasFilterIcon: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
-        hasFilter: true,
+        hasFilter: false,
         cellTemplate: this.actionDropdown
       },
     ];
     this.getJSON().subscribe((data) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
-        this.rowData = data;
-        const cloneData = data.map((v: any) => {
+        this.rowData = data.slice(0, 5);
+        const cloneData = data.slice(0, 5).map((v) => {
           return { ...v };
         });
         this.tableData.next(cloneData);
@@ -202,7 +192,7 @@ export class LicensesListingComponent implements OnInit {
     });
   }
   public getJSON(): Observable<any> {
-    return this.http.get('./assets/ra-table-license.json');
+    return this.http.get('./assets/orders.json');
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
@@ -212,17 +202,6 @@ export class LicensesListingComponent implements OnInit {
     );
     this.tableData.next(newRows);
   }
-
-  removeRow(id: any) {
-    console.log(id);
-  }
-  manageSub(id: any) {
-    console.log(id);
-  }
-  renewSub(id: any) {
-    console.log(id);
-  }
-
   setDropUp(row) {
     const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
     const mod = idx % 10 === 0 ? 10 : idx % 10;
@@ -233,5 +212,12 @@ export class LicensesListingComponent implements OnInit {
     }
     this.ref.detectChanges();
   }
+  removeRow(id) {
+    console.log(id);
+  }
+  manageSub(id) {
+    console.log(id);
+  }
+
 
 }

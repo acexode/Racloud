@@ -1,7 +1,14 @@
 <ng-container [formGroup]="formGroup">
-    <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0"
+    <div class="m-0">
+        <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0"
         [ngClass]="config?.textAreaLabel?.classes">{{ config?.textAreaLabel?.text }} </label>
-    <textarea formControlName="textarea" class="rc-form-textArea m-0" [placeholder]="config?.placeholder || ''">
+        <textarea 
+            formControlName="textarea"
+            class="rc-form-textArea m-0"
+            [placeholder]="config?.placeholder || ''"
+            
+            >
 
-    </textarea>
+        </textarea>
+    </div>
 </ng-container>
