@@ -69,7 +69,9 @@ export class LicenseOptionsComponent implements OnInit {
   optionForm: FormGroup;
   selectedType = '';
   selectedStatus: any;
-  constructor(private fb: FormBuilder, private router : Router, private cdref: ChangeDetectorRef,private http: HttpClient, private route: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, private router : Router,
+    private cdref: ChangeDetectorRef,private http: HttpClient,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -82,7 +84,9 @@ export class LicenseOptionsComponent implements OnInit {
         console.log(type)
         this.optionForm.patchValue({
           optionName: data.optionName,
-          optionType: type
+          optionType: type,
+          optionString: data.value,
+          defaultStatus: data.value
         });
         this.selectedType = type
         if(type === 'list'){
