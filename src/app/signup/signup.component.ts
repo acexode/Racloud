@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import {
   Component,
   OnInit,
@@ -7,13 +8,15 @@ import {
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { authEndpoints } from '../core/configs/endpoints';
 import { LoginResponse } from '../core/models/login-response.interface';
 import { RequestService } from '../core/services/request/request.service';
 import { MessagesService } from '../shared/messages/services/messages.service';
 import { MustMatch } from '../shared/rc-forms/helpers/must-match-validator';
 import { InputConfig } from '../shared/rc-forms/models/input/input-config';
+import { SelectConfig } from '../shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from '../shared/rc-forms/models/textarea/textarea-config';
 @Component({
   selector: 'app-signup',
@@ -56,8 +59,8 @@ export class SignupComponent implements OnInit, OnDestroy {
     companyEmail: ['', Validators.required],
     /*  companyType: 'Fabricator', */
     address: ['', Validators.required],
-    country: ['', Validators.required],
-    language: ['', Validators.required],
+    country: [null, Validators.required],
+    language: [null, Validators.required],
   }, {
     validator: MustMatch('password', 'confirmPassword')
   });
@@ -70,15 +73,45 @@ export class SignupComponent implements OnInit, OnDestroy {
   signUpSubs: Subscription;
 
   loginUrl = '/login';
+  languageJsonDataUrl = './assets/languages.json';
+  languageOptions$: Observable<any>;
+  countryJsonDataUrl = './assets/list-of-countries.json';
+  countryOptions$: Observable<any>;
+  // countryOptions$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   constructor(
     private fb: FormBuilder,
     private reqS: RequestService,
     private msgS: MessagesService,
     private cdRef: ChangeDetectorRef,
     private routerS: Router,
+    private http: HttpClient
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.countryOptions$ = this.getJSON(this.countryJsonDataUrl);
+
+    this.languageOptions$ = this.getJSON(this.languageJsonDataUrl)
+      .pipe(
+        map(lang => Object.keys(lang).map(langKey => lang[langKey])),
+      );
+  }
+  selectConfig(
+    label: string,
+    placeholder: string = 'Select',
+    searchable: boolean = false,
+    idKey: string = 'id',
+    labelKey: string = 'option',
+  ): SelectConfig {
+    return {
+      selectLabel: {
+        text: label,
+      },
+      placeholder,
+      idKey,
+      labelKey,
+      searchable,
+    };
+  }
   inputConfig(
     label: string,
     type: string = 'text',
@@ -97,6 +130,9 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   isLoadingStatus() {
     this.isLoading = !this.isLoading;
+  }
+  getJSON(urlPath: string): Observable<any> {
+    return this.http.get(urlPath);
   }
   submitForm(): void {
     /* loading */
