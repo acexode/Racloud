@@ -77,17 +77,15 @@ export class LicenseOptionsComponent implements OnInit {
     if(id){
       this.http.get('./assets/option-list.json').subscribe((obj:any) =>{
         const data = obj.filter(e => e.id.toString() === id)[0];
-        const type = data.optionType === "Value List" ? "list" : data.optionType
-        console.log(typeof id)
-        console.log(obj)
+        const type = data.optionType === "Value List" ? "list" : data.optionType.toLowerCase();
         console.log(data)
+        console.log(type)
         this.optionForm.patchValue({
           optionName: data.optionName,
-          optionType: "string"
+          optionType: type
         });
         this.selectedType = type
-        if(type == "list"){
-          let formArray = this.optionForm.controls['valueList'] as FormArray;
+        if(type === 'list'){
           data.value.forEach(val => {
             this.valueLists.push(this.fb.group({value:val}));
           });
