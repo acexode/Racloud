@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { InputConfigDisabled } from '../shared/rc-forms/configurations/input/input-config-disable';
 import { InputConfigDisabledWithPrefix } from '../shared/rc-forms/configurations/input/input-config-disabled-with-prefix';
 import { InputConfigErrorWithPrefix } from '../shared/rc-forms/configurations/input/input-config-Error-with-prefix';
@@ -95,8 +97,9 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
     selectLabel: {
       text: 'Label'
     },
-    idKey: 'id',
-    labelKey: 'option',
+    placeholder: 'Select Country',
+    idKey: 'code',
+    labelKey: 'name',
     searchable: true,
   };
   styleForm: FormGroup;
@@ -134,10 +137,21 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
   formGroup = this.fb.group({
     select: this.fb.control(null),
   });
-  constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef) { }
+
+  countryOptions$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  constructor(
+    private fb: FormBuilder,
+    private cdref: ChangeDetectorRef,
+    private http: HttpClient
+    ) { }
 
   ngOnInit(): void {
     this.initForm();
+    this.getJSON().subscribe((data) => {
+      if (data) {
+        this.countryOptions$.next(data);
+      }
+    });
   }
 
   initForm() {
@@ -178,6 +192,11 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
   submitIt(): void {
     console.log(this.theInputText.value);
   }
+
+  public getJSON(): Observable<any> {
+    return this.http.get('./assets/list-of-countries.json');
+  }
+
   /* tab */
   ngAfterViewInit() {
     this.showDefaultTab();

@@ -3,7 +3,8 @@
          <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0"
             [ngClass]="config?.selectLabel?.classes">{{ config?.selectLabel?.text }}
         </label>
-        <div 
+        
+        <div
             *ngIf="!config?.searchable"
             class="rc-select" 
             [ngClass]="{
@@ -15,11 +16,25 @@
         >
             <select #selectEl formControlName="select" [compareWith]="compareWithFn" (change)="selectChange($event.target.value)">
 
-                <option *ngFor="let item of options" [value]="item.id">
+                <option *ngFor="let item of items | async" [value]="item.id">
                     {{item.option}}
                 </option>
                 
             </select>
+        </div>
+
+        <div 
+            class="rc-select" 
+            *ngIf="config?.searchable"
+        >
+            <ng-select [items]="items | async"
+                   [virtualScroll]="true"
+                   bindLabel="option"
+                   bindValue="id"
+                   [placeholder]="config?.placeholder || 'Select'"
+                   formControlName="select">
+            </ng-select>
+
         </div>
 
     </div>

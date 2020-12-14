@@ -60,6 +60,31 @@
   datalist {
       display: none;
   }
+
+  ng-select{
+    width: 100%;
+    color: $rc-black !important;
+    border: $rc-accent-blue-60-outline;
+    
+    &:focus-within {
+      color: $rc-black !important;
+      border: $rc-secondary-focus-outline;
+    }
+    .ng-select-container{
+      width: 100%;
+      .ng-value-container{
+        padding: rem(8) rem(6) rem(8) rem(12) !important;
+        .ng-placeholder {
+          color: $rc-grey !important;
+        }
+        .ng-value{
+          margin-top: rem(10);
+        }
+      }
+      
+    }
+  }
+  
 }
 /* Target Internet Explorer 9 to undo the custom arrow */
 @media screen and (min-width:0\0) {
