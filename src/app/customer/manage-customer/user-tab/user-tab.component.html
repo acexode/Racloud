@@ -1,0 +1,34 @@
+<ng-container>
+      <app-table
+      [rows]="tableData | async"
+      [config]="tableConfig"
+      (filterData)="filterTable($event)"
+      [rowDetailConfig]="rowDetailIcons"
+      ></app-table>
+  </ng-container>
+  
+  <ng-template #hoverDetailTpl let-column="column" let-row="row">
+    <div class="d-flex justify-content-end w-100">
+      <div class="d-flex bg-container justify-content-end py-10 mt-n10">
+        <div class="row-detail d-flex align-items-center"></div>
+      </div>
+    </div>
+  </ng-template>
+
+
+<ng-template #actionDropdown let-column="column" let-row="row" let-rowIndex="rowIndex">
+    <div class="btn-group" dropdown [dropup]="isDropup">
+        <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
+            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+        </a>
+        <ul aria-labelledby="dropdownMenuButton" *dropdownMenu class="dropdown-menu" role="menu"
+            aria-labelledby="button-basic">
+            <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item" href="#">Manage</a></li>
+            <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item" href="#">Delete</a></li>
+
+        </ul>
+    </div>
+
+</ng-template>
+

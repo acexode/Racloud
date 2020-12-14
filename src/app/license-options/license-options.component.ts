@@ -25,8 +25,8 @@ export class LicenseOptionsComponent implements OnInit {
   }
   defaultLabel = 'Select';
   booleanOptions= [
-    {title: 'Yes', name: 'button1'},
-    {title: 'No', name: 'button2'},
+    {title: 'True', name: 'button1'},
+    {title: 'False', name: 'button2'},
   ];
 
   OptionList = [

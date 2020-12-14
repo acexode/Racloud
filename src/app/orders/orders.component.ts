@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FooterService } from '../core/services/footer/footer.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
@@ -19,6 +19,8 @@ export class OrdersComponent implements OnInit {
   isDropup = true;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl;
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
+  @ViewChild('valueTemplate', { static: true }) valueTemplate: TemplateRef<any>;
+  @ViewChild('discountTemplate', { static: true }) discountTemplate: TemplateRef<any>;
   @ViewChild('selectT', { static: true }) selectT;
 
   rowData: Array<any> = [];
@@ -132,6 +134,7 @@ export class OrdersComponent implements OnInit {
         sortIconPosition: 'left',
         labelPosition: 'right',
         cellContentPosition: 'right',
+        cellTemplate: this.valueTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -148,6 +151,7 @@ export class OrdersComponent implements OnInit {
         sortIconPosition: 'left',
         labelPosition: 'right',
         cellContentPosition: 'right',
+        cellTemplate: this.discountTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -164,6 +168,7 @@ export class OrdersComponent implements OnInit {
         sortIconPosition: 'left',
         labelPosition: 'right',
         cellContentPosition: 'right',
+        cellTemplate: this.valueTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,

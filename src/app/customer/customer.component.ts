@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FooterService } from '../core/services/footer/footer.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
 import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
@@ -16,6 +16,7 @@ import { TableService } from '../shared/table/services/table.service';
 })
 export class CustomerComponent implements OnInit {
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
+  @ViewChild('subFeeTemplate', { static: true }) subFeeTemplate: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
   @ViewChild('selectT', { static: true }) selectT: any;
 
@@ -67,10 +68,13 @@ export class CustomerComponent implements OnInit {
     loadingIndicator: true,
     action: true
   };
+  isDropup: boolean;
   constructor(
     private tS: TableService,
-    private footerS: FooterService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute,
+    private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -89,8 +93,8 @@ export class CustomerComponent implements OnInit {
         },
       },
       {
-        identifier: 'city',
-        label: 'City',
+        identifier: 'country',
+        label: 'Country',
         sortable: true,
         minWidth: 150,
         width: 100,
@@ -167,7 +171,7 @@ export class CustomerComponent implements OnInit {
         },
       },
       {
-        identifier: 'anniv-date',
+        identifier: 'anniversaryDate',
         label: 'Anniv-date',
         sortable: true,
         minWidth: 130,
@@ -191,6 +195,7 @@ export class CustomerComponent implements OnInit {
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
+        cellTemplate: this.subFeeTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -235,12 +240,22 @@ export class CustomerComponent implements OnInit {
     );
     this.tableData.next(newRows);
   }
-
+  setDropUp(row) {
+    const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
+    const mod = idx % 10 === 0 ? 10 : idx % 10;
+    if (mod < 6) {
+      this.isDropup = false;
+    } else {
+      this.isDropup = true;
+    }
+    this.ref.detectChanges();
+  }
   removeRow(id: any) {
     console.log(id);
   }
-  manageSub(id: any) {
-    console.log(id);
+  manageSub(data: any) {
+    console.log(data);
+    this.router.navigate(['manage', data.id], { relativeTo: this.route });
   }
   renewSub(id: any) {
     console.log(id);
