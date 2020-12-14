@@ -96,6 +96,22 @@ export class OrdersComponent implements OnInit {
         },
       },
       {
+        identifier: 'customer',
+        label: 'Customer',
+        sortable: true,
+        minWidth: 200,
+        width: 90,
+        noGrow: true,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          placeholder: 'Search'
+        },
+      },
+      {
         identifier: 'date',
         label: 'Date',
         sortable: true,
