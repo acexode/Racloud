@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     } else {
       this.loginForm.updateValueAndValidity();
       this.cdRef.markForCheck();
-    } 
+    }
     /* stop loading */
     this.isLoadingStatus();
     /*  */

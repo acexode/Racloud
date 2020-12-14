@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, TemplateRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
@@ -11,7 +11,7 @@ import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-confi
   templateUrl: './license-edit.component.html',
   styleUrls: ['./license-edit.component.scss']
 })
-export class LicenseEditComponent implements OnInit {
+export class LicenseEditComponent implements OnInit, AfterViewInit {
   @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
   @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
@@ -156,7 +156,6 @@ export class LicenseEditComponent implements OnInit {
       ]
     });
   }
-
   ngAfterViewInit() {
     this.showDefaultTab();
     this.cdref.detectChanges();
