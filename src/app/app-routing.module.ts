@@ -15,7 +15,6 @@ import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
 import { SignupComponent } from './signup/signup.component';
-import { OptionTabComponent } from './option-tab/option-tab.component';
 
 
 const routes: Routes = [
@@ -105,11 +104,6 @@ const routes: Routes = [
   {
     path: 'new-option',
     component: LicenseOptionsComponent,
-    data: { title: 'New Option' },
-  },
-  {
-    path: 'option-tab',
-    component: OptionTabComponent,
     data: { title: 'New Option' },
   },
   {

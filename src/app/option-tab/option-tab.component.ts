@@ -210,9 +210,9 @@ export class OptionTabComponent implements OnInit {
     return Array.isArray(value);
   }
   isString(value) {
-    return typeof value == "string";
+    return typeof value === 'string';
   }
-  toString(value:[]) {
-    return value.join(", ")
+  toString(value:[]) {;
+    return value.join(', ');
   }
 }

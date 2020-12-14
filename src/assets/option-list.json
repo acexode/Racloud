@@ -77,10 +77,10 @@
     },{
         "id":10,
         "option-name":"RA Workshop Express",
-        "option-type":"Boolean",
-        "value":"No",
-        "partner_access": "Read Only",
-        "user_access": "Read Only"
+        "option-type":"String",
+        "value":"Lorem ipsum",
+        "partner_access": "Hidden",
+        "user_access": "Hidden"
     },
     {
         "id":11,
