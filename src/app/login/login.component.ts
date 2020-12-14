@@ -19,6 +19,7 @@ import { InputConfig } from '../shared/rc-forms/models/input/input-config';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  isLoading = false;
   raLogoType = 'group1';
   signUpUrl = '/signup';
   emailInputConfig: InputConfig = {
@@ -57,8 +58,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void { }
-
+  isLoadingStatus() {
+    this.isLoading = !this.isLoading;
+  }
   submitForm() {
+    /* loading */
+    this.isLoadingStatus();
+  /*  */
     const formV = this.loginForm.value;
 
     if (this.loginForm.valid) {
@@ -88,7 +94,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     } else {
       this.loginForm.updateValueAndValidity();
       this.cdRef.markForCheck();
-    }
+    } 
+    /* stop loading */
+    this.isLoadingStatus();
+    /*  */
   }
 
   resetSubs() {
