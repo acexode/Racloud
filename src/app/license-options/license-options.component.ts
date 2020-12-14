@@ -90,13 +90,10 @@ export class LicenseOptionsComponent implements OnInit {
           let formArray = this.optionForm.controls['valueList'] as FormArray;
           data.value.forEach(val => {
             this.valueLists.push(this.fb.group({value:val}));
-            
-            console.log(val)
-            
           });
         }
       });
-      this.cdref.detectChanges()
+      this.cdref.detectChanges();
     }
   }
   initForm() {
