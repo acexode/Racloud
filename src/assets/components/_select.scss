@@ -72,13 +72,14 @@
     }
     .ng-select-container{
       width: 100%;
+      padding: rem(8) rem(6) rem(8) rem(12) !important;
       .ng-value-container{
-        padding: rem(8) rem(6) rem(8) rem(12) !important;
         .ng-placeholder {
           color: $rc-grey !important;
+          margin-top: rem(2);
         }
         .ng-value{
-          margin-top: rem(10);
+          margin-top: rem(8);
         }
       }
       
