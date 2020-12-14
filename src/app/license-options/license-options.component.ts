@@ -1,6 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { InputConfig } from '../shared/rc-forms/models/input/input-config';
 import { SelectConfig } from '../shared/rc-forms/models/select/select-config';
@@ -68,10 +69,35 @@ export class LicenseOptionsComponent implements OnInit {
   optionForm: FormGroup;
   selectedType = '';
   selectedStatus: any;
-  constructor(private fb: FormBuilder, private router : Router, private cdRef: ChangeDetectorRef) { }
+  constructor(private fb: FormBuilder, private router : Router, private cdref: ChangeDetectorRef,private http: HttpClient, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
     this.initForm();
+    if(id){
+      this.http.get('./assets/option-list.json').subscribe((obj:any) =>{
+        const data = obj.filter(e => e.id.toString() === id)[0];
+        const type = data.optionType === "Value List" ? "list" : data.optionType
+        console.log(typeof id)
+        console.log(obj)
+        console.log(data)
+        this.optionForm.patchValue({
+          optionName: data.optionName,
+          optionType: "string"
+        });
+        this.selectedType = type
+        if(type == "list"){
+          let formArray = this.optionForm.controls['valueList'] as FormArray;
+          data.value.forEach(val => {
+            this.valueLists.push(this.fb.group({value:val}));
+            
+            console.log(val)
+            
+          });
+        }
+      });
+      this.cdref.detectChanges()
+    }
   }
   initForm() {
     this.optionForm = this.fb.group({
@@ -103,6 +129,7 @@ export class LicenseOptionsComponent implements OnInit {
   }
   addValue(){
     const val = this.optionForm.get('optionListName').value;
+    console.log(val)
     this.valueLists.push(this.fb.group({value:val}));
     this.setFormValue('optionListName','');
   }
@@ -111,8 +138,9 @@ export class LicenseOptionsComponent implements OnInit {
   }
   onChange(option) {
     this.selectedType =option;
+    console.log(option)
     this.setFormValue('optionType',option);
-    this.cdRef.detectChanges();
+    this.cdref.detectChanges();
   }
   setStatus(button) {
     if (button === this.selectedStatus) {

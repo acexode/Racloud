@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -78,7 +79,7 @@ export class OptionListComponent implements OnInit {
     private tS: TableService,
     private footerS: FooterService,
     private http: HttpClient,
-
+    private router: Router,
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
@@ -86,7 +87,7 @@ export class OptionListComponent implements OnInit {
     this.tableConfig.selectDetailTemplate = this.selectDetailTemplate;
     this.tableConfig.columns = [
       {
-        identifier: 'option-name',
+        identifier: 'optionName',
         label: 'Option Name',
         sortable: true,
         minWidth: 276,
@@ -101,7 +102,7 @@ export class OptionListComponent implements OnInit {
         },
       },
       {
-        identifier: 'option-type',
+        identifier: 'optionType',
         label: 'Option Type',
         sortable: true,
         minWidth: 169,
@@ -174,8 +175,8 @@ export class OptionListComponent implements OnInit {
   removeRow(row) {
     console.log(row);
   }
-  manageSub(id: any) {
-    console.log(id);
+  manageSub(data: any) {
+    this.router.navigate(['new-option', { id: data.id }]);
   }
   renewSub(id: any) {
     console.log(id);

@@ -1,91 +1,91 @@
 [
     {
         "id":1,
-        "option-name":"RA Workshop Lite",
-        "option-type":"String",
+        "optionName":"RA Workshop Lite",
+        "optionType":"String",
         "value":"11 Jan 2022"
         
     },
     {
         "id":2,
-        "option-name":"RA Workshop Express",
-        "option-type":"String",
+        "optionName":"RA Workshop Express",
+        "optionType":"String",
         "value":"11 Jan 2022"
        
     },
     {
         "id":3,
-        "option-name":"RA Workshop Professional",
-        "option-type":"String",
+        "optionName":"RA Workshop Professional",
+        "optionType":"String",
         "value":"11 Jan 2022"
     },
     {
         "id":4,
-        "option-name":"RA Workshop CNC Add-on",
-        "option-type":"String",
+        "optionName":"RA Workshop CNC Add-on",
+        "optionType":"String",
         "value":"11 Jan 2022"
     },{
         "id":5,
-        "option-name":"RA Workshop Express",
-        "option-type":"Boolean",
+        "optionName":"RA Workshop Express",
+        "optionType":"Boolean",
         "value":"Yes"
     },
     {
         "id":6,
-        "option-name":"RA Workshop Lite",
-        "option-type":"Value List",
+        "optionName":"RA Workshop Lite",
+        "optionType":"Value List",
         "value":["Export Abyat", "Lorem ipsum", "dolor", "kripke chuks"]
     },
     {
         "id":7,
-        "option-name":"RA Workshop Express",
-        "option-type":"String",
+        "optionName":"RA Workshop Express",
+        "optionType":"String",
         "value":"11 Jan 2022"
     },
     {
         "id":8,
-        "option-name":"RA Workshop Professional",
-        "option-type":"String",
+        "optionName":"RA Workshop Professional",
+        "optionType":"String",
         "value":"11 Jan 2022"
     },
     {
         "id":9,
-        "option-name":"RA Workshop CNC Add-on",
-        "option-type":"Boolean",
+        "optionName":"RA Workshop CNC Add-on",
+        "optionType":"Boolean",
         "value":"No"
     },{
         "id":10,
-        "option-name":"RA Workshop Express",
-        "option-type":"Value List",
+        "optionName":"RA Workshop Express",
+        "optionType":"Value List",
         "value":["Export Abyat", "Lorem ipsum", "dolor", "kripke chuks"]
     },
     {
         "id":11,
-        "option-name":"RA Workshop Lite",
-        "option-type":"String",
+        "optionName":"RA Workshop Lite",
+        "optionType":"String",
         "value":"11 Jan 2022"
     },
     {
         "id":12,
-        "option-name":"RA Workshop Express",
-        "option-type":"String",
+        "optionName":"RA Workshop Express",
+        "optionType":"String",
         "value":"11 Jan 2022"
     },
     {
         "id":13,
-        "option-name":"RA Workshop Professional",
-        "option-type":"String",
+        "optionName":"RA Workshop Professional",
+        "optionType":"String",
         "value":"11 Jan 2022"
     },
     {
         "id":14,
-        "option-name":"RA Workshop CNC Add-on",
-        "option-type":"String",
+        "optionName":"RA Workshop CNC Add-on",
+        "optionType":"String",
         "value":"11 Jan 2022"
     },{
         "id":15,
-        "option-name":"RA Workshop Express",
-        "option-type":"String",
+        "optionName":"RA Workshop Express",
+        "optionType":"String",
         "value":"11 Jan 2022"
     }
 ]
