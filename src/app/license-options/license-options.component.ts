@@ -77,7 +77,7 @@ export class LicenseOptionsComponent implements OnInit {
     if(id){
       this.http.get('./assets/option-list.json').subscribe((obj:any) =>{
         const data = obj.filter(e => e.id.toString() === id)[0];
-        const type = data.optionType === "Value List" ? "list" : data.optionType.toLowerCase();
+        const type = data.optionType === 'Value List' ? 'list' : data.optionType.toLowerCase();
         console.log(data)
         console.log(type)
         this.optionForm.patchValue({
