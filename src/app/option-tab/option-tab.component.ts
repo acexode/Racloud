@@ -37,6 +37,7 @@ export class OptionTabComponent implements OnInit {
     },
   };
   rows = [];
+  rowValue = null;
   rowDetailIcons = [
     '../../assets/images/Edit.svg',
     '../../assets/images/Log.svg',
@@ -137,7 +138,7 @@ export class OptionTabComponent implements OnInit {
         identifier: 'partner_access',
         label: 'Partner Access',
         sortable: true,
-        minWidth: 112,
+        minWidth: 152,
         width: 112,
         noGrow: true,
         headerHasFilterIcon: true,
@@ -151,7 +152,7 @@ export class OptionTabComponent implements OnInit {
         identifier: 'user_access',
         label: 'User Access',
         sortable: true,
-        minWidth: 112,
+        minWidth: 152,
         width: 112,
         noGrow: true,
         headerHasFilterIcon: true,
@@ -214,5 +215,9 @@ export class OptionTabComponent implements OnInit {
   }
   toString(value:[]) {;
     return value.join(', ');
+  }
+  getRow(item){
+    this.rowValue = item.selected[0]
+    console.log(item.selected[0])
   }
 }
