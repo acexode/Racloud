@@ -108,11 +108,6 @@ const routes: Routes = [
     data: { title: 'New Option' },
   },
   {
-    path: 'option-tab',
-    component: OptionTabComponent,
-    data: { title: 'New Option' },
-  },
-  {
     path: 'create-user',
     component: CreateUserComponent,
     data: { title: 'Create User' },
