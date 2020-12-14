@@ -3,89 +3,127 @@
         "id":1,
         "option-name":"RA Workshop Lite",
         "option-type":"String",
-        "value":"11 Jan 2022"
+        "value":"11 Jan 2022",
+        "partner_access": "Hidden",
+        "user_access": "Hidden"
+        
         
     },
     {
         "id":2,
         "option-name":"RA Workshop Express",
-        "option-type":"String",
-        "value":"11 Jan 2022"
+        "option-type":"Boolean",
+        "value":"No",
+        "partner_access": "Read Only",
+        "user_access": "Read Only"
        
     },
     {
         "id":3,
         "option-name":"RA Workshop Professional",
-        "option-type":"String",
-        "value":"11 Jan 2022"
+        "option-type":"Value List",
+        "value":["Export Abyat", "Lorem ipsum", "dolor", "kripke chuks"],
+        "partner_access": "Editable",
+        "user_access": "Editable"
     },
     {
         "id":4,
         "option-name":"RA Workshop CNC Add-on",
         "option-type":"String",
-        "value":"11 Jan 2022"
+        "value":"ABRACADABRA",
+        "partner_access": "Hidden",
+        "user_access": "Hidden"
+        
     },{
         "id":5,
-        "option-name":"RA Workshop Express",
+        "option-name":"RA Workshop Express",   
         "option-type":"Boolean",
-        "value":"Yes"
+        "value":"Yes",
+        "partner_access": "Read Only",
+        "user_access": "Read Only"
     },
     {
         "id":6,
         "option-name":"RA Workshop Lite",
-        "option-type":"Value List",
-        "value":["Export Abyat", "Lorem ipsum", "dolor", "kripke chuks"]
+        "option-type":"String",
+        "value":"Lite Cloud",
+        "partner_access": "Hidden",
+        "user_access": "Hidden"
     },
     {
         "id":7,
         "option-name":"RA Workshop Express",
         "option-type":"String",
-        "value":"11 Jan 2022"
+        "value":"Express shop",
+        "partner_access": "Hidden",
+        "user_access": "Hidden"
+        
     },
     {
         "id":8,
         "option-name":"RA Workshop Professional",
-        "option-type":"String",
-        "value":"11 Jan 2022"
+        "option-type":"Value List",
+        "value":["Export Abyat", "Lorem ipsum", "dolor", "kripke chuks"],
+        "partner_access": "Editable",
+        "user_access": "Editable"
     },
     {
         "id":9,
         "option-name":"RA Workshop CNC Add-on",
         "option-type":"Boolean",
-        "value":"No"
+        "value":"No",
+        "partner_access": "Read Only",
+        "user_access": "Read Only"
     },{
         "id":10,
         "option-name":"RA Workshop Express",
-        "option-type":"Value List",
-        "value":["Export Abyat", "Lorem ipsum", "dolor", "kripke chuks"]
+        "option-type":"Boolean",
+        "value":"No",
+        "partner_access": "Read Only",
+        "user_access": "Read Only"
     },
     {
         "id":11,
         "option-name":"RA Workshop Lite",
         "option-type":"String",
-        "value":"11 Jan 2022"
+        "value":"Alumniue",
+        "partner_access": "Hidden",
+        "user_access": "Hidden"
+        
     },
     {
         "id":12,
         "option-name":"RA Workshop Express",
         "option-type":"String",
-        "value":"11 Jan 2022"
+        "value":"Neue Helvetica",
+        "partner_access": "Hidden",
+        "user_access": "Hidden"
+        
     },
     {
         "id":13,
         "option-name":"RA Workshop Professional",
         "option-type":"String",
-        "value":"11 Jan 2022"
+        "value":"Jawara SE",
+        "partner_access": "Hidden",
+        "user_access": "Hidden"
+        
     },
     {
         "id":14,
         "option-name":"RA Workshop CNC Add-on",
         "option-type":"String",
-        "value":"11 Jan 2022"
+        "value":"Acexode Inc",
+        "partner_access": "Hidden",
+        "user_access": "Hidden"
+        
     },{
         "id":15,
         "option-name":"RA Workshop Express",
         "option-type":"String",
-        "value":"11 Jan 2022"
+        "value":"Regex Exp",
+        "partner_access": "Hidden",
+        "user_access": "Hidden"
+        
     }
 ]

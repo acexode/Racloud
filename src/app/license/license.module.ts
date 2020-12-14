@@ -12,10 +12,11 @@ import { ContainerModule } from '../shared/container/container.module';
 import { RcFormsModule } from '../shared/rc-forms/rc-forms.module';
 import { TableModule } from '../shared/table/table.module';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { OptionTabComponent } from '../option-tab/option-tab.component';
 
 
 @NgModule({
-  declarations: [LicenseEditComponent, LicensesListingComponent],
+  declarations: [LicenseEditComponent, LicensesListingComponent, OptionTabComponent],
   imports: [
     CommonModule,
     LicenseRoutingModule,
