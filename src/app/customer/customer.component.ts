@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@a
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { baseEndpoints } from '../core/configs/endpoints';
-import { dateHelperDMY, dateHelperYear, getUTCdate, UTCdate } from '../core/helpers/dateHelpers';
+import { getUTCdate } from '../core/helpers/dateHelpers';
 import { RequestService } from '../core/services/request/request.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
@@ -227,11 +227,10 @@ export class CustomerComponent implements OnInit {
     this.reqS.get<any>(baseEndpoints.customers).subscribe(res => {
       if (res) {
         const data = res.map((v: any) => {
-          console.log(UTCdate(v.anniversaryDate));
           return {
             ...v,
             name: `${ v.firstName } ${ v.lastName }`,
-            anniversaryDate: UTCdate(v.anniversaryDate),
+            anniversaryDate: getUTCdate(v.anniversaryDate),
           };
         });
         this.tableConfig.loadingIndicator = true;
