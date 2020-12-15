@@ -9,23 +9,23 @@ import { AbstractControlDirective, AbstractControl } from '@angular/forms';
 export class ErrorMessagesComponent implements OnInit {
   private genKey = 'generic_error';
   private readonly errorMessages = {
-    required: () => 'Campul este obligatoriu',
+    required: () => 'Required field',
     minlength: (params) =>
-      'Numarul minim de caractere este ' + params.requiredLength,
+      'The minimum number of characters is ' + params.requiredLength,
     maxlength: (params) =>
-      'Numarul maxim de caractere este ' + params.requiredLength,
-    email: (params) => 'Valoare email invalida.',
-    equalTo: (params) => 'Parolele nu corespund.',
+      'The maximum number of characters is ' + params.requiredLength,
+    email: (params) => 'Invalid email value.',
+    equalTo: (params) => 'The words do not match.',
     pattern: (pattern) => this.handlePattern(pattern),
-    generic_error: (params) => 'Eroare valori camp',
+    generic_error: (params) => 'Password doesn\'t match.',
     lowercaseCharacterRule: (params) =>
-      'Numarul minim de litere mici este ' + params.required,
+      'The minimum number of lowercase letters is ' + params.required,
     digitCharacterRule: (params) =>
-      'Numarul minim de cifre este ' + params.required,
+      'The minimum number of digits is ' + params.required,
     uppercaseCharacterRule: (params) =>
-      'Numarul minim de litere mari este ' + params.required,
+      'The minimum number of capital letters is ' + params.required,
     specialCharacterRule: (params) =>
-      'Numarul minim de caractere speciale este ' + params.required,
+      'The minimum number of special characters is ' + params.required,
   };
 
   @Input()
@@ -67,9 +67,9 @@ export class ErrorMessagesComponent implements OnInit {
 
     switch (rP) {
       case strongPass:
-        return 'Valori acceptate: 0-9';
+        return 'Accepted values: 0-9';
       default:
-        return 'Eroare valori camp';
+        return 'Field value error';
     }
   }
 }

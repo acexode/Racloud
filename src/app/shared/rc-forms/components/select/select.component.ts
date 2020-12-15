@@ -13,6 +13,8 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { get, has } from 'lodash';
+import { BehaviorSubject } from 'rxjs';
+import { SelectConfig } from '../../models/select/select-config';
 
 @Component({
   selector: 'app-select',
@@ -29,9 +31,18 @@ import { get, has } from 'lodash';
 })
 export class SelectComponent implements OnInit, ControlValueAccessor {
 
-  @Input() config: any;
-
-  @Input() options: Array<any>;
+  @Input() config: SelectConfig;
+  @Input() set options(opts: Array<any>) {
+    this.opts = opts ? opts : [];
+    this.updateItems();
+  };
+  items: BehaviorSubject<
+    Array<{
+      id: any;
+      option: string;
+    }>
+    > = new BehaviorSubject([]);
+  private opts: Array<any> = [];
   @Input() formControl: FormControl;
   @Input() formControlName: string;
   value: any;
@@ -83,6 +94,25 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
     }
     this.setCustomError();
     this.cdRef.markForCheck();
+  }
+
+  updateItems() {
+    const labelK = get(this.config, 'labelKey', 'option');
+    const idK = get(this.config, 'idKey', 'id');
+    const items = this.opts
+      .map((v) => {
+        return {
+          id: get(v, idK, null),
+          option: get(v, labelK, null),
+        };
+      })
+      .filter((vv) => {
+        return get(vv, 'id', null) !== null;
+      });
+    this.items.next(items);
+    this.afterOptionsUpdate();
+    this.cdRef.markForCheck();
+    this.cdRef.detectChanges();
   }
 
   ngOnInit() {
@@ -140,9 +170,9 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
         return false;
       }
     }
-  }
+  };
   // get ahold of FormControl instance no matter formControl or formControlName is given.;
-// If formControlName is given, then controlContainer.control is the parent FormGroup/FormArray instance.
+  // If formControlName is given, then controlContainer.control is the parent FormGroup/FormArray instance.
   get parentControl() {
     return (
       this.formControl ||
@@ -162,5 +192,8 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   }
   get selectField() {
     return this.formGroup.get('select');
+  }
+  getVal(event) {
+    console.log(event.target.dataset.value);
   }
 }
