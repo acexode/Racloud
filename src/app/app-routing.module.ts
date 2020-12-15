@@ -1,7 +1,6 @@
 import { OptionListComponent } from './option-list/option-list.component';
 import { ShopComponent } from './shop/shop.component';
 import { LicenseOptionsComponent } from './license-options/license-options.component';
-import { CreateUserComponent } from './create-user/create-user.component';
 import { OrdersComponent } from './orders/orders.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { NgModule } from '@angular/core';
@@ -15,6 +14,7 @@ import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
 import { SignupComponent } from './signup/signup.component';
+import { CreateUserComponent } from './users/create-user/create-user.component';
 
 
 const routes: Routes = [
@@ -40,10 +40,11 @@ const routes: Routes = [
   },
   {
     path: 'users',
-    component: UsersComponent,
-    data: {
-      title: 'Users'
-    }
+    loadChildren: () =>
+      import('./users/users.module').then(
+        (m) => m.UsersModule
+      ),
+    data: { title: 'User Listing' },
   },
   {
     path: 'products',
