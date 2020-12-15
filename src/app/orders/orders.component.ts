@@ -68,6 +68,7 @@ export class OrdersComponent implements OnInit {
     columns: [],
     externalPaging: false,
     externalSorting: false,
+    loadingIndicator: true,
     action: true
   };
   constructor(
@@ -108,7 +109,7 @@ export class OrdersComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
-          placeholder: 'Search'
+          noIcon: true  
         },
       },
       {
