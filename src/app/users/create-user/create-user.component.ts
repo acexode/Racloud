@@ -94,7 +94,6 @@ export class CreateUserComponent implements OnInit {
     if(id){
       this.http.get('./assets/role.json').subscribe((obj:any) =>{
         const data = obj.filter(e => e.id.toString() === id)[0];
-        console.log(data)
         this.userForm.patchValue({
           firstname: data.first_name,
           lastname: data.last_name,
@@ -102,8 +101,8 @@ export class CreateUserComponent implements OnInit {
           role: data.role,
           company: data.company,
         });
-        this.companyLabel = data?.company || 'Select' 
-        this.roleLabel = data.role
+        this.companyLabel = data?.company || 'Select';
+        this.roleLabel = data.role;
       });
     }
   }
