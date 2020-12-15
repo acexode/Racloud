@@ -37,9 +37,12 @@ import { ProductsComponent } from './products/products.component';
 import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
 import { SignupComponent } from './signup/signup.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { ShopComponent } from './shop/shop.component';
 import { CustomerModule } from './customer/customer.module';
 import { LoaderModule } from './shared/loader/loader.module';
 import { LicenseOptionsComponent } from './license-options/license-options.component';
+import { OptionListComponent } from './option-list/option-list.component';
+
 
 @NgModule({
   declarations: [
@@ -59,8 +62,9 @@ import { LicenseOptionsComponent } from './license-options/license-options.compo
     CreateUserComponent,
     SignupComponent,
     CreateUserComponent,
+    ShopComponent,
     LicenseOptionsComponent,
-
+    OptionListComponent,
   ],
   imports: [
     BrowserModule,

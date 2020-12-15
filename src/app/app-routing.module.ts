@@ -1,3 +1,5 @@
+import { OptionListComponent } from './option-list/option-list.component';
+import { ShopComponent } from './shop/shop.component';
 import { LicenseOptionsComponent } from './license-options/license-options.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { OrdersComponent } from './orders/orders.component';
@@ -95,14 +97,24 @@ const routes: Routes = [
     data: { title: 'Licenses Listing' },
   },
   {
-    path: 'licenses-options',
+    path: 'options',
+    component: OptionListComponent,
+    data: { title: 'Options' },
+  },
+  {
+    path: 'new-option',
     component: LicenseOptionsComponent,
-    data: { title: 'Licenses Listing' },
+    data: { title: 'New Option' },
   },
   {
     path: 'create-user',
     component: CreateUserComponent,
     data: { title: 'Create User' },
+  },
+  {
+    path: 'shop',
+    component: ShopComponent,
+    data: { title: 'Shop' },
   },
   { path: '**', redirectTo: '/not-found' },
 ];
