@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@a
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { baseEndpoints } from '../core/configs/endpoints';
+import { dateHelperDMY, dateHelperYear, getUTCdate } from '../core/helpers/dateHelpers';
 import { RequestService } from '../core/services/request/request.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
@@ -111,7 +112,7 @@ export class CustomerComponent implements OnInit {
         },
       },
       {
-        identifier: 'phone',
+        identifier: 'phoneNumber',
         label: 'Phone',
         sortable: true,
         minWidth: 150,
@@ -126,7 +127,7 @@ export class CustomerComponent implements OnInit {
         },
       },
       {
-        identifier: 'email',
+        identifier: 'companyEmail',
         label: 'Email',
         sortable: true,
         minWidth: 250,
@@ -142,7 +143,7 @@ export class CustomerComponent implements OnInit {
         },
       },
       {
-        identifier: 'type',
+        identifier: 'companyType',
         label: 'Type',
         sortable: true,
         minWidth: 130,
@@ -158,7 +159,7 @@ export class CustomerComponent implements OnInit {
         },
       },
       {
-        identifier: 'parent',
+        identifier: 'companyName',
         label: 'Parent',
         sortable: true,
         minWidth: 130,
@@ -220,22 +221,24 @@ export class CustomerComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data) => {
-      if (data) {
+    this.getJSON();
+  }
+  public getJSON(): void {
+    this.reqS.get<any>(baseEndpoints.customers).subscribe(res => {
+      if (res) {
+        const data = res.map((v: any) => {
+          return {
+            ...v,
+            name: `${ v.firstName } ${ v.lastName }`,
+            anniversaryDate: dateHelperDMY(v.anniversaryDate),
+          };
+        });
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
-        const cloneData = data.map((v: any) => {
-          return { ...v };
-        });
-        this.tableData.next(cloneData);
+        this.tableData.next(data);
         this.tableConfig.loadingIndicator = false;
       }
     });
-
-    this.reqS.get<any>(baseEndpoints.customers).subscribe(d => console.log(d));
-  }
-  public getJSON(): Observable<any> {
-    return this.http.get('./assets/ra-table.json');
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
