@@ -181,7 +181,7 @@ export class LicensesListingComponent implements OnInit {
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'right',
+        cellContentPosition: 'left',
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -197,7 +197,7 @@ export class LicensesListingComponent implements OnInit {
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'right',
+        cellContentPosition: 'left',
         hasFilter: true,
         filterConfig: {
           data: null,
