@@ -21,7 +21,7 @@
                 <div class="col-12 mb-14 m-0 p-0">
                     <app-select
                         [config]="selectionConfig('Type')"
-                        formControlName="type"
+                        formControlName="companyType"
                         [options]="typeOptions"
                     ></app-select>
                 </div>
@@ -29,7 +29,7 @@
                 <div class="col-12 m-0 p-0">
                     <app-select
                         [config]="selectionConfig('Parent')"
-                        formControlName="parent"
+                        formControlName="companyName"
                         [options]="parentOptions"
                     ></app-select>
                 </div>
@@ -63,7 +63,7 @@
                 <div class="col-12 mb-14 m-0 p-0">
                     <app-input
                         [config]="inputConfig('Phone', 'tel')"
-                        formControlName="phone"
+                        formControlName="phoneNumber"
                     ></app-input>
                 </div>
 

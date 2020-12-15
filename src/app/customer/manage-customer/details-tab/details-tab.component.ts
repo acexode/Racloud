@@ -1,15 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { baseEndpoints } from 'src/app/core/configs/endpoints';
+import { RequestService } from 'src/app/core/services/request/request.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea-config';
-
+import { get } from 'lodash';
 @Component({
   selector: 'app-details-tab',
   templateUrl: './details-tab.component.html',
   styleUrls: ['./details-tab.component.scss']
 })
-export class DetailsTabComponent implements OnInit {
+export class DetailsTabComponent implements OnInit, OnDestroy {
   @Input() detailsData: any;
   textAreaConfig: TextAreaConfig = {
     textAreaLabel: {
@@ -38,6 +42,11 @@ export class DetailsTabComponent implements OnInit {
       option: 'Mock'
     },
     {
+      id: 'softescu',
+      option: 'Softescu'
+
+    },
+    {
       id: 'pyramid',
       option: 'Pyramid'
     }
@@ -64,13 +73,13 @@ export class DetailsTabComponent implements OnInit {
       '',
       Validators.required,
     ],
-    type: [
+    companyType: [
       '',
       [
         Validators.required,
       ],
     ],
-    parent: [
+    companyName: [
       '',
       [
         Validators.required,
@@ -88,7 +97,7 @@ export class DetailsTabComponent implements OnInit {
         Validators.required,
       ],
     ],
-    phone: [
+    phoneNumber: [
       '',
       [
         Validators.required,
@@ -126,10 +135,19 @@ export class DetailsTabComponent implements OnInit {
       ],
     ],
   });
-  constructor(private fb: FormBuilder) { }
+  route$: Subscription;
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private reqS: RequestService) { }
 
   ngOnInit(): void {
-    this.updateValueForForm(this.detailsData);
+    this.route$ = this.route.params.subscribe(
+      params => {
+        const id = params.id;
+        this.reqS.get<any>(`${ baseEndpoints.customers }/${ id }`).subscribe(res => {
+          console.log(res);
+          this.updateValueForForm(res);
+        });
+      }
+    );
   }
   selectionConfig(label: string): SelectConfig {
     return {
@@ -160,11 +178,25 @@ export class DetailsTabComponent implements OnInit {
   }
   updateValueForForm(data: any) {
     this.componentForm.setValue({
-      ...data
+      // ...data,
+      name: get(data, 'firstName', ''),
+      contactPerson: get(data, 'contactPerson', ''),
+      companyType: get(data, 'companyType', 'Fabricator').toLowerCase(),
+      companyName: get(data, 'companyName', ''),
+      address: get(data, 'address', ''),
+      country: get(data, 'country', ''),
+      phoneNumber: get(data, 'phoneNumber', ''),
+      email: get(data, 'email', ''),
+      anniversaryDate: get(data, 'anniversaryDate', ''),
+      subscriptionFee: get(data, 'subscriptionFee', ''),
+      supportHoursContract: get(data, 'supportHoursContract', ''),
+      supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
     });
   }
   updateProfile() {
     console.log(this.componentForm.value);
   }
-
+  ngOnDestroy(): void {
+    this.route$.unsubscribe();
+  }
 }
