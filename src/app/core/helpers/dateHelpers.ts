@@ -25,13 +25,6 @@ export const dateHelperDMY = (date: Date | string) => {
     return '';
   }
 };
-export const getTomorrowDate = () => {
-  const today = new Date();
-  const tomorrow = new Date( today );
-  tomorrow.setDate( tomorrow.getDate() + 1 );
-  return tomorrow;
-};
-
 // simple
 export const getUTCdate = (pdate: any = null) => {
   const theDate = new Date(pdate) || new Date();
@@ -39,10 +32,9 @@ export const getUTCdate = (pdate: any = null) => {
   return nowUtc;
 };
 
-export const getTommorrowUTCdate = () => {
-  const getTomorrow = getTomorrowDate();
-  const nowUtc = getTomorrow.toISOString();
-  return nowUtc;
+export const UTCdate = (date: any) => {
+  console.log(new Date(date).getUTCDate());
+  return new Date(date).toUTCString();
 };
 
 
