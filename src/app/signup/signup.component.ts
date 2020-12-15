@@ -13,6 +13,7 @@ import { map, tap } from 'rxjs/operators';
 import { authEndpoints } from '../core/configs/endpoints';
 import { LoginResponse } from '../core/models/login-response.interface';
 import { RequestService } from '../core/services/request/request.service';
+import { PasswordValidator } from '../core/validators/password-validator/password-validator';
 import { MessagesService } from '../shared/messages/services/messages.service';
 import { MustMatch } from '../shared/rc-forms/helpers/must-match-validator';
 import { InputConfig } from '../shared/rc-forms/models/input/input-config';
@@ -62,7 +63,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     country: [null, Validators.required],
     language: [null, Validators.required],
   }, {
-    validator: MustMatch('password', 'confirmPassword')
+      validator: PasswordValidator.mismatchedPasswords('password', 'confirmPassword')
   });
   classes = {
     body: 'p-0 d-flex justify-content-center flex-column no-gutters',
