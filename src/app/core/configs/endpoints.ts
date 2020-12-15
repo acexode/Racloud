@@ -4,12 +4,12 @@ export const serverBaseUrl = environment.serverUrl + '/api';
 
 export const baseEndpoints = {
   auth: serverBaseUrl + '/auth',
-  customers: '/customers',
+  customers: serverBaseUrl + '/customers',
 };
 
 export const authEndpoints = {
   login: baseEndpoints.auth + '/login',
   signout: baseEndpoints.auth + '/sign-out',
-  customersSignUp: serverBaseUrl + baseEndpoints.customers + '/signup'
+  customersSignUp: baseEndpoints.customers + '/signup'
 };
 

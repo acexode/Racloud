@@ -162,7 +162,6 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
       ]
     });
   }
-
   ngAfterViewInit() {
     this.showDefaultTab();
     this.cdref.detectChanges();
