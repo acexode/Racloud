@@ -1,5 +1,6 @@
 @import "../variables";
 @import "../mixins";
+@import "./input";
 
 .rc-select {
   select {
@@ -55,6 +56,36 @@
       border: $rc-secondary-focus-outline !important;
     }
   }
+  @extend .rc-form-group;
+  datalist {
+      display: none;
+  }
+
+  ng-select{
+    width: 100%;
+    color: $rc-black !important;
+    border: $rc-accent-blue-60-outline;
+    
+    &:focus-within {
+      color: $rc-black !important;
+      border: $rc-secondary-focus-outline;
+    }
+    .ng-select-container{
+      width: 100%;
+      padding: rem(8) rem(6) rem(8) rem(12) !important;
+      .ng-value-container{
+        .ng-placeholder {
+          color: $rc-grey !important;
+          margin-top: rem(2);
+        }
+        .ng-value{
+          margin-top: rem(8);
+        }
+      }
+      
+    }
+  }
+  
 }
 /* Target Internet Explorer 9 to undo the custom arrow */
 @media screen and (min-width:0\0) {

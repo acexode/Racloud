@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { InputConfigDisabled } from '../shared/rc-forms/configurations/input/input-config-disable';
 import { InputConfigDisabledWithPrefix } from '../shared/rc-forms/configurations/input/input-config-disabled-with-prefix';
 import { InputConfigErrorWithPrefix } from '../shared/rc-forms/configurations/input/input-config-Error-with-prefix';
@@ -91,10 +93,22 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
       isDisabled: true,
     }
   };
+  selectConfigSearchAndSelect: SelectConfig = {
+    selectLabel: {
+      text: 'Label'
+    },
+    placeholder: 'Select Country',
+    idKey: 'code',
+    labelKey: 'name',
+    searchable: true,
+  };
   styleForm: FormGroup;
 
   /* tab */
-
+  tabMarked = {
+    left: '0px',
+    width: '0px',
+  };
   @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
   @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
@@ -103,24 +117,41 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
     {
       name: 'Tab 1',
       template: 'firstTab',
-      isSelected: true
+      isSelected: false,
+      defaultSelected: true,
     },
     {
       name: 'Tab 2 Default',
       template: 'secondTab',
-      isSelected: false
+      isSelected: false,
+      defaultSelected: false,
     },
     {
       name: 'Tab 3 Default',
       template: 'thirdTab',
-      isSelected: false
+      isSelected: false,
+      defaultSelected: false,
     }
   ];
-  /*  */
-  constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef) { }
+  /* end of tab */
+  formGroup = this.fb.group({
+    select: this.fb.control(null),
+  });
+
+  countryOptions$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  constructor(
+    private fb: FormBuilder,
+    private cdref: ChangeDetectorRef,
+    private http: HttpClient
+    ) { }
 
   ngOnInit(): void {
     this.initForm();
+    this.getJSON().subscribe((data) => {
+      if (data) {
+        this.countryOptions$.next(data);
+      }
+    });
   }
 
   initForm() {
@@ -130,6 +161,18 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
         [
           Validators.required,
           Validators.minLength(10),
+        ],
+      ],
+      selectionGeneralDropDown: [
+        '',
+        [
+          Validators.required,
+        ],
+      ],
+      selectWithPrefixAndFill: [
+        'filled',
+        [
+          Validators.required,
         ],
       ],
       textWithPrefix: [
@@ -150,6 +193,11 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
     console.log(this.theInputText.value);
   }
 
+  public getJSON(): Observable<any> {
+    return this.http.get('./assets/list-of-countries.json');
+  }
+
+  /* tab */
   ngAfterViewInit() {
     this.showDefaultTab();
     this.cdref.detectChanges();
@@ -159,15 +207,21 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
     this.tabSwitch = this.firstTab;
   }
 
-  switchTab(tabName: string, index: number) {
+  switchTab(event: any, tabName: string, index: number) {
     this.tabSwitch = this[tabName];
     this.ressetTabSelectStatus();
     // set as active
+    this.tabMarked = {
+      left: `${ event.target.offsetLeft }px`,
+      width: `${ event.target.offsetWidth }px`
+    };
     this.tabs[index].isSelected = true;
   }
   ressetTabSelectStatus() {
     for (const tab of this.tabs) {
       tab.isSelected = false;
+      tab.defaultSelected = false;
     }
   }
+  /* End of tab */
 }

@@ -36,8 +36,15 @@
 
                 <app-tabs [selectedTemplate]="tabSwitch">
                 
-                    <app-tab-bar>
-                        <app-tab-button [selected]="tab.isSelected" (click)="switchTab(tab.template, i)" *ngFor="let tab of tabs; let i = index" >{{ tab.name }}</app-tab-button>
+                    <app-tab-bar [marked]="tabMarked">
+                        <app-tab-button 
+                            [selected]="tab.isSelected" 
+                            [defaultSelected]="tab.defaultSelected" 
+                            (click)="switchTab($event, tab.template, i)" 
+                            *ngFor="let tab of tabs; let i = index"
+                        >
+                            {{ tab.name }}
+                        </app-tab-button>
                     </app-tab-bar>
                 
                 
