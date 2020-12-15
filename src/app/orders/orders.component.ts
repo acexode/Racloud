@@ -103,9 +103,9 @@ export class OrdersComponent implements OnInit {
         minWidth: 200,
         width: 90,
         noGrow: true,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -135,7 +135,7 @@ export class OrdersComponent implements OnInit {
         width: 300,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'right',
+        cellContentPosition: 'left',
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
