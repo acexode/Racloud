@@ -221,6 +221,7 @@ export class CustomerComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
+    // get data for table
     this.getJSON();
   }
   public getJSON(): void {

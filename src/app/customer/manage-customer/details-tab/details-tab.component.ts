@@ -20,8 +20,12 @@ export class DetailsTabComponent implements OnInit {
 
   typeOptions = [
     {
-      id: 'mock',
-      option: 'Mock'
+      id: 'fabricator',
+      option: 'Fabricator'
+    },
+    {
+      id: 'reseller',
+      option: 'Reseller'
     },
     {
       id: 'partner',
