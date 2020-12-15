@@ -6,14 +6,13 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./loader.component.scss']
 })
 export class LoaderComponent implements OnInit {
-  @Input() type: string;
+  @Input() type: string; /* button and page */
   constructor() { }
 
   ngOnInit(): void {
   }
-
-  get loaderClass() {
-    return `loader ${ this.type }`;
+  get loaderType() {
+    return this.type || 'button';
   }
 
 }

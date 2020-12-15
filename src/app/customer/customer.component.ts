@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { baseEndpoints } from '../core/configs/endpoints';
+import { RequestService } from '../core/services/request/request.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
 import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
@@ -74,7 +76,8 @@ export class CustomerComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private reqS: RequestService,
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -228,6 +231,8 @@ export class CustomerComponent implements OnInit {
         this.tableConfig.loadingIndicator = false;
       }
     });
+
+    this.reqS.get<any>(baseEndpoints.customers).subscribe(d => console.log(d));
   }
   public getJSON(): Observable<any> {
     return this.http.get('./assets/ra-table.json');

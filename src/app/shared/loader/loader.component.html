@@ -1,7 +1,8 @@
 <ng-container>
-    <!-- <div [class]="loaderClass"></div> -->
 
-    <div class="loader-b">
+    <div class="loader button" *ngIf="loaderType === 'button'"></div>
+
+    <div class="loader-b" *ngIf="loaderType === 'page'">
         <!-- Loader -->
         <div class="blobs">
             <div class="blob-center"></div>

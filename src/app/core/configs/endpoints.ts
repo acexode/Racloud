@@ -3,11 +3,11 @@ import { environment } from '../../../environments/environment';
 export const serverBaseUrl = environment.serverUrl + '/api';
 
 export const baseEndpoints = {
-  customers: '/customers',
+  customers: serverBaseUrl + '/customers',
 };
 
 export const authEndpoints = {
   login: serverBaseUrl + '/auth/login',
-  customersSignUp: serverBaseUrl + baseEndpoints.customers + '/signup'
+  customersSignUp: baseEndpoints.customers + '/signup'
 };
 
