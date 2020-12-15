@@ -1,5 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
@@ -9,7 +10,10 @@ import { PageContainerConfig } from 'src/app/shared/container/models/page-contai
   templateUrl: './manage-customer.component.html',
   styleUrls: ['./manage-customer.component.scss'],
 })
-export class ManageCustomerComponent implements OnInit, AfterViewInit {
+export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy {
+  route$: Subscription;
+  fetch$: Subscription;
+  detailsData$: BehaviorSubject<any> = new BehaviorSubject({});
   mock = {
     name: 'Abracadabra SRL',
     contactPerson: 'Albert Robertsson',
@@ -23,7 +27,7 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
     subscriptionFee: '123',
     supportHoursContract: '12',
     supportHoursAvailable: '5',
-  }
+  };
 
   /* for tab */
   @ViewChild('detailsTab', { read: TemplateRef }) detailsTab: TemplateRef<any>;
@@ -89,26 +93,36 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    this.cdref.markForCheck();
-    this.route.paramMap.subscribe(
+    this.route$ = this.route.paramMap.subscribe(
       params => {
         const id: any = params.get('id');
+        this.fetchDataForDetails(id).subscribe(
+          res => {
+            if (res) {
+              console.log(res);
+              this.detailsData$.next(res);
+              this.showTab(this.detailsTab);
+            }
+          },
+          err => { }
+        );
       }
     );
+    this.cdref.markForCheck();
   }
 
   fetchDataForDetails(id: any) {
-    const queryEndpoint = baseEndpoints.customers + id;
+    const queryEndpoint = `${ baseEndpoints.customers }/${ id }`;
     return this.reqS.get(queryEndpoint);
   }
   /* tab */
   ngAfterViewInit() {
-    this.showDefaultTab();
+    this.showTab();
     this.cdref.detectChanges();
   }
 
-  showDefaultTab() {
-    this.tabSwitch = this.detailsTab;
+  showTab(tabTemplate: TemplateRef<any> = this.loaderTemplate) {
+    this.tabSwitch = tabTemplate;
   }
 
   switchTab(event: any, tabName: string, index: number) {
@@ -128,5 +142,9 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit {
     }
   }
   /*  */
+  ngOnDestroy(): void {
+    this.route$.unsubscribe();
+    // this.fetch$.unsubscribe();
+  }
 
 }

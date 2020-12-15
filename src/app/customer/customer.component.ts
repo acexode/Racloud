@@ -263,7 +263,6 @@ export class CustomerComponent implements OnInit {
     console.log(id);
   }
   manageSub(data: any) {
-    console.log(data);
     this.router.navigate(['manage', data.id], { relativeTo: this.route });
   }
   renewSub(id: any) {

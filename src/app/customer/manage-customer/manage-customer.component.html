@@ -62,7 +62,7 @@
 
  <ng-template #detailsTab> 
 
-    <app-details-tab [detailsData]="mock"></app-details-tab>
+    <app-details-tab [detailsData]="detailsData" *ngIf="detailsData$ | async as detailsData"></app-details-tab>
 
 </ng-template>
 
@@ -95,7 +95,7 @@
 <ng-template #loaderTemplate>
 
     <div class="w-100 pt-60 pb-30 d-flex flex-column justify-content-center align-items-center">
-        <app-loader type="button"></app-loader>
+        <app-loader type="page"></app-loader>
         <div class="rc-accent-blue-160-color montserrat-semibold-font s15-h24">
             Please wait...
         </div>

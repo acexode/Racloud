@@ -1,8 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
@@ -13,7 +11,7 @@ import { get } from 'lodash';
   templateUrl: './details-tab.component.html',
   styleUrls: ['./details-tab.component.scss']
 })
-export class DetailsTabComponent implements OnInit, OnDestroy {
+export class DetailsTabComponent implements OnInit {
   @Input() detailsData: any;
   textAreaConfig: TextAreaConfig = {
     textAreaLabel: {
@@ -135,19 +133,10 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
       ],
     ],
   });
-  route$: Subscription;
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private reqS: RequestService) { }
 
   ngOnInit(): void {
-    this.route$ = this.route.params.subscribe(
-      params => {
-        const id = params.id;
-        this.reqS.get<any>(`${ baseEndpoints.customers }/${ id }`).subscribe(res => {
-          console.log(res);
-          this.updateValueForForm(res);
-        });
-      }
-    );
+    this.updateValueForForm(this.detailsData);
   }
   selectionConfig(label: string): SelectConfig {
     return {
@@ -192,11 +181,5 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
       supportHoursContract: get(data, 'supportHoursContract', ''),
       supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
     });
-  }
-  updateProfile() {
-    console.log(this.componentForm.value);
-  }
-  ngOnDestroy(): void {
-    this.route$.unsubscribe();
   }
 }
