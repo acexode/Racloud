@@ -109,7 +109,7 @@ export class OrdersComponent implements OnInit {
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
-          noIcon: true  
+          noIcon: true
         },
       },
       {
