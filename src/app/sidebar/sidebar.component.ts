@@ -50,6 +50,12 @@ export class SidebarComponent implements OnInit {
       children: null
     },
     {
+      name: 'Price Lists',
+      url: '/price-list',
+      icon: '../../assets/images/price-list.svg',
+      children: null
+    },
+    {
       name: 'Options',
       url: '/options',
       icon: '../../assets/images/Options-1.svg',
