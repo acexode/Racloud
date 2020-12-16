@@ -42,6 +42,7 @@ import { CustomerModule } from './customer/customer.module';
 import { LoaderModule } from './shared/loader/loader.module';
 import { LicenseOptionsComponent } from './license-options/license-options.component';
 import { OptionListComponent } from './option-list/option-list.component';
+import { PriceListsComponent } from './price-lists/price-lists.component';
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import { OptionListComponent } from './option-list/option-list.component';
     ShopComponent,
     LicenseOptionsComponent,
     OptionListComponent,
+    PriceListsComponent,
   ],
   imports: [
     BrowserModule,
