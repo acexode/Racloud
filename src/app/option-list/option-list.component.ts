@@ -89,7 +89,7 @@ export class OptionListComponent implements OnInit {
     this.tableConfig.selectDetailTemplate = this.selectDetailTemplate;
     this.tableConfig.columns = [
       {
-        identifier: 'name',
+        identifier: 'Name',
         label: 'Option Name',
         sortable: true,
         minWidth: 276,
@@ -104,7 +104,7 @@ export class OptionListComponent implements OnInit {
         },
       },
       {
-        identifier: 'optionType',
+        identifier: 'OptionType',
         label: 'Option Type',
         sortable: true,
         minWidth: 169,
@@ -119,7 +119,7 @@ export class OptionListComponent implements OnInit {
         },
       },
       {
-        identifier: 'optionType',
+        identifier: 'OptionType',
         label: 'Value',
         sortable: false,
         minWidth: 611,
@@ -150,7 +150,7 @@ export class OptionListComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data:any) => {
+    this.service.getOption().subscribe((data:any) => {
       if (data) {
         console.log(data)
         this.tableConfig.loadingIndicator = true;
