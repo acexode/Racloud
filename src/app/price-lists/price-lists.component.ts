@@ -143,7 +143,7 @@ export class PriceListsComponent implements OnInit {
         sortable: true,
         minWidth: 40,
         noGrow: true,
-        headerHasFilterIcon: true,
+        headerHasFilterIcon: false,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
