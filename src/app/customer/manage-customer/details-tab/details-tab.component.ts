@@ -1,11 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { RequestService } from 'src/app/core/services/request/request.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea-config';
 import { get } from 'lodash';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-details-tab',
   templateUrl: './details-tab.component.html',
@@ -49,16 +49,8 @@ export class DetailsTabComponent implements OnInit {
       option: 'Pyramid'
     }
   ];
-  countryOptions = [
-    {
-      id: 'mock',
-      option: 'Mock'
-    },
-    {
-      id: 'netherlands',
-      option: 'Netherlands'
-    }
-  ];
+  countryJsonDataUrl = './assets/list-of-countries.json';
+  countryOptions$: Observable<any>;
   componentForm = this.fb.group({
     name: [
       '',
@@ -133,21 +125,33 @@ export class DetailsTabComponent implements OnInit {
       ],
     ],
   });
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private reqS: RequestService) { }
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient
+  ) { }
 
   ngOnInit(): void {
+    this.countryOptions$ = this.getJSON(this.countryJsonDataUrl);
     this.updateValueForForm(this.detailsData);
   }
-  selectionConfig(label: string): SelectConfig {
+  getJSON(urlPath: string): Observable<any> {
+    return this.http.get(urlPath);
+  }
+  selectConfig(
+    label: string,
+    placeholder: string = 'Select',
+    searchable: boolean = false,
+    idKey: string = 'id',
+    labelKey: string = 'option',
+  ): SelectConfig {
     return {
       selectLabel: {
-        text: label
+        text: label,
       },
-      idKey: 'id',
-      labelKey: 'option',
-      formStatus: {
-        isFilled: true,
-      }
+      placeholder,
+      idKey,
+      labelKey,
+      searchable,
     };
   }
   inputConfig(
@@ -168,8 +172,8 @@ export class DetailsTabComponent implements OnInit {
   updateValueForForm(data: any) {
     this.componentForm.setValue({
       // ...data,
-      name: get(data, 'firstName', ''),
-      contactPerson: get(data, 'contactPerson', ''),
+      name: get(data, 'companyName', ''),
+      contactPerson: `${get(data, 'firstName', '')} ${get(data, 'firstName', '')}`,
       companyType: get(data, 'companyType', 'Fabricator').toLowerCase(),
       companyName: get(data, 'companyName', ''),
       address: get(data, 'address', ''),

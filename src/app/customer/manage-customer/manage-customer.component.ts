@@ -98,6 +98,7 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
         const id: any = params.get('id');
         this.fetchDataForDetails(id).subscribe(
           res => {
+            console.log(res);
             if (res) {
               this.detailsData$.next(res);
               this.showTab(this.detailsTab);
