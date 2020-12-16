@@ -1,3 +1,4 @@
+import { LicenseServiceService } from './../license/license-service.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
@@ -80,14 +81,15 @@ export class OptionListComponent implements OnInit {
     private footerS: FooterService,
     private http: HttpClient,
     private router: Router,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private service: LicenseServiceService
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.selectDetailTemplate = this.selectDetailTemplate;
     this.tableConfig.columns = [
       {
-        identifier: 'optionName',
+        identifier: 'name',
         label: 'Option Name',
         sortable: true,
         minWidth: 276,
@@ -117,7 +119,7 @@ export class OptionListComponent implements OnInit {
         },
       },
       {
-        identifier: 'value',
+        identifier: 'optionType',
         label: 'Value',
         sortable: false,
         minWidth: 611,
@@ -148,8 +150,9 @@ export class OptionListComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data) => {
+    this.getJSON().subscribe((data:any) => {
       if (data) {
+        console.log(data)
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
         const cloneData = data.map((v: any) => {

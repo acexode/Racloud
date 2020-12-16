@@ -47,23 +47,24 @@
 </ng-template>
 
 
-<ng-template #expiredIconTemplate let-column="column" let-value="cellValue">
+<ng-template #expiredIconTemplate let-column="column" let-row="row" let-value="cellValue">
     <div class="table-status-column">
-        <ng-container [ngSwitch]="value">
-            <span class="pb-10" *ngSwitchCase="'Yes'">
+        <ng-container>
+            <span class="pb-10" *ngIf="row.optionType =='Boolean' && row.valueBoolean">
                 <label class="container">Yes
                     <input type="checkbox" checked="checked">
                     <span class="checkmark"></span>
                   </label>
             </span>
-            <span *ngSwitchCase="'No'">
+            <span *ngIf=" row.optionType == 'Boolean' && !row.valueBoolean">
                 <label class="container">No
                     <input type="checkbox">
                     <span class="checkmark"></span>
                   </label>
             </span>
-            <span *ngSwitchCase="0">{{value}}</span>
-            <span *ngSwitchDefault>{{value}}</span>
+            <!-- <span *ngSwitchCase="optionBoolean">{{value}}</span> -->
+            <span *ngIf="row.optionType == 'String'">{{row.valueString}}</span>
+            <span *ngIf="row.optionType == 'ValueList'">{{row.ValueList}}</span>
         </ng-container>
         <img *ngIf="value === 0" src="./../../assets/images/expired.svg" alt="expired-icon" class="isExpired" />
     </div>

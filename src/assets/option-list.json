@@ -1,91 +1,92 @@
 [
     {
-        "id":1,
-        "optionName":"RA Workshop Lite",
-        "optionType":"String",
-        "value":"11 Jan 2022"
-        
+      "id": 1,
+      "name": "BestOpt",
+      "optionType": "String",
+      "valueString": "Unlock All",
+      "valueBoolean": false,
+      "valueList": null,
+      "optionProducts": null
     },
     {
-        "id":2,
-        "optionName":"RA Workshop Express",
-        "optionType":"String",
-        "value":"11 Jan 2022"
-       
+      "id": 2,
+      "name": "Workshop",
+      "optionType": "String",
+      "valueString": "workshop lite",
+      "valueBoolean": false,
+      "valueList": null,
+      "optionProducts": null
     },
     {
-        "id":3,
-        "optionName":"RA Workshop Professional",
-        "optionType":"String",
-        "value":"11 Jan 2022"
+      "id": 3,
+      "name": "Supplier",
+      "optionType": "String",
+      "valueString": "Auplast",
+      "valueBoolean": false,
+      "valueList": null,
+      "optionProducts": null
     },
     {
-        "id":4,
-        "optionName":"RA Workshop CNC Add-on",
-        "optionType":"String",
-        "value":"11 Jan 2022"
-    },{
-        "id":5,
-        "optionName":"RA Workshop Express",
-        "optionType":"Boolean",
-        "value":"Yes"
+      "id": 4,
+      "name": "Partner",
+      "optionType": "String",
+      "valueString": "ABRACADABRA",
+      "valueBoolean": false,
+      "valueList": null,
+      "optionProducts": null
     },
     {
-        "id":6,
-        "optionName":"RA Workshop Lite",
-        "optionType":"Value List",
-        "value":["Export Abyat", "Lorem ipsum", "dolor", "kripke chuks"]
+      "id": 5,
+      "name": "IsClientServer",
+      "optionType": "Boolean",
+      "valueString": null,
+      "valueBoolean": true,
+      "valueList": null,
+      "optionProducts": null
     },
     {
-        "id":7,
-        "optionName":"RA Workshop Express",
-        "optionType":"String",
-        "value":"11 Jan 2022"
+      "id": 6,
+      "name": "Supported Custom Development",
+      "optionType": "ValueList",
+      "valueString": null,
+      "valueBoolean": false,
+      "valueList": null,
+      "optionProducts": null
     },
     {
-        "id":8,
-        "optionName":"RA Workshop Professional",
-        "optionType":"String",
-        "value":"11 Jan 2022"
+      "id": 7,
+      "name": "Supported Custom Developments",
+      "optionType": "ValueList",
+      "valueString": null,
+      "valueBoolean": false,
+      "valueList": null,
+      "optionProducts": null
     },
     {
-        "id":9,
-        "optionName":"RA Workshop CNC Add-on",
-        "optionType":"Boolean",
-        "value":"No"
-    },{
-        "id":10,
-        "optionName":"RA Workshop Express",
-        "optionType":"Value List",
-        "value":["Export Abyat", "Lorem ipsum", "dolor", "kripke chuks"]
+      "id": 8,
+      "name": "SupportedDBAlter",
+      "optionType": "ValueList",
+      "valueString": null,
+      "valueBoolean": false,
+      "valueList": null,
+      "optionProducts": null
     },
     {
-        "id":11,
-        "optionName":"RA Workshop Lite",
-        "optionType":"String",
-        "value":"11 Jan 2022"
+      "id": 9,
+      "name": "SupportedReports",
+      "optionType": "ValueList",
+      "valueString": null,
+      "valueBoolean": false,
+      "valueList": null,
+      "optionProducts": null
     },
     {
-        "id":12,
-        "optionName":"RA Workshop Express",
-        "optionType":"String",
-        "value":"11 Jan 2022"
-    },
-    {
-        "id":13,
-        "optionName":"RA Workshop Professional",
-        "optionType":"String",
-        "value":"11 Jan 2022"
-    },
-    {
-        "id":14,
-        "optionName":"RA Workshop CNC Add-on",
-        "optionType":"String",
-        "value":"11 Jan 2022"
-    },{
-        "id":15,
-        "optionName":"RA Workshop Express",
-        "optionType":"String",
-        "value":"11 Jan 2022"
+      "id": 10,
+      "name": "SupportedFeatures",
+      "optionType": "ValueList",
+      "valueString": null,
+      "valueBoolean": false,
+      "valueList": null,
+      "optionProducts": null
     }
-]
+  ]

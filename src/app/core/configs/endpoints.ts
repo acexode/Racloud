@@ -10,4 +10,8 @@ export const authEndpoints = {
   login: serverBaseUrl + '/auth/login',
   customersSignUp: serverBaseUrl + baseEndpoints.customers + '/signup'
 };
+export const optionEndpoints = {
+  createOption: serverBaseUrl + '/options/create',
+  getOptions: serverBaseUrl + '/options'
+};
 

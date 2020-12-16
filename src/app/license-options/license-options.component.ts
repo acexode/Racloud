@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { LicenseServiceService } from './../license/license-service.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { InputConfig } from '../shared/rc-forms/models/input/input-config';
 import { SelectConfig } from '../shared/rc-forms/models/select/select-config';
@@ -69,34 +69,11 @@ export class LicenseOptionsComponent implements OnInit {
   optionForm: FormGroup;
   selectedType = '';
   selectedStatus: any;
-  constructor(private fb: FormBuilder, private router : Router,
-    private cdref: ChangeDetectorRef,private http: HttpClient,
-    private route: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, private service: LicenseServiceService,
+    private router: Router, private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
     this.initForm();
-    if(id){
-      this.http.get('./assets/option-list.json').subscribe((obj:any) =>{
-        const data = obj.filter(e => e.id.toString() === id)[0];
-        const type = data.optionType === 'Value List' ? 'list' : data.optionType.toLowerCase();
-        console.log(data)
-        console.log(type)
-        this.optionForm.patchValue({
-          optionName: data.optionName,
-          optionType: type,
-          optionString: data.value,
-          defaultStatus: data.value
-        });
-        this.selectedType = type
-        if(type === 'list'){
-          data.value.forEach(val => {
-            this.valueLists.push(this.fb.group({value:val}));
-          });
-        }
-      });
-      this.cdref.detectChanges();
-    }
   }
   initForm() {
     this.optionForm = this.fb.group({
@@ -126,10 +103,14 @@ export class LicenseOptionsComponent implements OnInit {
   get valueLists() {
     return this.optionForm.get('valueList') as FormArray;
   }
-  addValue(){
+  addValue(e){
+    e.preventDefault();
     const val = this.optionForm.get('optionListName').value;
-    console.log(val)
-    this.valueLists.push(this.fb.group({value:val}));
+    this.valueLists.push(
+      this.fb.group(
+        {value: (this.valueLists.length + 1), name: val}
+      )
+    );
     this.setFormValue('optionListName','');
   }
   deleteValue(index) {
@@ -137,11 +118,11 @@ export class LicenseOptionsComponent implements OnInit {
   }
   onChange(option) {
     this.selectedType =option;
-    console.log(option)
     this.setFormValue('optionType',option);
-    this.cdref.detectChanges();
+    this.cdRef.detectChanges();
   }
-  setStatus(button) {
+  setStatus(event, button) {
+    event.preventDefault();
     if (button === this.selectedStatus) {
       this.setFormValue('defaultStatus',button.title);
       this.selectedStatus = undefined;
@@ -157,6 +138,33 @@ export class LicenseOptionsComponent implements OnInit {
   }
 
   submit(){
-    console.log(this.optionForm.value);
+    const values = this.optionForm.value
+    console.log(values)
+    const bool = values.defaultStatus === 'True' ? true : values.defaultStatus === 'False' ? false : null;
+    const optionType = this.getType(values.optionType)
+    let obj:any = {
+      "name": values.optionName,
+      "optionType": optionType,  
+    }
+    if(optionType === 'ValueList'){
+      obj.valueList = values.valueList
+    }else if(optionType === 'Boolean'){
+      obj.valueBoolean = bool
+    }else{
+      obj.valueString = values.optionString
+    }
+    console.log(obj);
+    this.service.createOption(obj).subscribe(e =>{
+      console.log(e)
+    })
+  }
+  getType(val){
+    if(val === 'list'){
+      return 'ValueList';
+    }else if(val === 'string'){
+      return 'String';
+    }else if(val === 'boolean'){
+      return 'Boolean';
+    }
   }
 }

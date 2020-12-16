@@ -8,6 +8,7 @@ import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-conf
 import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
+import { LicenseServiceService } from '../license-service.service';
 
 
 @Component({
@@ -75,7 +76,8 @@ export class LicensesListingComponent implements OnInit {
     private tS: TableService,
     private http: HttpClient,
     private router: Router,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private service: LicenseServiceService
   ) { }
   ngOnInit(): void {
     console.log(this.actionDropdown)
