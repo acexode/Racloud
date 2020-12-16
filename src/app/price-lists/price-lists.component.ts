@@ -19,8 +19,6 @@ export class PriceListsComponent implements OnInit {
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
   @ViewChild('selectT', { static: true }) selectT: any;
-
-  @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   containerConfig: PageContainerConfig = {

@@ -8,12 +8,8 @@
                     <h1 class="customers-title">Price lists</h1>
                 </div>
                 <div class="col-auto float-right ml-auto d-flex flex-direction-row align-items-center">
-                    <app-toggle class="mr-32">
-                        Own licenses
-                    </app-toggle>
-                    <!--  -->
                     <app-button type="button" color="primary">
-                        Buy license
+                        Add price list
                     </app-button>
                     <!--  -->
                 </div>
@@ -47,16 +43,3 @@
     </div>
     
   </ng-template>
-
-
-<ng-template #expiredIconTemplate let-column="column" let-value="cellValue">
-    <div class="table-status-column">
-        <ng-container [ngSwitch]="value">
-            <span *ngSwitchCase="1">Active</span>
-            <span *ngSwitchCase="2">InActive</span>
-            <span *ngSwitchCase="0">Expired</span>
-            <span *ngSwitchDefault>Expired</span>
-        </ng-container>
-        <img *ngIf="value === 0" src="./../../assets/images/expired.svg" alt="expired-icon" class="isExpired" />
-    </div>
-</ng-template>
