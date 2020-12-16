@@ -21,7 +21,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'customer'
+    redirectTo: 'style'
   },
   {
     path: 'home',

@@ -8,5 +8,6 @@ export interface SelectConfig {
     idKey?: string;
     labelKey?: string;
     disabled?: boolean;
+    searchable?: boolean;
     formStatus?: FormStatus;
 }

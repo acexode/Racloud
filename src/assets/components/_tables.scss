@@ -88,6 +88,7 @@
       letter-spacing: 0;
       line-height: rem(12);
       color: $rc-accent-blue-160;
+      white-space: normal !important;
       &:last-child {
         border-right: none;
       }
@@ -551,3 +552,4 @@
   @include flex-direction(row);
   @include justify-content(space-between);
 }
+

@@ -5,6 +5,8 @@
 @import "assets/variables";
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import "assets/theme";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
 
 html {
   height: 100%;
