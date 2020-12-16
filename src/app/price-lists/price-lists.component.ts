@@ -67,7 +67,8 @@ export class PriceListsComponent implements OnInit {
     externalPaging: false,
     externalSorting: false,
     loadingIndicator: true,
-    action: true
+    action: true,
+    noFiltering: true,
   };
   constructor(
     private tS: TableService,
@@ -76,14 +77,13 @@ export class PriceListsComponent implements OnInit {
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
-    console.log(this.actionDropdown);
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
         identifier: 'name',
         label: 'Name',
         sortable: true,
-        minWidth: 161,
+        minWidth: 160,
         width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -98,11 +98,11 @@ export class PriceListsComponent implements OnInit {
         identifier: 'currency',
         label: 'Currency',
         sortable: true,
-        minWidth: 104,
+        minWidth: 312,
         width: 100,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -113,7 +113,7 @@ export class PriceListsComponent implements OnInit {
         identifier: 'created',
         label: 'Created',
         sortable: true,
-        minWidth: 160,
+        minWidth: 312,
         width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -128,7 +128,7 @@ export class PriceListsComponent implements OnInit {
         identifier: 'noOfProducts',
         label: 'No. Of Products',
         sortable: true,
-        minWidth: 104,
+        minWidth: 312,
         width: 300,
         sortIconPosition: 'left',
         labelPosition: 'right',
@@ -166,7 +166,7 @@ export class PriceListsComponent implements OnInit {
     });
   }
   public getJSON(): Observable<any> {
-    return this.http.get('./assets/ra-table-license.json');
+    return this.http.get('./assets/price-lists.json');
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(

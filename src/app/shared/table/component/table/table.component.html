@@ -250,7 +250,7 @@
             ></ng-container>
           </ng-container>
         </div>
-        <div class="second-row d-flex">
+        <div class="second-row d-flex" *ngIf="!config.noFiltering">
           <ng-container
             *ngTemplateOutlet="tableInput; context: { $implicit: data }"
           ></ng-container>
