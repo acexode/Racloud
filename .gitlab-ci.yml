@@ -10,7 +10,6 @@ ng-lint:
   except:
     -  /^cherry-pick*/
     - first-setup
-
   script:
     - npm install
     - ng lint
