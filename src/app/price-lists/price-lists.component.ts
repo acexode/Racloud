@@ -113,9 +113,9 @@ export class PriceListsComponent implements OnInit {
         sortable: true,
         minWidth: 312,
         width: 100,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'left',
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
