@@ -150,7 +150,7 @@ export class OptionListComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data:any) => {
+    this.service.getOption().subscribe((data:any) => {
       if (data) {
         console.log(data)
         this.tableConfig.loadingIndicator = true;
@@ -196,6 +196,6 @@ export class OptionListComponent implements OnInit {
     this.ref.detectChanges();
   }
   toString(arr: any[]) {
-    return  arr.map(e => e.Name).join(', ')
+    return  arr.map(e => e.Name).join(', ');
   }
 }
