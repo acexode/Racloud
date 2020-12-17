@@ -65,6 +65,8 @@
     width: 100%;
     color: $rc-black !important;
     border: $rc-accent-blue-60-outline;
+    font-size: rem(14) !important;
+    line-height: rem(16) !important;
     
     &:focus-within {
       color: $rc-black !important;
