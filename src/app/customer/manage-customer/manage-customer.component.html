@@ -23,9 +23,10 @@
           <!--  -->
 
           <h1
-            class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0"
+            class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0 text-capitalize"
+            *ngIf="detailsData$ | async as detailsData"
           >
-           {{ mock.name }} (Mock Name) <!-- do well to replace -->
+           {{ detailsData.companyName }} <!-- do well to replace -->
           </h1>
         </div>
       </div>

@@ -14,21 +14,6 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
   route$: Subscription;
   fetch$: Subscription;
   detailsData$: BehaviorSubject<any> = new BehaviorSubject({});
-  mock = {
-    name: 'Abracadabra SRL',
-    contactPerson: 'Albert Robertsson',
-    type: 'partner',
-    parent: 'pyramid',
-    address: 'Kromme Nieuwegracht, 3512 HK Utrecht',
-    country: 'netherlands',
-    phone: '0123 456 789',
-    email: 'abracadabra@email.com',
-    anniversaryDate: '31 December 2021',
-    subscriptionFee: '123',
-    supportHoursContract: '12',
-    supportHoursAvailable: '5',
-  };
-
   /* for tab */
   @ViewChild('detailsTab', { read: TemplateRef }) detailsTab: TemplateRef<any>;
   @ViewChild('loaderTemplate', { read: TemplateRef }) loaderTemplate: TemplateRef<any>;
@@ -97,8 +82,7 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
       params => {
         const id: any = params.get('id');
         this.fetchDataForDetails(id).subscribe(
-          res => {
-            console.log(res);
+          (res: any) => {
             if (res) {
               this.detailsData$.next(res);
               this.showTab(this.detailsTab);
