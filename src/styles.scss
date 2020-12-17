@@ -96,3 +96,6 @@ html {
 .page-title{
   color: $rc-accent-blue-160;
 }
+.datatable-body-cell {
+  overflow: hidden !important;
+}

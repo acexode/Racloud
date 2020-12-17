@@ -64,7 +64,7 @@
             </span>
             <!-- <span *ngSwitchCase="optionBoolean">{{value}}</span> -->
             <span *ngIf="row.OptionType == 'String'">{{row.ValueString}}</span>
-            <span *ngIf="row.OptionType == 'ValueList'">{{row.ValueList}}</span>
+            <span class="wrap" *ngIf="row.OptionType == 'ValueList'">{{toString(row.ValueList)}}</span>
         </ng-container>
         <img *ngIf="value === 0" src="./../../assets/images/expired.svg" alt="expired-icon" class="isExpired" />
     </div>
@@ -73,11 +73,11 @@
     <div class="table-status-column w-100">
         <table class="w-100">
             <tbody class="w-100">
-                <tr *ngFor="let val of row.value" class="tables-cell8">
+                <tr *ngFor="let val of row.ValueList" class="tables-cell8">
                     <td style="width:80px"></td>
                     <td style="width:276px"></td>
                     <td style="width:169px"></td>
-                    <td style="width:611px;">{{val}}</td>
+                    <td style="width:611px;">{{val.Name}}</td>
                 </tr>
             </tbody>
         </table>

@@ -2,52 +2,57 @@
   {
     "Id": 1,
     "Name": "BestOpt",
-    "OptionType": 0,
+    "OptionType": "String",
     "ValueString": "Unlock All",
     "ValueBoolean": false,
     "ValueList": [],
-    "OptionProducts": null
+    "ProductOptions": null,
+    "LicenseOptions": null
   },
   {
     "Id": 2,
     "Name": "Workshop",
-    "OptionType": 0,
+    "OptionType": "String",
     "ValueString": "workshop lite",
     "ValueBoolean": false,
     "ValueList": [],
-    "OptionProducts": null
+    "ProductOptions": null,
+    "LicenseOptions": null
   },
   {
     "Id": 3,
     "Name": "Supplier",
-    "OptionType": 0,
+    "OptionType": "String",
     "ValueString": "Auplast",
     "ValueBoolean": false,
     "ValueList": [],
-    "OptionProducts": null
+    "ProductOptions": null,
+    "LicenseOptions": null
   },
   {
     "Id": 4,
     "Name": "Partner",
-    "OptionType": 0,
+    "OptionType": "String",
     "ValueString": "ABRACADABRA",
     "ValueBoolean": false,
     "ValueList": [],
-    "OptionProducts": null
+    "ProductOptions": null,
+    "LicenseOptions": null
   },
   {
     "Id": 5,
     "Name": "IsClientServer",
-    "OptionType": 1,
+    "OptionType": "Boolean",
     "ValueString": null,
     "ValueBoolean": true,
     "ValueList": [],
-    "OptionProducts": null
+    "ProductOptions": null,
+    "LicenseOptions": null
   },
   {
     "Id": 6,
     "Name": "Supported Custom Development",
-    "OptionType": 2,
+    "OptionType": "ValueList",
     "ValueString": null,
     "ValueBoolean": false,
     "ValueList": [
@@ -58,12 +63,13 @@
         "Value": 0
       }
     ],
-    "OptionProducts": null
+    "ProductOptions": null,
+    "LicenseOptions": null
   },
   {
     "Id": 7,
     "Name": "Supported Custom Developments",
-    "OptionType": 2,
+    "OptionType": "ValueList",
     "ValueString": null,
     "ValueBoolean": false,
     "ValueList": [
@@ -104,12 +110,13 @@
         "Value": 6
       }
     ],
-    "OptionProducts": null
+    "ProductOptions": null,
+    "LicenseOptions": null
   },
   {
     "Id": 8,
     "Name": "SupportedDBAlter",
-    "OptionType": 2,
+    "OptionType": "ValueList",
     "ValueString": null,
     "ValueBoolean": false,
     "ValueList": [
@@ -168,12 +175,13 @@
         "Value": 9
       }
     ],
-    "OptionProducts": null
+    "ProductOptions": null,
+    "LicenseOptions": null
   },
   {
     "Id": 9,
     "Name": "SupportedReports",
-    "OptionType": 2,
+    "OptionType": "ValueList",
     "ValueString": null,
     "ValueBoolean": false,
     "ValueList": [
@@ -214,12 +222,13 @@
         "Value": 6
       }
     ],
-    "OptionProducts": null
+    "ProductOptions": null,
+    "LicenseOptions": null
   },
   {
     "Id": 10,
     "Name": "SupportedFeatures",
-    "OptionType": 2,
+    "OptionType": "ValueList",
     "ValueString": null,
     "ValueBoolean": false,
     "ValueList": [
@@ -272,12 +281,13 @@
         "Value": 8
       }
     ],
-    "OptionProducts": null
+    "ProductOptions": null,
+    "LicenseOptions": null
   },
   {
     "Id": 11,
     "Name": "Test Custom Dev",
-    "OptionType": 2,
+    "OptionType": "ValueList",
     "ValueString": "",
     "ValueBoolean": false,
     "ValueList": [
@@ -288,12 +298,13 @@
         "Value": 4
       }
     ],
-    "OptionProducts": null
+    "ProductOptions": null,
+    "LicenseOptions": null
   },
   {
     "Id": 12,
     "Name": "supprot",
-    "OptionType": 2,
+    "OptionType": "ValueList",
     "ValueString": null,
     "ValueBoolean": false,
     "ValueList": [
@@ -310,12 +321,13 @@
         "Value": 2
       }
     ],
-    "OptionProducts": null
+    "ProductOptions": null,
+    "LicenseOptions": null
   },
   {
     "Id": 13,
     "Name": "lorem ipsum",
-    "OptionType": 2,
+    "OptionType": "ValueList",
     "ValueString": null,
     "ValueBoolean": false,
     "ValueList": [
@@ -326,6 +338,17 @@
         "Value": 0
       }
     ],
-    "OptionProducts": null
+    "ProductOptions": null,
+    "LicenseOptions": null
+  },
+  {
+    "Id": 14,
+    "Name": "Classic_Limited_Qudus_Edition",
+    "OptionType": "String",
+    "ValueString": "string",
+    "ValueBoolean": false,
+    "ValueList": [],
+    "ProductOptions": null,
+    "LicenseOptions": null
   }
 ]

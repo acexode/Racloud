@@ -93,7 +93,7 @@ export class OptionListComponent implements OnInit {
         label: 'Option Name',
         sortable: true,
         minWidth: 276,
-        width: 100,
+        width: 276,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -107,11 +107,10 @@ export class OptionListComponent implements OnInit {
         identifier: 'OptionType',
         label: 'Option Type',
         sortable: true,
-        minWidth: 169,
-        width: 100,
+        width: 169,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'right',
+        cellContentPosition: 'left',
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -123,10 +122,11 @@ export class OptionListComponent implements OnInit {
         label: 'Value',
         sortable: false,
         minWidth: 611,
+        width: 611,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'right',
+        cellContentPosition: 'left',
         cellTemplate: this.expiredIconTemplate,
         hasFilter: true,
         filterConfig: {
@@ -150,7 +150,7 @@ export class OptionListComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.service.getOption().subscribe((data:any) => {
+    this.getJSON().subscribe((data:any) => {
       if (data) {
         console.log(data)
         this.tableConfig.loadingIndicator = true;
@@ -194,5 +194,8 @@ export class OptionListComponent implements OnInit {
       this.isDropup = true;
     }
     this.ref.detectChanges();
+  }
+  toString(arr: any[]) {
+    return  arr.map(e => e.Name).join(', ')
   }
 }
