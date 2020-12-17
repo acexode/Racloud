@@ -143,8 +143,8 @@ export class LicenseOptionsComponent implements OnInit {
     const bool = values.defaultStatus === 'True' ? true : values.defaultStatus === 'False' ? false : null;
     const optionType = this.getType(values.optionType)
     let obj:any = {
-      "name": values.optionName,
-      "optionType": optionType,
+      'name': values.optionName,
+      'optionType': optionType,
     }
     if(optionType === 'ValueList'){
       obj.valueList = values.valueList
