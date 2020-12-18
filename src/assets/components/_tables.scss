@@ -88,6 +88,7 @@
       letter-spacing: 0;
       line-height: rem(12);
       color: $rc-accent-blue-160;
+      white-space: normal !important;
       &:last-child {
         border-right: none;
       }
@@ -97,6 +98,7 @@
         border-bottom: rem(1) solid $rc-accent-blue-60;
         padding: rem(8) rem(12) rem(8) rem(12);
         height: rem(40);
+        word-wrap: break-word !important;
         svg {
           color: $rc-accent-blue;
         }
@@ -104,6 +106,9 @@
           &.ext-sort-icon-down {
             transform: rotate(180deg);
           }
+        }
+        .first-row > div::nth-child(2){
+          background: green;
         }
       }
       .second-row {
@@ -492,7 +497,7 @@
   }
 }
 .detail-arrow {
-  margin-top: -3px;
+  padding: -3px 10px;
 }
 
 .ngx-datatable.bootstrap .datatable-body .progress-linear {
@@ -547,3 +552,4 @@
   @include flex-direction(row);
   @include justify-content(space-between);
 }
+

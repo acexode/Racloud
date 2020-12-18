@@ -1,0 +1,13 @@
+<div class="w-100 mt-64 mb-24">
+    <span class="shop">Shop</span>
+</div>
+<div class="w-100">
+    <div class="rc-card-grid row">
+
+        <div *ngFor="let shop of shops" class="col-3 mb-32">
+            
+            <app-shop-card [item]="shop" ></app-shop-card>
+        </div>
+        
+    </div>
+</div>

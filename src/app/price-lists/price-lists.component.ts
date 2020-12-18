@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FooterService } from '../core/services/footer/footer.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
 import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
@@ -10,18 +10,15 @@ import { TableI } from '../shared/table/models/table.interface';
 import { TableService } from '../shared/table/services/table.service';
 
 @Component({
-  selector: 'app-licenses-listing',
-  templateUrl: './licenses-listing.component.html',
-  styleUrls: ['./licenses-listing.component.scss']
+  selector: 'app-price-lists',
+  templateUrl: './price-lists.component.html',
+  styleUrls: ['./price-lists.component.scss']
 })
-export class LicensesListingComponent implements OnInit {
+export class PriceListsComponent implements OnInit {
+  isDropup = true;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
-  @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
+  @ViewChild('actionDropdown', { static: true }) actionDropdown;
   @ViewChild('selectT', { static: true }) selectT: any;
-
-  @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
-
-
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   containerConfig: PageContainerConfig = {
@@ -68,24 +65,23 @@ export class LicensesListingComponent implements OnInit {
     externalPaging: false,
     externalSorting: false,
     loadingIndicator: true,
-    action: true
+    action: true,
+    noFiltering: true,
   };
-  isDropup: boolean;
   constructor(
     private tS: TableService,
-    private footerS: FooterService,
     private http: HttpClient,
-
+    private router: Router,
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'product-name',
-        label: 'Product Name',
+        identifier: 'name',
+        label: 'Name',
         sortable: true,
-        minWidth: 237,
+        minWidth: 160,
         width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -97,10 +93,25 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'purchased',
-        label: 'Purchased',
+        identifier: 'currency',
+        label: 'Currency',
         sortable: true,
-        minWidth: 160,
+        minWidth: 312,
+        width: 100,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        },
+      },
+      {
+        identifier: 'created',
+        label: 'Created',
+        sortable: true,
+        minWidth: 312,
         width: 100,
         sortIconPosition: 'left',
         labelPosition: 'right',
@@ -112,10 +123,10 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'expires',
-        label: 'Expires',
+        identifier: 'noOfProducts',
+        label: 'No. Of Products',
         sortable: true,
-        minWidth: 160,
+        minWidth: 312,
         width: 300,
         sortIconPosition: 'left',
         labelPosition: 'right',
@@ -127,61 +138,12 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'status',
-        label: 'Status',
-        sortable: true,
-        minWidth: 161,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        cellTemplate: this.expiredIconTemplate,
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'partner-license',
-        label: 'Partner license',
-        sortable: true,
-        minWidth: 160,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'renew',
-        label: 'Renew by User Company',
-        sortable: true,
-        minWidth: 220,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
         identifier: 'action',
         label: '',
         sortable: true,
-        minWidth: 60,
+        minWidth: 40,
         noGrow: true,
-        headerHasFilterIcon: true,
+        headerHasFilterIcon: false,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -202,7 +164,7 @@ export class LicensesListingComponent implements OnInit {
     });
   }
   public getJSON(): Observable<any> {
-    return this.http.get('./assets/ra-table-license.json');
+    return this.http.get('./assets/price-lists.json');
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
@@ -213,15 +175,12 @@ export class LicensesListingComponent implements OnInit {
     this.tableData.next(newRows);
   }
 
-  removeRow(id: any) {
-    console.log(id);
+  removeRow(id: any) { }
+  manageSub(data: any) {
+    this.router.navigate(['licenses/license-edit', { id: data.id }]);
+    console.log(data);
   }
-  manageSub(id: any) {
-    console.log(id);
-  }
-  renewSub(id: any) {
-    console.log(id);
-  }
+  renewSub(id: any) { }
 
   setDropUp(row) {
     const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
@@ -235,3 +194,4 @@ export class LicensesListingComponent implements OnInit {
   }
 
 }
+

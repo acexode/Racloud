@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputComponent } from './components/input/input.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectComponent } from './components/select/select.component';
 import { ButtonComponent } from './components/button/button.component';
 import { ChipsComponent } from './components/chips/chips.component';
@@ -27,7 +28,9 @@ import { TextareaComponent } from './components/textarea/textarea.component';
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule, /* imported for ng-select */
+    NgSelectModule,
   ],
   exports: [
     InputComponent,

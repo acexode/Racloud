@@ -13,14 +13,14 @@
   (select)="onSelect($event)"
   [scrollbarH]="true"
   [rowClass]="rowClass"
-  [reorderable]="false"
+  [reorderable]="false" 
   [sorts]="[{ dir: 'asc' }]"
   [externalPaging]="config?.externalPaging"
   [externalSorting]="config?.externalSorting"
   [loadingIndicator]="config?.loadingIndicator"
 >
   <ngx-datatable-row-detail
-    *ngIf="config?.selectDetail"
+    *ngIf="config?.expand"
     [rowHeight]="'auto'"
     #myDetailRow
   >
@@ -29,11 +29,12 @@
       let-expanded="expanded"
       ngx-datatable-row-detail-template
     >
+    <!-- *ngIf="config?.selectDetail && config?.selectDetailTemplate" -->
       <ng-container
-        *ngIf="config?.selectDetail && config?.selectDetailTemplate"
         [ngTemplateOutlet]="config?.selectDetailTemplate"
         [ngTemplateOutletContext]="{ row: row }"
       >
+       
       </ng-container>
     </ng-template>
   </ngx-datatable-row-detail>
@@ -100,7 +101,7 @@
           </div>
         </div> </ng-template></ngx-datatable-column
   ></ng-container> -->
-  <ng-container *ngIf="config?.selectable && config?.selectDetail">
+  <ng-container *ngIf="config?.selectable">
     <ngx-datatable-column
       [width]="80"
       [minWidth]="80"
@@ -146,7 +147,7 @@
       >
         <div class="d-flex flex-row m-0 p-0">
           <div
-            *ngIf="config?.selectable"
+            *ngIf="config?.selectable && config.selectDetail"
             class="datatable-body-cell-label custom-control custom-checkbox form-check"
           >
             <input
@@ -161,17 +162,17 @@
               for="{{ rowIndex }}"
             ></label>
           </div>
-          <div class="detail-arrow pl-3" *ngIf="config?.selectDetail">
+          <div class="detail-arrow" *ngIf="config?.expand">
             <svg-icon
               *ngIf="expanded"
-              [src]="'../assets/images/Chevron-down-green.svg'"
+              [src]="'../assets/images/Minus.svg'"
               applyClass="true"
               alt="Icon"
               (click)="toggleExpandRow(row)"
             ></svg-icon>
             <svg-icon
-              *ngIf="!expanded"
-              [src]="'../assets/images/Chevron-right-green.svg'"
+              *ngIf="!expanded && isArray(row)"
+              [src]="'../assets/images/darkPlus.svg'"
               class="detail-icon"
               applyClass="true"
               alt="Icon"
@@ -249,7 +250,7 @@
             ></ng-container>
           </ng-container>
         </div>
-        <div class="second-row d-flex">
+        <div class="second-row d-flex" *ngIf="!config.noFiltering">
           <ng-container
             *ngTemplateOutlet="tableInput; context: { $implicit: data }"
           ></ng-container>

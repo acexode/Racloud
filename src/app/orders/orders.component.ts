@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FooterService } from '../core/services/footer/footer.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
@@ -19,6 +19,8 @@ export class OrdersComponent implements OnInit {
   isDropup = true;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl;
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
+  @ViewChild('valueTemplate', { static: true }) valueTemplate: TemplateRef<any>;
+  @ViewChild('discountTemplate', { static: true }) discountTemplate: TemplateRef<any>;
   @ViewChild('selectT', { static: true }) selectT;
 
   rowData: Array<any> = [];
@@ -66,6 +68,7 @@ export class OrdersComponent implements OnInit {
     columns: [],
     externalPaging: false,
     externalSorting: false,
+    loadingIndicator: true,
     action: true
   };
   constructor(
@@ -94,6 +97,22 @@ export class OrdersComponent implements OnInit {
         },
       },
       {
+        identifier: 'customer',
+        label: 'Customer',
+        sortable: true,
+        minWidth: 200,
+        width: 90,
+        noGrow: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        },
+      },
+      {
         identifier: 'date',
         label: 'Date',
         sortable: true,
@@ -116,7 +135,7 @@ export class OrdersComponent implements OnInit {
         width: 300,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'right',
+        cellContentPosition: 'left',
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -132,6 +151,7 @@ export class OrdersComponent implements OnInit {
         sortIconPosition: 'left',
         labelPosition: 'right',
         cellContentPosition: 'right',
+        cellTemplate: this.valueTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -148,6 +168,7 @@ export class OrdersComponent implements OnInit {
         sortIconPosition: 'left',
         labelPosition: 'right',
         cellContentPosition: 'right',
+        cellTemplate: this.discountTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -164,6 +185,7 @@ export class OrdersComponent implements OnInit {
         sortIconPosition: 'left',
         labelPosition: 'right',
         cellContentPosition: 'right',
+        cellTemplate: this.valueTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,
