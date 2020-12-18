@@ -157,5 +157,6 @@ export class AddEditProductComponent implements OnInit {
   }
   submitForm(){
   console.log(this.productForm.value);
+    this.productS.createProducts(this.productForm.value)
   }
 }

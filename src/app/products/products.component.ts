@@ -103,7 +103,7 @@ export class ProductsComponent implements OnInit {
         width: 150,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'right',
+        cellContentPosition: 'left',
       },
       {
         identifier: 'Description',
@@ -112,8 +112,8 @@ export class ProductsComponent implements OnInit {
         minWidth: 100,
         width: 100,
         sortIconPosition: 'right',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
       },
       {
         identifier: 'ProductType',
@@ -122,8 +122,8 @@ export class ProductsComponent implements OnInit {
         minWidth: 150,
         noGrow: true,
         sortIconPosition: 'right',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
         hasFilter: true,
       },
       {
@@ -135,7 +135,7 @@ export class ProductsComponent implements OnInit {
         headerHasFilterIcon: false,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'right',
+        cellContentPosition: 'left',
         hasFilter: false,
         cellTemplate: this.actionDropdown
       },
