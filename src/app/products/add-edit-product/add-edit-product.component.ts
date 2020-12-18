@@ -155,7 +155,6 @@ export class AddEditProductComponent implements OnInit {
       tab.defaultSelected = false;
     }
   }
-  
   submitForm(){
   console.log(this.productForm.value);
   }
