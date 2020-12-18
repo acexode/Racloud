@@ -88,6 +88,8 @@ export class ProductsComponent implements OnInit {
         minWidth: 200,
         width: 90,
         noGrow: true,
+        labelPosition: 'left',
+        cellContentPosition: 'left',
       },
       {
         identifier: 'currency',
