@@ -44,7 +44,6 @@ import { LicenseOptionsComponent } from './license-options/license-options.compo
 import { OptionListComponent } from './option-list/option-list.component';
 import { PriceListsComponent } from './price-lists/price-lists.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,7 +65,7 @@ import { PriceListsComponent } from './price-lists/price-lists.component';
     ShopComponent,
     LicenseOptionsComponent,
     OptionListComponent,
-    PriceListsComponent,
+    PriceListsComponent
   ],
   imports: [
     BrowserModule,

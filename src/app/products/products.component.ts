@@ -1,3 +1,5 @@
+import { ProductServiceService } from './product-service.service';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, HostListener, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -71,8 +73,10 @@ export class ProductsComponent implements OnInit {
   constructor(
     private tS: TableService,
     private footerS: FooterService,
+    private productS: ProductServiceService,
     private http: HttpClient,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -82,8 +86,8 @@ export class ProductsComponent implements OnInit {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'name',
-        label: 'Name',
+        identifier: 'Application',
+        label: 'Apllication Name',
         sortable: true,
         minWidth: 200,
         width: 90,
@@ -92,8 +96,8 @@ export class ProductsComponent implements OnInit {
         cellContentPosition: 'left',
       },
       {
-        identifier: 'currency',
-        label: 'Currency',
+        identifier: 'Name',
+        label: 'Name',
         sortable: true,
         minWidth: 150,
         width: 150,
@@ -102,8 +106,8 @@ export class ProductsComponent implements OnInit {
         cellContentPosition: 'right',
       },
       {
-        identifier: 'created',
-        label: 'Created',
+        identifier: 'Description',
+        label: 'Description',
         sortable: true,
         minWidth: 100,
         width: 100,
@@ -112,8 +116,8 @@ export class ProductsComponent implements OnInit {
         cellContentPosition: 'right',
       },
       {
-        identifier: 'num_products',
-        label: 'No. of products',
+        identifier: 'ProductType',
+        label: 'Product Type',
         sortable: true,
         minWidth: 150,
         noGrow: true,
@@ -136,7 +140,7 @@ export class ProductsComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data) => {
+    this.productS.getProducts().subscribe((data:any) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
@@ -172,8 +176,9 @@ setDropUp(row) {
 removeRow(id){
   console.log(id);
 }
-manageSub(id){
-  console.log(id);
+manageSub(data: any) {
+  this.router.navigate(['products/edit-product', { id: data.Id }]);
+  console.log(data)
 }
 
 }
