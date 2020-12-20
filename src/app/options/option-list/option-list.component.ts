@@ -1,13 +1,15 @@
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FooterService } from '../core/services/footer/footer.service';
-import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
-import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
-import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
-import { TableFilterType } from '../shared/table/models/table-filter-types';
-import { TableI } from '../shared/table/models/table.interface';
-import { TableService } from '../shared/table/services/table.service';
+import { FooterService } from 'src/app/core/services/footer/footer.service';
+import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
+import { omnBsConfig } from 'src/app/shared/date-picker/data/omn-bsConfig';
+import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
+import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
+import { TableI } from 'src/app/shared/table/models/table.interface';
+import { TableService } from 'src/app/shared/table/services/table.service';
+
 
 @Component({
   selector: 'app-option-list',
@@ -78,7 +80,7 @@ export class OptionListComponent implements OnInit {
     private tS: TableService,
     private footerS: FooterService,
     private http: HttpClient,
-
+    private router: Router,
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
@@ -174,8 +176,9 @@ export class OptionListComponent implements OnInit {
   removeRow(row) {
     console.log(row);
   }
-  manageSub(id: any) {
-    console.log(id);
+  manageSub(data: any) {
+    // option-edit
+    this.router.navigate(['options/option-edit', { id: data.id }]);
   }
   renewSub(id: any) {
     console.log(id);

@@ -1,16 +1,16 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
-import { InputConfig } from '../shared/rc-forms/models/input/input-config';
-import { SelectConfig } from '../shared/rc-forms/models/select/select-config';
+import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
+import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
+
 
 @Component({
-  selector: 'app-license-options',
-  templateUrl: './license-options.component.html',
-  styleUrls: ['./license-options.component.scss']
+  selector: 'app-options-add-edit',
+  templateUrl: './options-add-edit.component.html',
+  styleUrls: ['./options-add-edit.component.scss']
 })
-export class LicenseOptionsComponent implements OnInit {
+export class OptionsAddEditComponent implements OnInit {
 
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/options';
@@ -101,11 +101,17 @@ export class LicenseOptionsComponent implements OnInit {
   get valueLists() {
     return this.optionForm.get('valueList') as FormArray;
   }
-  addValue(){
+  addValue(e){
+    e.preventDefault();
     const val = this.optionForm.get('optionListName').value;
-    this.valueLists.push(this.fb.group({value:val}));
+    this.valueLists.push(
+      this.fb.group(
+        {value: (this.valueLists.length + 1), name: val}
+      )
+    );
     this.setFormValue('optionListName','');
   }
+
   deleteValue(index) {
     this.valueLists.removeAt(index);
   }
@@ -114,7 +120,8 @@ export class LicenseOptionsComponent implements OnInit {
     this.setFormValue('optionType',option);
     this.cdRef.detectChanges();
   }
-  setStatus(button) {
+  setStatus(event, button) {
+    event.preventDefault();
     if (button === this.selectedStatus) {
       this.setFormValue('defaultStatus',button.title);
       this.selectedStatus = undefined;
@@ -128,8 +135,32 @@ export class LicenseOptionsComponent implements OnInit {
       onlySelf: false
     });
   }
-
   submit(){
-    console.log(this.optionForm.value);
+    const values = this.optionForm.value
+    console.log(values)
+    const bool = values.defaultStatus === 'True' ? true : values.defaultStatus === 'False' ? false : null;
+    const optionType = this.getType(values.optionType)
+    const obj:any = {
+      name: values.optionName,
+      optionType,
+    }
+    if(optionType === 'ValueList'){
+      obj.valueList = values.valueList
+    }else if(optionType === 'Boolean'){
+      obj.valueBoolean = bool
+    }else{
+      obj.valueString = values.optionString
+    }
+    console.log(obj);
   }
+  getType(val){
+    if(val === 'list'){
+      return 'ValueList';
+    }else if(val === 'string'){
+      return 'String';
+    }else if(val === 'boolean'){
+      return 'Boolean';
+    }
+  }
+
 }

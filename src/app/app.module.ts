@@ -40,9 +40,9 @@ import { CreateUserComponent } from './create-user/create-user.component';
 import { ShopComponent } from './shop/shop.component';
 import { CustomerModule } from './customer/customer.module';
 import { LoaderModule } from './shared/loader/loader.module';
-import { LicenseOptionsComponent } from './license-options/license-options.component';
-import { OptionListComponent } from './option-list/option-list.component';
+
 import { OptionTabComponent } from './option-tab/option-tab.component';
+
 
 
 @NgModule({
@@ -64,8 +64,6 @@ import { OptionTabComponent } from './option-tab/option-tab.component';
     SignupComponent,
     CreateUserComponent,
     ShopComponent,
-    LicenseOptionsComponent,
-    OptionListComponent,
     OptionTabComponent,
   ],
   imports: [
