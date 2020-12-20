@@ -19,6 +19,7 @@ import { LicenseServiceService } from 'src/app/license/license-service.service';
 })
 export class OptionListComponent implements OnInit {
 
+  @ViewChild('optionType', { static: true }) optionType: TemplateRef<any>;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('selectDetailTemplate', { static: true }) selectDetailTemplate: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
@@ -105,13 +106,14 @@ export class OptionListComponent implements OnInit {
         },
       },
       {
-        identifier: 'OptionType',
+        identifier: 'Id',
         label: 'Option Type',
         sortable: true,
         width: 169,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
+        cellTemplate: this.optionType,
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
