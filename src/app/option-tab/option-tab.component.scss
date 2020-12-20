@@ -1,22 +1,15 @@
-::ng-deep {
-    .progress-linear {
-      position: relative !important;
-  
-      .lContainer {
-        max-width: 100% !important;
-      }
-    }
-  }
-
-  .lContainer {
+@import "../../assets/variables";
+.rc-checkbox {
+    margin: 0 !important;
+}
+.container {
     display: block;
     position: relative;
-    padding: 0.75rem;
-    
+    padding-left: 25px;
+    margin-bottom: 12px;
     cursor: pointer;
     font-size: 14px;
-    height: 40px;
-    width: 40px;    
+    line-height: 25px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -24,7 +17,7 @@
   }
   
   /* Hide the browser's default checkbox */
-  .lContainer input {
+  .container input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -44,9 +37,9 @@
     border: 2px solid #A4A7BF;
   }
   
-  .lContainer input:checked ~ .checkmark {
+  .container input:checked ~ .checkmark {
     background-color: #D9471F;
-    border: 2px solid  #D9471F;
+    border: 2px solid #D9471F;
   }
   
   /* Create the checkmark/indicator (hidden when not checked) */
@@ -57,12 +50,12 @@
   }
   
   /* Show the checkmark when checked */
-  .lContainer input:checked ~ .checkmark:after {
+  .container input:checked ~ .checkmark:after {
     display: block;
   }
   
   /* Style the checkmark/indicator */
-  .lContainer .checkmark:after {
+  .container .checkmark:after {
     left: 6px;
     top: 1px;
     width: 5px;
@@ -72,4 +65,40 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+  }
+  .tables-cell8 {
+    width: 100%;
+    height: 40px !important;
+    border-bottom: 1px dotted $medium-grey-2;
+  }
+  .tables-cell8 td {
+    color: #878999;
+    padding-left: 8px;
+  }
+  .options {
+    color: #464976;
+    font-family: Montserrat;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 40px;
+  }
+  .administration {
+    display: block;
+    color: #6A7098;
+    font-family: Montserrat;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    line-height: 16px;
+  }
+  .text {   
+    color: #878999 !important;
+    font-family: "Helvetica Neue";
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 16px;
+  }
+  .chevron{
+      margin-top: -1px;
   }

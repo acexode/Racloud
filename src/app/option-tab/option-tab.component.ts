@@ -1,5 +1,3 @@
-import { LicenseServiceService } from './../license/license-service.service';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -12,12 +10,13 @@ import { TableI } from '../shared/table/models/table.interface';
 import { TableService } from '../shared/table/services/table.service';
 
 @Component({
-  selector: 'app-option-list',
-  templateUrl: './option-list.component.html',
-  styleUrls: ['./option-list.component.scss']
+  selector: 'app-option-tab',
+  templateUrl: './option-tab.component.html',
+  styleUrls: ['./option-tab.component.scss']
 })
-export class OptionListComponent implements OnInit {
+export class OptionTabComponent implements OnInit {
 
+  @ViewChild('colmunDropDownTemplate', { static: true }) colmunDropDownTemplate: TemplateRef<any>;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('selectDetailTemplate', { static: true }) selectDetailTemplate: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
@@ -38,6 +37,7 @@ export class OptionListComponent implements OnInit {
     },
   };
   rows = [];
+  rowValue = null;
   rowDetailIcons = [
     '../../assets/images/Edit.svg',
     '../../assets/images/Log.svg',
@@ -66,9 +66,9 @@ export class OptionListComponent implements OnInit {
   });
   tableConfig: TableI = {
     selectable: true,
-    selectDetail: false,
+    selectDetail: true,
     hoverDetail: true,
-    expand: true,
+    expand: false,
     columns: [],
     externalPaging: false,
     externalSorting: true,
@@ -80,20 +80,19 @@ export class OptionListComponent implements OnInit {
     private tS: TableService,
     private footerS: FooterService,
     private http: HttpClient,
-    private router: Router,
-    private ref: ChangeDetectorRef,
-    private service: LicenseServiceService
+
+    private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.selectDetailTemplate = this.selectDetailTemplate;
     this.tableConfig.columns = [
       {
-        identifier: 'Name',
+        identifier: 'option-name',
         label: 'Option Name',
         sortable: true,
         minWidth: 276,
-        width: 276,
+        width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -104,13 +103,14 @@ export class OptionListComponent implements OnInit {
         },
       },
       {
-        identifier: 'OptionType',
+        identifier: 'option-type',
         label: 'Option Type',
         sortable: true,
-        width: 169,
+        minWidth: 169,
+        width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'left',
+        cellContentPosition: 'right',
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -118,16 +118,15 @@ export class OptionListComponent implements OnInit {
         },
       },
       {
-        identifier: 'OptionType',
+        identifier: 'value',
         label: 'Value',
         sortable: false,
-        minWidth: 611,
-        width: 611,
+        minWidth: 427,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'left',
-        cellTemplate: this.expiredIconTemplate,
+        cellContentPosition: 'right',
+        cellTemplate: this.colmunDropDownTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -136,11 +135,11 @@ export class OptionListComponent implements OnInit {
         },
       },
       {
-        identifier: 'action',
-        label: '',
+        identifier: 'partner_access',
+        label: 'Partner Access',
         sortable: true,
-        minWidth: 60,
-        width: 60,
+        minWidth: 152,
+        width: 112,
         noGrow: true,
         headerHasFilterIcon: true,
         sortIconPosition: 'right',
@@ -149,10 +148,23 @@ export class OptionListComponent implements OnInit {
         hasFilter: true,
         cellTemplate: this.actionDropdown
       },
+      {
+        identifier: 'user_access',
+        label: 'User Access',
+        sortable: true,
+        minWidth: 152,
+        width: 112,
+        noGrow: true,
+        headerHasFilterIcon: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'right',
+        hasFilter: true,
+        cellTemplate: this.actionDropdown
+      }
     ];
-    this.service.getOption().subscribe((data:any) => {
+    this.getJSON().subscribe((data) => {
       if (data) {
-        console.log(data)
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
         const cloneData = data.map((v: any) => {
@@ -178,8 +190,8 @@ export class OptionListComponent implements OnInit {
   removeRow(row) {
     console.log(row);
   }
-  manageSub(data: any) {
-    this.router.navigate(['new-option', { id: data.id }]);
+  manageSub(id: any) {
+    console.log(id);
   }
   renewSub(id: any) {
     console.log(id);
@@ -195,7 +207,17 @@ export class OptionListComponent implements OnInit {
     }
     this.ref.detectChanges();
   }
-  toString(arr: any[]) {
-    return  arr.map(e => e.Name).join(', ');
+  isArray(value){
+    return Array.isArray(value);
+  }
+  isString(value) {
+    return typeof value === 'string';
+  }
+  toString(value:[]) {;
+    return value.join(', ');
+  }
+  getRow(item){
+    this.rowValue = item.selected[0]
+    console.log(item.selected[0])
   }
 }

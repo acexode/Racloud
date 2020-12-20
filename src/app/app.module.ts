@@ -40,9 +40,15 @@ import { CreateUserComponent } from './create-user/create-user.component';
 import { ShopComponent } from './shop/shop.component';
 import { CustomerModule } from './customer/customer.module';
 import { LoaderModule } from './shared/loader/loader.module';
+<<<<<<< HEAD
 import { LicenseOptionsComponent } from './license-options/license-options.component';
 import { OptionListComponent } from './option-list/option-list.component';
 import { PriceListsComponent } from './price-lists/price-lists.component';
+=======
+
+import { OptionTabComponent } from './option-tab/option-tab.component';
+
+>>>>>>> rc-24
 
 
 @NgModule({
@@ -64,9 +70,13 @@ import { PriceListsComponent } from './price-lists/price-lists.component';
     SignupComponent,
     CreateUserComponent,
     ShopComponent,
+<<<<<<< HEAD
     LicenseOptionsComponent,
     OptionListComponent,
     PriceListsComponent,
+=======
+    OptionTabComponent,
+>>>>>>> rc-24
   ],
   imports: [
     BrowserModule,

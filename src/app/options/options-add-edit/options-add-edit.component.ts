@@ -1,17 +1,17 @@
-import { LicenseServiceService } from './../license/license-service.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
-import { InputConfig } from '../shared/rc-forms/models/input/input-config';
-import { SelectConfig } from '../shared/rc-forms/models/select/select-config';
+import { LicenseServiceService } from 'src/app/license/license-service.service';
+import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
+import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
+
 
 @Component({
-  selector: 'app-license-options',
-  templateUrl: './license-options.component.html',
-  styleUrls: ['./license-options.component.scss']
+  selector: 'app-options-add-edit',
+  templateUrl: './options-add-edit.component.html',
+  styleUrls: ['./options-add-edit.component.scss']
 })
-export class LicenseOptionsComponent implements OnInit {
+export class OptionsAddEditComponent implements OnInit {
 
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/options';
@@ -113,6 +113,7 @@ export class LicenseOptionsComponent implements OnInit {
     );
     this.setFormValue('optionListName','');
   }
+
   deleteValue(index) {
     this.valueLists.removeAt(index);
   }
@@ -136,7 +137,6 @@ export class LicenseOptionsComponent implements OnInit {
       onlySelf: false
     });
   }
-
   submit(){
     const values = this.optionForm.value
     console.log(values)
@@ -167,4 +167,5 @@ export class LicenseOptionsComponent implements OnInit {
       return 'Boolean';
     }
   }
+
 }
