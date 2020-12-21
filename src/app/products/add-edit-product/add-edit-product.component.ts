@@ -63,6 +63,12 @@ export class AddEditProductComponent implements OnInit {
   selectedRenewBtn;
 
   controlStore: { [key: string]: AbstractControl; } = {};
+  textAreaConfig: TextAreaConfig = {
+    textAreaLabel: {
+      text: 'Description'
+    },
+    placeholder: ''
+  };
   inputConfig(
     label: string,
     type: string = 'text',
@@ -85,12 +91,6 @@ export class AddEditProductComponent implements OnInit {
       },
     };
   }
-  textAreaConfig: TextAreaConfig = {
-    textAreaLabel: {
-      text: 'Description'
-    },
-    placeholder: ''
-  };
   constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef,
     private productS: ProductServiceService, private service: LicenseServiceService,
      private route: ActivatedRoute,) { }
