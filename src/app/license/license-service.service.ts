@@ -1,5 +1,6 @@
-import { optionEndpoints } from './../core/configs/endpoints';
+
 import { Injectable } from '@angular/core';
+import { optionEndpoints } from '../core/configs/endpoints';
 import { RequestService } from '../core/services/request/request.service';
 
 @Injectable({
