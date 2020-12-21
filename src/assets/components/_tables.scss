@@ -551,5 +551,6 @@
   @include flexbox;
   @include flex-direction(row);
   @include justify-content(space-between);
+  @include align-items(center);
 }
 

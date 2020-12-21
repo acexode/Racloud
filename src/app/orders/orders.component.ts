@@ -21,7 +21,8 @@ export class OrdersComponent implements OnInit {
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
   @ViewChild('valueTemplate', { static: true }) valueTemplate: TemplateRef<any>;
   @ViewChild('discountTemplate', { static: true }) discountTemplate: TemplateRef<any>;
-  @ViewChild('selectT', { static: true }) selectT;
+  @ViewChild('selectT', { static: true }) selectT: any;
+  @ViewChild('statusTemplate', { static: true }) statusTemplate: TemplateRef<any>;
 
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
@@ -84,7 +85,7 @@ export class OrdersComponent implements OnInit {
         identifier: 'number',
         label: 'Number',
         sortable: true,
-        minWidth: 200,
+        minWidth: 125,
         width: 90,
         noGrow: true,
         sortIconPosition: 'left',
@@ -100,7 +101,7 @@ export class OrdersComponent implements OnInit {
         identifier: 'customer',
         label: 'Customer',
         sortable: true,
-        minWidth: 200,
+        minWidth: 273,
         width: 90,
         noGrow: true,
         sortIconPosition: 'right',
@@ -116,7 +117,7 @@ export class OrdersComponent implements OnInit {
         identifier: 'date',
         label: 'Date',
         sortable: true,
-        minWidth: 150,
+        minWidth: 100,
         width: 100,
         sortIconPosition: 'left',
         labelPosition: 'right',
@@ -131,11 +132,12 @@ export class OrdersComponent implements OnInit {
         identifier: 'status',
         label: 'Status',
         sortable: true,
-        minWidth: 150,
+        minWidth: 270,
         width: 300,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
+        cellTemplate: this.statusTemplate,
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -146,7 +148,7 @@ export class OrdersComponent implements OnInit {
         identifier: 'value',
         label: 'Value',
         sortable: true,
-        minWidth: 150,
+        minWidth: 111,
         noGrow: true,
         sortIconPosition: 'left',
         labelPosition: 'right',
@@ -163,7 +165,7 @@ export class OrdersComponent implements OnInit {
         identifier: 'discount',
         label: 'Discount',
         sortable: true,
-        minWidth: 150,
+        minWidth: 111,
         noGrow: true,
         sortIconPosition: 'left',
         labelPosition: 'right',
@@ -180,7 +182,7 @@ export class OrdersComponent implements OnInit {
         identifier: 'total',
         label: 'Total value',
         sortable: true,
-        minWidth: 130,
+        minWidth: 111,
         noGrow: true,
         sortIconPosition: 'left',
         labelPosition: 'right',
@@ -197,7 +199,7 @@ export class OrdersComponent implements OnInit {
         identifier: 'action',
         label: '',
         sortable: false,
-        minWidth: 60,
+        minWidth: 40,
         noGrow: true,
         headerHasFilterIcon: true,
         sortIconPosition: 'right',
