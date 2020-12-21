@@ -69,7 +69,7 @@ export class DetailsTabComponent implements OnInit {
         Validators.required,
       ],
     ],
-    companyName: [
+    parentCompanyName: [
       '',
       [
         Validators.required,
@@ -170,12 +170,11 @@ export class DetailsTabComponent implements OnInit {
     };
   }
   updateValueForForm(data: any) {
-    this.componentForm.setValue({
-      // ...data,
+    const d = {
       name: get(data, 'companyName', ''),
-      contactPerson: `${get(data, 'firstName', '')} ${get(data, 'firstName', '')}`,
+      contactPerson: `${ get(data, 'firstName', '') } ${ get(data, 'firstName', '') }`,
       companyType: get(data, 'companyType', 'Fabricator').toLowerCase(),
-      companyName: get(data, 'companyName', ''),
+      parentCompanyName: get(get(data, 'parent', ''), 'companyName', ''),
       address: get(data, 'address', ''),
       country: get(data, 'country', ''),
       phoneNumber: get(data, 'phoneNumber', ''),
@@ -184,6 +183,8 @@ export class DetailsTabComponent implements OnInit {
       subscriptionFee: get(data, 'subscriptionFee', ''),
       supportHoursContract: get(data, 'supportHoursContract', ''),
       supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
-    });
+    };
+    console.log(d);
+    this.componentForm.setValue({...d});
   }
 }

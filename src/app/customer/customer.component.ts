@@ -84,7 +84,7 @@ export class CustomerComponent implements OnInit {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'name',
+        identifier: 'companyName',
         label: 'Name',
         sortable: true,
         minWidth: 200,
@@ -230,8 +230,8 @@ export class CustomerComponent implements OnInit {
         const data = res.map((v: any) => {
           return {
             ...v,
-            name: `${ v.firstName } ${ v.lastName }`,
             anniversaryDate: getUTCdate(v.anniversaryDate),
+            parent: v?.parent?.companyName,
           };
         });
         this.tableConfig.loadingIndicator = true;
