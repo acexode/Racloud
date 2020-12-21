@@ -15,6 +15,8 @@ import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-confi
 export class CreateUserComponent implements OnInit {
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/users';
+  isEdit = false;
+  user = {}
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -92,8 +94,10 @@ export class CreateUserComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.initForm();
     if(id){
+      this.isEdit = true;
       this.http.get('./assets/role.json').subscribe((obj:any) =>{
         const data = obj.filter(e => e.id.toString() === id)[0];
+        this.user = data;
         this.userForm.patchValue({
           firstname: data.first_name,
           lastname: data.last_name,

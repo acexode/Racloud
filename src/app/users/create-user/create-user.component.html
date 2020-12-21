@@ -17,7 +17,8 @@
                 <div class="col">  
                   <a [routerLink]="[backUrl]" class="pyramid-title">
                    <span class="pyramid">PYRAMID</span></a>
-                <h3 class="new-user">New User</h3>            
+                <h3 *ngIf="!isEdit" class="new-user">New User</h3>            
+                <h3 *ngIf="isEdit" class="new-user">{{ user.first_name | titlecase }} {{ user.last_name | titlecase }}</h3>            
               </div>       
             </div>
       </div>
