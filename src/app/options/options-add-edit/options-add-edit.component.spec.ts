@@ -1,20 +1,21 @@
+import { OptionsAddEditComponent } from './options-add-edit.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LicenseOptionsComponent } from './license-options.component';
 
-describe('LicenseOptionsComponent', () => {
-  let component: LicenseOptionsComponent;
-  let fixture: ComponentFixture<LicenseOptionsComponent>;
+
+describe('OptionsAddEditComponent', () => {
+  let component: OptionsAddEditComponent;
+  let fixture: ComponentFixture<OptionsAddEditComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LicenseOptionsComponent ]
+      declarations: [ OptionsAddEditComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LicenseOptionsComponent);
+    fixture = TestBed.createComponent(OptionsAddEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -59,7 +59,7 @@
                                     <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Default Status?</label>
                                 <div class="rc-form-group rc-form-group-without-prefix" >
                                     <input type="text" hidden formControlName="defaultStatus">
-                                    <app-chips *ngFor="let button of booleanOptions" class="mr-2"  [color]="(selectedStatus == button) ? 'selected' : 'default'" (click)="setStatus(button)">
+                                    <app-chips *ngFor="let button of booleanOptions" class="mr-2"  [color]="(selectedStatus == button) ? 'selected' : 'default'" (click)="setStatus($event, button)">
                                         {{button.title}}
                                     </app-chips>
                                 </div>
@@ -74,7 +74,7 @@
 
                                         </div>
                                         <div class="col-1">
-                                            <button (click)="addValue()" class="addBtn"><img                                        
+                                            <button (click)="addValue($event)" class="addBtn"><img                                        
                                                 src="assets/images/Plus.svg" 
                                                 class="rc-checkbox-icon"
                                             ></button>
@@ -93,30 +93,25 @@
                                 </div>
                                 <div class="col-5 offset-md-2" formArrayName="valueList">
                                     <div class="row" *ngFor="let item of valueLists.controls; let valueIndex=index" [formGroupName]="valueIndex">
-                                    <div >
-                                        <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">
-                                        Value {{valueIndex + 1}} 
-                                    </label>
-                                    <input class="form-input" formControlName="value" />                                 
+                                    <div class="w-100 row" >
+                                        <div class="form-group">
+                                            <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">
+                                            Value {{valueIndex + 1}} 
+                                        </label>
+                                        <input class="form-input" formControlName="name" />                                 
 
-                                    </div>
-                                    <div>
+                                        </div>
+
                                         <button (click)="deleteValue(valueIndex)" class="addBtn del"><img                                        
                                             src="assets/images/Delete.svg" 
                                                 
                                                 class="rc-checkbox-icon"
                                             ></button>
-
                                     </div>
-                                    
                                     </div>
                                 </div>
-                                
                             </div>
-                            <div class="form-row">                                
-                                
-                            </div>
-                           
+                            
                             
                         </form>
                 </app-tabs>
