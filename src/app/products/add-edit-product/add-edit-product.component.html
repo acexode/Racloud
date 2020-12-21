@@ -57,11 +57,15 @@
                     <ng-template #firstTab> 
                         <form [formGroup]="productForm" class="row infoForm" (ngSubmit)="submitForm()">
                             <div class="col-6 mb-14">
-                                <app-select
-                                    [config]="selectionConfig('Application Name')"
-                                    formControlName="application"
-                                ></app-select>
-                                
+                                <label
+                      class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Application Name</label>
+                    <div class="rc-select"> <select formcontrolname="application"
+                        (change)="onChange($event.target.value, 'application')" class="ng-pristine ng-valid ng-touched">
+                        <option *ngIf="!isEdit" selected disabled>Select</option>
+                        <option *ngFor="let product of productOptions" [selected]="product.Application" [value]="product.Application">
+                          {{product.Application}} </option>
+                      </select>
+                            </div>
                             </div>
                             <div class="col-6 mb-14">
                                 <app-input
@@ -70,10 +74,15 @@
                             ></app-input>
                                 </div>
                             <div class="col-6 mb-14">
-                                <app-select
-                                [config]="selectionConfig('Product Type')"
-                                formControlName="productType"
-                            ></app-select>
+                              <label
+                              class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Product Type</label>
+                            <div class="rc-select"> <select formcontrolname="productType"
+                                (change)="onChange($event.target.value, 'productType')" class="ng-pristine ng-valid ng-touched">
+                                <option *ngIf="!isEdit" selected disabled>Select</option>
+                                <option *ngFor="let product of productOptions"  [value]="product.ProductType" [selected]="product.ProductType">
+                                  {{product.ProductType}} </option>
+                              </select>
+                                    </div>
                             </div>
                          
                             <div class="col-12 mb-6 mb-14">

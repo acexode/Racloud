@@ -1,7 +1,7 @@
 import { ProductServiceService } from './../product-service.service';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, AbstractControl, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
@@ -18,6 +18,8 @@ export class AddEditProductComponent implements OnInit {
   optionList = [];
   isEdit = false
   product: any;
+  selectedRows : any[] = []
+  productOptions: any[] = []
   @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
   @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
@@ -101,6 +103,7 @@ export class AddEditProductComponent implements OnInit {
     if(id){
       this.isEdit = true
       this.productS.getProducts().subscribe((obj:any) =>{
+        this.productOptions = obj
         const data = obj.filter(e => e.Id.toString() === id)[0];
         console.log(data)
         this.product = data
@@ -111,6 +114,11 @@ export class AddEditProductComponent implements OnInit {
           description: data.Description
         });
       });
+    }else{
+      this.productS.getProducts().subscribe((obj:any) =>{
+        console.log(obj)
+        this.productOptions = obj
+      })
     }
   }
   initForm() {
@@ -138,7 +146,8 @@ export class AddEditProductComponent implements OnInit {
         [
           Validators.required,
         ],
-      ]
+      ],
+      selectedOptions: this.fb.array([])
     });
   }
   ngAfterViewInit() {
@@ -164,11 +173,30 @@ export class AddEditProductComponent implements OnInit {
       tab.defaultSelected = false;
     }
   }
+  onChange(option, field) {
+    console.log(field)
+    console.log(option)
+    this.productForm.get(field).patchValue(option)
+    // this.selectedType =option;
+    // this.setFormValue('optionType',option);
+    // this.cdRef.detectChanges();
+  }
+  get selectedOptions() {
+    return this.productForm.get('selectedOptions') as FormArray;
+  }
   submitForm(){
+  console.log(this.selectedRows);
   console.log(this.productForm.value);
-    this.productS.createProducts(this.productForm.value)
+    // this.productS.createProducts(this.productForm.value)
   }
   getRow(row){
-    console.log(row)
+    this.selectedRows = row.selected.map(e =>{
+      return {
+        optionId: e.Id,
+        userAccess: '',
+        partnerAccess: ''
+      }
+    })
+    console.log(this.selectedRows)
   }
 }
