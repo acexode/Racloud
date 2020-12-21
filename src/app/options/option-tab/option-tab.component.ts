@@ -38,7 +38,7 @@ export class OptionTabComponent implements OnInit {
       body: 'no-shadow',
     },
   };
-  access = ["Editable", "Hidden", "Read Only"]
+  access = ['Editable', 'Hidden', 'Read Only']
   rows = [];
   rowValue = null;
   rowDetailIcons = [
