@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LicenseOptionsComponent } from './license-options.component';
+import { PriceListsComponent } from './price-lists.component';
 
-describe('LicenseOptionsComponent', () => {
-  let component: LicenseOptionsComponent;
-  let fixture: ComponentFixture<LicenseOptionsComponent>;
+describe('PriceListsComponent', () => {
+  let component: PriceListsComponent;
+  let fixture: ComponentFixture<PriceListsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LicenseOptionsComponent ]
+      declarations: [ PriceListsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LicenseOptionsComponent);
+    fixture = TestBed.createComponent(PriceListsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

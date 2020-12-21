@@ -12,4 +12,8 @@ export const authEndpoints = {
   signout: baseEndpoints.auth + '/sign-out',
   customersSignUp: baseEndpoints.customers + '/signup'
 };
+export const optionEndpoints = {
+  createOption: serverBaseUrl + '/options/create',
+  getOptions: serverBaseUrl + '/options'
+};
 

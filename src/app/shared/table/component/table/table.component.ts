@@ -158,6 +158,6 @@ export class TableComponent implements OnInit {
     this.sortingData.emit(column);
   }
   isArray(row) {
-    return Array.isArray(row.value);
+    return row.ValueList.length
   }
 }
