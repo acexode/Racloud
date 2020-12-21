@@ -29,7 +29,7 @@
                       class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Option Type </label>
                     <div class="rc-select"> <select formcontrolname="optionType"
                         (change)="onChange($event.target.value)" class="ng-pristine ng-valid ng-touched">
-                        <option *ngFor="let type of OptionList" [disabled]="type.disabled" [value]="type.id">
+                        <option *ngFor="let type of OptionList" [disabled]="type.disabled" [selected]="selectedType == type.id" [value]="type.id">
                           {{type.option}} </option>
                       </select> </div>
                   </div>

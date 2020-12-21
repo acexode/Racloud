@@ -201,7 +201,7 @@ export class OptionListComponent implements OnInit {
     this.ref.detectChanges();
   }
   toString(arr: any[]) {
-    let str =   arr.map(e => e.Name).slice(0,5).join(', ');
+    const str =   arr.map(e => e.Name).slice(0,5).join(', ');
     if(arr.length > 5){
       return str + '...'
     }else{

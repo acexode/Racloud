@@ -79,7 +79,6 @@ export class OptionsAddEditComponent implements OnInit {
       this.isEdit = true
       this.service.getOption().subscribe((obj:any[]) =>{
         const data = obj.filter(e => e.Id.toString() === id)[0];
-        console.log(data)
         this.optionForm.patchValue({
           optionName: data.Name,
           optionType: data.OptionType,
@@ -97,6 +96,10 @@ export class OptionsAddEditComponent implements OnInit {
               )
             );
           })
+        }
+        if(data.OptionType === 'Boolean'){
+          const btn = data.ValueBoolean === true ? this.booleanOptions[0] : this.booleanOptions[1]
+          this.selectedStatus = btn;
         }
       })
     }else{
@@ -147,7 +150,6 @@ export class OptionsAddEditComponent implements OnInit {
     this.valueLists.removeAt(index);
   }
   onChange(option) {
-    console.log(option)
     this.selectedType =option;
     this.setFormValue('optionType',option);
     this.cdRef.detectChanges();
@@ -183,7 +185,6 @@ export class OptionsAddEditComponent implements OnInit {
     }else{
       obj.valueString = values.optionString
     }
-    console.log(obj);
     this.service.createOption(obj).subscribe(e =>{
       console.log(e)
     })
