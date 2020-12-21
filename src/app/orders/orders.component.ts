@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FooterService } from '../core/services/footer/footer.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
@@ -76,7 +77,9 @@ export class OrdersComponent implements OnInit {
     private tS: TableService,
     private footerS: FooterService,
     private http: HttpClient,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -245,8 +248,9 @@ setDropUp(row) {
 removeRow(id){
   console.log(id);
 }
-manageSub(id){
-  console.log(id);
+manageSub(data: any){
+  console.log(data);
+  this.router.navigate(['orders-details', data.id], { relativeTo: this.route });
 }
 
 

@@ -1,0 +1,113 @@
+<app-page-container [config]="containerConfig">
+  <div class="w-100" container-body>
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <!--  -->
+          <app-button
+            color="tertiary"
+            [routerLink]="[backUrl]"
+            [class]="
+              'd-flex align-items-center rc-accent-blue-160-color montserrat-semibold-font ml-n20'
+            "
+          >
+            <svg-icon
+              [class]="'icon-w16-h16 mr-1'"
+              [src]="caretLeftIcon"
+              alt="Icon"
+              applyClass="true"
+            >
+            </svg-icon>
+            ABRACADABRA SRL
+          </app-button>
+          <!--  -->
+
+          <h1
+            class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0"
+          >
+            Order ID?
+          </h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="line-h1 rc-secondary-bg mt-24 mb-39"></div>
+
+    <div class="w-100 pt-40">
+      <form [formGroup]="componentForm" class="row no-gutters">
+        <div class="col-12 col-md-3 px-0 pr-0 pr-md-16">
+          <div class="row m-0 p-0">
+            <div class="col-12 px-0 mb-14">
+              <app-input
+                [config]="inputConfig('Order Number')"
+                formControlName="orderNumber"
+              ></app-input>
+            </div>
+            <div class="col-12 px-0 mb-14">
+              <app-input
+                [config]="inputConfig('Order Date')"
+                formControlName="orderDate"
+              ></app-input>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-3 px-0 px-md-16">
+          <div class="row m-0">
+            <div class="col-12 px-0 mb-14">
+              <app-input
+                [config]="inputConfig('Customer')"
+                formControlName="customer"
+              ></app-input>
+            </div>
+            <div class="col-12 px-0 mb-14">
+              <app-input
+                [config]="inputConfig('Status')"
+                formControlName="status"
+              ></app-input>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-3 px-0 px-md-16">
+          <div class="row m-0">
+            <div class="col-12 px-0 mb-14">
+              <app-input
+                [config]="inputConfig('Value')"
+                formControlName="value"
+              ></app-input>
+            </div>
+            <div class="col-12 px-0 mb-14">
+              <app-input
+                [config]="inputConfig('Discount', 'text', '', true)"
+                formControlName="discount"
+              >
+              </app-input>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-3 px-0 pl-md-16 d-md-flex align-items-md-center">
+              
+            <div class="col-12 px-0 pt-24 px-16 pb-32 rc-ultra-light-red-bg">
+              <app-input
+                [config]="inputConfig('Total Value')"
+                formControlName="totalValue"
+              ></app-input>
+            </div>
+            
+        </div>
+      </form>
+    </div>
+
+    <div class="w-100">
+      <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-end">
+        <app-button type="button" color="secondaryB" class="mr-8">
+          Cancel
+        </app-button>
+
+        <app-button type="button" color="primary"> Save </app-button>
+      </div>
+    </div>
+  </div>
+</app-page-container>
