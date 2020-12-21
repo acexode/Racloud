@@ -65,6 +65,7 @@ export class ProductsComponent implements OnInit {
     selectable: true,
     selectDetail: false,
     hoverDetail: true,
+    loadingIndicator: true,
     columns: [],
     externalPaging: false,
     externalSorting: false,

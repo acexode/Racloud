@@ -59,9 +59,16 @@
                             <div class="col-6 mb-14">
                                 <label
                       class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Application Name</label>
-                    <div class="rc-select"> <select formcontrolname="application"
+                    <div *ngIf="!isEdit" class="rc-select"> <select formcontrolname="application"
                         (change)="onChange($event.target.value, 'application')" class="ng-pristine ng-valid ng-touched">
-                        <option *ngIf="!isEdit" selected disabled>Select</option>
+                        <option  selected disabled>Select</option>
+                        <option *ngFor="let product of productOptions"  [value]="product.Application">
+                          {{product.Application}} </option>
+                      </select>
+                            </div>
+                    <div *ngIf="isEdit" class="rc-select"> <select formcontrolname="application"
+                        (change)="onChange($event.target.value, 'application')" class="ng-pristine ng-valid ng-touched">
+                        
                         <option *ngFor="let product of productOptions" [selected]="product.Application" [value]="product.Application">
                           {{product.Application}} </option>
                       </select>
@@ -76,9 +83,16 @@
                             <div class="col-6 mb-14">
                               <label
                               class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Product Type</label>
-                            <div class="rc-select"> <select formcontrolname="productType"
+                            <div *ngIf="!isEdit" class="rc-select"> <select formcontrolname="productType"
                                 (change)="onChange($event.target.value, 'productType')" class="ng-pristine ng-valid ng-touched">
-                                <option *ngIf="!isEdit" selected disabled>Select</option>
+                                <option  selected disabled>Select</option>
+                                <option *ngFor="let product of productOptions"  [value]="product.ProductType">
+                                  {{product.ProductType}} </option>
+                              </select>
+                                    </div>
+                            <div *ngIf="isEdit" class="rc-select"> <select formcontrolname="productType"
+                                (change)="onChange($event.target.value, 'productType')" class="ng-pristine ng-valid ng-touched">
+                                
                                 <option *ngFor="let product of productOptions"  [value]="product.ProductType" [selected]="product.ProductType">
                                   {{product.ProductType}} </option>
                               </select>

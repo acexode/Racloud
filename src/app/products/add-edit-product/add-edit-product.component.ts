@@ -187,14 +187,19 @@ export class AddEditProductComponent implements OnInit {
   submitForm(){
   console.log(this.selectedRows);
   console.log(this.productForm.value);
-    // this.productS.createProducts(this.productForm.value)
+  let obj = this.productForm.value
+  obj.selectedOptions = this.selectedRows
+  console.log(obj)
+  this.productS.createProducts(obj).subscribe(e =>{
+    console.log(e)
+  })
   }
   getRow(row){
     this.selectedRows = row.selected.map(e =>{
       return {
         optionId: e.Id,
-        userAccess: '',
-        partnerAccess: ''
+        userAccess: 'Hidden',
+        partnerAccess: 'Editable'
       }
     })
     console.log(this.selectedRows)
