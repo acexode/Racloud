@@ -7,6 +7,7 @@ import { PageContainerConfig } from 'src/app/shared/container/models/page-contai
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea-config';
+import { LicenseServiceService } from 'src/app/license/license-service.service';
 
 @Component({
   selector: 'app-add-edit-product',
@@ -14,7 +15,9 @@ import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea
   styleUrls: ['./add-edit-product.component.scss']
 })
 export class AddEditProductComponent implements OnInit {
-
+  optionList = [];
+  isEdit = false
+  product: any;
   @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
   @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
@@ -59,7 +62,8 @@ export class AddEditProductComponent implements OnInit {
 
   controlStore: { [key: string]: AbstractControl; } = {};
   constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef,
-    private productS: ProductServiceService, private route: ActivatedRoute,) { }
+    private productS: ProductServiceService, private service: LicenseServiceService,
+     private route: ActivatedRoute,) { }
   inputConfig(
     label: string,
     type: string = 'text',
@@ -89,12 +93,17 @@ export class AddEditProductComponent implements OnInit {
     placeholder: ''
   };
   ngOnInit(): void {
+    this.service.getOption().subscribe((e: any) =>{
+      this.optionList = e
+    })
     const id = this.route.snapshot.paramMap.get('id');
     this.initForm();
     if(id){
+      this.isEdit = true
       this.productS.getProducts().subscribe((obj:any) =>{
         const data = obj.filter(e => e.Id.toString() === id)[0];
         console.log(data)
+        this.product = data
         this.productForm.patchValue({
           application: data.Application,
           name: data.Name,
@@ -158,5 +167,8 @@ export class AddEditProductComponent implements OnInit {
   submitForm(){
   console.log(this.productForm.value);
     this.productS.createProducts(this.productForm.value)
+  }
+  getRow(row){
+    console.log(row)
   }
 }

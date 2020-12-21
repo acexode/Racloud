@@ -1,21 +1,23 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FooterService } from '../core/services/footer/footer.service';
-import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
-import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
-import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
-import { TableFilterType } from '../shared/table/models/table-filter-types';
-import { TableI } from '../shared/table/models/table.interface';
-import { TableService } from '../shared/table/services/table.service';
+import { FooterService } from 'src/app/core/services/footer/footer.service';
+import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
+import { omnBsConfig } from 'src/app/shared/date-picker/data/omn-bsConfig';
+import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
+import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
+import { TableI } from 'src/app/shared/table/models/table.interface';
+import { TableService } from 'src/app/shared/table/services/table.service';
+
 
 @Component({
-  selector: 'app-option-list',
-  templateUrl: './option-list.component.html',
-  styleUrls: ['./option-list.component.scss']
+  selector: 'app-option-tab',
+  templateUrl: './option-tab.component.html',
+  styleUrls: ['./option-tab.component.scss']
 })
-export class OptionListComponent implements OnInit {
+export class OptionTabComponent implements OnInit {
 
+  @ViewChild('colmunDropDownTemplate', { static: true }) colmunDropDownTemplate: TemplateRef<any>;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('selectDetailTemplate', { static: true }) selectDetailTemplate: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
@@ -23,7 +25,8 @@ export class OptionListComponent implements OnInit {
 
   @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
 
-
+  @Input() optionList
+  @Output() selectedRows: EventEmitter<any> = new EventEmitter();
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   containerConfig: PageContainerConfig = {
@@ -35,7 +38,9 @@ export class OptionListComponent implements OnInit {
       body: 'no-shadow',
     },
   };
+  access = ["Editable", "Hidden", "Read Only"]
   rows = [];
+  rowValue = null;
   rowDetailIcons = [
     '../../assets/images/Edit.svg',
     '../../assets/images/Log.svg',
@@ -64,9 +69,9 @@ export class OptionListComponent implements OnInit {
   });
   tableConfig: TableI = {
     selectable: true,
-    selectDetail: false,
+    selectDetail: true,
     hoverDetail: true,
-    expand: true,
+    expand: false,
     columns: [],
     externalPaging: false,
     externalSorting: true,
@@ -86,7 +91,7 @@ export class OptionListComponent implements OnInit {
     this.tableConfig.selectDetailTemplate = this.selectDetailTemplate;
     this.tableConfig.columns = [
       {
-        identifier: 'option-name',
+        identifier: 'Name',
         label: 'Option Name',
         sortable: true,
         minWidth: 276,
@@ -101,7 +106,7 @@ export class OptionListComponent implements OnInit {
         },
       },
       {
-        identifier: 'option-type',
+        identifier: 'OptionType',
         label: 'Option Type',
         sortable: true,
         minWidth: 169,
@@ -116,15 +121,15 @@ export class OptionListComponent implements OnInit {
         },
       },
       {
-        identifier: 'value',
+        identifier: '',
         label: 'Value',
         sortable: false,
-        minWidth: 611,
+        minWidth: 427,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
-        cellTemplate: this.expiredIconTemplate,
+        cellTemplate: this.colmunDropDownTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -133,11 +138,11 @@ export class OptionListComponent implements OnInit {
         },
       },
       {
-        identifier: 'action',
-        label: '',
+        identifier: 'partner_access',
+        label: 'Partner Access',
         sortable: true,
-        minWidth: 60,
-        width: 60,
+        minWidth: 152,
+        width: 112,
         noGrow: true,
         headerHasFilterIcon: true,
         sortIconPosition: 'right',
@@ -146,18 +151,33 @@ export class OptionListComponent implements OnInit {
         hasFilter: true,
         cellTemplate: this.actionDropdown
       },
-    ];
-    this.getJSON().subscribe((data) => {
-      if (data) {
-        this.tableConfig.loadingIndicator = true;
-        this.rowData = data;
-        const cloneData = data.map((v: any) => {
-          return { ...v };
-        });
-        this.tableData.next(cloneData);
-        this.tableConfig.loadingIndicator = false;
+      {
+        identifier: 'user_access',
+        label: 'User Access',
+        sortable: true,
+        minWidth: 152,
+        width: 112,
+        noGrow: true,
+        headerHasFilterIcon: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'right',
+        hasFilter: true,
+        cellTemplate: this.actionDropdown
       }
-    });
+    ];
+    if (this.optionList) {
+      console.log(this.optionList)
+      this.tableConfig.loadingIndicator = true;
+      this.rowData = this.optionList;
+      const cloneData = this.optionList.map((v: any) => {
+        return { ...v };
+      });
+      this.tableData.next(cloneData);
+      this.tableConfig.loadingIndicator = false;
+    }
+    // this.getJSON().subscribe((data) => {
+    // });
   }
   public getJSON(): Observable<any> {
     return this.http.get('./assets/option-list.json');
@@ -190,5 +210,23 @@ export class OptionListComponent implements OnInit {
       this.isDropup = true;
     }
     this.ref.detectChanges();
+  }
+  isArray(value){
+    return Array.isArray(value);
+  }
+  isString(value) {
+    return typeof value === 'string';
+  }
+  toString(arr: any[]) {;
+    const str =   arr.map(e => e.Name).slice(0,3).join(', ');
+    if(arr.length > 3){
+      return str + '...'
+    }else{
+      return str
+    }
+  }
+  getRow(item){
+    this.rowValue = item.selected[0]
+    this.selectedRows.emit(item)
   }
 }

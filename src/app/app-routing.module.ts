@@ -1,4 +1,3 @@
-import { LicenseOptionsComponent } from './license-options/license-options.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { OrdersComponent } from './orders/orders.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
@@ -14,10 +13,8 @@ import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
 import { SignupComponent } from './signup/signup.component';
 import { PriceListsComponent } from './price-lists/price-lists.component';
-import { OptionListComponent } from './option-list/option-list.component';
+
 import { ShopComponent } from './shop/shop.component';
-
-
 const routes: Routes = [
   {
     path: '',
@@ -101,13 +98,11 @@ const routes: Routes = [
   },
   {
     path: 'options',
-    component: OptionListComponent,
-    data: { title: 'Options' },
-  },
-  {
-    path: 'new-option',
-    component: LicenseOptionsComponent,
-    data: { title: 'New Option' },
+    loadChildren: () =>
+      import('./options/options.module').then(
+        (m) => m.OptionsModule
+      ),
+    data: { title: 'Options Listing' },
   },
   {
     path: 'create-user',

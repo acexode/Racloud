@@ -8,7 +8,7 @@
   [limit]="config?.limit || 10"
   [count]="config?.count"
   [selected]="selected"
-  [selectionType]="config?.selectable ? SelectionType.single : null"
+  [selectionType]="config?.selectable ? SelectionType.multiClick : null"
   (activate)="onActivate($event)"
   (select)="onSelect($event)"
   [scrollbarH]="true"
@@ -150,17 +150,22 @@
             *ngIf="config?.selectable && config.selectDetail"
             class="datatable-body-cell-label custom-control custom-checkbox form-check"
           >
-            <input
+          <label class="lContainer">
+            <input id="{{ rowIndex }}" type="checkbox" (change)="onCheckboxChangeFn($event)" [checked]="isSelected">
+            <span class="checkmark"></span>
+          </label>
+            <!-- <input
               type="checkbox"
               class="custom-control-input no-focus"
               id="{{ rowIndex }}"
               [checked]="isSelected"
               (change)="onCheckboxChangeFn($event)"
-            />
-            <label
+            /> -->
+            
+            <!-- <label
               class="datatable-body-cell-label custom-control-label pl-0"
               for="{{ rowIndex }}"
-            ></label>
+            ></label> -->
           </div>
           <div class="detail-arrow" *ngIf="config?.expand">
             <svg-icon

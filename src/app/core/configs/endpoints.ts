@@ -15,5 +15,9 @@ export const authEndpoints = {
 export const productEndpoints = {
   getProducts: serverBaseUrl + '/products',
   createProduct: serverBaseUrl + '/products/create'
+}
+export const optionEndpoints = {
+  createOption: serverBaseUrl + '/options/create',
+  getOptions: serverBaseUrl + '/options'
 };
 

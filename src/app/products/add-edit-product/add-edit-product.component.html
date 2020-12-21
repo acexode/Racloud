@@ -18,14 +18,19 @@
                 applyClass="true"
               >
               </svg-icon>
-              ABRACADABRA SRL
+              Products
             </app-button>
             <!--  -->
   
-            <h1
+            <h1 *ngIf="!isEdit"
               class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0"
             >
-              License ID ?
+              New Product
+            </h1>
+            <h1 *ngIf="isEdit"
+              class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0"
+            >
+              {{product.Name | titlecase}}
             </h1>
           </div>
         </div>
@@ -90,7 +95,7 @@
                         </form>
                     </ng-template>
                     <ng-template #secondTab> 
-                        Tab 2    
+                      <app-option-tab (selectedRows)="getRow($event)" [optionList]="optionList"></app-option-tab>
                     </ng-template>
                     
                 
