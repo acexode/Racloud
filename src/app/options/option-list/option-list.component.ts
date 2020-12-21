@@ -184,7 +184,7 @@ export class OptionListComponent implements OnInit {
   }
   manageSub(data: any) {
     // option-edit
-    this.router.navigate(['options/option-edit', { id: data.id }]);
+    this.router.navigate(['options/option-edit', { id: data.Id }]);
   }
   renewSub(id: any) {
     console.log(id);

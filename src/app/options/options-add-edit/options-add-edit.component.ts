@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LicenseServiceService } from 'src/app/license/license-service.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
@@ -12,7 +12,7 @@ import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
   styleUrls: ['./options-add-edit.component.scss']
 })
 export class OptionsAddEditComponent implements OnInit {
-
+  isEdit = false;
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/options';
   containerConfig: PageContainerConfig = {
@@ -47,7 +47,7 @@ export class OptionsAddEditComponent implements OnInit {
       disabled: false
     },
     {
-      id: 'list',
+      id: 'valuelist',
       option: 'Value list',
       disabled: false
     }
@@ -70,10 +70,39 @@ export class OptionsAddEditComponent implements OnInit {
   selectedType = '';
   selectedStatus: any;
   constructor(private fb: FormBuilder, private service: LicenseServiceService,
-    private router: Router, private cdRef: ChangeDetectorRef) { }
+    private router: Router, private route: ActivatedRoute, private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.initForm();
+    const id = this.route.snapshot.paramMap.get('id');
+    if(id){
+      this.initForm()
+      this.isEdit = true
+      this.service.getOption().subscribe((obj:any[]) =>{
+        const data = obj.filter(e => e.Id.toString() === id)[0];
+        console.log(data)
+        this.optionForm.patchValue({
+          optionName: data.Name,
+          optionType: data.OptionType,
+          optionString: data.ValueString,
+          valueList: data.ValueList,
+          optionListName: '',
+          defaultStatus: data.ValueBoolean
+        });
+        this.onChange(data.OptionType.toLowerCase())
+        if(data.OptionType === 'ValueList'){
+          data.ValueList.forEach(val =>{
+            this.valueLists.push(
+              this.fb.group(
+                {value: val.Id, name: val.Name}
+              )
+            );
+          })
+        }
+      })
+    }else{
+      this.initForm();
+
+    }
   }
   initForm() {
     this.optionForm = this.fb.group({
@@ -118,6 +147,7 @@ export class OptionsAddEditComponent implements OnInit {
     this.valueLists.removeAt(index);
   }
   onChange(option) {
+    console.log(option)
     this.selectedType =option;
     this.setFormValue('optionType',option);
     this.cdRef.detectChanges();
@@ -159,7 +189,7 @@ export class OptionsAddEditComponent implements OnInit {
     })
   }
   getType(val){
-    if(val === 'list'){
+    if(val === 'valuelist'){
       return 'ValueList';
     }else if(val === 'string'){
       return 'String';

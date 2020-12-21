@@ -216,7 +216,7 @@ export class OptionTabComponent implements OnInit {
     return typeof value === 'string';
   }
   toString(arr: any[]) {;
-    let str =   arr.map(e => e.Name).slice(0,3).join(', ');
+    const str =   arr.map(e => e.Name).slice(0,3).join(', ');
     if(arr.length > 3){
       return str + '...'
     }else{

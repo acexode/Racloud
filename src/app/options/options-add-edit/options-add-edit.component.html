@@ -6,7 +6,8 @@
         </a>
         <div class="row align-items-center">
           <div class="col"> <a [routerLink]="[backUrl]" class="pyramid-title"> <span class="pyramid">OPTIONS</span></a>
-            <span class="new-option">New Option</span> </div>
+            <span *ngIf="isEdit"  class="new-option">New Option</span> 
+            <span *ngIf="!isEdit"  class="new-option">Edit Option</span> </div>
         </div>
       </div>
     </div>
@@ -52,7 +53,7 @@
                 </div>
                 <div class="form-row">
                   <div class="col-5">
-                    <div *ngIf="selectedType == 'list'" class="row justify-content-between w-100">
+                    <div *ngIf="selectedType == 'valuelist'" class="row justify-content-between w-100">
                       <div class="col-9">
                         <app-input [config]="valueListConfig" class="" formControlName="optionListName"></app-input>
                       </div>
