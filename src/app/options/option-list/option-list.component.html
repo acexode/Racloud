@@ -37,8 +37,8 @@
         
 </ng-template>
 <ng-template #actionDropdown let-column="column" let-row="row" let-rowIndex="rowIndex">
-    <div class="btn-group" dropdown [dropup]="isDropup">
-      <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
+    <div class="btn-group float-right" dropdown [dropup]="isDropup">
+      <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse float-right"
               aria-controls="dropdown-basic">
               <i class="fa fa-ellipsis-h" aria-hidden="true"></i> 
       </a>

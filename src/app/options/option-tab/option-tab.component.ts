@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FooterService } from '../core/services/footer/footer.service';
-import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
-import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
-import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
-import { TableFilterType } from '../shared/table/models/table-filter-types';
-import { TableI } from '../shared/table/models/table.interface';
-import { TableService } from '../shared/table/services/table.service';
+import { FooterService } from 'src/app/core/services/footer/footer.service';
+import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
+import { omnBsConfig } from 'src/app/shared/date-picker/data/omn-bsConfig';
+import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
+import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
+import { TableI } from 'src/app/shared/table/models/table.interface';
+import { TableService } from 'src/app/shared/table/services/table.service';
+
 
 @Component({
   selector: 'app-option-tab',
@@ -88,7 +89,7 @@ export class OptionTabComponent implements OnInit {
     this.tableConfig.selectDetailTemplate = this.selectDetailTemplate;
     this.tableConfig.columns = [
       {
-        identifier: 'option-name',
+        identifier: 'Name',
         label: 'Option Name',
         sortable: true,
         minWidth: 276,
@@ -103,7 +104,7 @@ export class OptionTabComponent implements OnInit {
         },
       },
       {
-        identifier: 'option-type',
+        identifier: 'OptionType',
         label: 'Option Type',
         sortable: true,
         minWidth: 169,
@@ -118,7 +119,7 @@ export class OptionTabComponent implements OnInit {
         },
       },
       {
-        identifier: 'value',
+        identifier: '',
         label: 'Value',
         sortable: false,
         minWidth: 427,
@@ -165,6 +166,7 @@ export class OptionTabComponent implements OnInit {
     ];
     this.getJSON().subscribe((data) => {
       if (data) {
+        console.log(data)
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
         const cloneData = data.map((v: any) => {
@@ -213,8 +215,13 @@ export class OptionTabComponent implements OnInit {
   isString(value) {
     return typeof value === 'string';
   }
-  toString(value:[]) {;
-    return value.join(', ');
+  toString(arr: any[]) {;
+    let str =   arr.map(e => e.Name).slice(0,3).join(', ');
+    if(arr.length > 3){
+      return str + '...'
+    }else{
+      return str
+    }
   }
   getRow(item){
     this.rowValue = item.selected[0]

@@ -74,7 +74,7 @@
 </ng-template>
 <ng-template #colmunDropDownTemplate let-column="column" let-row="row" let-value="cellValue">
     <ng-container>
-        <span class="pb-10" *ngIf="isArray(value)">
+        <span class="pb-10" *ngIf="row.OptionType == 'ValueList'">
             <div class="btn-group" dropdown  [dropup]="isDropup" >
                 <!-- <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="a-ellipse text"
                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -83,7 +83,7 @@
                 <div class="d-flex justify-content-between w-100">
                     <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                   <span class="text"> {{toString(value)}}</span>
+                   <span class="text"> {{toString(row.ValueList)}}</span>
                 </a>
                 <img *ngIf="rowValue != row" src="assets/images/chevron.svg" alt="expired-icon" class="chevron" />
                 <img *ngIf="rowValue == row" src="assets/images/Chevron-red.svg" alt="expired-icon" class="chevron" />
@@ -92,34 +92,34 @@
                     aria-labelledby="button-basic">
                     <table class="w-100">
                         <tbody class="w-100">
-                            <tr *ngFor="let val of row.value" class="tables-cell8"> 
+                            <tr *ngFor="let val of row.ValueList" class="tables-cell8"> 
                                 <td>
                                     <label class="container">
                                         <input type="checkbox" checked="checked">
                                         <span class="checkmark"></span>
                                       </label>
                                 </td>                          
-                                <td style="width:427px;">{{val}}</td>
+                                <td style="width:427px;">{{val.Name}}</td>
                             </tr>
                         </tbody>
                     </table>
                 </ul>
             </div>
         </span>
-        <span *ngIf="value =='No'">
+        <span *ngIf="row.OptionType =='Boolean' && !row.ValueBoolean">
             <label class="container">False
                 <input type="checkbox">
                 <span class="checkmark"></span>
               </label>
         </span>
-        <span *ngIf="value =='Yes'">
+        <span *ngIf="row.OptionType =='Boolean' && row.ValueBoolean">
             <label class="container">True
                 <input type="checkbox" checked="checked">
                 <span class="checkmark"></span>
               </label>
         </span>
-        <span *ngIf="isString(value)">
-            {{value}}
+        <span *ngIf="row.OptionType == 'String'">
+            {{row.ValueString}}
         </span>
        
         

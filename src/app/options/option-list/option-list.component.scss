@@ -97,3 +97,6 @@
     display: flex;  
     flex-wrap: wrap;
   }
+  .datatable-body-cell {
+    overflow: hidden !important;
+  }

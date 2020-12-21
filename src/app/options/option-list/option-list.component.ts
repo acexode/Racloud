@@ -110,6 +110,7 @@ export class OptionListComponent implements OnInit {
         label: 'Option Type',
         sortable: true,
         width: 169,
+        minWidth: 169,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -142,12 +143,12 @@ export class OptionListComponent implements OnInit {
         identifier: 'action',
         label: '',
         sortable: true,
-        minWidth: 60,
-        width: 60,
+        minWidth: 90,
+        width: 90,
         noGrow: true,
         headerHasFilterIcon: true,
         sortIconPosition: 'right',
-        labelPosition: 'left',
+        labelPosition: 'right',
         cellContentPosition: 'right',
         hasFilter: true,
         cellTemplate: this.actionDropdown
@@ -200,6 +201,12 @@ export class OptionListComponent implements OnInit {
     this.ref.detectChanges();
   }
   toString(arr: any[]) {
-    return  arr.map(e => e.Name).join(', ');
+    let str =   arr.map(e => e.Name).slice(0,5).join(', ');
+    if(arr.length > 5){
+      return str + '...'
+    }else{
+      return str
+    }
+
   }
 }

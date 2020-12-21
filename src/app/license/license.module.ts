@@ -12,7 +12,7 @@ import { ContainerModule } from '../shared/container/container.module';
 import { RcFormsModule } from '../shared/rc-forms/rc-forms.module';
 import { TableModule } from '../shared/table/table.module';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { OptionTabComponent } from '../option-tab/option-tab.component';
+import { OptionTabComponent } from '../options/option-tab/option-tab.component';
 
 
 @NgModule({

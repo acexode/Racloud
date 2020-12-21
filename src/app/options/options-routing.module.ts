@@ -1,3 +1,4 @@
+import { OptionTabComponent } from './option-tab/option-tab.component';
 import { OptionsAddEditComponent } from './options-add-edit/options-add-edit.component';
 import { OptionListComponent } from './option-list/option-list.component';
 import { NgModule } from '@angular/core';
@@ -8,6 +9,11 @@ const routes: Routes = [
   {
     path: '',
     component: OptionListComponent,
+    data: { title: 'Licenses' }
+  },
+  {
+    path: 'option-tab',
+    component: OptionTabComponent,
     data: { title: 'Licenses' }
   },
   {

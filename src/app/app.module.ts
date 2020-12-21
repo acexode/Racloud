@@ -41,7 +41,7 @@ import { ShopComponent } from './shop/shop.component';
 import { CustomerModule } from './customer/customer.module';
 import { LoaderModule } from './shared/loader/loader.module';
 import { PriceListsComponent } from './price-lists/price-lists.component';
-import { OptionTabComponent } from './option-tab/option-tab.component';
+
 
 
 
@@ -65,7 +65,7 @@ import { OptionTabComponent } from './option-tab/option-tab.component';
     CreateUserComponent,
     ShopComponent,
     PriceListsComponent,
-    OptionTabComponent,
+    
   ],
   imports: [
     BrowserModule,

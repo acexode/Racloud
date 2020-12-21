@@ -15,9 +15,6 @@ import { SignupComponent } from './signup/signup.component';
 import { PriceListsComponent } from './price-lists/price-lists.component';
 
 import { ShopComponent } from './shop/shop.component';
-import { OptionTabComponent } from './option-tab/option-tab.component';
-
-
 const routes: Routes = [
   {
     path: '',
@@ -73,11 +70,6 @@ const routes: Routes = [
   {
     path: 'access-denied',
     component: AccessDeniedComponent,
-    data: { title: 'Access Denied' },
-  },
-  {
-    path: 'option-tab',
-    component: OptionTabComponent,
     data: { title: 'Access Denied' },
   },
   {

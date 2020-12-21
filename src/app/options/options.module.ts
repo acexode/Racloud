@@ -12,10 +12,11 @@ import { RcFormsModule } from '../shared/rc-forms/rc-forms.module';
 import { TableModule } from '../shared/table/table.module';
 import { TabsModule } from '../shared/tabs/tabs.module';
 import { OptionsAddEditComponent } from './options-add-edit/options-add-edit.component';
+import { OptionTabComponent } from './option-tab/option-tab.component';
 
 
 @NgModule({
-  declarations: [OptionListComponent, OptionsAddEditComponent],
+  declarations: [OptionListComponent, OptionsAddEditComponent,OptionTabComponent],
   imports: [
     CommonModule,
     CommonModule,
