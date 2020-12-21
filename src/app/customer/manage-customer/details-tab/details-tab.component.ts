@@ -184,7 +184,6 @@ export class DetailsTabComponent implements OnInit {
       supportHoursContract: get(data, 'supportHoursContract', ''),
       supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
     };
-    console.log(d);
     this.componentForm.setValue({...d});
   }
 }
