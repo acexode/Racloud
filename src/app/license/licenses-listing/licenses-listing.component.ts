@@ -8,6 +8,7 @@ import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-conf
 import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
+import { LicenseServiceService } from '../license-service.service';
 
 
 @Component({
@@ -75,7 +76,8 @@ export class LicensesListingComponent implements OnInit {
     private tS: TableService,
     private http: HttpClient,
     private router: Router,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private service: LicenseServiceService
   ) { }
   ngOnInit(): void {
     console.log(this.actionDropdown)
@@ -85,7 +87,7 @@ export class LicensesListingComponent implements OnInit {
         identifier: 'productName',
         label: 'Product Name',
         sortable: true,
-        minWidth: 237,
+        minWidth: 161,
         width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -97,10 +99,40 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
+        identifier: 'orderId',
+        label: 'Order ID',
+        sortable: true,
+        minWidth: 104,
+        width: 100,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        },
+      },
+      {
+        identifier: 'customer',
+        label: 'Customer',
+        sortable: true,
+        minWidth: 160,
+        width: 100,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        },
+      },
+      {
         identifier: 'purchased',
         label: 'Purchased',
         sortable: true,
-        minWidth: 160,
+        minWidth: 120,
         width: 100,
         sortIconPosition: 'left',
         labelPosition: 'right',
@@ -115,7 +147,7 @@ export class LicensesListingComponent implements OnInit {
         identifier: 'expires',
         label: 'Expires',
         sortable: true,
-        minWidth: 160,
+        minWidth: 104,
         width: 300,
         sortIconPosition: 'left',
         labelPosition: 'right',
@@ -130,7 +162,7 @@ export class LicensesListingComponent implements OnInit {
         identifier: 'status',
         label: 'Status',
         sortable: true,
-        minWidth: 161,
+        minWidth: 104,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -147,11 +179,11 @@ export class LicensesListingComponent implements OnInit {
         identifier: 'partnerLicense',
         label: 'Partner license',
         sortable: true,
-        minWidth: 160,
+        minWidth: 104,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'right',
+        cellContentPosition: 'left',
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -163,11 +195,11 @@ export class LicensesListingComponent implements OnInit {
         identifier: 'renew',
         label: 'Renew by User Company',
         sortable: true,
-        minWidth: 220,
+        minWidth: 136,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'right',
+        cellContentPosition: 'left',
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -179,7 +211,7 @@ export class LicensesListingComponent implements OnInit {
         identifier: 'action',
         label: '',
         sortable: true,
-        minWidth: 60,
+        minWidth: 40,
         noGrow: true,
         headerHasFilterIcon: true,
         sortIconPosition: 'right',

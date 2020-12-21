@@ -11,6 +11,11 @@ const routes: Routes = [
     data: { title: 'Users' }
   },
   {
+    path: 'create-user',
+    component: CreateUserComponent,
+    data: { title: 'Create User' },
+  },
+  {
     path: 'edit-user',
     component: CreateUserComponent,
     data: { title: 'Licenses' }

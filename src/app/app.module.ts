@@ -32,7 +32,6 @@ import { RcFormsModule } from './shared/rc-forms/rc-forms.module';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { TabsModule } from './shared/tabs/tabs.module';
 import { OrdersComponent } from './orders/orders.component';
-import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
 import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
 import { SignupComponent } from './signup/signup.component';
@@ -40,11 +39,7 @@ import { SignupComponent } from './signup/signup.component';
 import { ShopComponent } from './shop/shop.component';
 import { CustomerModule } from './customer/customer.module';
 import { LoaderModule } from './shared/loader/loader.module';
-import { LicenseOptionsComponent } from './license-options/license-options.component';
-import { OptionListComponent } from './option-list/option-list.component';
-import { CreateUserComponent } from './users/create-user/create-user.component';
-
-
+import { PriceListsComponent } from './price-lists/price-lists.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,14 +52,11 @@ import { CreateUserComponent } from './users/create-user/create-user.component';
     StyleGuideComponent,
     AccessDeniedComponent,
     OrdersComponent,
-    UsersComponent,
     ProductsComponent,
     RaLogoComponent,
     SignupComponent,
-    CreateUserComponent,
     ShopComponent,
-    LicenseOptionsComponent,
-    OptionListComponent,
+    PriceListsComponent
   ],
   imports: [
     BrowserModule,

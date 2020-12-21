@@ -37,7 +37,7 @@ input:focus {
       }
       &:before {
         border-width: rem(2);
-        background-color: $ultra-light-green;
+        background-color: $red;
       }
       &:after {
         background-size: rem(12);
@@ -77,14 +77,14 @@ input:focus {
     &:not(:disabled):active ~ .custom-control-label::before {
       color: $custom-control-indicator-active-color;
       background-color: transparent;
-      border-color: $green;
+      border-color: $red;
     }
     &:not(:disabled):hover ~ .custom-control-label::before {
       background-color: transparent;
-      border-color: $green;
+      border-color: $red;
     }
     &:focus:not(:checked) ~ .custom-control-label::before {
-      border-color: $green;
+      border-color: $red;
     }
   }
 }

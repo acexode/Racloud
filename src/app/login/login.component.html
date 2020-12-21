@@ -61,8 +61,9 @@
               Cancel
             </app-button>
           
-            <app-button type="Submit" color="primary" [disabled]="!loginForm?.valid">
-              Log in
+            <app-button type="Submit" color="primary" [disabled]="!loginForm?.valid || isLoading">
+                <app-loader type="button" *ngIf="isLoading"></app-loader>
+                <span *ngIf="!isLoading">Log in</span>
             </app-button>
           
           </div>

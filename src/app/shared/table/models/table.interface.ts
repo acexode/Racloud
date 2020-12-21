@@ -40,4 +40,5 @@ export interface TableI {
   externalSorting?: boolean;
   loadingIndicator?: boolean;
   action?: boolean;
+  noFiltering?: boolean;
 }

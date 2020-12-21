@@ -1,6 +1,3 @@
-import { OptionListComponent } from './option-list/option-list.component';
-import { ShopComponent } from './shop/shop.component';
-import { LicenseOptionsComponent } from './license-options/license-options.component';
 import { OrdersComponent } from './orders/orders.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { NgModule } from '@angular/core';
@@ -14,14 +11,14 @@ import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
 import { SignupComponent } from './signup/signup.component';
-import { CreateUserComponent } from './users/create-user/create-user.component';
+import { PriceListsComponent } from './price-lists/price-lists.component';
 
-
+import { ShopComponent } from './shop/shop.component';
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'customer'
+    redirectTo: 'style'
   },
   {
     path: 'home',
@@ -99,23 +96,29 @@ const routes: Routes = [
   },
   {
     path: 'options',
-    component: OptionListComponent,
-    data: { title: 'Options' },
+    loadChildren: () =>
+      import('./options/options.module').then(
+        (m) => m.OptionsModule
+      ),
+    data: { title: 'Options Listing' },
   },
   {
-    path: 'new-option',
-    component: LicenseOptionsComponent,
-    data: { title: 'New Option' },
-  },
-  {
-    path: 'create-user',
-    component: CreateUserComponent,
-    data: { title: 'Create User' },
+    path: 'users',
+    loadChildren: () =>
+      import('./users/users.module').then(
+        (m) => m.UsersModule
+      ),
+    data: { title: 'Users Listing' },
   },
   {
     path: 'shop',
     component: ShopComponent,
     data: { title: 'Shop' },
+  },
+  {
+    path: 'price-list',
+    component: PriceListsComponent,
+    data: { title: 'Price List' },
   },
   { path: '**', redirectTo: '/not-found' },
 ];

@@ -150,17 +150,22 @@
             *ngIf="config?.selectable && config.selectDetail"
             class="datatable-body-cell-label custom-control custom-checkbox form-check"
           >
-            <input
+          <label class="lContainer">
+            <input id="{{ rowIndex }}" type="checkbox" (change)="onCheckboxChangeFn($event)" [checked]="isSelected">
+            <span class="checkmark"></span>
+          </label>
+            <!-- <input
               type="checkbox"
               class="custom-control-input no-focus"
               id="{{ rowIndex }}"
               [checked]="isSelected"
               (change)="onCheckboxChangeFn($event)"
-            />
-            <label
+            /> -->
+            
+            <!-- <label
               class="datatable-body-cell-label custom-control-label pl-0"
               for="{{ rowIndex }}"
-            ></label>
+            ></label> -->
           </div>
           <div class="detail-arrow" *ngIf="config?.expand">
             <svg-icon
@@ -250,7 +255,7 @@
             ></ng-container>
           </ng-container>
         </div>
-        <div class="second-row d-flex">
+        <div class="second-row d-flex" *ngIf="!config.noFiltering">
           <ng-container
             *ngTemplateOutlet="tableInput; context: { $implicit: data }"
           ></ng-container>
