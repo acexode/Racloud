@@ -16,7 +16,7 @@ export class CreateUserComponent implements OnInit {
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/users';
   isEdit = false;
-  user = {}
+  user = null;
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
