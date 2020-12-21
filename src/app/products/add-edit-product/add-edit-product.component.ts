@@ -63,9 +63,6 @@ export class AddEditProductComponent implements OnInit {
   selectedRenewBtn;
 
   controlStore: { [key: string]: AbstractControl; } = {};
-  constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef,
-    private productS: ProductServiceService, private service: LicenseServiceService,
-     private route: ActivatedRoute,) { }
   inputConfig(
     label: string,
     type: string = 'text',
@@ -94,6 +91,10 @@ export class AddEditProductComponent implements OnInit {
     },
     placeholder: ''
   };
+  constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef,
+    private productS: ProductServiceService, private service: LicenseServiceService,
+     private route: ActivatedRoute,) { }
+
   ngOnInit(): void {
     this.service.getOption().subscribe((e: any) =>{
       this.optionList = e
@@ -187,7 +188,7 @@ export class AddEditProductComponent implements OnInit {
   submitForm(){
   console.log(this.selectedRows);
   console.log(this.productForm.value);
-  let obj = this.productForm.value
+  const obj = this.productForm.value
   obj.selectedOptions = this.selectedRows
   console.log(obj)
   this.productS.createProducts(obj).subscribe(e =>{
