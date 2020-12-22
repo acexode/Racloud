@@ -187,8 +187,8 @@ export class AddEditProductComponent implements OnInit {
   submitForm(){
   const obj = this.productForm.value
   const resArr = []
-  this.selectedRows.reverse().filter(function(item){
-    var i = resArr.findIndex(x => x.optionId === item.Id);
+  this.selectedRows.reverse().filter(item =>{
+    const i = resArr.findIndex(x => x.optionId === item.Id);
     if(i <= -1){
       resArr.push(
         {
