@@ -26,7 +26,6 @@ export class OptionTabComponent implements OnInit {
   @ViewChild('selectT', { static: true }) selectT: any;
 
   @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
- 
   @Input() optionList
   @Output() selectedRows: EventEmitter<any> = new EventEmitter();
   rowData: Array<any> = [];
