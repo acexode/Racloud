@@ -100,8 +100,8 @@ export class AddEditProductComponent implements OnInit {
       this.optionList = e.map(obj =>{
         return {
           ...obj,
-          UserAccess: "Hidden",
-          PartnerAccess: "Hidden"
+          UserAccess: 'Hidden',
+          PartnerAccess: 'Hidden'
         }
       })
     })
