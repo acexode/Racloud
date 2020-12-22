@@ -48,7 +48,6 @@
 
                     <div class="d-flex flex-column mb-14">
                         <app-input [config]="inputConfig('Confirm Password', 'password', 'Type here')" formControlName="confirmPassword" id="confirmPassword"></app-input>
-
                         <app-error-messages [control]="signUpForm?.controls?.confirmPassword"></app-error-messages>
                     </div>
 
@@ -90,17 +89,18 @@
                         <app-error-messages [control]="signUpForm?.controls?.address"></app-error-messages>
                     </div>
 
-                    <div class="d-flex flex-column mb-14">
-                        <app-input [config]="inputConfig('Country', 'text', 'Type here')" formControlName="country" id="country">
-                        </app-input>
+                    <div class="d-flex flex-column mb-14" *ngIf="countryOptions$ | async as countryOptions">
+                        <app-select [config]="selectConfig('Country', 'Select Country', true, 'code', 'name')"
+                            formControlName="country" [options]="countryOptions" id="country"></app-select>
                     
                         <app-error-messages [control]="signUpForm?.controls?.country"></app-error-messages>
                     </div>
 
 
-                    <div class="d-flex flex-column mb-40">
-                        <app-input [config]="inputConfig('Language', 'text', 'Type here')" formControlName="language" id="language">
-                        </app-input>
+                    <div class="d-flex flex-column mb-40" *ngIf="languageOptions$ | async as languageOptions">
+
+                        <app-select [config]="selectConfig('Language', 'Select Language', true, 'name', 'nativeName')"
+                            formControlName="language" [options]="languageOptions" id="language"></app-select>
                     
                         <app-error-messages [control]="signUpForm?.controls?.language"></app-error-messages>
                     </div>

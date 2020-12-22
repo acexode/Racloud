@@ -1,0 +1,105 @@
+<app-page-container [config]="containerConfig">
+  <div class="w-100" container-body>
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <!--  -->
+          <app-button
+            color="tertiary"
+            [routerLink]="[backUrl]"
+            [class]="
+              'd-flex align-items-center rc-accent-blue-160-color montserrat-semibold-font ml-n20'
+            "
+          >
+            <svg-icon
+              [class]="'icon-w16-h16 mr-1'"
+              [src]="caretLeftIcon"
+              alt="Icon"
+              applyClass="true"
+            >
+            </svg-icon>
+            CUSTOMERS
+          </app-button>
+          <!--  -->
+
+          <h1
+            class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0"
+          >
+           {{ mock.name }} (Mock Name) <!-- do well to replace -->
+          </h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-100 mt-24 mb-39 px-0">
+        <ng-container [style.display]="tabSwitch ? 'block' : 'none'">
+
+            <app-tabs [selectedTemplate]="tabSwitch">
+                <app-tab-bar [marked]="tabMarked">
+                    <app-tab-button 
+                        [selected]="tab.isSelected" 
+                        [defaultSelected]="tab.defaultSelected" 
+                        (click)="switchTab($event, tab.template, i)" 
+                        *ngFor="let tab of tabs; let i = index" 
+                    >{{ tab.name }}</app-tab-button>
+                </app-tab-bar>  
+
+            </app-tabs>
+        </ng-container>
+    </div>
+
+    
+
+    
+  </div>
+</app-page-container>
+
+
+
+
+
+<!-- tab templates -->
+
+ <ng-template #detailsTab> 
+
+    <app-details-tab [detailsData]="mock"></app-details-tab>
+
+</ng-template>
+
+ <ng-template #userTab> 
+
+    <app-user-tab></app-user-tab>
+
+</ng-template>
+
+ <ng-template #ordersTab> 
+
+    <app-order-tab></app-order-tab>
+
+</ng-template>
+
+<ng-template #customersTab> 
+
+    <app-customer-tab></app-customer-tab>
+
+</ng-template>
+
+<!-- loader -->
+<ng-template #licenseTab> 
+    <app-licenses-tab></app-licenses-tab>
+</ng-template> 
+
+<!--  -->
+  
+
+<ng-template #loaderTemplate>
+
+    <div class="w-100 pt-60 pb-30 d-flex flex-column justify-content-center align-items-center">
+        <app-loader type="button"></app-loader>
+        <div class="rc-accent-blue-160-color montserrat-semibold-font s15-h24">
+            Please wait...
+        </div>
+    </div>
+    
+</ng-template>
+<!-- end of tab templates -->

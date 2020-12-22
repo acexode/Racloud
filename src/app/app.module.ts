@@ -32,14 +32,14 @@ import { RcFormsModule } from './shared/rc-forms/rc-forms.module';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { TabsModule } from './shared/tabs/tabs.module';
 import { OrdersComponent } from './orders/orders.component';
-import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
 import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
 import { SignupComponent } from './signup/signup.component';
-import { CreateUserComponent } from './create-user/create-user.component';
-import { LicenseOptionsComponent } from './license-options/license-options.component';
-import { LoaderComponent } from './shared/loader/loader.component';
 
+import { ShopComponent } from './shop/shop.component';
+import { CustomerModule } from './customer/customer.module';
+import { LoaderModule } from './shared/loader/loader.module';
+import { PriceListsComponent } from './price-lists/price-lists.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,14 +52,11 @@ import { LoaderComponent } from './shared/loader/loader.component';
     StyleGuideComponent,
     AccessDeniedComponent,
     OrdersComponent,
-    UsersComponent,
     ProductsComponent,
     RaLogoComponent,
-    CreateUserComponent,
     SignupComponent,
-    CreateUserComponent,
-    LicenseOptionsComponent,
-    LoaderComponent,
+    ShopComponent,
+    PriceListsComponent
   ],
   imports: [
     BrowserModule,
@@ -82,6 +79,8 @@ import { LoaderComponent } from './shared/loader/loader.component';
     TableModule,
     RcFormsModule,
     TabsModule,
+    CustomerModule,
+    LoaderModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -1,5 +1,3 @@
-import { LicenseOptionsComponent } from './license-options/license-options.component';
-import { CreateUserComponent } from './create-user/create-user.component';
 import { OrdersComponent } from './orders/orders.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { NgModule } from '@angular/core';
@@ -13,13 +11,14 @@ import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
 import { SignupComponent } from './signup/signup.component';
+import { PriceListsComponent } from './price-lists/price-lists.component';
 
-
+import { ShopComponent } from './shop/shop.component';
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'customer'
+    redirectTo: 'style'
   },
   {
     path: 'home',
@@ -38,10 +37,11 @@ const routes: Routes = [
   },
   {
     path: 'users',
-    component: UsersComponent,
-    data: {
-      title: 'Users'
-    }
+    loadChildren: () =>
+      import('./users/users.module').then(
+        (m) => m.UsersModule
+      ),
+    data: { title: 'User Listing' },
   },
   {
     path: 'products',
@@ -95,14 +95,30 @@ const routes: Routes = [
     data: { title: 'Licenses Listing' },
   },
   {
-    path: 'licenses-options',
-    component: LicenseOptionsComponent,
-    data: { title: 'Licenses Listing' },
+    path: 'options',
+    loadChildren: () =>
+      import('./options/options.module').then(
+        (m) => m.OptionsModule
+      ),
+    data: { title: 'Options Listing' },
   },
   {
-    path: 'create-user',
-    component: CreateUserComponent,
-    data: { title: 'Create User' },
+    path: 'users',
+    loadChildren: () =>
+      import('./users/users.module').then(
+        (m) => m.UsersModule
+      ),
+    data: { title: 'Users Listing' },
+  },
+  {
+    path: 'shop',
+    component: ShopComponent,
+    data: { title: 'Shop' },
+  },
+  {
+    path: 'price-list',
+    component: PriceListsComponent,
+    data: { title: 'Price List' },
   },
   { path: '**', redirectTo: '/not-found' },
 ];

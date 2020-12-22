@@ -1,0 +1,354 @@
+[
+  {
+    "Id": 1,
+    "Name": "BestOpt",
+    "OptionType": "String",
+    "ValueString": "Unlock All",
+    "ValueBoolean": false,
+    "ValueList": [],
+    "ProductOptions": null,
+    "LicenseOptions": null
+  },
+  {
+    "Id": 2,
+    "Name": "Workshop",
+    "OptionType": "String",
+    "ValueString": "workshop lite",
+    "ValueBoolean": false,
+    "ValueList": [],
+    "ProductOptions": null,
+    "LicenseOptions": null
+  },
+  {
+    "Id": 3,
+    "Name": "Supplier",
+    "OptionType": "String",
+    "ValueString": "Auplast",
+    "ValueBoolean": false,
+    "ValueList": [],
+    "ProductOptions": null,
+    "LicenseOptions": null
+  },
+  {
+    "Id": 4,
+    "Name": "Partner",
+    "OptionType": "String",
+    "ValueString": "ABRACADABRA",
+    "ValueBoolean": false,
+    "ValueList": [],
+    "ProductOptions": null,
+    "LicenseOptions": null
+  },
+  {
+    "Id": 5,
+    "Name": "IsClientServer",
+    "OptionType": "Boolean",
+    "ValueString": null,
+    "ValueBoolean": true,
+    "ValueList": [],
+    "ProductOptions": null,
+    "LicenseOptions": null
+  },
+  {
+    "Id": 6,
+    "Name": "Supported Custom Development",
+    "OptionType": "ValueList",
+    "ValueString": null,
+    "ValueBoolean": false,
+    "ValueList": [
+      {
+        "Id": 1,
+        "OptionId": 6,
+        "Name": "string",
+        "Value": 0
+      }
+    ],
+    "ProductOptions": null,
+    "LicenseOptions": null
+  },
+  {
+    "Id": 7,
+    "Name": "Supported Custom Developments",
+    "OptionType": "ValueList",
+    "ValueString": null,
+    "ValueBoolean": false,
+    "ValueList": [
+      {
+        "Id": 2,
+        "OptionId": 7,
+        "Name": "Export Abyat",
+        "Value": 1
+      },
+      {
+        "Id": 3,
+        "OptionId": 7,
+        "Name": "Export Builder Smart",
+        "Value": 2
+      },
+      {
+        "Id": 4,
+        "OptionId": 7,
+        "Name": "CE Mark",
+        "Value": 3
+      },
+      {
+        "Id": 5,
+        "OptionId": 7,
+        "Name": "Export Saga",
+        "Value": 4
+      },
+      {
+        "Id": 6,
+        "OptionId": 7,
+        "Name": "Export Viridian",
+        "Value": 5
+      },
+      {
+        "Id": 7,
+        "OptionId": 7,
+        "Name": "Export Alumnium PG",
+        "Value": 6
+      }
+    ],
+    "ProductOptions": null,
+    "LicenseOptions": null
+  },
+  {
+    "Id": 8,
+    "Name": "SupportedDBAlter",
+    "OptionType": "ValueList",
+    "ValueString": null,
+    "ValueBoolean": false,
+    "ValueList": [
+      {
+        "Id": 8,
+        "OptionId": 8,
+        "Name": "Series Prices",
+        "Value": 2
+      },
+      {
+        "Id": 9,
+        "OptionId": 8,
+        "Name": " Accessories Prices",
+        "Value": 2
+      },
+      {
+        "Id": 10,
+        "OptionId": 8,
+        "Name": " Handwork Prices",
+        "Value": 3
+      },
+      {
+        "Id": 11,
+        "OptionId": 8,
+        "Name": "Glasses Prices",
+        "Value": 4
+      },
+      {
+        "Id": 12,
+        "OptionId": 8,
+        "Name": "Series",
+        "Value": 5
+      },
+      {
+        "Id": 13,
+        "OptionId": 8,
+        "Name": " Accessories",
+        "Value": 6
+      },
+      {
+        "Id": 14,
+        "OptionId": 8,
+        "Name": "Handiwork",
+        "Value": 7
+      },
+      {
+        "Id": 15,
+        "OptionId": 8,
+        "Name": " Glasses",
+        "Value": 8
+      },
+      {
+        "Id": 16,
+        "OptionId": 8,
+        "Name": " Price Catalog",
+        "Value": 9
+      }
+    ],
+    "ProductOptions": null,
+    "LicenseOptions": null
+  },
+  {
+    "Id": 9,
+    "Name": "SupportedReports",
+    "OptionType": "ValueList",
+    "ValueString": null,
+    "ValueBoolean": false,
+    "ValueList": [
+      {
+        "Id": 17,
+        "OptionId": 9,
+        "Name": "First Offer",
+        "Value": 1
+      },
+      {
+        "Id": 18,
+        "OptionId": 9,
+        "Name": "Second Offer",
+        "Value": 2
+      },
+      {
+        "Id": 19,
+        "OptionId": 9,
+        "Name": "All Offer",
+        "Value": 3
+      },
+      {
+        "Id": 20,
+        "OptionId": 9,
+        "Name": "Material Needed",
+        "Value": 4
+      },
+      {
+        "Id": 21,
+        "OptionId": 9,
+        "Name": "Glass Order",
+        "Value": 5
+      },
+      {
+        "Id": 22,
+        "OptionId": 9,
+        "Name": "Section Order",
+        "Value": 6
+      }
+    ],
+    "ProductOptions": null,
+    "LicenseOptions": null
+  },
+  {
+    "Id": 10,
+    "Name": "SupportedFeatures",
+    "OptionType": "ValueList",
+    "ValueString": null,
+    "ValueBoolean": false,
+    "ValueList": [
+      {
+        "Id": 23,
+        "OptionId": 10,
+        "Name": "Can Change Logo",
+        "Value": 1
+      },
+      {
+        "Id": 24,
+        "OptionId": 10,
+        "Name": "Backup Restore",
+        "Value": 2
+      },
+      {
+        "Id": 25,
+        "OptionId": 10,
+        "Name": "Export Import",
+        "Value": 3
+      },
+      {
+        "Id": 26,
+        "OptionId": 10,
+        "Name": "Client Server",
+        "Value": 4
+      },
+      {
+        "Id": 27,
+        "OptionId": 10,
+        "Name": "Common",
+        "Value": 5
+      },
+      {
+        "Id": 28,
+        "OptionId": 10,
+        "Name": "Can Use SQL Server",
+        "Value": 6
+      },
+      {
+        "Id": 29,
+        "OptionId": 10,
+        "Name": "Store Project to DB",
+        "Value": 7
+      },
+      {
+        "Id": 30,
+        "OptionId": 10,
+        "Name": "Edit Price List",
+        "Value": 8
+      }
+    ],
+    "ProductOptions": null,
+    "LicenseOptions": null
+  },
+  {
+    "Id": 11,
+    "Name": "Test Custom Dev",
+    "OptionType": "ValueList",
+    "ValueString": "",
+    "ValueBoolean": false,
+    "ValueList": [
+      {
+        "Id": 31,
+        "OptionId": 11,
+        "Name": "Access Option",
+        "Value": 4
+      }
+    ],
+    "ProductOptions": null,
+    "LicenseOptions": null
+  },
+  {
+    "Id": 12,
+    "Name": "supprot",
+    "OptionType": "ValueList",
+    "ValueString": null,
+    "ValueBoolean": false,
+    "ValueList": [
+      {
+        "Id": 32,
+        "OptionId": 12,
+        "Name": "export",
+        "Value": 1
+      },
+      {
+        "Id": 33,
+        "OptionId": 12,
+        "Name": "support calue",
+        "Value": 2
+      }
+    ],
+    "ProductOptions": null,
+    "LicenseOptions": null
+  },
+  {
+    "Id": 13,
+    "Name": "lorem ipsum",
+    "OptionType": "ValueList",
+    "ValueString": null,
+    "ValueBoolean": false,
+    "ValueList": [
+      {
+        "Id": 34,
+        "OptionId": 13,
+        "Name": "lorem",
+        "Value": 0
+      }
+    ],
+    "ProductOptions": null,
+    "LicenseOptions": null
+  },
+  {
+    "Id": 14,
+    "Name": "Classic_Limited_Qudus_Edition",
+    "OptionType": "String",
+    "ValueString": "string",
+    "ValueBoolean": false,
+    "ValueList": [],
+    "ProductOptions": null,
+    "LicenseOptions": null
+  }
+]

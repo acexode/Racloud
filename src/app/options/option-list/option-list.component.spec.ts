@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LicenseOptionsComponent } from './license-options.component';
+import { OptionListComponent } from './option-list.component';
 
-describe('LicenseOptionsComponent', () => {
-  let component: LicenseOptionsComponent;
-  let fixture: ComponentFixture<LicenseOptionsComponent>;
+describe('OptionListComponent', () => {
+  let component: OptionListComponent;
+  let fixture: ComponentFixture<OptionListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LicenseOptionsComponent ]
+      declarations: [ OptionListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LicenseOptionsComponent);
+    fixture = TestBed.createComponent(OptionListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

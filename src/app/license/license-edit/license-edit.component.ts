@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, TemplateRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
@@ -11,7 +11,7 @@ import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-confi
   templateUrl: './license-edit.component.html',
   styleUrls: ['./license-edit.component.scss']
 })
-export class LicenseEditComponent implements OnInit {
+export class LicenseEditComponent implements OnInit, AfterViewInit {
   @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
   @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
@@ -28,16 +28,22 @@ export class LicenseEditComponent implements OnInit {
     },
   };
   tabSwitch: any;
+  tabMarked = {
+    left: '0px',
+    width: '0px',
+  };
   tabs = [
     {
       name: 'Info',
       template: 'firstTab',
-      isSelected: true
+      isSelected: false,
+      defaultSelected: true,
     },
     {
       name: 'Options',
       template: 'secondTab',
-      isSelected: false
+      isSelected: false,
+      defaultSelected: false,
     }
   ];
   infoForm: FormGroup;
@@ -156,7 +162,6 @@ export class LicenseEditComponent implements OnInit {
       ]
     });
   }
-
   ngAfterViewInit() {
     this.showDefaultTab();
     this.cdref.detectChanges();
@@ -164,15 +169,20 @@ export class LicenseEditComponent implements OnInit {
   showDefaultTab() {
     this.tabSwitch = this.firstTab;
   }
-  switchTab(tabName: string, index: number) {
+  switchTab(event: any, tabName: string, index: number) {
     this.tabSwitch = this[tabName];
     this.ressetTabSelectStatus();
     // set as active
+    this.tabMarked = {
+      left: `${ event.target.offsetLeft }px`,
+      width: `${ event.target.offsetWidth }px`
+    };
     this.tabs[index].isSelected = true;
   }
   ressetTabSelectStatus() {
     for (const tab of this.tabs) {
       tab.isSelected = false;
+      tab.defaultSelected = false;
     }
   }
   isPartnerLicense(button) {

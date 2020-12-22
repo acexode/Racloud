@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -72,7 +73,8 @@ export class UsersComponent implements OnInit {
     private tS: TableService,
     private footerS: FooterService,
     private http: HttpClient,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private router: Router
   ) {}
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -166,8 +168,8 @@ setDropUp(row) {
 removeRow(id){
   console.log(id);
 }
-manageSub(id){
-  console.log(id);
+manageSub(data){
+  this.router.navigate(['users/edit-user', { id: data.id }]);
 }
 
 

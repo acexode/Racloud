@@ -43,11 +43,32 @@
       </a>
       <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
           role="menu" aria-labelledby="button-basic">
-        <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item" href="#">Manage</a></li>
-        <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item" href="#">Delete</a></li>
+        <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
+        <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
       
       </ul>
     </div>
     
   </ng-template>
 
+<ng-template #valueTemplate let-column="column" let-row="row" let-value="cellValue">
+   <div class="text-right px-0 mx-0">
+        <span>
+        $
+        </span>
+        <span>
+            {{ value }}
+        </span>
+   </div>
+</ng-template>
+
+<ng-template #discountTemplate let-column="column" let-row="row" let-value="cellValue">
+   <div class="text-right px-0 mx-0">
+        <span>
+        %
+        </span>
+        <span>
+            {{ value }}
+        </span>
+   </div>
+</ng-template>

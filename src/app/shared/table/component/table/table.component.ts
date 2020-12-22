@@ -157,4 +157,7 @@ export class TableComponent implements OnInit {
     column.isDesc = !column.isDesc;
     this.sortingData.emit(column);
   }
+  isArray(row) {
+    return row.ValueList.length
+  }
 }

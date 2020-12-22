@@ -7,6 +7,7 @@ export interface TableColumnI {
   resizeable?: boolean;
   headerHasFilterIcon?: boolean;
   customHeaderIcon?: string;
+  showExpandIcon?: boolean;
   headerIconPosition?: 'left' | 'right';
   labelPosition?: 'left' | 'right';
   cellContentPosition?: 'left' | 'right';
@@ -30,6 +31,7 @@ export interface TableI {
   footerHeight?: number;
   selectable?: boolean;
   selectDetail?: boolean;
+  expand?: boolean;
   selectDetailTemplate?: TemplateRef<any>;
   columns: Array<TableColumnI>;
   hoverDetail?: boolean;
@@ -38,4 +40,5 @@ export interface TableI {
   externalSorting?: boolean;
   loadingIndicator?: boolean;
   action?: boolean;
+  noFiltering?: boolean;
 }

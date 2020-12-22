@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CustomerComponent } from './customer.component';
 import { Routes, RouterModule } from '@angular/router';
-import { CreateEditCustomerComponent } from './create-edit-customer/create-edit-customer.component';
+import { CreateCustomerComponent } from './create-customer/create-customer.component';
+import { ManageCustomerComponent } from './manage-customer/manage-customer.component';
 
 const routes: Routes = [
     {
@@ -10,7 +11,12 @@ const routes: Routes = [
     },
     {
         path: 'create',
-        component: CreateEditCustomerComponent,
+        component: CreateCustomerComponent,
+        data: { title: 'Create Customer' },
+    },
+    {
+        path: 'manage/:id',
+        component: ManageCustomerComponent,
         data: { title: 'Create Customer' },
     },
 ];

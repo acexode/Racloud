@@ -7,6 +7,7 @@ import { Component, Input, OnInit} from '@angular/core';
 })
 export class TabButtonComponent implements OnInit {
   @Input() selected: boolean;
+  @Input() defaultSelected: boolean;
   constructor() { }
 
   ngOnInit(): void {

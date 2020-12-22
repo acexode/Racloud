@@ -6,8 +6,10 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  ControlContainer,
   ControlValueAccessor,
   FormBuilder,
+  FormControl,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { get, has } from 'lodash';
@@ -28,87 +30,80 @@ import { SelectConfig } from '../../models/select/select-config';
   ],
 })
 export class SelectComponent implements OnInit, ControlValueAccessor {
-  private vConfig: SelectConfig;
-  @Input()
-  set config(c: SelectConfig) {
-    this.vConfig = c;
-    this.updateItems();
-  }
-  get config() {
-    return this.vConfig;
-  }
+
+  @Input() config: SelectConfig;
   @Input() set options(opts: Array<any>) {
     this.opts = opts ? opts : [];
     this.updateItems();
-  }
-  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) { }
-
+  };
   items: BehaviorSubject<
-    Array<any>
-  > = new BehaviorSubject([]);
+    Array<{
+      id: any;
+      option: string;
+    }>
+    > = new BehaviorSubject([]);
   private opts: Array<any> = [];
-
+  @Input() formControl: FormControl;
+  @Input() formControlName: string;
+  value: any;
+  onChange: (_: any) => void;
+  onTouched: () => void;
   formGroup = this.fb.group({
     select: this.fb.control(null),
   });
-
-  onChange: (_: any) => void;
-  onTouched: () => void;
-  value: any;
-
-  compareWithFn = (o1, o2) => {
-    if (o1 && o2 && has(o1, 'id') && has(o2, 'id')) {
-      try {
-        return o1.id.toString() === o2.id.toString();
-      } catch (err) {
-        return false;
-      }
+  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef, public controlContainer: ControlContainer) { }
+  writeValue(obj: any): void {
+    let value = this.value;
+    this.value = obj;
+    const force = this.config
+      ? get(this.config, 'forceListItems', false)
+      : false;
+    if (force) {
+      value = this.filterValues(obj);
     } else {
-      try {
-        return o1.toString() === o2.toString();
-      } catch (err) {
-        return false;
-      }
+      value = obj;
     }
-  };
-
-  getFieldValue() {
-    const field = this.formGroup.get('select');
-    return field ? field.value : null;
-  }
-
-  ngOnInit() {
-    this.formGroup.valueChanges.subscribe((vals) => {
-      if (this.onChange) {
-        this.onChange(this.getFieldValue());
-        this.cdRef.markForCheck();
-        this.cdRef.detectChanges();
-      }
-    });
-    if (this.isDisable) {
-      this.formGroup.disable();
-    }
-
-  }
-  get isDisable() {
-    return get(this.config?.formStatus, 'isDisabled', false);
-  }
-
-  selectChange() {
+    this.formGroup.setValue({ select: obj });
+    this.formGroup.updateValueAndValidity();
+    this.setCustomError();
     this.cdRef.markForCheck();
     this.cdRef.detectChanges();
+  }
+  setCustomError() {
+    const hasErr = this.parentControl
+      ? !get(this.parentControl, 'valid', true)
+      : false;
+    if (hasErr) {
+      this.inputControl.setErrors({ INVALID_INPUT: true });
+    }
+  }
+  filterValues(obj: any) {
+    return obj;
+  }
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+  setDisabledState?(isDisabled: boolean): void {
+    if (isDisabled || this.inputReadonly) {
+      this.formGroup.disable({ emitEvent: true });
+    } else {
+      this.formGroup.enable({ emitEvent: true });
+    }
+    this.setCustomError();
+    this.cdRef.markForCheck();
   }
 
   updateItems() {
     const labelK = get(this.config, 'labelKey', 'option');
     const idK = get(this.config, 'idKey', 'id');
-    this.opts = this.opts.length !== 0 ? this.opts : [{ id: 'id', option: 'Select', isSelected: true }];
     const items = this.opts
       .map((v) => {
         return {
           id: get(v, idK, null),
           option: get(v, labelK, null),
-          isSelected: v.isSelected ? v.isSelected : false,
         };
       })
       .filter((vv) => {
@@ -120,8 +115,23 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
     this.cdRef.detectChanges();
   }
 
-  // This fixes a bug in ion-select,
-  // where update doesn't propagate after options are updated.
+  ngOnInit() {
+    if (this.inputReadonly) {
+      this.inputControl.disable();
+    }
+    this.formGroup.valueChanges.subscribe((vals) => {
+      if (this.onChange) {
+        this.onChange(this.getFieldValue());
+        this.setCustomError();
+        this.cdRef.markForCheck();
+        this.cdRef.detectChanges();
+      }
+    });
+  }
+  getFieldValue() {
+    const field = this.formGroup.get('select');
+    return field ? field.value : null;
+  }
   afterOptionsUpdate() {
     if (this.selectField) {
       this.selectField.patchValue(null, {
@@ -133,49 +143,57 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
         emitEvent: false,
       });
     }
+    this.setCustomError();
   }
-
-  writeValue(obj: any): void {
-    let value = this.value;
-    this.value = obj;
-    const force = this.config
-      ? get(this.config, 'forceListItems', false)
-      : false;
-
-    if (force) {
-      value = this.filterValues(obj);
-    } else {
-      value = obj;
-    }
-    this.formGroup.setValue({ select: obj });
-    this.formGroup.updateValueAndValidity();
+  selectChange(value: any) {
+    this.setCustomError();
     this.cdRef.markForCheck();
     this.cdRef.detectChanges();
   }
-
-  filterValues(obj: any) {
-    return obj;
-  }
-
-  registerOnChange(fn) {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    if (isDisabled) {
-      this.formGroup.disable({ emitEvent: true });
+  compareWithFn = (o1, o2) => {
+    if (o1 && o2 && has(o1, 'id') && has(o2, 'id')) {
+      try {
+        return (
+          o1.id.toString().toLowerCase().trim() ===
+          o2.id.toString().toLowerCase().trim()
+        );
+      } catch (err) {
+        return false;
+      }
     } else {
-      this.formGroup.enable({ emitEvent: true });
+      try {
+        return (
+          o1.toString().toLowerCase().trim() ===
+          o2.toString().toLowerCase().trim()
+        );
+      } catch (err) {
+        return false;
+      }
     }
-    this.cdRef.markForCheck();
+  };
+  // get ahold of FormControl instance no matter formControl or formControlName is given.;
+  // If formControlName is given, then controlContainer.control is the parent FormGroup/FormArray instance.
+  get parentControl() {
+    return (
+      this.formControl ||
+      this.controlContainer.control.get(this.formControlName)
+    );
   }
 
-  get selectField() {
+  get inputControl() {
     return this.formGroup.get('select');
   }
 
+  get inputReadonly() {
+    return (
+      get(this.config, 'readonly', false) ||
+      get(this.parentControl, 'readonly', false)
+    );
+  }
+  get selectField() {
+    return this.formGroup.get('select');
+  }
+  getVal(event) {
+    console.log(event.target.dataset.value);
+  }
 }

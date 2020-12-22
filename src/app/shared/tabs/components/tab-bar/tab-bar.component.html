@@ -4,6 +4,7 @@
 
         <div class="tab-bar-button-holder">
             <ng-content></ng-content>
+            <div id="marked" [ngStyle]="{'left': markedData.left, 'width': markedData.width}"></div>
         </div>
         
     </div>
