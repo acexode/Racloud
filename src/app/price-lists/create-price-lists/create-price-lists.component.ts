@@ -19,9 +19,11 @@ import { TableService } from 'src/app/shared/table/services/table.service';
   styleUrls: ['./create-price-lists.component.scss']
 })
 export class CreatePriceListsComponent implements OnInit {
+  mockData = './assets/price-lists-create-table.json';
+  currency = './assets/currency.json';
 
   caretLeftIcon = '../assets/images/caret-left.svg';
-  backUrl = '/customer';
+  backUrl = '/price-lists';
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -44,7 +46,7 @@ export class CreatePriceListsComponent implements OnInit {
   isDropup = true;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: TemplateRef<any>;
-  @ViewChild('optionTemplate', { static: true }) optionTemplate: TemplateRef<any>
+  @ViewChild('optionTemplate', { static: true }) optionTemplate: TemplateRef<any>;
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   tableConfig: TableI = {
@@ -239,7 +241,7 @@ export class CreatePriceListsComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data) => {
+    this.getJSON(this.mockData).subscribe((data) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
@@ -250,10 +252,9 @@ export class CreatePriceListsComponent implements OnInit {
         this.tableConfig.loadingIndicator = false;
       }
     });
-    this.reqS.get<any>(baseEndpoints.priceLists).subscribe(d => console.log(d));
   }
-  public getJSON(): Observable<any> {
-    return this.http.get('./assets/price-lists-create-table.json');
+  public getJSON(url: string): Observable<any> {
+    return this.http.get(url);
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
@@ -280,6 +281,16 @@ export class CreatePriceListsComponent implements OnInit {
       this.isDropup = true;
     }
     this.ref.detectChanges();
+  }
+
+  submit(): void {
+    const d = {
+      name: 'string',
+      currency: 'FRA'
+    };
+    this.reqS.get<any>(baseEndpoints.priceLists).subscribe(d => {
+      console.log(d);
+    });
   }
 
 }

@@ -18,14 +18,14 @@
               applyClass="true"
             >
             </svg-icon>
-            CUSTOMERS
+            PRICE LISTS
           </app-button>
           <!--  -->
 
           <h1
             class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0"
           >
-            New customer
+            Price list name
           </h1>
         </div>
       </div>
@@ -35,57 +35,56 @@
 
     <div class="w-100 pt-40">
 
-      <form [formGroup]="componentForm" class="row no-gutters">
+        <form [formGroup]="componentForm" class="row no-gutters">
 
-        <div class="col-12 px-0">
+            <div class="col-12 px-0">
 
-          <div class="row no-gutters">
+            <div class="row no-gutters">
 
-            <div class="col-12 col-md-3 mr-32">
-              <app-input
-                [config]="inputConfig('Name')"
-                formControlName="name"
-              ></app-input>
+                <div class="col-12 col-md-3 mr-32">
+                <app-input
+                    [config]="inputConfig('Name')"
+                    formControlName="name"
+                ></app-input>
+                </div>
+
+                <div class="col-12 col-md-3 mr-32">
+                <app-select
+                    [config]="selectionConfig('Currency')"
+                    formControlName="currency"
+                ></app-select>
+                </div>
+
+                <div class="col-12 col-md-3">
+                <app-select
+                    [config]="inputConfig('Date Created')"
+                    formControlName="dateCreated"
+                ></app-select>
+                </div>
+
             </div>
 
-            <div class="col-12 col-md-3 mr-32">
-              <app-select
-                [config]="selectionConfig('Currency')"
-                formControlName="currency"
-              ></app-select>
             </div>
 
-            <div class="col-12 col-md-3">
-              <app-select
-                [config]="inputConfig('Date Created')"
-                formControlName="dateCreated"
-              ></app-select>
+            <div class="w-100 mt-40">
+                <app-table
+                    [rows]="tableData | async"
+                    [config]="tableConfig"
+                    (filterData)="filterTable($event)"
+                    [rowDetailConfig]="rowDetailIcons"
+                ></app-table>
             </div>
 
-          </div>
+            <div class="w-100">
+                <div class="rc-light-grey-bg mt-16 p-16 d-flex justify-content-end">
+                    <app-button type="button" color="secondaryB" class="mr-8">
+                    Add Product
+                    </app-button>
 
-        </div>
-
-      </form>
-    </div>
-
-    <div class="w-100 mt-40">
-        <app-table
-            [rows]="tableData | async"
-            [config]="tableConfig"
-            (filterData)="filterTable($event)"
-            [rowDetailConfig]="rowDetailIcons"
-        ></app-table>
-    </div>
-
-    <div class="w-100">
-      <div class="rc-light-grey-bg mt-16 p-16 d-flex justify-content-end">
-        <app-button type="button" color="secondaryB" class="mr-8">
-          Add Product
-        </app-button>
-
-        <app-button type="submit" color="primary"> Update </app-button>
-      </div>
+                    <app-button type="submit" color="primary"> Update </app-button>
+                </div>
+            </div>
+        </form>
     </div>
   </div>
 </app-page-container>
