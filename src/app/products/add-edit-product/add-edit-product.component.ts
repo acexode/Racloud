@@ -97,7 +97,13 @@ export class AddEditProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.getOption().subscribe((e: any) =>{
-      this.optionList = e
+      this.optionList = e.map(obj =>{
+        return {
+          ...obj,
+          UserAccess: "Hidden",
+          PartnerAccess: "Hidden"
+        }
+      })
     })
     const id = this.route.snapshot.paramMap.get('id');
     this.initForm();
@@ -106,7 +112,6 @@ export class AddEditProductComponent implements OnInit {
       this.productS.getProducts().subscribe((obj:any) =>{
         this.productOptions = obj
         const data = obj.filter(e => e.Id.toString() === id)[0];
-        console.log(data)
         this.product = data
         this.productForm.patchValue({
           application: data.Application,
@@ -117,7 +122,6 @@ export class AddEditProductComponent implements OnInit {
       });
     }else{
       this.productS.getProducts().subscribe((obj:any) =>{
-        console.log(obj)
         this.productOptions = obj
       })
     }
@@ -175,34 +179,34 @@ export class AddEditProductComponent implements OnInit {
     }
   }
   onChange(option, field) {
-    console.log(field)
-    console.log(option)
     this.productForm.get(field).patchValue(option)
-    // this.selectedType =option;
-    // this.setFormValue('optionType',option);
-    // this.cdRef.detectChanges();
   }
   get selectedOptions() {
     return this.productForm.get('selectedOptions') as FormArray;
   }
   submitForm(){
-  console.log(this.selectedRows);
-  console.log(this.productForm.value);
   const obj = this.productForm.value
-  obj.selectedOptions = this.selectedRows
-  console.log(obj)
+  const resArr = []
+  this.selectedRows.reverse().filter(function(item){
+    var i = resArr.findIndex(x => x.optionId == item.Id);
+    if(i <= -1){
+      resArr.push(
+        {
+          optionId: item.Id,
+          userAccess: item.UserAccess,
+          partnerAccess: item.PartnerAccess
+        }
+        );
+    }
+    return null;
+  });
+  console.log(resArr)
+  obj.selectedOptions = resArr
   this.productS.createProducts(obj).subscribe(e =>{
     console.log(e)
   })
   }
   getRow(row){
-    this.selectedRows = row.selected.map(e =>{
-      return {
-        optionId: e.Id,
-        userAccess: 'Hidden',
-        partnerAccess: 'Editable'
-      }
-    })
-    console.log(this.selectedRows)
+    this.selectedRows = row.selected
   }
 }

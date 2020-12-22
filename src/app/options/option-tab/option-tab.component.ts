@@ -1,3 +1,4 @@
+import { ProductServiceService } from './../../products/product-service.service';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -20,11 +21,12 @@ export class OptionTabComponent implements OnInit {
   @ViewChild('colmunDropDownTemplate', { static: true }) colmunDropDownTemplate: TemplateRef<any>;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('selectDetailTemplate', { static: true }) selectDetailTemplate: TemplateRef<any>;
-  @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
+  @ViewChild('UserAccess', { static: true }) UserAccess: any;
+  @ViewChild('PartnerAccess', { static: true }) PartnerAccess: any;
   @ViewChild('selectT', { static: true }) selectT: any;
 
   @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
-
+ 
   @Input() optionList
   @Output() selectedRows: EventEmitter<any> = new EventEmitter();
   rowData: Array<any> = [];
@@ -83,6 +85,7 @@ export class OptionTabComponent implements OnInit {
     private tS: TableService,
     private footerS: FooterService,
     private http: HttpClient,
+    private productS: ProductServiceService,
 
     private ref: ChangeDetectorRef
   ) { }
@@ -138,7 +141,7 @@ export class OptionTabComponent implements OnInit {
         },
       },
       {
-        identifier: 'partner_access',
+        identifier: 'PartnerAccess',
         label: 'Partner Access',
         sortable: true,
         minWidth: 152,
@@ -149,10 +152,10 @@ export class OptionTabComponent implements OnInit {
         labelPosition: 'left',
         cellContentPosition: 'right',
         hasFilter: true,
-        cellTemplate: this.actionDropdown
+        cellTemplate: this.PartnerAccess
       },
       {
-        identifier: 'user_access',
+        identifier: 'UserAccess',
         label: 'User Access',
         sortable: true,
         minWidth: 152,
@@ -163,11 +166,10 @@ export class OptionTabComponent implements OnInit {
         labelPosition: 'left',
         cellContentPosition: 'right',
         hasFilter: true,
-        cellTemplate: this.actionDropdown
+        cellTemplate: this.UserAccess
       }
     ];
     if (this.optionList) {
-      console.log(this.optionList)
       this.tableConfig.loadingIndicator = true;
       this.rowData = this.optionList;
       const cloneData = this.optionList.map((v: any) => {
@@ -178,6 +180,9 @@ export class OptionTabComponent implements OnInit {
     }
     // this.getJSON().subscribe((data) => {
     // });
+  }
+  initTableData(){
+
   }
   public getJSON(): Observable<any> {
     return this.http.get('./assets/option-list.json');
@@ -227,6 +232,40 @@ export class OptionTabComponent implements OnInit {
   }
   getRow(item){
     this.rowValue = item.selected[0]
+    console.log(item)
     this.selectedRows.emit(item)
+  }
+  setPartnerAccess(row, access){
+    this.optionList = this.optionList.map(obj =>{
+      if(obj.Id === row.Id){
+        console.log(true)
+        return {
+          ...obj,
+          PartnerAccess: access
+        }
+      }
+      return obj
+    })
+    this.reInitData(this.optionList)
+  }
+  setUserAccess(row, access){
+    this.optionList = this.optionList.map(obj =>{
+      if(obj.Id === row.Id){
+        return {
+          ...obj,
+          UserAccess: access
+        }
+      }
+      return obj
+    })
+    this.reInitData(this.optionList)
+  }
+  reInitData(data: []){
+    this.rowData = data
+    const cloneData = data.map((v: any) => {
+        return { ...v };
+    });
+    this.productS.SetOptionList(data)
+    this.tableData.next(cloneData);
   }
 }

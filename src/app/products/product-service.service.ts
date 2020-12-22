@@ -1,12 +1,13 @@
 import { productEndpoints } from './../core/configs/endpoints';
 import { Injectable } from '@angular/core';
 import { RequestService } from '../core/services/request/request.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductServiceService {
-
+  modifiedOptionList = new BehaviorSubject<[]>([]);
   constructor(private reqS: RequestService) { }
 
   getProducts(){
@@ -14,5 +15,11 @@ export class ProductServiceService {
   }
   createProducts(product){
     return this.reqS.post(productEndpoints.createProduct, product)
+  }
+  public get GetOptionList(): Observable<[]>{
+    return this.modifiedOptionList.asObservable();
+  }
+  SetOptionList(data: []){
+    this.modifiedOptionList.next(data);
   }
 }
