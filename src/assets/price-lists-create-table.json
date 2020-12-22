@@ -1,0 +1,29 @@
+[
+    {
+        "id":1,
+        "application":"RA Workshop",
+        "product": "RA Workshop Lite",
+        "productType":"value",
+        "initFee":"123,56",
+        "subscriptionFee":"1,234.56",
+        "supportHours":24
+    },
+    {
+        "id":2,
+        "application":"RA Workshop",
+        "product": "RA Workshop Express",
+        "productType":"value",
+        "initFee":"123,56",
+        "subscriptionFee":"1,234.56",
+        "supportHours":24
+    },
+    {
+        "id":3,
+        "application":"RA Workshop",
+        "product": "RA Workshop Professional",
+        "productType":"value",
+        "initFee":"123,56",
+        "subscriptionFee":"1,234.56",
+        "supportHours":24
+    }
+]
