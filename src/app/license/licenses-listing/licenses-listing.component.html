@@ -12,7 +12,7 @@
                         Own licenses
                     </app-toggle>
                     <!--  -->
-                    <app-button type="button" color="primary">
+                    <app-button [routerLink]="['./license-buy']" type="button" color="primary">
                         Buy license
                     </app-button>
                     <!--  -->
@@ -31,7 +31,8 @@
         </div>
     </div>
 </ng-template>
-<ng-template #actionDropdown let-column="column" let-row="row">
+
+<ng-template #actionDropdown let-column="column" let-row="row" let-rowIndex="rowIndex">
     <div class="btn-group" dropdown [dropup]="isDropup">
       <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
               aria-controls="dropdown-basic">
