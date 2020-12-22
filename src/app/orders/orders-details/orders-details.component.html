@@ -133,17 +133,8 @@
   </ng-template>
 
   <ng-template #actionDropdown let-column="column" let-row="row">
-    <div class="btn-group" dropdown [dropup]="isDropup">
-      <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
-              aria-controls="dropdown-basic">
-              <i class="fa fa-ellipsis-h" aria-hidden="true"></i> 
-      </a>
-      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-          role="menu" aria-labelledby="button-basic">
-        <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
-        <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
-      
-      </ul>
+    <div>
+      <img src="./../../../assets/images/Delete.svg" alt="Delete-icon" class="icon-w20-h20" />
     </div>
     
   </ng-template>
@@ -167,6 +158,6 @@
         <span>
             %
         </span>
-        <img src="./../../../assets/images/Edit.svg" alt="-icon" class="" />
+        <img src="./../../../assets/images/Edit.svg" alt="edit-icon" class="icon-w16-h16" />
    </div>
 </ng-template>

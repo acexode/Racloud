@@ -272,7 +272,7 @@ export class OrdersDetailsComponent implements OnInit {
         sortable: false,
         minWidth: 40,
         noGrow: true,
-        headerHasFilterIcon: true,
+        headerHasFilterIcon: false,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
