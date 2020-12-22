@@ -95,19 +95,78 @@
                 formControlName="totalValue"
               ></app-input>
             </div>
-            
+
         </div>
       </form>
     </div>
 
     <div class="w-100">
+        <app-table
+            [rows]="tableData | async"
+            [config]="tableConfig"
+            (filterData)="filterTable($event)"
+            [rowDetailConfig]="rowDetailIcons"
+        ></app-table>
+    </div>
+
+    <div class="w-100">
       <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-end">
         <app-button type="button" color="secondaryB" class="mr-8">
-          Cancel
+          Add product
         </app-button>
 
-        <app-button type="button" color="primary"> Save </app-button>
+        <app-button type="button" color="secondaryB" class="mr-8"> Save Draft </app-button>
+
+        <app-button type="button" color="primary"> Check Out </app-button>
+
       </div>
     </div>
   </div>
 </app-page-container>
+
+<ng-template #hoverDetailTpl let-column="column" let-row="row">
+    <div class="d-flex justify-content-end w-100">
+      <div class="d-flex bg-container justify-content-end py-10 mt-n10">
+        <div class="row-detail d-flex align-items-center"></div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #actionDropdown let-column="column" let-row="row">
+    <div class="btn-group" dropdown [dropup]="isDropup">
+      <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
+              aria-controls="dropdown-basic">
+              <i class="fa fa-ellipsis-h" aria-hidden="true"></i> 
+      </a>
+      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+          role="menu" aria-labelledby="button-basic">
+        <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
+        <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
+      
+      </ul>
+    </div>
+    
+  </ng-template>
+
+  <ng-template #valueTemplate let-column="column" let-row="row" let-value="cellValue">
+   <div class="text-right px-0 mx-0">
+        <span>
+        $
+        </span>
+        <span>
+            {{ value }}
+        </span>
+   </div>
+</ng-template>
+
+<ng-template #discountTemplate let-column="column" let-row="row" let-value="cellValue">
+   <div class="text-right px-0 mx-0">
+        <span>
+        {{ value }}
+        </span>
+        <span>
+            %
+        </span>
+        <img src="./../../../assets/images/Edit.svg" alt="-icon" class="" />
+   </div>
+</ng-template>

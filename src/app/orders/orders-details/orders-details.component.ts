@@ -1,8 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
+import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
+import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
+import { TableI } from 'src/app/shared/table/models/table.interface';
+import { TableService } from 'src/app/shared/table/services/table.service';
 
 @Component({
   selector: 'app-orders-details',
@@ -22,11 +29,39 @@ export class OrdersDetailsComponent implements OnInit {
       body: 'no-shadow',
     },
   };
-
+  @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
+  @ViewChild('actionDropdown', { static: true }) actionDropdown: TemplateRef<any>;
+  @ViewChild('valueTemplate', { static: true }) valueTemplate: TemplateRef<any>;
+  @ViewChild('discountTemplate', { static: true }) discountTemplate: TemplateRef<any>;
+  rows = [];
+  rowDetailIcons = [
+    '../../assets/images/Edit.svg',
+    '../../assets/images/Log.svg',
+  ];
+  rowData: Array<any> = [];
+  tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  tableConfig: TableI = {
+    selectable: false,
+    selectDetail: false,
+    hoverDetail: true,
+    columns: [],
+    externalPaging: false,
+    externalSorting: false,
+    loadingIndicator: true,
+    action: true
+  };
   componentForm: FormGroup;
 
   controlStore: { [key: string]: AbstractControl; } = {};
-  constructor(private fb: FormBuilder) { }
+  isDropup: boolean;
+  constructor(
+    private fb: FormBuilder,
+    private tS: TableService,
+    private http: HttpClient,
+    private ref: ChangeDetectorRef,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   selectionConfig(label: string): SelectConfig {
     return {
@@ -61,6 +96,7 @@ export class OrdersDetailsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.initForm();
+    this.onInitTable();
   }
 
   initForm() {
@@ -112,5 +148,176 @@ export class OrdersDetailsComponent implements OnInit {
       ],
     });
   }
-
+  onInitTable(): void {
+    this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
+    this.tableConfig.columns = [
+      {
+        identifier: 'application',
+        label: 'Application',
+        sortable: true,
+        minWidth: 226,
+        width: 90,
+        noGrow: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          placeholder: 'Search'
+        },
+      },
+      {
+        identifier: 'product',
+        label: 'Product',
+        sortable: true,
+        minWidth: 226,
+        width: 90,
+        noGrow: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        },
+      },
+      {
+        identifier: 'um',
+        label: 'UM?',
+        sortable: true,
+        minWidth: 186,
+        width: 300,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        },
+      },
+      {
+        identifier: 'quantity',
+        label: 'Quantity',
+        sortable: true,
+        minWidth: 97,
+        noGrow: true,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
+        cellTemplate: this.valueTemplate,
+        hasFilter: true,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        },
+      },
+      {
+        identifier: 'value',
+        label: 'Value',
+        sortable: true,
+        minWidth: 120,
+        noGrow: true,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
+        cellTemplate: this.valueTemplate,
+        hasFilter: true,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        },
+      },
+      {
+        identifier: 'discount',
+        label: 'Discount',
+        sortable: true,
+        minWidth: 120,
+        noGrow: true,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
+        cellTemplate: this.discountTemplate,
+        hasFilter: true,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        }
+      },
+      {
+        identifier: 'totalValue',
+        label: 'Total Value',
+        sortable: true,
+        minWidth: 120,
+        noGrow: true,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
+        cellTemplate: this.valueTemplate,
+        hasFilter: true,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        }
+      },
+      {
+        identifier: 'action',
+        label: '',
+        sortable: false,
+        minWidth: 40,
+        noGrow: true,
+        headerHasFilterIcon: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'right',
+        hasFilter: false,
+        cellTemplate: this.actionDropdown
+      },
+    ];
+    this.getJSON().subscribe((data) => {
+      if (data) {
+        this.tableConfig.loadingIndicator = true;
+        this.rowData = data;
+        const cloneData = data.map((v) => {
+          return { ...v };
+        });
+        this.tableData.next(cloneData);
+        this.tableConfig.loadingIndicator = false;
+      }
+    });
+  }
+  public getJSON(): Observable<any> {
+    return this.http.get('./assets/order-details.json');
+  }
+  filterTable(filterObj: TableFilterConfig) {
+    const newRows = this.tS.filterRowInputs(
+      this.tableConfig?.columns,
+      this.rowData,
+      filterObj
+    );
+    this.tableData.next(newRows);
+  }
+  setDropUp(row) {
+    const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
+    const mod = idx % 10 === 0 ? 10 : idx % 10;
+    if (mod < 6) {
+      this.isDropup = false;
+    } else {
+      this.isDropup = true;
+    }
+    this.ref.detectChanges();
+  }
+  removeRow(id) {
+    console.log(id);
+  }
+  manageSub(data: any) {
+    console.log(data);
+    this.router.navigate(['orders-details', data.id], { relativeTo: this.route });
+  }
 }

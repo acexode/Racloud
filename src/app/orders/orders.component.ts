@@ -80,7 +80,7 @@ export class OrdersComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute,
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
@@ -226,32 +226,32 @@ export class OrdersComponent implements OnInit {
   }
   public getJSON(): Observable<any> {
     return this.http.get('./assets/orders.json');
-}
-filterTable(filterObj: TableFilterConfig) {
-  const newRows = this.tS.filterRowInputs(
-    this.tableConfig?.columns,
-    this.rowData,
-    filterObj
-  );
-  this.tableData.next(newRows);
-}
-setDropUp(row) {
-  const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
-  const mod = idx % 10 === 0 ? 10 : idx % 10;
-  if(mod < 6) {
-    this.isDropup = false;
-  }else {
-    this.isDropup = true;
   }
-  this.ref.detectChanges();
-}
-removeRow(id){
-  console.log(id);
-}
-manageSub(data: any){
-  console.log(data);
-  this.router.navigate(['orders-details', data.id], { relativeTo: this.route });
-}
+  filterTable(filterObj: TableFilterConfig) {
+    const newRows = this.tS.filterRowInputs(
+      this.tableConfig?.columns,
+      this.rowData,
+      filterObj
+    );
+    this.tableData.next(newRows);
+  }
+  setDropUp(row) {
+    const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
+    const mod = idx % 10 === 0 ? 10 : idx % 10;
+    if (mod < 6) {
+      this.isDropup = false;
+    } else {
+      this.isDropup = true;
+    }
+    this.ref.detectChanges();
+  }
+  removeRow(id) {
+    console.log(id);
+  }
+  manageSub(data: any) {
+    console.log(data);
+    this.router.navigate(['orders-details', data.id], { relativeTo: this.route });
+  }
 
 
 }
