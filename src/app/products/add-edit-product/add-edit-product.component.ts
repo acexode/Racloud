@@ -25,7 +25,7 @@ export class AddEditProductComponent implements OnInit {
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
 
   caretLeftIcon = '../assets/images/caret-left.svg';
-  backUrl = '/customer';
+  backUrl = '/products';
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -202,6 +202,10 @@ export class AddEditProductComponent implements OnInit {
   });
   console.log(resArr)
   obj.selectedOptions = resArr
+  const id = this.route.snapshot.paramMap.get('id');
+  if(this.isEdit){
+    obj.id =  id
+  }
   this.productS.createProducts(obj).subscribe(e =>{
     console.log(e)
   })

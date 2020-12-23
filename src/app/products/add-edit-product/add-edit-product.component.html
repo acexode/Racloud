@@ -30,7 +30,7 @@
             <h1 *ngIf="isEdit"
               class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0"
             >
-              {{product.Name | titlecase}}
+              {{product?.Name | titlecase}}
             </h1>
           </div>
         </div>
@@ -119,6 +119,14 @@
                     </ng-template>
                     <ng-template #secondTab> 
                       <app-option-tab (selectedRows)="getRow($event)" [optionList]="optionList"></app-option-tab>
+                      <div class="col-12 submit-row">
+                        <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
+                            Cancel
+                        </app-button>
+                        <app-button (click)="submitForm()" color="primary">
+                            Save
+                        </app-button>
+                    </div>
                     </ng-template>
                     
                 

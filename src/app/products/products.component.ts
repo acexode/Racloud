@@ -98,7 +98,7 @@ export class ProductsComponent implements OnInit {
       },
       {
         identifier: 'Name',
-        label: 'Name',
+        label: 'Product Name',
         sortable: true,
         minWidth: 150,
         width: 150,
@@ -118,7 +118,7 @@ export class ProductsComponent implements OnInit {
       },
       {
         identifier: 'ProductType',
-        label: 'Product Type',
+        label: 'Type',
         sortable: true,
         minWidth: 150,
         noGrow: true,
@@ -143,6 +143,7 @@ export class ProductsComponent implements OnInit {
     ];
     this.productS.getProducts().subscribe((data:any) => {
       if (data) {
+        console.log(data)
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
         const cloneData = data.map((v) => {
