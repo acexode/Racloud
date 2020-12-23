@@ -1,6 +1,6 @@
 <ng-container>
     <div class="w-100 pt-40">
-        <form [formGroup]="componentForm" class="row no-gutters">
+        <form [formGroup]="componentForm" class="row no-gutters" (submit)="updateProfile()">
             
             <div class="col-12 col-md-3 px-0 pr-0 py-0 pr-md-16 m-0">
 
@@ -110,20 +110,20 @@
 
             </div>
 
+            <div class="w-100">
+                <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-end">
+                    <app-button type="button" color="secondaryB" class="mr-8">
+                    Renew Subscription
+                    </app-button>
 
+                    <app-button type="button" color="primary"> 
+                        Update profile 
+                    </app-button>
+
+                </div>
+            </div>
             
         </form>
     </div>
-    <div class="w-100">
-      <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-end">
-        <app-button type="button" color="secondaryB" class="mr-8">
-          Renew Subscription
-        </app-button>
-
-        <app-button type="button" color="primary"> 
-            Update profile 
-        </app-button>
-
-      </div>
-    </div>
+    
 </ng-container>

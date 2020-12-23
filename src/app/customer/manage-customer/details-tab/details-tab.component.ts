@@ -4,8 +4,7 @@ import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea-config';
 import { get } from 'lodash';
-import { Observable, Subscription } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 import { CountriesService } from 'src/app/core/services/countries/countries.service';
 import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
 import { CompanyTypes } from 'src/app/core/models/companyTypes';
@@ -29,8 +28,6 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
       option: CompanyTypes[companyType]
     };
   });
-  countryOptions$: Subscription;
-  customerParentOptions$: Subscription;
   componentForm = this.fb.group({
     name: [
       '',
@@ -107,9 +104,10 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
   });
   countryOptions: any;
   customerParentOptions: any;
+  countryOptions$: Subscription;
+  customerParentOptions$: Subscription;
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
     private cS: CountriesService,
     private parentS: CompanyParentsService
   ) { }
@@ -128,9 +126,6 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
       err => { }
     );
     this.updateValueForForm(this.detailsData);
-  }
-  getJSON(urlPath: string): Observable<any> {
-    return this.http.get(urlPath);
   }
   selectConfig(
     label: string,
@@ -180,6 +175,9 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
       supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
     };
     this.componentForm.setValue({ ...d });
+  }
+  updateProfile(): void {
+
   }
   ngOnDestroy(): void {
     this.countryOptions$.unsubscribe();
