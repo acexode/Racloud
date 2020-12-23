@@ -28,9 +28,9 @@
 
                 <div class="col-12 m-0 p-0">
                     <app-select
-                        [config]="selectConfig('Parent')"
+                        [config]="selectConfig('Parent', 'Select Parent', true, 'id', 'companyName')"
                         formControlName="parentCompanyName"
-                        [options]="parentOptions"
+                        [options]="customerParentOptions"
                     ></app-select>
                 </div>
 
@@ -47,9 +47,9 @@
                     </app-textarea>
                 </div>
 
-                <div class="col-12 p-0" *ngIf="countryOptions$ | async as countryOptions">
+                <div class="col-12 p-0">
                     <app-select
-                        [config]="selectConfig('Country', 'Select Country', true, 'code', 'name')"
+                        [config]="selectConfig('Country', 'Select Country', true, 'id', 'name')"
                         formControlName="country"
                         [options]="countryOptions"
                     ></app-select>

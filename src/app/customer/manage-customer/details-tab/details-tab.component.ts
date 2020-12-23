@@ -4,14 +4,17 @@ import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea-config';
 import { get } from 'lodash';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { CountriesService } from 'src/app/core/services/countries/countries.service';
+import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
+import { CompanyTypes } from 'src/app/core/models/companyTypes';
 @Component({
   selector: 'app-details-tab',
   templateUrl: './details-tab.component.html',
   styleUrls: ['./details-tab.component.scss']
 })
-export class DetailsTabComponent implements OnInit {
+export class DetailsTabComponent implements OnInit, OnDestroy {
   @Input() detailsData: any;
   textAreaConfig: TextAreaConfig = {
     textAreaLabel: {
@@ -20,37 +23,14 @@ export class DetailsTabComponent implements OnInit {
     placeholder: ''
   };
 
-  typeOptions = [
-    {
-      id: 'fabricator',
-      option: 'Fabricator'
-    },
-    {
-      id: 'reseller',
-      option: 'Reseller'
-    },
-    {
-      id: 'partner',
-      option: 'Partner'
-    }
-  ];
-  parentOptions = [
-    {
-      id: 'mock',
-      option: 'Mock'
-    },
-    {
-      id: 'softescu',
-      option: 'Softescu'
-
-    },
-    {
-      id: 'pyramid',
-      option: 'Pyramid'
-    }
-  ];
-  countryJsonDataUrl = './assets/list-of-countries.json';
-  countryOptions$: Observable<any>;
+  typeOptions = Object.keys(CompanyTypes).map(companyType => {
+    return {
+      id: companyType,
+      option: CompanyTypes[companyType]
+    };
+  });
+  countryOptions$: Subscription;
+  customerParentOptions$: Subscription;
   componentForm = this.fb.group({
     name: [
       '',
@@ -125,13 +105,28 @@ export class DetailsTabComponent implements OnInit {
       ],
     ],
   });
+  countryOptions: any;
+  customerParentOptions: any;
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private cS: CountriesService,
+    private parentS: CompanyParentsService
   ) { }
 
   ngOnInit(): void {
-    this.countryOptions$ = this.getJSON(this.countryJsonDataUrl);
+    this.countryOptions$ = this.cS.getCountries().subscribe(
+      (res: { id: any, name: string; }) => {
+        this.countryOptions = res;
+      },
+      err => { }
+    );
+    this.customerParentOptions$ = this.parentS.getParents().subscribe(
+      (res: any) => {
+        this.customerParentOptions = res;
+      },
+      err => { }
+    );
     this.updateValueForForm(this.detailsData);
   }
   getJSON(urlPath: string): Observable<any> {
@@ -184,6 +179,10 @@ export class DetailsTabComponent implements OnInit {
       supportHoursContract: get(data, 'supportHoursContract', ''),
       supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
     };
-    this.componentForm.setValue({...d});
+    this.componentForm.setValue({ ...d });
+  }
+  ngOnDestroy(): void {
+    this.countryOptions$.unsubscribe();
+    this.customerParentOptions$.unsubscribe();
   }
 }
