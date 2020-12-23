@@ -16,4 +16,9 @@ export const optionEndpoints = {
   createOption: serverBaseUrl + '/options/create',
   getOptions: serverBaseUrl + '/options'
 };
+export const licenseEndpoints = {
+  createLicense: serverBaseUrl + '/licenses/purchase',
+  getLicenses: serverBaseUrl + '/licenses',
+  getOneLicense: serverBaseUrl + '/licenses/'
+};
 

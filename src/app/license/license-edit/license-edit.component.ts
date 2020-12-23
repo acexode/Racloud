@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
+import { LicenseServiceService } from '../license-service.service';
 
 @Component({
   selector: 'app-license-edit',
@@ -55,7 +56,9 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   selectedRenewBtn;
 
   controlStore: { [key: string]: AbstractControl; } = {};
-  constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef,private http: HttpClient, private route: ActivatedRoute,) { }
+  constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef,
+    private service: LicenseServiceService,
+    private http: HttpClient, private route: ActivatedRoute,) { }
   inputConfig(
     label: string,
     type: string = 'text',
@@ -82,17 +85,20 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.initForm();
     if(id){
-      this.http.get('./assets/ra-table-license.json').subscribe((obj:any) =>{
-        const data = obj.filter(e => e.id === id)[0];
-        this.selectedPartnerLicenseBtn = this.setBoolean( data.partnerLicense );
-        this.selectedRenewBtn = this.setBoolean( data.renew );
+      this.service.getOneLicense(id).subscribe((data:any) =>{
+        console.log(data)
+        // const data = obj.filter(e => e.id === id)[0];
+        const selectedP = data.IsPartnerLicense ? 'Yes' : 'No'
+        const selectedR = data.IsPartnerLicense ? 'Yes' : 'No'
+        this.selectedPartnerLicenseBtn = this.setBoolean( selectedP );
+        this.selectedRenewBtn = this.setBoolean( selectedR );
         this.infoForm.patchValue({
-          productName: data.productName,
-          partner: data.partnerLicense,
-          purchased: data.purchased,
-          renew: data.renew,
-          expires: data.expires,
-          customer: data.customers
+          productName: data.Product,
+          partner: data.IspartnerLicense,
+          purchased: data.PurchaseDate,
+          renew: data.RenewByUserCompany,
+          expires: data.ExpirationDate,
+          customer: data.Company.CompanyName
         });
       });
     }
@@ -185,7 +191,8 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
       tab.defaultSelected = false;
     }
   }
-  isPartnerLicense(button) {
+  isPartnerLicense(event, button) {
+    event.preventDefault();
     if (button === this.selectedPartnerLicenseBtn) {
       this.setFormValue('partner',button.title);
       this.selectedPartnerLicenseBtn = undefined;
@@ -194,8 +201,8 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
       this.selectedPartnerLicenseBtn = button;
     }
   }
-  renewbyUserCompany(button) {
-    console.log(button)
+  renewbyUserCompany(event, button) {
+    event.preventDefault();
     if (button === this.selectedRenewBtn) {
       this.selectedRenewBtn = undefined;
       this.setFormValue('renew',button.title);
@@ -213,7 +220,20 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     return this.partnerLicense.filter(e => e.title === data)[0];
   }
   submitForm(){
-  console.log(this.infoForm.value);
+    const values = this.infoForm.value
+    const selectedP = values.partner === 'Yes' ? true : false
+    const selectedR = values.renew === 'Yes' ? true : false
+    const obj = {
+      companyId: values.companyId,
+      productId: values.productId,
+      isPartnerLicense: selectedP,
+      renewByUserCompany: selectedR,
+      companyUser: values.company
+    }
+    console.log(obj)
+    this.service.createLicenses(obj).subscribe(e =>{
+      console.log(e)
+    })
   }
 }
 

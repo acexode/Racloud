@@ -57,7 +57,7 @@
                             <div class="col-6 mb-14">                               
                                 <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Is Partner License</label>
                                 <div class="rc-form-group rc-form-group-without-prefix" >
-                                    <app-chips *ngFor="let button of partnerLicense" class="mr-2"  [color]="(selectedPartnerLicenseBtn == button) ? 'selected' : 'default'" (click)="isPartnerLicense(button)">
+                                    <app-chips *ngFor="let button of partnerLicense" class="mr-2"  [color]="(selectedPartnerLicenseBtn == button) ? 'selected' : 'default'" (click)="isPartnerLicense($event,button)">
                                         {{button.title}}
                                     </app-chips>
                                 </div>
@@ -75,7 +75,7 @@
                                 <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Renew by User Company</label>
                                 <div class="rc-form-group rc-form-group-without-prefix" >
                                     <input type="text" hidden formControlName="renew">
-                                    <app-chips *ngFor="let button of partnerLicense" class="mr-2"  [color]="(selectedRenewBtn == button) ? 'selected' : 'default'" (click)="renewbyUserCompany(button)">
+                                    <app-chips *ngFor="let button of partnerLicense" class="mr-2"  [color]="(selectedRenewBtn == button) ? 'selected' : 'default'" (click)="renewbyUserCompany($event,button)">
                                         {{button.title}}
                                     </app-chips>
                                 </div>

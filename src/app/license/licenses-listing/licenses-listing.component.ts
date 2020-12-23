@@ -11,6 +11,7 @@ import { TableService } from 'src/app/shared/table/services/table.service';
 import { LicenseServiceService } from '../license-service.service';
 
 
+
 @Component({
   selector: 'app-licenses-listing',
   templateUrl: './licenses-listing.component.html',
@@ -19,6 +20,10 @@ import { LicenseServiceService } from '../license-service.service';
 })
 export class LicensesListingComponent implements OnInit {
   isDropup = true;
+  @ViewChild('renewByUserCompanyTemplate', { static: true }) renewByUserCompanyTemplate: TemplateRef<any>;
+  @ViewChild('partnerLicenseTemplate', { static: true }) partnerLicenseTemplate: TemplateRef<any>;
+  @ViewChild('purchaseTemplate', { static: true }) purchaseTemplate: TemplateRef<any>;
+  @ViewChild('expireTemplate', { static: true }) expireTemplate: TemplateRef<any>;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
   @ViewChild('selectT', { static: true }) selectT: any;
@@ -84,7 +89,7 @@ export class LicensesListingComponent implements OnInit {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'productName',
+        identifier: 'product',
         label: 'Product Name',
         sortable: true,
         minWidth: 161,
@@ -114,7 +119,7 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'customer',
+        identifier: 'company.companyName',
         label: 'Customer',
         sortable: true,
         minWidth: 160,
@@ -129,14 +134,15 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'purchased',
+        identifier: 'purchaseDate',
         label: 'Purchased',
         sortable: true,
         minWidth: 120,
         width: 100,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
+        cellTemplate: this.purchaseTemplate,
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -144,14 +150,15 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'expires',
+        identifier: 'expirationDate',
         label: 'Expires',
         sortable: true,
         minWidth: 104,
         width: 300,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
+        cellTemplate: this.expireTemplate,
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -159,7 +166,7 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'status',
+        identifier: 'licenseStatus',
         label: 'Status',
         sortable: true,
         minWidth: 104,
@@ -176,7 +183,7 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'partnerLicense',
+        identifier: 'isPartnerLicense',
         label: 'Partner license',
         sortable: true,
         minWidth: 104,
@@ -184,6 +191,7 @@ export class LicensesListingComponent implements OnInit {
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
+        cellTemplate: this.partnerLicenseTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -192,7 +200,7 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'renew',
+        identifier: 'renewByUserCompany',
         label: 'Renew by User Company',
         sortable: true,
         minWidth: 136,
@@ -200,6 +208,7 @@ export class LicensesListingComponent implements OnInit {
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
+        cellTemplate: this.renewByUserCompanyTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -221,9 +230,10 @@ export class LicensesListingComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data) => {
+    this.service.getLicenses().subscribe((data:any) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
+        console.log(data)
         this.rowData = data;
         const cloneData = data.map((v: any) => {
           return { ...v };
