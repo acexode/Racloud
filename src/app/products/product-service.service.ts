@@ -16,6 +16,9 @@ export class ProductServiceService {
   createProducts(product){
     return this.reqS.post(productEndpoints.createProduct, product)
   }
+  updateProducts(id, product){
+    return this.reqS.put(productEndpoints.updateProduct + id, product)
+  }
   public get GetOptionList(): Observable<[]>{
     return this.modifiedOptionList.asObservable();
   }

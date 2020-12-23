@@ -2,7 +2,7 @@ import { ProductServiceService } from './../product-service.service';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
@@ -93,7 +93,7 @@ export class AddEditProductComponent implements OnInit {
   }
   constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef,
     private productS: ProductServiceService, private service: LicenseServiceService,
-     private route: ActivatedRoute,) { }
+     private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.service.getOption().subscribe((e: any) =>{
@@ -201,14 +201,22 @@ export class AddEditProductComponent implements OnInit {
     return null;
   });
   console.log(resArr)
-  obj.selectedOptions = resArr
   const id = this.route.snapshot.paramMap.get('id');
   if(this.isEdit){
+    obj.productOptions = resArr
     obj.id =  id
+    console.log(obj)
+    this.productS.updateProducts(id, obj).subscribe(e =>{
+      console.log(e)
+      this.router.navigate(['products'])
+    });
+  }else{
+    obj.selectedOptions = resArr
+    this.productS.createProducts(obj).subscribe(e =>{
+      console.log(e)
+      this.router.navigate(['products'])
+    });
   }
-  this.productS.createProducts(obj).subscribe(e =>{
-    console.log(e)
-  })
   }
   getRow(row){
     this.selectedRows = row.selected
