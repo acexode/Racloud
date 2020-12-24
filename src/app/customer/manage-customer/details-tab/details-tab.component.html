@@ -29,7 +29,7 @@
                 <div class="col-12 m-0 p-0">
                     <app-select
                         [config]="selectConfig('Parent', 'Select Parent', true, 'id', 'companyName')"
-                        formControlName="parentCompanyName"
+                        formControlName="parentId"
                         [options]="customerParentOptions"
                     ></app-select>
                 </div>
@@ -49,7 +49,7 @@
 
                 <div class="col-12 p-0">
                     <app-select
-                        [config]="selectConfig('Country', 'Select Country', true, 'id', 'name')"
+                        [config]="selectConfig('Country', 'Select Country', true, 'code', 'name')"
                         formControlName="country"
                         [options]="countryOptions"
                     ></app-select>
@@ -116,7 +116,7 @@
                     Renew Subscription
                     </app-button>
 
-                    <app-button type="button" color="primary"> 
+                    <app-button type="submit" color="primary"> 
                         Update profile 
                     </app-button>
 
