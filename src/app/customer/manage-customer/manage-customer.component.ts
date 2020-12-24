@@ -81,9 +81,8 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
     this.route$ = this.route.paramMap.subscribe(
       params => {
         const id: any = params.get('id');
-        this.fetchDataForDetails(id).subscribe(
+        this.fetch$ = this.fetchDataForDetails(id).subscribe(
           (res: any) => {
-            console.log(res);
             if (res) {
               this.detailsData$.next(res);
               this.showTab(this.detailsTab);
@@ -129,6 +128,7 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
   /*  */
   ngOnDestroy(): void {
     this.route$.unsubscribe();
+    this.fetch$.unsubscribe();
   }
 
 }

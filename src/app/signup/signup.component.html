@@ -90,8 +90,8 @@
                     </div>
 
                     <div class="d-flex flex-column mb-14">
-                       <!--  <app-select [config]="selectConfig('Country', 'Select Country', true, 'id', 'name')"
-                            formControlName="country" [options]="countryOptions" id="country"></app-select> -->
+                       <app-select [config]="selectConfig('Country', 'Select Country', true, 'code', 'name')"
+                            formControlName="country" [options]="countryOptions" id="country"></app-select>
                     
                         <app-error-messages [control]="signUpForm?.controls?.country"></app-error-messages>
                     </div>

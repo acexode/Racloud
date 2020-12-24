@@ -3,17 +3,20 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea-config';
-import { get } from 'lodash';
-import { Subscription } from 'rxjs';
+import { get, split } from 'lodash';
+import { Observable, Subscription } from 'rxjs';
 import { CountriesService } from 'src/app/core/services/countries/countries.service';
 import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
 import { CompanyTypes } from 'src/app/core/models/companyTypes';
+import { baseEndpoints } from 'src/app/core/configs/endpoints';
+import { RequestService } from 'src/app/core/services/request/request.service';
 @Component({
   selector: 'app-details-tab',
   templateUrl: './details-tab.component.html',
   styleUrls: ['./details-tab.component.scss']
 })
 export class DetailsTabComponent implements OnInit, OnDestroy {
+  isLoading = false;
   @Input() detailsData: any;
   textAreaConfig: TextAreaConfig = {
     textAreaLabel: {
@@ -46,7 +49,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
         Validators.required,
       ],
     ],
-    parentCompanyName: [
+    parentId: [
       '',
       [
         Validators.required,
@@ -106,26 +109,38 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
   customerParentOptions: any;
   countryOptions$: Subscription;
   customerParentOptions$: Subscription;
+  updateProfile$: Subscription;
+  detailsId: any;
   constructor(
     private fb: FormBuilder,
+    private reqS: RequestService,
     private cS: CountriesService,
     private parentS: CompanyParentsService
   ) { }
-
+  isLoadingStatus() {
+    this.isLoading = !this.isLoading;
+  }
   ngOnInit(): void {
+    // get country option
     this.countryOptions$ = this.cS.getCountries().subscribe(
-      (res: { id: any, name: string; }) => {
+      (res: { code: string, name: string; }) => {
         this.countryOptions = res;
       },
       err => { }
     );
+    // get customer parent options
     this.customerParentOptions$ = this.parentS.getParents().subscribe(
       (res: any) => {
         this.customerParentOptions = res;
       },
       err => { }
     );
+    // get details ID
+    this.detailsId = get(this.detailsData, 'id', null);
+
+    // update form Data
     this.updateValueForForm(this.detailsData);
+
   }
   selectConfig(
     label: string,
@@ -161,10 +176,10 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
   }
   updateValueForForm(data: any) {
     const d = {
-      name: get(data, 'companyName', ''),
-      contactPerson: `${ get(data, 'firstName', '') } ${ get(data, 'firstName', '') }`,
+      name: `${ get(data, 'firstName', '') } ${ get(data, 'lastName', '') }`,
+      contactPerson: `${ get(data, 'contactPersonFirstName', '') } ${ get(data, 'contactPersonLastName', '') }`,
       companyType: get(data, 'companyType', 'Fabricator').toLowerCase(),
-      parentCompanyName: get(get(data, 'parent', ''), 'companyName', ''),
+      parentId: get(get(data, 'parent', ''), 'id', ''),
       address: get(data, 'address', ''),
       country: get(data, 'country', ''),
       phoneNumber: get(data, 'phoneNumber', ''),
@@ -176,8 +191,52 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     };
     this.componentForm.setValue({ ...d });
   }
-  updateProfile(): void {
+  getUpdatedData(): Observable<any> {
+    const d = this.componentForm.value;
+    const newData = {
+      id: this.detailsId,
 
+      ...this.splitName(get(d, 'name', ''), 'firstName', 'lastName'),
+      ...this.splitName(get(d, 'contactPerson', ''), 'contactPersonFirstName', 'contactPersonLastName'),
+
+
+      email: get(d, 'email', ''),
+      address: get(d, 'address', ''),
+      country: get(d, 'country', ''),
+      phoneNumber: get(d, 'phoneNumber', ''),
+
+      parentId: get(d, 'parentId', ''),
+      language: get(this.detailsData, 'language', ''),
+      companyEmail: get(this.detailsData, 'companyEmail', ''),
+      companyName: get(this.detailsData, 'companyName', ''),
+    };
+    console.log(newData);
+    const queryEndpoint = `${ baseEndpoints.customers }/${ this.detailsId }`;
+    return this.reqS.put(queryEndpoint, newData);
+  }
+  updateProfile(): void {
+    // loadingIndicator
+    this.isLoadingStatus();
+    this.updateProfile$ = this.getUpdatedData().subscribe(
+      res => {
+        // sucessfully updated
+        alert('Sucessfully updated profile');
+        // stop loading
+        this.isLoadingStatus();
+      },
+      err => {
+        console.log(err);
+        // stop loading
+        this.isLoadingStatus();
+      }
+    );
+  }
+  splitName(name: string, nameA: string, nameB: string): any {
+    const splitNameToArray = name !== '' ? split(name, ' ', 2) : ['', ''];
+    return {
+      [nameA]: splitNameToArray[0],
+      [nameB]: splitNameToArray[1],
+    };
   }
   ngOnDestroy(): void {
     this.countryOptions$.unsubscribe();
