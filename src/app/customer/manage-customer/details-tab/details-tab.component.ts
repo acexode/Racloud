@@ -135,7 +135,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
       },
       err => { }
     );
-    // get details ID 
+    // get details ID
     this.detailsId = get(this.detailsData, 'id', null);
 
     // update form Data

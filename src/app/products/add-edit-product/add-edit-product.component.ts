@@ -1,6 +1,6 @@
 import { ProductServiceService } from './../product-service.service';
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
@@ -14,7 +14,7 @@ import { LicenseServiceService } from 'src/app/license/license-service.service';
   templateUrl: './add-edit-product.component.html',
   styleUrls: ['./add-edit-product.component.scss']
 })
-export class AddEditProductComponent implements OnInit {
+export class AddEditProductComponent implements OnInit, AfterViewInit {
   optionList = [];
   isEdit = false
   product: any;
