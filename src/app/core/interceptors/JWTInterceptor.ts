@@ -23,7 +23,6 @@ export class JwtInterceptor implements HttpInterceptor {
     if (currentUser && externalUrl) {
       let token = '';
       currentUser.subscribe((user) => (token = user.authToken));
-      console.log(token)
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`,
