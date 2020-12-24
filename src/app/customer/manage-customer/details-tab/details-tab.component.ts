@@ -16,6 +16,7 @@ import { RequestService } from 'src/app/core/services/request/request.service';
   styleUrls: ['./details-tab.component.scss']
 })
 export class DetailsTabComponent implements OnInit, OnDestroy {
+  isLoading = false;
   @Input() detailsData: any;
   textAreaConfig: TextAreaConfig = {
     textAreaLabel: {
@@ -116,7 +117,9 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     private cS: CountriesService,
     private parentS: CompanyParentsService
   ) { }
-
+  isLoadingStatus() {
+    this.isLoading = !this.isLoading;
+  }
   ngOnInit(): void {
     // get country option
     this.countryOptions$ = this.cS.getCountries().subscribe(
@@ -137,7 +140,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
 
     // update form Data
     this.updateValueForForm(this.detailsData);
-    
+
   }
   selectConfig(
     label: string,
@@ -195,13 +198,13 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
 
       ...this.splitName(get(d, 'name', ''), 'firstName', 'lastName'),
       ...this.splitName(get(d, 'contactPerson', ''), 'contactPersonFirstName', 'contactPersonLastName'),
-      
-      
+
+
       email: get(d, 'email', ''),
       address: get(d, 'address', ''),
       country: get(d, 'country', ''),
       phoneNumber: get(d, 'phoneNumber', ''),
-      
+
       parentId: get(d, 'parentId', ''),
       language: get(this.detailsData, 'language', ''),
       companyEmail: get(this.detailsData, 'companyEmail', ''),
@@ -212,13 +215,19 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     return this.reqS.put(queryEndpoint, newData);
   }
   updateProfile(): void {
+    // loadingIndicator
+    this.isLoadingStatus();
     this.updateProfile$ = this.getUpdatedData().subscribe(
       res => {
         // sucessfully updated
-        console.log(res);
+        alert('Sucessfully updated profile');
+        // stop loading
+        this.isLoadingStatus();
       },
       err => {
         console.log(err);
+        // stop loading
+        this.isLoadingStatus();
       }
     );
   }

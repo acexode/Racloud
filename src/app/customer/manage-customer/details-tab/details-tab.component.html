@@ -117,7 +117,8 @@
                     </app-button>
 
                     <app-button type="submit" color="primary"> 
-                        Update profile 
+                        <app-loader type="button" *ngIf="isLoading"></app-loader>
+                        <span *ngIf="!isLoading">Update profile</span> 
                     </app-button>
 
                 </div>
