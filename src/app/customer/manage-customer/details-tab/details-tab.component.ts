@@ -1,15 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea-config';
-
+import { get } from 'lodash';
+import { Subscription } from 'rxjs';
+import { CountriesService } from 'src/app/core/services/countries/countries.service';
+import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
+import { CompanyTypes } from 'src/app/core/models/companyTypes';
 @Component({
   selector: 'app-details-tab',
   templateUrl: './details-tab.component.html',
   styleUrls: ['./details-tab.component.scss']
 })
-export class DetailsTabComponent implements OnInit {
+export class DetailsTabComponent implements OnInit, OnDestroy {
   @Input() detailsData: any;
   textAreaConfig: TextAreaConfig = {
     textAreaLabel: {
@@ -18,36 +22,12 @@ export class DetailsTabComponent implements OnInit {
     placeholder: ''
   };
 
-  typeOptions = [
-    {
-      id: 'mock',
-      option: 'Mock'
-    },
-    {
-      id: 'partner',
-      option: 'Partner'
-    }
-  ];
-  parentOptions = [
-    {
-      id: 'mock',
-      option: 'Mock'
-    },
-    {
-      id: 'pyramid',
-      option: 'Pyramid'
-    }
-  ];
-  countryOptions = [
-    {
-      id: 'mock',
-      option: 'Mock'
-    },
-    {
-      id: 'netherlands',
-      option: 'Netherlands'
-    }
-  ];
+  typeOptions = Object.keys(CompanyTypes).map(companyType => {
+    return {
+      id: companyType,
+      option: CompanyTypes[companyType]
+    };
+  });
   componentForm = this.fb.group({
     name: [
       '',
@@ -60,13 +40,13 @@ export class DetailsTabComponent implements OnInit {
       '',
       Validators.required,
     ],
-    type: [
+    companyType: [
       '',
       [
         Validators.required,
       ],
     ],
-    parent: [
+    parentCompanyName: [
       '',
       [
         Validators.required,
@@ -84,7 +64,7 @@ export class DetailsTabComponent implements OnInit {
         Validators.required,
       ],
     ],
-    phone: [
+    phoneNumber: [
       '',
       [
         Validators.required,
@@ -122,21 +102,46 @@ export class DetailsTabComponent implements OnInit {
       ],
     ],
   });
-  constructor(private fb: FormBuilder) { }
+  countryOptions: any;
+  customerParentOptions: any;
+  countryOptions$: Subscription;
+  customerParentOptions$: Subscription;
+  constructor(
+    private fb: FormBuilder,
+    private cS: CountriesService,
+    private parentS: CompanyParentsService
+  ) { }
 
   ngOnInit(): void {
+    this.countryOptions$ = this.cS.getCountries().subscribe(
+      (res: { id: any, name: string; }) => {
+        this.countryOptions = res;
+      },
+      err => { }
+    );
+    this.customerParentOptions$ = this.parentS.getParents().subscribe(
+      (res: any) => {
+        this.customerParentOptions = res;
+      },
+      err => { }
+    );
     this.updateValueForForm(this.detailsData);
   }
-  selectionConfig(label: string): SelectConfig {
+  selectConfig(
+    label: string,
+    placeholder: string = 'Select',
+    searchable: boolean = false,
+    idKey: string = 'id',
+    labelKey: string = 'option',
+  ): SelectConfig {
     return {
       selectLabel: {
-        text: label
+        text: label,
       },
-      idKey: 'id',
-      labelKey: 'option',
-      formStatus: {
-        isFilled: true,
-      }
+      placeholder,
+      idKey,
+      labelKey,
+      searchable,
     };
   }
   inputConfig(
@@ -155,12 +160,27 @@ export class DetailsTabComponent implements OnInit {
     };
   }
   updateValueForForm(data: any) {
-    this.componentForm.setValue({
-      ...data
-    });
+    const d = {
+      name: get(data, 'companyName', ''),
+      contactPerson: `${ get(data, 'firstName', '') } ${ get(data, 'firstName', '') }`,
+      companyType: get(data, 'companyType', 'Fabricator').toLowerCase(),
+      parentCompanyName: get(get(data, 'parent', ''), 'companyName', ''),
+      address: get(data, 'address', ''),
+      country: get(data, 'country', ''),
+      phoneNumber: get(data, 'phoneNumber', ''),
+      email: get(data, 'email', ''),
+      anniversaryDate: get(data, 'anniversaryDate', ''),
+      subscriptionFee: get(data, 'subscriptionFee', ''),
+      supportHoursContract: get(data, 'supportHoursContract', ''),
+      supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
+    };
+    this.componentForm.setValue({ ...d });
   }
-  updateProfile() {
-    console.log(this.componentForm.value);
-  }
+  updateProfile(): void {
 
+  }
+  ngOnDestroy(): void {
+    this.countryOptions$.unsubscribe();
+    this.customerParentOptions$.unsubscribe();
+  }
 }
