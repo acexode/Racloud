@@ -12,11 +12,11 @@ import { ContainerModule } from '../shared/container/container.module';
 import { RcFormsModule } from '../shared/rc-forms/rc-forms.module';
 import { TableModule } from '../shared/table/table.module';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { OptionTabComponent } from '../options/option-tab/option-tab.component';
+import { OptionsModule } from '../options/options.module';
 
 
 @NgModule({
-  declarations: [LicenseEditComponent, LicensesListingComponent, OptionTabComponent],
+  declarations: [LicenseEditComponent, LicensesListingComponent],
   imports: [
     CommonModule,
     LicenseRoutingModule,
@@ -30,6 +30,7 @@ import { OptionTabComponent } from '../options/option-tab/option-tab.component';
     FormsModule,
     BsDropdownModule.forRoot(),
     ReactiveFormsModule,
+    OptionsModule
   ]
 })
 export class LicenseModule { }

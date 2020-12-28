@@ -16,7 +16,7 @@ import { OptionTabComponent } from './option-tab/option-tab.component';
 
 
 @NgModule({
-  declarations: [OptionListComponent, OptionsAddEditComponent],
+  declarations: [OptionListComponent, OptionsAddEditComponent, OptionTabComponent],
   imports: [
     CommonModule,
     CommonModule,
