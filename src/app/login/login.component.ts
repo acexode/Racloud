@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   submitForm() {
     /* loading */
     this.isLoadingStatus();
-  /*  */
+    /*  */
     const formV = this.loginForm.value;
 
     if (this.loginForm.valid) {
@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           res => console.log('HTTP response', res),
           err => {
             this.msgS.addMessage({
-              text: 'Date de autentificare incorecte! Va rugam sa reincercati.',
+              text: 'Incorrect authentication! Please try again.',
               type: 'danger',
               dismissible: true,
               timeout: 3000,
