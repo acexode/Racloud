@@ -1,3 +1,4 @@
+import { SharedModuleModule } from './../SharedModule/shared-module/shared-module.module';
 
 
 
@@ -14,12 +15,12 @@ import { ContainerModule } from '../shared/container/container.module';
 import { RcFormsModule } from '../shared/rc-forms/rc-forms.module';
 import { TableModule } from '../shared/table/table.module';
 import { TabsModule } from '../shared/tabs/tabs.module';
-import { OptionTabComponent } from '../options/option-tab/option-tab.component';
+
 
 
 
 @NgModule({
-  declarations: [AddEditProductComponent, OptionTabComponent],
+  declarations: [AddEditProductComponent],
   imports: [
     CommonModule,
     CommonModule,
@@ -29,6 +30,7 @@ import { OptionTabComponent } from '../options/option-tab/option-tab.component';
     TabsModule,
     AngularSvgIconModule,
     FormsModule,
+    SharedModuleModule,
     BsDropdownModule.forRoot(),
     ReactiveFormsModule,
     ProductsRoutingModule

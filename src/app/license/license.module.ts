@@ -1,3 +1,4 @@
+import { SharedModuleModule } from './../SharedModule/shared-module/shared-module.module';
 import { TabsModule } from './../shared/tabs/tabs.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -12,11 +13,10 @@ import { ContainerModule } from '../shared/container/container.module';
 import { RcFormsModule } from '../shared/rc-forms/rc-forms.module';
 import { TableModule } from '../shared/table/table.module';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { OptionTabComponent } from '../options/option-tab/option-tab.component';
 
 
 @NgModule({
-  declarations: [LicenseEditComponent, LicensesListingComponent, OptionTabComponent],
+  declarations: [LicenseEditComponent, LicensesListingComponent],
   imports: [
     CommonModule,
     LicenseRoutingModule,
@@ -25,6 +25,7 @@ import { OptionTabComponent } from '../options/option-tab/option-tab.component';
     ContainerModule,
     RcFormsModule,
     TableModule,
+    SharedModuleModule,
     TabsModule,
     AngularSvgIconModule,
     FormsModule,
