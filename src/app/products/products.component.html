@@ -8,7 +8,7 @@
             <h2 class="customers-title page-title">Products</h2>
           </div>
           <div class="col-auto float-right ml-auto">
-            <button  class="btn btn-danger rounded-75 add-customer"> Add Product</button>
+            <button [routerLink]="['add-product']"  class="btn btn-danger rounded-75 add-customer"> Add Product</button>
           </div>
         </div>
       </div>
@@ -36,7 +36,7 @@
       </a>
       <ul aria-labelledby="dropdownMenuButton" *dropdownMenu class="dropdown-menu"
           role="menu" aria-labelledby="button-basic">
-        <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
+        <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item" >Manage</a></li>
         <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
       
       </ul>

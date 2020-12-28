@@ -45,10 +45,12 @@ const routes: Routes = [
   },
   {
     path: 'products',
-    component: ProductsComponent,
-    data: {
-      title: 'Products'
-    },
+    loadChildren: () =>
+      import('./products/products.module').then(
+        (m) => m.ProductsModule
+      ),
+    // canActivate: [AuthGuard],
+    data: { title: 'Product Listing' }
   },
   {
     path: 'login',

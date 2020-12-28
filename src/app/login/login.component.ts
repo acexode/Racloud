@@ -76,7 +76,10 @@ export class LoginComponent implements OnInit, OnDestroy {
           aRoute: this.aRoute,
         })
         .subscribe(
-          res => console.log('HTTP response', res),
+          res => {
+            console.log('HTTP response', res);
+            this.isLoadingStatus();
+          },
           err => {
             this.msgS.addMessage({
               text: 'Incorrect authentication! Please try again.',
@@ -88,16 +91,15 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.loginForm.markAllAsTouched();
             this.loginForm.updateValueAndValidity();
             this.cdRef.markForCheck();
+            this.isLoadingStatus();
           },
           () => console.log('HTTP request completed.')
         );
     } else {
       this.loginForm.updateValueAndValidity();
       this.cdRef.markForCheck();
+      this.isLoadingStatus();
     }
-    /* stop loading */
-    this.isLoadingStatus();
-    /*  */
   }
 
   resetSubs() {
