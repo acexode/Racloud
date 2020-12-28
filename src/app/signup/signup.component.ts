@@ -64,7 +64,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     country: [null, Validators.required],
     language: [null, Validators.required],
   }, {
-      validator: PasswordValidator.mismatchedPasswords('password', 'confirmPassword')
+    validator: PasswordValidator.mismatchedPasswords('password', 'confirmPassword')
   });
   classes = {
     body: 'p-0 d-flex justify-content-center flex-column no-gutters',
@@ -158,6 +158,7 @@ export class SignupComponent implements OnInit, OnDestroy {
             timeout: 5000,
             customClass: 'mt-32'
           });
+          console.log(res);
           // reset form
           this.signUpForm.reset();
           // redirect to login page
