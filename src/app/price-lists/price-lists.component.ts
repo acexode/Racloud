@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@a
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { baseEndpoints } from '../core/configs/endpoints';
+import { getUTCdate } from '../core/helpers/dateHelpers';
 import { RequestService } from '../core/services/request/request.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
@@ -163,10 +164,10 @@ export class PriceListsComponent implements OnInit {
           const data = res.map(
             (r: any) => {
               return {
-                name: data.Name,
-                noOfProducts: data.NoOfProducts,
-                created: data.CreateDate,
-                currency: data.Currency,
+                name: r.Name,
+                noOfProducts: r.NoOfProducts,
+                created: getUTCdate(r.CreateDate),
+                currency: r.Currency,
               };
             });
           console.log(data);
@@ -175,7 +176,7 @@ export class PriceListsComponent implements OnInit {
           this.tableConfig.loadingIndicator = false;
         }
       },
-      err => {}
+      err => { }
     );
   }
   public getJSON(): Observable<any> {
