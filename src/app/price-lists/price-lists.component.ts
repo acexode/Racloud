@@ -154,18 +154,29 @@ export class PriceListsComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data) => {
-      if (data) {
-        this.tableConfig.loadingIndicator = true;
-        this.rowData = data;
-        const cloneData = data.map((v: any) => {
-          return { ...v };
-        });
-        this.tableData.next(cloneData);
-        this.tableConfig.loadingIndicator = false;
-      }
-    });
-    this.reqS.get<any>(baseEndpoints.priceLists).subscribe(d => console.log(d));
+
+    this.tableConfig.loadingIndicator = true;
+    this.reqS.get<any>(baseEndpoints.priceLists).subscribe(
+      (res: any) => {
+        if (res) {
+          console.log(res);
+          const data = res.map(
+            (r: any) => {
+              return {
+                name: data.Name,
+                noOfProducts: data.NoOfProducts,
+                created: data.CreateDate,
+                currency: data.Currency,
+              };
+            });
+          console.log(data);
+          this.rowData = data;
+          this.tableData.next(data);
+          this.tableConfig.loadingIndicator = false;
+        }
+      },
+      err => {}
+    );
   }
   public getJSON(): Observable<any> {
     return this.http.get('./assets/price-lists.json');

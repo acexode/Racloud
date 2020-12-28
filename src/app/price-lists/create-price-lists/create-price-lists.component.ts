@@ -288,8 +288,8 @@ export class CreatePriceListsComponent implements OnInit {
       name: 'string',
       currency: 'FRA'
     };
-    this.reqS.get<any>(baseEndpoints.priceLists).subscribe(d => {
-      console.log(d);
+    this.reqS.get<any>(baseEndpoints.priceLists).subscribe(res => {
+      console.log(res);
     });
   }
 
