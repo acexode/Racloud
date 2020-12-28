@@ -13,6 +13,10 @@ import { ContainerModule } from '../shared/container/container.module';
 import { RcFormsModule } from '../shared/rc-forms/rc-forms.module';
 import { TableModule } from '../shared/table/table.module';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+<<<<<<< HEAD
+=======
+import { OptionsModule } from '../options/options.module';
+>>>>>>> 04184c39e868b096009e91ae0434bdb29164e449
 
 
 @NgModule({
@@ -31,6 +35,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     FormsModule,
     BsDropdownModule.forRoot(),
     ReactiveFormsModule,
+    OptionsModule
   ]
 })
 export class LicenseModule { }

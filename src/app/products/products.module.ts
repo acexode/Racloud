@@ -15,7 +15,11 @@ import { ContainerModule } from '../shared/container/container.module';
 import { RcFormsModule } from '../shared/rc-forms/rc-forms.module';
 import { TableModule } from '../shared/table/table.module';
 import { TabsModule } from '../shared/tabs/tabs.module';
+<<<<<<< HEAD
 
+=======
+import { OptionsModule } from '../options/options.module';
+>>>>>>> 04184c39e868b096009e91ae0434bdb29164e449
 
 
 
@@ -33,7 +37,8 @@ import { TabsModule } from '../shared/tabs/tabs.module';
     SharedModuleModule,
     BsDropdownModule.forRoot(),
     ReactiveFormsModule,
-    ProductsRoutingModule
+    ProductsRoutingModule,
+    OptionsModule
   ]
 })
 export class ProductsModule { }
