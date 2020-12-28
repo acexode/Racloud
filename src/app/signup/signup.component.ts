@@ -12,6 +12,7 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { authEndpoints } from '../core/configs/endpoints';
 import { LoginResponse } from '../core/models/login-response.interface';
+import { CountriesService } from '../core/services/countries/countries.service';
 import { RequestService } from '../core/services/request/request.service';
 import { PasswordValidator } from '../core/validators/password-validator/password-validator';
 import { MessagesService } from '../shared/messages/services/messages.service';
@@ -77,19 +78,26 @@ export class SignupComponent implements OnInit, OnDestroy {
   languageJsonDataUrl = './assets/languages.json';
   languageOptions$: Observable<any>;
   countryJsonDataUrl = './assets/list-of-countries.json';
-  countryOptions$: Observable<any>;
+  countryOptions$: Subscription;
   // countryOptions$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  countryOptions: any;
   constructor(
     private fb: FormBuilder,
     private reqS: RequestService,
     private msgS: MessagesService,
     private cdRef: ChangeDetectorRef,
     private routerS: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private cS: CountriesService,
   ) { }
 
   ngOnInit(): void {
-    this.countryOptions$ = this.getJSON(this.countryJsonDataUrl);
+    this.countryOptions$ = this.cS.getCountries().subscribe(
+      (res: { code: string, name: string; }) => {
+        this.countryOptions = res;
+      },
+      err => { }
+    );
 
     this.languageOptions$ = this.getJSON(this.languageJsonDataUrl)
       .pipe(
@@ -180,6 +188,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.resetSubs();
+    this.countryOptions$.unsubscribe();
   }
 }
 
