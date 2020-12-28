@@ -179,9 +179,6 @@ export class PriceListsComponent implements OnInit {
       err => { }
     );
   }
-  public getJSON(): Observable<any> {
-    return this.http.get('./assets/price-lists.json');
-  }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
       this.tableConfig?.columns,
