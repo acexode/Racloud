@@ -24,6 +24,7 @@ export const optionEndpoints = {
   getOptions: serverBaseUrl + '/options'
 };
 export const shopEndpoints = {  
-  getShops: serverBaseUrl + '/shop'
+  getShops: serverBaseUrl + '/shop',
+  getSingleShop: serverBaseUrl + '/shop'
 };
 

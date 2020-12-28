@@ -17,4 +17,7 @@ export class ShopService {
       this.shopStore.next(e);
     })
   }
+  getSingleShop(){
+    return this.reqS.get(shopEndpoints.getSingleShop)
+  }
 }

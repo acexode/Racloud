@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,13 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ShopCardComponent implements OnInit {
   @Input() item: any;
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+  buy(data: any) {
+    this.router.navigate(['licenses/license-edit', { id: data.id }]);
+    console.log(data)
   }
 
 }
