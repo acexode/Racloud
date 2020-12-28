@@ -8,8 +8,9 @@ import { Observable, Subscription } from 'rxjs';
 import { CountriesService } from 'src/app/core/services/countries/countries.service';
 import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
 import { CompanyTypes } from 'src/app/core/models/companyTypes';
-import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
+import { baseEndpoints } from 'src/app/core/configs/endpoints';
+import { convertDateBackToUTCDate, getUTCLongMonthdate } from 'src/app/core/helpers/dateHelpers';
 @Component({
   selector: 'app-details-tab',
   templateUrl: './details-tab.component.html',
@@ -140,6 +141,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
 
     // update form Data
     this.updateValueForForm(this.detailsData);
+    console.log(this.detailsData);
 
   }
   selectConfig(
@@ -163,8 +165,9 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     label: string,
     type: string = 'text',
     placeholder: string = '',
-    prefixIcon: boolean = false)
-    : InputConfig {
+    prefixIcon: boolean = false,
+    isDisabled: boolean = false,
+  ): InputConfig {
     return {
       inputLabel: {
         text: label || '',
@@ -172,11 +175,14 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
       type: type || 'text',
       placeholder: placeholder || '',
       prefixIcon: prefixIcon || false,
+      formStatus: {
+        isDisabled,
+      }
     };
   }
   updateValueForForm(data: any) {
     const d = {
-      name: `${ get(data, 'firstName', '') } ${ get(data, 'lastName', '') }`,
+      name: get(data, 'companyName', '') ,
       contactPerson: `${ get(data, 'contactPersonFirstName', '') } ${ get(data, 'contactPersonLastName', '') }`,
       companyType: get(data, 'companyType', 'Fabricator').toLowerCase(),
       parentId: get(get(data, 'parent', ''), 'id', ''),
@@ -184,7 +190,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
       country: get(data, 'country', ''),
       phoneNumber: get(data, 'phoneNumber', ''),
       email: get(data, 'email', ''),
-      anniversaryDate: get(data, 'anniversaryDate', ''),
+      anniversaryDate: getUTCLongMonthdate(get(data, 'anniversaryDate', null)),
       subscriptionFee: get(data, 'subscriptionFee', ''),
       supportHoursContract: get(data, 'supportHoursContract', ''),
       supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
@@ -196,7 +202,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     const newData = {
       id: this.detailsId,
 
-      ...this.splitName(get(d, 'name', ''), 'firstName', 'lastName'),
+      ...this.splitName(get(d, 'contactPerson', ''), 'firstName', 'lastName'),
       ...this.splitName(get(d, 'contactPerson', ''), 'contactPersonFirstName', 'contactPersonLastName'),
 
 
@@ -209,6 +215,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
       language: get(this.detailsData, 'language', ''),
       companyEmail: get(this.detailsData, 'companyEmail', ''),
       companyName: get(this.detailsData, 'companyName', ''),
+      anniversaryDate: convertDateBackToUTCDate(get(d.anniversaryDate, 'anniversaryDate', null)),
     };
     console.log(newData);
     const queryEndpoint = `${ baseEndpoints.customers }/${ this.detailsId }`;
