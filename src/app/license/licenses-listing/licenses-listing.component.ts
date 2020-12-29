@@ -80,7 +80,7 @@ export class LicensesListingComponent implements OnInit {
     private service: LicenseServiceService
   ) { }
   ngOnInit(): void {
-    console.log(this.actionDropdown)
+    console.log(this.actionDropdown);
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
@@ -245,12 +245,12 @@ export class LicensesListingComponent implements OnInit {
     this.tableData.next(newRows);
   }
 
-  removeRow(id: any) {}
+  removeRow(id: any) { }
   manageSub(data: any) {
     this.router.navigate(['licenses/license-edit', { id: data.id }]);
-    console.log(data)
+    console.log(data);
   }
-  renewSub(id: any) {}
+  renewSub(id: any) { }
 
   setDropUp(row) {
     const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
