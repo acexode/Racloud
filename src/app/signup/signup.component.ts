@@ -54,8 +54,8 @@ export class SignupComponent implements OnInit, OnDestroy {
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
     confirmPassword: ['', Validators.required],
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
+    contactPersonFirstName: ['', Validators.required],
+    contactPersonLastName: ['', Validators.required],
     companyName: ['', Validators.required],
     phoneNumber: ['', Validators.required],
     companyEmail: ['', Validators.required],
@@ -101,7 +101,14 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     this.languageOptions$ = this.getJSON(this.languageJsonDataUrl)
       .pipe(
-        map(lang => Object.keys(lang).map(langKey => lang[langKey])),
+        map(lang => {
+          return Object.keys(lang).map((key: any) => {
+            return {
+              id: lang[key].name,
+              option: lang[key].name.split(',')[0], // return only one from the comma seperate names
+            }
+          });
+        }),
       );
   }
   selectConfig(
@@ -147,7 +154,12 @@ export class SignupComponent implements OnInit, OnDestroy {
     /* loading */
     this.isLoadingStatus();
     /*  */
-    const data = this.signUpForm.value;
+    const data = {
+      ...this.signUpForm.value,
+      /*  I think they are to be removes */
+      firstName: this.signUpForm.value.contactPersonFirstName,
+      lastName: this.signUpForm.value.contactPersonLastName,
+    };
     this.reqS.post<LoginResponse>(authEndpoints.customersSignUp, data)
       .subscribe(
         res => {
@@ -160,6 +172,9 @@ export class SignupComponent implements OnInit, OnDestroy {
           });
           // reset form
           this.signUpForm.reset();
+          /* loading */
+            this.isLoadingStatus();
+          /*  */
           // redirect to login page
           this.routerS.navigateByUrl('/login');
         },
@@ -174,12 +189,13 @@ export class SignupComponent implements OnInit, OnDestroy {
           this.signUpForm.markAllAsTouched();
           this.signUpForm.updateValueAndValidity();
           this.cdRef.markForCheck();
+          /* loading */
+            this.isLoadingStatus();
+          /*  */
         },
         () => console.log('HTTP request completed.')
       );
-    /* loading */
-    this.isLoadingStatus();
-    /*  */
+
   }
   resetSubs() {
     if (this.signUpSubs) {
