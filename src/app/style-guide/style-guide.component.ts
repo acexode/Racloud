@@ -143,6 +143,8 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
   shopcard = {
     id: 1,
     name: 'RA Workshop Lite',
+    productName: 'Product Name',
+    productVersion: 'Product version',
     initial_fee: '9.91',
     subscription_fee: '92.72',
     description: 'Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.'
