@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CardItem } from 'src/app/shared/rc-forms/models/card-item-model';
 
 @Component({
   selector: 'app-shop-card',
@@ -6,8 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./shop-card.component.scss']
 })
 export class ShopCardComponent implements OnInit {
-  @Input() item: any;
-  type = {
+  @Input() item!: CardItem;
+  cardTypes = {
     wl: {
       initTitle: 'WL',
       productName: 'RA Workshop',
@@ -61,5 +62,21 @@ export class ShopCardComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  get itemStatus() {
+    return (this.item?.firstFee || this.item?.subscriptionFee) ? true : false;
+  }
+  get theCardType(): any {
+    if (typeof this.item?.type === 'undefined' && typeof this.item?.type === null) {
+      return this.cardTypes.wl;
+    } else {
+      if (this.item?.type === 'pn') {
+        this.setCardTypeProduct(this.item?.type);
+      }
+      return this.cardTypes[this.item?.type];
+    }
+  }
+  setCardTypeProduct(type: any) {
+    this.cardTypes[type].productName = this.item?.productName || 'Product name';
+    this.cardTypes[type].productVersion = this.item?.productVersion || '& version';
+  }
 }
