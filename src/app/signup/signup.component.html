@@ -99,7 +99,7 @@
 
                     <div class="d-flex flex-column mb-40" *ngIf="languageOptions$ | async as languageOptions">
 
-                        <app-select [config]="selectConfig('Language', 'Select Language', true, 'name', 'nativeName')"
+                        <app-select [config]="selectConfig('Language', 'Select Language', true, 'id', 'option')"
                             formControlName="language" [options]="languageOptions" id="language"></app-select>
                     
                         <app-error-messages [control]="signUpForm?.controls?.language"></app-error-messages>
@@ -110,7 +110,7 @@
                         <app-button type="link" color="tertiary">
                             Cancel
                         </app-button>
-                        <app-button type="Submit" color="primary" [disabled]="!signUpForm?.valid">
+                        <app-button type="Submit" color="primary" [disabled]="!signUpForm?.valid || isLoading">
                              <app-loader type="button" *ngIf="isLoading"></app-loader>
                             <span *ngIf="!isLoading">Sign up</span>
                         </app-button>

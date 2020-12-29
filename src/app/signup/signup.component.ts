@@ -101,7 +101,14 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     this.languageOptions$ = this.getJSON(this.languageJsonDataUrl)
       .pipe(
-        map(lang => Object.keys(lang).map(langKey => lang[langKey])),
+        map(lang => {
+          return Object.keys(lang).map((key: any) => {
+            return {
+              id: lang[key].name,
+              option: lang[key].name.split(',')[0], // return only one from the comma seperate names
+            };
+          });
+        }),
       );
   }
   selectConfig(
@@ -147,7 +154,9 @@ export class SignupComponent implements OnInit, OnDestroy {
     /* loading */
     this.isLoadingStatus();
     /*  */
-    const data = this.signUpForm.value;
+    const data = {
+      ...this.signUpForm.value,
+    };
     this.reqS.post<LoginResponse>(authEndpoints.customersSignUp, data)
       .subscribe(
         res => {
@@ -161,6 +170,9 @@ export class SignupComponent implements OnInit, OnDestroy {
           console.log(res);
           // reset form
           this.signUpForm.reset();
+          /* loading */
+          this.isLoadingStatus();
+          /*  */
           // redirect to login page
           this.routerS.navigateByUrl('/login');
         },
@@ -175,12 +187,13 @@ export class SignupComponent implements OnInit, OnDestroy {
           this.signUpForm.markAllAsTouched();
           this.signUpForm.updateValueAndValidity();
           this.cdRef.markForCheck();
+          /* loading */
+          this.isLoadingStatus();
+          /*  */
         },
         () => console.log('HTTP request completed.')
       );
-    /* loading */
-    this.isLoadingStatus();
-    /*  */
+
   }
   resetSubs() {
     if (this.signUpSubs) {
