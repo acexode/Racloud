@@ -66,7 +66,7 @@ export class ShopCardComponent implements OnInit {
     return (this.item?.firstFee || this.item?.subscriptionFee) ? true : false;
   }
   get theCardType(): any {
-    if (typeof this.item?.type === 'undefined' && typeof this.item?.type === null) {
+    if (typeof this.item?.type === 'undefined' || typeof this.item?.type === null) {
       return this.cardTypes.wl;
     } else {
       if (this.item?.type === 'pn') {
