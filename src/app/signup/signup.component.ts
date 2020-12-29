@@ -54,8 +54,8 @@ export class SignupComponent implements OnInit, OnDestroy {
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
     confirmPassword: ['', Validators.required],
-    contactPersonFirstName: ['', Validators.required],
-    contactPersonLastName: ['', Validators.required],
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
     companyName: ['', Validators.required],
     phoneNumber: ['', Validators.required],
     companyEmail: ['', Validators.required],
@@ -64,7 +64,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     country: [null, Validators.required],
     language: [null, Validators.required],
   }, {
-      validator: PasswordValidator.mismatchedPasswords('password', 'confirmPassword')
+    validator: PasswordValidator.mismatchedPasswords('password', 'confirmPassword')
   });
   classes = {
     body: 'p-0 d-flex justify-content-center flex-column no-gutters',
@@ -106,7 +106,7 @@ export class SignupComponent implements OnInit, OnDestroy {
             return {
               id: lang[key].name,
               option: lang[key].name.split(',')[0], // return only one from the comma seperate names
-            }
+            };
           });
         }),
       );
@@ -156,9 +156,6 @@ export class SignupComponent implements OnInit, OnDestroy {
     /*  */
     const data = {
       ...this.signUpForm.value,
-      /*  I think they are to be removes */
-      firstName: this.signUpForm.value.contactPersonFirstName,
-      lastName: this.signUpForm.value.contactPersonLastName,
     };
     this.reqS.post<LoginResponse>(authEndpoints.customersSignUp, data)
       .subscribe(
@@ -173,7 +170,7 @@ export class SignupComponent implements OnInit, OnDestroy {
           // reset form
           this.signUpForm.reset();
           /* loading */
-            this.isLoadingStatus();
+          this.isLoadingStatus();
           /*  */
           // redirect to login page
           this.routerS.navigateByUrl('/login');
@@ -190,7 +187,7 @@ export class SignupComponent implements OnInit, OnDestroy {
           this.signUpForm.updateValueAndValidity();
           this.cdRef.markForCheck();
           /* loading */
-            this.isLoadingStatus();
+          this.isLoadingStatus();
           /*  */
         },
         () => console.log('HTTP request completed.')
