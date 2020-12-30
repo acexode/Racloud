@@ -34,7 +34,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     };
   });
   componentForm = this.fb.group({
-    name: [
+    companyName: [
       '',
       [
         Validators.required,
@@ -145,9 +145,8 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     this.detailsId = get(this.detailsData, 'id', null);
 
     // update form Data
-    console.log(getUTCLongMonthDate(get(this.detailsData, 'anniversaryDate', null)));
+    console.log(this.detailsData);
     this.updateValueForForm(this.detailsData);
-    convertDateBackToUTCDate('1 January, 2020');
 
   }
   selectConfig(
@@ -188,7 +187,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
   }
   updateValueForForm(data: any) {
     const d = {
-      name: get(data, 'companyName', ''),
+      companyName: get(data, 'companyName', ''),
       firstName: get(data, 'firstName', ''),
       lastName: get(data, 'lastName', ''),
       companyType: get(data, 'companyType', 'Fabricator').toLowerCase(),
@@ -209,12 +208,15 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     const newData = {
       ...d,
       anniversaryDate: convertDateBackToUTCDate(get(d, 'anniversaryDate', '')),
+      subscriptionFee: Number(get(d, 'subscriptionFee', 0)),
+      supportHoursContract: Number(get(d, 'supportHoursContract', 0)),
+      supportHoursAvailable: Number(get(d, 'supportHoursAvailable', 0)),
       id: this.detailsId,
-      contactPersonName: get(d, 'firstName', 'empty'),
-      language: get(this.detailsData, 'language', ''),
-      companyEmail: get(this.detailsData, 'companyEmail', ''),
-      companyName: get(this.detailsData, 'companyName', ''),
+      contactPersonName: get(d, 'firstName', 'Default'),
+      language: get(this.detailsData, 'language', 'Default') || 'Default',
+      companyEmail: get(this.detailsData, 'companyEmail', 'Default') || 'Default@racloud.com',
     };
+    console.log(newData);
     const queryEndpoint = `${ baseEndpoints.customers }/${ this.detailsId }`;
     return this.reqS.put(queryEndpoint, newData);
   }

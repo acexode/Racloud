@@ -67,7 +67,6 @@ const UTCDate = (theDate: any) => {
   const d = dateInUTC.getDate(); /* day */
   const m = dateInUTC.getMonth(); /* month */
   const y = dateInUTC.getFullYear(); /* year */
-  console.log(d, m, y, theDate, dateInUTC);
   // return new Date(date).toUTCString();
   return {
     d,
