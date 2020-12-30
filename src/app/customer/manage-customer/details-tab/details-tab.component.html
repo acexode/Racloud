@@ -1,5 +1,6 @@
 <ng-container>
     <div class="w-100 pt-40">
+        {{dd| date:'d MMM y'}}
         <form [formGroup]="componentForm" class="row no-gutters" (submit)="updateProfile()">
             
             <div class="col-12 col-md-3 px-0 pr-0 py-0 pr-md-16 m-0">
@@ -13,8 +14,15 @@
 
                 <div class="col-12 mb-14 m-0 p-0">
                     <app-input
-                        [config]="inputConfig('Contact person')"
-                        formControlName="contactPerson"
+                        [config]="inputConfig('Contact person first name')"
+                        formControlName="firstName"
+                    ></app-input>
+                </div>
+
+                <div class="col-12 mb-14 m-0 p-0">
+                    <app-input
+                        [config]="inputConfig('Contact person last name')"
+                        formControlName="lastName"
                     ></app-input>
                 </div>
 
@@ -116,7 +124,7 @@
                     Renew Subscription
                     </app-button>
 
-                    <app-button type="submit" color="primary" [disabled]="!componentForm.valid"> 
+                    <app-button type="submit" color="primary" [disabled]="!componentForm.valid || isLoading"> 
                         <app-loader type="button" *ngIf="isLoading"></app-loader>
                         <span *ngIf="!isLoading">Update profile</span> 
                     </app-button>

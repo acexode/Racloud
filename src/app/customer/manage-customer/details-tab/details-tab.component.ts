@@ -3,20 +3,21 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea-config';
-import { get, split } from 'lodash';
+import { get } from 'lodash';
 import { Observable, Subscription } from 'rxjs';
 import { CountriesService } from 'src/app/core/services/countries/countries.service';
 import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
 import { CompanyTypes } from 'src/app/core/models/companyTypes';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { baseEndpoints } from 'src/app/core/configs/endpoints';
-import { convertDateBackToUTCDate, getUTCLongMonthdate } from 'src/app/core/helpers/dateHelpers';
+import { convertDateBackToUTCDate, getUTCLongMonthDate } from 'src/app/core/helpers/dateHelpers';
 @Component({
   selector: 'app-details-tab',
   templateUrl: './details-tab.component.html',
   styleUrls: ['./details-tab.component.scss']
 })
 export class DetailsTabComponent implements OnInit, OnDestroy {
+  dd = '1970-01-01T00:00:00.000Z';
   isLoading = false;
   @Input() detailsData: any;
   textAreaConfig: TextAreaConfig = {
@@ -40,7 +41,11 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
         Validators.maxLength(50),
       ],
     ],
-    contactPerson: [
+    firstName: [
+      '',
+      Validators.required,
+    ],
+    lastName: [
       '',
       Validators.required,
     ],
@@ -140,8 +145,9 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     this.detailsId = get(this.detailsData, 'id', null);
 
     // update form Data
+    console.log(getUTCLongMonthDate(get(this.detailsData, 'anniversaryDate', null)));
     this.updateValueForForm(this.detailsData);
-    console.log(this.detailsData);
+    convertDateBackToUTCDate('1 January, 2020');
 
   }
   selectConfig(
@@ -182,15 +188,16 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
   }
   updateValueForForm(data: any) {
     const d = {
-      name: get(data, 'companyName', '') ,
-      contactPerson: `${ get(data, 'contactPersonFirstName', '') } ${ get(data, 'contactPersonLastName', '') }`,
+      name: get(data, 'companyName', ''),
+      firstName: get(data, 'firstName', ''),
+      lastName: get(data, 'lastName', ''),
       companyType: get(data, 'companyType', 'Fabricator').toLowerCase(),
       parentId: get(get(data, 'parent', ''), 'id', ''),
       address: get(data, 'address', ''),
       country: get(data, 'country', ''),
       phoneNumber: get(data, 'phoneNumber', ''),
       email: get(data, 'email', ''),
-      anniversaryDate: getUTCLongMonthdate(get(data, 'anniversaryDate', null)),
+      anniversaryDate: getUTCLongMonthDate(get(data, 'anniversaryDate', '')),
       subscriptionFee: get(data, 'subscriptionFee', ''),
       supportHoursContract: get(data, 'supportHoursContract', ''),
       supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
@@ -200,24 +207,14 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
   getUpdatedData(): Observable<any> {
     const d = this.componentForm.value;
     const newData = {
+      ...d,
+      anniversaryDate: convertDateBackToUTCDate(get(d, 'anniversaryDate', '')),
       id: this.detailsId,
-
-      ...this.splitName(get(d, 'contactPerson', ''), 'firstName', 'lastName'),
-      ...this.splitName(get(d, 'contactPerson', ''), 'contactPersonFirstName', 'contactPersonLastName'),
-
-
-      email: get(d, 'email', ''),
-      address: get(d, 'address', ''),
-      country: get(d, 'country', ''),
-      phoneNumber: get(d, 'phoneNumber', ''),
-
-      parentId: get(d, 'parentId', ''),
+      contactPersonName: get(d, 'firstName', 'empty'),
       language: get(this.detailsData, 'language', ''),
       companyEmail: get(this.detailsData, 'companyEmail', ''),
       companyName: get(this.detailsData, 'companyName', ''),
-      anniversaryDate: convertDateBackToUTCDate(get(d.anniversaryDate, 'anniversaryDate', null)),
     };
-    console.log(newData);
     const queryEndpoint = `${ baseEndpoints.customers }/${ this.detailsId }`;
     return this.reqS.put(queryEndpoint, newData);
   }
@@ -237,13 +234,6 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
         this.isLoadingStatus();
       }
     );
-  }
-  splitName(name: string, nameA: string, nameB: string): any {
-    const splitNameToArray = name !== '' ? split(name, ' ', 2) : ['', ''];
-    return {
-      [nameA]: splitNameToArray[0],
-      [nameB]: splitNameToArray[1],
-    };
   }
   ngOnDestroy(): void {
     this.countryOptions$.unsubscribe();
