@@ -5,7 +5,7 @@
             <span class="rc-primary-color s12-h16 montserrat-bold-font ls-0">WL</span>
         </div>
         <div class="rc-full-title">
-            <span class="montserrat-semibold-font s15-h24 rc-accent-blue-160-color ls-0">{{item.name}}</span>
+            <span class="montserrat-semibold-font s15-h24 rc-accent-blue-160-color ls-0">{{item.Product.Name}}</span>
         </div>
 
         <div class="rc-product-fees-section">
@@ -14,7 +14,7 @@
                     <span class="s12-h16 rc-grey-color montserrat-regular-font ls-0">Initial fee</span>
                 </div>
                 <div class="rc-product-fees-price">
-                    <span class="rc-accent-blue-160-color fee montserrat-medium-font ls-0">{{item.initial_fee}} $</span>
+                    <span class="rc-accent-blue-160-color fee montserrat-medium-font ls-0">{{item.Value}} $</span>
                 </div>
             </div>
             <div class="rc-product-fees-group">
@@ -22,15 +22,18 @@
                     <span class="s12-h16 rc-grey-color montserrat-regular-font ls-0">Subscription fee</span>
                 </div>
                 <div class="rc-product-fees-price">
-                    <span class="rc-accent-blue-160-color fee montserrat-medium-font ls-0">{{item.subscription_fee}} $</span>
+                    <span class="rc-accent-blue-160-color fee montserrat-medium-font ls-0">{{item.RenewalValue}} $</span>
                 </div>
             </div>
+        </div>
+        <div class="support">
+            Support hours: {{item.SupportHours}}
         </div>
 
         <div class="rc-sh-card-body">
             <div class="rc-product-description">
                 <p class="rc-grey-color desc helvetica-neue-regular ls-0">
-                    {{item.description}}.
+                    {{item.Product.Name}}.
                 </p>
             </div>
             <div class="rc-sh-card-body-link">
