@@ -242,7 +242,7 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 
   }
   getValue(): void {
-    this.onCustomerFormData.emit(this.updateData());
+    this.customerFormEmitter.emit(this.updateData());
   }
 
   get buttons() {

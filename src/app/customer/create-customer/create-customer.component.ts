@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { customersEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
@@ -10,7 +10,7 @@ import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-confi
   templateUrl: './create-customer.component.html',
   styleUrls: ['./create-customer.component.scss']
 })
-export class CreateCustomerComponent implements OnInit {
+export class CreateCustomerComponent implements OnInit, OnDestroy {
   formButtonConfig: any = {
     buttonA: 'Update',
     buttonB: 'Cancle',
