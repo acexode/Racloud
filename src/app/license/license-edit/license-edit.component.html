@@ -87,11 +87,19 @@
                                 <app-input [config]="inputConfig('Is Assigned', 'text')" formControlName="isAssigned"></app-input>
                             </div>
                             <div class="col-6 mb-14">
-                                <app-select
+                                <!-- <app-select
                                     [config]="selectionConfig('Status')"
                                     formControlName="status"
-                                ></app-select>
-                                
+                                ></app-select> -->
+                                <div class="mx-0">
+                                    <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Status </label>
+                                    <div class="rc-select" >
+                                        <select (change)="onChange($event.target.value)"  formcontrolname="status">
+                                            <option [selected]="selectedStatus == 'Active'" value="Active">Active</option>
+                                            <option [selected]="selectedStatus == 'Inactive'" value="Inactive">In Active</option>
+                                        </select>
+                                    </div>                                    
+                                </div>                                
                             </div>
                             <div class="col-6 mb-14">
                                 <app-select
@@ -110,7 +118,7 @@
                         </form>
                     </ng-template>
                     <ng-template #secondTab> 
-                        <app-option-tab></app-option-tab>
+                        <app-option-tab (selectedRows)="getRow($event)" [optionList]="optionList"></app-option-tab>
                     </ng-template>
                     
                 

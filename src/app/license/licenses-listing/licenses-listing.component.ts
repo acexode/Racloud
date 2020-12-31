@@ -89,7 +89,7 @@ export class LicensesListingComponent implements OnInit {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'product',
+        identifier: 'Product.Name',
         label: 'Product Name',
         sortable: true,
         minWidth: 161,
@@ -119,7 +119,7 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'company.companyName',
+        identifier: 'company.CompanyName',
         label: 'Customer',
         sortable: true,
         minWidth: 160,
@@ -134,7 +134,7 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'purchaseDate',
+        identifier: 'PurchaseDate',
         label: 'Purchased',
         sortable: true,
         minWidth: 120,
@@ -150,7 +150,7 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'expirationDate',
+        identifier: 'ExpirationDate',
         label: 'Expires',
         sortable: true,
         minWidth: 104,
@@ -166,7 +166,7 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'licenseStatus',
+        identifier: 'LicenseStatus',
         label: 'Status',
         sortable: true,
         minWidth: 104,
@@ -183,7 +183,7 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'isPartnerLicense',
+        identifier: 'IsPartnerLicense',
         label: 'Partner license',
         sortable: true,
         minWidth: 104,
@@ -200,7 +200,7 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'renewByUserCompany',
+        identifier: 'RenewByUserCompany',
         label: 'Renew by User Company',
         sortable: true,
         minWidth: 136,
@@ -234,6 +234,7 @@ export class LicensesListingComponent implements OnInit {
       if (data) {
         this.tableConfig.loadingIndicator = true;
         console.log(data)
+         
         this.rowData = data;
         const cloneData = data.map((v: any) => {
           return { ...v };
@@ -242,7 +243,7 @@ export class LicensesListingComponent implements OnInit {
         this.tableConfig.loadingIndicator = false;
       }
     });
-  }
+  }  
   public getJSON(): Observable<any> {
     return this.http.get('./assets/ra-table-license.json');
   }
@@ -257,14 +258,20 @@ export class LicensesListingComponent implements OnInit {
 
   removeRow(id: any) {}
   manageSub(data: any) {
-    this.router.navigate(['licenses/license-edit', { id: data.id }]);
+    this.router.navigate(['licenses/license-edit', { id: data.Id }]);
     console.log(data)
   }
   renewSub(id: any) {}
 
   setDropUp(row) {
-    const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
+    const idx = this.rowData.findIndex(e => e.Id === row.Id) + 1;
     const mod = idx % 10 === 0 ? 10 : idx % 10;
+    if(this.rowData.length < 5){
+      let dBody = document.querySelector('.datatable-body') as HTMLElement;
+      dBody.style.paddingBottom = '90px'
+    }   
+    console.log(idx)
+    console.log(mod)
     if (mod < 6) {
       this.isDropup = false;
     } else {
