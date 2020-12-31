@@ -116,6 +116,7 @@ const routes: Routes = [
     path: 'shop',
     component: ShopComponent,
     data: { title: 'Shop' },
+    canActivate: [AuthGuard],
   },
   {
     path: 'price-list',
