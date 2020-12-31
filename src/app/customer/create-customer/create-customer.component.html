@@ -39,20 +39,22 @@
           <div class="row">
             <div class="col-12 mb-14">
               <app-input
-                [config]="inputConfig('Name')"
-                formControlName="name"
+                [config]="inputConfig('Company Name')"
+                formControlName="companyName"
               ></app-input>
             </div>
             <div class="col-12 mb-14">
               <app-select
-                [config]="selectionConfig('Type')"
+                [config]="selectConfig('Type')"
                 formControlName="type"
+                [options]="typeOptions"
               ></app-select>
             </div>
             <div class="col-12">
               <app-select
-                [config]="selectionConfig('Parent')"
-                formControlName="parent"
+                  [config]="selectConfig('Parent', 'Select Parent', true, 'id', 'companyName')"
+                  formControlName="parentId"
+                  [options]="customerParentOptions"
               ></app-select>
             </div>
           </div>
@@ -61,10 +63,11 @@
         <div class="col-12 col-md-3 px-md-16">
           <div class="row">
             <div class="col-12 mb-14">
-              <app-input
-                [config]="inputConfig('City')"
-                formControlName="city"
-              ></app-input>
+              <app-select
+                  [config]="selectConfig('Country', 'Select Country', true, 'name', 'name')"
+                  formControlName="country"
+                  [options]="countryOptions"
+              ></app-select>
             </div>
             <div class="col-12 mb-14">
               <app-input

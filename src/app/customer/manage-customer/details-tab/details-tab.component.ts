@@ -1,24 +1,20 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea-config';
 import { get } from 'lodash';
 import { Observable, Subscription } from 'rxjs';
-import { CountriesService } from 'src/app/core/services/countries/countries.service';
-import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
-import { CompanyTypes } from 'src/app/core/models/companyTypes';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { baseEndpoints } from 'src/app/core/configs/endpoints';
-import { convertDateBackToUTCDate, getUTCLongMonthDate } from 'src/app/core/helpers/dateHelpers';
+import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 @Component({
   selector: 'app-details-tab',
   templateUrl: './details-tab.component.html',
   styleUrls: ['./details-tab.component.scss']
 })
 export class DetailsTabComponent implements OnInit, OnDestroy {
-  dd = '1970-01-01T00:00:00.000Z';
-  isLoading = false;
+  isLoading: boolean;
   @Input() detailsData: any;
   textAreaConfig: TextAreaConfig = {
     textAreaLabel: {
@@ -26,128 +22,23 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     },
     placeholder: ''
   };
-
-  typeOptions = Object.keys(CompanyTypes).map(companyType => {
-    return {
-      id: companyType,
-      option: CompanyTypes[companyType]
-    };
-  });
-  componentForm = this.fb.group({
-    companyName: [
-      '',
-      [
-        Validators.required,
-        Validators.maxLength(50),
-      ],
-    ],
-    firstName: [
-      '',
-      Validators.required,
-    ],
-    lastName: [
-      '',
-      Validators.required,
-    ],
-    companyType: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    parentId: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    address: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    country: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    phoneNumber: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    email: [
-      '',
-      [
-        Validators.required,
-        Validators.email
-      ],
-    ],
-    anniversaryDate: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    subscriptionFee: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    supportHoursContract: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    supportHoursAvailable: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-  });
-  countryOptions: any;
-  customerParentOptions: any;
-  countryOptions$: Subscription;
-  customerParentOptions$: Subscription;
   updateProfile$: Subscription;
   detailsId: any;
   constructor(
     private fb: FormBuilder,
     private reqS: RequestService,
-    private cS: CountriesService,
-    private parentS: CompanyParentsService
+    private msgS: MessagesService,
+    private cdref: ChangeDetectorRef,
   ) { }
-  isLoadingStatus() {
-    this.isLoading = !this.isLoading;
-  }
   ngOnInit(): void {
-    // get country option
-    this.countryOptions$ = this.cS.getCountries().subscribe(
-      (res: { code: string, name: string; }) => {
-        this.countryOptions = res;
-      },
-      err => { }
-    );
-    // get customer parent options
-    this.customerParentOptions$ = this.parentS.getParents().subscribe(
-      (res: any) => {
-        this.customerParentOptions = res;
-      },
-      err => { }
-    );
     // get details ID
     this.detailsId = get(this.detailsData, 'id', null);
+    this.isLoading = false;
+    this.cdref.detectChanges();
 
-    // update form Data
-    console.log(this.detailsData);
-    this.updateValueForForm(this.detailsData);
-
+  }
+  isLoadingStatus() {
+    this.isLoading = !this.isLoading;
   }
   selectConfig(
     label: string,
@@ -185,45 +76,15 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
       }
     };
   }
-  updateValueForForm(data: any) {
-    const d = {
-      companyName: get(data, 'companyName', ''),
-      firstName: get(data, 'firstName', ''),
-      lastName: get(data, 'lastName', ''),
-      companyType: get(data, 'companyType', 'Fabricator').toLowerCase(),
-      parentId: get(get(data, 'parent', ''), 'id', ''),
-      address: get(data, 'address', ''),
-      country: get(data, 'country', ''),
-      phoneNumber: get(data, 'phoneNumber', ''),
-      email: get(data, 'email', ''),
-      anniversaryDate: getUTCLongMonthDate(get(data, 'anniversaryDate', '')),
-      subscriptionFee: get(data, 'subscriptionFee', ''),
-      supportHoursContract: get(data, 'supportHoursContract', ''),
-      supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
-    };
-    this.componentForm.setValue({ ...d });
-  }
-  getUpdatedData(): Observable<any> {
-    const d = this.componentForm.value;
-    const newData = {
-      ...d,
-      anniversaryDate: convertDateBackToUTCDate(get(d, 'anniversaryDate', '')),
-      subscriptionFee: Number(get(d, 'subscriptionFee', 0)),
-      supportHoursContract: Number(get(d, 'supportHoursContract', 0)),
-      supportHoursAvailable: Number(get(d, 'supportHoursAvailable', 0)),
-      id: this.detailsId,
-      contactPersonName: get(d, 'firstName', 'Default'),
-      language: get(this.detailsData, 'language', 'Default') || 'Default',
-      companyEmail: get(this.detailsData, 'companyEmail', 'Default') || 'Default@racloud.com',
-    };
-    console.log(newData);
+  getUpdatedData(newData: any): Observable<any> {
     const queryEndpoint = `${ baseEndpoints.customers }/${ this.detailsId }`;
     return this.reqS.put(queryEndpoint, newData);
   }
-  updateProfile(): void {
+  updateProfile(data: any): void {
     // loadingIndicator
     this.isLoadingStatus();
-    this.updateProfile$ = this.getUpdatedData().subscribe(
+    console.log('called', this.isLoading, data);
+    this.updateProfile$ = this.getUpdatedData(data).subscribe(
       res => {
         // sucessfully updated
         alert('Sucessfully updated profile');
@@ -238,7 +99,8 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     );
   }
   ngOnDestroy(): void {
-    this.countryOptions$.unsubscribe();
-    this.customerParentOptions$.unsubscribe();
+    if (this.updateProfile$) {
+      this.updateProfile$.unsubscribe();
+    }
   }
 }

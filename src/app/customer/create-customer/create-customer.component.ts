@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { CompanyTypes } from 'src/app/core/models/companyTypes';
+import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
+import { CountriesService } from 'src/app/core/services/countries/countries.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
@@ -21,17 +25,41 @@ export class CreateCustomerComponent implements OnInit {
       body: 'no-shadow',
     },
   };
+  typeOptions = Object.keys(CompanyTypes).map(companyType => {
+    return {
+      id: companyType,
+      option: CompanyTypes[companyType]
+    };
+  });
+  countryOptions: any;
+  customerParentOptions: any;
+  countryOptions$: Subscription;
+  customerParentOptions$: Subscription;
 
   componentForm: FormGroup;
 
   controlStore: { [key: string]: AbstractControl; } = {};
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private cS: CountriesService,
+    private parentS: CompanyParentsService
+  ) { }
 
-  selectionConfig(label: string): SelectConfig {
+  selectConfig(
+    label: string,
+    placeholder: string = 'Select',
+    searchable: boolean = false,
+    idKey: string = 'id',
+    labelKey: string = 'option',
+  ): SelectConfig {
     return {
       selectLabel: {
-        text: label || '',
+        text: label,
       },
+      placeholder,
+      idKey,
+      labelKey,
+      searchable,
     };
   }
   inputConfig(
@@ -60,11 +88,25 @@ export class CreateCustomerComponent implements OnInit {
   }
   ngOnInit(): void {
     this.initForm();
+    // get country option
+    this.countryOptions$ = this.cS.getCountries().subscribe(
+      (res: { code: string, name: string; }) => {
+        this.countryOptions = res;
+      },
+      err => { }
+    );
+    // get customer parent options
+    this.customerParentOptions$ = this.parentS.getParents().subscribe(
+      (res: any) => {
+        this.customerParentOptions = res;
+      },
+      err => { }
+    );
   }
 
   initForm() {
     this.componentForm = this.fb.group({
-      name: [
+      companyName: [
         '',
         [
           Validators.required,
@@ -77,13 +119,13 @@ export class CreateCustomerComponent implements OnInit {
           Validators.required,
         ],
       ],
-      parent: [
+      parentId: [
         '',
         [
           Validators.required,
         ],
       ],
-      city: [
+      country: [
         '',
         [
           Validators.required,
@@ -128,6 +170,11 @@ export class CreateCustomerComponent implements OnInit {
         ],
       ],
     });
+  }
+
+  ngOnDestroy(): void {
+    this.countryOptions$.unsubscribe();
+    this.customerParentOptions$.unsubscribe();
   }
 
 
