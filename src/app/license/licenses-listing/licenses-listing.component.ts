@@ -243,7 +243,7 @@ export class LicensesListingComponent implements OnInit {
         this.tableConfig.loadingIndicator = false;
       }
     });
-  }  
+  }
   public getJSON(): Observable<any> {
     return this.http.get('./assets/ra-table-license.json');
   }
@@ -267,11 +267,9 @@ export class LicensesListingComponent implements OnInit {
     const idx = this.rowData.findIndex(e => e.Id === row.Id) + 1;
     const mod = idx % 10 === 0 ? 10 : idx % 10;
     if(this.rowData.length < 5){
-      let dBody = document.querySelector('.datatable-body') as HTMLElement;
-      dBody.style.paddingBottom = '90px'
-    }   
-    console.log(idx)
-    console.log(mod)
+      const dBody = document.querySelector('.datatable-body') as HTMLElement;
+      dBody.style.paddingBottom = '90px';
+    }
     if (mod < 6) {
       this.isDropup = false;
     } else {
