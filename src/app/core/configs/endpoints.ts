@@ -23,4 +23,7 @@ export const optionEndpoints = {
   createOption: serverBaseUrl + '/options/create',
   getOptions: serverBaseUrl + '/options'
 };
-
+export const shopEndpoints = {  
+  getShops: serverBaseUrl + '/shop',
+  getSingleShop: serverBaseUrl + '/shop'
+};
