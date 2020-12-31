@@ -13,8 +13,11 @@ export const authEndpoints = {
   login: baseEndpoints.auth + '/login',
   signout: baseEndpoints.auth + '/sign-out',
   customersSignUp: baseEndpoints.customers + '/signup',
-  addCustomer: baseEndpoints.customers + '/add-customer'
 };
+
+export const customersEndpoints = {
+  addCustomer: baseEndpoints.customers + '/add-customer'
+}
 export const productEndpoints = {
   getProducts: serverBaseUrl + '/products',
   createProduct: serverBaseUrl + '/products/create',

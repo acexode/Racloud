@@ -26,7 +26,7 @@
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-select
-                    [config]="selectConfig('Type')"
+                    [config]="selectConfig('Type', 'Select Parent', true)"
                     formControlName="companyType"
                     [options]="typeOptions"
                 ></app-select>
@@ -89,7 +89,7 @@
 
             <div class="col-12 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Subscription fee', 'text', '', true)"
+                    [config]="inputConfig('Subscription fee', 'text', 'Type here', true)"
                     formControlName="subscriptionFee"
                 ></app-input>
             </div>

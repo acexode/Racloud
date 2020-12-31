@@ -28,7 +28,7 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
     buttonA: string;
     buttonB: string;
   };
-  @Output() onCustomerFormData = new EventEmitter();
+  @Output() customerFormEmitter = new EventEmitter();
   isLoading: boolean;
   @Input() set loadingStatus(status: boolean) {
     this.isLoading = status;
@@ -64,13 +64,13 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
       Validators.required,
     ],
     companyType: [
-      '',
+      null,
       [
         Validators.required,
       ],
     ],
     parentId: [
-      '',
+      null,
       [
         Validators.required,
       ],
@@ -82,7 +82,7 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
       ],
     ],
     country: [
-      '',
+      null,
       [
         Validators.required,
       ],
@@ -125,6 +125,12 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
       ],
     ],
   });
+  textAreaConfig: TextAreaConfig = {
+    textAreaLabel: {
+      text: 'Address'
+    },
+    placeholder: 'Type Here'
+  };
   countryOptions: any;
   customerParentOptions: any;
   countryOptions$: Subscription;
@@ -174,7 +180,7 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
   inputConfig(
     label: string,
     type: string = 'text',
-    placeholder: string = '',
+    placeholder: string = 'Type here',
     prefixIcon: boolean = false,
     isDisabled: boolean = false,
   ): InputConfig {

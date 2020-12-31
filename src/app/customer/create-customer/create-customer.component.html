@@ -37,7 +37,7 @@
       <app-customer-form 
           [loadingStatus]="isLoading" 
           [buttonConfig]="formButtonConfig"
-          (onCustomerFormData)="submitData($event)"
+          (customerFormEmitter)="submitData($event)"
       ></app-customer-form>
   </div>
 

@@ -79,7 +79,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
       }
     };
   }
-  getUpdatedData(newData: any): Observable<any> {
+  updateData(newData: any): Observable<any> {
     const queryEndpoint = `${ baseEndpoints.customers }/${ this.detailsId }`;
     return this.reqS.put(queryEndpoint, newData);
   }
@@ -87,7 +87,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     // loadingIndicator
     this.isLoadingStatus();
     console.log('called', this.isLoading, data);
-    this.updateProfile$ = this.getUpdatedData(data).subscribe(
+    this.updateProfile$ = this.updateData(data).subscribe(
       res => {
         // sucessfully updated
         alert('Sucessfully updated profile');

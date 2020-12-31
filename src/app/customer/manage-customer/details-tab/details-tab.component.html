@@ -3,6 +3,6 @@
         [editableData]="detailsData"
         [loadingStatus]="isLoading" 
         [buttonConfig]="formButtonConfig"
-        (onCustomerFormData)="updateProfile($event)"
+        (customerFormEmitter)="updateProfile($event)"
     ></app-customer-form>
 </div>

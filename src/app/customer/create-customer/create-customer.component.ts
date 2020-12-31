@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { CompanyTypes } from 'src/app/core/models/companyTypes';
-import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
-import { CountriesService } from 'src/app/core/services/countries/countries.service';
+import { customersEndpoints } from 'src/app/core/configs/endpoints';
+import { RequestService } from 'src/app/core/services/request/request.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
@@ -29,25 +27,8 @@ export class CreateCustomerComponent implements OnInit {
       body: 'no-shadow',
     },
   };
-  typeOptions = Object.keys(CompanyTypes).map(companyType => {
-    return {
-      id: companyType,
-      option: CompanyTypes[companyType]
-    };
-  });
-  countryOptions: any;
-  customerParentOptions: any;
-  countryOptions$: Subscription;
-  customerParentOptions$: Subscription;
-
-  componentForm: FormGroup;
-
-  controlStore: { [key: string]: AbstractControl; } = {};
-  constructor(
-    private fb: FormBuilder,
-    private cS: CountriesService,
-    private parentS: CompanyParentsService
-  ) { }
+  addCustomer$: Subscription;
+  constructor(private reqS: RequestService) { }
 
   selectConfig(
     label: string,
@@ -81,109 +62,21 @@ export class CreateCustomerComponent implements OnInit {
       prefixIcon: prefixIcon || false,
     };
   }
-
-  setType(e) {
-    this.type.setValue(e.target.value, {
-      onlySelf: true
-    });
-  }
-  get type() {
-    return this.componentForm.get('type');
-  }
-  ngOnInit(): void {
-    this.initForm();
-    // get country option
-    this.countryOptions$ = this.cS.getCountries().subscribe(
-      (res: { code: string, name: string; }) => {
-        this.countryOptions = res;
-      },
-      err => { }
-    );
-    // get customer parent options
-    this.customerParentOptions$ = this.parentS.getParents().subscribe(
-      (res: any) => {
-        this.customerParentOptions = res;
-      },
-      err => { }
-    );
-  }
-
-  initForm() {
-    this.componentForm = this.fb.group({
-      companyName: [
-        '',
-        [
-          Validators.required,
-          Validators.maxLength(50),
-        ],
-      ],
-      type: [
-        '',
-        [
-          Validators.required,
-        ],
-      ],
-      parentId: [
-        '',
-        [
-          Validators.required,
-        ],
-      ],
-      country: [
-        '',
-        [
-          Validators.required,
-          Validators.maxLength(50),
-        ],
-      ],
-      phone: [
-        '',
-        [
-          Validators.required,
-        ],
-      ],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.email
-        ],
-      ],
-      anniversaryDate: [
-        '',
-        [
-          Validators.required,
-        ],
-      ],
-      subscriptionFee: [
-        '',
-        [
-          Validators.required,
-        ],
-      ],
-      supportHoursContract: [
-        '',
-        [
-          Validators.required,
-        ],
-      ],
-      supportHoursAvailable: [
-        '',
-        [
-          Validators.required,
-        ],
-      ],
-    });
-  }
+  ngOnInit(): void {}
 
   submitData(data: any) {
-    console.log(data);
+    const queryEndpoint = `${ customersEndpoints.addCustomer }`;
+    this.addCustomer$ = this.reqS.put(queryEndpoint, data).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
-  ngOnDestroy(): void {
-    this.countryOptions$.unsubscribe();
-    this.customerParentOptions$.unsubscribe();
-  }
+  ngOnDestroy(): void {}
 
 
 }
