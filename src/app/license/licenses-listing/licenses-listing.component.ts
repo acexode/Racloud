@@ -45,28 +45,6 @@ export class LicensesListingComponent implements OnInit {
     '../../assets/images/Edit.svg',
     '../../assets/images/Log.svg',
   ];
-  bsConfig = omnBsConfig({
-    ranges: [
-      {
-        value: [new Date(), new Date()],
-        label: 'Azi',
-      },
-      {
-        value: [
-          new Date(new Date().setDate(new Date().getDate() - 7)),
-          new Date(),
-        ],
-        label: 'Ultima săptămână',
-      },
-      {
-        value: [
-          new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
-          new Date(new Date().getFullYear(), new Date().getMonth(), 0),
-        ],
-        label: 'Ultima lună',
-      },
-    ],
-  });
   tableConfig: TableI = {
     selectable: false,
     selectDetail: false,
@@ -233,8 +211,6 @@ export class LicensesListingComponent implements OnInit {
     this.service.getLicenses().subscribe((data:any) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
-        console.log(data)
-         
         this.rowData = data;
         const cloneData = data.map((v: any) => {
           return { ...v };
