@@ -16,9 +16,9 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
   @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
-  optionList = []
-  selectedRows = []
-  isEdit = false
+  optionList = [];
+  selectedRows = [];
+  isEdit = false;
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/customer';
   containerConfig: PageContainerConfig = {
@@ -262,7 +262,6 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
       }
       return null;
     });
-    console.log(resArr)
     if(this.isEdit){
       const editObj = {
         id: parseInt(id),
@@ -270,12 +269,10 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         licenseStatus: values.status,
         licenseOptions: resArr
       }
-      console.log(editObj)
       this.service.updateLicense(id, editObj).subscribe(e =>{
         this.router.navigate(['licenses'])
       })
     }
-    
   }
   getRow(row){
     this.selectedRows = row.selected
