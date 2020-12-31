@@ -1,1 +1,8 @@
-<app-customer-form [editableData]="detailsData" [loadingStatus]="isLoading" (onCustomerFormData)="updateProfile($event)"></app-customer-form>
+<div class="w-100 pt-40">
+    <app-customer-form 
+        [editableData]="detailsData"
+        [loadingStatus]="isLoading" 
+        [buttonConfig]="formButtonConfig"
+        (onCustomerFormData)="updateProfile($event)"
+    ></app-customer-form>
+</div>

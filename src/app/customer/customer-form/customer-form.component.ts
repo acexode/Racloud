@@ -20,11 +20,18 @@ import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea
 })
 
 export class CustomerFormComponent implements OnInit, OnDestroy {
+  defaultToButtons: any = {
+    buttonA: 'Button A',
+    buttonB: 'Button B',
+  };
+  @Input() buttonConfig: {
+    buttonA: string;
+    buttonB: string;
+  };
   @Output() onCustomerFormData = new EventEmitter();
   isLoading: boolean;
   @Input() set loadingStatus(status: boolean) {
     this.isLoading = status;
-    console.log(this.isLoading);
   };
   @Input() editableData!: any;
   textAreaConfig: TextAreaConfig = {
@@ -144,12 +151,8 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
       },
       err => { }
     );
-    // get details ID
-    this.detailsId = get(this.editableData, 'id', null);
-
     // update form Data
-    this.updateValueForForm(this.editableData);
-
+    this.updateValueForForm();
   }
   selectConfig(
     label: string,
@@ -187,23 +190,34 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
       }
     };
   }
-  updateValueForForm(data: any) {
-    const d = {
-      companyName: get(data, 'companyName', ''),
-      firstName: get(data, 'firstName', ''),
-      lastName: get(data, 'lastName', ''),
-      companyType: get(data, 'companyType', 'Fabricator').toLowerCase(),
-      parentId: get(get(data, 'parent', ''), 'id', ''),
-      address: get(data, 'address', ''),
-      country: get(data, 'country', ''),
-      phoneNumber: get(data, 'phoneNumber', ''),
-      email: get(data, 'email', ''),
-      anniversaryDate: getUTCLongMonthDate(get(data, 'anniversaryDate', '')),
-      subscriptionFee: get(data, 'subscriptionFee', ''),
-      supportHoursContract: get(data, 'supportHoursContract', ''),
-      supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
-    };
-    this.componentForm.setValue({ ...d });
+  updateValueForForm() {
+
+    const data = this.editableData;
+
+    if (typeof data !== 'undefined') {
+
+      // get details ID
+      this.detailsId = get(this.editableData, 'id', null);
+
+      // get data
+      const d = {
+        companyName: get(data, 'companyName', ''),
+        firstName: get(data, 'firstName', ''),
+        lastName: get(data, 'lastName', ''),
+        companyType: get(data, 'companyType', 'Fabricator').toLowerCase(),
+        parentId: get(get(data, 'parent', ''), 'id', ''),
+        address: get(data, 'address', ''),
+        country: get(data, 'country', ''),
+        phoneNumber: get(data, 'phoneNumber', ''),
+        email: get(data, 'email', ''),
+        anniversaryDate: getUTCLongMonthDate(get(data, 'anniversaryDate', '')),
+        subscriptionFee: get(data, 'subscriptionFee', ''),
+        supportHoursContract: get(data, 'supportHoursContract', ''),
+        supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
+      };
+
+      this.componentForm.setValue({ ...d });
+    }
   }
   updateData(): any {
     const d = this.componentForm.value;
@@ -219,10 +233,18 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
       companyEmail: get(this.editableData, 'companyEmail', 'Default') || 'Default@racloud.com',
     };
     return newData;
-    
+
   }
   getValue(): void {
     this.onCustomerFormData.emit(this.updateData());
+  }
+
+  get buttons() {
+    if (typeof this.buttonConfig === 'undefined') {
+      return this.defaultToButtons;
+    } else {
+      return this.buttonConfig;
+    }
   }
   ngOnDestroy(): void {
     this.countryOptions$.unsubscribe();

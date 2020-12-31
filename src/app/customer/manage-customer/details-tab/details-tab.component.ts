@@ -24,8 +24,11 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
   };
   updateProfile$: Subscription;
   detailsId: any;
+  formButtonConfig: any = {
+    buttonA: 'Update profile',
+    buttonB: 'Renew Subscription',
+  }
   constructor(
-    private fb: FormBuilder,
     private reqS: RequestService,
     private msgS: MessagesService,
     private cdref: ChangeDetectorRef,

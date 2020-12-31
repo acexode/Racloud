@@ -13,7 +13,11 @@ import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-confi
   styleUrls: ['./create-customer.component.scss']
 })
 export class CreateCustomerComponent implements OnInit {
-
+  formButtonConfig: any = {
+    buttonA: 'Update',
+    buttonB: 'Cancle',
+  }
+  isLoading = false;
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/customer';
   containerConfig: PageContainerConfig = {
@@ -170,6 +174,10 @@ export class CreateCustomerComponent implements OnInit {
         ],
       ],
     });
+  }
+
+  submitData(data: any) {
+    console.log(data);
   }
 
   ngOnDestroy(): void {

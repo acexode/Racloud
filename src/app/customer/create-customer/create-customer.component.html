@@ -34,102 +34,12 @@
     <div class="line-h1 rc-secondary-bg mt-24 mb-39"></div>
 
     <div class="w-100 pt-40">
-      <form [formGroup]="componentForm" class="row no-gutters">
-        <div class="col-12 col-md-3 px-0 pr-0 pr-md-16">
-          <div class="row">
-            <div class="col-12 mb-14">
-              <app-input
-                [config]="inputConfig('Company Name')"
-                formControlName="companyName"
-              ></app-input>
-            </div>
-            <div class="col-12 mb-14">
-              <app-select
-                [config]="selectConfig('Type')"
-                formControlName="type"
-                [options]="typeOptions"
-              ></app-select>
-            </div>
-            <div class="col-12">
-              <app-select
-                  [config]="selectConfig('Parent', 'Select Parent', true, 'id', 'companyName')"
-                  formControlName="parentId"
-                  [options]="customerParentOptions"
-              ></app-select>
-            </div>
-          </div>
-        </div>
+      <app-customer-form 
+          [loadingStatus]="isLoading" 
+          [buttonConfig]="formButtonConfig"
+          (onCustomerFormData)="submitData($event)"
+      ></app-customer-form>
+  </div>
 
-        <div class="col-12 col-md-3 px-md-16">
-          <div class="row">
-            <div class="col-12 mb-14">
-              <app-select
-                  [config]="selectConfig('Country', 'Select Country', true, 'name', 'name')"
-                  formControlName="country"
-                  [options]="countryOptions"
-              ></app-select>
-            </div>
-            <div class="col-12 mb-14">
-              <app-input
-                [config]="inputConfig('Phone', 'tel')"
-                formControlName="phone"
-              ></app-input>
-            </div>
-            <div class="col-12">
-              <app-input
-                [config]="inputConfig('Email', 'email')"
-                formControlName="email"
-              ></app-input>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12 col-md-3 px-md-16">
-          <div class="row">
-            <div class="col-12 mb-14">
-              <app-input
-                [config]="inputConfig('Anniversary date')"
-                formControlName="anniversaryDate"
-              ></app-input>
-            </div>
-            <div class="col-12 mb-14">
-              <app-input
-                [config]="inputConfig('Subscription fee', 'text', '', true)"
-                formControlName="subscriptionFee"
-              >
-              </app-input>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12 col-md-3 px-0 pl-md-16">
-          <div class="row">
-            <div class="col-12 mb-14">
-              <app-input
-                [config]="inputConfig('Support hours contract')"
-                formControlName="supportHoursContract"
-              ></app-input>
-            </div>
-            <div class="col-12 mb-14">
-              <app-input
-                [config]="inputConfig('Support hours available')"
-                formControlName="supportHoursAvailable"
-              >
-              </app-input>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <div class="w-100">
-      <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-end">
-        <app-button type="button" color="secondaryB" class="mr-8">
-          Cancel
-        </app-button>
-
-        <app-button type="button" color="primary"> Save </app-button>
-      </div>
-    </div>
   </div>
 </app-page-container>
