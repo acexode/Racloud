@@ -115,8 +115,8 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
           userCompany: data.CompanyUser,
           renew: data.RenewByUserCompany,
           expires: exp,
-          isAssigned: isAssigned,
-          customer: data.Company.CompanyName      
+          isAssigned,
+          customer: data.Company.CompanyName
         });
         this.onChange(data.LicenseStatus)
       });
@@ -264,7 +264,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     });
     if(this.isEdit){
       const editObj = {
-        id: parseInt(id),
+        id: parseInt(id, 10),
         isPartnerLicense: selectedP,
         licenseStatus: values.status,
         licenseOptions: resArr
