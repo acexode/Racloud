@@ -27,6 +27,7 @@ export class OptionTabComponent implements OnInit {
 
   @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
   @Input() optionList
+  @Input() preselectedRows
   @Output() selectedRows: EventEmitter<any> = new EventEmitter();
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
@@ -89,6 +90,7 @@ export class OptionTabComponent implements OnInit {
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
+    console.log(this.preselectedRows)
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.selectDetailTemplate = this.selectDetailTemplate;
     this.tableConfig.columns = [

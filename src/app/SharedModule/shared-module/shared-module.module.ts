@@ -5,7 +5,7 @@ import { OptionTabComponent } from 'src/app/options/option-tab/option-tab.compon
 
 
 @NgModule({
-  declarations: [OptionTabComponent],
+  declarations: [],
   imports: [
     CommonModule
   ]

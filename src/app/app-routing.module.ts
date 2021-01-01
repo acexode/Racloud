@@ -49,7 +49,7 @@ const routes: Routes = [
       import('./products/products.module').then(
         (m) => m.ProductsModule
       ),
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     data: { title: 'Product Listing' }
   },
   {

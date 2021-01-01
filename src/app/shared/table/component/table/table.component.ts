@@ -14,7 +14,7 @@ import {
   SelectionType,
 } from '@swimlane/ngx-datatable';
 import { Subject, Subscription, timer } from 'rxjs';
-import { debounce, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounce, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { TableFilterConfig } from '../../models/table-filter-config.interface';
 import { TableFilterType } from '../../models/table-filter-types';
 import { TableI } from './../../models/table.interface';
@@ -28,6 +28,7 @@ export class TableComponent implements OnInit {
   vReset;
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @Input() rows: any;
+  @Input() preselectedRows: [];
   @Input() config: TableI;
   @Input() rowDetailConfig: any;
   @Input() updateListener: Subject<any>;
@@ -76,6 +77,9 @@ export class TableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const selectedrows = this.rows.filter(obj => obj.selected === true)
+    this.selected = [...selectedrows]
+    console.log(this.selected)
     this.doFilterActions();
     this.selectableClass =
       '' +

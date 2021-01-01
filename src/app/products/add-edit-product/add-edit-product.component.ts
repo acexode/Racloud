@@ -19,6 +19,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   isEdit = false
   product: any;
   selectedRows : any[] = []
+  preselectedRows : any[] = []
   productOptions: any[] = []
   @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
   @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
@@ -96,23 +97,16 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
      private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-    this.service.getOption().subscribe((e: any) =>{
-      this.optionList = e.map(obj =>{
-        return {
-          ...obj,
-          UserAccess: 'Hidden',
-          PartnerAccess: 'Hidden'
-        }
-      })
-    })
     const id = this.route.snapshot.paramMap.get('id');
     this.initForm();
     if(id){
       this.isEdit = true
       this.productS.getProducts().subscribe((obj:any) =>{
+        
         this.productOptions = obj
         const data = obj.filter(e => e.Id.toString() === id)[0];
         this.product = data
+        this.preselectedRows = data.ProductOptions
         this.productForm.patchValue({
           application: data.Application,
           name: data.Name,
@@ -125,6 +119,30 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         this.productOptions = obj
       })
     }
+    this.service.getOption().subscribe((options: any) =>{
+      this.optionList = options.map((obj:any) =>{
+        let index = this.preselectedRows.findIndex(idx => obj.Id == idx.OptionId)
+        if (index > -1) {
+          const item = options[index]
+          return {
+            ...item,
+            PartnerAccess: this.preselectedRows[index].PartnerAccess,
+            UserAccess: this.preselectedRows[index].UserAccess,
+            selected: true
+          }
+        }else{
+          return {
+            ...obj,
+            UserAccess: 'Hidden',
+            PartnerAccess: 'Hidden',
+            selected: false
+          }
+        }
+    })
+    console.log(this.optionList)
+      
+    })
+    
   }
   initForm() {
     this.productForm = this.fb.group({

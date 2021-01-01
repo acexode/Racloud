@@ -1,7 +1,7 @@
 <app-page-container [config]="containerConfig">
     <div class="w-100 mt-40" container-body>
        
-        <app-table [rows]="tableData | async" [config]="tableConfig" (filterData)="filterTable($event)"
+        <app-table [rows]="tableData | async" [preselectedRows]="preselectedRows" [config]="tableConfig" (filterData)="filterTable($event)"
             [rowDetailConfig]="rowDetailIcons" (selectedRows)="getRow($event)"></app-table>
     </div>
 </app-page-container>
