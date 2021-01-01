@@ -112,7 +112,8 @@
                                     Cancel
                                 </app-button>
                                 <app-button type="submit" color="primary">
-                                    Save
+                                  <app-loader type="button" *ngIf="isLoading"></app-loader>
+                                  <span *ngIf="!isLoading">Save</span>
                                 </app-button>
                             </div>
                         </form>
@@ -124,7 +125,9 @@
                             Cancel
                         </app-button>
                         <app-button (click)="submitForm()" color="primary">
-                            Save
+                          <app-loader type="button" *ngIf="isLoading"></app-loader>
+                          <span *ngIf="!isLoading">Save</span>
+                            
                         </app-button>
                     </div>
                     </ng-template>

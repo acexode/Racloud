@@ -17,6 +17,7 @@ import { LicenseServiceService } from 'src/app/license/license-service.service';
 export class AddEditProductComponent implements OnInit, AfterViewInit {
   optionList = [];
   isEdit = false
+  isLoading = false
   product: any;
   selectedRows : any[] = []
   preselectedRows : any[] = []
@@ -24,7 +25,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
   @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
-
+  
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/products';
   containerConfig: PageContainerConfig = {
@@ -203,6 +204,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     return this.productForm.get('selectedOptions') as FormArray;
   }
   submitForm(){
+    this.isLoading = true
   const obj = this.productForm.value
   const resArr = []
   this.selectedRows.reverse().filter(item =>{
@@ -226,12 +228,14 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     console.log(obj)
     this.productS.updateProducts(id, obj).subscribe(e =>{
       console.log(e)
+      this.isLoading = false
       this.router.navigate(['products'])
     });
   }else{
     obj.selectedOptions = resArr
     this.productS.createProducts(obj).subscribe(e =>{
       console.log(e)
+      this.isLoading = false
       this.router.navigate(['products'])
     });
   }
