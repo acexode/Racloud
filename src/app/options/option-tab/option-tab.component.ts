@@ -313,6 +313,7 @@ export class OptionTabComponent implements OnInit {
       }
       return e
     })
+    console.log(this.checkedValueList)
     this.modifiedTableData.next(this.checkedValueList)
   }
 }

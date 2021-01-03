@@ -141,9 +141,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         }
     })
     console.log(this.optionList)
-      
-    })
-    
+    }) 
   }
   initForm() {
     this.productForm = this.fb.group({
@@ -233,6 +231,8 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     });
   }else{
     obj.selectedOptions = resArr
+    console.log(resArr)
+    return
     this.productS.createProducts(obj).subscribe(e =>{
       console.log(e)
       this.isLoading = false
