@@ -31,6 +31,8 @@ export class OptionTabComponent implements OnInit {
   @Output() selectedRows: EventEmitter<any> = new EventEmitter();
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  modifiedTableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  checkedValueList = []
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -171,6 +173,21 @@ export class OptionTabComponent implements OnInit {
       }
     ];
     if (this.optionList) {
+      this.optionList.forEach(e => {
+        if(e.OptionType === 'ValueList'){
+          let obj = {
+            id: e.Id,  
+            values: e.ValueList
+          }
+          this.checkedValueList.push(obj)
+        }else if(e.OptionType === 'Boolean'){
+          let obj = {
+            id: e.Id,  
+            valueBoolean: e.ValueBoolean
+          }
+          this.checkedValueList.push(obj)
+        }
+      })
       this.tableConfig.loadingIndicator = true;
       this.rowData = this.optionList;
       const cloneData = this.optionList.map((v: any) => {
@@ -233,7 +250,7 @@ export class OptionTabComponent implements OnInit {
   }
   getRow(item){
     this.rowValue = item.selected[0]
-    console.log(item)
+    //console.log(item)
     this.selectedRows.emit(item)
   }
   setPartnerAccess(row, access){
@@ -268,5 +285,34 @@ export class OptionTabComponent implements OnInit {
     });
     this.productS.SetOptionList(data)
     this.tableData.next(cloneData);
+  }
+  onCheckValueBoolean($event, row){
+    const checked = $event.target.checked
+    this.checkedValueList = this.checkedValueList.map(e => {
+      if(e.id === row.Id){
+        e.valueBoolean = checked
+        return e
+      }
+      return e
+    })
+    this.modifiedTableData.next(this.checkedValueList)
+  }
+  onCheckValueList($event, row){
+    const checked = $event.target.checked
+    const value = $event.target.value
+    this.checkedValueList = this.checkedValueList.map(e => {
+      if(e.id === row.Id){
+        if(checked){
+          const filtered = row.ValueList.filter(e => e.Name === value)[0]
+          e.values.push(filtered)
+        }else {
+          const filtered = e.values.filter(e => e.Name !== value)
+          e.values = filtered
+        }
+        return e
+      }
+      return e
+    })
+    this.modifiedTableData.next(this.checkedValueList)
   }
 }

@@ -114,7 +114,7 @@
                             <tr *ngFor="let val of row.ValueList" class="tables-cell8"> 
                                 <td>
                                     <label class="container">
-                                        <input type="checkbox" checked="checked">
+                                        <input type="checkbox"  [value]="val.Name" (change)="onCheckValueList($event, row)" checked="checked">
                                         <span class="checkmark"></span>
                                       </label>
                                 </td>                          
@@ -127,13 +127,13 @@
         </span>
         <span *ngIf="row.OptionType =='Boolean' && !row.ValueBoolean">
             <label class="container">False
-                <input type="checkbox">
+                <input type="checkbox" (change)="onCheckValueBoolean($event, row)">
                 <span class="checkmark"></span>
               </label>
         </span>
         <span *ngIf="row.OptionType =='Boolean' && row.ValueBoolean">
             <label class="container">True
-                <input type="checkbox" checked="checked">
+                <input type="checkbox" (change)="onCheckValueBoolean($event, row)" checked="checked">
                 <span class="checkmark"></span>
               </label>
         </span>

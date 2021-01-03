@@ -221,7 +221,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     return null;
   });
   console.log(resArr)
-  const id = this.route.snapshot.paramMap.get('id');
+  const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
   if(this.isEdit){
     obj.productOptions = resArr
     obj.id =  id

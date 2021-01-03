@@ -1,3 +1,4 @@
+import { LoaderModule } from './../shared/loader/loader.module';
 import { SharedModuleModule } from './../SharedModule/shared-module/shared-module.module';
 
 
@@ -32,6 +33,7 @@ import { OptionsModule } from '../options/options.module';
     AngularSvgIconModule,
     FormsModule,
     SharedModuleModule,
+    LoaderModule,
     BsDropdownModule.forRoot(),
     ReactiveFormsModule,
     ProductsRoutingModule,
