@@ -141,7 +141,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         }
     })
     console.log(this.optionList)
-    }) 
+    })
   }
   initForm() {
     this.productForm = this.fb.group({
