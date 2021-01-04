@@ -4,6 +4,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
+import { CustomerModel } from '../model/customer.model';
 
 @Component({
   selector: 'app-manage-customer',
@@ -97,7 +98,7 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
 
   fetchDataForDetails(id: any) {
     const queryEndpoint = `${ baseEndpoints.customers }/${ id }`;
-    return this.reqS.get(queryEndpoint);
+    return this.reqS.get<CustomerModel>(queryEndpoint);
   }
   /* tab */
   ngAfterViewInit() {

@@ -119,8 +119,9 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'price-list',
-    component: PriceListsComponent,
+    path: 'price-lists',
+    loadChildren: () => import('./price-lists/price-lists.module').then(m => m.PriceListsModule),
+    canActivate: [AuthGuard],
     data: { title: 'Price List' },
   },
   { path: '**', redirectTo: '/not-found' },

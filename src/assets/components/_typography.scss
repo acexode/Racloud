@@ -32,7 +32,9 @@ $font-family-base: $font-family-sans-serif;
 .text-weight-normal {
   font-weight: normal !important;
 }
-
+.text-weight-500 {
+  font-weight: 500 !important;
+}
 .text-weight-bold {
   font-weight: 600;
 }
@@ -194,6 +196,11 @@ h3 {
 
 .s15-h24 {
   font-size: rem(15) !important;
+  line-height: rem(24) !important;
+}
+
+.s18-h24 {
+  font-size: rem(18) !important;
   line-height: rem(24) !important;
 }
 

@@ -8,15 +8,14 @@ import {
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
 import { authEndpoints } from '../core/configs/endpoints';
 import { LoginResponse } from '../core/models/login-response.interface';
 import { CountriesService } from '../core/services/countries/countries.service';
+import { LanguagesService } from '../core/services/languages/languages.service';
 import { RequestService } from '../core/services/request/request.service';
 import { PasswordValidator } from '../core/validators/password-validator/password-validator';
 import { MessagesService } from '../shared/messages/services/messages.service';
-import { MustMatch } from '../shared/rc-forms/helpers/must-match-validator';
 import { InputConfig } from '../shared/rc-forms/models/input/input-config';
 import { SelectConfig } from '../shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from '../shared/rc-forms/models/textarea/textarea-config';
@@ -75,12 +74,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   signUpSubs: Subscription;
 
   loginUrl = '/login';
-  languageJsonDataUrl = './assets/languages.json';
   languageOptions$: Observable<any>;
-  countryJsonDataUrl = './assets/list-of-countries.json';
-  countryOptions$: Subscription;
-  // countryOptions$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
-  countryOptions: any;
+  countryOptions$: Observable<any>;
   constructor(
     private fb: FormBuilder,
     private reqS: RequestService,
@@ -89,27 +84,13 @@ export class SignupComponent implements OnInit, OnDestroy {
     private routerS: Router,
     private http: HttpClient,
     private cS: CountriesService,
+    private lgS: LanguagesService,
   ) { }
 
   ngOnInit(): void {
-    this.countryOptions$ = this.cS.getCountries().subscribe(
-      (res: { code: string, name: string; }) => {
-        this.countryOptions = res;
-      },
-      err => { }
-    );
+    this.countryOptions$ = this.cS.getCountries();
 
-    this.languageOptions$ = this.getJSON(this.languageJsonDataUrl)
-      .pipe(
-        map(lang => {
-          return Object.keys(lang).map((key: any) => {
-            return {
-              id: lang[key].name,
-              option: lang[key].name.split(',')[0], // return only one from the comma seperate names
-            };
-          });
-        }),
-      );
+    this.languageOptions$ = this.lgS.getLanguages();
   }
   selectConfig(
     label: string,
@@ -165,7 +146,8 @@ export class SignupComponent implements OnInit, OnDestroy {
             type: 'success',
             dismissible: true,
             timeout: 5000,
-            customClass: 'mt-32'
+            customClass: 'mt-32',
+            hasIcon: true
           });
           // reset form
           this.signUpForm.reset();
@@ -180,8 +162,8 @@ export class SignupComponent implements OnInit, OnDestroy {
             text: err.error,
             type: 'danger',
             dismissible: true,
-            timeout: 5000,
-            customClass: 'mt-32'
+            customClass: 'mt-32',
+            hasIcon: true,
           });
           this.signUpForm.markAllAsTouched();
           this.signUpForm.updateValueAndValidity();
@@ -201,7 +183,6 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.resetSubs();
-    this.countryOptions$.unsubscribe();
   }
 }
 
