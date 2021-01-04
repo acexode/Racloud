@@ -12,19 +12,19 @@
                     All orders
                 </app-toggle>
                 <!--  -->
-                <app-button type="button" color="primary">
+                <app-button [routerLink]="['add-order']" type="button" color="primary">
                     Add order
                 </app-button>
                 <!--  -->
             </div>
         </div>
     </div>
-      <app-table
-      [rows]="tableData | async"
-      [config]="tableConfig"
-      (filterData)="filterTable($event)"
-      [rowDetailConfig]="rowDetailIcons"
-      ></app-table>
+    <app-table
+    [rows]="tableData | async"
+    [config]="tableConfig"
+    (filterData)="filterTable($event)"
+    [rowDetailConfig]="rowDetailIcons"
+    ></app-table>
     </div>
   </app-page-container>
   

@@ -209,6 +209,7 @@ export class OrdersComponent implements OnInit {
     ];
     this.getJSON().subscribe((data) => {
       if (data) {
+        console.log(data)
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
         const cloneData = data.map((v) => {
