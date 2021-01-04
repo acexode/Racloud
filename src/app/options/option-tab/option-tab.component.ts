@@ -307,7 +307,7 @@ export class OptionTabComponent implements OnInit {
           const filtered = row.ValueList.filter(e => e.Name === value)[0]
           e.values.push(filtered)
         }else {
-          const filtered = e.values.filter(e => e.Name !== value)
+          const filtered = e.values.filter(val => val.Name !== value)
           e.values = filtered
         }
         return e
