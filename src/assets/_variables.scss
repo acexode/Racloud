@@ -81,6 +81,7 @@ $enable-shadows: true;
 $spacers: ();
 $spacers: map-merge(
   (
+    "4p": rem(4),
     "5p": rem(5),
     6: rem(6),
     8: rem(8),

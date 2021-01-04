@@ -5,6 +5,7 @@ export const serverBaseUrl = environment.serverUrl + '/api';
 export const baseEndpoints = {
   auth: serverBaseUrl + '/auth',
   customers: serverBaseUrl + '/customers',
+  priceLists: serverBaseUrl + '/pricelists',
   countries: serverBaseUrl + '/countries',
   customerparent: serverBaseUrl + '/parents',
 };
