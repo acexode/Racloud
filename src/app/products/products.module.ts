@@ -1,23 +1,25 @@
 
-import { OptionListComponent } from './option-list/option-list.component';
+
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { OptionsRoutingModule } from './options-routing.module';
+import { ProductsRoutingModule } from './products-routing.module';
+import { AddEditProductComponent } from './add-edit-product/add-edit-product.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+
 import { ContainerModule } from '../shared/container/container.module';
 import { RcFormsModule } from '../shared/rc-forms/rc-forms.module';
 import { TableModule } from '../shared/table/table.module';
 import { TabsModule } from '../shared/tabs/tabs.module';
-import { OptionsAddEditComponent } from './options-add-edit/options-add-edit.component';
-import { OptionTabComponent } from './option-tab/option-tab.component';
+import { OptionsModule } from '../options/options.module';
+
 
 
 @NgModule({
-  declarations: [OptionListComponent, OptionsAddEditComponent, OptionTabComponent],
-  exports: [OptionListComponent, OptionsAddEditComponent, OptionTabComponent],
+  declarations: [AddEditProductComponent],
   imports: [
     CommonModule,
     CommonModule,
@@ -29,7 +31,8 @@ import { OptionTabComponent } from './option-tab/option-tab.component';
     FormsModule,
     BsDropdownModule.forRoot(),
     ReactiveFormsModule,
-    OptionsRoutingModule
+    ProductsRoutingModule,
+    OptionsModule
   ]
 })
-export class OptionsModule { }
+export class ProductsModule { }

@@ -1,3 +1,5 @@
+import { ProductServiceService } from './product-service.service';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, HostListener, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -63,6 +65,7 @@ export class ProductsComponent implements OnInit {
     selectable: true,
     selectDetail: false,
     hoverDetail: true,
+    loadingIndicator: true,
     columns: [],
     externalPaging: false,
     externalSorting: false,
@@ -71,8 +74,10 @@ export class ProductsComponent implements OnInit {
   constructor(
     private tS: TableService,
     private footerS: FooterService,
+    private productS: ProductServiceService,
     private http: HttpClient,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -82,42 +87,44 @@ export class ProductsComponent implements OnInit {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'name',
-        label: 'Name',
+        identifier: 'Application',
+        label: 'Apllication Name',
         sortable: true,
         minWidth: 200,
         width: 90,
         noGrow: true,
+        labelPosition: 'left',
+        cellContentPosition: 'left',
       },
       {
-        identifier: 'currency',
-        label: 'Currency',
+        identifier: 'Name',
+        label: 'Product Name',
         sortable: true,
         minWidth: 150,
         width: 150,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'right',
+        cellContentPosition: 'left',
       },
       {
-        identifier: 'created',
-        label: 'Created',
+        identifier: 'Description',
+        label: 'Description',
         sortable: true,
         minWidth: 100,
         width: 100,
         sortIconPosition: 'right',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
       },
       {
-        identifier: 'num_products',
-        label: 'No. of products',
+        identifier: 'ProductType',
+        label: 'Type',
         sortable: true,
         minWidth: 150,
         noGrow: true,
         sortIconPosition: 'right',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
         hasFilter: true,
       },
       {
@@ -129,13 +136,14 @@ export class ProductsComponent implements OnInit {
         headerHasFilterIcon: false,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'right',
+        cellContentPosition: 'left',
         hasFilter: false,
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data) => {
+    this.productS.getProducts().subscribe((data:any) => {
       if (data) {
+        console.log(data)
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
         const cloneData = data.map((v) => {
@@ -170,8 +178,10 @@ setDropUp(row) {
 removeRow(id){
   console.log(id);
 }
-manageSub(id){
-  console.log(id);
+manageSub(data: any) {
+  this.router.navigate(['products/edit-product', { id: data.Id }]);
+  console.log(data)
 }
+
 
 }

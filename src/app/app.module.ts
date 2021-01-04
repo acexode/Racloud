@@ -35,7 +35,7 @@ import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
 import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
 import { SignupComponent } from './signup/signup.component';
-import { CreateUserComponent } from './create-user/create-user.component';
+
 import { ShopComponent } from './shop/shop.component';
 import { CustomerModule } from './customer/customer.module';
 import { LoaderModule } from './shared/loader/loader.module';
@@ -54,9 +54,7 @@ import { PriceListsComponent } from './price-lists/price-lists.component';
     UsersComponent,
     ProductsComponent,
     RaLogoComponent,
-    CreateUserComponent,
     SignupComponent,
-    CreateUserComponent,
     ShopComponent,
     PriceListsComponent
   ],

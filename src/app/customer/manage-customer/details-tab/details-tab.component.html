@@ -1,6 +1,6 @@
 <ng-container>
     <div class="w-100 pt-40">
-        <form [formGroup]="componentForm" class="row no-gutters">
+        <form [formGroup]="componentForm" class="row no-gutters" (submit)="updateProfile()">
             
             <div class="col-12 col-md-3 px-0 pr-0 py-0 pr-md-16 m-0">
 
@@ -20,17 +20,17 @@
 
                 <div class="col-12 mb-14 m-0 p-0">
                     <app-select
-                        [config]="selectionConfig('Type')"
-                        formControlName="type"
+                        [config]="selectConfig('Type')"
+                        formControlName="companyType"
                         [options]="typeOptions"
                     ></app-select>
                 </div>
 
                 <div class="col-12 m-0 p-0">
                     <app-select
-                        [config]="selectionConfig('Parent')"
-                        formControlName="parent"
-                        [options]="parentOptions"
+                        [config]="selectConfig('Parent', 'Select Parent', true, 'id', 'companyName')"
+                        formControlName="parentId"
+                        [options]="customerParentOptions"
                     ></app-select>
                 </div>
 
@@ -49,7 +49,7 @@
 
                 <div class="col-12 p-0">
                     <app-select
-                        [config]="selectionConfig('Country')"
+                        [config]="selectConfig('Country', 'Select Country', true, 'code', 'name')"
                         formControlName="country"
                         [options]="countryOptions"
                     ></app-select>
@@ -63,7 +63,7 @@
                 <div class="col-12 mb-14 m-0 p-0">
                     <app-input
                         [config]="inputConfig('Phone', 'tel')"
-                        formControlName="phone"
+                        formControlName="phoneNumber"
                     ></app-input>
                 </div>
 
@@ -110,20 +110,21 @@
 
             </div>
 
+            <div class="w-100">
+                <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-end">
+                    <app-button type="button" color="secondaryB" class="mr-8">
+                    Renew Subscription
+                    </app-button>
 
+                    <app-button type="submit" color="primary"> 
+                        <app-loader type="button" *ngIf="isLoading"></app-loader>
+                        <span *ngIf="!isLoading">Update profile</span> 
+                    </app-button>
+
+                </div>
+            </div>
             
         </form>
     </div>
-    <div class="w-100">
-      <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-end">
-        <app-button type="button" color="secondaryB" class="mr-8">
-          Renew Subscription
-        </app-button>
-
-        <app-button type="button" color="primary" (click)="updateProfile()"> 
-            Update profile 
-        </app-button>
-
-      </div>
-    </div>
+    
 </ng-container>

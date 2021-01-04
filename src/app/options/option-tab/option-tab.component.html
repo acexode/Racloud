@@ -15,26 +15,45 @@
         </div>
     </div>
 </ng-template>
-<ng-template #actionDropdown let-column="column" let-row="row" let-value="cellValue" let-rowIndex="rowIndex">
+<ng-template #UserAccess let-column="column" let-row="row" let-value="cellValue" let-rowIndex="rowIndex">
     <div class="btn-group w-100" dropdown [dropup]="isDropup">
         <div class="d-flex justify-content-between w-100">
             <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           <span class="text"> {{value}}</span>
+           <span class="text"> {{row.UserAccess}}</span>
         </a>
         <img  src="assets/images/chevron.svg" alt="expired-icon" class="isExpired" />
         </div>
         <ul aria-labelledby="dropdownMenuButton" *dropdownMenu class="dropdown-menu" role="menu"
             aria-labelledby="button-basic">
-            <li role="menuitem"><a class="dropdown-item" >Editable</a></li>
-            <li role="menuitem"><a class="dropdown-item">Hidden</a></li>
-            <li role="menuitem"><a class="dropdown-item">Read Only</a></li>
+            <li role="menuitem"><a (click)="setUserAccess(row, 'Editable')" class="dropdown-item" >Editable</a></li>
+            <li role="menuitem"><a (click)="setUserAccess(row, 'Hidden')" class="dropdown-item">Hidden</a></li>
+            <li role="menuitem"><a (click)="setUserAccess(row, 'Readonly')" class="dropdown-item">Read Only</a></li>
+
 
         </ul>
     </div>
 
 </ng-template>
+<ng-template #PartnerAccess let-column="column" let-row="row" let-value="cellValue" let-rowIndex="rowIndex">
+    <div class="btn-group w-100" dropdown [dropup]="isDropup">
+        <div class="d-flex justify-content-between w-100">
+            <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
+            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           <span class="text"> {{row.PartnerAccess}}</span>
+        </a>
+        <img  src="assets/images/chevron.svg" alt="expired-icon" class="isExpired" />
+        </div>
+        <ul aria-labelledby="dropdownMenuButton" *dropdownMenu class="dropdown-menu" role="menu"
+            aria-labelledby="button-basic">
+            <li role="menuitem"><a (click)="setPartnerAccess(row, 'Editable')" class="dropdown-item" >Editable</a></li>
+            <li role="menuitem"><a (click)="setPartnerAccess(row, 'Hidden')" class="dropdown-item">Hidden</a></li>
+            <li role="menuitem"><a (click)="setPartnerAccess(row, 'Readonly')" class="dropdown-item">Read Only</a></li>
 
+        </ul>
+    </div>
+
+</ng-template>
 
 <ng-template #expiredIconTemplate let-column="column" let-value="cellValue">
     <div class="table-status-column">
