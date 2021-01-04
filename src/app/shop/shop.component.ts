@@ -13,7 +13,6 @@ export class ShopComponent implements OnInit {
 
   ngOnInit(): void {
     this.shopService.shopStore.pipe().subscribe((e:any) =>{
-      console.log(e)
       this.shops = e
     })
   }
