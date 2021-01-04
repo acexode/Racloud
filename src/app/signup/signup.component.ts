@@ -165,9 +165,9 @@ export class SignupComponent implements OnInit, OnDestroy {
             type: 'success',
             dismissible: true,
             timeout: 5000,
-            customClass: 'mt-32'
+            customClass: 'mt-32',
+            hasIcon: true
           });
-          console.log(res);
           // reset form
           this.signUpForm.reset();
           /* loading */

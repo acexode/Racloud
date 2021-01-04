@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
-    <title>ico /warning</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Style-Guide" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Styleguide" transform="translate(-232.000000, -5257.000000)" fill="#F3CA51">
-            <g id="Group-22" transform="translate(135.000000, 5217.000000)">
-                <g id="Group-21" transform="translate(0.000000, 40.000000)">
-                    <g id="ico-/warning" transform="translate(97.000000, 0.000000)">
-                        <path d="M8,0 C12.418278,0 16,3.581722 16,8 C16,12.418278 12.418278,16 8,16 C3.581722,16 0,12.418278 0,8 C0,3.581722 3.581722,0 8,0 Z M8,11 C7.44771525,11 7,11.4477153 7,12 C7,12.5522847 7.44771525,13 8,13 C8.55228475,13 9,12.5522847 9,12 C9,11.4477153 8.55228475,11 8,11 Z M9,3 L7,3 L7,10 L9,10 L9,3 Z" id="Combined-Shape"></path>
-                    </g>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon</title>
+    <g id="🎨-Styleguide" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="00-09-Styleguide" transform="translate(-591.000000, -5373.000000)" fill="#FAD000">
+            <g id="Group-17" transform="translate(87.000000, 5281.000000)">
+                <g id="Combined-Shape" transform="translate(504.000000, 92.000000)">
+                    <path d="M10,0 C15.5228475,0 20,4.4771525 20,10 C20,15.5228475 15.5228475,20 10,20 C4.4771525,20 0,15.5228475 0,10 C0,4.4771525 4.4771525,0 10,0 Z M10,13.75 C8.8954305,13.75 8,14.6454305 8,15.75 C8,16.8545695 8.8954305,17.75 10,17.75 C11.1045695,17.75 12,16.8545695 12,15.75 C12,14.6454305 11.1045695,13.75 10,13.75 Z M10,2.5 C9.96334738,2.5 9.92670369,2.501144 9.89012246,2.50343033 C8.91918338,2.56411402 8.18127559,3.40040951 8.24195929,4.37134858 L8.24195929,4.37134858 L8.67202714,11.2524343 C8.7158555,11.953688 9.29737799,12.5 10,12.5 C10.702622,12.5 11.2841445,11.953688 11.3279729,11.2524343 L11.3279729,11.2524343 L11.7580407,4.37134858 C11.760327,4.33476735 11.761471,4.29812366 11.761471,4.26147104 C11.761471,3.28863745 10.9728336,2.5 10,2.5 Z"></path>
                 </g>
             </g>
         </g>

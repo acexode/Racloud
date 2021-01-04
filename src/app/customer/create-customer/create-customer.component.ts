@@ -66,16 +66,13 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   isLoadingStatus() {
     this.isLoading = !this.isLoading;
   }
-  ngOnInit(): void { }
-
+  ngOnInit(): void {}
   submitData(data: any) {
     // loadingIndicator
     this.isLoadingStatus();
     const queryEndpoint = `${ customersEndpoints.addCustomer }`;
     this.addCustomer$ = this.reqS.post(queryEndpoint, data).subscribe(
       res => {
-        // loadingIndicator
-        this.isLoadingStatus();
         this.msgS.addMessage({
           text: 'Sucessfully updated profile',
           type: 'success',
@@ -84,6 +81,8 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
           customClass: 'mt-32',
           hasIcon: true
         });
+        // loadingIndicator
+        this.isLoadingStatus();
       },
       err => {
         this.msgS.addMessage({
