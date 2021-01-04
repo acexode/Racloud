@@ -14,7 +14,7 @@ import { CustomerModel } from '../model/customer.model';
 })
 export class CreateCustomerComponent implements OnInit, OnDestroy {
   formButtonConfig: any = {
-    buttonA: 'Update',
+    buttonA: 'Save',
     buttonB: 'Cancle',
   };
   isLoading = false;
