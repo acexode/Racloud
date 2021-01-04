@@ -33,6 +33,7 @@ export class OptionTabComponent implements OnInit {
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   modifiedTableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   checkedValueList = []
+  editing = {};
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -315,5 +316,12 @@ export class OptionTabComponent implements OnInit {
     })
     console.log(this.checkedValueList)
     this.modifiedTableData.next(this.checkedValueList)
+  }
+  updateValue(event, cell, rowIndex) {
+    const idx = rowIndex -1;
+    this.editing[rowIndex + '-' + cell] = false;
+    this.optionList[idx][cell] = event.target.value;
+    this.optionList = [...this.optionList];
+    this.reInitData(this.optionList)
   }
 }
