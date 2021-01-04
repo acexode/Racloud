@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { baseEndpoints } from '../core/configs/endpoints';
+import { getUTCdate } from '../core/helpers/dateHelpers';
+import { RequestService } from '../core/services/request/request.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
 import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
@@ -72,7 +75,8 @@ export class PriceListsComponent implements OnInit {
     private tS: TableService,
     private http: HttpClient,
     private router: Router,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private reqS: RequestService,
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -96,7 +100,7 @@ export class PriceListsComponent implements OnInit {
         identifier: 'currency',
         label: 'Currency',
         sortable: true,
-        minWidth: 312,
+        minWidth: 250,
         width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -111,7 +115,7 @@ export class PriceListsComponent implements OnInit {
         identifier: 'created',
         label: 'Created',
         sortable: true,
-        minWidth: 312,
+        minWidth: 200,
         width: 100,
         sortIconPosition: 'left',
         labelPosition: 'right',
@@ -126,8 +130,8 @@ export class PriceListsComponent implements OnInit {
         identifier: 'noOfProducts',
         label: 'No. Of Products',
         sortable: true,
-        minWidth: 312,
-        width: 300,
+        minWidth: 200,
+        width: 200,
         sortIconPosition: 'left',
         labelPosition: 'right',
         cellContentPosition: 'right',
@@ -151,20 +155,29 @@ export class PriceListsComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data) => {
-      if (data) {
-        this.tableConfig.loadingIndicator = true;
-        this.rowData = data;
-        const cloneData = data.map((v: any) => {
-          return { ...v };
-        });
-        this.tableData.next(cloneData);
-        this.tableConfig.loadingIndicator = false;
-      }
-    });
-  }
-  public getJSON(): Observable<any> {
-    return this.http.get('./assets/price-lists.json');
+
+    this.tableConfig.loadingIndicator = true;
+    this.reqS.get<any>(baseEndpoints.priceLists).subscribe(
+      (res: any) => {
+        if (res) {
+          console.log(res);
+          const data = res.map(
+            (r: any) => {
+              return {
+                name: r.Name,
+                noOfProducts: r.NoOfProducts,
+                created: getUTCdate(r.CreateDate),
+                currency: r.Currency,
+              };
+            });
+          console.log(data);
+          this.rowData = data;
+          this.tableData.next(data);
+          this.tableConfig.loadingIndicator = false;
+        }
+      },
+      err => { }
+    );
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(

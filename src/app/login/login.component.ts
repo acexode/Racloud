@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           },
           err => {
             this.msgS.addMessage({
-              text: 'Date de autentificare incorecte! Va rugam sa reincercati.',
+              text: 'Incorrect authentication! Please try again.',
               type: 'danger',
               dismissible: true,
               timeout: 3000,
