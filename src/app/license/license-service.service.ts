@@ -15,4 +15,7 @@ export class LicenseServiceService {
   getOption(){
     return this.reqS.get(optionEndpoints.getOptions)
   }
+  deleteOption(id){
+    return this.reqS.delete(optionEndpoints.getOptions +'/'+id)
+  }
 }

@@ -154,6 +154,9 @@ export class OptionListComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
+    this.getJSON()
+  }
+  public getJSON() {
     this.service.getOption().subscribe((data:any) => {
       if (data) {
         console.log(data)
@@ -167,9 +170,6 @@ export class OptionListComponent implements OnInit {
       }
     });
   }
-  public getJSON(): Observable<any> {
-    return this.http.get('./assets/option-list.json');
-  }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
       this.tableConfig?.columns,
@@ -181,13 +181,16 @@ export class OptionListComponent implements OnInit {
 
   removeRow(row) {
     console.log(row);
+    this.service.deleteOption(row.Id).subscribe(e =>{
+      this.getJSON()
+    })
   }
   manageSub(data: any) {
     // option-edit
     this.router.navigate(['options/option-edit', { id: data.Id }]);
   }
-  renewSub(id: any) {
-    console.log(id);
+  renewSub(row: any) {
+    console.log(row);
   }
 
   setDropUp(row) {
