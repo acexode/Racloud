@@ -6,6 +6,7 @@ import { PageContainerConfig } from 'src/app/shared/container/models/page-contai
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
+import { CustomerModel } from '../model/customer.model';
 @Component({
   selector: 'app-edit-customer',
   templateUrl: './create-customer.component.html',
@@ -71,7 +72,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
     // loadingIndicator
     this.isLoadingStatus();
     const queryEndpoint = `${ customersEndpoints.addCustomer }`;
-    this.addCustomer$ = this.reqS.post(queryEndpoint, data).subscribe(
+    this.addCustomer$ = this.reqS.post<CustomerModel>(queryEndpoint, data).subscribe(
       res => {
         this.msgS.addMessage({
           text: 'Sucessfully updated profile',

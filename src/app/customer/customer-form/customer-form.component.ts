@@ -11,6 +11,7 @@ import { RequestService } from 'src/app/core/services/request/request.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea-config';
+import { CustomerModel } from '../model/customer.model';
 
 @Component({
   selector: 'app-customer-form',
@@ -91,6 +92,13 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
       '',
       [
         Validators.required,
+      ],
+    ],
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.email
       ],
     ],
     companyEmail: [
@@ -202,28 +210,29 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
     if (typeof data !== 'undefined') {
 
       // get data
-      const d = {
+      const d: CustomerModel = {
         companyName: get(data, 'companyName', ''),
         firstName: get(data, 'firstName', ''),
         lastName: get(data, 'lastName', ''),
+        email: get(data, 'email', ''),
         companyType: get(data, 'companyType', 'Fabricator').toLowerCase() || 'fabricator',
         parentId: get(get(data, 'parent', ''), 'id', ''),
         address: get(data, 'address', ''),
         country: get(data, 'country', ''),
         phoneNumber: get(data, 'phoneNumber', ''),
-        companyEmail: get(data, 'email', ''),
+        companyEmail: get(data, 'companyEmail', ''),
         anniversaryDate: getUTCLongMonthDate(get(data, 'anniversaryDate', '')),
         subscriptionFee: get(data, 'subscriptionFee', ''),
         supportHoursContract: get(data, 'supportHoursContract', ''),
         supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
       };
-
       this.componentForm.setValue({ ...d });
+      console.log(this.componentForm.value);
     }
   }
-  updateData(): any {
+  updateData(): CustomerModel {
     const d = this.componentForm.value;
-    const newData = {
+    const newData: CustomerModel = {
       ...d,
       anniversaryDate: convertDateBackToUTCDate(get(d, 'anniversaryDate', '')),
       subscriptionFee: Number(get(d, 'subscriptionFee', 0)),
@@ -231,7 +240,6 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
       supportHoursAvailable: Number(get(d, 'supportHoursAvailable', 0)),
       contactPersonName: get(d, 'firstName', 'Default'),
       language: get(this.editableData, 'language', 'Default') || 'Default',
-      email: get(d, 'companyEmail', 'Default') || 'user@racloud.com',
     };
     return newData;
 

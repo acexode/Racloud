@@ -8,6 +8,7 @@ import { Observable, Subscription } from 'rxjs';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
+import { CustomerModel } from '../../model/customer.model';
 @Component({
   selector: 'app-details-tab',
   templateUrl: './details-tab.component.html',
@@ -36,6 +37,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // get details ID
     this.detailsId = get(this.detailsData, 'id', null);
+    console.log(this.detailsData);
     this.isLoading = false;
     this.cdref.detectChanges();
 
@@ -81,7 +83,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
   }
   updateData(newData: any): Observable<any> {
     const queryEndpoint = `${ baseEndpoints.customers }/${ this.detailsId }`;
-    return this.reqS.put(queryEndpoint, newData);
+    return this.reqS.put<CustomerModel>(queryEndpoint, newData);
   }
   updateProfile(data: any): void {
     const profileData = {
@@ -99,7 +101,8 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
           type: 'success',
           dismissible: true,
           timeout: 3000,
-          customClass: 'mt-32'
+          customClass: 'mt-32',
+          hasIcon: true
         });
         // stop loading
         this.isLoadingStatus();
@@ -110,7 +113,8 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
           type: 'danger',
           dismissible: true,
           timeout: 5000,
-          customClass: 'mt-32'
+          customClass: 'mt-32',
+          hasIcon: true
         });
         // stop loading
         this.isLoadingStatus();
