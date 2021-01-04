@@ -103,7 +103,6 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     if(id){
       this.isEdit = true
       this.productS.getProducts().subscribe((obj:any) =>{
-        
         this.productOptions = obj
         const data = obj.filter(e => e.Id.toString() === id)[0];
         this.product = data
@@ -122,7 +121,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     }
     this.service.getOption().subscribe((options: any) =>{
       this.optionList = options.map((obj:any) =>{
-        let index = this.preselectedRows.findIndex(idx => obj.Id == idx.OptionId)
+        const index = this.preselectedRows.findIndex(idx => obj.Id === idx.OptionId)
         if (index > -1) {
           const item = options[index]
           return {
