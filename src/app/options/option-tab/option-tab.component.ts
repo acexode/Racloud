@@ -176,14 +176,14 @@ export class OptionTabComponent implements OnInit {
     if (this.optionList) {
       this.optionList.forEach(e => {
         if(e.OptionType === 'ValueList'){
-          let obj = {
-            id: e.Id,  
+          const obj = {
+            id: e.Id,
             values: e.ValueList
           }
           this.checkedValueList.push(obj)
         }else if(e.OptionType === 'Boolean'){
-          let obj = {
-            id: e.Id,  
+          const obj = {
+            id: e.Id,
             valueBoolean: e.ValueBoolean
           }
           this.checkedValueList.push(obj)
@@ -251,7 +251,6 @@ export class OptionTabComponent implements OnInit {
   }
   getRow(item){
     this.rowValue = item.selected[0]
-    //console.log(item)
     this.selectedRows.emit(item)
   }
   setPartnerAccess(row, access){
