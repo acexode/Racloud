@@ -25,7 +25,6 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
   @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
-  
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/products';
   containerConfig: PageContainerConfig = {
