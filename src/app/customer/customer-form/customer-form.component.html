@@ -1,4 +1,12 @@
-<ng-container *ngIf="{countryOptions: countryOptions$ | async, customerParentOptions: customerParentOptions$ | async} as optionData">
+<ng-container 
+    *ngIf="
+        {
+            countryOptions: countryOptions$ | async, 
+            customerParentOptions: customerParentOptions$ | async, 
+            languageOptions: languageOptions$ | async
+        } 
+        as optionData"
+>
     <form [formGroup]="componentForm" class="row no-gutters" (submit)="getValue()">
         
         <div class="col-12 col-md-3 px-0 pr-0 py-0 pr-md-16 m-0">
@@ -55,9 +63,9 @@
 
             <div class="col-12 p-0">
                 <app-select
-                    [config]="selectConfig('Country', 'Select Country', true, 'code', 'name')"
-                    formControlName="country"
-                    [options]="optionData.countryOptions"
+                    [config]="selectConfig('Language', 'Select Langugae', true, 'id', 'option')"
+                    formControlName="language"
+                    [options]="optionData.languageOptions"
                 ></app-select>
             </div>
 
@@ -66,6 +74,14 @@
 
         <div class="col-12 col-md-3 px-0 px-md-16 m-0">
             
+            <div class="col-12 mb-14 m-0 p-0">
+                <app-select
+                    [config]="selectConfig('Country', 'Select Country', true, 'code', 'name')"
+                    formControlName="country"
+                    [options]="optionData.countryOptions"
+                ></app-select>
+            </div>
+
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
                     [config]="inputConfig('Phone', 'tel')"
@@ -86,17 +102,17 @@
                 ></app-input>
             </div>
 
+        </div>
+
+
+        <div class="col-12 col-md-3 px-0 px-md-16 m-0">
+
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
                     [config]="inputConfig('Anniversary date', 'text', 'Enter Aniversary Date', false, false)"
                     formControlName="anniversaryDate"
                 ></app-input>
             </div>
-
-        </div>
-
-
-        <div class="col-12 col-md-3 px-0 px-md-16 m-0">
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input

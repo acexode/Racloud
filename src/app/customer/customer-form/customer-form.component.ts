@@ -6,7 +6,7 @@ import { getUTCLongMonthDate, convertDateBackToUTCDate } from 'src/app/core/help
 import { CompanyTypes } from 'src/app/core/models/companyTypes';
 import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
 import { CountriesService } from 'src/app/core/services/countries/countries.service';
-import { RequestService } from 'src/app/core/services/request/request.service';
+import { LanguagesService } from 'src/app/core/services/languages/languages.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea-config';
@@ -131,6 +131,12 @@ export class CustomerFormComponent implements OnInit {
         Validators.required,
       ],
     ],
+    language: [
+      '',
+      [
+        Validators.required,
+      ],
+    ],
   });
   textAreaConfig: TextAreaConfig = {
     textAreaLabel: {
@@ -138,21 +144,22 @@ export class CustomerFormComponent implements OnInit {
     },
     placeholder: 'Type Here'
   };
-  countryOptions: any;
-  customerParentOptions: any;
   countryOptions$: Observable<any>;
   customerParentOptions$: Observable<any>;
+  languageOptions$: Observable<any>;
   constructor(
     private fb: FormBuilder,
-    private reqS: RequestService,
     private cS: CountriesService,
     private parentS: CompanyParentsService,
+    private lgS: LanguagesService,
   ) { }
   ngOnInit(): void {
     // get country option
     this.countryOptions$ = this.cS.getCountries();
     // get customer parent options
     this.customerParentOptions$ = this.parentS.getParents();
+    //languages options
+    this.languageOptions$ = this.lgS.getLanguages();
     // update form Data
     this.updateValueForForm();
   }
@@ -214,6 +221,7 @@ export class CustomerFormComponent implements OnInit {
         subscriptionFee: get(data, 'subscriptionFee', ''),
         supportHoursContract: get(data, 'supportHoursContract', ''),
         supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
+        language: get(data, 'language', ''),
       };
       this.componentForm.setValue({ ...d });
       console.log(this.componentForm.value);
