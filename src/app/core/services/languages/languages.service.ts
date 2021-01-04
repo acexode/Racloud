@@ -8,7 +8,7 @@ import { RequestService } from '../request/request.service';
 export class LanguagesService {
   languageJsonDataUrl = './assets/languages.json';
   constructor(private reqS: RequestService) { }
-  getLanguages() { 
+  getLanguages() {
     return this.reqS.get(this.languageJsonDataUrl).pipe(
       map(lang => {
         return Object.keys(lang).map((key: any) => {

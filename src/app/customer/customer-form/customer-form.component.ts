@@ -158,7 +158,7 @@ export class CustomerFormComponent implements OnInit {
     this.countryOptions$ = this.cS.getCountries();
     // get customer parent options
     this.customerParentOptions$ = this.parentS.getParents();
-    //languages options
+    // languages options
     this.languageOptions$ = this.lgS.getLanguages();
     // update form Data
     this.updateValueForForm();
