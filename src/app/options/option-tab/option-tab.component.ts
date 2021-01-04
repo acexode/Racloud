@@ -304,7 +304,7 @@ export class OptionTabComponent implements OnInit {
     this.checkedValueList = this.checkedValueList.map(e => {
       if(e.id === row.Id){
         if(checked){
-          const filtered = row.ValueList.filter(e => e.Name === value)[0]
+          const filtered = row.ValueList.filter(val => val.Name === value)[0]
           e.values.push(filtered)
         }else {
           const filtered = e.values.filter(val => val.Name !== value)
