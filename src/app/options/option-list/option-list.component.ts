@@ -191,7 +191,7 @@ export class OptionListComponent implements OnInit {
   }
 
   setDropUp(row) {
-    const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
+    const idx = this.rowData.findIndex(e => e.Id === row.Id) + 1;
     const mod = idx % 10 === 0 ? 10 : idx % 10;
     if (mod < 6) {
       this.isDropup = false;

@@ -54,7 +54,7 @@ export class OptionsAddEditComponent implements OnInit {
   ];
   optionName: InputConfig = {
     inputLabel: {
-      text: 'Option Name'
+      text: 'Default Value'
     },
     type: 'text',
     placeholder: 'Type here',
@@ -67,7 +67,7 @@ export class OptionsAddEditComponent implements OnInit {
     placeholder: 'Type here',
   };
   optionForm: FormGroup;
-  selectedType = '';
+  selectedType = 'string';
   selectedStatus: any;
   constructor(private fb: FormBuilder, private service: LicenseServiceService,
     private router: Router, private route: ActivatedRoute, private cdRef: ChangeDetectorRef) { }
@@ -187,6 +187,7 @@ export class OptionsAddEditComponent implements OnInit {
     }
     this.service.createOption(obj).subscribe(e =>{
       console.log(e)
+      this.router.navigate(['options'])
     })
   }
   getType(val){
