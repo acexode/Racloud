@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { get } from 'lodash';
-import { Subscription, Observable, of } from 'rxjs';
-import { baseEndpoints } from 'src/app/core/configs/endpoints';
+import { Observable } from 'rxjs';
 import { getUTCLongMonthDate, convertDateBackToUTCDate } from 'src/app/core/helpers/dateHelpers';
 import { CompanyTypes } from 'src/app/core/models/companyTypes';
 import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
@@ -20,7 +19,7 @@ import { CustomerModel } from '../model/customer.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class CustomerFormComponent implements OnInit, OnDestroy {
+export class CustomerFormComponent implements OnInit {
   defaultToButtons: any = {
     buttonA: 'Button A',
     buttonB: 'Button B',
@@ -141,8 +140,8 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
   };
   countryOptions: any;
   customerParentOptions: any;
-  countryOptions$: Subscription;
-  customerParentOptions$: Subscription;
+  countryOptions$: Observable<any>;
+  customerParentOptions$: Observable<any>;
   constructor(
     private fb: FormBuilder,
     private reqS: RequestService,
@@ -151,19 +150,9 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
   ) { }
   ngOnInit(): void {
     // get country option
-    this.countryOptions$ = this.cS.getCountries().subscribe(
-      (res: { code: string, name: string; }) => {
-        this.countryOptions = res;
-      },
-      err => { }
-    );
+    this.countryOptions$ = this.cS.getCountries();
     // get customer parent options
-    this.customerParentOptions$ = this.parentS.getParents().subscribe(
-      (res: any) => {
-        this.customerParentOptions = res;
-      },
-      err => { }
-    );
+    this.customerParentOptions$ = this.parentS.getParents();
     // update form Data
     this.updateValueForForm();
   }
@@ -254,10 +243,6 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
     } else {
       return this.buttonConfig;
     }
-  }
-  ngOnDestroy(): void {
-    this.countryOptions$.unsubscribe();
-    this.customerParentOptions$.unsubscribe();
   }
 }
 

@@ -1,4 +1,4 @@
-<ng-container>
+<ng-container *ngIf="{countryOptions: countryOptions$ | async, customerParentOptions: customerParentOptions$ | async} as optionData">
     <form [formGroup]="componentForm" class="row no-gutters" (submit)="getValue()">
         
         <div class="col-12 col-md-3 px-0 pr-0 py-0 pr-md-16 m-0">
@@ -40,7 +40,7 @@
                 <app-select
                     [config]="selectConfig('Parent', 'Select Parent', true, 'id', 'companyName')"
                     formControlName="parentId"
-                    [options]="customerParentOptions"
+                    [options]="optionData.customerParentOptions"
                 ></app-select>
             </div>
 
@@ -57,7 +57,7 @@
                 <app-select
                     [config]="selectConfig('Country', 'Select Country', true, 'code', 'name')"
                     formControlName="country"
-                    [options]="countryOptions"
+                    [options]="optionData.countryOptions"
                 ></app-select>
             </div>
 
