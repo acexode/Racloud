@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { customersEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
+import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 @Component({
@@ -14,7 +15,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   formButtonConfig: any = {
     buttonA: 'Update',
     buttonB: 'Cancle',
-  }
+  };
   isLoading = false;
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/customer';
@@ -28,7 +29,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
     },
   };
   addCustomer$: Subscription;
-  constructor(private reqS: RequestService) { }
+  constructor(private reqS: RequestService, private msgS: MessagesService,) { }
 
   selectConfig(
     label: string,
@@ -62,21 +63,44 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
       prefixIcon: prefixIcon || false,
     };
   }
-  ngOnInit(): void {}
+  isLoadingStatus() {
+    this.isLoading = !this.isLoading;
+  }
+  ngOnInit(): void { }
 
   submitData(data: any) {
+    // loadingIndicator
+    this.isLoadingStatus();
     const queryEndpoint = `${ customersEndpoints.addCustomer }`;
-    this.addCustomer$ = this.reqS.put(queryEndpoint, data).subscribe(
+    this.addCustomer$ = this.reqS.post(queryEndpoint, data).subscribe(
       res => {
-        console.log(res);
+        // loadingIndicator
+        this.isLoadingStatus();
+        this.msgS.addMessage({
+          text: 'Sucessfully updated profile',
+          type: 'success',
+          dismissible: true,
+          timeout: 5000,
+          customClass: 'mt-32',
+          hasIcon: true
+        });
       },
       err => {
-        console.log(err);
+        this.msgS.addMessage({
+          text: err.error,
+          type: 'danger',
+          dismissible: true,
+          timeout: 5000,
+          customClass: 'mt-32',
+          hasIcon: true
+        });
+        // loadingIndicator
+        this.isLoadingStatus();
       }
     );
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
 
 }

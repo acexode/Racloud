@@ -84,18 +84,34 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     return this.reqS.put(queryEndpoint, newData);
   }
   updateProfile(data: any): void {
+    const profileData = {
+      ...data,
+      id: this.detailsId,
+    };
     // loadingIndicator
     this.isLoadingStatus();
-    console.log('called', this.isLoading, data);
-    this.updateProfile$ = this.updateData(data).subscribe(
+    console.log('called', this.isLoading, profileData);
+    this.updateProfile$ = this.updateData(profileData).subscribe(
       res => {
         // sucessfully updated
-        alert('Sucessfully updated profile');
+        this.msgS.addMessage({
+          text: 'Sucessfully updated profile',
+          type: 'success',
+          dismissible: true,
+          timeout: 3000,
+          customClass: 'mt-32'
+        });
         // stop loading
         this.isLoadingStatus();
       },
       err => {
-        console.log(err);
+        this.msgS.addMessage({
+          text: err.error,
+          type: 'danger',
+          dismissible: true,
+          timeout: 5000,
+          customClass: 'mt-32'
+        });
         // stop loading
         this.isLoadingStatus();
       }

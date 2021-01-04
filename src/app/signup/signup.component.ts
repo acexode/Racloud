@@ -181,8 +181,8 @@ export class SignupComponent implements OnInit, OnDestroy {
             text: err.error,
             type: 'danger',
             dismissible: true,
-            timeout: 5000,
-            customClass: 'mt-32'
+            customClass: 'mt-32',
+            hasIcon: true,
           });
           this.signUpForm.markAllAsTouched();
           this.signUpForm.updateValueAndValidity();

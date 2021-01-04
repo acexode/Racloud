@@ -93,7 +93,7 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
         Validators.required,
       ],
     ],
-    email: [
+    companyEmail: [
       '',
       [
         Validators.required,
@@ -135,7 +135,6 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
   customerParentOptions: any;
   countryOptions$: Subscription;
   customerParentOptions$: Subscription;
-  detailsId: any;
   constructor(
     private fb: FormBuilder,
     private reqS: RequestService,
@@ -202,20 +201,17 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 
     if (typeof data !== 'undefined') {
 
-      // get details ID
-      this.detailsId = get(this.editableData, 'id', null);
-
       // get data
       const d = {
         companyName: get(data, 'companyName', ''),
         firstName: get(data, 'firstName', ''),
         lastName: get(data, 'lastName', ''),
-        companyType: get(data, 'companyType', 'Fabricator').toLowerCase(),
+        companyType: get(data, 'companyType', 'Fabricator').toLowerCase() || 'fabricator',
         parentId: get(get(data, 'parent', ''), 'id', ''),
         address: get(data, 'address', ''),
         country: get(data, 'country', ''),
         phoneNumber: get(data, 'phoneNumber', ''),
-        email: get(data, 'email', ''),
+        companyEmail: get(data, 'email', ''),
         anniversaryDate: getUTCLongMonthDate(get(data, 'anniversaryDate', '')),
         subscriptionFee: get(data, 'subscriptionFee', ''),
         supportHoursContract: get(data, 'supportHoursContract', ''),
@@ -233,10 +229,9 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
       subscriptionFee: Number(get(d, 'subscriptionFee', 0)),
       supportHoursContract: Number(get(d, 'supportHoursContract', 0)),
       supportHoursAvailable: Number(get(d, 'supportHoursAvailable', 0)),
-      id: this.detailsId,
       contactPersonName: get(d, 'firstName', 'Default'),
       language: get(this.editableData, 'language', 'Default') || 'Default',
-      companyEmail: get(this.editableData, 'companyEmail', 'Default') || 'Default@racloud.com',
+      email: get(d, 'companyEmail', 'Default') || 'user@racloud.com',
     };
     return newData;
 

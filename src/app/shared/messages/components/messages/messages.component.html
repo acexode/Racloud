@@ -19,13 +19,13 @@
       (onClosed)="remove(message)"
       (onClose)="remove(message)"
     >
-      <div class="icon-wrp d-flex justify-content-between">
+      <div class="icon-wrp d-flex justify-content-between align-items-center">
         <ng-container
           [ngTemplateOutlet]="icon"
           *ngIf="message?.hasIcon"
           [ngTemplateOutletContext]="{ $implicit: message?.type }"
         ></ng-container>
-        <div class="alert-content d-flex flex-grow-1">
+        <div class="alert-content d-flex flex-grow-1 s18-h24">
           {{ message.text }}
         </div>
         <div
@@ -87,9 +87,9 @@
 
 <ng-template #icon let-type>
   <div
-    class="alert-icon align-middle mr-3 ml-0 d-flex"
+    class="alert-icon align-middle mr-16 ml-0 d-flex"
     *ngIf="iconList && iconList[type]"
   >
-    <img [src]="iconList[type]" />
+    <img [src]="iconList[type]" class="icon-40"/>
   </div>
 </ng-template>

@@ -55,7 +55,7 @@
 
             <div class="col-12 p-0">
                 <app-select
-                    [config]="selectConfig('Country', 'Select Country', true, 'name', 'name')"
+                    [config]="selectConfig('Country', 'Select Country', true, 'code', 'name')"
                     formControlName="country"
                     [options]="countryOptions"
                 ></app-select>
@@ -76,7 +76,7 @@
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
                     [config]="inputConfig('Email', 'email')"
-                    formControlName="email"
+                    formControlName="companyEmail"
                 ></app-input>
             </div>
 
