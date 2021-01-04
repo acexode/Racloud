@@ -8,7 +8,7 @@
   [limit]="config?.limit || 10"
   [count]="config?.count"
   [selected]="selected"
-  [selectionType]="config?.selectable ? SelectionType.single : null"
+  [selectionType]="config?.selectable ? SelectionType.multiClick : null"
   (activate)="onActivate($event)"
   (select)="onSelect($event)"
   [scrollbarH]="true"

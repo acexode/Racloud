@@ -1,15 +1,21 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea-config';
-
+import { get } from 'lodash';
+import { Observable, Subscription } from 'rxjs';
+import { RequestService } from 'src/app/core/services/request/request.service';
+import { baseEndpoints } from 'src/app/core/configs/endpoints';
+import { MessagesService } from 'src/app/shared/messages/services/messages.service';
+import { CustomerModel } from '../../model/customer.model';
 @Component({
   selector: 'app-details-tab',
   templateUrl: './details-tab.component.html',
   styleUrls: ['./details-tab.component.scss']
 })
-export class DetailsTabComponent implements OnInit {
+export class DetailsTabComponent implements OnInit, OnDestroy {
+  isLoading: boolean;
   @Input() detailsData: any;
   textAreaConfig: TextAreaConfig = {
     textAreaLabel: {
@@ -17,134 +23,52 @@ export class DetailsTabComponent implements OnInit {
     },
     placeholder: ''
   };
-
-  typeOptions = [
-    {
-      id: 'mock',
-      option: 'Mock'
-    },
-    {
-      id: 'partner',
-      option: 'Partner'
-    }
-  ];
-  parentOptions = [
-    {
-      id: 'mock',
-      option: 'Mock'
-    },
-    {
-      id: 'pyramid',
-      option: 'Pyramid'
-    }
-  ];
-  countryOptions = [
-    {
-      id: 'mock',
-      option: 'Mock'
-    },
-    {
-      id: 'netherlands',
-      option: 'Netherlands'
-    }
-  ];
-  componentForm = this.fb.group({
-    name: [
-      '',
-      [
-        Validators.required,
-        Validators.maxLength(50),
-      ],
-    ],
-    contactPerson: [
-      '',
-      Validators.required,
-    ],
-    type: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    parent: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    address: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    country: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    phone: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    email: [
-      '',
-      [
-        Validators.required,
-        Validators.email
-      ],
-    ],
-    anniversaryDate: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    subscriptionFee: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    supportHoursContract: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-    supportHoursAvailable: [
-      '',
-      [
-        Validators.required,
-      ],
-    ],
-  });
-  constructor(private fb: FormBuilder) { }
-
-  ngOnInit(): void {
-    this.updateValueForForm(this.detailsData);
+  updateProfile$: Subscription;
+  detailsId: any;
+  formButtonConfig: any = {
+    buttonA: 'Update profile',
+    buttonB: 'Renew Subscription',
   }
-  selectionConfig(label: string): SelectConfig {
+  constructor(
+    private reqS: RequestService,
+    private msgS: MessagesService,
+    private cdref: ChangeDetectorRef,
+  ) { }
+  ngOnInit(): void {
+    // get details ID
+    this.detailsId = get(this.detailsData, 'id', null);
+    console.log(this.detailsData);
+    this.isLoading = false;
+    this.cdref.detectChanges();
+
+  }
+  isLoadingStatus() {
+    this.isLoading = !this.isLoading;
+  }
+  selectConfig(
+    label: string,
+    placeholder: string = 'Select',
+    searchable: boolean = false,
+    idKey: string = 'id',
+    labelKey: string = 'option',
+  ): SelectConfig {
     return {
       selectLabel: {
-        text: label
+        text: label,
       },
-      idKey: 'id',
-      labelKey: 'option',
-      formStatus: {
-        isFilled: true,
-      }
+      placeholder,
+      idKey,
+      labelKey,
+      searchable,
     };
   }
   inputConfig(
     label: string,
     type: string = 'text',
     placeholder: string = '',
-    prefixIcon: boolean = false)
-    : InputConfig {
+    prefixIcon: boolean = false,
+    isDisabled: boolean = false,
+  ): InputConfig {
     return {
       inputLabel: {
         text: label || '',
@@ -152,15 +76,54 @@ export class DetailsTabComponent implements OnInit {
       type: type || 'text',
       placeholder: placeholder || '',
       prefixIcon: prefixIcon || false,
+      formStatus: {
+        isDisabled,
+      }
     };
   }
-  updateValueForForm(data: any) {
-    this.componentForm.setValue({
-      ...data
-    });
+  updateData(newData: any): Observable<any> {
+    const queryEndpoint = `${ baseEndpoints.customers }/${ this.detailsId }`;
+    return this.reqS.put<CustomerModel>(queryEndpoint, newData);
   }
-  updateProfile() {
-    console.log(this.componentForm.value);
+  updateProfile(data: any): void {
+    const profileData = {
+      ...data,
+      id: this.detailsId,
+    };
+    // loadingIndicator
+    this.isLoadingStatus();
+    console.log('called', this.isLoading, profileData);
+    this.updateProfile$ = this.updateData(profileData).subscribe(
+      res => {
+        // sucessfully updated
+        this.msgS.addMessage({
+          text: 'Sucessfully updated profile',
+          type: 'success',
+          dismissible: true,
+          timeout: 3000,
+          customClass: 'mt-32',
+          hasIcon: true
+        });
+        // stop loading
+        this.isLoadingStatus();
+      },
+      err => {
+        this.msgS.addMessage({
+          text: err.error,
+          type: 'danger',
+          dismissible: true,
+          timeout: 5000,
+          customClass: 'mt-32',
+          hasIcon: true
+        });
+        // stop loading
+        this.isLoadingStatus();
+      }
+    );
   }
-
+  ngOnDestroy(): void {
+    if (this.updateProfile$) {
+      this.updateProfile$.unsubscribe();
+    }
+  }
 }

@@ -1,4 +1,3 @@
-import { CreateUserComponent } from './create-user/create-user.component';
 import { OrdersComponent } from './orders/orders.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { NgModule } from '@angular/core';
@@ -38,17 +37,20 @@ const routes: Routes = [
   },
   {
     path: 'users',
-    component: UsersComponent,
-    data: {
-      title: 'Users'
-    }
+    loadChildren: () =>
+      import('./users/users.module').then(
+        (m) => m.UsersModule
+      ),
+    data: { title: 'User Listing' },
   },
   {
     path: 'products',
-    component: ProductsComponent,
-    data: {
-      title: 'Products'
-    },
+    loadChildren: () =>
+      import('./products/products.module').then(
+        (m) => m.ProductsModule
+      ),
+    // canActivate: [AuthGuard],
+    data: { title: 'Product Listing' }
   },
   {
     path: 'login',
@@ -103,9 +105,12 @@ const routes: Routes = [
     data: { title: 'Options Listing' },
   },
   {
-    path: 'create-user',
-    component: CreateUserComponent,
-    data: { title: 'Create User' },
+    path: 'users',
+    loadChildren: () =>
+      import('./users/users.module').then(
+        (m) => m.UsersModule
+      ),
+    data: { title: 'Users Listing' },
   },
   {
     path: 'shop',
@@ -113,8 +118,9 @@ const routes: Routes = [
     data: { title: 'Shop' },
   },
   {
-    path: 'price-list',
-    component: PriceListsComponent,
+    path: 'price-lists',
+    loadChildren: () => import('./price-lists/price-lists.module').then(m => m.PriceListsModule),
+    canActivate: [AuthGuard],
     data: { title: 'Price List' },
   },
   { path: '**', redirectTo: '/not-found' },

@@ -11,6 +11,7 @@ import { InputConfigFocusWithPrefix } from '../shared/rc-forms/configurations/in
 import { InputConfigWithError } from '../shared/rc-forms/configurations/input/input-config-with-error';
 import { InputConfigWithPrefix } from '../shared/rc-forms/configurations/input/input-config-with-prefix';
 import { InputConfigWithFocus } from '../shared/rc-forms/configurations/input/input-configure-with-focus';
+import { CardItem } from '../shared/rc-forms/models/card-item-model';
 import { InputConfig } from '../shared/rc-forms/models/input/input-config';
 import { SelectConfig } from '../shared/rc-forms/models/select/select-config';
 
@@ -139,6 +140,24 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
   });
 
   countryOptions$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+/* for card */
+  shopcard: CardItem = {
+    id: 1,
+    type: 'wl',
+    firstFee: '9.91',
+    subscriptionFee: '92.72',
+    description: 'Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.'
+  }
+  pnShopcard: CardItem = {
+    id: 2,
+    type: 'pn',
+    productName: 'Product Name',
+    productVersion: 'Product version',
+    firstFee: '9.91',
+    subscriptionFee: '92.72',
+    description: 'Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.'
+  }
+  /*  */
   constructor(
     private fb: FormBuilder,
     private cdref: ChangeDetectorRef,

@@ -57,14 +57,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     private msgS: MessagesService,
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
   isLoadingStatus() {
     this.isLoading = !this.isLoading;
   }
   submitForm() {
     /* loading */
     this.isLoadingStatus();
-  /*  */
+    /*  */
     const formV = this.loginForm.value;
 
     if (this.loginForm.valid) {
@@ -76,28 +76,30 @@ export class LoginComponent implements OnInit, OnDestroy {
           aRoute: this.aRoute,
         })
         .subscribe(
-          res => console.log('HTTP response', res),
+          res => {
+            console.log('HTTP response', res);
+            this.isLoadingStatus();
+          },
           err => {
             this.msgS.addMessage({
-              text: 'Date de autentificare incorecte! Va rugam sa reincercati.',
+              text: 'Incorrect authentication! Please try again.',
               type: 'danger',
               dismissible: true,
-              timeout: 3000,
-              customClass: 'mt-32'
+              customClass: 'mt-32',
+              hasIcon: true,
             });
             this.loginForm.markAllAsTouched();
             this.loginForm.updateValueAndValidity();
             this.cdRef.markForCheck();
+            this.isLoadingStatus();
           },
           () => console.log('HTTP request completed.')
         );
     } else {
       this.loginForm.updateValueAndValidity();
       this.cdRef.markForCheck();
+      this.isLoadingStatus();
     }
-    /* stop loading */
-    this.isLoadingStatus();
-    /*  */
   }
 
   resetSubs() {
