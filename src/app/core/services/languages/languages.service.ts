@@ -13,7 +13,7 @@ export class LanguagesService {
       map(lang => {
         return Object.keys(lang).map((key: any) => {
           return {
-            id: lang[key].name.toLowerCase(),
+            id: key,
             option: lang[key].name.split(',')[0], // return only one from the comma seperate names
           };
         });

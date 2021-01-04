@@ -132,7 +132,7 @@ export class CustomerFormComponent implements OnInit {
       ],
     ],
     language: [
-      '',
+      null,
       [
         Validators.required,
       ],
@@ -224,7 +224,6 @@ export class CustomerFormComponent implements OnInit {
         language: get(data, 'language', ''),
       };
       this.componentForm.setValue({ ...d });
-      console.log(this.componentForm.value);
     }
   }
   updateData(): CustomerModel {
@@ -236,7 +235,6 @@ export class CustomerFormComponent implements OnInit {
       supportHoursContract: Number(get(d, 'supportHoursContract', 0)),
       supportHoursAvailable: Number(get(d, 'supportHoursAvailable', 0)),
       contactPersonName: get(d, 'firstName', 'Default'),
-      language: get(this.editableData, 'language', 'Default') || 'Default',
     };
     return newData;
 
