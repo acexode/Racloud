@@ -62,8 +62,10 @@ export class ShopCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    let str = this.item.Product.Name;
-    this.acronym = str.split(/\s/).reduce((response,word)=> response+=word.slice(0,1),'')
+    const str = this.item?.Product?.Name;
+    if(str){
+      this.acronym = str.split(/\s/).reduce((response,word)=> response+=word.slice(0,1),'')
+    }
     console.log(this.item)
   }
   get itemStatus() {
