@@ -32,4 +32,9 @@ export const shopEndpoints = {
   getShops: serverBaseUrl + '/shop',
   getSingleShop: serverBaseUrl + '/shop'
 };
+export const orderEndpoints = {
+  generateOrder: serverBaseUrl + '/orders/generate-order',
+  getOrders: serverBaseUrl + '/orders',
+  getSingleOrder: serverBaseUrl + '/order'
+};
 

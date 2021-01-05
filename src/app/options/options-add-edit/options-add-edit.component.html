@@ -66,8 +66,8 @@
                       <app-button type="submit" color="primary"> Save </app-button>
                     </div>
                   </div>
-                  <div class="col-5 offset-md-2" formArrayName="valueList">
-                    <div class="row" *ngFor="let item of valueLists.controls; let valueIndex=index"
+                  <div *ngIf="selectedType == 'valuelist'" class="col-5 offset-md-2" formArrayName="valueList">
+                    <div  class="row" *ngFor="let item of valueLists.controls; let valueIndex=index"
                       [formGroupName]="valueIndex">
                       <div class="w-100 row">
                         <div class="form-group"> <label

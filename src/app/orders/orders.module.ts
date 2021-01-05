@@ -1,32 +1,29 @@
-import { OrdersComponent } from './orders.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { OrdersRoutingModule } from './orders-routing.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AngularSvgIconModule } from 'angular-svg-icon';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { ContainerModule } from '../shared/container/container.module';
+import { OrdersComponent } from './orders.component';
 import { RcFormsModule } from '../shared/rc-forms/rc-forms.module';
 import { TableModule } from '../shared/table/table.module';
-import { TabsModule } from '../shared/tabs/tabs.module';
-import { AddEditOrderComponent } from './add-edit-order/add-edit-order.component';
+import { ContainerModule } from '../shared/container/container.module';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { OrdersRoutingModule } from './orders-routing.module';
+import { OrdersDetailsComponent } from './orders-details/orders-details.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+import { OrdersCheckoutComponent } from './orders-checkout/orders-checkout.component';
+
 
 
 @NgModule({
-  declarations: [AddEditOrderComponent, OrdersComponent],
+  declarations: [OrdersComponent, OrdersDetailsComponent, OrdersCheckoutComponent],
   imports: [
     CommonModule,
-    CommonModule,
-    ContainerModule,
     RcFormsModule,
     TableModule,
-    TabsModule,
-    AngularSvgIconModule,
-    FormsModule,
+    ContainerModule,
     BsDropdownModule.forRoot(),
+    OrdersRoutingModule,
     ReactiveFormsModule,
-    OrdersRoutingModule
+    AngularSvgIconModule.forRoot(),
   ]
 })
 export class OrdersModule { }

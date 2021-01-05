@@ -31,6 +31,7 @@ import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { RcFormsModule } from './shared/rc-forms/rc-forms.module';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { TabsModule } from './shared/tabs/tabs.module';
+import { UsersComponent } from './users/users.component';
 import { ProductsComponent } from './products/products.component';
 import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
 import { SignupComponent } from './signup/signup.component';
@@ -38,6 +39,7 @@ import { SignupComponent } from './signup/signup.component';
 import { ShopComponent } from './shop/shop.component';
 import { CustomerModule } from './customer/customer.module';
 import { LoaderModule } from './shared/loader/loader.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +51,7 @@ import { LoaderModule } from './shared/loader/loader.module';
     NotFoundComponent,
     StyleGuideComponent,
     AccessDeniedComponent,
+    UsersComponent,
     ProductsComponent,
     RaLogoComponent,
     SignupComponent,
