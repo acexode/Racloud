@@ -2,7 +2,7 @@ const iconLoc = {
   messages: {
     info: 'assets/images/info.svg',
     danger: 'assets/images/error.svg',
-    success: 'assets/images/check.svg',
+    success: 'assets/images/check2.svg',
     warning: 'assets/images/warning.svg',
   },
 };
