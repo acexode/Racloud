@@ -1,0 +1,108 @@
+<app-page-container [config]="containerConfig">
+  <div class="w-100" container-body>
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <!--  -->
+          <app-button
+            color="tertiary"
+            [routerLink]="[backUrl]"
+            [class]="
+              'd-flex align-items-center rc-accent-blue-160-color montserrat-semibold-font ml-n20'
+            "
+          >
+            <svg-icon
+              [class]="'icon-w16-h16 mr-1'"
+              [src]="caretLeftIcon"
+              alt="Icon"
+              applyClass="true"
+            >
+            </svg-icon>
+            ABRACADABRA SRL
+          </app-button>
+          <!--  -->
+
+          <h1
+            class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0"
+          >
+            Checkout
+          </h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="line-h1 rc-secondary-bg mt-24 mb-39"></div>
+
+    <div class="w-100">
+
+        <div class="w-100 rc-light-grey-bg mt-24 p-16 d-flex flex-row">
+
+            <div class="w-240px mr-32">
+                <p class="m-0 s12-h16 rc-grey-color text-weight-normal montserrat-regular-font">
+                    Customer
+                </p>
+                <p class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular">
+                    Abracadabra SRL
+                </p>
+            </div>
+
+            <div class="w-104px mr-32">
+                <p class="m-0 s12-h16 rc-grey-color text-weight-normal montserrat-regular-font">
+                    Order Number
+                </p>
+                <p class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular">
+                    123456
+                </p>
+            </div>
+
+             <div class="w-104px mr-32">
+                <p class="m-0 s12-h16 rc-grey-color text-weight-normal montserrat-regular-font">
+                    Discount
+                </p>
+                <p class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular">
+                    $ 123.4
+                </p>
+            </div>
+
+            <div class="w-104px">
+                <p class="m-0 s12-h16 rc-grey-color text-weight-normal montserrat-regular-font">
+                    Total Value
+                </p>
+                <p class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular">
+                    $ 1,234.56
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="w-100 mt-14">
+        <p class="m-0 s12-h16 rc-grey-color text-weight-normal montserrat-regular-font">
+            Payment method
+        </p>
+        <div>
+            <app-chips color="selected" class="mr-8">
+                Bank transfer
+            </app-chips>
+            <app-chips class="mr-2" color="default">
+                Credit Card
+            </app-chips>
+        </div>
+    </div>
+
+     <div class="w-100">
+
+        <div class="w-100 rc-light-grey-bg mt-24 p-16 d-flex justify-content-end">
+            
+             <app-button type="submit" color="primary">
+                Send order
+            </app-button>
+
+        </div>
+
+    </div>
+
+  </div>
+</app-page-container>
