@@ -17,6 +17,7 @@ import { OrderTabComponent } from './manage-customer/order-tab/order-tab.compone
 import { CustomerTabComponent } from './manage-customer/customer-tab/customer-tab.component';
 import { LicensesTabComponent } from './manage-customer/licenses-tab/licenses-tab.component';
 import { DetailsTabComponent } from './manage-customer/details-tab/details-tab.component';
+import { CustomerFormComponent } from './customer-form/customer-form.component';
 
 
 
@@ -29,7 +30,8 @@ import { DetailsTabComponent } from './manage-customer/details-tab/details-tab.c
     DetailsTabComponent,
     UserTabComponent,
     OrderTabComponent,
-    CustomerTabComponent
+    CustomerTabComponent,
+    CustomerFormComponent
   ],
   imports: [
     CommonModule,

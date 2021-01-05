@@ -8,7 +8,7 @@ import { Router, NavigationEnd } from '@angular/router';
 export class SidebarComponent implements OnInit {
   @Input() currentYear: number;
   public currentVersion: string = require('../../assets/version.json').version;
-  constructor(public routerS: Router) {}
+  constructor(public routerS: Router) { }
   selected = false;
   adminRoute = false;
   showArrow = false;
@@ -51,7 +51,7 @@ export class SidebarComponent implements OnInit {
     },
     {
       name: 'Price Lists',
-      url: '/price-list',
+      url: '/price-lists',
       icon: '../../assets/images/price-list.svg',
       children: null
     },

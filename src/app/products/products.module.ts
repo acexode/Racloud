@@ -14,12 +14,12 @@ import { ContainerModule } from '../shared/container/container.module';
 import { RcFormsModule } from '../shared/rc-forms/rc-forms.module';
 import { TableModule } from '../shared/table/table.module';
 import { TabsModule } from '../shared/tabs/tabs.module';
-import { OptionTabComponent } from '../options/option-tab/option-tab.component';
+import { OptionsModule } from '../options/options.module';
 
 
 
 @NgModule({
-  declarations: [AddEditProductComponent, OptionTabComponent],
+  declarations: [AddEditProductComponent],
   imports: [
     CommonModule,
     CommonModule,
@@ -31,7 +31,8 @@ import { OptionTabComponent } from '../options/option-tab/option-tab.component';
     FormsModule,
     BsDropdownModule.forRoot(),
     ReactiveFormsModule,
-    ProductsRoutingModule
+    ProductsRoutingModule,
+    OptionsModule
   ]
 })
 export class ProductsModule { }

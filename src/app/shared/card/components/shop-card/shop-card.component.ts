@@ -1,5 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
+import { CardItem } from 'src/app/shared/rc-forms/models/card-item-model';
 
 @Component({
   selector: 'app-shop-card',
@@ -7,14 +8,76 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./shop-card.component.scss']
 })
 export class ShopCardComponent implements OnInit {
-  @Input() item: any;
-  constructor(private router: Router) { }
+  @Input() item!: CardItem;
+  cardTypes = {
+    wl: {
+      initTitle: 'WL',
+      productName: 'RA Workshop',
+      productVersion: 'Lite',
+      bgColor: 'rc-accent-blue-bg',
+    },
+    we: {
+      initTitle: 'WE',
+      productName: 'RA Workshop',
+      productVersion: 'Express',
+      bgColor: 'rc-accent-blue-bg',
+    },
+    wp: {
+      initTitle: 'WP',
+      productName: 'RA Workshop',
+      productVersion: 'Professional',
+      bgColor: 'rc-accent-blue-bg',
+    },
+    cnc: {
+      initTitle: 'CNC',
+      productName: 'RA Workshop',
+      productVersion: 'CNC Add-on',
+      bgColor: 'rc-accent-blue-bg',
+    },
+    wcs: {
+      initTitle: 'WCS',
+      productName: 'RA Workshop',
+      productVersion: 'Client Server',
+      bgColor: 'rc-accent-blue-bg',
+    },
+    shp: {
+      initTitle: 'WCS',
+      productName: 'RA Workshop',
+      productVersion: '12 Support hours pack',
+      bgColor: 'rc-accent-blue-160-bg',
+    },
+    pn: {
+      initTitle: 'PN',
+      productName: '',
+      productVersion: '',
+      bgColor: 'rc-grey-bg',
+    },
+    etc: {
+      initTitle: 'ETC',
+      productName: '',
+      productVersion: '',
+      bgColor: 'rc-black-bg',
+    },
+  };
+  constructor() { }
 
   ngOnInit(): void {
   }
-  buy(data: any) {
-    this.router.navigate(['licenses/license-edit', { id: data.id }]);
-    console.log(data)
+  get itemStatus() {
+    return (this.item?.firstFee || this.item?.subscriptionFee) ? true : false;
   }
-
+  get theCardType(): any {
+    if (typeof this.item?.type === 'undefined' || typeof this.item?.type === null) {
+      return this.cardTypes.wl;
+    } else {
+      if (this.item?.type === 'pn') {
+        this.setCardTypeProduct(this.item?.type);
+      }
+      return this.cardTypes[this.item?.type];
+    }
+  }
+  setCardTypeProduct(type: any) {
+    this.cardTypes[type].productName = this.item?.productName || 'Product name';
+    this.cardTypes[type].productVersion = this.item?.productVersion || '& version';
+  }
 }

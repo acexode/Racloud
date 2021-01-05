@@ -53,39 +53,55 @@ export class AddEditOrderComponent implements OnInit {
       option: 'Administrator'
     }
   ];
-  firstnameConfig: InputConfig = {
+  orderNumberConfig: InputConfig = {
     inputLabel: {
-      text: 'First Name'
+      text: 'Order Number'
     },
     type: 'text',
     placeholder: 'Type here',
   };
-  lastnameConfig: InputConfig = {
+  valueConfig: InputConfig = {
     inputLabel: {
-      text: 'Last Name'
+      text: 'Value'
     },
     type: 'text',
-    placeholder: 'Type here',
+    placeholder: '$',
   };
-  emailConfig: InputConfig = {
+  totalValueConfig: InputConfig = {
     inputLabel: {
-      text: 'Email'
+      text: 'Total Value'
     },
-    type: 'email',
+    type: 'text',
+    placeholder: '$',
+  };
+  createDateConfig: InputConfig = {
+    inputLabel: {
+      text: 'Order Date'
+    },
+    type: 'date',
     placeholder: 'Type here',
   };
-  companyConfig: SelectConfig = {
+  orderStatusConfig: InputConfig = {
+    inputLabel: {
+      text: 'Status'
+    },
+    type: 'text',
+    placeholder: 'Status',
+  };
+  discountConfig: InputConfig = {
+    inputLabel: {
+      text: 'Discount'
+    },
+    type: 'text',
+    placeholder: '%',
+  };
+  customerConfig: SelectConfig = {
     selectLabel: {
       text: 'Company'
     },
     placeholder: 'Select'
   };
-  roleConfig: SelectConfig = {
-    selectLabel: {
-      text: 'Role'
-    },
-    placeholder: 'Select'
-  };
+  
   userForm: FormGroup;
   constructor(private fb: FormBuilder, private router : Router,
     private route: ActivatedRoute, private http: HttpClient) { }
@@ -112,32 +128,47 @@ export class AddEditOrderComponent implements OnInit {
   }
   initForm() {
     this.userForm = this.fb.group({
-      firstname: [
+      orderNumber: [
         '',
         [
           Validators.required,
         ],
       ],
-      lastname: [
+      customer: [
         '',
         [
           Validators.required,
         ],
       ],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.email
-        ],
-      ],
-      company: [
+      value: [
         '',
         [
           Validators.required,
         ],
       ],
-      role: [
+      createDate: [
+        '',
+        [
+          Validators.required,
+        ],
+      ],
+      orderStatus: [
+        '',
+        [
+          Validators.required,
+        ],
+      ],
+      discount: [
+        '',
+        [
+          Validators.required,
+        ],
+      ],
+      orderItems: [
+        '',
+       
+      ],
+      totalValue: [
         '',
         [
           Validators.required,

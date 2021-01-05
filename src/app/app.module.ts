@@ -38,7 +38,6 @@ import { SignupComponent } from './signup/signup.component';
 import { ShopComponent } from './shop/shop.component';
 import { CustomerModule } from './customer/customer.module';
 import { LoaderModule } from './shared/loader/loader.module';
-import { PriceListsComponent } from './price-lists/price-lists.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +53,6 @@ import { PriceListsComponent } from './price-lists/price-lists.component';
     RaLogoComponent,
     SignupComponent,
     ShopComponent,
-    PriceListsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,31 +1,29 @@
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { baseEndpoints } from 'src/app/core/configs/endpoints';
+import { RequestService } from 'src/app/core/services/request/request.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
-import { omnBsConfig } from 'src/app/shared/date-picker/data/omn-bsConfig';
+import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
+import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
 import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
-import { LicenseServiceService } from '../license-service.service';
-
 
 @Component({
-  selector: 'app-licenses-listing',
-  templateUrl: './licenses-listing.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./licenses-listing.component.scss']
+  selector: 'app-create-price-lists',
+  templateUrl: './create-price-lists.component.html',
+  styleUrls: ['./create-price-lists.component.scss']
 })
-export class LicensesListingComponent implements OnInit {
-  isDropup = true;
-  @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
-  @ViewChild('actionDropdown', { static: true }) actionDropdown;
-  @ViewChild('selectT', { static: true }) selectT: any;
+export class CreatePriceListsComponent implements OnInit {
+  mockData = './assets/price-lists-create-table.json';
+  currency = './assets/currency.json';
 
-  @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
-  rowData: Array<any> = [];
-  tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  caretLeftIcon = '../assets/images/caret-left.svg';
+  backUrl = '/price-lists';
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -35,33 +33,22 @@ export class LicensesListingComponent implements OnInit {
       body: 'no-shadow',
     },
   };
+
+  componentForm: FormGroup;
+
+  controlStore: { [key: string]: AbstractControl; } = {};
+
   rows = [];
   rowDetailIcons = [
     '../../assets/images/Edit.svg',
     '../../assets/images/Log.svg',
   ];
-  bsConfig = omnBsConfig({
-    ranges: [
-      {
-        value: [new Date(), new Date()],
-        label: 'Azi',
-      },
-      {
-        value: [
-          new Date(new Date().setDate(new Date().getDate() - 7)),
-          new Date(),
-        ],
-        label: 'Ultima săptămână',
-      },
-      {
-        value: [
-          new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
-          new Date(new Date().getFullYear(), new Date().getMonth(), 0),
-        ],
-        label: 'Ultima lună',
-      },
-    ],
-  });
+  isDropup = true;
+  @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
+  @ViewChild('actionDropdown', { static: true }) actionDropdown: TemplateRef<any>;
+  @ViewChild('optionTemplate', { static: true }) optionTemplate: TemplateRef<any>;
+  rowData: Array<any> = [];
+  tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   tableConfig: TableI = {
     selectable: false,
     selectDetail: false,
@@ -70,25 +57,79 @@ export class LicensesListingComponent implements OnInit {
     externalPaging: false,
     externalSorting: false,
     loadingIndicator: true,
-    action: true
+    action: true,
+    noFiltering: true,
   };
+
   constructor(
+    private fb: FormBuilder,
     private tS: TableService,
     private http: HttpClient,
     private router: Router,
     private ref: ChangeDetectorRef,
-    private service: LicenseServiceService
+    private reqS: RequestService
   ) { }
+
+  selectionConfig(label: string): SelectConfig {
+    return {
+      selectLabel: {
+        text: label || '',
+      },
+    };
+  }
+  inputConfig(
+    label: string,
+    type: string = 'text',
+    placeholder: string = '',
+    prefixIcon: boolean = false)
+    : InputConfig {
+    return {
+      inputLabel: {
+        text: label || '',
+      },
+      type: type || 'text',
+      placeholder: placeholder || '',
+      prefixIcon: prefixIcon || false,
+    };
+  }
   ngOnInit(): void {
-    console.log(this.actionDropdown);
+    this.initForm();
+    this.onInitTable();
+  }
+
+  initForm() {
+    this.componentForm = this.fb.group({
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(50),
+        ],
+      ],
+      currency: [
+        '',
+        [
+          Validators.required,
+        ],
+      ],
+      dateCreated: [
+        '',
+        [
+          Validators.required,
+        ],
+      ],
+    });
+  }
+
+  onInitTable(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'productName',
-        label: 'Product Name',
+        identifier: 'application',
+        label: 'Application',
         sortable: true,
-        minWidth: 161,
-        width: 100,
+        minWidth: 247,
+        width: 247,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -99,26 +140,11 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'orderId',
-        label: 'Order ID',
+        identifier: 'product',
+        label: 'Product',
         sortable: true,
-        minWidth: 104,
-        width: 100,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'customer',
-        label: 'Customer',
-        sortable: true,
-        minWidth: 160,
-        width: 100,
+        minWidth: 245,
+        width: 245,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -129,78 +155,59 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'purchased',
-        label: 'Purchased',
+        identifier: 'productType',
+        label: 'Product Type',
+        sortable: true,
+        minWidth: 163,
+        width: 160,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        },
+      },
+      {
+        identifier: 'initFee',
+        label: 'Initial Fee',
+        sortable: true,
+        minWidth: 130,
+        width: 130,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        },
+      },
+      {
+        identifier: 'subscriptionFee',
+        label: 'Subscription Fee',
+        sortable: true,
+        minWidth: 150,
+        width: 150,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        },
+      },
+      {
+        identifier: 'supportHours',
+        label: 'Support Hours',
         sortable: true,
         minWidth: 120,
-        width: 100,
+        width: 120,
         sortIconPosition: 'left',
         labelPosition: 'right',
         cellContentPosition: 'right',
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'expires',
-        label: 'Expires',
-        sortable: true,
-        minWidth: 104,
-        width: 300,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'status',
-        label: 'Status',
-        sortable: true,
-        minWidth: 104,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        cellTemplate: this.expiredIconTemplate,
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'partnerLicense',
-        label: 'Partner license',
-        sortable: true,
-        minWidth: 104,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'left',
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'renew',
-        label: 'Renew by User Company',
-        sortable: true,
-        minWidth: 136,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'left',
-        hasFilter: true,
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -213,7 +220,20 @@ export class LicensesListingComponent implements OnInit {
         sortable: true,
         minWidth: 40,
         noGrow: true,
-        headerHasFilterIcon: true,
+        headerHasFilterIcon: false,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'right',
+        hasFilter: true,
+        cellTemplate: this.optionTemplate
+      },
+      {
+        identifier: 'action',
+        label: '',
+        sortable: true,
+        minWidth: 40,
+        noGrow: true,
+        headerHasFilterIcon: false,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -221,7 +241,7 @@ export class LicensesListingComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data) => {
+    this.getJSON(this.mockData).subscribe((data) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
@@ -233,8 +253,8 @@ export class LicensesListingComponent implements OnInit {
       }
     });
   }
-  public getJSON(): Observable<any> {
-    return this.http.get('./assets/ra-table-license.json');
+  public getJSON(url: string): Observable<any> {
+    return this.http.get(url);
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
@@ -261,6 +281,16 @@ export class LicensesListingComponent implements OnInit {
       this.isDropup = true;
     }
     this.ref.detectChanges();
+  }
+
+  submit(): void {
+    const d = {
+      name: 'string',
+      currency: 'FRA'
+    };
+    this.reqS.get<any>(baseEndpoints.priceLists).subscribe(res => {
+      console.log(res);
+    });
   }
 
 }
