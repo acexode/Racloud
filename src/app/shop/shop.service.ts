@@ -13,7 +13,7 @@ export class ShopService {
   }
 
   getShops(){
-    this.reqS.get(shopEndpoints.getShops).subscribe((e:[]) =>{  
+    this.reqS.get(shopEndpoints.getShops).subscribe((e:[]) =>{
       this.shopStore.next(e);
     })
   }
