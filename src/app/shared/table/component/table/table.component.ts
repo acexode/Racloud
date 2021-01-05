@@ -28,6 +28,7 @@ export class TableComponent implements OnInit {
   vReset;
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @Input() rows: any;
+  @Input() scrollH: boolean;
   @Input() preselectedRows: [];
   @Input() config: TableI;
   @Input() rowDetailConfig: any;

@@ -69,7 +69,8 @@ export class ProductsComponent implements OnInit {
     columns: [],
     externalPaging: false,
     externalSorting: false,
-    action: true
+    action: true,
+    scrollH: false
   };
   constructor(
     private tS: TableService,
