@@ -99,3 +99,6 @@ html {
 .datatable-body-cell {
   overflow-wrap: break-word !important;
 }
+.datatable-body {
+  overflow-y: hidden !important;
+}

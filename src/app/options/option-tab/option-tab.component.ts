@@ -93,6 +93,7 @@ export class OptionTabComponent implements OnInit {
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
+   
     console.log(this.preselectedRows)
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.selectDetailTemplate = this.selectDetailTemplate;
@@ -174,6 +175,7 @@ export class OptionTabComponent implements OnInit {
       }
     ];
     if (this.optionList) {
+     
       this.optionList.forEach(e => {
         if(e.OptionType === 'ValueList'){
           const obj = {
