@@ -89,11 +89,9 @@ export class OptionTabComponent implements OnInit {
     private footerS: FooterService,
     private http: HttpClient,
     private productS: ProductServiceService,
-
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
-   
     console.log(this.preselectedRows)
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.selectDetailTemplate = this.selectDetailTemplate;
