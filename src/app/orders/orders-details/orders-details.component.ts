@@ -48,7 +48,11 @@ export class OrdersDetailsComponent implements OnInit {
     externalPaging: false,
     externalSorting: false,
     loadingIndicator: true,
-    action: true
+    action: true,
+    noFiltering: true,
+    limit: 10,
+    removeExportBtn: true,
+    removePageCounter: true,
   };
   componentForm: FormGroup;
 
@@ -187,8 +191,7 @@ export class OrdersDetailsComponent implements OnInit {
         identifier: 'um',
         label: 'UM?',
         sortable: true,
-        minWidth: 186,
-        width: 300,
+        minWidth: 160,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',

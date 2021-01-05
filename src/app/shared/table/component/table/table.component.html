@@ -1,6 +1,6 @@
 <ngx-datatable
   #table
-  class="bootstrap m-0"
+  [class]="'bootstrap m-0 ' + (config?.noFiltering && 'noFiltering')"
   [rows]="rows"
   [columnMode]="ColumnMode.flex"
   [footerHeight]="config?.footerHeight || 50"
@@ -339,7 +339,7 @@
       >     
         <div class="pageCount col-4 px-0 mt-16">
           <!--  -->
-          <app-button type="button" color="secondaryB">
+          <app-button type="button" color="secondaryB" *ngIf="!config?.removeExportBtn">
             Export
           </app-button>
 
@@ -347,14 +347,16 @@
 
         </div>
         <div class="pageCount col-4 text-center mt-24 s12-h16 montserrat-bold-font">
-          <span class="bold"
-            >{{ curPage === 1 ? 1 : (curPage - 1) * pageSize + 1 }} -
-            {{
-              curPage * pageSize > rowCount ? rowCount : curPage * pageSize
-            }}</span
-          >
-          of
-          <span class="bold"> {{ rowCount }}</span>
+          <span class="m-0 p-0" *ngIf="!config?.removePageCounter">
+            <span class="bold"
+              >{{ curPage === 1 ? 1 : (curPage - 1) * pageSize + 1 }} -
+              {{
+                curPage * pageSize > rowCount ? rowCount : curPage * pageSize
+              }}</span
+            >
+            of
+            <span class="bold"> {{ rowCount }}</span>
+          </span>
         </div>
         <datatable-pager
           class=""

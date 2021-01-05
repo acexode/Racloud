@@ -33,7 +33,7 @@
 
     <div class="line-h1 rc-secondary-bg mt-24 mb-39"></div>
 
-    <div class="w-100 pt-40">
+    <div class="w-100 pt-40 pb-40">
       <form [formGroup]="componentForm" class="row no-gutters">
         <div class="col-12 col-md-3 px-0 pr-0 pr-md-16">
           <div class="row m-0 p-0">
@@ -91,7 +91,7 @@
               
             <div class="col-12 px-0 pt-24 px-16 pb-32 rc-ultra-light-red-bg">
               <app-input
-                [config]="inputConfig('Total Value')"
+                [config]="inputConfig('Total Value', 'text', '', true)"
                 formControlName="totalValue"
               ></app-input>
             </div>
@@ -114,8 +114,6 @@
         <app-button type="button" color="secondaryB" class="mr-8">
           Add product
         </app-button>
-
-        <app-button type="button" color="secondaryB" class="mr-8"> Save Draft </app-button>
 
         <app-button type="button" color="primary"> Check Out </app-button>
 

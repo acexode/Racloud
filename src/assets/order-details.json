@@ -28,15 +28,5 @@
         "value":"1,234.56",
         "discount": 34,
         "totalValue":"1,234.56"
-    },
-    {
-        "id":4,
-        "application":"Support",
-        "product": "RA Workshop Pack",
-        "um": "value",
-        "quantity":1,
-        "value":"1,234.56",
-        "discount": 100,
-        "totalValue":"1,234.56"
     }
 ]
