@@ -32,6 +32,7 @@ export class OrdersDetailsComponent implements OnInit {
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: TemplateRef<any>;
   @ViewChild('valueTemplate', { static: true }) valueTemplate: TemplateRef<any>;
+  @ViewChild('quantityTemplate', { static: true }) quantityTemplate: TemplateRef<any>;
   @ViewChild('discountTemplate', { static: true }) discountTemplate: TemplateRef<any>;
   rows = [];
   rowDetailIcons = [
@@ -210,7 +211,7 @@ export class OrdersDetailsComponent implements OnInit {
         sortIconPosition: 'left',
         labelPosition: 'right',
         cellContentPosition: 'right',
-        cellTemplate: this.valueTemplate,
+        cellTemplate: this.quantityTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,

@@ -109,13 +109,33 @@
         ></app-table>
     </div>
 
-    <div class="w-100">
-      <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-end">
-        <app-button type="button" color="secondaryB" class="mr-8">
-          Add product
-        </app-button>
+    <div class="w-100 mb-100">
+      <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-between">
+        <!--  -->
+        <div class="btn-group" dropdown>
+          
+          <button id="button-basic" dropdownToggle type="button" class="btn-no-padding btn-tertiary-nounderlied"  aria-controls="dropdown-basic">
+            Options <span class="ml-6"> <img src="./../../../assets/images/Chevron-red.svg" alt="Delete-icon" class="icon-w20-h20" /></span>
+          </button>
 
-        <app-button type="button" color="primary"> Check Out </app-button>
+          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+              role="menu" aria-labelledby="button-basic">
+            <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+            <li role="menuitem"><a class="dropdown-item" href="#">Another action</a></li>
+          </ul>
+        </div>
+      <!--  -->
+
+        <div>
+            <app-button type="button" color="secondaryB" class="mr-8">
+            Add product
+          </app-button>
+
+          <app-button type="button" color="primary">
+            Check Out
+          </app-button>
+
+        </div>
 
       </div>
     </div>
@@ -157,5 +177,17 @@
             %
         </span>
         <img src="./../../../assets/images/Edit.svg" alt="edit-icon" class="icon-w16-h16" />
+   </div>
+</ng-template>
+
+<ng-template #quantityTemplate let-column="column" let-row="row" let-value="cellValue">
+   <div class="text-right d-flex flex-row align-items-center justify-content-center">
+        <div class="mr-8">
+           {{ value }}
+        </div>
+        <div class="d-flex flex-column align-items-center justify-content-center">
+          <img src="./../../../assets/images/Caret-up.svg" alt="Caret-up" class="icon-w20-h10" />
+          <img src="./../../../assets/images/Caret-down.svg" alt="Caret-down" class="icon-w20-h10" />
+        </div>
    </div>
 </ng-template>
