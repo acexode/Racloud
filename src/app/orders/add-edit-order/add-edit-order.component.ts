@@ -101,7 +101,6 @@ export class AddEditOrderComponent implements OnInit {
     },
     placeholder: 'Select'
   };
-  
   userForm: FormGroup;
   constructor(private fb: FormBuilder, private router : Router,
     private route: ActivatedRoute, private http: HttpClient) { }
