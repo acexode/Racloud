@@ -13,6 +13,7 @@ import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 })
 export class OptionsAddEditComponent implements OnInit {
   isEdit = false;
+  editObj
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/options';
   containerConfig: PageContainerConfig = {
@@ -54,7 +55,7 @@ export class OptionsAddEditComponent implements OnInit {
   ];
   optionName: InputConfig = {
     inputLabel: {
-      text: 'Option Name'
+      text: 'Default Value'
     },
     type: 'text',
     placeholder: 'Type here',
@@ -67,7 +68,7 @@ export class OptionsAddEditComponent implements OnInit {
     placeholder: 'Type here',
   };
   optionForm: FormGroup;
-  selectedType = '';
+  selectedType = 'string';
   selectedStatus: any;
   constructor(private fb: FormBuilder, private service: LicenseServiceService,
     private router: Router, private route: ActivatedRoute, private cdRef: ChangeDetectorRef) { }
@@ -79,6 +80,7 @@ export class OptionsAddEditComponent implements OnInit {
       this.isEdit = true
       this.service.getOption().subscribe((obj:any[]) =>{
         const data = obj.filter(e => e.Id.toString() === id)[0];
+        this.editObj = data.ValueList
         this.optionForm.patchValue({
           optionName: data.Name,
           optionType: data.OptionType,
@@ -92,7 +94,7 @@ export class OptionsAddEditComponent implements OnInit {
           data.ValueList.forEach(val =>{
             this.valueLists.push(
               this.fb.group(
-                {value: val.Id, name: val.Name}
+                {id: val.Id, value: val.Value, name: val.Name}
               )
             );
           })
@@ -170,6 +172,7 @@ export class OptionsAddEditComponent implements OnInit {
     });
   }
   submit(){
+    const id = this.route.snapshot.paramMap.get('id');
     const values = this.optionForm.value
     console.log(values)
     const bool = values.defaultStatus === 'True' ? true : values.defaultStatus === 'False' ? false : null;
@@ -185,9 +188,18 @@ export class OptionsAddEditComponent implements OnInit {
     }else{
       obj.valueString = values.optionString
     }
-    this.service.createOption(obj).subscribe(e =>{
-      console.log(e)
-    })
+    if(this.isEdit){
+      obj.id = parseInt(id,10)
+      this.service.updateOption(id, obj).subscribe(e =>{
+        console.log(e)
+        this.router.navigate(['options'])
+      })
+    }else{
+      this.service.createOption(obj).subscribe(e =>{
+        console.log(e)
+        this.router.navigate(['options'])
+      })
+    }
   }
   getType(val){
     if(val === 'valuelist'){
