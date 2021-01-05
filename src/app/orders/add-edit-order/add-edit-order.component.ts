@@ -166,7 +166,6 @@ export class AddEditOrderComponent implements OnInit {
       ],
       orderItems: [
         '',
-       
       ],
       totalValue: [
         '',
