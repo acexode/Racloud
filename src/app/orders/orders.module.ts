@@ -9,11 +9,12 @@ import { OrdersRoutingModule } from './orders-routing.module';
 import { OrdersDetailsComponent } from './orders-details/orders-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { OrdersCheckoutComponent } from './orders-checkout/orders-checkout.component';
 
 
 
 @NgModule({
-  declarations: [OrdersComponent, OrdersDetailsComponent],
+  declarations: [OrdersComponent, OrdersDetailsComponent, OrdersCheckoutComponent],
   imports: [
     CommonModule,
     RcFormsModule,
