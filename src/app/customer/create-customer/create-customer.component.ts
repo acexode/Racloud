@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { customersEndpoints } from 'src/app/core/configs/endpoints';
+import { RequestService } from 'src/app/core/services/request/request.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
+import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
+import { CustomerModel } from '../model/customer.model';
 @Component({
   selector: 'app-edit-customer',
   templateUrl: './create-customer.component.html',
   styleUrls: ['./create-customer.component.scss']
 })
-export class CreateCustomerComponent implements OnInit {
-
+export class CreateCustomerComponent implements OnInit, OnDestroy {
+  formButtonConfig: any = {
+    buttonA: 'Save',
+    buttonB: 'Cancle',
+  };
+  isLoading = false;
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/customer';
   containerConfig: PageContainerConfig = {
@@ -21,17 +29,24 @@ export class CreateCustomerComponent implements OnInit {
       body: 'no-shadow',
     },
   };
+  addCustomer$: Subscription;
+  constructor(private reqS: RequestService, private msgS: MessagesService,) { }
 
-  componentForm: FormGroup;
-
-  controlStore: { [key: string]: AbstractControl; } = {};
-  constructor(private fb: FormBuilder) { }
-
-  selectionConfig(label: string): SelectConfig {
+  selectConfig(
+    label: string,
+    placeholder: string = 'Select',
+    searchable: boolean = false,
+    idKey: string = 'id',
+    labelKey: string = 'option',
+  ): SelectConfig {
     return {
       selectLabel: {
-        text: label || '',
+        text: label,
       },
+      placeholder,
+      idKey,
+      labelKey,
+      searchable,
     };
   }
   inputConfig(
@@ -49,86 +64,43 @@ export class CreateCustomerComponent implements OnInit {
       prefixIcon: prefixIcon || false,
     };
   }
+  isLoadingStatus() {
+    this.isLoading = !this.isLoading;
+  }
+  ngOnInit(): void {}
+  submitData(data: any) {
+    // loadingIndicator
+    this.isLoadingStatus();
+    const queryEndpoint = `${ customersEndpoints.addCustomer }`;
+    this.addCustomer$ = this.reqS.post<CustomerModel>(queryEndpoint, data).subscribe(
+      res => {
+        this.msgS.addMessage({
+          text: 'Sucessfully updated profile',
+          type: 'success',
+          dismissible: true,
+          timeout: 5000,
+          customClass: 'mt-32',
+          hasIcon: true
+        });
+        // loadingIndicator
+        this.isLoadingStatus();
+      },
+      err => {
+        this.msgS.addMessage({
+          text: err.error,
+          type: 'danger',
+          dismissible: true,
+          timeout: 5000,
+          customClass: 'mt-32',
+          hasIcon: true
+        });
+        // loadingIndicator
+        this.isLoadingStatus();
+      }
+    );
+  }
 
-  setType(e) {
-    this.type.setValue(e.target.value, {
-      onlySelf: true
-    });
-  }
-  get type() {
-    return this.componentForm.get('type');
-  }
-  ngOnInit(): void {
-    this.initForm();
-  }
-
-  initForm() {
-    this.componentForm = this.fb.group({
-      name: [
-        '',
-        [
-          Validators.required,
-          Validators.maxLength(50),
-        ],
-      ],
-      type: [
-        '',
-        [
-          Validators.required,
-        ],
-      ],
-      parent: [
-        '',
-        [
-          Validators.required,
-        ],
-      ],
-      city: [
-        '',
-        [
-          Validators.required,
-          Validators.maxLength(50),
-        ],
-      ],
-      phone: [
-        '',
-        [
-          Validators.required,
-        ],
-      ],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.email
-        ],
-      ],
-      anniversaryDate: [
-        '',
-        [
-          Validators.required,
-        ],
-      ],
-      subscriptionFee: [
-        '',
-        [
-          Validators.required,
-        ],
-      ],
-      supportHoursContract: [
-        '',
-        [
-          Validators.required,
-        ],
-      ],
-      supportHoursAvailable: [
-        '',
-        [
-          Validators.required,
-        ],
-      ],
-    });
-  }
+  ngOnDestroy(): void { }
 
 
 }

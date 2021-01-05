@@ -1,6 +1,9 @@
-<app-card [componentClasses]="classes" [classes]="
+<app-card 
+    [componentClasses]="classes" [classes]="
     'justify-content-center col-12 max-w-448 d-flex px-0 py-0 border-radius-2 my-64'
-  " class="d-flex justify-content-center">
+  " class="d-flex justify-content-center"
+  *ngIf="{countryOptions: countryOptions$ | async, languageOptions: languageOptions$ | async} as optionData"
+  >
     <ng-container card-body>
         <div class="flex-column d-flex col-12 justify-content-center flex-column">
             <div
@@ -91,7 +94,7 @@
 
                     <div class="d-flex flex-column mb-14">
                        <app-select [config]="selectConfig('Country', 'Select Country', true, 'code', 'name')"
-                            formControlName="country" [options]="countryOptions" id="country"></app-select>
+                            formControlName="country" [options]="optionData?.countryOptions" id="country"></app-select>
                     
                         <app-error-messages [control]="signUpForm?.controls?.country"></app-error-messages>
                     </div>
@@ -100,7 +103,7 @@
                     <div class="d-flex flex-column mb-40" *ngIf="languageOptions$ | async as languageOptions">
 
                         <app-select [config]="selectConfig('Language', 'Select Language', true, 'id', 'option')"
-                            formControlName="language" [options]="languageOptions" id="language"></app-select>
+                            formControlName="language" [options]="optionData?.languageOptions" id="language"></app-select>
                     
                         <app-error-messages [control]="signUpForm?.controls?.language"></app-error-messages>
                     </div>
