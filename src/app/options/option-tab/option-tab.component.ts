@@ -175,7 +175,6 @@ export class OptionTabComponent implements OnInit {
       }
     ];
     if (this.optionList) {
-     
       this.optionList.forEach(e => {
         if(e.OptionType === 'ValueList'){
           const obj = {
