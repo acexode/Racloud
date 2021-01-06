@@ -9,6 +9,7 @@ import { CardItem } from 'src/app/shared/rc-forms/models/card-item-model';
 })
 export class ShopCardComponent implements OnInit {
   @Input() item!: CardItem;
+  itemType
   cardTypes = {
     wl: {
       initTitle: 'WL',
@@ -59,25 +60,32 @@ export class ShopCardComponent implements OnInit {
       bgColor: 'rc-black-bg',
     },
   };
+  acronym: string;
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.item)
+    const str = this.item?.Product?.Name;
+    if(str){
+      this.acronym = str.split(/\s/).reduce((response,word)=> response+=word.slice(0,1),'')
+    }
+    console.log(this.item)
   }
   get itemStatus() {
-    return (this.item?.firstFee || this.item?.subscriptionFee) ? true : false;
+    return (this.item?.Value || this.item?.RenewalValue) ? true : false;
   }
   get theCardType(): any {
-    if (typeof this.item?.type === 'undefined' || typeof this.item?.type === null) {
+    if (typeof this.item?.Product.ProductType === 'undefined' || typeof this.item?.Product.ProductType === null) {
       return this.cardTypes.wl;
     } else {
-      if (this.item?.type === 'pn') {
+      if (this.item?.Product.ProductType === 'pn') {
         this.setCardTypeProduct(this.item?.type);
       }
       return this.cardTypes[this.item?.type];
     }
   }
   setCardTypeProduct(type: any) {
-    this.cardTypes[type].productName = this.item?.productName || 'Product name';
-    this.cardTypes[type].productVersion = this.item?.productVersion || '& version';
+    this.cardTypes[type].productName = this.item?.Product.Name || 'Product name';
+    this.cardTypes[type].productVersion = this.item?.Product.Version || '& version';
   }
 }

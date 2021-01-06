@@ -1,3 +1,5 @@
+import { Order } from './../../core/models/order.interface';
+import { OrderService } from './../service.service';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
@@ -10,7 +12,7 @@ import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-conf
 import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
-
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'app-orders-details',
   templateUrl: './orders-details.component.html',
@@ -19,6 +21,7 @@ import { TableService } from 'src/app/shared/table/services/table.service';
 export class OrdersDetailsComponent implements OnInit {
 
   caretLeftIcon = '../assets/images/caret-left.svg';
+  orderId = ''
   backUrl = '/customer';
   containerConfig: PageContainerConfig = {
     closeButton: true,
@@ -35,6 +38,7 @@ export class OrdersDetailsComponent implements OnInit {
   @ViewChild('quantityTemplate', { static: true }) quantityTemplate: TemplateRef<any>;
   @ViewChild('discountTemplate', { static: true }) discountTemplate: TemplateRef<any>;
   rows = [];
+  modalRef: BsModalRef;
   rowDetailIcons = [
     '../../assets/images/Edit.svg',
     '../../assets/images/Log.svg',
@@ -56,7 +60,8 @@ export class OrdersDetailsComponent implements OnInit {
     removePageCounter: true,
   };
   componentForm: FormGroup;
-
+  addedProducts = []
+  allProducts = []
   controlStore: { [key: string]: AbstractControl; } = {};
   isDropup: boolean;
   constructor(
@@ -65,13 +70,15 @@ export class OrdersDetailsComponent implements OnInit {
     private http: HttpClient,
     private ref: ChangeDetectorRef,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private service: OrderService,
+    private modalService: BsModalService
   ) { }
 
   selectionConfig(label: string): SelectConfig {
     return {
       selectLabel: {
-        text: label || '',
+        text: label ,
       },
     };
   }
@@ -83,10 +90,10 @@ export class OrdersDetailsComponent implements OnInit {
     : InputConfig {
     return {
       inputLabel: {
-        text: label || '',
+        text: label ,
       },
       type: type || 'text',
-      placeholder: placeholder || '',
+      placeholder: placeholder ,
       prefixIcon: prefixIcon || false,
     };
   }
@@ -101,6 +108,27 @@ export class OrdersDetailsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.initForm();
+    this.service.getShops().subscribe((e:Order[]) =>{
+      console.log(e)
+      this.allProducts = e
+    })
+    const id = this.route.snapshot.paramMap.get('id');
+    this.orderId = id
+    if(id){
+      const idx = parseInt(id,10)
+      this.service.getSingleOrder(idx).subscribe((e: Order) =>{
+        console.log(e)
+        this.componentForm.patchValue({
+          orderNumber: e.Id,
+          customer: e.Company,
+          status: e.OrderStatus,
+          value: e.Value,
+          discount: e.Discount,
+          totalValue: e.TotalValue
+        })
+        this.componentForm.get('orderDate').patchValue(this.formatDate(new Date(e.CreateDate)));
+      }) 
+    }
     this.onInitTable();
   }
 
@@ -309,5 +337,18 @@ export class OrdersDetailsComponent implements OnInit {
   }
   checkout() {
     this.router.navigate(['orders', 'orders-checkout']);
+  }
+  formatDate(date) {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    console.log([year, month, day].join('-'))
+    return [year, month, day].join('-');
+  }
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray modal-lg' }));
   }
 }

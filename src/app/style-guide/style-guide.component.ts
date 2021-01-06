@@ -141,21 +141,38 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
 
   countryOptions$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
 /* for card */
-  shopcard: CardItem = {
-    id: 1,
+  shopcard = {
+    Id: 33,    
     type: 'wl',
-    firstFee: '9.91',
-    subscriptionFee: '92.72',
-    description: 'Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.'
+    Product: {
+        Id: 2,
+        Name: 'string',
+        Description: 'string',
+        Version: 5
+    },    
+    ProductId: 2,
+    Value: 100,
+    RenewalValue: 50,
+    SupportHours: 8,
+    Discount: 10,
+    DiscountPrc: 10
+    
   }
-  pnShopcard: CardItem = {
-    id: 2,
-    type: 'pn',
-    productName: 'Product Name',
-    productVersion: 'Product version',
-    firstFee: '9.91',
-    subscriptionFee: '92.72',
-    description: 'Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.'
+  pnShopcard ={
+  Id: 23,    
+  type: 'pn',
+  Product: {
+      Id: 1,
+      Name: 'string',
+      Description: 'string',
+      Version: 5
+  },    
+  ProductId: 5,
+  Value: 100,
+  RenewalValue: 50,
+  SupportHours: 8,
+  Discount: 10,
+  DiscountPrc: 10
   }
   /*  */
   constructor(
