@@ -148,12 +148,12 @@ setDropUp(row) {
 }
 removeRow(row){
   console.log(row.id);
-  this.userService.deleteUser(row.id).subscribe(e =>{
+  this.userService.deleteUser(row.user.id).subscribe(e =>{
     this.getUsers()
   })
 }
 manageSub(data){
-  this.router.navigate(['users/edit-user', { id: data.id }]);
+  this.router.navigate(['users/edit-user', { id: data.user.id }]);
 }
 
 

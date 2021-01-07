@@ -80,8 +80,8 @@ export class CreateUserComponent implements OnInit {
     if(id){
       this.isEdit = true;
       const idx = parseInt(id, 10)
-      this.service.getUsers().subscribe((obj:any) =>{
-        const data = obj.filter(e => e.id.toString() === id)[0];
+      this.service.getUser(id).subscribe((data:any) =>{
+        // const data = obj.filter(e => e.user.id.toString() === id)[0];
         console.log(data)
         this.user = data.user;
         this.userForm.patchValue({
@@ -89,10 +89,10 @@ export class CreateUserComponent implements OnInit {
           lastName: data.user.lastname,
           email: data.user.email,
           roleId: data.role.id,
-          companyId: data.companyId,
+          companyId: data.company.id,
         });
         if(this.companyOptions.length){
-          const company = this.companyOptions.filter(e => e.id === data.companyId)[0]
+          const company = this.companyOptions.filter(e => e.id.toString() === data.company.id)[0]
           this.companyLabel = company?.companyName || 'Select';
         }
         this.roleLabel = data.role.name;
@@ -147,9 +147,10 @@ export class CreateUserComponent implements OnInit {
   }
   submit(){
     const user = this.userForm.value
-    const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+    const id = this.route.snapshot.paramMap.get('id');
     if(this.isEdit){
-      user.id = id.toString()
+      console.log(id)
+      user.id = id
       this.service.updateUser(id,user).subscribe(e =>{
         this.router.navigate(['users'])
       })
