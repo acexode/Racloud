@@ -1,3 +1,4 @@
+import { UsersService } from './../users.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -29,30 +30,8 @@ export class CreateUserComponent implements OnInit {
   companyLabel = 'Select';
   roleLabel = 'Select'
   ;
-  companyOptions = [
-    {
-      id: 'pyramid',
-      option: 'Pyramid'
-    },
-    {
-      id: 'superwindows',
-      option: 'Superwindows'
-    },
-    {
-      id: 'abracadabra',
-      option: 'Abracadabra SRL'
-    }
-  ];
-  roleOptions = [
-    {
-      id: 'user',
-      option: 'User'
-    },
-    {
-      id: 'administrator',
-      option: 'Administrator'
-    }
-  ];
+  companyOptions = [];
+  roleOptions = [];
   firstnameConfig: InputConfig = {
     inputLabel: {
       text: 'First Name'
@@ -88,37 +67,47 @@ export class CreateUserComponent implements OnInit {
   };
   userForm: FormGroup;
   constructor(private fb: FormBuilder, private router : Router,
-    private route: ActivatedRoute, private http: HttpClient) { }
+    private route: ActivatedRoute, private service: UsersService) { }
 
   ngOnInit(): void {
+    this.service.getRoles().subscribe((res:any[]) =>{
+      console.log(res)
+      this.roleOptions = res[0]
+      this.companyOptions = res[1]
+    })
     const id = this.route.snapshot.paramMap.get('id');
     this.initForm();
     if(id){
       this.isEdit = true;
-      this.http.get('./assets/role.json').subscribe((obj:any) =>{
+      const idx = parseInt(id, 10)
+      this.service.getUsers().subscribe((obj:any) =>{
         const data = obj.filter(e => e.id.toString() === id)[0];
-        this.user = data;
+        console.log(data)
+        this.user = data.user;
         this.userForm.patchValue({
-          firstname: data.first_name,
-          lastname: data.last_name,
-          email: data.email,
-          role: data.role,
-          company: data.company,
+          firstName: data.user.firstname,
+          lastName: data.user.lastname,
+          email: data.user.email,
+          roleId: data.role.id,
+          companyId: data.companyId,
         });
-        this.companyLabel = data?.company || 'Select';
-        this.roleLabel = data.role;
+        if(this.companyOptions.length){
+          const company = this.companyOptions.filter(e => e.id === data.companyId)[0]
+          this.companyLabel = company?.companyName || 'Select';
+        }
+        this.roleLabel = data.role.name;
       });
     }
   }
   initForm() {
     this.userForm = this.fb.group({
-      firstname: [
+      firstName: [
         '',
         [
           Validators.required,
         ],
       ],
-      lastname: [
+      lastName: [
         '',
         [
           Validators.required,
@@ -131,13 +120,13 @@ export class CreateUserComponent implements OnInit {
           Validators.email
         ],
       ],
-      company: [
+      companyId: [
         '',
         [
           Validators.required,
         ],
       ],
-      role: [
+      roleId: [
         '',
         [
           Validators.required,
@@ -148,15 +137,27 @@ export class CreateUserComponent implements OnInit {
   addCompany(){
       this.router.navigate(['/users']);
   }
-  setCompany(company){
-    this.userForm.get('company').setValue(company);
+  setCompany(company, id){
+    this.userForm.get('companyId').setValue(id);
     this.companyLabel = company;
   }
-  setRole(role){
-    this.userForm.get('company').setValue(role);
-    this.companyLabel = role;
+  setRole(role, id){
+    this.userForm.get('roleId').setValue(id);
+    this.roleLabel = role;
   }
   submit(){
+    const user = this.userForm.value
+    const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+    if(this.isEdit){
+      user.id = id.toString()
+      this.service.updateUser(id,user).subscribe(e =>{
+        this.router.navigate(['users'])
+      })
+    }else{
+      this.service.createUser(user).subscribe(e =>{
+        this.router.navigate(['users'])
+      })
+    }
     console.log(this.userForm.value)
   }
 

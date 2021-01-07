@@ -45,6 +45,7 @@ const routes: Routes = [
       import('./users/users.module').then(
         (m) => m.UsersModule
       ),
+    canActivate: [AuthGuard],
     data: { title: 'User Listing' },
   },
   {
