@@ -12,6 +12,7 @@ import { TableModule } from '../shared/table/table.module';
 import { TabsModule } from '../shared/tabs/tabs.module';
 import { PriceListsComponent } from './price-lists.component';
 import { CreatePriceListsComponent } from './create-price-lists/create-price-lists.component';
+import { CardModule } from '../shared/card/card.module';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { CreatePriceListsComponent } from './create-price-lists/create-price-lis
     ReactiveFormsModule,
     BsDropdownModule.forRoot(),
     TabsModule,
-    LoaderModule
+    LoaderModule,
+    CardModule
   ]
 })
 export class PriceListsModule { }

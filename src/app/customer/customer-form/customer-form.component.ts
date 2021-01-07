@@ -217,6 +217,7 @@ export class CustomerFormComponent implements OnInit {
         country: get(data, 'country', ''),
         phoneNumber: get(data, 'phoneNumber', ''),
         companyEmail: get(data, 'companyEmail', ''),
+        // anniversaryDate: getUTCLongMonthDate(get(data, 'anniversaryDate', '')),
         anniversaryDate: getUTCLongMonthDate(get(data, 'anniversaryDate', '')),
         subscriptionFee: get(data, 'subscriptionFee', ''),
         supportHoursContract: get(data, 'supportHoursContract', ''),

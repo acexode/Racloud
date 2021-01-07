@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
+import { ProductServiceService } from 'src/app/products/product-service.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
@@ -59,6 +60,9 @@ export class CreatePriceListsComponent implements OnInit {
     loadingIndicator: true,
     action: true,
     noFiltering: true,
+    limit: 10,
+    removeExportBtn: true,
+    removePageCounter: true,
   };
 
   constructor(
@@ -67,7 +71,8 @@ export class CreatePriceListsComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private ref: ChangeDetectorRef,
-    private reqS: RequestService
+    private reqS: RequestService,
+    private productS: ProductServiceService,
   ) { }
 
   selectionConfig(label: string): SelectConfig {
@@ -95,6 +100,9 @@ export class CreatePriceListsComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.onInitTable();
+    this.productS.getProducts().subscribe(
+      d => console.log(d)
+    );
   }
 
   initForm() {
@@ -128,8 +136,8 @@ export class CreatePriceListsComponent implements OnInit {
         identifier: 'application',
         label: 'Application',
         sortable: true,
-        minWidth: 247,
-        width: 247,
+        minWidth: 200,
+        width: 200,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -144,7 +152,7 @@ export class CreatePriceListsComponent implements OnInit {
         label: 'Product',
         sortable: true,
         minWidth: 245,
-        width: 245,
+        width: 246,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -158,11 +166,11 @@ export class CreatePriceListsComponent implements OnInit {
         identifier: 'productType',
         label: 'Product Type',
         sortable: true,
-        minWidth: 163,
+        minWidth: 160,
         width: 160,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -188,9 +196,9 @@ export class CreatePriceListsComponent implements OnInit {
         identifier: 'subscriptionFee',
         label: 'Subscription Fee',
         sortable: true,
-        minWidth: 150,
-        width: 150,
-        sortIconPosition: 'left',
+        minWidth: 120,
+        width: 120,
+        sortIconPosition: 'right',
         labelPosition: 'right',
         cellContentPosition: 'right',
         filterConfig: {
@@ -203,9 +211,9 @@ export class CreatePriceListsComponent implements OnInit {
         identifier: 'supportHours',
         label: 'Support Hours',
         sortable: true,
-        minWidth: 120,
-        width: 120,
-        sortIconPosition: 'left',
+        minWidth: 100,
+        width: 100,
+        sortIconPosition: 'right',
         labelPosition: 'right',
         cellContentPosition: 'right',
         filterConfig: {
