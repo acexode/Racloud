@@ -31,13 +31,11 @@ export const optionEndpoints = {
 };
 export const userEndpoints = {
   getCreateUpdateUser: serverBaseUrl + '/users',
-  getUsers: serverBaseUrl + '/users/logged-in-company-users',
-  
+  getUsers: serverBaseUrl + '/users/logged-in-company-users'
 };
 export const roleEndpoints = {
   getRoles: serverBaseUrl + '/roles',
-  createRole: serverBaseUrl + '/admin/create-role',
-  
+  createRole: serverBaseUrl + '/admin/create-role'
 };
 
 export const shopEndpoints = {
