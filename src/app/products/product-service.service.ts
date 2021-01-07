@@ -7,22 +7,32 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductServiceService {
+  displayAddProductModal: BehaviorSubject<boolean> = new BehaviorSubject(false);
   modifiedOptionList = new BehaviorSubject<[]>([]);
   constructor(private reqS: RequestService) { }
 
-  getProducts(){
-    return this.reqS.get(productEndpoints.getProducts)
+  getProducts() {
+    return this.reqS.get(productEndpoints.getProducts);
   }
-  createProducts(product){
-    return this.reqS.post(productEndpoints.createProduct, product)
+  createProducts(product) {
+    return this.reqS.post(productEndpoints.createProduct, product);
   }
-  updateProducts(id, product){
-    return this.reqS.put(productEndpoints.updateProduct + id, product)
+  updateProducts(id, product) {
+    return this.reqS.put(productEndpoints.updateProduct + id, product);
   }
-  public get GetOptionList(): Observable<[]>{
+  public get GetOptionList(): Observable<[]> {
     return this.modifiedOptionList.asObservable();
   }
-  SetOptionList(data: []){
+  SetOptionList(data: []) {
     this.modifiedOptionList.next(data);
+  }
+  getAddProductModalDisplayStatus(): Observable<boolean> {
+    return this.displayAddProductModal.asObservable();
+  }
+  openAddProductModal(): void {
+    this.displayAddProductModal.next(true);
+  }
+  closeAddProductModal(): void {
+    this.displayAddProductModal.next(false);
   }
 }

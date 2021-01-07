@@ -37,10 +37,22 @@
     color: $dark-green;
   }
 }
+
 @media (min-width: 576px) {
     .modal-dialog {
         width: 85% !important;
-        max-width: 100% !important;
-        margin: 6.5rem auto;
+        max-width: 100% !important; /*  calc(100% - 13rem) */
+        /* margin: 0 !important; */
+        margin: 5rem auto !important; 
     }
+    .modal-dialog-scrollable {
+        max-height: 100% !important;
+    }
+}
+
+@media (min-width: 576px) {
+  .modal-dialog-scrollable .modal-content {
+    height: 80vh !important;
+    max-height: 100vh !important; /*  calc(100% - 13rem)  */
+  }
 }

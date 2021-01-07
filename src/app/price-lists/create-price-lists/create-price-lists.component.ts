@@ -300,5 +300,8 @@ export class CreatePriceListsComponent implements OnInit {
       console.log(res);
     });
   }
+  openAddProductModal(): void {
+    this.productS.openAddProductModal();
+  }
 
 }
