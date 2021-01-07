@@ -8,6 +8,7 @@ import { CardItem } from 'src/app/shared/rc-forms/models/card-item-model';
 })
 export class ShopCardComponent implements OnInit {
   @Input() item!: CardItem;
+  acronym
   cardTypes = {
     wl: {
       initTitle: 'WL',
@@ -61,9 +62,14 @@ export class ShopCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    const str = this.item?.Product?.Name;
+    if(str){
+      this.acronym = str.split(/\s/).reduce((response,word)=> response+=word.slice(0,1),'')
+    }
+    console.log(this.item)
   }
   get itemStatus() {
-    return (this.item?.firstFee || this.item?.subscriptionFee) ? true : false;
+    return (this.item?.Value || this.item?.RenewalValue) ? true : false;
   }
   get theCardType(): any {
     if (typeof this.item?.type === 'undefined' || typeof this.item?.type === null) {
@@ -76,7 +82,7 @@ export class ShopCardComponent implements OnInit {
     }
   }
   setCardTypeProduct(type: any) {
-    this.cardTypes[type].productName = this.item?.productName || 'Product name';
+    this.cardTypes[type].productName = this.item?.Product.Name || 'Product name';
     this.cardTypes[type].productVersion = this.item?.productVersion || '& version';
   }
 }

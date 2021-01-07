@@ -40,3 +40,7 @@ export const roleEndpoints = {
   
 };
 
+export const shopEndpoints = {
+  getShops: serverBaseUrl + '/shop',
+  getSingleShop: serverBaseUrl + '/shop'
+};
