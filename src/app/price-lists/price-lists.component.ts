@@ -159,6 +159,7 @@ export class PriceListsComponent implements OnInit {
     this.tableConfig.loadingIndicator = true;
     this.reqS.get<any>(baseEndpoints.priceLists).subscribe(
       (res: any) => {
+        console.log(res);
         if (res) {
           console.log(res);
           const data = res.map(

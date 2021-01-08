@@ -297,7 +297,7 @@ export class CreatePriceListsComponent implements OnInit {
       currency: 'FRA'
     };
     this.reqS.get<any>(baseEndpoints.priceLists).subscribe(res => {
-      console.log(res);
+      console.log('adad', res);
     });
   }
   openAddProductModal(): void {
