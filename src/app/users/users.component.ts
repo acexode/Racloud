@@ -1,3 +1,4 @@
+import { UsersService } from './users.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
@@ -38,28 +39,6 @@ export class UsersComponent implements OnInit {
     '../../assets/images/Edit.svg',
     '../../assets/images/Log.svg',
   ];
-  bsConfig = omnBsConfig({
-    ranges: [
-      {
-        value: [new Date(), new Date()],
-        label: 'Azi',
-      },
-      {
-        value: [
-          new Date(new Date().setDate(new Date().getDate() - 7)),
-          new Date(),
-        ],
-        label: 'Ultima săptămână',
-      },
-      {
-        value: [
-          new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
-          new Date(new Date().getFullYear(), new Date().getMonth(), 0),
-        ],
-        label: 'Ultima lună',
-      },
-    ],
-  });
   tableConfig: TableI = {
     selectable: true,
     selectDetail: false,
@@ -74,13 +53,15 @@ export class UsersComponent implements OnInit {
     private footerS: FooterService,
     private http: HttpClient,
     private ref: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private userService: UsersService,
+
   ) {}
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'first_name',
+        identifier: 'user.firstname',
         label: 'First Name',
         sortable: true,
         minWidth: 200,
@@ -88,7 +69,7 @@ export class UsersComponent implements OnInit {
         noGrow: true
       },
       {
-        identifier: 'last_name',
+        identifier: 'user.lastname',
         label: 'Last Name',
         sortable: true,
         minWidth: 150,
@@ -98,7 +79,7 @@ export class UsersComponent implements OnInit {
         cellContentPosition: 'right'
       },
       {
-        identifier: 'email',
+        identifier: 'user.email',
         label: 'Email',
         sortable: true,
         minWidth: 150,
@@ -108,7 +89,7 @@ export class UsersComponent implements OnInit {
         cellContentPosition: 'right'
       },
       {
-        identifier: 'role',
+        identifier: 'role.name',
         label: 'Role',
         sortable: true,
         minWidth: 250,
@@ -132,7 +113,10 @@ export class UsersComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data) => {
+    this.getUsers()
+  }
+  public getUsers() {
+    this.userService.getUsers().subscribe((data:any) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
@@ -143,9 +127,6 @@ export class UsersComponent implements OnInit {
         this.tableConfig.loadingIndicator = false;
       }
     });
-  }
-  public getJSON(): Observable<any> {
-    return this.http.get('./assets/role.json');
 }
 filterTable(filterObj: TableFilterConfig) {
   const newRows = this.tS.filterRowInputs(
@@ -165,11 +146,14 @@ setDropUp(row) {
   }
   this.ref.detectChanges();
 }
-removeRow(id){
-  console.log(id);
+removeRow(row){
+  console.log(row.id);
+  this.userService.deleteUser(row.user.id).subscribe(e =>{
+    this.getUsers()
+  })
 }
 manageSub(data){
-  this.router.navigate(['users/edit-user', { id: data.id }]);
+  this.router.navigate(['users/edit-user', { id: data.user.id }]);
 }
 
 

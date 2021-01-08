@@ -18,7 +18,7 @@
                   <a [routerLink]="[backUrl]" class="pyramid-title">
                    <span class="pyramid">PYRAMID</span></a>
                 <h3 *ngIf="!isEdit" class="new-user">New User</h3>            
-                <h3 *ngIf="isEdit" class="new-user">{{ user.first_name | titlecase }} {{ user.last_name | titlecase }}</h3>            
+                <h3 *ngIf="isEdit" class="new-user">{{ user?.firstname | titlecase }} {{ user?.lastname | titlecase }}</h3>            
               </div>       
             </div>
       </div>
@@ -37,10 +37,10 @@
                                 <span class="personal-details">Personal Details</span>
                             </div>
                             <div class="col-4">
-                                <app-input [config]="firstnameConfig" formControlName="firstname"></app-input>
+                                <app-input [config]="firstnameConfig" formControlName="firstName"></app-input>
                             </div>
                             <div class="col-4">
-                                <app-input [config]="lastnameConfig" formControlName="lastname"></app-input>
+                                <app-input [config]="lastnameConfig" formControlName="lastName"></app-input>
                             </div>
                             <div class="col-4">
                                 <app-input [config]="emailConfig" formControlName="email"></app-input>
@@ -51,14 +51,14 @@
                             <div class="col-4">                                
                                 <div class="btn-group w-100 d-flex flex-column" dropdown>
                                     <label class="rc-grey-color companyLabel montserrat-regular-font text-weight-normal m-0">Company </label>
-                                    <input type="text" formControlName="company" hidden >
+                                    <input type="text" formControlName="companyId" hidden >
                                     <a id="button-basic" dropdownToggle type="button" class="select-dropdown dropdown-toggle" aria-controls="dropdown-basic">
                                         {{companyLabel}}
                                     </a>
                                     <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu w-100"  role="menu" aria-labelledby="button-basic">
                                         <li (click)="addCompany()" role="menuitem"><a class="dropdown-item">Add new company   <i class="pl-1 pt-2 fa fa-plus plus" aria-hidden="true"></i></a></li>
                                         <li class="divider dropdown-divider"></li>
-                                        <li *ngFor="let company of companyOptions" (click)="setCompany(company.id)" role="menuitem"><a class="dropdown-item">{{company.option}}</a></li>
+                                        <li *ngFor="let company of companyOptions" (click)="setCompany(company.companyName,company.id)" role="menuitem"><a class="dropdown-item">{{company.companyName}}</a></li>
                                         
                                     </ul>
                                 </div>
@@ -66,12 +66,12 @@
                             <div class="col-4">                                
                                 <div class="btn-group w-100 d-flex flex-column" dropdown>
                                     <label class="rc-grey-color companyLabel montserrat-regular-font text-weight-normal m-0">Role </label>
-                                    <input type="text" formControlName="company" hidden >
+                                    <input type="text" formControlName="roleId" hidden >
                                     <a id="button-basic" dropdownToggle type="button" class="select-dropdown dropdown-toggle" aria-controls="dropdown-basic">
                                         {{roleLabel}}
                                     </a>
                                     <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu w-100"  role="menu" aria-labelledby="button-basic">
-                                        <li *ngFor="let role of roleOptions" (click)="setCompany(role.id)" role="menuitem"><a class="dropdown-item">{{role.option}}</a></li>
+                                        <li *ngFor="let role of roleOptions" (click)="setRole(role.name, role.id)" role="menuitem"><a class="dropdown-item">{{role.name}}</a></li>
                                         
                                     </ul>
                                 </div>
