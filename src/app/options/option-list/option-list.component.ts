@@ -154,9 +154,11 @@ export class OptionListComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
+    this.getJSON()
+  }
+  public getJSON() {
     this.service.getOption().subscribe((data:any) => {
       if (data) {
-        console.log(data)
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
         const cloneData = data.map((v: any) => {
@@ -166,9 +168,6 @@ export class OptionListComponent implements OnInit {
         this.tableConfig.loadingIndicator = false;
       }
     });
-  }
-  public getJSON(): Observable<any> {
-    return this.http.get('./assets/option-list.json');
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
@@ -180,18 +179,17 @@ export class OptionListComponent implements OnInit {
   }
 
   removeRow(row) {
-    console.log(row);
+    this.service.deleteOption(row.Id).subscribe(e =>{
+      this.getJSON()
+    })
   }
   manageSub(data: any) {
-    // option-edit
     this.router.navigate(['options/option-edit', { id: data.Id }]);
   }
-  renewSub(id: any) {
-    console.log(id);
-  }
+  renewSub(row: any) {}
 
   setDropUp(row) {
-    const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
+    const idx = this.rowData.findIndex(e => e.Id === row.Id) + 1;
     const mod = idx % 10 === 0 ? 10 : idx % 10;
     if (mod < 6) {
       this.isDropup = false;

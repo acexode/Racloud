@@ -69,7 +69,7 @@ export class TableComponent implements OnInit {
     return {
       'position-relative': true,
     };
-  }
+  };
 
   constructor(private cdRef: ChangeDetectorRef) {
     const rsS = this.resizeListener
@@ -92,8 +92,8 @@ export class TableComponent implements OnInit {
   onResize(event) {
     const width =
       event &&
-      event.hasOwnProperty('target') &&
-      event.target.hasOwnProperty('innerWidth')
+        event.hasOwnProperty('target') &&
+        event.target.hasOwnProperty('innerWidth')
         ? event.target.innerWidth
         : 0;
     this.resizeListener.next(width);
@@ -109,7 +109,7 @@ export class TableComponent implements OnInit {
     this.selectedRows.emit(selected);
   }
 
-  onActivate(event) {}
+  onActivate(event) { }
 
   toggleExpandRow(row) {
     this.table.rowDetail.toggleExpandRow(row);
@@ -163,6 +163,6 @@ export class TableComponent implements OnInit {
     this.sortingData.emit(column);
   }
   isArray(row) {
-    return row.ValueList.length
+    return row.ValueList.length;
   }
 }

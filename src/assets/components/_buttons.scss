@@ -19,7 +19,8 @@ $btn-padding-x-zero: 0;
   $hover-shadow,
   $disabled-bg,
   $disabled-border,
-  $disabled-color
+  $disabled-color,
+  $underline: none
 ) {
   color: $color;
   background: $background;
@@ -39,9 +40,7 @@ $btn-padding-x-zero: 0;
     border: $hover-border !important;
     color: $hover-color;
     box-shadow: 0 rem(2) rem(8) 0 $hover-shadow;
-    @if $background == 'none' and $border == 'none' {
-      text-decoration: underline;
-    }
+    text-decoration: $underline;
   }
   &:disabled,
   &.disabled {
@@ -137,7 +136,7 @@ $btn-padding-x-zero: 0;
     $def-shadow,
     $white,
     $rc-disabled-ouline,
-    $rc-disable-bg
+    $rc-disable-bg,
   );
   background-image: none;
 }
@@ -177,7 +176,29 @@ $btn-padding-x-zero: 0;
     $def-shadow,
     $rc-none,
     $rc-none,
-    $rc-primary-30
+    $rc-primary-30,
+    underline
+  );
+  font-weight: 500;
+  background-image: none;
+}
+
+.btn-tertiary-nounderlied {
+  $def-shadow: transparent;
+  @include button-style(
+    $rc-bg-none,
+    $rc-none,
+    $rc-primary,
+    $rc-none,
+    $rc-none,
+    $rc-primary,
+    $rc-none,
+    $rc-none,
+    $rc-primary,
+    $def-shadow,
+    $rc-none,
+    $rc-none,
+    $rc-primary-30,
   );
   font-weight: 500;
   background-image: none;

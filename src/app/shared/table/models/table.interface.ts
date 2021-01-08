@@ -42,4 +42,6 @@ export interface TableI {
   action?: boolean;
   noFiltering?: boolean;
   scrollH?: boolean
+  removeExportBtn?: boolean;
+  removePageCounter?: boolean;
 }
