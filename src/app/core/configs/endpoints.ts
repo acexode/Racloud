@@ -17,7 +17,8 @@ export const authEndpoints = {
 };
 
 export const customersEndpoints = {
-  addCustomer: baseEndpoints.customers + '/add-customer'
+  addCustomer: baseEndpoints.customers + '/add-customer',
+  getCustomers: serverBaseUrl + '/customers'
 }
 export const productEndpoints = {
   getProducts: serverBaseUrl + '/products',
@@ -28,13 +29,21 @@ export const optionEndpoints = {
   createOption: serverBaseUrl + '/options/create',
   getOptions: serverBaseUrl + '/options'
 };
-export const shopEndpoints = {
-  getShops: serverBaseUrl + '/shop',
-  getSingleShop: serverBaseUrl + '/shop'
-};
 export const orderEndpoints = {
   generateOrder: serverBaseUrl + '/orders/generate-order',
   getOrders: serverBaseUrl + '/orders',
   getSingleOrder: serverBaseUrl + '/orders'
+}
+export const userEndpoints = {
+  getCreateUpdateUser: serverBaseUrl + '/users',
+  getUsers: serverBaseUrl + '/users/logged-in-company-users'
+};
+export const roleEndpoints = {
+  getRoles: serverBaseUrl + '/roles',
+  createRole: serverBaseUrl + '/admin/create-role'
 };
 
+export const shopEndpoints = {
+  getShops: serverBaseUrl + '/shop',
+  getSingleShop: serverBaseUrl + '/shop'
+};

@@ -10,6 +10,7 @@ import { CardItem } from 'src/app/shared/rc-forms/models/card-item-model';
 export class ShopCardComponent implements OnInit {
   @Input() item!: CardItem;
   itemType
+  acronym: string
   cardTypes = {
     wl: {
       initTitle: 'WL',
@@ -60,11 +61,9 @@ export class ShopCardComponent implements OnInit {
       bgColor: 'rc-black-bg',
     },
   };
-  acronym: string;
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.item)
     const str = this.item?.Product?.Name;
     if(str){
       this.acronym = str.split(/\s/).reduce((response,word)=> response+=word.slice(0,1),'')
