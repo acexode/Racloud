@@ -1,7 +1,10 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 import { CardItem } from 'src/app/shared/rc-forms/models/card-item-model';
 import { BehaviorSubject } from 'rxjs';
+import { ShopService } from 'src/app/shop/shop.service';
+import { OrderService } from 'src/app/orders/service.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-shop-card',
@@ -63,14 +66,14 @@ export class ShopCardComponent implements OnInit {
       bgColor: 'rc-black-bg',
     },
   };
-  constructor() { }
+  constructor(private orderS: OrderService, private route: ActivatedRoute,
+    private router: Router,private service: ShopService, private modalService: BsModalService) { }
 
   ngOnInit(): void {
     const str = this.item?.product?.name;
     if(str){
       this.acronym = str.split(/\s/).reduce((response,word)=> response+=word.slice(0,1),'')
     }
-    console.log(this.item)
   }
   get itemStatus() {
     return (this.item?.value || this.item?.renewalValue) ? true : false;
@@ -89,7 +92,17 @@ export class ShopCardComponent implements OnInit {
     this.cardTypes[type].productName = this.item?.product.name || 'product name';
     this.cardTypes[type].productVersion = this.item?.product.version || '& version';
   }
-  buy(){
-    this
+  buy(item){
+    console.log(item)
+    this.service.buyStore.next(item)
+    if(this.router.url.includes('shop')){
+      this.orderS.generateOrder().subscribe((e:any) =>{
+        this.router.navigateByUrl('orders/orders-details/'+ e.id);
+        console.log(e)
+      })
+    }else{
+      this.modalService.hide(1)
+    }
+    console.log(this.router.url)
   }
 }

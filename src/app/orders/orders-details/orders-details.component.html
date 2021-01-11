@@ -202,8 +202,8 @@
            {{ value }}
         </div>
         <div class="d-flex flex-column align-items-center justify-content-center">
-          <img src="./../../../assets/images/Caret-up.svg" alt="Caret-up" class="icon-w20-h10" />
-          <img src="./../../../assets/images/Caret-down.svg" alt="Caret-down" class="icon-w20-h10" />
+          <img (click)="changeQuantity('inc', row)" src="./../../../assets/images/Caret-up.svg" alt="Caret-up" class="icon-w20-h10" />
+          <img (click)="changeQuantity('dec', row)" src="./../../../assets/images/Caret-down.svg" alt="Caret-down" class="icon-w20-h10" />
         </div>
    </div>
 </ng-template>

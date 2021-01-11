@@ -1,3 +1,4 @@
+import { ShopService } from './../../shop/shop.service';
 import { Order } from './../../core/models/order.interface';
 import { OrderService } from './../service.service';
 import { HttpClient } from '@angular/common/http';
@@ -72,6 +73,7 @@ export class OrdersDetailsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private service: OrderService,
+    private shopS: ShopService,
     private modalService: BsModalService
   ) { }
 
@@ -107,6 +109,16 @@ export class OrdersDetailsComponent implements OnInit {
     return this.componentForm.get('type');
   }
   ngOnInit(): void {
+    this.shopS.buyStore.subscribe((e:any) =>{
+      console.log(e.hasOwnProperty('id'))
+      if(e.hasOwnProperty('id')){
+        e.quantity = 1
+        e.totalValue = e.quantity * e.value
+        this.addedProducts.push(e)
+        this.onInitTable()
+
+      }
+    })
     this.initForm();
     this.service.getShops().subscribe((e:Order[]) =>{
       console.log(e)
@@ -185,7 +197,7 @@ export class OrdersDetailsComponent implements OnInit {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'application',
+        identifier: 'product.productType',
         label: 'Application',
         sortable: true,
         minWidth: 226,
@@ -201,7 +213,7 @@ export class OrdersDetailsComponent implements OnInit {
         },
       },
       {
-        identifier: 'product',
+        identifier: 'product.name',
         label: 'Product',
         sortable: true,
         minWidth: 226,
@@ -312,17 +324,17 @@ export class OrdersDetailsComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data) => {
-      if (data) {
+    
+      if (this.addedProducts.length) {
         this.tableConfig.loadingIndicator = true;
-        this.rowData = data;
-        const cloneData = data.map((v) => {
+        this.rowData = this.addedProducts;
+        const cloneData = this.addedProducts.map((v) => {
           return { ...v };
         });
         this.tableData.next(cloneData);
         this.tableConfig.loadingIndicator = false;
       }
-    });
+    
   }
   public getJSON(): Observable<any> {
     return this.http.get('./assets/order-details.json');
@@ -350,5 +362,28 @@ export class OrdersDetailsComponent implements OnInit {
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray modal-lg' }));
+  }
+  changeQuantity(type,row){
+    console.log(row)
+    
+      this.addedProducts = this.addedProducts.map(e =>{
+        if(e.id == row.id && type == 'inc'){
+          e.quantity = e.quantity + 1
+          e.totalValue = e.quantity * e.value
+          return e
+        }
+        else if(e.id == row.id && type == 'dec'){
+          if(e.quantity > 1){
+            e.quantity = e.quantity - 1
+            e.totalValue = e.quantity * e.value
+          }
+          return e
+        }
+        return e
+      })
+      console.log(this.addedProducts)
+      this.tableData.next(this.addedProducts)
+    
+
   }
 }
