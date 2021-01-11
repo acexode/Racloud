@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { baseEndpoints } from '../core/configs/endpoints';
 import { getUTCdate } from '../core/helpers/dateHelpers';
+import { CountriesModel } from '../core/models/countries-model';
 import { CountriesService } from '../core/services/countries/countries.service';
 import { CustomerService } from '../core/services/customer/customer.service';
 import { RequestService } from '../core/services/request/request.service';
@@ -20,16 +21,14 @@ import { TableService } from '../shared/table/services/table.service';
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.scss']
 })
-export class CustomerComponent implements OnInit {
+export class CustomerComponent implements OnInit, OnDestroy {
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('subFeeTemplate', { static: true }) subFeeTemplate: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
   @ViewChild('selectT', { static: true }) selectT: any;
-  countriesData: Array<{
-    code: string;
-    name: string;
-  }>;
+  countriesData: CountriesModel;
   loadCountries$: Subscription;
+  loadCustomers$: Subscription;
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   containerConfig: PageContainerConfig = {
@@ -80,13 +79,13 @@ export class CustomerComponent implements OnInit {
   };
   isDropup: boolean;
   customErrorMsg = 'There is an issue with your network. Please Refresh your network';
+  disableCustomer$: Subscription;
   constructor(
     private tS: TableService,
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
     private ref: ChangeDetectorRef,
-    private reqS: RequestService,
     private customerS: CustomerService,
     private countriesS: CountriesService,
     private msgS: MessagesService,
@@ -232,11 +231,11 @@ export class CustomerComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.loadCountries$ = this.countriesS.getCountries().subscribe(
+    this.loadCountries$ = this.countriesS.getCountriesState().subscribe(
       (countries) => {
         this.countriesData = countries;
         // get data for table
-        this.getJSON();
+        this.loadCustomers();
       },
       err => {
         this.msgS.addMessage({
@@ -250,11 +249,10 @@ export class CustomerComponent implements OnInit {
     );
 
   }
-  getJSON(): void {
-    this.customerS.getCustomers().subscribe(
+  loadCustomers(): void {
+    this.loadCustomers$ = this.customerS.getCustomers().subscribe(
       res => {
         if (res) {
-          console.log(res);
           const data = res.map((v: any) => {
             return {
               ...v,
@@ -281,7 +279,7 @@ export class CustomerComponent implements OnInit {
     );
   }
   getCountryForCutomer(code: string) {
-    const getCountry = this.countriesData.find(country => country.code === code);
+    const getCountry = this.countriesData.data.find(country => country.code === code);
     if (typeof getCountry !== 'undefined') {
       return getCountry.name;
     } else {
@@ -306,10 +304,38 @@ export class CustomerComponent implements OnInit {
     }
     this.ref.detectChanges();
   }
-  removeRow(id: any) { }
+  removeRow(rData: any) {
+    this.disableCustomer$ = this.customerS.disableCustomers(rData.id).subscribe(
+      res => {
+        this.msgS.addMessage({
+          text: 'Successfully disabled customer',
+          type: 'danger',
+          dismissible: true,
+          customClass: 'mt-32',
+          hasIcon: true
+        });
+      },
+      err => {
+        this.msgS.addMessage({
+          text: err.error || this.customErrorMsg,
+          type: 'danger',
+          dismissible: true,
+          customClass: 'mt-32',
+          hasIcon: true
+        });
+      }
+    );
+  }
   manageSub(data: any) {
     this.router.navigate(['manage', data.id], { relativeTo: this.route });
   }
   renewSub(id: any) { }
+  ngOnDestroy(): void {
+    this.loadCountries$.unsubscribe();
+    this.loadCustomers$.unsubscribe();
+    if (this.disableCustomer$) {
+      this.disableCustomer$.unsubscribe();
+    }
+  }
 
 }
