@@ -320,7 +320,7 @@ export class OptionTabComponent implements OnInit {
     console.log(this.optionList)
     
     console.log(this.optionList[rowIndex])
-    const idx = this.optionList.findIndex(e => e.Id == rowIndex);
+    const idx = this.optionList.findIndex(e => e.Id === rowIndex);
     this.editing[rowIndex + '-' + cell] = false;
     this.optionList[idx][cell] = event.target.value;
     this.optionList = [...this.optionList];
