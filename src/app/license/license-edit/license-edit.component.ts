@@ -101,22 +101,22 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
       this.service.getOneLicense(id).subscribe((data:any) =>{
         console.log(data)
         // const data = obj.filter(e => e.id === id)[0];
-        const selectedP = data.IsPartnerLicense ? 'Yes' : 'No'
-        const selectedR = data.IsPartnerLicense ? 'Yes' : 'No'
-        const isAssigned = data.IsAssigned ? 'Yes' : 'No'
+        const selectedP = data.isPartnerLicense ? 'Yes' : 'No'
+        const selectedR = data.isPartnerLicense ? 'Yes' : 'No'
+        const isAssigned = data.iAssigned ? 'Yes' : 'No'
         this.selectedPartnerLicenseBtn = this.setBoolean( selectedP );
         this.selectedRenewBtn = this.setBoolean( selectedR );
-        const exp = new Date(data.ExpirationDate).toLocaleDateString()
-        const purchase = new Date(data.PurchaseDate).toLocaleDateString()
+        const exp = new Date(data.expirationDate).toLocaleDateString()
+        const purchase = new Date(data.purchaseDate).toLocaleDateString()
         this.infoForm.patchValue({
-          productName: data.Product.Name,
-          partner: data.IspartnerLicense,
+          productName: data.product.name,
+          partner: data.ispartnerLicense,
           purchased: purchase,
-          userCompany: data.CompanyUser,
-          renew: data.RenewByUserCompany,
+          userCompany: data.companyUser,
+          renew: data.renewByUserCompany,
           expires: exp,
           isAssigned,
-          customer: data.Company.CompanyName
+          customer: data.company.name
         });
         this.onChange(data.LicenseStatus)
       });
