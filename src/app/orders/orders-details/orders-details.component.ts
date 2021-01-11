@@ -377,27 +377,22 @@ export class OrdersDetailsComponent implements OnInit {
     this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray modal-lg' }));
   }
   changeQuantity(type,row){
-    console.log(row)
-    
-      this.addedProducts = this.addedProducts.map(e =>{
-        if(e.id == row.id && type == 'inc'){
-          e.quantity = e.quantity + 1
+    this.addedProducts = this.addedProducts.map(e =>{
+      if(e.id === row.id && type === 'inc'){
+        e.quantity = e.quantity + 1
+        e.totalValue = e.quantity * e.value
+        return e
+      }
+      else if(e.id === row.id && type === 'dec'){
+        if(e.quantity > 1){
+          e.quantity = e.quantity - 1
           e.totalValue = e.quantity * e.value
-          return e
-        }
-        else if(e.id == row.id && type == 'dec'){
-          if(e.quantity > 1){
-            e.quantity = e.quantity - 1
-            e.totalValue = e.quantity * e.value
-          }
-          return e
         }
         return e
-      })
-      console.log(this.addedProducts)
-      this.tableData.next(this.addedProducts)
-    
-
+      }
+      return e
+    })
+    this.tableData.next(this.addedProducts)
   }
   cancelOrder(){
     const id = this.route.snapshot.paramMap.get('id');
