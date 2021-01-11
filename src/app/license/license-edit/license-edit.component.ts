@@ -116,7 +116,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
           renew: data.renewByUserCompany,
           expires: exp,
           isAssigned,
-          customer: data.company.name
+          customer: data.company.companyName
         });
         this.onChange(data.LicenseStatus)
       });
