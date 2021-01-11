@@ -9,6 +9,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { authEndpoints } from '../core/configs/endpoints';
 import { LoginResponse } from '../core/models/login-response.interface';
 import { CountriesService } from '../core/services/countries/countries.service';
@@ -88,7 +89,9 @@ export class SignupComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.countryOptions$ = this.cS.getCountries();
+    this.countryOptions$ = this.cS.getCountriesState().pipe(
+      map(d => d.data),
+    );
 
     this.languageOptions$ = this.lgS.getLanguages();
   }
