@@ -2,11 +2,13 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 import { FormBuilder, Validators } from '@angular/forms';
 import { get } from 'lodash';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { getUTCLongMonthDate, convertDateBackToUTCDate } from 'src/app/core/helpers/dateHelpers';
 import { CompanyTypes } from 'src/app/core/models/companyTypes';
 import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
 import { CountriesService } from 'src/app/core/services/countries/countries.service';
 import { LanguagesService } from 'src/app/core/services/languages/languages.service';
+import { PriceListService } from 'src/app/core/services/price-list/price-list.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea-config';
@@ -137,6 +139,12 @@ export class CustomerFormComponent implements OnInit {
         Validators.required,
       ],
     ],
+    priceListId: [
+      null,
+      [
+        Validators.required,
+      ],
+    ],
   });
   textAreaConfig: TextAreaConfig = {
     textAreaLabel: {
@@ -147,19 +155,25 @@ export class CustomerFormComponent implements OnInit {
   countryOptions$: Observable<any>;
   customerParentOptions$: Observable<any>;
   languageOptions$: Observable<any>;
+  priceListOptions$: Observable<any>;
   constructor(
     private fb: FormBuilder,
     private cS: CountriesService,
     private parentS: CompanyParentsService,
     private lgS: LanguagesService,
+    private priceService: PriceListService
   ) { }
   ngOnInit(): void {
     // get country option
-    this.countryOptions$ = this.cS.getCountries();
+    this.countryOptions$ = this.cS.getCountriesState().pipe(
+      map(d => d.data),
+    );
     // get customer parent options
     this.customerParentOptions$ = this.parentS.getParents();
     // languages options
     this.languageOptions$ = this.lgS.getLanguages();
+    // price listing options
+    this.priceListOptions$ = this.priceService.getPriceLists();
     // update form Data
     this.updateValueForForm();
   }
@@ -222,6 +236,7 @@ export class CustomerFormComponent implements OnInit {
         supportHoursContract: get(data, 'supportHoursContract', ''),
         supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
         language: get(data, 'language', ''),
+        priceListId: Number(get(get(data, 'priceList', {}), 'id', 0)),
       };
       this.componentForm.setValue({ ...d });
     }
@@ -230,6 +245,7 @@ export class CustomerFormComponent implements OnInit {
     const d = this.componentForm.value;
     const newData: CustomerModel = {
       ...d,
+      parentId: Number(get(d, 'parentId', 0)),
       anniversaryDate: convertDateBackToUTCDate(get(d, 'anniversaryDate', '')),
       subscriptionFee: Number(get(d, 'subscriptionFee', 0)),
       supportHoursContract: Number(get(d, 'supportHoursContract', 0)),
