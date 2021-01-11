@@ -159,7 +159,6 @@ export class OptionListComponent implements OnInit {
   public getJSON() {
     this.service.getOption().subscribe((data:any) => {
       if (data) {
-        console.log(data)
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
         const cloneData = data.map((v: any) => {
@@ -180,18 +179,14 @@ export class OptionListComponent implements OnInit {
   }
 
   removeRow(row) {
-    console.log(row);
     this.service.deleteOption(row.Id).subscribe(e =>{
       this.getJSON()
     })
   }
   manageSub(data: any) {
-    // option-edit
     this.router.navigate(['options/option-edit', { id: data.Id }]);
   }
-  renewSub(row: any) {
-    console.log(row);
-  }
+  renewSub(row: any) {}
 
   setDropUp(row) {
     const idx = this.rowData.findIndex(e => e.Id === row.Id) + 1;
