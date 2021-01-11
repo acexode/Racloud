@@ -37,7 +37,6 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // get details ID
     this.detailsId = get(this.detailsData, 'id', null);
-    console.log(this.detailsData);
     this.isLoading = false;
     this.cdref.detectChanges();
 

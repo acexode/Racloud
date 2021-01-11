@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { baseEndpoints } from '../core/configs/endpoints';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { getUTCdate } from '../core/helpers/dateHelpers';
 import { CountriesModel } from '../core/models/countries-model';
 import { CountriesService } from '../core/services/countries/countries.service';
 import { CustomerService } from '../core/services/customer/customer.service';
-import { RequestService } from '../core/services/request/request.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
 import { MessagesService } from '../shared/messages/services/messages.service';
@@ -82,7 +80,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
   disableCustomer$: Subscription;
   constructor(
     private tS: TableService,
-    private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
     private ref: ChangeDetectorRef,

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 import { FormBuilder, Validators } from '@angular/forms';
 import { get } from 'lodash';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { getUTCLongMonthDate, convertDateBackToUTCDate } from 'src/app/core/helpers/dateHelpers';
 import { CompanyTypes } from 'src/app/core/models/companyTypes';
 import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
@@ -164,7 +165,9 @@ export class CustomerFormComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     // get country option
-    this.countryOptions$ = this.cS.getCountries();
+    this.countryOptions$ = this.cS.getCountriesState().pipe(
+      map(d => d.data),
+    );
     // get customer parent options
     this.customerParentOptions$ = this.parentS.getParents();
     // languages options
