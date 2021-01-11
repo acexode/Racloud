@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 import { CardItem } from 'src/app/shared/rc-forms/models/card-item-model';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-shop-card',
@@ -9,6 +10,7 @@ import { CardItem } from 'src/app/shared/rc-forms/models/card-item-model';
 })
 export class ShopCardComponent implements OnInit {
   @Input() item!: CardItem;
+  buyStore: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   itemType
   acronym: string
   cardTypes = {
@@ -64,27 +66,30 @@ export class ShopCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    const str = this.item?.Product?.Name;
+    const str = this.item?.product?.name;
     if(str){
       this.acronym = str.split(/\s/).reduce((response,word)=> response+=word.slice(0,1),'')
     }
     console.log(this.item)
   }
   get itemStatus() {
-    return (this.item?.Value || this.item?.RenewalValue) ? true : false;
+    return (this.item?.value || this.item?.renewalValue) ? true : false;
   }
   get theCardType(): any {
-    if (typeof this.item?.Product.ProductType === 'undefined' || typeof this.item?.Product.ProductType === null) {
+    if (typeof this.item?.product.productType === 'undefined' || typeof this.item?.product.productType === null) {
       return this.cardTypes.wl;
     } else {
-      if (this.item?.Product.ProductType === 'pn') {
-        this.setCardTypeProduct(this.item?.type);
+      if (this.item?.product.productType === 'pn') {
+        this.setCardTypeproduct(this.item?.product.productType);
       }
-      return this.cardTypes[this.item?.type];
+      return this.cardTypes[this.item?.product.productType];
     }
   }
-  setCardTypeProduct(type: any) {
-    this.cardTypes[type].productName = this.item?.Product.Name || 'Product name';
-    this.cardTypes[type].productVersion = this.item?.Product.Version || '& version';
+  setCardTypeproduct(type: any) {
+    this.cardTypes[type].productName = this.item?.product.name || 'product name';
+    this.cardTypes[type].productVersion = this.item?.product.version || '& version';
+  }
+  buy(){
+    this
   }
 }

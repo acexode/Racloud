@@ -6,7 +6,7 @@
                 <p class="s12-h16 montserrat-bold-font ls-0 m-0 rc-accent-blue-bg">{{acronym| uppercase}}</p>
             </div>
             <div class="rc-full-title">
-                <p class="montserrat-semibold-font s15-h24 text-weight-bold rc-accent-blue-160-color ls-0 m-0 p-0">{{item.Product.Name | titlecase}}</p>
+                <p class="montserrat-semibold-font s15-h24 text-weight-bold rc-accent-blue-160-color ls-0 m-0 p-0">{{item.product.name | titlecase}}</p>
                 <!-- <p class="montserrat-semibold-font s15-h24 text-weight-bold rc-accent-blue-160-color ls-0 m-0 p-0">{{theCardType.productVersion}}</p> -->
             </div>
         </div>
@@ -17,7 +17,7 @@
                     <p class="s12-h16 rc-grey-color montserrat-regular-font text-weight-normal ls-0 m-0">First fee</p>
                 </div>
                 <div class="rc-product-fees-price">
-                    <p class="s22-h32 rc-accent-blue-160-color montserrat-medium-font text-weight-500 ls-0 m-0">{{item?.Value}} $</p>
+                    <p class="s22-h32 rc-accent-blue-160-color montserrat-medium-font text-weight-500 ls-0 m-0">{{item?.value}} $</p>
                 </div>
             </div>
             <div class="rc-product-fees-group">
@@ -25,7 +25,7 @@
                     <p class="s12-h16 rc-grey-color montserrat-regular-font text-weight-normal ls-0 m-0">Subscription fee</p>
                 </div>
                 <div class="rc-product-fees-price">
-                    <p class="s22-h32 rc-accent-blue-160-color montserrat-medium-font text-weight-500 ls-0 m-0">{{item?.RenewalValue}} $</p>
+                    <p class="s22-h32 rc-accent-blue-160-color montserrat-medium-font text-weight-500 ls-0 m-0">{{item?.renewalValue}} $</p>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
 
         <div class="my-6">
             <span class="s14-h16 rc-grey-color helvetica-neue-regular p-0 m-0">Support hours:</span>
-            <span class="s14-h16 rc-black-color helvetica-neue-regular p-0 m-0 ml-4p">{{item.SupportHours}}</span>
+            <span class="s14-h16 rc-black-color helvetica-neue-regular p-0 m-0 ml-4p">{{item.supportHours}}</span>
         </div>
 
         <div class="line-h1 rc-secondary-bg mb-16"></div>
@@ -42,7 +42,7 @@
         <div class="rc-sh-card-body">
             <div class="rc-product-description">
                 <p class="rc-grey-color desc helvetica-neue-regular ls-0">
-                    {{item?.Product.Description}}
+                    {{item?.product.description}}
                 </p>
             </div>
             <div class="rc-sh-card-body-link">
@@ -59,7 +59,7 @@
 
         <div class="rc-sh-card-footer">
 
-            <app-button type="Submit" color="primary">
+            <app-button (click)="buy()" type="Submit" color="primary">
                 Buy
             </app-button>
 
