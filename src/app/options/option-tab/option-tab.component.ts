@@ -316,10 +316,6 @@ export class OptionTabComponent implements OnInit {
     this.modifiedTableData.next(this.checkedValueList)
   }
   updateValue(event, cell, rowIndex) {
-    console.log(event, cell, rowIndex)
-    console.log(this.optionList)
-    
-    console.log(this.optionList[rowIndex])
     const idx = this.optionList.findIndex(e => e.Id === rowIndex);
     this.editing[rowIndex + '-' + cell] = false;
     this.optionList[idx][cell] = event.target.value;
