@@ -1,0 +1,75 @@
+<ng-container>
+  <div class="app-overlay justify-content-center" [ngStyle]="{'display': displayFormModal ? 'flex': 'none'}" (click)="closeModal()">
+    <div role="document" class="modal-dialog w-376px"(click)="stopModalPropagation($event)">
+        <div class="modal-content">      
+
+            <div class="modal-header p-32">
+                <p class="m-0 s22-h32 montserrat-bold-font rc-accent-blue-160-color">
+                    Add product
+                </p>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body px-32 pb-32 pt-0">
+                <div class="pb-30">
+                    <app-button
+                        color="tertiary"
+                        [class]="
+                        'd-flex align-items-center rc-accent-blue-160-color montserrat-semibold-font'
+                        "
+                    >
+                        <svg-icon
+                        [class]="'icon-w16-h16 mr-1 mt-n4p'"
+                        [src]="caretLeftIcon"
+                        alt="Icon"
+                        applyClass="true"
+                        >
+                        </svg-icon>
+                        BACK TO SELECTION
+                    </app-button>
+                </div>
+
+                <form [formGroup]="componentForm">
+
+                    <div class="row no-gutters">
+                        <div class="col-12 mb-14 m-0 p-0">
+                            <app-input
+                                [config]="inputConfig('Initial fee', 'number', 'Type Here', true)"
+                                formControlName="initialFee"
+                            ></app-input>
+                        </div>
+
+                        <div class="col-12 mb-14 m-0 p-0">
+                            <app-input
+                                [config]="inputConfig('Subscription Fee', 'number', 'Type Here', true)"
+                                formControlName="subscriptionFee"
+                            ></app-input>
+                        </div>
+                        <div class="col-12 m-0 p-0">
+                            <app-input
+                                [config]="inputConfig('Support Hours', 'number', 'Number in Hours')"
+                                formControlName="supportHours"
+                            ></app-input>
+                        </div>
+                    </div>
+                    <div class="w-100">
+                        <div class="mt-16 d-flex justify-content-end">
+                            <app-button type="button" color="secondaryB" class="mr-8">
+                                Cancle
+                            </app-button>
+
+                            <app-button type="submit" color="primary" [disabled]="!componentForm.valid"> 
+                                <span>Save</span> 
+                            </app-button>
+
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+      
+          </div>
+      </div>
+  </div>
+</ng-container>

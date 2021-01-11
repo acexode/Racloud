@@ -1,10 +1,13 @@
 @import "../variables";
 @import "../mixins";
+
 .rc-card-grid,
 .rc-card-grid-b {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(rem(292), 1fr));
+  /* this set both align-items and justify-items to center (note: justify-content is different from justify-items) */
+  place-items: center !important; 
 }
 .rc-card-grid{
    gap: rem(2);
@@ -15,9 +18,11 @@
 }
 
 .rc-sh-card {
+  place-self: center !important;
   min-height: rem(376);
 }
 .rc-sh-card-b {
+  place-self: center !important;
   min-height: rem(311) !important;
 }
 .rc-sh-card,

@@ -64,7 +64,6 @@ export class CreatePriceListsComponent implements OnInit {
     removeExportBtn: true,
     removePageCounter: true,
   };
-
   constructor(
     private fb: FormBuilder,
     private tS: TableService,
@@ -303,5 +302,4 @@ export class CreatePriceListsComponent implements OnInit {
   openAddProductModal(): void {
     this.productS.openAddProductModal();
   }
-
 }

@@ -13,6 +13,7 @@ import { TabsModule } from '../shared/tabs/tabs.module';
 import { PriceListsComponent } from './price-lists.component';
 import { CreatePriceListsComponent } from './create-price-lists/create-price-lists.component';
 import { CardModule } from '../shared/card/card.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -29,7 +30,7 @@ import { CardModule } from '../shared/card/card.module';
     BsDropdownModule.forRoot(),
     TabsModule,
     LoaderModule,
-    CardModule
+    CardModule,
   ]
 })
 export class PriceListsModule { }
