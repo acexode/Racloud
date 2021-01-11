@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ShopsService } from '../core/services/shops/shops.service';
+import { ShopService } from './shop.service';
+
 
 @Component({
   selector: 'app-shop',
@@ -8,10 +9,10 @@ import { ShopsService } from '../core/services/shops/shops.service';
 })
 export class ShopComponent implements OnInit {
   shops = []
-  constructor(private shopService: ShopsService) { }
+  constructor(public shopService: ShopService) { }
 
   ngOnInit(): void {
-    this.shopService.getShops().subscribe((e:any) =>{
+    this.shopService.shopStore.pipe().subscribe((e:any) =>{
       this.shops = e
     })
   }

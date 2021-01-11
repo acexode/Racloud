@@ -41,4 +41,6 @@ export interface TableI {
   loadingIndicator?: boolean;
   action?: boolean;
   noFiltering?: boolean;
+  removeExportBtn?: boolean;
+  removePageCounter?: boolean;
 }

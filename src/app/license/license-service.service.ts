@@ -14,6 +14,9 @@ export class LicenseServiceService {
   createOption(obj){
     return this.reqS.post(optionEndpoints.createOption,obj)
   }
+  updateOption(id, obj){
+    return this.reqS.put(optionEndpoints.getOptions +'/'+id,obj)
+  }
   getOption(){
     return this.reqS.get(optionEndpoints.getOptions)
   }
@@ -28,5 +31,8 @@ export class LicenseServiceService {
   }
   updateLicense(id,obj){
     return this.reqS.put(licenseEndpoints.getOneLicense + id, obj)
+  }
+  deleteOption(id){
+    return this.reqS.delete(optionEndpoints.getOptions +'/'+id)
   }
 }

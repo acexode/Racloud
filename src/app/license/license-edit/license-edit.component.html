@@ -119,6 +119,14 @@
                     </ng-template>
                     <ng-template #secondTab> 
                         <app-option-tab (selectedRows)="getRow($event)" [optionList]="optionList"></app-option-tab>
+                        <div class="col-12 submit-row">
+                            <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
+                                Cancel
+                            </app-button>
+                            <app-button (click)="submitForm()" color="primary">
+                                Save
+                            </app-button>
+                        </div>
                     </ng-template>
                     
                 

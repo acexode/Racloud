@@ -8,15 +8,15 @@ import {
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { authEndpoints } from '../core/configs/endpoints';
 import { LoginResponse } from '../core/models/login-response.interface';
 import { CountriesService } from '../core/services/countries/countries.service';
+import { LanguagesService } from '../core/services/languages/languages.service';
 import { RequestService } from '../core/services/request/request.service';
 import { PasswordValidator } from '../core/validators/password-validator/password-validator';
 import { MessagesService } from '../shared/messages/services/messages.service';
-import { MustMatch } from '../shared/rc-forms/helpers/must-match-validator';
 import { InputConfig } from '../shared/rc-forms/models/input/input-config';
 import { SelectConfig } from '../shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from '../shared/rc-forms/models/textarea/textarea-config';
@@ -64,7 +64,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     country: [null, Validators.required],
     language: [null, Validators.required],
   }, {
-      validator: PasswordValidator.mismatchedPasswords('password', 'confirmPassword')
+    validator: PasswordValidator.mismatchedPasswords('password', 'confirmPassword')
   });
   classes = {
     body: 'p-0 d-flex justify-content-center flex-column no-gutters',
@@ -75,12 +75,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   signUpSubs: Subscription;
 
   loginUrl = '/login';
-  languageJsonDataUrl = './assets/languages.json';
   languageOptions$: Observable<any>;
-  countryJsonDataUrl = './assets/list-of-countries.json';
-  countryOptions$: Subscription;
-  // countryOptions$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
-  countryOptions: any;
+  countryOptions$: Observable<any>;
   constructor(
     private fb: FormBuilder,
     private reqS: RequestService,
@@ -89,20 +85,15 @@ export class SignupComponent implements OnInit, OnDestroy {
     private routerS: Router,
     private http: HttpClient,
     private cS: CountriesService,
+    private lgS: LanguagesService,
   ) { }
 
   ngOnInit(): void {
-    this.countryOptions$ = this.cS.getCountries().subscribe(
-      (res: { code: string, name: string; }) => {
-        this.countryOptions = res;
-      },
-      err => { }
+    this.countryOptions$ = this.cS.getCountriesState().pipe(
+      map(d => d.data),
     );
 
-    this.languageOptions$ = this.getJSON(this.languageJsonDataUrl)
-      .pipe(
-        map(lang => Object.keys(lang).map(langKey => lang[langKey])),
-      );
+    this.languageOptions$ = this.lgS.getLanguages();
   }
   selectConfig(
     label: string,
@@ -147,7 +138,9 @@ export class SignupComponent implements OnInit, OnDestroy {
     /* loading */
     this.isLoadingStatus();
     /*  */
-    const data = this.signUpForm.value;
+    const data = {
+      ...this.signUpForm.value,
+    };
     this.reqS.post<LoginResponse>(authEndpoints.customersSignUp, data)
       .subscribe(
         res => {
@@ -156,10 +149,14 @@ export class SignupComponent implements OnInit, OnDestroy {
             type: 'success',
             dismissible: true,
             timeout: 5000,
-            customClass: 'mt-32'
+            customClass: 'mt-32',
+            hasIcon: true
           });
           // reset form
           this.signUpForm.reset();
+          /* loading */
+          this.isLoadingStatus();
+          /*  */
           // redirect to login page
           this.routerS.navigateByUrl('/login');
         },
@@ -168,18 +165,19 @@ export class SignupComponent implements OnInit, OnDestroy {
             text: err.error,
             type: 'danger',
             dismissible: true,
-            timeout: 5000,
-            customClass: 'mt-32'
+            customClass: 'mt-32',
+            hasIcon: true,
           });
           this.signUpForm.markAllAsTouched();
           this.signUpForm.updateValueAndValidity();
           this.cdRef.markForCheck();
+          /* loading */
+          this.isLoadingStatus();
+          /*  */
         },
         () => console.log('HTTP request completed.')
       );
-    /* loading */
-    this.isLoadingStatus();
-    /*  */
+
   }
   resetSubs() {
     if (this.signUpSubs) {
@@ -188,7 +186,6 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.resetSubs();
-    this.countryOptions$.unsubscribe();
   }
 }
 

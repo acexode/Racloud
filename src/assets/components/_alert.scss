@@ -23,34 +23,34 @@
 
 .alert {
   // Specified to prevent conflicts of changing $headings-color
-  color: $base-text-color;
+  color: $rc-black;
   width: 100%;
-
+  padding: rem(16) !important;
   .alert-content {
     opacity: 0.87;
   }
 
   &.alert-danger {
-    @include alert-variant($danger-alert, $danger-alert-alt, $base-text-color);
+    @include alert-variant($white, $rc-red-b, $rc-black);
   }
 
   &.alert-warning {
     @include alert-variant(
-      $warning-alert,
-      $warning-alert-alt,
-      $base-text-color
+      $white,
+      $rc-yellow,
+      $rc-black
     );
   }
   &.alert-success {
     @include alert-variant(
-      $success-alert,
-      $success-alert-alt,
-      $base-text-color
+      $white,
+      $rc-green,
+      $rc-black
     );
   }
 
   &.alert-info {
-    @include alert-variant($info-alert, $info-alert-alt, $base-text-color);
+    @include alert-variant($white, $rc-blue-b, $rc-black);
   }
 
   &.alert-general {
@@ -78,6 +78,7 @@
     // Adjust close link position
     .close {
       display: none;
+      float: none !important;
       &.close-button {
         display: block;
         top: -$alert-padding-y;
@@ -107,7 +108,7 @@ alert:last-of-type .alert {
 // Icon present on alert.
 //
 // Make sure we properly align text tot the right of the icon.
-.has-icon {
+/* .has-icon {
   .alert-icon {
     width: auto;
     float: left;
@@ -121,4 +122,7 @@ alert:last-of-type .alert {
       height: $alert-icon-height;
     }
   }
+} */
+.alert-dismissible .close {
+    position: static !important;
 }

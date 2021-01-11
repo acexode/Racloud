@@ -1,7 +1,8 @@
 const MONTH_LONG = [
   'January',
   'February',
-  'March', 'April',
+  'March',
+  'April',
   'May',
   'June',
   'July',
@@ -60,15 +61,33 @@ const DAYS_IN_MONTH = [
   30,
   31
 ];
-export const getUTCdate = (date: any) => {
-  const dateInUTC = new Date(date);
-  const day = dateInUTC.getUTCDate();
-  const month = dateInUTC.getUTCMonth();
-  const year = dateInUTC.getUTCFullYear();
+
+const UTCDate = (theDate: any) => {
+  const dateInUTC = new Date(theDate);
+  const d = dateInUTC.getDate(); /* day */
+  const m = dateInUTC.getMonth(); /* month */
+  const y = dateInUTC.getFullYear(); /* year */
   // return new Date(date).toUTCString();
-  return `${ day } ${ MONTH_SHORT[month] }, ${ year }`;
+  return {
+    d,
+    m,
+    y,
+  };
+};
+export const getUTCdate = (theDate: any, longMonth: boolean = false) => {
+  const dateInUTC = UTCDate(theDate);
+  const { d, m, y } = dateInUTC;
+  return `${ d } ${ MONTH_SHORT[m] }, ${ y }`;
 };
 
+export const getUTCLongMonthDate = (theDate: string) => {
+  const dateInUTC = UTCDate(theDate);
+  const { d, m, y } = dateInUTC;
+  return `${ d } ${ MONTH_LONG[m] }, ${ y }`;
+};
 
-
+export const convertDateBackToUTCDate = (passInDate: any) => {
+  const newDate = new Date(`${passInDate} UTC`);
+  return newDate.toISOString();
+};
 

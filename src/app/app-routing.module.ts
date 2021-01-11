@@ -30,7 +30,11 @@ const routes: Routes = [
   },
   {
     path: 'orders',
-    component: OrdersComponent,
+    loadChildren: () =>
+      import('./orders/orders.module').then(
+        (m) => m.OrdersModule
+      ),
+    canActivate: [AuthGuard],
     data: {
       title: 'Order'
     }
@@ -41,6 +45,7 @@ const routes: Routes = [
       import('./users/users.module').then(
         (m) => m.UsersModule
       ),
+    canActivate: [AuthGuard],
     data: { title: 'User Listing' },
   },
   {
@@ -49,7 +54,7 @@ const routes: Routes = [
       import('./products/products.module').then(
         (m) => m.ProductsModule
       ),
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     data: { title: 'Product Listing' }
   },
   {
@@ -96,6 +101,7 @@ const routes: Routes = [
       ),
       canActivate: [AuthGuard],
     data: { title: 'Licenses Listing' },
+    canActivate: [AuthGuard],
   },
   {
     path: 'options',
@@ -104,6 +110,7 @@ const routes: Routes = [
         (m) => m.OptionsModule
       ),
     data: { title: 'Options Listing' },
+    canActivate: [AuthGuard],
   },
   {
     path: 'users',
@@ -117,13 +124,15 @@ const routes: Routes = [
     path: 'shop',
     component: ShopComponent,
     data: { title: 'Shop' },
+    canActivate: [AuthGuard],
   },
   {
-    path: 'price-list',
-    component: PriceListsComponent,
+    path: 'price-lists',
+    loadChildren: () => import('./price-lists/price-lists.module').then(m => m.PriceListsModule),
+    canActivate: [AuthGuard],
     data: { title: 'Price List' },
   },
-  { path: '**', redirectTo: '/not-found' },
+  // { path: '**', redirectTo: '/not-found' },
 ];
 
 @NgModule({

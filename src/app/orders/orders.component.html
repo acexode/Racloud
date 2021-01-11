@@ -35,6 +35,7 @@
       </div>
     </div>
   </ng-template>
+
   <ng-template #actionDropdown let-column="column" let-row="row">
     <div class="btn-group" dropdown [dropup]="isDropup">
       <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
@@ -71,4 +72,29 @@
             {{ value }}
         </span>
    </div>
+</ng-template>
+
+<ng-template #statusTemplate let-column="column" let-row="row" let-value="cellValue">
+   
+      <ng-container [ngSwitch]="value">
+
+         <span *ngSwitchCase="-1">Canceled?</span>
+
+          <span *ngSwitchCase="0">Cart</span>
+
+          <span *ngSwitchCase="1" class="table-status-column">
+            <span>Paid</span>
+            <img src="./../../assets/images/check2.svg" alt="check-icon" class="" />
+          </span>
+
+          <span *ngSwitchCase="2" class="table-status-column">
+            <span>Waiting payment confirmation</span> 
+            <img src="./../../assets/images/price-list-red.svg" alt="price-list-icon" class="" />
+          </span>
+         
+          <span *ngSwitchCase="3">Draft</span>
+
+          <span *ngSwitchDefault>Draft</span>
+
+      </ng-container>
 </ng-template>

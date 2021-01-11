@@ -269,8 +269,9 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         licenseStatus: values.status,
         licenseOptions: resArr
       }
+      console.log(editObj)
       this.service.updateLicense(id, editObj).subscribe(e =>{
-        this.router.navigate(['licenses'])
+        // this.router.navigate(['licenses'])
       })
     }
   }

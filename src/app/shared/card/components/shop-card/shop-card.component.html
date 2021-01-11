@@ -1,49 +1,61 @@
-<ng-container>
+<ng-container *ngIf="itemStatus">
     <div class="rc-sh-card">
 
-        <div class="rc-initial-title">
-            <span class="rc-primary-color s12-h16 montserrat-bold-font ls-0">WL</span>
-        </div>
-        <div class="rc-full-title">
-            <span class="montserrat-semibold-font s15-h24 rc-accent-blue-160-color ls-0">{{item.name}}</span>
+        <div class="rc-sh-card-top">
+            <div class="rc-initial-title">
+                <p class="s12-h16 montserrat-bold-font ls-0 m-0" [ngClass]="theCardType?.bgColor">{{acronym | uppercase}}</p>
+            </div>
+            <div class="rc-full-title">
+                <p class="montserrat-semibold-font s15-h24 text-weight-bold rc-accent-blue-160-color ls-0 m-0 p-0">{{item?.Product.Name | titlecase}}</p>
+            </div>
         </div>
 
         <div class="rc-product-fees-section">
             <div class="rc-product-fees-group">
                 <div class="rc-product-fees-title">
-                    <span class="s12-h16 rc-grey-color montserrat-regular-font ls-0">Initial fee</span>
+                    <p class="s12-h16 rc-grey-color montserrat-regular-font text-weight-normal ls-0 m-0">First fee</p>
                 </div>
                 <div class="rc-product-fees-price">
-                    <span class="rc-accent-blue-160-color fee montserrat-medium-font ls-0">{{item.initial_fee}} $</span>
+                    <p class="s22-h32 rc-accent-blue-160-color montserrat-medium-font text-weight-500 ls-0 m-0">{{item?.Value}} $</p>
                 </div>
             </div>
             <div class="rc-product-fees-group">
                 <div class="rc-product-fees-title">
-                    <span class="s12-h16 rc-grey-color montserrat-regular-font ls-0">Subscription fee</span>
+                    <p class="s12-h16 rc-grey-color montserrat-regular-font text-weight-normal ls-0 m-0">Subscription fee</p>
                 </div>
                 <div class="rc-product-fees-price">
-                    <span class="rc-accent-blue-160-color fee montserrat-medium-font ls-0">{{item.subscription_fee}} $</span>
+                    <p class="s22-h32 rc-accent-blue-160-color montserrat-medium-font text-weight-500 ls-0 m-0">{{item?.RenewalValue}} $</p>
                 </div>
             </div>
         </div>
+        <div class="line-h1 rc-secondary-bg mt-12"></div>
+
+        <div class="my-6">
+            <span class="s14-h16 rc-grey-color helvetica-neue-regular p-0 m-0">Support hours:</span>
+            <span class="s14-h16 rc-black-color helvetica-neue-regular p-0 m-0 ml-4p">{{item.SupportHours}}</span>
+        </div>
+
+        <div class="line-h1 rc-secondary-bg mb-16"></div>
 
         <div class="rc-sh-card-body">
             <div class="rc-product-description">
                 <p class="rc-grey-color desc helvetica-neue-regular ls-0">
-                    {{item.description}}.
+                    {{item?.Product.Description}}.
                 </p>
             </div>
             <div class="rc-sh-card-body-link">
-                <app-button type="link" color="tertiary">
-                    link
+                <app-button type="link" color="tertiary" class="rc-black-color s14-h16 p-0 m-0">
+                    See product page
                 </app-button>
             </div>
         </div>
 
+
+        <div class="line-h1 rc-secondary-bg"></div>
+
+
+
         <div class="rc-sh-card-footer">
-            <app-button type="link" color="tertiary">
-                Secondary link
-            </app-button>
 
             <app-button type="Submit" color="primary">
                 Buy
