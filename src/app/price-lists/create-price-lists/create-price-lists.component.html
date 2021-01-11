@@ -136,8 +136,8 @@
    </div>
 </ng-template>
 
-<ng-container>
-  <app-add-product></app-add-product>
+<ng-container *ngIf="products">
+  <app-add-product [products]="products"></app-add-product>
 </ng-container>
 
 <ng-container>

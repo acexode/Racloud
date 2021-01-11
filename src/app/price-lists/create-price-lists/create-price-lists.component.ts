@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -7,6 +7,7 @@ import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { ProductServiceService } from 'src/app/products/product-service.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
+import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
@@ -19,7 +20,7 @@ import { TableService } from 'src/app/shared/table/services/table.service';
   templateUrl: './create-price-lists.component.html',
   styleUrls: ['./create-price-lists.component.scss']
 })
-export class CreatePriceListsComponent implements OnInit {
+export class CreatePriceListsComponent implements OnInit, OnDestroy {
   mockData = './assets/price-lists-create-table.json';
   currency = './assets/currency.json';
 
@@ -64,6 +65,7 @@ export class CreatePriceListsComponent implements OnInit {
     removeExportBtn: true,
     removePageCounter: true,
   };
+  products: any;
   constructor(
     private fb: FormBuilder,
     private tS: TableService,
@@ -72,6 +74,7 @@ export class CreatePriceListsComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private reqS: RequestService,
     private productS: ProductServiceService,
+    private msgS: MessagesService,
   ) { }
 
   selectionConfig(label: string): SelectConfig {
@@ -100,7 +103,18 @@ export class CreatePriceListsComponent implements OnInit {
     this.initForm();
     this.onInitTable();
     this.productS.getProducts().subscribe(
-      d => console.log(d)
+      res => {
+        this.products = res;
+      },
+      err => {
+        this.msgS.addMessage({
+          text: err.error || 'unable to load products at this time. Please refresh your browser',
+          type: 'danger',
+          dismissible: true,
+          customClass: 'mt-32',
+          hasIcon: true,
+        });
+      },
     );
   }
 
@@ -301,5 +315,7 @@ export class CreatePriceListsComponent implements OnInit {
   }
   openAddProductModal(): void {
     this.productS.openAddProductModal();
+  }
+  ngOnDestroy(): void {
   }
 }

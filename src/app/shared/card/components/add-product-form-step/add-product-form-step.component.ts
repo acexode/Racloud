@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { ProductServiceService } from 'src/app/products/product-service.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 
 @Component({
@@ -7,9 +9,9 @@ import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
   templateUrl: './add-product-form-step.component.html',
   styleUrls: ['./add-product-form-step.component.scss']
 })
-export class AddProductFormStepComponent implements OnInit {
+export class AddProductFormStepComponent implements OnInit, OnDestroy {
   displayFormModal = true;
-  isLoading = false;
+  displayModal$: Subscription;
   caretLeftIcon = 'assets/images/caret-left.svg';
   componentForm = this.fb.group({
     initialFee: [
@@ -31,7 +33,7 @@ export class AddProductFormStepComponent implements OnInit {
       ],
     ],
   });
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private pS: ProductServiceService) { }
   inputConfig(
     label: string,
     type: string = 'text',
@@ -53,11 +55,15 @@ export class AddProductFormStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.displayModal$ = this.pS.getAddProductFormStepModalDisplayStatus().subscribe(status => this.displayFormModal = status);
   }
   closeModal(): void {
   }
   stopModalPropagation(event: Event): void {
     event.stopPropagation();
+  }
+  ngOnDestroy(): void {
+    this.displayModal$.unsubscribe();
   }
 
 }

@@ -7,6 +7,7 @@ import { CardItem } from 'src/app/shared/rc-forms/models/card-item-model';
   styleUrls: ['./product-card.component.scss']
 })
 export class ProductCardComponent implements OnInit {
+  @Input() product: any;
   acronym = 'ERE';
   item: CardItem = {
     Product: {
@@ -71,7 +72,7 @@ export class ProductCardComponent implements OnInit {
     if (str) {
       this.acronym = str.split(/\s/).reduce((response, word) => response += word.slice(0, 1), '');
     } */
-    console.log(this.item);
+    console.log(this.item, this.product);
   }
   get itemStatus() {
     return (this.item?.Product?.Description) ? true : false;

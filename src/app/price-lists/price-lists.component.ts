@@ -159,9 +159,7 @@ export class PriceListsComponent implements OnInit {
     this.tableConfig.loadingIndicator = true;
     this.reqS.get<any>(baseEndpoints.priceLists).subscribe(
       (res: any) => {
-        console.log(res);
         if (res) {
-          console.log(res);
           const data = res.map(
             (r: any) => {
               return {
@@ -171,7 +169,6 @@ export class PriceListsComponent implements OnInit {
                 currency: r.Currency,
               };
             });
-          console.log(data);
           this.rowData = data;
           this.tableData.next(data);
           this.tableConfig.loadingIndicator = false;

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ProductServiceService } from 'src/app/products/product-service.service';
 
@@ -8,6 +8,7 @@ import { ProductServiceService } from 'src/app/products/product-service.service'
   styleUrls: ['./add-product.component.scss']
 })
 export class AddProductComponent implements OnInit, OnDestroy {
+  @Input() products: any;
   items: any[];
   centerModal = true;
   displayModal = false;
@@ -16,16 +17,15 @@ export class AddProductComponent implements OnInit, OnDestroy {
     this.displayModal$ = this.pS.getAddProductModalDisplayStatus().subscribe(status => this.displayModal = status);
   }
 
-  ngOnInit(): void {
-  }
-  ngOnDestroy(): void {
-    this.displayModal$.unsubscribe();
-  }
+  ngOnInit(): void {}
   closeModal(): void {
     this.pS.closeAddProductModal();
   }
   stopModalPropagation(event: Event): void {
     event.stopPropagation();
+  }
+  ngOnDestroy(): void {
+    this.displayModal$.unsubscribe();
   }
 
 }

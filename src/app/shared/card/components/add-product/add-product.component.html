@@ -1,5 +1,5 @@
 <div class="app-overlay justify-content-center" [ngStyle]="{'display': displayModal ? 'flex': 'none'}" (click)="closeModal()">
-    <div role="document" class="modal-dialog custom-modal-dialog modal-dialog-scrollable"(click)="stopModalPropagation($event)">
+    <div role="document" class="modal-dialog custom-modal-dialog modal-dialog-scrollable" (click)="stopModalPropagation($event)">
         <div class="modal-content custom-modal-content">      
 
             <div class="modal-header">
@@ -12,13 +12,7 @@
             </div>
             <div class="modal-body">
                 <div class="rc-card-grid-b">
-                    <app-product-card></app-product-card>
-                    <app-product-card></app-product-card>
-                    <app-product-card></app-product-card>
-                    <app-product-card></app-product-card>
-                    <app-product-card></app-product-card>
-                    <app-product-card></app-product-card>
-                    <app-product-card></app-product-card>
+                    <app-product-card [product]="item" *ngFor="let item of products"></app-product-card>
                 </div>
                 
             </div>

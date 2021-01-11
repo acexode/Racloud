@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class ProductServiceService {
   displayAddProductModal: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  displayAddProductFormStepModal: BehaviorSubject<boolean> = new BehaviorSubject(false);
   modifiedOptionList = new BehaviorSubject<[]>([]);
   constructor(private reqS: RequestService) { }
 
@@ -34,5 +35,14 @@ export class ProductServiceService {
   }
   closeAddProductModal(): void {
     this.displayAddProductModal.next(false);
+  }
+  getAddProductFormStepModalDisplayStatus(): Observable<boolean> {
+    return this.displayAddProductFormStepModal.asObservable();
+  }
+  openAddProductFormStepModal(): void {
+    this.displayAddProductFormStepModal.next(true);
+  }
+  closeAddProductFormStepModal(): void {
+    this.displayAddProductFormStepModal.next(false);
   }
 }
