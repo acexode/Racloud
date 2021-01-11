@@ -1,0 +1,22 @@
+.nothing{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    height: 72px;
+    width: 100%;
+    border: 1px solid #2D71B1;
+    border-radius: 4px;
+    padding: 16px;
+    background-color: #FFFFFF;
+  }
+  .nothing-text {
+    height: 40px;
+    color: #161A37;
+    font-family: Montserrat;
+    font-size: 18px;
+    padding-left: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 38px;
+  }

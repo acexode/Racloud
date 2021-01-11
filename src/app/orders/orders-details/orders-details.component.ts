@@ -24,6 +24,7 @@ export class OrdersDetailsComponent implements OnInit {
   caretLeftIcon = '../assets/images/caret-left.svg';
   orderId = ''
   backUrl = '/customer';
+  noProduct = true
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -116,6 +117,8 @@ export class OrdersDetailsComponent implements OnInit {
         e.totalValue = e.quantity * e.value
         this.addedProducts.push(e)
         this.onInitTable()
+
+      }else{
 
       }
     })
@@ -326,13 +329,23 @@ export class OrdersDetailsComponent implements OnInit {
     ];
     
       if (this.addedProducts.length) {
-        this.tableConfig.loadingIndicator = true;
+        // this.tableConfig.loadingIndicator = true;
+        this.noProduct = false
         this.rowData = this.addedProducts;
         const cloneData = this.addedProducts.map((v) => {
           return { ...v };
         });
         this.tableData.next(cloneData);
         this.tableConfig.loadingIndicator = false;
+      }else{
+        this.tableConfig.loadingIndicator = false
+        this.noProduct = true
+        const empty = document.getElementsByClassName('empty-row') as HTMLCollectionOf<HTMLElement>
+        console.log(empty)
+        if(empty.length != 0){
+          console.log(empty)
+          empty[0].style.display = 'none'
+        }
       }
     
   }
@@ -385,5 +398,11 @@ export class OrdersDetailsComponent implements OnInit {
       this.tableData.next(this.addedProducts)
     
 
+  }
+  cancelOrder(){
+    const id = this.route.snapshot.paramMap.get('id');
+    this.service.cancelOrder(id).subscribe(e =>{
+      console.log(e)
+    })
   }
 }

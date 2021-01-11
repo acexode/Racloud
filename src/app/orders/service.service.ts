@@ -21,6 +21,9 @@ export class OrderService {
   getorders(){
     return this.reqS.get(orderEndpoints.getOrders)
   }
+  cancelOrder(id){
+    return this.reqS.get(orderEndpoints.getOrders+'/' + id + '/cancel')
+  }
   getShops(){
     return this.reqS.get(shopEndpoints.getShops)
   }

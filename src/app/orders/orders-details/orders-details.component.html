@@ -107,9 +107,15 @@
             (filterData)="filterTable($event)"
             [rowDetailConfig]="rowDetailIcons"
         ></app-table>
+        <div class="nothing" *ngIf="noProduct">
+          <img src="./../../../assets/images/info.svg" alt="Delete-icon" class="icon-40" />
+          <div class="nothing-text">
+            <span>Nothing added yet. Click "Add product" to select a product.</span>
+          </div>
+        </div>
     </div>
 
-    <div class="w-100 mb-100">
+    <div class="w-100 mb-50">
       <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-between">
         <!--  -->
         <div class="btn-group" dropdown>
@@ -118,10 +124,10 @@
             Options <span class="ml-6"> <img src="./../../../assets/images/Chevron-red.svg" alt="Delete-icon" class="icon-w20-h20" /></span>
           </button>
 
-          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu order-dropdown mr-5"
               role="menu" aria-labelledby="button-basic">
-            <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-            <li role="menuitem"><a class="dropdown-item" href="#">Another action</a></li>
+            <li  role="menuitem"><a class="dropdown-item" href="#">Payed</a></li>
+            <li (click)="cancelOrder()" role="menuitem"><a class="dropdown-item">Cancel</a></li>
           </ul>
         </div>
       <!--  -->
