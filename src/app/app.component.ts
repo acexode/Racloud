@@ -24,7 +24,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private authS: AuthService,
     private titleService: TitleService,
     private footerS: FooterService,
-    private cdref: ChangeDetectorRef
+    private cdref: ChangeDetectorRef,
   ) {
     this.currentYear = this.getYear();
     this.titleService.handleNavigationTitle();

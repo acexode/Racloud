@@ -1,12 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { baseEndpoints } from '../core/configs/endpoints';
 import { getUTCdate } from '../core/helpers/dateHelpers';
+import { CountriesService } from '../core/services/countries/countries.service';
+import { CustomerService } from '../core/services/customer/customer.service';
 import { RequestService } from '../core/services/request/request.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
+import { MessagesService } from '../shared/messages/services/messages.service';
 import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
 import { TableFilterType } from '../shared/table/models/table-filter-types';
 import { TableI } from '../shared/table/models/table.interface';
@@ -22,7 +25,11 @@ export class CustomerComponent implements OnInit {
   @ViewChild('subFeeTemplate', { static: true }) subFeeTemplate: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
   @ViewChild('selectT', { static: true }) selectT: any;
-
+  countriesData: Array<{
+    code: string;
+    name: string;
+  }>;
+  loadCountries$: Subscription;
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   containerConfig: PageContainerConfig = {
@@ -72,6 +79,7 @@ export class CustomerComponent implements OnInit {
     action: true
   };
   isDropup: boolean;
+  customErrorMsg = 'There is an issue with your network. Please Refresh your network';
   constructor(
     private tS: TableService,
     private http: HttpClient,
@@ -79,6 +87,9 @@ export class CustomerComponent implements OnInit {
     private route: ActivatedRoute,
     private ref: ChangeDetectorRef,
     private reqS: RequestService,
+    private customerS: CustomerService,
+    private countriesS: CountriesService,
+    private msgS: MessagesService,
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -221,25 +232,61 @@ export class CustomerComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    // get data for table
-    this.getJSON();
-  }
-  public getJSON(): void {
-    this.reqS.get<any>(baseEndpoints.customers).subscribe(res => {
-      if (res) {
-        const data = res.map((v: any) => {
-          return {
-            ...v,
-            anniversaryDate: getUTCdate(v.anniversaryDate),
-            parent: v?.parent?.companyName,
-          };
+    this.loadCountries$ = this.countriesS.getCountries().subscribe(
+      (countries) => {
+        this.countriesData = countries;
+        // get data for table
+        this.getJSON();
+      },
+      err => {
+        this.msgS.addMessage({
+          text: err.error || this.customErrorMsg,
+          type: 'danger',
+          dismissible: true,
+          customClass: 'mt-32',
+          hasIcon: true
         });
-        this.tableConfig.loadingIndicator = true;
-        this.rowData = data;
-        this.tableData.next(data);
-        this.tableConfig.loadingIndicator = false;
       }
-    });
+    );
+
+  }
+  getJSON(): void {
+    this.customerS.getCustomers().subscribe(
+      res => {
+        if (res) {
+          console.log(res);
+          const data = res.map((v: any) => {
+            return {
+              ...v,
+              country: this.getCountryForCutomer(v.country),
+              anniversaryDate: getUTCdate(v.anniversaryDate),
+              parent: v?.parent?.companyName,
+            };
+          });
+          this.tableConfig.loadingIndicator = true;
+          this.rowData = data;
+          this.tableData.next(data);
+          this.tableConfig.loadingIndicator = false;
+        }
+      },
+      err => {
+        this.msgS.addMessage({
+          text: err.error || this.customErrorMsg,
+          type: 'danger',
+          dismissible: true,
+          customClass: 'mt-32',
+          hasIcon: true
+        });
+      }
+    );
+  }
+  getCountryForCutomer(code: string) {
+    const getCountry = this.countriesData.find(country => country.code === code);
+    if (typeof getCountry !== 'undefined') {
+      return getCountry.name;
+    } else {
+      return code;
+    }
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
@@ -259,14 +306,10 @@ export class CustomerComponent implements OnInit {
     }
     this.ref.detectChanges();
   }
-  removeRow(id: any) {
-    console.log(id);
-  }
+  removeRow(id: any) { }
   manageSub(data: any) {
     this.router.navigate(['manage', data.id], { relativeTo: this.route });
   }
-  renewSub(id: any) {
-    console.log(id);
-  }
+  renewSub(id: any) { }
 
 }

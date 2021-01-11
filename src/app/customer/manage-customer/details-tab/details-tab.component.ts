@@ -108,6 +108,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
         this.isLoadingStatus();
       },
       err => {
+        console.log(err);
         this.msgS.addMessage({
           text: err.error,
           type: 'danger',

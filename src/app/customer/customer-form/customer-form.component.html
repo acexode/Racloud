@@ -3,7 +3,8 @@
         {
             countryOptions: countryOptions$ | async, 
             customerParentOptions: customerParentOptions$ | async, 
-            languageOptions: languageOptions$ | async
+            languageOptions: languageOptions$ | async,
+            priceListOptions: priceListOptions$ | async
         } 
         as optionData"
 >
@@ -133,6 +134,14 @@
                     [config]="inputConfig('Support hours available')"
                     formControlName="supportHoursAvailable"
                 ></app-input>
+            </div>
+
+             <div class="col-12 mb-14 m-0 p-0">
+                <app-select
+                    [config]="selectConfig('Price List', 'Select Price List', true, 'Id', 'Name')"
+                    formControlName="priceListId"
+                    [options]="optionData.priceListOptions"
+                ></app-select>
             </div>
             
 
