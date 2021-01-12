@@ -142,14 +142,14 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
   countryOptions$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
 /* for card */
   shopcard = {
-    Id: 33,    
+    Id: 33,
     type: 'wl',
     Product: {
         Id: 2,
         Name: 'string',
         Description: 'string',
         Version: 5
-    },    
+    },
     ProductId: 2,
     Value: 100,
     RenewalValue: 50,
