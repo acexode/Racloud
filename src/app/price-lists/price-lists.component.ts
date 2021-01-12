@@ -158,7 +158,7 @@ export class PriceListsComponent implements OnInit, OnDestroy {
     ];
 
     this.tableConfig.loadingIndicator = true;
-    this.priceList$ = this.PriceListS.getPriceListings().subscribe(
+    this.priceList$ = this.PriceListS.getPriceLists().subscribe(
       (res: any) => {
         console.log(res);
         if (res) {
