@@ -32,7 +32,10 @@ export const optionEndpoints = {
 export const orderEndpoints = {
   generateOrder: serverBaseUrl + '/orders/generate-order',
   getOrders: serverBaseUrl + '/orders',
-  getSingleOrder: serverBaseUrl + '/orders'
+  getSingleOrder: serverBaseUrl + '/orders',
+  addToCart: serverBaseUrl + '/orders/add-item-to-cart/',
+  reduceCartItem: serverBaseUrl + '/orders/reduce-item-quantity-in-cart/',
+  deleteCartItem: serverBaseUrl + '/orders/remove-item-from-cart/'
 }
 export const userEndpoints = {
   getCreateUpdateUser: serverBaseUrl + '/users',

@@ -24,6 +24,15 @@ export class OrderService {
   cancelOrder(id){
     return this.reqS.get(orderEndpoints.getOrders+'/' + id + '/cancel')
   }
+  addOrderToCart(id,obj){
+    return this.reqS.put(orderEndpoints.addToCart + id,obj)
+  }
+  reduceCartItem(id,obj){
+    return this.reqS.put(orderEndpoints.reduceCartItem + id,obj)
+  }
+  deleteCartItem(id,obj){
+    return this.reqS.put(orderEndpoints.deleteCartItem + id,obj)
+  }
   getShops(){
     return this.reqS.get(shopEndpoints.getShops)
   }

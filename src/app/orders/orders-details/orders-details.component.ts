@@ -1,6 +1,5 @@
 import { ShopService } from './../../shop/shop.service';
 import { Order } from './../../core/models/order.interface';
-import { OrderService } from './../service.service';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
@@ -14,6 +13,7 @@ import { TableFilterType } from 'src/app/shared/table/models/table-filter-types'
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { OrderService } from '../service.service';
 @Component({
   selector: 'app-orders-details',
   templateUrl: './orders-details.component.html',
@@ -50,7 +50,7 @@ export class OrdersDetailsComponent implements OnInit {
   tableConfig: TableI = {
     selectable: false,
     selectDetail: false,
-    hoverDetail: true,
+    hoverDetail: false,
     columns: [],
     externalPaging: false,
     externalSorting: false,
@@ -66,6 +66,7 @@ export class OrdersDetailsComponent implements OnInit {
   allProducts = []
   controlStore: { [key: string]: AbstractControl; } = {};
   isDropup: boolean;
+  routeId:any
   constructor(
     private fb: FormBuilder,
     private tS: TableService,
@@ -110,29 +111,67 @@ export class OrdersDetailsComponent implements OnInit {
     return this.componentForm.get('type');
   }
   ngOnInit(): void {
+    this.routeId = parseInt(this.route.snapshot.paramMap.get('id'), 10)
     this.shopS.buyStore.subscribe((e:any) =>{
+      console.log(e)
+      const orderId = this.routeId
       console.log(e.hasOwnProperty('id'))
       if(e.hasOwnProperty('id')){
-        e.quantity = 1
+        const obj = {
+          "orderId": orderId,
+          "productPriceId": e.priceListId
+        }
+        console.log(obj)
+        this.service.addOrderToCart(orderId, obj).subscribe(res =>{
+          console.log(res)
+        })
+        e.quantity =  1
         e.totalValue = e.quantity * e.value
         this.addedProducts.push(e)
         this.onInitTable()
 
       }else{
-
+        console.log('hello')
       }
     })
-    this.initForm();
-    this.service.getShops().subscribe((e:Order[]) =>{
-      console.log(e)
-      this.allProducts = e
-    })
+    this.initForm();    
     const id = this.route.snapshot.paramMap.get('id');
     this.orderId = id
     if(id){
       const idx = parseInt(id,10)
       this.service.getSingleOrder(idx).subscribe((e: Order) =>{
-        console.log(e)
+        console.log(e.OrderItems)
+        const orderItems: any[] = e.OrderItems
+        this.service.getShops().subscribe((shop:any[]) =>{
+          console.log(shop)
+          shop.forEach(s =>{
+              const index = orderItems.findIndex((item:any) => item.ProductId === s.product.id )
+              if(index > -1){
+                this.noProduct = false
+                this.addedProducts.push({
+                  quantity: orderItems[index].Quantity,
+                  value: orderItems[index].Value,
+                  discount: orderItems[index].Discount,
+                  totalValue: orderItems[index].TotalValue,
+                  application: s.product.name,
+                  productType: s.product.productType,
+                  priceListId: s.priceListId,
+                  supportHours: s.supportHours,
+                  renewalValue: s.renewalValue,
+                  orderItemId: orderItems[index].Id
+                })
+              }else{
+                return null
+              }
+          })
+          console.log(this.addedProducts.length)
+          this.rowData = this.addedProducts;
+          const cloneData = this.addedProducts.map((v) => {
+            return { ...v };
+          });
+          this.tableData.next(cloneData);
+          console.log(this.addedProducts)
+        })
         this.componentForm.patchValue({
           orderNumber: e.Id,
           customer: e.Company,
@@ -200,7 +239,7 @@ export class OrdersDetailsComponent implements OnInit {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'product.productType',
+        identifier: 'application',
         label: 'Application',
         sortable: true,
         minWidth: 226,
@@ -216,7 +255,7 @@ export class OrdersDetailsComponent implements OnInit {
         },
       },
       {
-        identifier: 'product.name',
+        identifier: 'productType',
         label: 'Product',
         sortable: true,
         minWidth: 226,
@@ -341,7 +380,6 @@ export class OrdersDetailsComponent implements OnInit {
         this.tableConfig.loadingIndicator = false
         this.noProduct = true
         const empty = document.getElementsByClassName('empty-row') as HTMLCollectionOf<HTMLElement>
-        console.log(empty)
         if(empty.length != 0){
           console.log(empty)
           empty[0].style.display = 'none'
@@ -374,29 +412,64 @@ export class OrdersDetailsComponent implements OnInit {
     return [year, month, day].join('-');
   }
   openModal(template: TemplateRef<any>) {
+    this.shopS.shopStore.subscribe(e =>{
+      this.allProducts = e
+    })
     this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray modal-lg' }));
   }
   changeQuantity(type,row){
     this.addedProducts = this.addedProducts.map(e =>{
       if(e.id === row.id && type === 'inc'){
+        const obj = {
+          "orderId": this.routeId,
+          "productPriceId": e.priceListId
+        }
+        console.log(obj)
+        this.service.addOrderToCart(this.routeId, obj).subscribe(res =>{
+          console.log(res)
+        })
         e.quantity = e.quantity + 1
         e.totalValue = e.quantity * e.value
         return e
       }
       else if(e.id === row.id && type === 'dec'){
+        const obj = {
+          "orderItemId": e.orderItemId,
+        }
+        console.log(obj)
+        this.service.reduceCartItem(e.orderItemId, obj).subscribe(res =>{
+          console.log(res)
+        })
         if(e.quantity > 1){
           e.quantity = e.quantity - 1
           e.totalValue = e.quantity * e.value
         }
-        return e
+        return e;  
       }
       return e
     })
+
+    this.ref.detectChanges()
     this.tableData.next(this.addedProducts)
+  }
+  submitForm(){
+    const values = this.componentForm.value
+    values
   }
   cancelOrder(){
     const id = this.route.snapshot.paramMap.get('id');
     this.service.cancelOrder(id).subscribe(e =>{
+      console.log(e)
+    })
+  }
+  deleteItem(row){
+    console.log(row)
+    const obj = {
+      orderItemId: row.orderItemId,
+      orderId: this.routeId
+    }
+    console.log(obj)
+    this.service.deleteCartItem(this.routeId, obj).subscribe(e =>{
       console.log(e)
     })
   }

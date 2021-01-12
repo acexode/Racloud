@@ -174,7 +174,7 @@
 
   <ng-template #actionDropdown let-column="column" let-row="row">
     <div>
-      <img src="./../../../assets/images/Delete.svg" alt="Delete-icon" class="icon-w20-h20" />
+      <img (click)="deleteItem(row)" src="./../../../assets/images/Delete.svg" alt="Delete-icon" class="icon-w20-h20" />
     </div>
     
   </ng-template>
