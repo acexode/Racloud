@@ -100,19 +100,15 @@
   </ng-template>
 
   <ng-template #actionDropdown let-column="column" let-row="row">
-    <button (click)="removeProductFromPriceListProductManager()">
-      a
-    </button>
-   <!--  <div>
-      {{row.id}}
-      <img src="./../../../assets/images/Delete.svg" alt="Delete-icon" class="icon-w20-h20"/>
-    </div> -->
+    <div (click)="removeProductFromPriceListProductManager(row)">
+      <img src="./../../../assets/images/Delete.svg" alt="Delete-icon" class="icon-w20-h20" />
+    </div>
     
   </ng-template>
 
   <ng-template #optionTemplate let-column="column" let-row="row">
     <div>
-      <img src="./../../../assets/images/Options.svg" alt="Options-icon" class="icon-w20-h20" (click)="removeProductFromPriceListProductManager(row)"/>
+      <img src="./../../../assets/images/Options.svg" alt="Options-icon" class="icon-w20-h20" />
     </div>
     
   </ng-template>
