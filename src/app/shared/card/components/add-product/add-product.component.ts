@@ -17,7 +17,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
     this.displayModal$ = this.pS.getAddProductModalDisplayStatus().subscribe(status => this.displayModal = status);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
   closeModal(): void {
     this.pS.closeAddProductModal();
   }
@@ -26,6 +26,9 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.displayModal$.unsubscribe();
+  }
+  getClickedProduct(emittedProduct: any): void {
+    console.log(emittedProduct);
   }
 
 }

@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ProductModel } from 'src/app/products/models/products.model';
 import { CardItem } from 'src/app/shared/rc-forms/models/card-item-model';
 
 @Component({
@@ -7,6 +8,7 @@ import { CardItem } from 'src/app/shared/rc-forms/models/card-item-model';
   styleUrls: ['./product-card.component.scss']
 })
 export class ProductCardComponent implements OnInit {
+  @Output() productDetailsEmitter = new EventEmitter<ProductModel>(null);
   @Input() product: any;
   acronym = 'ERE';
   item: CardItem = {
@@ -72,7 +74,6 @@ export class ProductCardComponent implements OnInit {
     if (str) {
       this.acronym = str.split(/\s/).reduce((response, word) => response += word.slice(0, 1), '');
     } */
-    console.log(this.item, this.product);
   }
   get itemStatus() {
     return (this.item?.Product?.Description) ? true : false;
@@ -90,6 +91,9 @@ export class ProductCardComponent implements OnInit {
   setCardTypeProduct(type: any) {
     this.cardTypes[type].productName = this.item?.Product.Name || 'Product name';
     this.cardTypes[type].productVersion = this.item?.productVersion || '& version';
+  }
+  emitProductDetails() {
+    this.productDetailsEmitter.emit(this.product);
   }
 }
 
