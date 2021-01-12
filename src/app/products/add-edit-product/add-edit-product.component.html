@@ -62,8 +62,8 @@
                     <div *ngIf="!isEdit" class="rc-select"> <select formcontrolname="application"
                         (change)="onChange($event.target.value, 'application')" class="ng-pristine ng-valid ng-touched">
                         <option  selected disabled>Select</option>
-                        <option *ngFor="let product of productOptions"  [value]="product.Application">
-                          {{product.Application}} </option>
+                        <option *ngFor="let product of productOptions"  [value]="product.application">
+                          {{product.application}} </option>
                       </select>
                             </div>
                     <div *ngIf="isEdit" class="rc-select"> <select formcontrolname="application"
