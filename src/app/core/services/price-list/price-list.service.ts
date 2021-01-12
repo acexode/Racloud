@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { CreatePriceListModel } from 'src/app/price-lists/models/create-price-list-model';
+import { PriceListModel } from 'src/app/price-lists/models/price-list-model';
 import { baseEndpoints } from '../../configs/endpoints';
 import { RequestService } from '../request/request.service';
 
@@ -8,8 +10,9 @@ import { RequestService } from '../request/request.service';
 })
 export class PriceListService {
 
+  toCreateData: BehaviorSubject<CreatePriceListModel> = new BehaviorSubject<CreatePriceListModel>({});
   constructor(private reqS: RequestService) { }
-  getPriceLists(): Observable<any> {
-    return this.reqS.get<any>(baseEndpoints.priceLists);
+  getPriceLists(): Observable<Array<PriceListModel>> {
+    return this.reqS.get<Array<PriceListModel>>(baseEndpoints.priceLists);
   }
 }

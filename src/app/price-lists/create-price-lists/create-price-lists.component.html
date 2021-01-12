@@ -33,7 +33,7 @@
 
     <div class="line-h1 rc-secondary-bg mt-24 mb-39 px-0"></div>
 
-    <div class="w-100 pt-40">
+    <div class="w-100 pt-40" *ngIf="{currenciesOptions: currenciesOptions$ | async } as optionData">
 
         <form [formGroup]="componentForm" class="row no-gutters">
 
@@ -50,16 +50,17 @@
 
                 <div class="col-12 col-md-3 mr-32">
                 <app-select
-                    [config]="selectionConfig('Currency')"
+                    [config]="selectConfig('Curency', 'Select Curency', true, 'code', 'name')"
                     formControlName="currency"
+                    [options]="optionData.currenciesOptions"
                 ></app-select>
                 </div>
 
                 <div class="col-12 col-md-3">
-                <app-select
+                <app-input
                     [config]="inputConfig('Date Created')"
                     formControlName="dateCreated"
-                ></app-select>
+                ></app-input>
                 </div>
 
             </div>

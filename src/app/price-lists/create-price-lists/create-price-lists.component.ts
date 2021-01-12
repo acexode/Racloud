@@ -4,6 +4,7 @@ import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/fo
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { baseEndpoints } from 'src/app/core/configs/endpoints';
+import { CurrencyService } from 'src/app/core/services/currency/currency.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { ProductServiceService } from 'src/app/products/product-service.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
@@ -64,7 +65,8 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
     removePageCounter: true,
   };
   products: any;
-  currenciesOptions: Subscription;
+  currenciesOptions$: Observable<any>;
+  product$: Subscription;
   constructor(
     private fb: FormBuilder,
     private tS: TableService,
@@ -74,19 +76,12 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
     private reqS: RequestService,
     private productS: ProductServiceService,
     private msgS: MessagesService,
+    private currencyS: CurrencyService
   ) { }
-
-  selectionConfig(label: string): SelectConfig {
-    return {
-      selectLabel: {
-        text: label || '',
-      },
-    };
-  }
   inputConfig(
     label: string,
     type: string = 'text',
-    placeholder: string = '',
+    placeholder: string = 'Type here',
     prefixIcon: boolean = false)
     : InputConfig {
     return {
@@ -98,10 +93,30 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
       prefixIcon: prefixIcon || false,
     };
   }
+  selectConfig(
+    label: string,
+    placeholder: string = 'Select',
+    searchable: boolean = false,
+    idKey: string = 'id',
+    labelKey: string = 'option',
+  ): SelectConfig {
+    return {
+      selectLabel: {
+        text: label,
+      },
+      placeholder,
+      idKey,
+      labelKey,
+      searchable,
+    };
+  }
   ngOnInit(): void {
     this.initForm();
     this.onInitTable();
-    this.productS.getProducts().subscribe(
+    
+    this.currenciesOptions$ = this.currencyS.getCurrencies();
+
+    this.product$ = this.productS.getProducts().subscribe(
       res => {
         this.products = res;
       },
@@ -127,7 +142,7 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
         ],
       ],
       currency: [
-        '',
+        null,
         [
           Validators.required,
         ],
@@ -318,6 +333,7 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
     return this.products !== null || this.products !== undefined ? true : false;
   }
   ngOnDestroy(): void {
-    this.currenciesOptions.unsubscribe();
+    this.product$.unsubscribe();
+    // this.currenciesOptions$.unsubscribe();
   }
 }

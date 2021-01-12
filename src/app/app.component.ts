@@ -50,7 +50,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             _res => { },
             _err => {
               this.msgS.addMessage({
-                text: 'Please Check your Network and reload. We ecounter so issues while trying to load some data for you',
+                text: 'Please Check your Network and reload. We encounter some issues while trying to load some data for you',
                 type: 'danger',
                 dismissible: true,
                 customClass: 'mt-32',
@@ -59,9 +59,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           );
         }
-      },
-      err => {
-        console.log(err);
       }
     );
     this.titleService.handleNavigationTitle().subscribe((v) => {

@@ -12,6 +12,7 @@ import { TableFilterConfig } from '../shared/table/models/table-filter-config.in
 import { TableFilterType } from '../shared/table/models/table-filter-types';
 import { TableI } from '../shared/table/models/table.interface';
 import { TableService } from '../shared/table/services/table.service';
+import { PriceListModel } from './models/price-list-model';
 
 @Component({
   selector: 'app-price-lists',
@@ -159,16 +160,14 @@ export class PriceListsComponent implements OnInit, OnDestroy {
 
     this.tableConfig.loadingIndicator = true;
     this.priceList$ = this.PriceListS.getPriceLists().subscribe(
-      (res: any) => {
+      (res: Array<PriceListModel>) => {
         console.log(res);
         if (res) {
           const data = res.map(
             (r: any) => {
               return {
-                name: r.Name,
-                noOfProducts: r.NoOfProducts,
-                created: getUTCdate(r.CreateDate),
-                currency: r.Currency,
+                ...r,
+                created: getUTCdate(r.createDate),
               };
             });
           this.rowData = data;
