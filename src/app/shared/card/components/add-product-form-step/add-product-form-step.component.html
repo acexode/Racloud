@@ -45,14 +45,14 @@
                         <div class="col-12 mb-14 m-0 p-0">
                             <app-input
                                 [config]="inputConfig('Initial fee', 'number', 'Type Here', true)"
-                                formControlName="initialFee"
+                                formControlName="value"
                             ></app-input>
                         </div>
 
                         <div class="col-12 mb-14 m-0 p-0">
                             <app-input
                                 [config]="inputConfig('Subscription Fee', 'number', 'Type Here', true)"
-                                formControlName="subscriptionFee"
+                                formControlName="renewalValue"
                             ></app-input>
                         </div>
                         <div class="col-12 m-0 p-0">
@@ -68,7 +68,7 @@
                                 Cancle
                             </app-button>
 
-                            <app-button type="submit" color="primary" [disabled]="!componentForm.valid"> 
+                            <app-button type="submit" color="primary" [disabled]="!componentForm.valid" (click)="emitPriceListFormData()"> 
                                 <span>Save</span> 
                             </app-button>
 

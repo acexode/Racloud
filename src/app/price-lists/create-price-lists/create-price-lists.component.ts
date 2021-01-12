@@ -3,8 +3,10 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { CurrencyService } from 'src/app/core/services/currency/currency.service';
+import { PriceListService } from 'src/app/core/services/price-list/price-list.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { ProductServiceService } from 'src/app/products/product-service.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
@@ -48,6 +50,7 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: TemplateRef<any>;
   @ViewChild('optionTemplate', { static: true }) optionTemplate: TemplateRef<any>;
+  @ViewChild('valueTemplate', { static: true }) valueTemplate: TemplateRef<any>;
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   tableConfig: TableI = {
@@ -76,7 +79,8 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
     private reqS: RequestService,
     private productS: ProductServiceService,
     private msgS: MessagesService,
-    private currencyS: CurrencyService
+    private currencyS: CurrencyService,
+    private priceListS: PriceListService,
   ) { }
   inputConfig(
     label: string,
@@ -112,17 +116,15 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.initForm();
-    this.onInitTable();
-    
     this.currenciesOptions$ = this.currencyS.getCurrencies();
-
     this.product$ = this.productS.getProducts().subscribe(
       res => {
         this.products = res;
+        this.onInitTable();
       },
       err => {
         this.msgS.addMessage({
-          text: err.error || 'unable to load products at this time. Please refresh your browser',
+          text: 'unable to load products at this time. Please refresh your browser',
           type: 'danger',
           dismissible: true,
           customClass: 'mt-32',
@@ -163,8 +165,8 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
         identifier: 'application',
         label: 'Application',
         sortable: true,
-        minWidth: 200,
-        width: 200,
+        minWidth: 100,
+        width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -178,8 +180,8 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
         identifier: 'product',
         label: 'Product',
         sortable: true,
-        minWidth: 245,
-        width: 246,
+        minWidth: 100,
+        width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -193,8 +195,8 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
         identifier: 'productType',
         label: 'Product Type',
         sortable: true,
-        minWidth: 160,
-        width: 160,
+        minWidth: 100,
+        width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -213,6 +215,7 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
         sortIconPosition: 'left',
         labelPosition: 'right',
         cellContentPosition: 'right',
+        cellTemplate: this.valueTemplate,
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -223,11 +226,12 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
         identifier: 'subscriptionFee',
         label: 'Subscription Fee',
         sortable: true,
-        minWidth: 120,
-        width: 120,
+        minWidth: 100,
+        width: 100,
         sortIconPosition: 'right',
         labelPosition: 'right',
         cellContentPosition: 'right',
+        cellTemplate: this.valueTemplate,
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -252,14 +256,12 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
       {
         identifier: 'action',
         label: '',
-        sortable: true,
         minWidth: 40,
         noGrow: true,
         headerHasFilterIcon: false,
-        sortIconPosition: 'right',
+        sortIconPosition: 'left',
         labelPosition: 'left',
         cellContentPosition: 'right',
-        hasFilter: true,
         cellTemplate: this.optionTemplate
       },
       {
@@ -269,14 +271,32 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
         minWidth: 40,
         noGrow: true,
         headerHasFilterIcon: false,
-        sortIconPosition: 'right',
+        sortIconPosition: 'left',
         labelPosition: 'left',
-        cellContentPosition: 'right',
+        cellContentPosition: 'left',
         hasFilter: true,
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON(this.mockData).subscribe((data) => {
+    this.priceListS.getpriceListProductManagerState().pipe(
+      map(
+        (d: Array<any>) => {
+          return d.map(
+            (v) => {
+              const prod = this.products.find((p) => p.id === v.productId);
+              return {
+                id: `${ v.renewalValue }${ v.supportHours }`,
+                application: prod.application,
+                product: prod.name,
+                productType: prod.productType,
+                initFee: v.value,
+                subscriptionFee: v.renewalValue,
+                supportHours: v.supportHours,
+              };
+            }
+          ).reverse();
+        })
+    ).subscribe((data) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
@@ -287,6 +307,7 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
         this.tableConfig.loadingIndicator = false;
       }
     });
+
   }
   public getJSON(url: string): Observable<any> {
     return this.http.get(url);
@@ -316,11 +337,17 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
     }
     this.ref.detectChanges();
   }
+  addProductToPriceListProductManager(data: any) {
+    this.priceListS.addProductToPriceListingProductManager(data);
+  }
+  removeProductFromPriceListProductManager(data: any = '') {
+    console.log('qfofdsfsdfsdhsa', data);
+    // this.priceListS.removeProductToPriceListingProductManager('sf');
+  }
 
   submit(): void {
     const d = {
-      name: 'string',
-      currency: 'FRA'
+      ...this.componentForm.value
     };
     this.reqS.get<any>(baseEndpoints.priceLists).subscribe(res => {
       console.log('adad', res);

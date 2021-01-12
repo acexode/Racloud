@@ -1,4 +1,4 @@
-import { ProductModel } from "src/app/products/models/products.model";
+import { ProductModel } from 'src/app/products/models/products.model';
 
 export interface ProductPrices {
     discount?: number;

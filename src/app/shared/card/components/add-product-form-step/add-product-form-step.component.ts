@@ -1,6 +1,7 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { PriceListProductManagerModel } from 'src/app/price-lists/models/price-list-product-manager.model';
 import { ProductServiceService } from 'src/app/products/product-service.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
@@ -11,6 +12,7 @@ import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-confi
   styleUrls: ['./add-product-form-step.component.scss']
 })
 export class AddProductFormStepComponent implements OnInit, OnDestroy {
+  @Output() productFormEmitter = new EventEmitter<PriceListProductManagerModel>(null);
   @Input() products: any;
   displayFormModal = true;
   displayModal$: Subscription;
@@ -22,13 +24,13 @@ export class AddProductFormStepComponent implements OnInit, OnDestroy {
         Validators.required,
       ],
     ],
-    initialFee: [
+    value: [
       '',
       [
         Validators.required,
       ],
     ],
-    subscriptionFee: [
+    renewalValue: [
       '',
       [
         Validators.required,
@@ -86,6 +88,11 @@ export class AddProductFormStepComponent implements OnInit, OnDestroy {
   }
   stopModalPropagation(event: Event): void {
     event.stopPropagation();
+  }
+  emitPriceListFormData() {
+    this.productFormEmitter.emit(this.componentForm.value);
+    this.componentForm.reset();
+    this.closeModal();
   }
   ngOnDestroy(): void {
     this.displayModal$.unsubscribe();

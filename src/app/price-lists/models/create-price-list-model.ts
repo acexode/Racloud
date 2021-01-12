@@ -1,4 +1,4 @@
-import { ProductPrices } from "./product-prices-model";
+import { ProductPrices } from './product-prices-model';
 
 export interface CreatePriceListModel {
     name?: string;

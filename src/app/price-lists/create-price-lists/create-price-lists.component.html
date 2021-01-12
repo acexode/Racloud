@@ -100,15 +100,19 @@
   </ng-template>
 
   <ng-template #actionDropdown let-column="column" let-row="row">
-    <div>
-      <img src="./../../../assets/images/Delete.svg" alt="Delete-icon" class="icon-w20-h20" />
-    </div>
+    <button (click)="removeProductFromPriceListProductManager()">
+      a
+    </button>
+   <!--  <div>
+      {{row.id}}
+      <img src="./../../../assets/images/Delete.svg" alt="Delete-icon" class="icon-w20-h20"/>
+    </div> -->
     
   </ng-template>
 
   <ng-template #optionTemplate let-column="column" let-row="row">
     <div>
-      <img src="./../../../assets/images/Options.svg" alt="Delete-icon" class="icon-w20-h20" />
+      <img src="./../../../assets/images/Options.svg" alt="Options-icon" class="icon-w20-h20" (click)="removeProductFromPriceListProductManager(row)"/>
     </div>
     
   </ng-template>
@@ -117,26 +121,11 @@
   <ng-template #valueTemplate let-column="column" let-row="row" let-value="cellValue">
    <div class="text-right px-0 mx-0">
         <span>
-        $
+            {{ value | currency:'USD':'symbol-narrow':'4.2-2' }}
         </span>
-        <span>
-            {{ value }}
-        </span>
-   </div>
-</ng-template>
-
-<ng-template #discountTemplate let-column="column" let-row="row" let-value="cellValue">
-   <div class="text-right px-0 mx-0">
-        <span>
-        {{ value }}
-        </span>
-        <span>
-            %
-        </span>
-        <img src="./../../../assets/images/Edit.svg" alt="edit-icon" class="icon-w16-h16" />
    </div>
 </ng-template>
 
 <ng-container *ngIf="products">
-  <app-add-product-form-step [products]="products"></app-add-product-form-step>
+  <app-add-product-form-step [products]="products" (productFormEmitter)="addProductToPriceListProductManager($event)"></app-add-product-form-step>
 </ng-container>
