@@ -103,14 +103,15 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
       this.isEdit = true
       this.productS.getProducts().subscribe((obj:any) =>{
         this.productOptions = obj
-        const data = obj.filter(e => e.Id.toString() === id)[0];
+        const data = obj.filter(e => e.id.toString() === id)[0];
         this.product = data
-        this.preselectedRows = data.ProductOptions
+        console.log(data)
+        this.preselectedRows = data.productOptions
         this.productForm.patchValue({
-          application: data.Application,
-          name: data.Name,
-          productType: data.ProductType,
-          description: data.Description
+          application: data.application,
+          name: data.name,
+          productType: data.productType,
+          description: data.description
         });
       });
     }else{
@@ -120,13 +121,13 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     }
     this.service.getOption().subscribe((options: any) =>{
       this.optionList = options.map((obj:any) =>{
-        const index = this.preselectedRows.findIndex(idx => obj.Id === idx.OptionId)
+        const index = this.preselectedRows.findIndex(idx => obj.Id === idx.optionId)
         if (index > -1) {
           const item = options[index]
           return {
             ...item,
-            PartnerAccess: this.preselectedRows[index].PartnerAccess,
-            UserAccess: this.preselectedRows[index].UserAccess,
+            PartnerAccess: this.preselectedRows[index].partnerAccess,
+            UserAccess: this.preselectedRows[index].userAccess,
             selected: true
           }
         }else{
@@ -216,21 +217,17 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     }
     return null;
   });
-  console.log(resArr)
   const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
   if(this.isEdit){
     obj.productOptions = resArr
     obj.id =  id
-    console.log(obj)
     this.productS.updateProducts(id, obj).subscribe(e =>{
-      console.log(e)
       this.isLoading = false
       this.router.navigate(['products'])
     });
   }else{
     obj.selectedOptions = resArr
     this.productS.createProducts(obj).subscribe(e =>{
-      console.log(e)
       this.isLoading = false
       this.router.navigate(['products'])
     });

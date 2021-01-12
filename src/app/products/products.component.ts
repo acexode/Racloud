@@ -90,7 +90,7 @@ export class ProductsComponent implements OnInit {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'Application',
+        identifier: 'application',
         label: 'Apllication Name',
         sortable: true,
         minWidth: 200,
@@ -100,7 +100,7 @@ export class ProductsComponent implements OnInit {
         cellContentPosition: 'left',
       },
       {
-        identifier: 'Name',
+        identifier: 'name',
         label: 'Product Name',
         sortable: true,
         minWidth: 150,
@@ -110,7 +110,7 @@ export class ProductsComponent implements OnInit {
         cellContentPosition: 'left',
       },
       {
-        identifier: 'Description',
+        identifier: 'description',
         label: 'Description',
         sortable: true,
         minWidth: 100,
@@ -120,7 +120,7 @@ export class ProductsComponent implements OnInit {
         cellContentPosition: 'left',
       },
       {
-        identifier: 'ProductType',
+        identifier: 'productType',
         label: 'Type',
         sortable: true,
         minWidth: 150,
@@ -146,7 +146,6 @@ export class ProductsComponent implements OnInit {
     ];
     this.productS.getProducts().subscribe((data:Product[]) => {
       if (data) {
-        console.log(data)
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
         const cloneData = data.map((v) => {
@@ -169,7 +168,7 @@ filterTable(filterObj: TableFilterConfig) {
   this.tableData.next(newRows);
 }
 setDropUp(row) {
-  const idx = this.rowData.findIndex(e => e.Id === row.Id) + 1;
+  const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
   const mod = idx % 10 === 0 ? 10 : idx % 10;
   if((this.rowData.length % 10) < 5){
     const dBody = document.querySelector('.datatable-body') as HTMLElement;
@@ -186,7 +185,7 @@ removeRow(id){
   console.log(id);
 }
 manageSub(data: any) {
-  this.router.navigate(['products/edit-product', { id: data.Id }]);
+  this.router.navigate(['products/edit-product', { id: data.id }]);
   console.log(data)
 }
 
