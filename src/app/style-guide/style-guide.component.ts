@@ -156,17 +156,16 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
     SupportHours: 8,
     Discount: 10,
     DiscountPrc: 10
-    
   }
   pnShopcard ={
-  Id: 23,    
+  Id: 23,
   type: 'pn',
   Product: {
       Id: 1,
       Name: 'string',
       Description: 'string',
       Version: 5
-  },    
+  },
   ProductId: 5,
   Value: 100,
   RenewalValue: 50,
