@@ -77,7 +77,7 @@
 
             <div class="w-100">
                 <div class="rc-light-grey-bg mt-16 p-16 d-flex justify-content-end">
-                    <app-button type="button" color="secondaryB" class="mr-8" (click)="openAddProductModal()">
+                    <app-button type="button" color="secondaryB" class="mr-8" (click)="openAddProductFormModal()">
                       Add Product
                     </app-button>
 
@@ -137,9 +137,5 @@
 </ng-template>
 
 <ng-container *ngIf="products">
-  <app-add-product [products]="products"></app-add-product>
-</ng-container>
-
-<ng-container>
-  <app-add-product-form-step></app-add-product-form-step>
+  <app-add-product-form-step [products]="products"></app-add-product-form-step>
 </ng-container>

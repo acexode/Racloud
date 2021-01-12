@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { ProductServiceService } from 'src/app/products/product-service.service';
@@ -22,8 +22,6 @@ import { TableService } from 'src/app/shared/table/services/table.service';
 })
 export class CreatePriceListsComponent implements OnInit, OnDestroy {
   mockData = './assets/price-lists-create-table.json';
-  currency = './assets/currency.json';
-
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/price-lists';
   containerConfig: PageContainerConfig = {
@@ -66,6 +64,7 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
     removePageCounter: true,
   };
   products: any;
+  currenciesOptions: Subscription;
   constructor(
     private fb: FormBuilder,
     private tS: TableService,
@@ -289,7 +288,6 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
   removeRow(id: any) { }
   manageSub(data: any) {
     this.router.navigate(['licenses/license-edit', { id: data.id }]);
-    console.log(data);
   }
   renewSub(id: any) { }
 
@@ -313,9 +311,13 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
       console.log('adad', res);
     });
   }
-  openAddProductModal(): void {
-    this.productS.openAddProductModal();
+  openAddProductFormModal(): void {
+    this.productS.openAddProductFormStepModal();
+  }
+  getProductAvailabilityStatus() {
+    return this.products !== null || this.products !== undefined ? true : false;
   }
   ngOnDestroy(): void {
+    this.currenciesOptions.unsubscribe();
   }
 }

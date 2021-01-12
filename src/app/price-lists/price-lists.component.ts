@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { baseEndpoints } from '../core/configs/endpoints';
 import { getUTCdate } from '../core/helpers/dateHelpers';
+import { PriceListService } from '../core/services/price-list/price-list.service';
 import { RequestService } from '../core/services/request/request.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
@@ -17,7 +18,7 @@ import { TableService } from '../shared/table/services/table.service';
   templateUrl: './price-lists.component.html',
   styleUrls: ['./price-lists.component.scss']
 })
-export class PriceListsComponent implements OnInit {
+export class PriceListsComponent implements OnInit, OnDestroy {
   isDropup = true;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
@@ -71,12 +72,12 @@ export class PriceListsComponent implements OnInit {
     action: true,
     noFiltering: true,
   };
+  priceList$: Subscription;
   constructor(
     private tS: TableService,
-    private http: HttpClient,
     private router: Router,
     private ref: ChangeDetectorRef,
-    private reqS: RequestService,
+    private PriceListS: PriceListService
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -157,8 +158,9 @@ export class PriceListsComponent implements OnInit {
     ];
 
     this.tableConfig.loadingIndicator = true;
-    this.reqS.get<any>(baseEndpoints.priceLists).subscribe(
+    this.priceList$ = this.PriceListS.getPriceListings().subscribe(
       (res: any) => {
+        console.log(res);
         if (res) {
           const data = res.map(
             (r: any) => {
@@ -189,7 +191,6 @@ export class PriceListsComponent implements OnInit {
   removeRow(id: any) { }
   manageSub(data: any) {
     this.router.navigate(['licenses/license-edit', { id: data.id }]);
-    console.log(data);
   }
   renewSub(id: any) { }
 
@@ -202,6 +203,9 @@ export class PriceListsComponent implements OnInit {
       this.isDropup = true;
     }
     this.ref.detectChanges();
+  }
+  ngOnDestroy(): void {
+    this.priceList$.unsubscribe();
   }
 
 }

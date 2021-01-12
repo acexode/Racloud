@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ProductServiceService } from 'src/app/products/product-service.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
+import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 
 @Component({
   selector: 'app-add-product-form-step',
@@ -10,10 +11,17 @@ import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
   styleUrls: ['./add-product-form-step.component.scss']
 })
 export class AddProductFormStepComponent implements OnInit, OnDestroy {
+  @Input() products: any;
   displayFormModal = true;
   displayModal$: Subscription;
   caretLeftIcon = 'assets/images/caret-left.svg';
   componentForm = this.fb.group({
+    productId: [
+      null,
+      [
+        Validators.required,
+      ],
+    ],
     initialFee: [
       '',
       [
@@ -53,11 +61,28 @@ export class AddProductFormStepComponent implements OnInit, OnDestroy {
       }
     };
   }
-
+  selectConfig(
+    label: string,
+    placeholder: string = 'Select',
+    searchable: boolean = false,
+    idKey: string = 'id',
+    labelKey: string = 'option',
+  ): SelectConfig {
+    return {
+      selectLabel: {
+        text: label,
+      },
+      placeholder,
+      idKey,
+      labelKey,
+      searchable,
+    };
+  }
   ngOnInit(): void {
     this.displayModal$ = this.pS.getAddProductFormStepModalDisplayStatus().subscribe(status => this.displayFormModal = status);
   }
   closeModal(): void {
+    this.pS.closeAddProductFormStepModal();
   }
   stopModalPropagation(event: Event): void {
     event.stopPropagation();
