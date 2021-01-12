@@ -22,8 +22,7 @@ export class ShopService {
   getSingleShop(){
     return this.reqS.get(shopEndpoints.getSingleShop)
   }
-  buy(shop){    
+  buy(shop){
     return this.buyStore.next(shop)
-
   }
 }
