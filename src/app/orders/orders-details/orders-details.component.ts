@@ -421,8 +421,8 @@ export class OrdersDetailsComponent implements OnInit {
     this.addedProducts = this.addedProducts.map(e =>{
       if(e.id === row.id && type === 'inc'){
         const obj = {
-          "orderId": this.routeId,
-          "productPriceId": e.priceListId
+          orderId: this.routeId,
+          productPriceId: e.priceListId
         }
         console.log(obj)
         this.service.addOrderToCart(this.routeId, obj).subscribe(res =>{
@@ -434,7 +434,7 @@ export class OrdersDetailsComponent implements OnInit {
       }
       else if(e.id === row.id && type === 'dec'){
         const obj = {
-          "orderItemId": e.orderItemId,
+          orderItemId: e.orderItemId,
         }
         console.log(obj)
         this.service.reduceCartItem(e.orderItemId, obj).subscribe(res =>{
