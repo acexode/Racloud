@@ -454,7 +454,6 @@ export class OrdersDetailsComponent implements OnInit {
   }
   submitForm(){
     const values = this.componentForm.value
-    values
   }
   cancelOrder(){
     const id = this.route.snapshot.paramMap.get('id');
