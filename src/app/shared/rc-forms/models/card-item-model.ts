@@ -1,5 +1,5 @@
 export interface CardItem {
-    id?: string | number;   
+    id?: string | number;
     value?: string | number;
     productId?: number;
     priceListId?: number;
