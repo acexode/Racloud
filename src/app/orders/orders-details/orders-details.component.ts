@@ -366,7 +366,6 @@ export class OrdersDetailsComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    
       if (this.addedProducts.length) {
         // this.tableConfig.loadingIndicator = true;
         this.noProduct = false
@@ -380,12 +379,11 @@ export class OrdersDetailsComponent implements OnInit {
         this.tableConfig.loadingIndicator = false
         this.noProduct = true
         const empty = document.getElementsByClassName('empty-row') as HTMLCollectionOf<HTMLElement>
-        if(empty.length != 0){
+        if(empty.length !== 0){
           console.log(empty)
           empty[0].style.display = 'none'
         }
       }
-    
   }
   public getJSON(): Observable<any> {
     return this.http.get('./assets/order-details.json');
