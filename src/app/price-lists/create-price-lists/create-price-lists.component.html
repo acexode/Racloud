@@ -56,11 +56,11 @@
                 ></app-select>
                 </div>
 
-                <div class="col-12 col-md-3">
-                <app-input
-                    [config]="inputConfig('Date Created')"
-                    formControlName="dateCreated"
-                ></app-input>
+                <div class="col-12 col-md-3" *ngIf="!removeNotInUse">
+                  <app-input
+                      [config]="inputConfig('Date Created')"
+                      formControlName="dateCreated"
+                  ></app-input>
                 </div>
 
             </div>
@@ -82,7 +82,10 @@
                       Add Product
                     </app-button>
 
-                    <app-button type="submit" color="primary"> Update </app-button>
+                    <app-button type="submit" color="primary" (click)="savePriceList()" [disabled]="!componentForm?.valid || isLoading">  
+                      <app-loader type="button" *ngIf="isLoading"></app-loader>
+                      <span *ngIf="!isLoading">Update</span>
+                    </app-button>
                 </div>
             </div>
         </form>

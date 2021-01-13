@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,6 +18,9 @@ import { TableFilterType } from 'src/app/shared/table/models/table-filter-types'
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
 import { PriceListProductManagerModel } from '../models/price-list-product-manager.model';
+import { get } from 'lodash';
+import { CreatePriceListModel } from '../models/create-price-list-model';
+import { PriceListModel } from '../models/price-list-model';
 
 @Component({
   selector: 'app-create-price-lists',
@@ -26,6 +28,7 @@ import { PriceListProductManagerModel } from '../models/price-list-product-manag
   styleUrls: ['./create-price-lists.component.scss']
 })
 export class CreatePriceListsComponent implements OnInit, OnDestroy {
+  removeNotInUse = true;
   mockData = './assets/price-lists-create-table.json';
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/price-lists';
@@ -72,11 +75,13 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
   products: Array<ProductModel>;
   currenciesOptions$: Observable<any>;
   product$: Subscription;
+  proccessPriceListProducts$: Subscription;
+  getPriceListProducts$: Subscription;
   toEditProduct: Observable<PriceListProductManagerModel>;
+  isLoading = false;
   constructor(
     private fb: FormBuilder,
     private tS: TableService,
-    private http: HttpClient,
     private router: Router,
     private ref: ChangeDetectorRef,
     private reqS: RequestService,
@@ -155,9 +160,6 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
       ],
       dateCreated: [
         '',
-        [
-          Validators.required,
-        ],
       ],
     });
   }
@@ -288,7 +290,7 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.priceListS.getpriceListProductManagerState().pipe(
+    this.getPriceListProducts$ = this.priceListS.getpriceListProductManagerState().pipe(
       map(
         (d: Array<PriceListProductManagerModel>) => {
           return d.map(
@@ -311,9 +313,6 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
       }
     });
 
-  }
-  public getJSON(url: string): Observable<any> {
-    return this.http.get(url);
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
@@ -340,6 +339,9 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
     }
     this.ref.detectChanges();
   }
+  isLoadingStatus() {
+    this.isLoading = !this.isLoading;
+  }
   addProductToPriceListProductManager(data: PriceListProductManagerModel) {
     const prod = this.products.find((p: ProductModel) => p.id === data.productId);
     const nD: PriceListProductManagerModel = {
@@ -347,7 +349,7 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
       application: prod.application,
       product: prod.name,
       productType: prod.productType,
-    }
+    };
     if (nD.hasOwnProperty('id')) {
       this.priceListS.updateProductToPriceListingProductManager(nD);
     } else {
@@ -358,7 +360,7 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
     this.priceListS.removeProductToPriceListingProductManager(data.id);
   }
   toEditProductFromPriceListProductManager(data: PriceListProductManagerModel) {
-  /* note product Id is included */
+    /* note product Id is included */
     this.priceListS.toEditProductToPriceListingProductManager(data);
     this.openAddProductFormModal();
   }
@@ -367,23 +369,113 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
       this.priceListS.nullEditState();
     }
   }
-
-  submit(): void {
-    const d = {
-      ...this.componentForm.value
-    };
-    this.reqS.get<any>(baseEndpoints.priceLists).subscribe(res => {
-      console.log('adad', res);
-    });
-  }
   openAddProductFormModal(): void {
     this.productS.openAddProductFormStepModal();
   }
   getProductAvailabilityStatus() {
     return this.products !== null || this.products !== undefined ? true : false;
   }
+  savePriceList() {
+    // loading
+    this.isLoadingStatus();
+    // start processing
+    this.proccessPriceListProducts$ = this.priceListS.getpriceListProductManagerState().pipe(
+      tap(v => console.log(v)),
+      map(
+        (d: Array<PriceListProductManagerModel>) => {
+          return d.map(
+            (v) => {
+              return {
+                productId: Number(get(v, 'productId', 0)),
+                value: Number(get(v, 'value', 0)),
+                renewalValue: Number(get(v, 'renewalValue', 0)),
+                discount: Number(get(v, 'discount', '')),
+                supportHours: Number(get(v, 'supportHours', 0)),
+              };
+            }
+          );
+        })
+    ).subscribe(
+      (data) => {
+        if (data.length < 1) {
+          this.msgS.addMessage({
+            text: 'Please add a product',
+            type: 'info',
+            dismissible: true,
+            customClass: 'mt-32',
+            hasIcon: true,
+          });
+          // loading
+          this.isLoadingStatus();
+        } else {
+          const { name, currency } = this.componentForm.value;
+          if (name !== '') {
+            if (currency !== null) {
+              const d: CreatePriceListModel = {
+                name,
+                currency,
+                productPrices: data,
+              };
+              this.priceListS.createPriceList(d).subscribe(
+                (_res: PriceListModel) => {
+                  this.msgS.addMessage({
+                    text: 'Pricelist created Successfully',
+                    type: 'success',
+                    dismissible: true,
+                    customClass: 'mt-32',
+                    hasIcon: true,
+                    timeout: 5000,
+                  });
+                  this.isLoadingStatus();
+                  // clear product state
+                  this.priceListS.nullProductState();
+                  // reset form
+                  this.componentForm.reset();
+                  // redirect to login page
+                  this.router.navigateByUrl('/price-lists');
+                },
+                _err => {
+                  this.msgS.addMessage({
+                    text: 'Error while trying to update price list',
+                    type: 'success',
+                    dismissible: true,
+                    customClass: 'mt-32',
+                    hasIcon: true,
+                  });
+                  this.componentForm.markAllAsTouched();
+                  this.componentForm.updateValueAndValidity();
+                  this.isLoadingStatus();
+                }
+              )
+            } else {
+              this.msgS.addMessage({
+                text: 'Please Select a currency',
+                type: 'info',
+                dismissible: true,
+                customClass: 'mt-32',
+                hasIcon: true,
+              });
+              this.isLoadingStatus();
+            }
+          } else {
+            this.msgS.addMessage({
+              text: 'Price List name field is empty',
+              type: 'info',
+              dismissible: true,
+              customClass: 'mt-32',
+              hasIcon: true,
+            });
+            this.isLoadingStatus();
+          }
+        }
+      }
+    );
+  }
   ngOnDestroy(): void {
     this.product$.unsubscribe();
-    // this.currenciesOptions$.unsubscribe();
+    this.getPriceListProducts$.unsubscribe();
+    if (this.proccessPriceListProducts$) {
+      this.proccessPriceListProducts$.unsubscribe();
+    }
   }
 }

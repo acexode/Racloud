@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { CreatePriceListModel } from 'src/app/price-lists/models/create-price-list-model';
 import { PriceListModel } from 'src/app/price-lists/models/price-list-model';
 import { PriceListProductManagerModel } from 'src/app/price-lists/models/price-list-product-manager.model';
-import { baseEndpoints } from '../../configs/endpoints';
+import { baseEndpoints, priceListEndpoints } from '../../configs/endpoints';
 import { uuid } from '../../helpers/uuid';
 import { RequestService } from '../request/request.service';
 
@@ -20,6 +21,9 @@ export class PriceListService {
   constructor(private reqS: RequestService) { }
   getPriceLists(): Observable<Array<PriceListModel>> {
     return this.reqS.get<Array<PriceListModel>>(baseEndpoints.priceLists);
+  }
+  createPriceList(data: CreatePriceListModel): Observable<PriceListModel> {
+    return this.reqS.post<PriceListModel>(priceListEndpoints.create, data);
   }
   addProductToPriceListingProductManager(data: any): void {
     const d = [
@@ -48,6 +52,9 @@ export class PriceListService {
   }
   nullEditState():void {
     this.toEditPriceListProductManager.next(null);
+  }
+  nullProductState(): void {
+    this.priceListProductManager.next(null);
   }
   getpriceListProductManagerState(): Observable<Array<PriceListProductManagerModel>> {
     return this.priceListProductManager.asObservable();
