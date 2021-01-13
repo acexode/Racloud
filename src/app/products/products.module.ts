@@ -1,3 +1,5 @@
+import { LoaderModule } from './../shared/loader/loader.module';
+import { SharedModuleModule } from './../SharedModule/shared-module/shared-module.module';
 
 
 
@@ -14,6 +16,7 @@ import { ContainerModule } from '../shared/container/container.module';
 import { RcFormsModule } from '../shared/rc-forms/rc-forms.module';
 import { TableModule } from '../shared/table/table.module';
 import { TabsModule } from '../shared/tabs/tabs.module';
+
 import { OptionsModule } from '../options/options.module';
 
 
@@ -29,6 +32,8 @@ import { OptionsModule } from '../options/options.module';
     TabsModule,
     AngularSvgIconModule,
     FormsModule,
+    SharedModuleModule,
+    LoaderModule,
     BsDropdownModule.forRoot(),
     ReactiveFormsModule,
     ProductsRoutingModule,

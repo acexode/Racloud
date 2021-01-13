@@ -27,9 +27,13 @@ export class OptionTabComponent implements OnInit {
 
   @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
   @Input() optionList
+  @Input() preselectedRows
   @Output() selectedRows: EventEmitter<any> = new EventEmitter();
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  modifiedTableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  checkedValueList = []
+  editing = {};
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -85,10 +89,10 @@ export class OptionTabComponent implements OnInit {
     private footerS: FooterService,
     private http: HttpClient,
     private productS: ProductServiceService,
-
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
+    console.log(this.preselectedRows)
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.selectDetailTemplate = this.selectDetailTemplate;
     this.tableConfig.columns = [
@@ -169,6 +173,21 @@ export class OptionTabComponent implements OnInit {
       }
     ];
     if (this.optionList) {
+      this.optionList.forEach(e => {
+        if(e.OptionType === 'ValueList'){
+          const obj = {
+            id: e.Id,
+            values: e.ValueList
+          }
+          this.checkedValueList.push(obj)
+        }else if(e.OptionType === 'Boolean'){
+          const obj = {
+            id: e.Id,
+            valueBoolean: e.ValueBoolean
+          }
+          this.checkedValueList.push(obj)
+        }
+      })
       this.tableConfig.loadingIndicator = true;
       this.rowData = this.optionList;
       const cloneData = this.optionList.map((v: any) => {
@@ -206,7 +225,7 @@ export class OptionTabComponent implements OnInit {
   }
 
   setDropUp(row) {
-    const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
+    const idx = this.rowData.findIndex(e => e.Id === row.Id) + 1;
     const mod = idx % 10 === 0 ? 10 : idx % 10;
     if (mod < 6) {
       this.isDropup = false;
@@ -231,7 +250,6 @@ export class OptionTabComponent implements OnInit {
   }
   getRow(item){
     this.rowValue = item.selected[0]
-    console.log(item)
     this.selectedRows.emit(item)
   }
   setPartnerAccess(row, access){
@@ -266,5 +284,42 @@ export class OptionTabComponent implements OnInit {
     });
     this.productS.SetOptionList(data)
     this.tableData.next(cloneData);
+  }
+  onCheckValueBoolean($event, row){
+    const checked = $event.target.checked
+    this.checkedValueList = this.checkedValueList.map(e => {
+      if(e.id === row.Id){
+        e.valueBoolean = checked
+        return e
+      }
+      return e
+    })
+    this.modifiedTableData.next(this.checkedValueList)
+  }
+  onCheckValueList($event, row){
+    const checked = $event.target.checked
+    const value = $event.target.value
+    this.checkedValueList = this.checkedValueList.map(e => {
+      if(e.id === row.Id){
+        if(checked){
+          const filtered = row.ValueList.filter(val => val.Name === value)[0]
+          e.values.push(filtered)
+        }else {
+          const filtered = e.values.filter(val => val.Name !== value)
+          e.values = filtered
+        }
+        return e
+      }
+      return e
+    })
+    console.log(this.checkedValueList)
+    this.modifiedTableData.next(this.checkedValueList)
+  }
+  updateValue(event, cell, rowIndex) {
+    const idx = this.optionList.findIndex(e => e.Id === rowIndex);
+    this.editing[rowIndex + '-' + cell] = false;
+    this.optionList[idx][cell] = event.target.value;
+    this.optionList = [...this.optionList];
+    this.reInitData(this.optionList)
   }
 }
