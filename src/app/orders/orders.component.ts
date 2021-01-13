@@ -43,7 +43,7 @@ export class OrdersComponent implements OnInit {
   rowDetailIcons = [
     '../../assets/images/Edit.svg',
     '../../assets/images/Log.svg',
-  ];  
+  ];
   tableConfig: TableI = {
     selectable: false,
     selectDetail: false,
@@ -242,6 +242,4 @@ export class OrdersComponent implements OnInit {
     console.log(data);
     this.router.navigate(['orders-details', data.Id], { relativeTo: this.route });
   }
-
-
 }
