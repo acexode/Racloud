@@ -1,21 +1,21 @@
 export interface Product {
-    Id: string;
-    Name: string;
-    Application: string;
-    Description: string;
-    ProductType: string;
-    Edition: string;
-    Version: number;
-    SoftwareAssurance: string;
-    ProductOptions: [
+    id: string;
+    name: string;
+    application: string;
+    description: string;
+    productType: string;
+    edition: string;
+    version: number;
+    softwareAssurance: string;
+    productOptions: [
         {
-            Id: number;
-            ProductId: number;
-            OptionId: number;
-            UserAccess: string;
-            PartnerAccess: string;
-            Option?: string;
+            id: number;
+            productId: number;
+            optionId: number;
+            userAccess: string;
+            partnerAccess: string;
+            option?: string;
         }
     ],
-    ProductPrices?: string;
+    productPrices?: string;
 }
