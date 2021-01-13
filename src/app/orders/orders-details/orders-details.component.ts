@@ -124,17 +124,16 @@ export class OrdersDetailsComponent implements OnInit {
         console.log(obj)
         this.service.addOrderToCart(orderId, obj).subscribe(res =>{
           console.log(res)
+          this.loadOrder()
         })
-        e.quantity =  1
-        e.totalValue = e.quantity * e.value
-        this.addedProducts.push(e)
         this.onInitTable()
-
-      }else{
-        console.log('hello')
       }
     })
     this.initForm();    
+    this.loadOrder()
+    this.onInitTable();
+  }
+  loadOrder(){
     const id = this.route.snapshot.paramMap.get('id');
     this.orderId = id
     if(id){
@@ -183,9 +182,7 @@ export class OrdersDetailsComponent implements OnInit {
         this.componentForm.get('orderDate').patchValue(this.formatDate(new Date(e.CreateDate)));
       }) 
     }
-    this.onInitTable();
   }
-
   initForm() {
     this.componentForm = this.fb.group({
       orderNumber: [
@@ -437,7 +434,7 @@ export class OrdersDetailsComponent implements OnInit {
         console.log(obj)
         this.service.reduceCartItem(e.orderItemId, obj).subscribe(res =>{
           console.log(res)
-        })
+        },err => console.log(err))
         if(e.quantity > 1){
           e.quantity = e.quantity - 1
           e.totalValue = e.quantity * e.value
@@ -465,8 +462,8 @@ export class OrdersDetailsComponent implements OnInit {
       orderId: this.routeId
     }
     console.log(obj)
-    this.service.deleteCartItem(this.routeId, obj).subscribe(e =>{
+    this.service.deleteCartItem(row.orderItemId, obj).subscribe(e =>{
       console.log(e)
-    })
+    },err => console.log(err))
   }
 }
