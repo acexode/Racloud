@@ -8,6 +8,7 @@ import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { CurrencyService } from 'src/app/core/services/currency/currency.service';
 import { PriceListService } from 'src/app/core/services/price-list/price-list.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
+import { ProductModel } from 'src/app/products/models/products.model';
 import { ProductServiceService } from 'src/app/products/product-service.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
@@ -17,6 +18,7 @@ import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-conf
 import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
+import { PriceListProductManagerModel } from '../models/price-list-product-manager.model';
 
 @Component({
   selector: 'app-create-price-lists',
@@ -67,9 +69,10 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
     removeExportBtn: true,
     removePageCounter: true,
   };
-  products: any;
+  products: Array<ProductModel>;
   currenciesOptions$: Observable<any>;
   product$: Subscription;
+  toEditProduct: Observable<PriceListProductManagerModel>;
   constructor(
     private fb: FormBuilder,
     private tS: TableService,
@@ -117,12 +120,13 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initForm();
     this.currenciesOptions$ = this.currencyS.getCurrencies();
+    this.toEditProduct = this.priceListS.getEdittablePriceListProductManagerState();
     this.product$ = this.productS.getProducts().subscribe(
       res => {
         this.products = res;
         this.onInitTable();
       },
-      err => {
+      _err => {
         this.msgS.addMessage({
           text: 'unable to load products at this time. Please refresh your browser',
           type: 'danger',
@@ -210,7 +214,7 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
         },
       },
       {
-        identifier: 'initFee',
+        identifier: 'value',
         label: 'Initial Fee',
         sortable: true,
         minWidth: 130,
@@ -227,7 +231,7 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
         },
       },
       {
-        identifier: 'subscriptionFee',
+        identifier: 'renewalValue',
         label: 'Subscription Fee',
         sortable: true,
         minWidth: 150,
@@ -286,18 +290,11 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
     ];
     this.priceListS.getpriceListProductManagerState().pipe(
       map(
-        (d: Array<any>) => {
+        (d: Array<PriceListProductManagerModel>) => {
           return d.map(
             (v) => {
-              const prod = this.products.find((p) => p.id === v.productId);
               return {
-                id: `${ v.renewalValue }${ v.supportHours }`,
-                application: prod.application,
-                product: prod.name,
-                productType: prod.productType,
-                initFee: v.value,
-                subscriptionFee: v.renewalValue,
-                supportHours: v.supportHours,
+                ...v,
               };
             }
           ).reverse();
@@ -343,12 +340,32 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
     }
     this.ref.detectChanges();
   }
-  addProductToPriceListProductManager(data: any) {
-    this.priceListS.addProductToPriceListingProductManager(data);
+  addProductToPriceListProductManager(data: PriceListProductManagerModel) {
+    const prod = this.products.find((p: ProductModel) => p.id === data.productId);
+    const nD: PriceListProductManagerModel = {
+      ...data,
+      application: prod.application,
+      product: prod.name,
+      productType: prod.productType,
+    }
+    if (nD.hasOwnProperty('id')) {
+      this.priceListS.updateProductToPriceListingProductManager(nD);
+    } else {
+      this.priceListS.addProductToPriceListingProductManager(nD);
+    }
   }
-  removeProductFromPriceListProductManager(data: any = '') {
-    console.log('qfofdsfsdfsdhsa', data);
-    // this.priceListS.removeProductToPriceListingProductManager('sf');
+  removeProductFromPriceListProductManager(data: PriceListProductManagerModel) {
+    this.priceListS.removeProductToPriceListingProductManager(data.id);
+  }
+  toEditProductFromPriceListProductManager(data: PriceListProductManagerModel) {
+  /* note product Id is included */
+    this.priceListS.toEditProductToPriceListingProductManager(data);
+    this.openAddProductFormModal();
+  }
+  setEditStateToNull(status: boolean) {
+    if (status) {
+      this.priceListS.nullEditState();
+    }
   }
 
   submit(): void {

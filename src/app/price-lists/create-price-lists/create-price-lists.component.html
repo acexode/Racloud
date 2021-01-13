@@ -107,7 +107,7 @@
   </ng-template>
 
   <ng-template #optionTemplate let-column="column" let-row="row">
-    <div>
+    <div (click)="toEditProductFromPriceListProductManager(row)">
       <img src="./../../../assets/images/Options.svg" alt="Options-icon" class="icon-w20-h20" />
     </div>
     
@@ -123,5 +123,10 @@
 </ng-template>
 
 <ng-container *ngIf="products">
-  <app-add-product-form-step [products]="products" (productFormEmitter)="addProductToPriceListProductManager($event)"></app-add-product-form-step>
+  <app-add-product-form-step 
+    [products]="products" 
+    (productFormEmitter)="addProductToPriceListProductManager($event)"
+    (closeModalStateEmitter)="setEditStateToNull($event)"
+    [editableData]="toEditProduct"
+  ></app-add-product-form-step>
 </ng-container>

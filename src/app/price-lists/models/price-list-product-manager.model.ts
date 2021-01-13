@@ -5,5 +5,8 @@ export interface PriceListProductManagerModel {
     supportHours: number | string;
     value: number | string;
     productId: number | string;
-    product?: ProductModel;
+    product?: ProductModel | string;
+    id: string; /* introduced to make the product distict */
+    application?: null | string;
+    productType?: null | string,
 }

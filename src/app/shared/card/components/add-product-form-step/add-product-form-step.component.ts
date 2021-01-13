@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { PriceListProductManagerModel } from 'src/app/price-lists/models/price-list-product-manager.model';
 import { ProductServiceService } from 'src/app/products/product-service.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
-
+import { get } from 'lodash';
 @Component({
   selector: 'app-add-product-form-step',
   templateUrl: './add-product-form-step.component.html',
@@ -13,10 +13,14 @@ import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-confi
 })
 export class AddProductFormStepComponent implements OnInit, OnDestroy {
   @Output() productFormEmitter = new EventEmitter<PriceListProductManagerModel>(null);
+  @Output() closeModalStateEmitter = new EventEmitter<boolean>(false);
+  @Input() editableData!: Observable<any>;
   @Input() products: any;
   displayFormModal = true;
   displayModal$: Subscription;
   caretLeftIcon = 'assets/images/caret-left.svg';
+  inEditMode = false;
+  editItemId: null | string | number = null;
   componentForm = this.fb.group({
     productId: [
       null,
@@ -81,18 +85,52 @@ export class AddProductFormStepComponent implements OnInit, OnDestroy {
     };
   }
   ngOnInit(): void {
-    this.displayModal$ = this.pS.getAddProductFormStepModalDisplayStatus().subscribe(status => this.displayFormModal = status);
+    this.editableData.subscribe(
+      d => {
+        if (d !== null) {
+          // update form Data
+          this.updateValueForForm(d);
+          this.editIdManager(true, d.id);
+        }
+      }
+    );
+    this.displayModal$ = this.pS.getAddProductFormStepModalDisplayStatus().subscribe(status => {
+      this.displayFormModal = status;
+      this.closeModalStateEmitter.next(!status);
+    });
+  }
+  updateValueForForm(data: any) {
+    if (typeof data !== 'undefined') {
+      // get data
+      const d = {
+        productId: get(data, 'productId', null),
+        value: get(data, 'value', ''),
+        renewalValue: get(data, 'renewalValue', ''),
+        supportHours: get(data, 'supportHours', ''),
+      };
+      this.componentForm.setValue({ ...d });
+    }
   }
   closeModal(): void {
+    this.componentForm.reset();
+    this.closeModalStateEmitter.next(true);
+    this.editIdManager();
     this.pS.closeAddProductFormStepModal();
   }
   stopModalPropagation(event: Event): void {
     event.stopPropagation();
   }
   emitPriceListFormData() {
-    this.productFormEmitter.emit(this.componentForm.value);
-    this.componentForm.reset();
+    if (this.inEditMode && this.editItemId !== 'none') {
+      this.productFormEmitter.emit({ ...this.componentForm.value, id: this.editItemId });
+    } else {
+      this.productFormEmitter.emit(this.componentForm.value);
+    }
     this.closeModal();
+  }
+  editIdManager(status: boolean = false, id: string | number = ''): void {
+    this.inEditMode = true;
+    this.editItemId = id || 'none';
   }
   ngOnDestroy(): void {
     this.displayModal$.unsubscribe();
