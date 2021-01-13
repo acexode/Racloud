@@ -11,7 +11,7 @@ export class OrderService {
 
   generateOrder(){
     const obj = {
-      "companyId": ""
+      companyId: ''
     }
     return this.reqS.post(orderEndpoints.generateOrder, obj)
   }
