@@ -444,11 +444,10 @@ export class OrdersDetailsComponent implements OnInit {
           e.quantity = e.quantity - 1
           e.totalValue = e.quantity * e.value
         }
-        return e;  
+        return e;
       }
       return e
     })
-
     this.ref.detectChanges()
     this.tableData.next(this.addedProducts)
   }
