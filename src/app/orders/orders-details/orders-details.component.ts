@@ -143,10 +143,12 @@ export class OrdersDetailsComponent implements OnInit {
         const orderItems: any[] = e.OrderItems
         this.service.getShops().subscribe((shop:any[]) =>{
           console.log(shop)
+          this.addedProducts = []
           shop.forEach(s =>{
               const index = orderItems.findIndex((item:any) => item.ProductId === s.product.id )
               if(index > -1){
                 this.noProduct = false
+                
                 this.addedProducts.push({
                   quantity: orderItems[index].Quantity,
                   value: orderItems[index].Value,
@@ -164,6 +166,10 @@ export class OrdersDetailsComponent implements OnInit {
               }
           })
           console.log(this.addedProducts.length)
+          const uniqueArray = this.addedProducts.filter((v,i) =>{ 
+            return this.addedProducts.indexOf(v) == i
+          })
+          console.log(uniqueArray)
           this.rowData = this.addedProducts;
           const cloneData = this.addedProducts.map((v) => {
             return { ...v };
@@ -458,8 +464,8 @@ export class OrdersDetailsComponent implements OnInit {
   deleteItem(row){
     console.log(row)
     const obj = {
-      orderItemId: row.orderItemId,
-      orderId: this.routeId
+      "orderItemId": row.orderItemId,
+      "orderId": this.routeId
     }
     console.log(obj)
     this.service.deleteCartItem(row.orderItemId, obj).subscribe(e =>{
