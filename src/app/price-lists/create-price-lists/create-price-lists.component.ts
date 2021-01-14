@@ -435,7 +435,9 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
                 },
                 err => {
                   console.log(err);
-                  const msgErr = typeof err.error !== 'string' ? (err?.error?.currency || 'Error while trying to update price list') : (err.error || 'Please check your network');
+                  const msgErr = typeof err.error !== 'string'
+                    ? (err?.error?.currency || 'Error while trying to update price list')
+                    : (err.error || 'Please check your network');
                   this.msgS.addMessage({
                     text: msgErr,
                     type: 'danger',
