@@ -189,7 +189,7 @@ export class PriceListsComponent implements OnInit, OnDestroy {
 
   removeRow(id: any) { }
   manageSub(data: any) {
-    this.router.navigate(['licenses/license-edit', { id: data.id }]);
+    // this.router.navigate(['licenses/license-edit', { id: data.id }]);
   }
   renewSub(id: any) { }
 
