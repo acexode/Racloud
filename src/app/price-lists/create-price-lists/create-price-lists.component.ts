@@ -302,7 +302,7 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
           ).reverse();
         })
     ).subscribe((data) => {
-      if (data) {
+      if (data !== null || data.length < 0) {
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
         const cloneData = data.map((v: any) => {
@@ -416,6 +416,7 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
                 currency,
                 productPrices: data,
               };
+              console.log(d);
               this.priceListS.createPriceList(d).subscribe(
                 (_res: PriceListModel) => {
                   this.msgS.addMessage({
@@ -427,17 +428,17 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
                     timeout: 5000,
                   });
                   this.isLoadingStatus();
-                  // clear product state
-                  this.priceListS.nullProductState();
                   // reset form
                   this.componentForm.reset();
                   // redirect to login page
                   this.router.navigateByUrl('/price-lists');
                 },
-                _err => {
+                err => {
+                  console.log(err);
+                  const msgErr = typeof err.error !== 'string' ? (err?.error?.currency || 'Error while trying to update price list') : (err.error || 'Please check your network');
                   this.msgS.addMessage({
-                    text: 'Error while trying to update price list',
-                    type: 'success',
+                    text: msgErr,
+                    type: 'danger',
                     dismissible: true,
                     customClass: 'mt-32',
                     hasIcon: true,
@@ -477,5 +478,7 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
     if (this.proccessPriceListProducts$) {
       this.proccessPriceListProducts$.unsubscribe();
     }
+    // clear product state;
+    this.priceListS.nullProductState();
   }
 }

@@ -50,11 +50,11 @@ export class PriceListService {
     d[prodIndex] = data;
     this.priceListProductManager.next(d);
   }
-  nullEditState():void {
+  nullEditState(): void {
     this.toEditPriceListProductManager.next(null);
   }
   nullProductState(): void {
-    this.priceListProductManager.next(null);
+    this.priceListProductManager.next([]);
   }
   getpriceListProductManagerState(): Observable<Array<PriceListProductManagerModel>> {
     return this.priceListProductManager.asObservable();
