@@ -38,6 +38,7 @@ import { SignupComponent } from './signup/signup.component';
 import { ShopComponent } from './shop/shop.component';
 import { CustomerModule } from './customer/customer.module';
 import { LoaderModule } from './shared/loader/loader.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,7 +77,8 @@ import { LoaderModule } from './shared/loader/loader.module';
     RcFormsModule,
     TabsModule,
     CustomerModule,
-    LoaderModule
+    LoaderModule,
+    ModalModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

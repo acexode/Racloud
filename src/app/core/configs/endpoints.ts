@@ -42,3 +42,6 @@ export const shopEndpoints = {
   getShops: serverBaseUrl + '/shop',
   getSingleShop: serverBaseUrl + '/shop'
 };
+export const priceListEndpoints = {
+  create: baseEndpoints.priceLists + '/create',
+}
