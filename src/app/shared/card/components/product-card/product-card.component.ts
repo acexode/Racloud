@@ -12,9 +12,9 @@ export class ProductCardComponent implements OnInit {
   @Input() product: any;
   acronym = 'ERE';
   item: CardItem = {
-    Product: {
-      Name: 'ERE',
-      Description: 'Ra Workshop Professional is the ultimate production edition. This edition includes everything from estimation to production. It is confi-gured to have the best performance and a maximum return of your investment.'
+    product: {
+      name: 'ERE',
+      description: 'Ra Workshop Professional is the ultimate production edition. This edition includes everything from estimation to production. It is confi-gured to have the best performance and a maximum return of your investment.'
     }
   };
   cardTypes = {
@@ -76,7 +76,7 @@ export class ProductCardComponent implements OnInit {
     } */
   }
   get itemStatus() {
-    return (this.item?.Product?.Description) ? true : false;
+    return (this.item?.product?.description) ? true : false;
   }
   get theCardType(): any {
     if (typeof this.item?.type === 'undefined' || typeof this.item?.type === null) {
@@ -89,7 +89,7 @@ export class ProductCardComponent implements OnInit {
     }
   }
   setCardTypeProduct(type: any) {
-    this.cardTypes[type].productName = this.item?.Product.Name || 'Product name';
+    this.cardTypes[type].productName = this.item?.product.name || 'Product name';
     this.cardTypes[type].productVersion = this.item?.productVersion || '& version';
   }
   emitProductDetails() {
