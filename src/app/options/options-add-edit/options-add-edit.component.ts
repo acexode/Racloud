@@ -142,7 +142,7 @@ export class OptionsAddEditComponent implements OnInit {
     const val = this.optionForm.get('optionListName').value;
     this.valueLists.push(
       this.fb.group(
-        {value: (this.valueLists.length + 1), name: val}
+        {value: (Math.pow(2,this.valueLists.length)), name: val}
       )
     );
     this.setFormValue('optionListName','');

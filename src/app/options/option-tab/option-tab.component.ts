@@ -312,7 +312,9 @@ export class OptionTabComponent implements OnInit {
       }
       return e
     })
+    // console.log(this.checkedValueList[this.checkedValueList.length -1])
     console.log(this.checkedValueList)
+
     this.modifiedTableData.next(this.checkedValueList)
   }
   updateValue(event, cell, rowIndex) {
