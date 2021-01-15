@@ -64,6 +64,7 @@ export class OrdersDetailsComponent implements OnInit {
   componentForm: FormGroup;
   addedProducts = []
   allProducts = []
+  customers
   controlStore: { [key: string]: AbstractControl; } = {};
   isDropup: boolean;
   routeId:any
@@ -111,6 +112,10 @@ export class OrdersDetailsComponent implements OnInit {
     return this.componentForm.get('type');
   }
   ngOnInit(): void {
+    this.service.getcustomers().subscribe(e =>{
+      this.customers = e
+      console.log(e)
+    })
     this.routeId = parseInt(this.route.snapshot.paramMap.get('id'), 10)
     this.shopS.buyStore.subscribe((e:any) =>{
       console.log(e)
@@ -175,6 +180,9 @@ export class OrdersDetailsComponent implements OnInit {
             return { ...v };
           });
           this.tableData.next(cloneData);
+          if(this.addedProducts.length < 1){
+            this.noProduct = true
+          }
           console.log(this.addedProducts)
         })
         this.componentForm.patchValue({
@@ -440,7 +448,12 @@ export class OrdersDetailsComponent implements OnInit {
         console.log(obj)
         this.service.reduceCartItem(e.orderItemId, obj).subscribe(res =>{
           console.log(res)
-        },err => console.log(err))
+        },err => {
+          if(err.status === 200){
+            console.log(err.status)
+            this.loadOrder()
+          }
+        })
         if(e.quantity > 1){
           e.quantity = e.quantity - 1
           e.totalValue = e.quantity * e.value
@@ -470,6 +483,11 @@ export class OrdersDetailsComponent implements OnInit {
     console.log(obj)
     this.service.deleteCartItem(row.orderItemId, obj).subscribe(e =>{
       console.log(e)
-    },err => console.log(err))
+    },err => {
+      if(err.status === 200){
+        console.log(err.status)
+        this.loadOrder()
+      }
+    })
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { orderEndpoints, shopEndpoints } from '../core/configs/endpoints';
+import { orderEndpoints, shopEndpoints, customersEndpoints } from '../core/configs/endpoints';
 import { RequestService } from '../core/services/request/request.service';
 
 @Injectable({
@@ -20,6 +20,9 @@ export class OrderService {
   }
   getorders(){
     return this.reqS.get(orderEndpoints.getOrders)
+  }
+  getcustomers(){
+    return this.reqS.get(customersEndpoints.getCustomers)
   }
   cancelOrder(id){
     return this.reqS.get(orderEndpoints.getOrders+'/' + id + '/cancel')
