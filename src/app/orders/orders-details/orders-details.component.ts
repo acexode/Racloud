@@ -98,7 +98,7 @@ export class OrdersDetailsComponent implements OnInit {
         text: label ,
       },
       type: type || 'text',
-      placeholder: placeholder ,
+      placeholder ,
       prefixIcon: prefixIcon || false,
     };
   }
