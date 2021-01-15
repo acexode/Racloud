@@ -190,6 +190,7 @@ export class OptionTabComponent implements OnInit {
       })
       this.tableConfig.loadingIndicator = true;
       this.rowData = this.optionList;
+      console.log(this.rowData)
       const cloneData = this.optionList.map((v: any) => {
         return { ...v };
       });
@@ -279,6 +280,7 @@ export class OptionTabComponent implements OnInit {
   }
   reInitData(data: []){
     this.rowData = data
+    console.log(data)
     const cloneData = data.map((v: any) => {
         return { ...v };
     });
@@ -315,7 +317,7 @@ export class OptionTabComponent implements OnInit {
     // console.log(this.checkedValueList[this.checkedValueList.length -1])
     console.log(this.checkedValueList)
 
-    this.modifiedTableData.next(this.checkedValueList)
+    this.productS.modifiedDT(this.checkedValueList)
   }
   updateValue(event, cell, rowIndex) {
     const idx = this.optionList.findIndex(e => e.Id === rowIndex);

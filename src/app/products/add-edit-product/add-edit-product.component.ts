@@ -138,8 +138,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
             selected: false
           }
         }
-    })
-    console.log(this.optionList)
+      })
     })
   }
   initForm() {

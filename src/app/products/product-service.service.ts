@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class ProductServiceService {
   modifiedOptionList = new BehaviorSubject<[]>([]);
+  modifiedTableData: BehaviorSubject<any> = new BehaviorSubject([]);
   constructor(private reqS: RequestService) { }
 
   getProducts(){
@@ -24,5 +25,8 @@ export class ProductServiceService {
   }
   SetOptionList(data: []){
     this.modifiedOptionList.next(data);
+  }
+  modifiedDT(data: []){
+    this.modifiedTableData.next(data);
   }
 }
