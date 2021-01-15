@@ -412,7 +412,7 @@ export class OrdersDetailsComponent implements OnInit {
     this.tableData.next(newRows);
   }
   checkout() {
-    let companyId = this.componentForm.get('customer').value
+    const companyId = this.componentForm.get('customer').value
     this.service.checkoutOrder(this.routeId, {company:companyId }).subscribe((e:any) =>{
       const data = {
         ...e,
