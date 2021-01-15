@@ -128,3 +128,8 @@ html {
 .empty-row{
   display: none;
 }
+.datatable-body {
+  height: auto;
+   min-height: 400px;
+  //  overflow-y: hidden !important;
+  }

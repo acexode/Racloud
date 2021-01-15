@@ -112,6 +112,7 @@ export class OrdersDetailsComponent implements OnInit {
     return this.componentForm.get('type');
   }
   ngOnInit(): void {
+    
     this.service.getcustomers().subscribe(e =>{
       this.customers = e
       console.log(e)
@@ -183,6 +184,9 @@ export class OrdersDetailsComponent implements OnInit {
           if(this.addedProducts.length < 1){
             this.noProduct = true
           }
+          const dBody = document.querySelector('.datatable-body') as HTMLElement;
+          dBody.style.minHeight = 'auto';
+          dBody.style.height = 'auto';
           console.log(this.addedProducts)
         })
         this.componentForm.patchValue({
@@ -408,7 +412,15 @@ export class OrdersDetailsComponent implements OnInit {
     this.tableData.next(newRows);
   }
   checkout() {
-    this.router.navigate(['orders', 'orders-checkout']);
+    let companyId = this.componentForm.get('customer').value
+    this.service.checkoutOrder(this.routeId, {company:companyId }).subscribe((e:any) =>{
+      const data = {
+        ...e,
+        id: this.routeId
+      }
+      this.router.navigate(['orders', 'orders-checkout'], {queryParams: data});
+
+    })
   }
   formatDate(date) {
     const d = new Date(date);
@@ -467,6 +479,10 @@ export class OrdersDetailsComponent implements OnInit {
   }
   submitForm(){
     const values = this.componentForm.value
+  }
+  onChange(option, field) {
+    console.log(option, field)
+    this.componentForm.get(field).patchValue(option)
   }
   cancelOrder(){
     const id = this.route.snapshot.paramMap.get('id');

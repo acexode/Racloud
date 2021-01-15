@@ -222,6 +222,7 @@
       color: $rc-grey;
       text-align: left;
       vertical-align: top;
+      word-wrap: break-word !important;
       border-bottom: 1px dotted $medium-grey-2;
       &:last-child {
         border-right: none;
@@ -552,4 +553,11 @@
   @include flex-direction(row);
   @include justify-content(space-between);
   @include align-items(center);
+}
+.ngx-datatable.fixed-row .datatable-scroll .datatable-body-row .datatable-body-cell, .ngx-datatable.fixed-row .datatable-scroll .datatable-body-row .datatable-body-group-cell {
+  /* white-space: normal !important;
+  word-wrap: break-word !important; */
+  text-overflow: ellipsis !important;
+  // overflow: hidden !important;
+white-space: nowrap !important;
 }

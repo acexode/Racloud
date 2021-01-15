@@ -62,15 +62,15 @@
                     <div *ngIf="!isEdit" class="rc-select"> <select formcontrolname="application"
                         (change)="onChange($event.target.value, 'application')" class="ng-pristine ng-valid ng-touched">
                         <option  selected disabled>Select</option>
-                        <option *ngFor="let product of productOptions"  [value]="product.Application">
-                          {{product.Application}} </option>
+                        <option *ngFor="let product of productOptions"  [value]="product.application">
+                          {{product.application}} </option>
                       </select>
                             </div>
                     <div *ngIf="isEdit" class="rc-select"> <select formcontrolname="application"
                         (change)="onChange($event.target.value, 'application')" class="ng-pristine ng-valid ng-touched">
                         
-                        <option *ngFor="let product of productOptions" [selected]="product.Application" [value]="product.Application">
-                          {{product.Application}} </option>
+                        <option *ngFor="let product of productOptions" [selected]="product.application" [value]="product.application">
+                          {{product.application}} </option>
                       </select>
                             </div>
                             </div>
@@ -86,15 +86,15 @@
                             <div *ngIf="!isEdit" class="rc-select"> <select formcontrolname="productType"
                                 (change)="onChange($event.target.value, 'productType')" class="ng-pristine ng-valid ng-touched">
                                 <option  selected disabled>Select</option>
-                                <option *ngFor="let product of productOptions"  [value]="product.ProductType">
-                                  {{product.ProductType}} </option>
+                                <option *ngFor="let product of productOptions"  [value]="product.productType">
+                                  {{product.productType}} </option>
                               </select>
                                     </div>
                             <div *ngIf="isEdit" class="rc-select"> <select formcontrolname="productType"
                                 (change)="onChange($event.target.value, 'productType')" class="ng-pristine ng-valid ng-touched">
                                 
-                                <option *ngFor="let product of productOptions"  [value]="product.ProductType" [selected]="product.ProductType">
-                                  {{product.ProductType}} </option>
+                                <option *ngFor="let product of productOptions"  [value]="product.productType" [selected]="product.ProductType">
+                                  {{product.productType}} </option>
                               </select>
                                     </div>
                             </div>
@@ -112,19 +112,22 @@
                                     Cancel
                                 </app-button>
                                 <app-button type="submit" color="primary">
-                                    Save
+                                  <app-loader type="button" *ngIf="isLoading"></app-loader>
+                                  <span *ngIf="!isLoading">Save</span>
                                 </app-button>
                             </div>
                         </form>
                     </ng-template>
                     <ng-template #secondTab> 
-                      <app-option-tab (selectedRows)="getRow($event)" [optionList]="optionList"></app-option-tab>
+                      <app-option-tab (selectedRows)="getRow($event)" [preselectedRows]="preselectedRows" [optionList]="optionList"></app-option-tab>
                       <div class="col-12 submit-row">
                         <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
                             Cancel
                         </app-button>
                         <app-button (click)="submitForm()" color="primary">
-                            Save
+                          <app-loader type="button" *ngIf="isLoading"></app-loader>
+                          <span *ngIf="!isLoading">Save</span>
+                            
                         </app-button>
                     </div>
                     </ng-template>

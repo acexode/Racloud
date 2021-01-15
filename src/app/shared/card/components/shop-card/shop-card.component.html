@@ -6,8 +6,7 @@
                 <p class="s12-h16 montserrat-bold-font ls-0 m-0 rc-accent-blue-bg">{{acronym| uppercase}}</p>
             </div>
             <div class="rc-full-title">
-                <p class="montserrat-semibold-font s15-h24 text-weight-bold rc-accent-blue-160-color ls-0 m-0 p-0">{{item.product.name | titlecase}}</p>
-                <!-- <p class="montserrat-semibold-font s15-h24 text-weight-bold rc-accent-blue-160-color ls-0 m-0 p-0">{{theCardType.productVersion}}</p> -->
+                <p class="montserrat-semibold-font s15-h24 text-weight-bold rc-accent-blue-160-color ls-0 m-0 p-0">{{item?.product?.name | titlecase}}</p>
             </div>
         </div>
 
@@ -34,7 +33,7 @@
 
         <div class="my-6">
             <span class="s14-h16 rc-grey-color helvetica-neue-regular p-0 m-0">Support hours:</span>
-            <span class="s14-h16 rc-black-color helvetica-neue-regular p-0 m-0 ml-4p">{{item.supportHours}}</span>
+            <span class="s14-h16 rc-black-color helvetica-neue-regular p-0 m-0 ml-4p">{{item?.supportHours}}</span>
         </div>
 
         <div class="line-h1 rc-secondary-bg mb-16"></div>
@@ -42,7 +41,7 @@
         <div class="rc-sh-card-body">
             <div class="rc-product-description">
                 <p class="rc-grey-color desc helvetica-neue-regular ls-0">
-                    {{item?.product.description}}
+                    {{item?.product?.description}}.
                 </p>
             </div>
             <div class="rc-sh-card-body-link">

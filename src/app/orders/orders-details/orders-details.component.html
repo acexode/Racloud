@@ -4,27 +4,16 @@
       <div class="row align-items-center">
         <div class="col">
           <!--  -->
-          <app-button
-            color="tertiary"
-            [routerLink]="[backUrl]"
-            [class]="
+          <app-button color="tertiary" [routerLink]="[backUrl]" [class]="
               'd-flex align-items-center rc-accent-blue-160-color montserrat-semibold-font ml-n20'
-            "
-          >
-            <svg-icon
-              [class]="'icon-w16-h16 mr-1'"
-              [src]="caretLeftIcon"
-              alt="Icon"
-              applyClass="true"
-            >
+            ">
+            <svg-icon [class]="'icon-w16-h16 mr-1'" [src]="caretLeftIcon" alt="Icon" applyClass="true">
             </svg-icon>
             ABRACADABRA SRL
           </app-button>
           <!--  -->
 
-          <h1
-            class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0"
-          >
+          <h1 class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0">
             Order ID {{orderId}}
           </h1>
         </div>
@@ -38,16 +27,10 @@
         <div class="col-12 col-md-3 px-0 pr-0 pr-md-16">
           <div class="row m-0 p-0">
             <div class="col-12 px-0 mb-14">
-              <app-input
-                [config]="inputConfig('Order Number')"
-                formControlName="orderNumber"
-              ></app-input>
+              <app-input [config]="inputConfig('Order Number')" formControlName="orderNumber"></app-input>
             </div>
             <div class="col-12 px-0 mb-14">
-              <app-input
-                [config]="inputConfig('Order Date', 'date')"
-                formControlName="orderDate"
-              ></app-input>
+              <app-input [config]="inputConfig('Order Date', 'date')" formControlName="orderDate"></app-input>
             </div>
           </div>
         </div>
@@ -55,16 +38,17 @@
         <div class="col-12 col-md-3 px-0 px-md-16">
           <div class="row m-0">
             <div class="col-12 px-0 mb-14">
-              <app-input
-                [config]="inputConfig('Customer')"
-                formControlName="customer"
-              ></app-input>
+              <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Customer</label>
+              <div  class="rc-select"> <select formcontrolname="customer"
+                  (change)="onChange($event.target.value, 'customer')" class="ng-pristine ng-valid ng-touched">
+                  <option selected disabled>Select</option>
+                  <option *ngFor="let customer of customers" [value]="customer.id">
+                    {{customer.companyName}} </option>
+                </select>
+              </div>
             </div>
             <div class="col-12 px-0 mb-14">
-              <app-input
-                [config]="inputConfig('Status')"
-                formControlName="status"
-              ></app-input>
+              <app-input [config]="inputConfig('Status')" formControlName="status"></app-input>
             </div>
           </div>
         </div>
@@ -72,68 +56,57 @@
         <div class="col-12 col-md-3 px-0 px-md-16">
           <div class="row m-0">
             <div class="col-12 px-0 mb-14">
-              <app-input
-                [config]="inputConfig('Value')"
-                formControlName="value"
-              ></app-input>
+              <app-input [config]="inputConfig('Value')" formControlName="value"></app-input>
             </div>
             <div class="col-12 px-0 mb-14">
-              <app-input
-                [config]="inputConfig('Discount', 'text', '', true)"
-                formControlName="discount"
-              >
+              <app-input [config]="inputConfig('Discount', 'text', '', true)" formControlName="discount">
               </app-input>
             </div>
           </div>
         </div>
 
         <div class="col-12 col-md-3 px-0 pl-md-16 d-md-flex align-items-md-center">
-              
-            <div class="col-12 px-0 pt-24 px-16 pb-32 rc-ultra-light-red-bg">
-              <app-input
-                [config]="inputConfig('Total Value', 'text', '', true)"
-                formControlName="totalValue"
-              ></app-input>
-            </div>
+
+          <div class="col-12 px-0 pt-24 px-16 pb-32 rc-ultra-light-red-bg">
+            <app-input [config]="inputConfig('Total Value', 'text', '', true)" formControlName="totalValue"></app-input>
+          </div>
 
         </div>
       </form>
     </div>
 
     <div class="w-100">
-        <app-table
-            [rows]="tableData | async"
-            [config]="tableConfig"
-            (filterData)="filterTable($event)"
-            [rowDetailConfig]="rowDetailIcons"
-        ></app-table>
-        <div class="nothing" *ngIf="noProduct">
-          <img src="./../../../assets/images/info.svg" alt="Delete-icon" class="icon-40" />
-          <div class="nothing-text">
-            <span>Nothing added yet. Click "Add product" to select a product.</span>
-          </div>
+      <app-table [rows]="tableData | async" [config]="tableConfig" (filterData)="filterTable($event)"
+        [rowDetailConfig]="rowDetailIcons"></app-table>
+      <div class="nothing" *ngIf="noProduct">
+        <img src="./../../../assets/images/info.svg" alt="Delete-icon" class="icon-40" />
+        <div class="nothing-text">
+          <span>Nothing added yet. Click "Add product" to select a product.</span>
         </div>
+      </div>
     </div>
 
     <div class="w-100 mb-50">
       <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-between">
         <!--  -->
         <div class="btn-group" dropdown>
-          
-          <button id="button-basic" dropdownToggle type="button" class="btn-no-padding btn-tertiary-nounderlied"  aria-controls="dropdown-basic">
-            Options <span class="ml-6"> <img src="./../../../assets/images/Chevron-red.svg" alt="Delete-icon" class="icon-w20-h20" /></span>
+
+          <button id="button-basic" dropdownToggle type="button" class="btn-no-padding btn-tertiary-nounderlied"
+            aria-controls="dropdown-basic">
+            Options <span class="ml-6"> <img src="./../../../assets/images/Chevron-red.svg" alt="Delete-icon"
+                class="icon-w20-h20" /></span>
           </button>
 
-          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu order-dropdown mr-5"
-              role="menu" aria-labelledby="button-basic">
-            <li  role="menuitem"><a class="dropdown-item" href="#">Payed</a></li>
+          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu order-dropdown mr-5" role="menu"
+            aria-labelledby="button-basic">
+            <li role="menuitem"><a class="dropdown-item" href="#">Payed</a></li>
             <li (click)="cancelOrder()" role="menuitem"><a class="dropdown-item">Cancel</a></li>
           </ul>
         </div>
-      <!--  -->
+        <!--  -->
 
         <div>
-            <app-button type="button" (click)="openModal(template)" color="secondaryB" class="mr-8">
+          <app-button type="button" (click)="openModal(template)" color="secondaryB" class="mr-8">
             Add product
           </app-button>
 
@@ -156,7 +129,7 @@
   </div>
   <div class="modal-body">
     <div class=" rc-card-grid row">
-      <div class="col-3 mb-32" *ngFor="let item of allProducts">        
+      <div class="col-3 mb-32" *ngFor="let item of allProducts">
         <app-shop-card [item]="item"></app-shop-card>
 
       </div>
@@ -165,51 +138,53 @@
   </div>
 </ng-template>
 <ng-template #hoverDetailTpl let-column="column" let-row="row">
-    <div class="d-flex justify-content-end w-100">
-      <div class="d-flex bg-container justify-content-end py-10 mt-n10">
-        <div class="row-detail d-flex align-items-center"></div>
-      </div>
+  <div class="d-flex justify-content-end w-100">
+    <div class="d-flex bg-container justify-content-end py-10 mt-n10">
+      <div class="row-detail d-flex align-items-center"></div>
     </div>
-  </ng-template>
+  </div>
+</ng-template>
 
-  <ng-template #actionDropdown let-column="column" let-row="row">
-    <div>
-      <img (click)="deleteItem(row)" src="./../../../assets/images/Delete.svg" alt="Delete-icon" class="icon-w20-h20" />
-    </div>
-    
-  </ng-template>
+<ng-template #actionDropdown let-column="column" let-row="row">
+  <div>
+    <img (click)="deleteItem(row)" src="./../../../assets/images/Delete.svg" alt="Delete-icon" class="icon-w20-h20" />
+  </div>
 
-  <ng-template #valueTemplate let-column="column" let-row="row" let-value="cellValue">
-   <div class="text-right px-0 mx-0">
-        <span>
-        $
-        </span>
-        <span>
-            {{ value }}
-        </span>
-   </div>
+</ng-template>
+
+<ng-template #valueTemplate let-column="column" let-row="row" let-value="cellValue">
+  <div class="text-right px-0 mx-0">
+    <span>
+      $
+    </span>
+    <span>
+      {{ value }}
+    </span>
+  </div>
 </ng-template>
 
 <ng-template #discountTemplate let-column="column" let-row="row" let-value="cellValue">
-   <div class="text-right px-0 mx-0">
-        <span>
-        {{ value }}
-        </span>
-        <span>
-            %
-        </span>
-        <img src="./../../../assets/images/Edit.svg" alt="edit-icon" class="icon-w16-h16" />
-   </div>
+  <div class="text-right px-0 mx-0">
+    <span>
+      {{ value }}
+    </span>
+    <span>
+      %
+    </span>
+    <img src="./../../../assets/images/Edit.svg" alt="edit-icon" class="icon-w16-h16" />
+  </div>
 </ng-template>
 
 <ng-template #quantityTemplate let-column="column" let-row="row" let-value="cellValue">
-   <div class="text-right d-flex flex-row align-items-center justify-content-center">
-        <div class="mr-8">
-           {{ value }}
-        </div>
-        <div class="d-flex flex-column align-items-center justify-content-center">
-          <img (click)="changeQuantity('inc', row)" src="./../../../assets/images/Caret-up.svg" alt="Caret-up" class="icon-w20-h10" />
-          <img (click)="changeQuantity('dec', row)" src="./../../../assets/images/Caret-down.svg" alt="Caret-down" class="icon-w20-h10" />
-        </div>
-   </div>
+  <div class="text-right d-flex flex-row align-items-center justify-content-center">
+    <div class="mr-8">
+      {{ value }}
+    </div>
+    <div class="d-flex flex-column align-items-center justify-content-center">
+      <img (click)="changeQuantity('inc', row)" src="./../../../assets/images/Caret-up.svg" alt="Caret-up"
+        class="icon-w20-h10" />
+      <img (click)="changeQuantity('dec', row)" src="./../../../assets/images/Caret-down.svg" alt="Caret-down"
+        class="icon-w20-h10" />
+    </div>
+  </div>
 </ng-template>

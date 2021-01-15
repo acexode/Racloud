@@ -24,6 +24,9 @@ export class OrderService {
   getcustomers(){
     return this.reqS.get(customersEndpoints.getCustomers)
   }
+  getOneCustomers(id){
+    return this.reqS.get(customersEndpoints.getCustomers + '/' + id)
+  }
   cancelOrder(id){
     return this.reqS.get(orderEndpoints.getOrders+'/' + id + '/cancel')
   }
@@ -39,4 +42,8 @@ export class OrderService {
   getShops(){
     return this.reqS.get(shopEndpoints.getShops)
   }
+  checkoutOrder(id, obj){
+    return this.reqS.post(orderEndpoints.getSingleOrder +'/' + id + '/checkout', obj)
+  }
+
 }

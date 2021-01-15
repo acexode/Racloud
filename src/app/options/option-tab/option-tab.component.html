@@ -1,7 +1,7 @@
 <app-page-container [config]="containerConfig">
     <div class="w-100 mt-40" container-body>
        
-        <app-table [rows]="tableData | async" [config]="tableConfig" (filterData)="filterTable($event)"
+        <app-table [rows]="tableData | async" [preselectedRows]="preselectedRows" [config]="tableConfig" (filterData)="filterTable($event)"
             [rowDetailConfig]="rowDetailIcons" (selectedRows)="getRow($event)"></app-table>
     </div>
 </app-page-container>
@@ -91,7 +91,7 @@
         
     </div>
 </ng-template>
-<ng-template #colmunDropDownTemplate let-column="column" let-row="row" let-value="cellValue">
+<ng-template #colmunDropDownTemplate let-column="column" let-rowIndex="rowIndex" let-row="row" let-value="cellValue">
     <ng-container>
         <span class="pb-10" *ngIf="row.OptionType == 'ValueList'">
             <div class="btn-group" dropdown  [dropup]="isDropup" >
@@ -114,7 +114,7 @@
                             <tr *ngFor="let val of row.ValueList" class="tables-cell8"> 
                                 <td>
                                     <label class="container">
-                                        <input type="checkbox" checked="checked">
+                                        <input type="checkbox"  [value]="val.Name" (change)="onCheckValueList($event, row)" checked="checked">
                                         <span class="checkmark"></span>
                                       </label>
                                 </td>                          
@@ -127,19 +127,32 @@
         </span>
         <span *ngIf="row.OptionType =='Boolean' && !row.ValueBoolean">
             <label class="container">False
-                <input type="checkbox">
+                <input type="checkbox" (change)="onCheckValueBoolean($event, row)">
                 <span class="checkmark"></span>
               </label>
         </span>
         <span *ngIf="row.OptionType =='Boolean' && row.ValueBoolean">
             <label class="container">True
-                <input type="checkbox" checked="checked">
+                <input type="checkbox" (change)="onCheckValueBoolean($event, row)" checked="checked">
                 <span class="checkmark"></span>
               </label>
         </span>
-        <span *ngIf="row.OptionType == 'String'">
+        <div *ngIf="row.OptionType == 'String'">            
+            <span
+              title="Double click to edit"
+              (dblclick)="editing[row.Id + '-ValueString'] = true"
+              *ngIf="!editing[row.Id + '-ValueString']"
+            >
             {{row.ValueString}}
-        </span>
+            </span>
+            <input
+              autofocus
+              (blur)="updateValue($event, 'ValueString', row.Id)"
+              *ngIf="editing[row.Id + '-ValueString']"
+              type="text"
+              [value]="row.ValueString"
+            />
+        </div>
        
         
     </ng-container>

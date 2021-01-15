@@ -1,0 +1,22 @@
+<div class="app-overlay justify-content-center" [ngStyle]="{'display': displayModal ? 'flex': 'none'}" (click)="closeModal()">
+    <div role="document" class="modal-dialog custom-modal-dialog modal-dialog-scrollable" (click)="stopModalPropagation($event)">
+        <div class="modal-content custom-modal-content">      
+
+            <div class="modal-header">
+                <p class="m-0 s22-h32 montserrat-bold-font rc-accent-blue-160-color">
+                    Add product
+                </p>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="rc-card-grid-b">
+                    <app-product-card [product]="item" *ngFor="let item of products" (productDetailsEmitter)="getClickedProduct($event)"></app-product-card>
+                </div>
+                
+            </div>
+        
+        </div>
+    </div>
+</div>

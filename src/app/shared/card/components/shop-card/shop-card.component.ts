@@ -13,9 +13,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 })
 export class ShopCardComponent implements OnInit {
   @Input() item!: CardItem;
-  buyStore: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
-  itemType
-  acronym: string
+  acronym;
   cardTypes = {
     wl: {
       initTitle: 'WL',
@@ -71,8 +69,8 @@ export class ShopCardComponent implements OnInit {
 
   ngOnInit(): void {
     const str = this.item?.product?.name;
-    if(str){
-      this.acronym = str.split(/\s/).reduce((response,word)=> response+=word.slice(0,1),'')
+    if (str) {
+      this.acronym = str.split(/\s/).reduce((response, word) => response += word.slice(0, 1), '');
     }
   }
   get itemStatus() {
@@ -83,26 +81,13 @@ export class ShopCardComponent implements OnInit {
       return this.cardTypes.wl;
     } else {
       if (this.item?.product.productType === 'pn') {
-        this.setCardTypeproduct(this.item?.product.productType);
+        this.setCardTypeProduct(this.item?.product.productType);
       }
       return this.cardTypes[this.item?.product.productType];
     }
   }
-  setCardTypeproduct(type: any) {
-    this.cardTypes[type].productName = this.item?.product.name || 'product name';
-    this.cardTypes[type].productVersion = this.item?.product.version || '& version';
-  }
-  buy(item){
-    console.log(item)
-    this.service.buyStore.next(item)
-    if(this.router.url.includes('shop')){
-      this.orderS.generateOrder().subscribe((e:any) =>{
-        this.router.navigateByUrl('orders/orders-details/'+ e.id);
-        console.log(e)
-      })
-    }else{
-      this.modalService.hide(1)
-    }
-    console.log(this.router.url)
+  setCardTypeProduct(type: any) {
+    this.cardTypes[type].productName = this.item?.product.name || 'Product name';
+    this.cardTypes[type].productVersion = this.item?.productVersion || '& version';
   }
 }

@@ -33,7 +33,7 @@
 
     <div class="line-h1 rc-secondary-bg mt-24 mb-39 px-0"></div>
 
-    <div class="w-100 pt-40">
+    <div class="w-100 pt-40" *ngIf="{currenciesOptions: currenciesOptions$ | async } as optionData">
 
         <form [formGroup]="componentForm" class="row no-gutters">
 
@@ -50,16 +50,17 @@
 
                 <div class="col-12 col-md-3 mr-32">
                 <app-select
-                    [config]="selectionConfig('Currency')"
+                    [config]="selectConfig('Curency', 'Select Curency', true, 'code', 'name')"
                     formControlName="currency"
+                    [options]="optionData.currenciesOptions"
                 ></app-select>
                 </div>
 
-                <div class="col-12 col-md-3">
-                <app-select
-                    [config]="inputConfig('Date Created')"
-                    formControlName="dateCreated"
-                ></app-select>
+                <div class="col-12 col-md-3" *ngIf="!removeNotInUse">
+                  <app-input
+                      [config]="inputConfig('Date Created')"
+                      formControlName="dateCreated"
+                  ></app-input>
                 </div>
 
             </div>
@@ -77,11 +78,14 @@
 
             <div class="w-100">
                 <div class="rc-light-grey-bg mt-16 p-16 d-flex justify-content-end">
-                    <app-button type="button" color="secondaryB" class="mr-8">
-                    Add Product
+                    <app-button type="button" color="secondaryB" class="mr-8" (click)="openAddProductFormModal()">
+                      Add Product
                     </app-button>
 
-                    <app-button type="submit" color="primary"> Update </app-button>
+                    <app-button type="submit" color="primary" (click)="savePriceList()" [disabled]="!componentForm?.valid || isLoading">  
+                      <app-loader type="button" *ngIf="isLoading"></app-loader>
+                      <span *ngIf="!isLoading">Update</span>
+                    </app-button>
                 </div>
             </div>
         </form>
@@ -99,15 +103,15 @@
   </ng-template>
 
   <ng-template #actionDropdown let-column="column" let-row="row">
-    <div>
+    <div (click)="removeProductFromPriceListProductManager(row)">
       <img src="./../../../assets/images/Delete.svg" alt="Delete-icon" class="icon-w20-h20" />
     </div>
     
   </ng-template>
 
   <ng-template #optionTemplate let-column="column" let-row="row">
-    <div>
-      <img src="./../../../assets/images/Options.svg" alt="Delete-icon" class="icon-w20-h20" />
+    <div (click)="toEditProductFromPriceListProductManager(row)">
+      <img src="./../../../assets/images/Options.svg" alt="Options-icon" class="icon-w20-h20" />
     </div>
     
   </ng-template>
@@ -116,22 +120,16 @@
   <ng-template #valueTemplate let-column="column" let-row="row" let-value="cellValue">
    <div class="text-right px-0 mx-0">
         <span>
-        $
-        </span>
-        <span>
-            {{ value }}
+            {{ value | currency:'USD':'symbol-narrow':'4.2-2' }}
         </span>
    </div>
 </ng-template>
 
-<ng-template #discountTemplate let-column="column" let-row="row" let-value="cellValue">
-   <div class="text-right px-0 mx-0">
-        <span>
-        {{ value }}
-        </span>
-        <span>
-            %
-        </span>
-        <img src="./../../../assets/images/Edit.svg" alt="edit-icon" class="icon-w16-h16" />
-   </div>
-</ng-template>
+<ng-container *ngIf="products">
+  <app-add-product-form-step 
+    [products]="products" 
+    (productFormEmitter)="addProductToPriceListProductManager($event)"
+    (closeModalStateEmitter)="setEditStateToNull($event)"
+    [editableData]="toEditProduct"
+  ></app-add-product-form-step>
+</ng-container>

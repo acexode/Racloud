@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CountriesService } from '../core/services/countries/countries.service';
 import { InputConfigDisabled } from '../shared/rc-forms/configurations/input/input-config-disable';
 import { InputConfigDisabledWithPrefix } from '../shared/rc-forms/configurations/input/input-config-disabled-with-prefix';
 import { InputConfigErrorWithPrefix } from '../shared/rc-forms/configurations/input/input-config-Error-with-prefix';
@@ -139,54 +141,46 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
     select: this.fb.control(null),
   });
 
-  countryOptions$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
-/* for card */
+  /* for card */
   shopcard = {
-    Id: 33,
+    id: 1,
     type: 'wl',
-    Product: {
-        Id: 2,
-        Name: 'string',
-        Description: 'string',
-        Version: 5
-    },
-    ProductId: 2,
-    Value: 100,
-    RenewalValue: 50,
-    SupportHours: 8,
-    Discount: 10,
-    DiscountPrc: 10
-  }
-  pnShopcard ={
-  Id: 23,
-  type: 'pn',
-  Product: {
-      Id: 1,
-      Name: 'string',
-      Description: 'string',
-      Version: 5
-  },
-  ProductId: 5,
-  Value: 100,
-  RenewalValue: 50,
-  SupportHours: 8,
-  Discount: 10,
-  DiscountPrc: 10
-  }
+    value: 50,
+    renewalValue: 30,
+    supportHours: 10,
+    product: {
+      name: 'RA Workshop',
+      productVersion: 'Lite',
+      description: 'Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.',
+    }
+  };
+  pnShopcard = {
+    id: 2,
+    type: 'pn',
+    value: 50,
+    renewalValue: 30,
+    supportHours: 10,
+    product: {
+      name: 'RA Workshop',
+      productVersion: 'Lite',
+      description: 'Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.',
+    }
+  };
   /*  */
+  countryOptions$: Observable<any>;
   constructor(
     private fb: FormBuilder,
     private cdref: ChangeDetectorRef,
-    private http: HttpClient
-    ) { }
+    private http: HttpClient,
+    private cS: CountriesService,
+  ) { }
 
   ngOnInit(): void {
+    // get country option
+    this.countryOptions$ = this.cS.getCountriesState().pipe(
+      map(d => d.data),
+    );
     this.initForm();
-    this.getJSON().subscribe((data) => {
-      if (data) {
-        this.countryOptions$.next(data);
-      }
-    });
   }
 
   initForm() {
