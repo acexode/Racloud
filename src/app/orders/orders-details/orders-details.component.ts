@@ -198,7 +198,7 @@ export class OrdersDetailsComponent implements OnInit {
           totalValue: e.TotalValue
         })
         this.componentForm.get('orderDate').patchValue(this.formatDate(new Date(e.CreateDate)));
-      }) 
+      })
     }
   }
   initForm() {
