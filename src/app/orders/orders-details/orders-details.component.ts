@@ -124,8 +124,8 @@ export class OrdersDetailsComponent implements OnInit {
       console.log(e.hasOwnProperty('id'))
       if(e.hasOwnProperty('id')){
         const obj = {
-          "orderId": orderId,
-          "productPriceId": e.priceListId
+          orderId: orderId,
+          productPriceId: e.priceListId
         }
         console.log(obj)
         this.service.addOrderToCart(orderId, obj).subscribe(res =>{
@@ -491,10 +491,9 @@ export class OrdersDetailsComponent implements OnInit {
     })
   }
   deleteItem(row){
-    console.log(row)
     const obj = {
-      "orderItemId": row.orderItemId,
-      "orderId": this.routeId
+      orderItemId: row.orderItemId,
+      orderId: this.routeId
     }
     console.log(obj)
     this.service.deleteCartItem(row.orderItemId, obj).subscribe(e =>{

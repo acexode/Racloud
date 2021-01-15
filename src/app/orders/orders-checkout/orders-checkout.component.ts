@@ -31,10 +31,7 @@ export class OrdersCheckoutComponent implements OnInit {
       this.checkoutDetails = params;
       this.service.getOneCustomers(params.id).subscribe(e =>{
         this.customerDetails = e
-        console.log(e)
       })
-      console.log(params);
-      
     });
     this.msgS.addMessage({
       text: 'You will receive a proforma invoice with all the data necessary to make the bank transfer by email.',
