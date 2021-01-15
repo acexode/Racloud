@@ -3,7 +3,6 @@ import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/fo
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { CurrencyService } from 'src/app/core/services/currency/currency.service';
 import { PriceListService } from 'src/app/core/services/price-list/price-list.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
