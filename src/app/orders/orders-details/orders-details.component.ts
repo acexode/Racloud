@@ -172,7 +172,7 @@ export class OrdersDetailsComponent implements OnInit {
               }
           })
           console.log(this.addedProducts.length)
-          const uniqueArray = this.addedProducts.filter((v,i) =>{ 
+          const uniqueArray = this.addedProducts.filter((v,i) =>{
             return this.addedProducts.indexOf(v) === i
           })
           console.log(uniqueArray)
@@ -419,7 +419,6 @@ export class OrdersDetailsComponent implements OnInit {
         id: this.routeId
       }
       this.router.navigate(['orders', 'orders-checkout'], {queryParams: data});
-
     })
   }
   formatDate(date) {
