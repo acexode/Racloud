@@ -112,7 +112,6 @@ export class OrdersDetailsComponent implements OnInit {
     return this.componentForm.get('type');
   }
   ngOnInit(): void {
-    
     this.service.getcustomers().subscribe(e =>{
       this.customers = e
       console.log(e)
@@ -124,7 +123,7 @@ export class OrdersDetailsComponent implements OnInit {
       console.log(e.hasOwnProperty('id'))
       if(e.hasOwnProperty('id')){
         const obj = {
-          orderId: orderId,
+          orderId,
           productPriceId: e.priceListId
         }
         console.log(obj)
@@ -135,7 +134,7 @@ export class OrdersDetailsComponent implements OnInit {
         this.onInitTable()
       }
     })
-    this.initForm();    
+    this.initForm();
     this.loadOrder()
     this.onInitTable();
   }
@@ -154,7 +153,6 @@ export class OrdersDetailsComponent implements OnInit {
               const index = orderItems.findIndex((item:any) => item.ProductId === s.product.id )
               if(index > -1){
                 this.noProduct = false
-                
                 this.addedProducts.push({
                   quantity: orderItems[index].Quantity,
                   value: orderItems[index].Value,
