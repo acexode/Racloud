@@ -18,6 +18,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
   optionList = [];
   selectedRows = [];
+  preselectedRows : any[] = []
   isEdit = false;
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/customer';
@@ -85,15 +86,6 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     };
   }
   ngOnInit(): void {
-    this.service.getOption().subscribe((e: any) =>{
-      this.optionList = e.map(obj =>{
-        return {
-          ...obj,
-          UserAccess: 'Hidden',
-          PartnerAccess: 'Hidden'
-        }
-      })
-    })
     const id = this.route.snapshot.paramMap.get('id');
     this.initForm();
     if(id){
@@ -101,6 +93,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
       this.service.getOneLicense(id).subscribe((data:any) =>{
         console.log(data)
         // const data = obj.filter(e => e.id === id)[0];
+        this.preselectedRows = data.licenseOptions
         const selectedP = data.isPartnerLicense ? 'Yes' : 'No'
         const selectedR = data.isPartnerLicense ? 'Yes' : 'No'
         const isAssigned = data.iAssigned ? 'Yes' : 'No'
@@ -118,9 +111,30 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
           isAssigned,
           customer: data.company.companyName
         });
-        this.onChange(data.LicenseStatus)
+        this.onChange(data.licenseStatus)
       });
     }
+    this.service.getOption().subscribe((options: any) =>{
+      this.optionList = options.map((obj:any) =>{
+        const index = this.preselectedRows.findIndex(idx => obj.Id === idx.optionId)
+        if (index > -1) {
+          const item = options[index]
+          return {
+            ...item,
+            PartnerAccess: this.preselectedRows[index].partnerAccess,
+            UserAccess: this.preselectedRows[index].userAccess,
+            selected: true
+          }
+        }else{
+          return {
+            ...obj,
+            UserAccess: 'Hidden',
+            PartnerAccess: 'Hidden',
+            selected: false
+          }
+        }
+      })
+    })
   }
   initForm() {
     this.infoForm = this.fb.group({
@@ -246,19 +260,52 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   submitForm(){
     const id = this.route.snapshot.paramMap.get('id');
     const values = this.infoForm.value
+    console.log(values)
     const selectedP = values.partner === 'Yes' ? true : false
     const selectedR = values.renew === 'Yes' ? true : false
     const resArr = []
+    console.log(this.selectedRows)
     this.selectedRows.reverse().filter(item =>{
       const i = resArr.findIndex(x => x.optionId === item.Id);
       if(i <= -1){
-        resArr.push(
-          {
-            optionId: item.Id,
-            userAccess: item.UserAccess,
-            partnerAccess: item.PartnerAccess
+        const obj: any = {
+          optionId: item.Id,
+          userAccess: item.UserAccess,
+          partnerAccess: item.PartnerAccess
+        }
+        if(item.OptionType === 'ValueList'){
+          const valueItems = []
+          item.ValueList.forEach(x =>{
+            if(x.selected){
+              valueItems.push({
+                id: x.Id
+              })
+            }
+          })
+          if(this.isEdit){
+            obj.valueListItems = valueItems
+          }else{
+            obj.valueList = valueItems
           }
-          );
+          obj.valueString = ''
+        }
+        if(item.OptionType === 'String'){
+          obj.valueString = item.ValueString
+          if(this.isEdit){
+            obj.valueListItems = []
+          }else{
+            obj.valueList = []
+          }
+        }
+        if(item.OptionType === 'Boolean'){
+          obj.valueString = ''
+          if(this.isEdit){
+            obj.valueListItems = []
+          }else{
+            obj.valueList = []
+          }
+        }
+        resArr.push(obj);
       }
       return null;
     });

@@ -14,7 +14,7 @@ import {
   SelectionType,
 } from '@swimlane/ngx-datatable';
 import { Subject, Subscription, timer } from 'rxjs';
-import { debounce, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounce, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { TableFilterConfig } from '../../models/table-filter-config.interface';
 import { TableFilterType } from '../../models/table-filter-types';
 import { TableI } from './../../models/table.interface';
@@ -28,6 +28,8 @@ export class TableComponent implements OnInit {
   vReset;
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @Input() rows: any;
+  @Input() scrollH: boolean;
+  @Input() preselectedRows: [];
   @Input() config: TableI;
   @Input() rowDetailConfig: any;
   @Input() updateListener: Subject<any>;
@@ -76,6 +78,8 @@ export class TableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const selectedrows = this.rows.filter(obj => obj.selected === true)
+    this.selected = [...selectedrows]
     this.doFilterActions();
     this.selectableClass =
       '' +
@@ -100,11 +104,27 @@ export class TableComponent implements OnInit {
       this.table.recalculate();
     }
   }
-  onSelect(selected) {
-    this.selectedRows.emit(selected);
+  onSelect(selectedObj) {
+    let {selected} = selectedObj
+    const lastItem = selected[selected.length -1]
+    lastItem.selected = !lastItem.selected
+    selected[selected.length -1] = lastItem
+    let uniq = []
+    selected.reverse().forEach(e => {
+      let index = uniq.findIndex(obj => obj.Id == e.Id)
+      if(index <= -1){
+        uniq.push(e)
+      }
+    })
+    selectedObj.selected = uniq
+    this.selected = uniq
+    this.selectedRows.subscribe(e =>{
+      console.log(e)
+    })
+    this.selectedRows.emit(selectedObj);
   }
 
-  onActivate(event) { }
+  onActivate(event) {}
 
   toggleExpandRow(row) {
     this.table.rowDetail.toggleExpandRow(row);

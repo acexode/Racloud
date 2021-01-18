@@ -27,9 +27,13 @@ export class OptionTabComponent implements OnInit {
 
   @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
   @Input() optionList
+  @Input() preselectedRows
   @Output() selectedRows: EventEmitter<any> = new EventEmitter();
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  modifiedTableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  checkedValueList = []
+  editing = {};
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -85,10 +89,10 @@ export class OptionTabComponent implements OnInit {
     private footerS: FooterService,
     private http: HttpClient,
     private productS: ProductServiceService,
-
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
+    console.log(this.preselectedRows)
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.selectDetailTemplate = this.selectDetailTemplate;
     this.tableConfig.columns = [
@@ -169,8 +173,25 @@ export class OptionTabComponent implements OnInit {
       }
     ];
     if (this.optionList) {
+      console.log(this.optionList)
+      this.optionList = this.optionList.map(e => {
+        if(e.OptionType === 'ValueList'){
+          const arrObj = e.ValueList.map(val => {
+            return {
+              ...val,
+              selected: true
+            }
+          })
+          return {
+            ...e,
+            ValueList: arrObj
+          }
+        }
+        return e
+      })
       this.tableConfig.loadingIndicator = true;
       this.rowData = this.optionList;
+      console.log(this.rowData)
       const cloneData = this.optionList.map((v: any) => {
         return { ...v };
       });
@@ -231,7 +252,7 @@ export class OptionTabComponent implements OnInit {
   }
   getRow(item){
     this.rowValue = item.selected[0]
-    console.log(item)
+    // console.log(item)
     this.selectedRows.emit(item)
   }
   setPartnerAccess(row, access){
@@ -261,10 +282,55 @@ export class OptionTabComponent implements OnInit {
   }
   reInitData(data: []){
     this.rowData = data
+    console.log(data)
     const cloneData = data.map((v: any) => {
         return { ...v };
     });
     this.productS.SetOptionList(data)
     this.tableData.next(cloneData);
+  }
+  onCheckValueBoolean($event, row){
+    const checked = $event.target.checked
+    console.log(row)
+    this.checkedValueList = this.optionList.map(obj => {
+      if(obj.Id === row.Id){
+        obj.ValueBoolean = checked
+        console.log(obj)
+        return obj
+      }
+      return obj
+    })
+    console.log(this.optionList)
+    this.reInitData(this.optionList)
+  }
+  onCheckValueList($event, row, valueId){
+    const checked = $event.target.checked
+    this.optionList = this.optionList.map(e => {
+      if(e.Id === row.Id){
+        if(e.OptionType === 'ValueList'){
+          const arrObj = e.ValueList.map(val => {
+            if(val.Id === valueId){
+              val.selected = checked
+            }
+            return val
+          })
+          return {
+            ...e,
+            ValueList: arrObj
+          }
+        }
+        return e
+      }
+      return e
+    })
+    console.log(this.optionList)
+    this.reInitData(this.optionList)
+  }
+  updateValue(event, cell, rowIndex) {
+    const idx = this.optionList.findIndex(e => e.Id === rowIndex);
+    this.editing[rowIndex + '-' + cell] = false;
+    this.optionList[idx][cell] = event.target.value;
+    this.optionList = [...this.optionList];
+    this.reInitData(this.optionList)
   }
 }
