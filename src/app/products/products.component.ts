@@ -1,4 +1,3 @@
-import { Product } from './../core/models/product.interface';
 import { ProductServiceService } from './product-service.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -11,6 +10,7 @@ import { TableFilterConfig } from '../shared/table/models/table-filter-config.in
 import { TableFilterType } from '../shared/table/models/table-filter-types';
 import { TableI } from '../shared/table/models/table.interface';
 import { TableService } from '../shared/table/services/table.service';
+import { ProductModel } from './models/products.model';
 
 @Component({
   selector: 'app-products',
@@ -24,7 +24,7 @@ export class ProductsComponent implements OnInit {
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
   @ViewChild('selectT', { static: true }) selectT;
 
-  rowData: Product[] = [];
+  rowData: ProductModel[] = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   containerConfig: PageContainerConfig = {
     closeButton: true,
@@ -70,8 +70,7 @@ export class ProductsComponent implements OnInit {
     columns: [],
     externalPaging: false,
     externalSorting: false,
-    action: true,
-    scrollH: false
+    action: true
   };
   constructor(
     private tS: TableService,
@@ -147,7 +146,7 @@ export class ProductsComponent implements OnInit {
     this.getProducts()
   }
   public getProducts() {
-    this.productS.getProducts().subscribe((data:Product[]) => {
+    this.productS.getProducts().subscribe((data) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;

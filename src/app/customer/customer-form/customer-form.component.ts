@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { getUTCLongMonthDate, convertDateBackToUTCDate } from 'src/app/core/helpers/dateHelpers';
-import { CompanyTypes } from 'src/app/core/models/companyTypes';
+import { CompanyTypes } from 'src/app/core/enum/companyTypes';
 import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
 import { CountriesService } from 'src/app/core/services/countries/countries.service';
 import { LanguagesService } from 'src/app/core/services/languages/languages.service';
@@ -231,6 +231,7 @@ export class CustomerFormComponent implements OnInit {
         country: get(data, 'country', ''),
         phoneNumber: get(data, 'phoneNumber', ''),
         companyEmail: get(data, 'companyEmail', ''),
+        // anniversaryDate: getUTCLongMonthDate(get(data, 'anniversaryDate', '')),
         anniversaryDate: getUTCLongMonthDate(get(data, 'anniversaryDate', '')),
         subscriptionFee: get(data, 'subscriptionFee', ''),
         supportHoursContract: get(data, 'supportHoursContract', ''),
