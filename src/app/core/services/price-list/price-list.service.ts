@@ -22,6 +22,10 @@ export class PriceListService {
   getPriceLists(): Observable<Array<PriceListModel>> {
     return this.reqS.get<Array<PriceListModel>>(baseEndpoints.priceLists);
   }
+  getPriceList(id: any): Observable<PriceListModel> {
+    const query = `${ baseEndpoints.priceLists }/${ id }`;
+    return this.reqS.get<PriceListModel>(query);
+  }
   createPriceList(data: CreatePriceListModel): Observable<PriceListModel> {
     return this.reqS.post<PriceListModel>(priceListEndpoints.create, data);
   }
