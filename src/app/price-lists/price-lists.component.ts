@@ -162,7 +162,6 @@ export class PriceListsComponent implements OnInit, OnDestroy {
     this.tableConfig.loadingIndicator = true;
     this.priceList$ = this.PriceListS.getPriceLists().subscribe(
       (res: Array<PriceListModel>) => {
-        console.log(res);
         if (res) {
           const data = res.map(
             (r: any) => {
@@ -176,7 +175,7 @@ export class PriceListsComponent implements OnInit, OnDestroy {
           this.tableConfig.loadingIndicator = false;
         }
       },
-      err => { }
+      _err => { }
     );
   }
   filterTable(filterObj: TableFilterConfig) {

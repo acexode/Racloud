@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { get } from 'lodash';
@@ -26,6 +26,8 @@ import { PriceListProductManagerModel } from '../../models/price-list-product-ma
   templateUrl: './create-edit-price-list.component.html',
 })
 export class CreateEditPriceListComponent implements OnInit, OnDestroy {
+  @Input() editableData: any;
+  @Output() priceListFormDataEmitter = new EventEmitter(null);
   removeNotInUse = true;
   mockData = './assets/price-lists-create-table.json';
   caretLeftIcon = '../assets/images/caret-left.svg';
@@ -72,17 +74,16 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
   };
   products: Array<ProductModel>;
   currenciesOptions$: Observable<any>;
-  product$: Subscription;
   proccessPriceListProducts$: Subscription;
   getPriceListProducts$: Subscription;
+  getProducts$: Subscription;
+  button$: Subscription;
   toEditProduct: Observable<PriceListProductManagerModel>;
   isLoading = false;
   constructor(
     private fb: FormBuilder,
     private tS: TableService,
     private router: Router,
-    private ref: ChangeDetectorRef,
-    private reqS: RequestService,
     private productS: ProductServiceService,
     private msgS: MessagesService,
     private currencyS: CurrencyService,
@@ -122,23 +123,21 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.initForm();
-    this.currenciesOptions$ = this.currencyS.getCurrencies();
-    this.toEditProduct = this.priceListS.getEdittablePriceListProductManagerState();
-    this.product$ = this.productS.getProducts().subscribe(
+    this.getProducts$ = this.priceListS.getProductsForPriceListing().subscribe(
       res => {
         this.products = res;
-        this.onInitTable();
-      },
-      _err => {
-        this.msgS.addMessage({
-          text: 'unable to load products at this time. Please refresh your browser',
-          type: 'danger',
-          dismissible: true,
-          customClass: 'mt-32',
-          hasIcon: true,
-        });
-      },
+      }
     );
+    this.button$ = this.priceListS.getLoadingButtonStatus().subscribe(
+      (res: boolean) => {
+        this.isLoading = res;
+      }
+    );
+    this.currenciesOptions$ = this.currencyS.getCurrencies();
+    this.toEditProduct = this.priceListS.getEdittablePriceListProductManagerState();
+    // initialize table
+    this.onInitTable();
+    this.updateValueForForm(this.editableData);
   }
 
   initForm() {
@@ -156,7 +155,7 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
           Validators.required,
         ],
       ],
-      dateCreated: [
+      createdDate: [
         '',
       ],
     });
@@ -288,6 +287,11 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
         cellTemplate: this.actionDropdown
       },
     ];
+    // load Products From PriceList ProductManager
+    this.loadProductsFromPriceListProductManager();
+
+  }
+  loadProductsFromPriceListProductManager(): void {
     this.getPriceListProducts$ = this.priceListS.getpriceListProductManagerState().pipe(
       map(
         (d: Array<PriceListProductManagerModel>) => {
@@ -310,7 +314,6 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
         this.tableConfig.loadingIndicator = false;
       }
     });
-
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
@@ -320,44 +323,28 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
     );
     this.tableData.next(newRows);
   }
-
-  removeRow(id: any) { }
-  manageSub(data: any) {
-    this.router.navigate(['licenses/license-edit', { id: data.id }]);
-  }
-  renewSub(id: any) { }
-
-  setDropUp(row) {
-    const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
-    const mod = idx % 10 === 0 ? 10 : idx % 10;
-    if (mod < 6) {
-      this.isDropup = false;
-    } else {
-      this.isDropup = true;
-    }
-    this.ref.detectChanges();
-  }
   isLoadingStatus() {
     this.isLoading = !this.isLoading;
   }
   addProductToPriceListProductManager(data: PriceListProductManagerModel) {
-    const prod = this.products.find((p: ProductModel) => p.id === data.productId);
+    /* const prod = this.products.find((p: ProductModel) => p.id === data.productId);
     const nD: PriceListProductManagerModel = {
       ...data,
       application: prod.application,
       product: prod.name,
       productType: prod.productType,
-    };
-    if (nD.hasOwnProperty('id')) {
-      this.priceListS.updateProductToPriceListingProductManager(nD);
+    }; */
+    if (data.hasOwnProperty('uuid')) {
+      this.priceListS.updateProductToPriceListingProductManager(data);
     } else {
-      this.priceListS.addProductToPriceListingProductManager(nD);
+      this.priceListS.addProductToPriceListingProductManager(data);
     }
   }
   removeProductFromPriceListProductManager(data: PriceListProductManagerModel) {
     this.priceListS.removeProductToPriceListingProductManager(data.id);
   }
   toEditProductFromPriceListProductManager(data: PriceListProductManagerModel) {
+    console.log(data);
     /* note product Id is included */
     this.priceListS.toEditProductToPriceListingProductManager(data);
     this.openAddProductFormModal();
@@ -383,13 +370,20 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
         (d: Array<PriceListProductManagerModel>) => {
           return d.map(
             (v) => {
-              return {
+              const dd = {
                 productId: Number(get(v, 'productId', 0)),
                 value: Number(get(v, 'value', 0)),
                 renewalValue: Number(get(v, 'renewalValue', 0)),
                 discount: Number(get(v, 'discount', '')),
                 supportHours: Number(get(v, 'supportHours', 0)),
               };
+              if (v.hasOwnProperty('id')) {
+                return {
+                  ...dd,
+                  id: Number(v.id),
+                };
+              }
+              return dd;
             }
           );
         })
@@ -414,40 +408,7 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
                 currency,
                 productPrices: data,
               };
-              console.log(d);
-              this.priceListS.createPriceList(d).subscribe(
-                (_res: PriceListModel) => {
-                  this.msgS.addMessage({
-                    text: 'Pricelist created Successfully',
-                    type: 'success',
-                    dismissible: true,
-                    customClass: 'mt-32',
-                    hasIcon: true,
-                    timeout: 5000,
-                  });
-                  this.isLoadingStatus();
-                  // reset form
-                  this.componentForm.reset();
-                  // redirect to login page
-                  this.router.navigateByUrl('/price-lists');
-                },
-                err => {
-                  console.log(err);
-                  const msgErr = typeof err.error !== 'string'
-                    ? (err?.error?.currency || 'Error while trying to update price list')
-                    : (err.error || 'Please check your network');
-                  this.msgS.addMessage({
-                    text: msgErr,
-                    type: 'danger',
-                    dismissible: true,
-                    customClass: 'mt-32',
-                    hasIcon: true,
-                  });
-                  this.componentForm.markAllAsTouched();
-                  this.componentForm.updateValueAndValidity();
-                  this.isLoadingStatus();
-                }
-              );
+              this.priceListFormDataEmitter.emit(d);
             } else {
               this.msgS.addMessage({
                 text: 'Please Select a currency',
@@ -472,8 +433,21 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
       }
     );
   }
+  updateValueForForm(data: any) {
+
+    if (typeof data !== 'undefined' || typeof data !== null) {
+
+      // get data
+      const d = {
+        name: get(data, 'name', ''),
+        currency: get(data, 'currency', null),
+        createdDate: get(data, 'createdDate', '')
+      };
+      this.componentForm.setValue({ ...d });
+    }
+  }
   ngOnDestroy(): void {
-    this.product$.unsubscribe();
+    this.getProducts$.unsubscribe();
     this.getPriceListProducts$.unsubscribe();
     if (this.proccessPriceListProducts$) {
       this.proccessPriceListProducts$.unsubscribe();

@@ -1,3 +1,3 @@
 <ng-container *ngIf="requestedData">
-    <app-create-edit-price-list></app-create-edit-price-list>
+    <app-create-edit-price-list [editableData]="requestedData" (priceListFormDataEmitter)="updateData($event)"></app-create-edit-price-list>
 </ng-container>
