@@ -144,6 +144,9 @@ export class ProductsComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
+    this.getProducts()
+  }
+  public getProducts() {
     this.productS.getProducts().subscribe((data:Product[]) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
@@ -155,9 +158,6 @@ export class ProductsComponent implements OnInit {
         this.tableConfig.loadingIndicator = false;
       }
     });
-  }
-  public getJSON(): Observable<any> {
-    return this.http.get('./assets/products.json');
 }
 filterTable(filterObj: TableFilterConfig) {
   const newRows = this.tS.filterRowInputs(
@@ -181,8 +181,10 @@ setDropUp(row) {
   }
   this.ref.detectChanges()
 }
-removeRow(id){
-  console.log(id);
+removeRow(data){
+  this.productS.deleteProducts(data.id).subscribe(e =>{
+    this.getProducts()
+  })
 }
 manageSub(data: any) {
   this.router.navigate(['products/edit-product', { id: data.id }]);

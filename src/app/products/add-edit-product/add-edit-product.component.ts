@@ -217,11 +217,32 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         item.ValueList.forEach(x =>{
           if(x.selected){
             valueItems.push({
-              id: x.Value
+              id: x.Id
             })
           }
         })
-        obj.valueListItems = valueItems
+        if(this.isEdit){
+          obj.valueListItems = valueItems
+        }else{
+          obj.valueList = valueItems
+        }
+        obj.valueString = ''
+      }
+      if(item.OptionType === 'String'){
+        obj.valueString = item.ValueString
+        if(this.isEdit){
+          obj.valueListItems = []
+        }else{
+          obj.valueList = []
+        }
+      }
+      if(item.OptionType === 'Boolean'){
+        obj.valueString = ''
+        if(this.isEdit){
+          obj.valueListItems = []
+        }else{
+          obj.valueList = []
+        }
       }
       resArr.push(obj);
     }
