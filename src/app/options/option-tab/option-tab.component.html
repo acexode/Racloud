@@ -112,9 +112,15 @@
                     <table class="w-100">
                         <tbody class="w-100">
                             <tr *ngFor="let val of row.ValueList" class="tables-cell8"> 
-                                <td>
+                                <td *ngIf="val.selected">
                                     <label class="container">
-                                        <input type="checkbox"  [value]="val.Name" (change)="onCheckValueList($event, row)" checked="checked">
+                                        <input type="checkbox"  [value]="val.Name" (change)="onCheckValueList($event, row, val.Id)" checked="checked">
+                                        <span class="checkmark"></span>
+                                      </label>
+                                </td>                          
+                                <td *ngIf="!val.selected">
+                                    <label class="container">
+                                        <input type="checkbox"  [value]="val.Name" (change)="onCheckValueList($event, row, val.Id)">
                                         <span class="checkmark"></span>
                                       </label>
                                 </td>                          

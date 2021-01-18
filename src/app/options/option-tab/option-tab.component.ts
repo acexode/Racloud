@@ -173,20 +173,21 @@ export class OptionTabComponent implements OnInit {
       }
     ];
     if (this.optionList) {
-      this.optionList.forEach(e => {
+      console.log(this.optionList)
+      this.optionList = this.optionList.map(e => {
         if(e.OptionType === 'ValueList'){
-          const obj = {
-            id: e.Id,
-            values: e.ValueList
+          const arrObj = e.ValueList.map(val => {
+            return {
+              ...val,
+              selected: true
+            }
+          })
+          return {
+            ...e,
+            ValueList: arrObj
           }
-          this.checkedValueList.push(obj)
-        }else if(e.OptionType === 'Boolean'){
-          const obj = {
-            id: e.Id,
-            valueBoolean: e.ValueBoolean
-          }
-          this.checkedValueList.push(obj)
         }
+        return e
       })
       this.tableConfig.loadingIndicator = true;
       this.rowData = this.optionList;
@@ -251,6 +252,7 @@ export class OptionTabComponent implements OnInit {
   }
   getRow(item){
     this.rowValue = item.selected[0]
+    // console.log(item)
     this.selectedRows.emit(item)
   }
   setPartnerAccess(row, access){
@@ -289,35 +291,40 @@ export class OptionTabComponent implements OnInit {
   }
   onCheckValueBoolean($event, row){
     const checked = $event.target.checked
-    this.checkedValueList = this.checkedValueList.map(e => {
-      if(e.id === row.Id){
-        e.valueBoolean = checked
-        return e
+    console.log(row)
+    this.checkedValueList = this.optionList.map(obj => {
+      if(obj.Id === row.Id){
+        obj.ValueBoolean = checked
+        console.log(obj)
+        return obj
       }
-      return e
+      return obj
     })
-    this.modifiedTableData.next(this.checkedValueList)
+    console.log(this.optionList)
+    this.reInitData(this.optionList)
   }
-  onCheckValueList($event, row){
+  onCheckValueList($event, row, valueId){
     const checked = $event.target.checked
-    const value = $event.target.value
-    this.checkedValueList = this.checkedValueList.map(e => {
-      if(e.id === row.Id){
-        if(checked){
-          const filtered = row.ValueList.filter(val => val.Name === value)[0]
-          e.values.push(filtered)
-        }else {
-          const filtered = e.values.filter(val => val.Name !== value)
-          e.values = filtered
+    this.optionList = this.optionList.map(e => {
+      if(e.Id === row.Id){
+        if(e.OptionType === 'ValueList'){
+          const arrObj = e.ValueList.map(val => {
+            if(val.Id === valueId){
+              val.selected = checked
+            }
+            return val
+          })
+          return {
+            ...e,
+            ValueList: arrObj
+          }
         }
         return e
       }
       return e
     })
-    // console.log(this.checkedValueList[this.checkedValueList.length -1])
-    console.log(this.checkedValueList)
-
-    this.productS.modifiedDT(this.checkedValueList)
+    console.log(this.optionList)
+    this.reInitData(this.optionList)
   }
   updateValue(event, cell, rowIndex) {
     const idx = this.optionList.findIndex(e => e.Id === rowIndex);

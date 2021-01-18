@@ -104,11 +104,27 @@ export class TableComponent implements OnInit {
       this.table.recalculate();
     }
   }
-  onSelect(selected) {
-    this.selectedRows.emit(selected);
+  onSelect(selectedObj) {
+    let {selected} = selectedObj
+    const lastItem = selected[selected.length -1]
+    lastItem.selected = !lastItem.selected
+    selected[selected.length -1] = lastItem
+    let uniq = []
+    selected.reverse().forEach(e => {
+      let index = uniq.findIndex(obj => obj.Id == e.Id)
+      if(index <= -1){
+        uniq.push(e)
+      }
+    })
+    selectedObj.selected = uniq
+    this.selected = uniq
+    this.selectedRows.subscribe(e =>{
+      console.log(e)
+    })
+    this.selectedRows.emit(selectedObj);
   }
 
-  onActivate(event) { }
+  onActivate(event) {}
 
   toggleExpandRow(row) {
     this.table.rowDetail.toggleExpandRow(row);

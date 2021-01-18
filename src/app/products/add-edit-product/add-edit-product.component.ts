@@ -203,23 +203,36 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     this.isLoading = true
   const obj = this.productForm.value
   const resArr = []
+  console.log(this.selectedRows)
   this.selectedRows.reverse().filter(item =>{
     const i = resArr.findIndex(x => x.optionId === item.Id);
     if(i <= -1){
-      resArr.push(
-        {
-          optionId: item.Id,
-          userAccess: item.UserAccess,
-          partnerAccess: item.PartnerAccess
-        }
-        );
+      const obj: any = {
+        optionId: item.Id,
+        userAccess: item.UserAccess,
+        partnerAccess: item.PartnerAccess
+      }
+      if(item.OptionType === 'ValueList'){
+        const valueItems = []
+        item.ValueList.forEach(x =>{
+          if(x.selected){
+            valueItems.push({
+              id: x.Value
+            })
+          }
+        })
+        obj.valueListItems = valueItems
+      }
+      resArr.push(obj);
     }
     return null;
   });
   const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+  console.log(resArr)
   if(this.isEdit){
     obj.productOptions = resArr
     obj.id =  id
+    console.log(obj)
     this.productS.updateProducts(id, obj).subscribe(e =>{
       this.isLoading = false
       this.router.navigate(['products'])
