@@ -111,7 +111,7 @@ export class TableComponent implements OnInit {
     selected[selected.length -1] = lastItem
     let uniq = []
     selected.reverse().forEach(e => {
-      let index = uniq.findIndex(obj => obj.Id == e.Id)
+      let index = uniq.findIndex(obj => obj.Id === e.Id)
       if(index <= -1){
         uniq.push(e)
       }
