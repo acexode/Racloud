@@ -26,7 +26,7 @@ export class ProductServiceService {
   deleteProducts(id){
     return this.reqS.delete(productEndpoints.updateProduct + id)
   }
-  public get GetOptionList(): Observable<[]>{  
+  public get GetOptionList(): Observable<[]>{
     return this.modifiedOptionList.asObservable();
   }
   SetOptionList(data: []) {
