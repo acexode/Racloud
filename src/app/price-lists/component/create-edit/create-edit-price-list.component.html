@@ -56,10 +56,10 @@
                 ></app-select>
                 </div>
 
-                <div class="col-12 col-md-3" *ngIf="!removeNotInUse">
+                <div class="col-12 col-md-3" *ngIf="editableData">
                   <app-input
-                      [config]="inputConfig('Date Created')"
-                      formControlName="createdDate"
+                      [config]="inputConfig('Date Created', 'text', 'Your Date', false, true)"
+                      formControlName="createDate"
                   ></app-input>
                 </div>
 

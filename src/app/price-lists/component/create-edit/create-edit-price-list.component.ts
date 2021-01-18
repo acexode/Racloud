@@ -20,6 +20,7 @@ import { TableService } from 'src/app/shared/table/services/table.service';
 import { CreatePriceListModel } from '../../models/create-price-list-model';
 import { PriceListModel } from '../../models/price-list-model';
 import { PriceListProductManagerModel } from '../../models/price-list-product-manager.model';
+import { getUTCdate } from 'src/app/core/helpers/dateHelpers';
 
 @Component({
   selector: 'app-create-edit-price-list',
@@ -83,7 +84,6 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private tS: TableService,
-    private router: Router,
     private productS: ProductServiceService,
     private msgS: MessagesService,
     private currencyS: CurrencyService,
@@ -93,7 +93,9 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
     label: string,
     type: string = 'text',
     placeholder: string = 'Type here',
-    prefixIcon: boolean = false)
+    prefixIcon: boolean = false,
+    isDisabled: boolean = false
+  )
     : InputConfig {
     return {
       inputLabel: {
@@ -102,6 +104,9 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
       type: type || 'text',
       placeholder: placeholder || '',
       prefixIcon: prefixIcon || false,
+      formStatus: {
+        isDisabled,
+      }
     };
   }
   selectConfig(
@@ -155,7 +160,7 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
           Validators.required,
         ],
       ],
-      createdDate: [
+      createDate: [
         '',
       ],
     });
@@ -327,13 +332,6 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
     this.isLoading = !this.isLoading;
   }
   addProductToPriceListProductManager(data: PriceListProductManagerModel) {
-    /* const prod = this.products.find((p: ProductModel) => p.id === data.productId);
-    const nD: PriceListProductManagerModel = {
-      ...data,
-      application: prod.application,
-      product: prod.name,
-      productType: prod.productType,
-    }; */
     if (data.hasOwnProperty('uuid')) {
       this.priceListS.updateProductToPriceListingProductManager(data);
     } else {
@@ -344,7 +342,6 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
     this.priceListS.removeProductToPriceListingProductManager(data.id);
   }
   toEditProductFromPriceListProductManager(data: PriceListProductManagerModel) {
-    console.log(data);
     /* note product Id is included */
     this.priceListS.toEditProductToPriceListingProductManager(data);
     this.openAddProductFormModal();
@@ -433,14 +430,14 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
     );
   }
   updateValueForForm(data: any) {
-
+    console.log(data);
     if (typeof data !== 'undefined' || typeof data !== null) {
 
       // get data
       const d = {
         name: get(data, 'name', ''),
         currency: get(data, 'currency', null),
-        createdDate: get(data, 'createdDate', '')
+        createDate: getUTCdate(get(data, 'createDate', ''))
       };
       this.componentForm.setValue({ ...d });
     }
