@@ -201,7 +201,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   }
   submitForm(){
     this.isLoading = true
-  const obj = this.productForm.value
+  const productValues = this.productForm.value
   const resArr = []
   console.log(this.selectedRows)
   this.selectedRows.reverse().filter(item =>{
@@ -251,16 +251,16 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
   console.log(resArr)
   if(this.isEdit){
-    obj.productOptions = resArr
-    obj.id =  id
-    console.log(obj)
-    this.productS.updateProducts(id, obj).subscribe(e =>{
+    productValues.productOptions = resArr
+    productValues.id =  id
+    console.log(productValues)
+    this.productS.updateProducts(id, productValues).subscribe(e =>{
       this.isLoading = false
       this.router.navigate(['products'])
     });
   }else{
-    obj.selectedOptions = resArr
-    this.productS.createProducts(obj).subscribe(e =>{
+    productValues.selectedOptions = resArr
+    this.productS.createProducts(productValues).subscribe(e =>{
       this.isLoading = false
       this.router.navigate(['products'])
     });
