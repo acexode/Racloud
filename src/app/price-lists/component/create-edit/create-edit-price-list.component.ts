@@ -365,7 +365,6 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
     this.isLoadingStatus();
     // start processing
     this.proccessPriceListProducts$ = this.priceListS.getpriceListProductManagerState().pipe(
-      tap(v => console.log(v)),
       map(
         (d: Array<PriceListProductManagerModel>) => {
           return d.map(

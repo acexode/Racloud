@@ -76,11 +76,8 @@ export class EditPriceListsComponent implements OnInit, OnDestroy {
           timeout: 5000,
         });
         this.priceListS.updateButtonLoadingStatus(false);
-        // reset form
-        // this.componentForm.reset();
       },
       err => {
-        console.log(err);
         const msgErr = typeof err.error !== 'string'
           ? (err?.error?.currency || 'Error while trying to update price list')
           : (err.error || 'Please check your network');
@@ -91,8 +88,6 @@ export class EditPriceListsComponent implements OnInit, OnDestroy {
           customClass: 'mt-32',
           hasIcon: true,
         });
-        // this.componentForm.markAllAsTouched();
-        // this.componentForm.updateValueAndValidity();
         this.priceListS.updateButtonLoadingStatus(false);
       }
     );

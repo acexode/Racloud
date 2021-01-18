@@ -32,9 +32,6 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
           timeout: 5000,
         });
         this.priceListS.updateButtonLoadingStatus(true);
-        // reset form
-        // this.componentForm.reset();
-        // redirect to login page
         this.router.navigateByUrl('/price-lists');
       },
       err => {
@@ -48,8 +45,6 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
           customClass: 'mt-32',
           hasIcon: true,
         });
-        // this.componentForm.markAllAsTouched();
-        // this.componentForm.updateValueAndValidity();
         this.priceListS.updateButtonLoadingStatus(true);
       }
     );
