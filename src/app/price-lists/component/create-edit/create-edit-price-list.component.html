@@ -1,0 +1,135 @@
+<app-page-container [config]="containerConfig">
+  <div class="w-100" container-body>
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <!--  -->
+          <app-button
+            color="tertiary"
+            [routerLink]="[backUrl]"
+            [class]="
+              'd-flex align-items-center rc-accent-blue-160-color montserrat-semibold-font ml-n20'
+            "
+          >
+            <svg-icon
+              [class]="'icon-w16-h16 mr-1'"
+              [src]="caretLeftIcon"
+              alt="Icon"
+              applyClass="true"
+            >
+            </svg-icon>
+            PRICE LISTS
+          </app-button>
+          <!--  -->
+
+          <h1
+            class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0"
+          >
+            Price list name
+          </h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="line-h1 rc-secondary-bg mt-24 mb-39 px-0"></div>
+
+    <div class="w-100 pt-40" *ngIf="{currenciesOptions: currenciesOptions$ | async } as optionData">
+
+        <form [formGroup]="componentForm" class="row no-gutters">
+
+            <div class="col-12 px-0">
+
+            <div class="row no-gutters">
+
+                <div class="col-12 col-md-3 mr-32">
+                <app-input
+                    [config]="inputConfig('Name')"
+                    formControlName="name"
+                ></app-input>
+                </div>
+
+                <div class="col-12 col-md-3 mr-32">
+                <app-select
+                    [config]="selectConfig('Curency', 'Select Curency', true, 'code', 'name')"
+                    formControlName="currency"
+                    [options]="optionData.currenciesOptions"
+                ></app-select>
+                </div>
+
+                <div class="col-12 col-md-3" *ngIf="editableData">
+                  <app-input
+                      [config]="inputConfig('Date Created', 'text', 'Your Date', false, true)"
+                      formControlName="createDate"
+                  ></app-input>
+                </div>
+
+            </div>
+
+            </div>
+
+            <div class="w-100 mt-40">
+                <app-table
+                    [rows]="tableData | async"
+                    [config]="tableConfig"
+                    (filterData)="filterTable($event)"
+                    [rowDetailConfig]="rowDetailIcons"
+                ></app-table>
+            </div>
+
+            <div class="w-100">
+                <div class="rc-light-grey-bg mt-16 p-16 d-flex justify-content-end">
+                    <app-button type="button" color="secondaryB" class="mr-8" (click)="openAddProductFormModal()">
+                      Add Product
+                    </app-button>
+
+                    <app-button type="submit" color="primary" (click)="savePriceList()" [disabled]="!componentForm?.valid || isLoading">  
+                      <app-loader type="button" *ngIf="isLoading"></app-loader>
+                      <span *ngIf="!isLoading">Update</span>
+                    </app-button>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+</app-page-container>
+
+
+<ng-template #hoverDetailTpl let-column="column" let-row="row">
+    <div class="d-flex justify-content-end w-100">
+      <div class="d-flex bg-container justify-content-end py-10 mt-n10">
+        <div class="row-detail d-flex align-items-center"></div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #actionDropdown let-column="column" let-row="row">
+    <div (click)="removeProductFromPriceListProductManager(row)">
+      <img src="./../../../assets/images/Delete.svg" alt="Delete-icon" class="icon-w20-h20" />
+    </div>
+    
+  </ng-template>
+
+  <ng-template #optionTemplate let-column="column" let-row="row">
+    <div (click)="toEditProductFromPriceListProductManager(row)">
+      <img src="./../../../assets/images/Options.svg" alt="Options-icon" class="icon-w20-h20" />
+    </div>
+    
+  </ng-template>
+
+
+  <ng-template #valueTemplate let-column="column" let-row="row" let-value="cellValue">
+   <div class="text-right px-0 mx-0">
+        <span>
+            {{ value | currency:'USD':'symbol-narrow':'4.2-2' }}
+        </span>
+   </div>
+</ng-template>
+
+<ng-container *ngIf="products">
+  <app-add-product-form-step 
+    [products]="products" 
+    (productFormEmitter)="addProductToPriceListProductManager($event)"
+    (closeModalStateEmitter)="setEditStateToNull($event)"
+    [editableData]="toEditProduct"
+  ></app-add-product-form-step>
+</ng-container>

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { baseEndpoints } from '../core/configs/endpoints';
 import { getUTCdate } from '../core/helpers/dateHelpers';
@@ -78,7 +78,8 @@ export class PriceListsComponent implements OnInit, OnDestroy {
     private tS: TableService,
     private router: Router,
     private ref: ChangeDetectorRef,
-    private PriceListS: PriceListService
+    private PriceListS: PriceListService,
+    private route: ActivatedRoute,
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -161,7 +162,6 @@ export class PriceListsComponent implements OnInit, OnDestroy {
     this.tableConfig.loadingIndicator = true;
     this.priceList$ = this.PriceListS.getPriceLists().subscribe(
       (res: Array<PriceListModel>) => {
-        console.log(res);
         if (res) {
           const data = res.map(
             (r: any) => {
@@ -175,7 +175,7 @@ export class PriceListsComponent implements OnInit, OnDestroy {
           this.tableConfig.loadingIndicator = false;
         }
       },
-      err => { }
+      _err => { }
     );
   }
   filterTable(filterObj: TableFilterConfig) {
@@ -189,7 +189,7 @@ export class PriceListsComponent implements OnInit, OnDestroy {
 
   removeRow(id: any) { }
   manageSub(data: any) {
-    // this.router.navigate(['licenses/license-edit', { id: data.id }]);
+    this.router.navigate(['edit', data.id], { relativeTo: this.route });
   }
   renewSub(id: any) { }
 
