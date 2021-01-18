@@ -38,7 +38,7 @@ export class EditPriceListsComponent implements OnInit, OnDestroy {
             this.pushResponseDataProductIntoPriceLisitingProductManager(productLists);
             this.requestedData = res;
           },
-          err => {
+          _err => {
             this.msgS.addMessage({
               text: 'Unable to get customer Data at this current time please check your newtowrk and try again.',
               type: 'danger',
@@ -61,7 +61,11 @@ export class EditPriceListsComponent implements OnInit, OnDestroy {
   }
   updateData(data: any) {
     console.log(data);
-    this.updatePriceList$ = this.priceListS.updatePriceList(this.priceListId, data).subscribe(
+    const eData = {
+      ...data,
+      id: this.priceListId,
+    };
+    this.updatePriceList$ = this.priceListS.updatePriceList(this.priceListId, eData).subscribe(
       (_res: PriceListModel) => {
         this.msgS.addMessage({
           text: 'Pricelist created Successfully',
