@@ -105,13 +105,13 @@ export class TableComponent implements OnInit {
     }
   }
   onSelect(selectedObj) {
-    let {selected} = selectedObj
+    const {selected} = selectedObj
     const lastItem = selected[selected.length -1]
     lastItem.selected = !lastItem.selected
     selected[selected.length -1] = lastItem
-    let uniq = []
+    const uniq = []
     selected.reverse().forEach(e => {
-      let index = uniq.findIndex(obj => obj.Id === e.Id)
+      const index = uniq.findIndex(obj => obj.Id === e.Id)
       if(index <= -1){
         uniq.push(e)
       }
