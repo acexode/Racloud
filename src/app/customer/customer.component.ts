@@ -303,7 +303,8 @@ export class CustomerComponent implements OnInit, OnDestroy {
   }
   removeRow(rData: any) {
     this.disableCustomer$ = this.customerS.disableCustomers(rData.id).subscribe(
-      res => {
+      _res => {
+        this.loadCustomers();
         this.msgS.addMessage({
           text: 'Successfully disabled customer',
           type: 'danger',
