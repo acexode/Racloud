@@ -196,31 +196,28 @@ export class PriceListsComponent implements OnInit, OnDestroy {
     );
   }
   removeRow(data: any) {
-    const userConfirm = confirm('Are you sure you want to delete the price list');
-    if (userConfirm) {
-      this.deletePriceList$ = this.PriceListS.deletePriceList(data.id).subscribe(
-        res => {
-          this.msgS.addMessage({
-            text: res.name + ' Pricelist Successfully Deleted',
-            type: 'success',
-            dismissible: true,
-            customClass: 'mt-32',
-            hasIcon: true,
-            timeout: 5000,
-          });
-          this.loadPriceList();
-        },
-        err => {
-          this.msgS.addMessage({
-            text: err.error || 'Please check your network and try again. We are unable to delete the Price list at this time',
-            type: 'danger',
-            dismissible: true,
-            customClass: 'mt-32',
-            hasIcon: true,
-          });
-        }
-      );
-    }
+    this.deletePriceList$ = this.PriceListS.deletePriceList(data.id).subscribe(
+      res => {
+        this.msgS.addMessage({
+          text: res.name + ' Pricelist Successfully Deleted',
+          type: 'success',
+          dismissible: true,
+          customClass: 'mt-32',
+          hasIcon: true,
+          timeout: 5000,
+        });
+        this.loadPriceList();
+      },
+      err => {
+        this.msgS.addMessage({
+          text: err.error || 'Please check your network and try again. We are unable to delete the Price list at this time',
+          type: 'danger',
+          dismissible: true,
+          customClass: 'mt-32',
+          hasIcon: true,
+        });
+      }
+    );
   }
   manageSub(data: any) {
     this.router.navigate(['edit', data.id], { relativeTo: this.route });
