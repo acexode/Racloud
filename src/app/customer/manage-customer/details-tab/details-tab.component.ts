@@ -93,7 +93,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     this.isLoadingStatus();
     console.log('called', this.isLoading, profileData);
     this.updateProfile$ = this.updateData(profileData).subscribe(
-      res => {
+      _res => {
         // sucessfully updated
         this.msgS.addMessage({
           text: 'Sucessfully updated profile',
@@ -107,12 +107,10 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
         this.isLoadingStatus();
       },
       err => {
-        console.log(err);
         this.msgS.addMessage({
           text: err.error,
           type: 'danger',
           dismissible: true,
-          timeout: 5000,
           customClass: 'mt-32',
           hasIcon: true
         });

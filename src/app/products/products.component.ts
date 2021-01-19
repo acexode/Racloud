@@ -70,8 +70,7 @@ export class ProductsComponent implements OnInit {
     columns: [],
     externalPaging: false,
     externalSorting: false,
-    action: true,
-    scrollH: false
+    action: true
   };
   constructor(
     private tS: TableService,
@@ -144,7 +143,10 @@ export class ProductsComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.productS.getProducts().subscribe((data: ProductModel[]) => {
+    this.getProducts()
+  }
+  public getProducts() {
+    this.productS.getProducts().subscribe((data) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
@@ -155,9 +157,6 @@ export class ProductsComponent implements OnInit {
         this.tableConfig.loadingIndicator = false;
       }
     });
-  }
-  public getJSON(): Observable<any> {
-    return this.http.get('./assets/products.json');
 }
 filterTable(filterObj: TableFilterConfig) {
   const newRows = this.tS.filterRowInputs(
@@ -181,8 +180,10 @@ setDropUp(row) {
   }
   this.ref.detectChanges()
 }
-removeRow(id){
-  console.log(id);
+removeRow(data){
+  this.productS.deleteProducts(data.id).subscribe(e =>{
+    this.getProducts()
+  })
 }
 manageSub(data: any) {
   this.router.navigate(['products/edit-product', { id: data.id }]);

@@ -9,4 +9,5 @@ export interface PriceListProductManagerModel {
     id: string; /* introduced to make the product distict */
     application?: null | string;
     productType?: null | string,
+    uuid?: string;
 }

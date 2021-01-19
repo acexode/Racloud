@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { timeStamp } from 'console';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { baseEndpoints } from '../core/configs/endpoints';
 import { getUTCdate } from '../core/helpers/dateHelpers';
@@ -8,6 +9,7 @@ import { PriceListService } from '../core/services/price-list/price-list.service
 import { RequestService } from '../core/services/request/request.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
+import { MessagesService } from '../shared/messages/services/messages.service';
 import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
 import { TableFilterType } from '../shared/table/models/table-filter-types';
 import { TableI } from '../shared/table/models/table.interface';
@@ -74,11 +76,14 @@ export class PriceListsComponent implements OnInit, OnDestroy {
     noFiltering: true,
   };
   priceList$: Subscription;
+  deletePriceList$: Subscription;
   constructor(
     private tS: TableService,
     private router: Router,
     private ref: ChangeDetectorRef,
-    private PriceListS: PriceListService
+    private PriceListS: PriceListService,
+    private route: ActivatedRoute,
+    private msgS: MessagesService,
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -159,9 +164,21 @@ export class PriceListsComponent implements OnInit, OnDestroy {
     ];
 
     this.tableConfig.loadingIndicator = true;
+    // load pricelists
+    this.loadPriceList();
+  }
+  filterTable(filterObj: TableFilterConfig) {
+    const newRows = this.tS.filterRowInputs(
+      this.tableConfig?.columns,
+      this.rowData,
+      filterObj
+    );
+    this.tableData.next(newRows);
+  }
+
+  loadPriceList() {
     this.priceList$ = this.PriceListS.getPriceLists().subscribe(
       (res: Array<PriceListModel>) => {
-        console.log(res);
         if (res) {
           const data = res.map(
             (r: any) => {
@@ -175,21 +192,35 @@ export class PriceListsComponent implements OnInit, OnDestroy {
           this.tableConfig.loadingIndicator = false;
         }
       },
-      err => { }
+      _err => { }
     );
   }
-  filterTable(filterObj: TableFilterConfig) {
-    const newRows = this.tS.filterRowInputs(
-      this.tableConfig?.columns,
-      this.rowData,
-      filterObj
+  removeRow(data: any) {
+    this.deletePriceList$ = this.PriceListS.deletePriceList(data.id).subscribe(
+      res => {
+        this.msgS.addMessage({
+          text: res.name + ' Pricelist Successfully Deleted',
+          type: 'success',
+          dismissible: true,
+          customClass: 'mt-32',
+          hasIcon: true,
+          timeout: 5000,
+        });
+        this.loadPriceList();
+      },
+      err => {
+        this.msgS.addMessage({
+          text: err.error || 'Please check your network and try again. We are unable to delete the Price list at this time',
+          type: 'danger',
+          dismissible: true,
+          customClass: 'mt-32',
+          hasIcon: true,
+        });
+      }
     );
-    this.tableData.next(newRows);
   }
-
-  removeRow(id: any) { }
   manageSub(data: any) {
-    // this.router.navigate(['licenses/license-edit', { id: data.id }]);
+    this.router.navigate(['edit', data.id], { relativeTo: this.route });
   }
   renewSub(id: any) { }
 
@@ -205,6 +236,9 @@ export class PriceListsComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.priceList$.unsubscribe();
+    if (this.deletePriceList$) {
+      this.deletePriceList$.unsubscribe();
+    }
   }
 
 }

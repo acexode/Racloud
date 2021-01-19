@@ -138,8 +138,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
             selected: false
           }
         }
-    })
-    console.log(this.optionList)
+      })
     })
   }
   initForm() {
@@ -202,32 +201,66 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   }
   submitForm(){
     this.isLoading = true
-  const obj = this.productForm.value
+  const productValues = this.productForm.value
   const resArr = []
+  console.log(this.selectedRows)
   this.selectedRows.reverse().filter(item =>{
     const i = resArr.findIndex(x => x.optionId === item.Id);
     if(i <= -1){
-      resArr.push(
-        {
-          optionId: item.Id,
-          userAccess: item.UserAccess,
-          partnerAccess: item.PartnerAccess
+      const obj: any = {
+        optionId: item.Id,
+        userAccess: item.UserAccess,
+        partnerAccess: item.PartnerAccess
+      }
+      if(item.OptionType === 'ValueList'){
+        const valueItems = []
+        item.ValueList.forEach(x =>{
+          if(x.selected){
+            valueItems.push({
+              id: x.Id
+            })
+          }
+        })
+        if(this.isEdit){
+          obj.valueListItems = valueItems
+        }else{
+          obj.valueList = valueItems
         }
-        );
+        obj.valueString = ''
+      }
+      if(item.OptionType === 'String'){
+        obj.valueString = item.ValueString
+        if(this.isEdit){
+          obj.valueListItems = []
+        }else{
+          obj.valueList = []
+        }
+      }
+      if(item.OptionType === 'Boolean'){
+        obj.valueString = ''
+        if(this.isEdit){
+          obj.valueListItems = []
+        }else{
+          obj.valueList = []
+        }
+      }
+      resArr.push(obj);
     }
     return null;
   });
   const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+  console.log(resArr)
   if(this.isEdit){
-    obj.productOptions = resArr
-    obj.id =  id
-    this.productS.updateProducts(id, obj).subscribe(e =>{
+    productValues.productOptions = resArr
+    productValues.id =  id
+    console.log(productValues)
+    this.productS.updateProducts(id, productValues).subscribe(e =>{
       this.isLoading = false
       this.router.navigate(['products'])
     });
   }else{
-    obj.selectedOptions = resArr
-    this.productS.createProducts(obj).subscribe(e =>{
+    productValues.selectedOptions = resArr
+    this.productS.createProducts(productValues).subscribe(e =>{
       this.isLoading = false
       this.router.navigate(['products'])
     });

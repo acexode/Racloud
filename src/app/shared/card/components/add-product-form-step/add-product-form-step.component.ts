@@ -20,7 +20,7 @@ export class AddProductFormStepComponent implements OnInit, OnDestroy {
   displayModal$: Subscription;
   caretLeftIcon = 'assets/images/caret-left.svg';
   inEditMode = false;
-  editItemId: null | string | number = null;
+  editItem: any = null;
   componentForm = this.fb.group({
     productId: [
       null,
@@ -90,7 +90,7 @@ export class AddProductFormStepComponent implements OnInit, OnDestroy {
         if (d !== null) {
           // update form Data
           this.updateValueForForm(d);
-          this.editIdManager(true, d.id);
+          this.editIdManager(true, d);
         }
       }
     );
@@ -121,16 +121,16 @@ export class AddProductFormStepComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
   emitPriceListFormData() {
-    if (this.inEditMode && this.editItemId !== 'none') {
-      this.productFormEmitter.emit({ ...this.componentForm.value, id: this.editItemId });
+    if (this.inEditMode && this.editItem !== 'none') {
+      this.productFormEmitter.emit({ ...this.editItem, ...this.componentForm.value  });
     } else {
       this.productFormEmitter.emit(this.componentForm.value);
     }
     this.closeModal();
   }
-  editIdManager(status: boolean = false, id: string | number = ''): void {
+  editIdManager(status: boolean = false, data: any = ''): void {
     this.inEditMode = true;
-    this.editItemId = id || 'none';
+    this.editItem = data || 'none';
   }
   ngOnDestroy(): void {
     this.displayModal$.unsubscribe();

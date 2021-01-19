@@ -13,11 +13,12 @@ import { TabsModule } from '../shared/tabs/tabs.module';
 import { PriceListsComponent } from './price-lists.component';
 import { CreatePriceListsComponent } from './create-price-lists/create-price-lists.component';
 import { CardModule } from '../shared/card/card.module';
-import { ModalModule } from 'ngx-bootstrap/modal';
+import { EditPriceListsComponent } from './edit-price-lists/edit-price-lists.component';
+import { CreateEditPriceListComponent } from './component/create-edit/create-edit-price-list.component';
 
 
 @NgModule({
-  declarations: [PriceListsComponent, CreatePriceListsComponent],
+  declarations: [PriceListsComponent, CreatePriceListsComponent, EditPriceListsComponent, CreateEditPriceListComponent],
   imports: [
     CommonModule,
     PriceListsRoutingModule,

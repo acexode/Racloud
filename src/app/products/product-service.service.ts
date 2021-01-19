@@ -11,6 +11,7 @@ export class ProductServiceService {
   displayAddProductModal: BehaviorSubject<boolean> = new BehaviorSubject(false);
   displayAddProductFormStepModal: BehaviorSubject<boolean> = new BehaviorSubject(false);
   modifiedOptionList = new BehaviorSubject<[]>([]);
+  modifiedTableData: BehaviorSubject<any> = new BehaviorSubject([]);
   constructor(private reqS: RequestService) { }
 
   getProducts(): Observable<Array<ProductModel>> {
@@ -22,11 +23,17 @@ export class ProductServiceService {
   updateProducts(id, product) {
     return this.reqS.put(productEndpoints.updateProduct + id, product);
   }
-  public get GetOptionList(): Observable<[]> {
+  deleteProducts(id){
+    return this.reqS.delete(productEndpoints.updateProduct + id)
+  }
+  public get GetOptionList(): Observable<[]>{
     return this.modifiedOptionList.asObservable();
   }
   SetOptionList(data: []) {
     this.modifiedOptionList.next(data);
+  }
+  modifiedDT(data: []){
+    this.modifiedTableData.next(data);
   }
   getAddProductModalDisplayStatus(): Observable<boolean> {
     return this.displayAddProductModal.asObservable();
