@@ -1,0 +1,42 @@
+<ng-container *ngIf="itemStatus">
+    <div class="rc-sh-card-b">
+
+        <div class="rc-sh-card-top">
+            <div class="rc-initial-title">
+                <p class="s12-h16 montserrat-bold-font ls-0 m-0" [ngClass]="theCardType?.bgColor">{{acronym | uppercase}}</p>
+            </div>
+            <div class="rc-full-title">
+                <p class="montserrat-semibold-font s15-h24 text-weight-bold rc-accent-blue-160-color ls-0 m-0 p-0">{{product?.name | titlecase}}</p>
+            </div>
+        </div>
+
+        <div class="line-h1 rc-secondary-bg mt-26 mb-16"></div>
+
+        <div class="rc-sh-card-body">
+            <div class="rc-product-description">
+                <p class="rc-grey-color desc helvetica-neue-regular ls-0">
+                    {{product?.description}}.
+                </p>
+            </div>
+            <div class="rc-sh-card-body-link">
+                <app-button type="link" color="tertiary" class="rc-black-color s14-h16 p-0 m-0">
+                    See product page
+                </app-button>
+            </div>
+        </div>
+
+
+        <div class="line-h1 rc-secondary-bg"></div>
+
+
+
+        <div class="rc-sh-card-footer">
+
+            <app-button type="Submit" color="primary" (click)="emitProductDetails()">
+                Add
+            </app-button>
+
+        </div>
+
+    </div>
+</ng-container>

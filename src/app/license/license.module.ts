@@ -1,3 +1,4 @@
+import { SharedModuleModule } from './../SharedModule/shared-module/shared-module.module';
 import { TabsModule } from './../shared/tabs/tabs.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -25,6 +26,7 @@ import { OptionsModule } from '../options/options.module'
     ContainerModule,
     RcFormsModule,
     TableModule,
+    SharedModuleModule,
     TabsModule,
     AngularSvgIconModule,
     FormsModule,

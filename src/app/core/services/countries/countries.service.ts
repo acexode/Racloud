@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap, map, switchMap, filter, distinctUntilChanged } from 'rxjs/operators';
 import { baseEndpoints } from '../../configs/endpoints';
-import { AuthState } from '../../models/auth-state.interface';
 import { CountriesModel, CountryData } from '../../models/countries-model';
 import { CustomStorageService } from '../custom-storage/custom-storage.service';
 import { RequestService } from '../request/request.service';

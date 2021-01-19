@@ -1,18 +1,18 @@
 export interface CardItem {
-    Id?: string | number;
+    id?: string | number;
     type?: string;
-    ProductId: number;
-    PriceListId: number;
+    productId?: number;
+    priceListId?: number;
     productName?: string;
     productVersion?: string;
-    Discount: number;
-    DiscountPrc: number;
-    SupportHours: number;
-    Value?: string | number;
-    RenewalValue?: string | number;
-    Product: {
-        Id: number;
-        Name: string;
-        Description:string;
-    }
+    discount?: number;
+    discountPrc?: number;
+    supportHours?: number;
+    value?: string | number;
+    renewalValue?: string | number;
+    product?: {
+        id?: number;
+        name?: string;
+        description?: string;
+    };
 };

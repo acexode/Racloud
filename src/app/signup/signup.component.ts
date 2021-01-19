@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import {
   Component,
   OnInit,
@@ -83,7 +82,6 @@ export class SignupComponent implements OnInit, OnDestroy {
     private msgS: MessagesService,
     private cdRef: ChangeDetectorRef,
     private routerS: Router,
-    private http: HttpClient,
     private cS: CountriesService,
     private lgS: LanguagesService,
   ) { }
@@ -130,9 +128,6 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   isLoadingStatus() {
     this.isLoading = !this.isLoading;
-  }
-  getJSON(urlPath: string): Observable<any> {
-    return this.http.get(urlPath);
   }
   submitForm(): void {
     /* loading */

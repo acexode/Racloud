@@ -111,3 +111,12 @@ html {
   padding-bottom: 90px;
 }
 
+.datatable-body {
+  height: auto;
+   min-height: 400px !important;
+   overflow-y: hidden !important;
+  }
+  .ngx-datatable {
+  overflow-y: hidden !important;
+  // height: 400px;
+}

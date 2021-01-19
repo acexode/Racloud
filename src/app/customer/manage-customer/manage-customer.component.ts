@@ -4,6 +4,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
+import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 import { CustomerModel } from '../model/customer.model';
 
 @Component({
@@ -76,6 +77,7 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
     private cdref: ChangeDetectorRef,
     private route: ActivatedRoute,
     private reqS: RequestService,
+    private msgS: MessagesService,
   ) { }
 
   ngOnInit(): void {
@@ -89,7 +91,15 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
               this.showTab(this.detailsTab);
             }
           },
-          err => { }
+          _err => {
+            this.msgS.addMessage({
+              text: 'Unable to get customer Data at this current time please check your newtowrk and try again.',
+              type: 'danger',
+              dismissible: true,
+              customClass: 'mt-32',
+              hasIcon: true
+            });
+           }
         );
       }
     );
