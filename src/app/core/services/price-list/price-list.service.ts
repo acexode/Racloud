@@ -35,6 +35,10 @@ export class PriceListService {
     const query = `${ baseEndpoints.priceLists }/${ id }`;
     return this.reqS.get<PriceListModel>(query);
   }
+  deletePriceList(id: any): Observable<PriceListModel> {
+    const query = `${ baseEndpoints.priceLists }/${ id }`;
+    return this.reqS.delete<PriceListModel>(query);
+  }
   updatePriceList(id: any, data: PriceListModel): Observable<PriceListModel> {
     const query = `${ baseEndpoints.priceLists }/${ id }`;
     return this.reqS.put<PriceListModel>(query, data);
