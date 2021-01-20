@@ -124,7 +124,7 @@ export class OrdersDetailsComponent implements OnInit {
       if(e.hasOwnProperty('id')){
         const obj = {
           orderId,
-          productPriceId: e.priceListId
+          productPriceId: e.id
         }
         console.log(obj)
         this.service.addOrderToCart(orderId, obj).subscribe(res =>{
