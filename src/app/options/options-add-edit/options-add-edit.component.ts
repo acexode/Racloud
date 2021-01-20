@@ -60,13 +60,34 @@ export class OptionsAddEditComponent implements OnInit {
     type: 'text',
     placeholder: 'Type here',
   };
-  valueListConfig: InputConfig = {
-    inputLabel: {
-      text: 'Value 1'
-    },
-    type: 'text',
-    placeholder: 'Type here',
-  };
+  // valueListConfig: InputConfig = {
+  //   inputLabel: {
+  //     text: 'Value 1'
+  //   },
+  //   type: 'text',
+  //   placeholder: 'Type here',
+  // };
+  valueListConfig(
+    label: string,
+    type: string = 'text',
+    placeholder: string = 'Type here',
+    prefixIcon: boolean = false,
+    isDisabled: boolean = false,
+  ): InputConfig {
+    const len = this.valueLists.controls.length;
+    const labelNum = len === 0 ? 1 : len + 1;
+    return {
+      inputLabel: {
+        text: 'Value ' + labelNum,
+      },
+      type: type || 'text',
+      placeholder: placeholder || '',
+      prefixIcon: prefixIcon || false,
+      formStatus: {
+        isDisabled,
+      }
+    };
+  }
   optionForm: FormGroup;
   selectedType = 'string';
   selectedStatus: any;
