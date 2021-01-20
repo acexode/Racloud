@@ -1,3 +1,4 @@
+import { Order } from './../core/models/order.interface';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,6 +10,7 @@ import { TableFilterConfig } from '../shared/table/models/table-filter-config.in
 import { TableFilterType } from '../shared/table/models/table-filter-types';
 import { TableI } from '../shared/table/models/table.interface';
 import { TableService } from '../shared/table/services/table.service';
+import { OrderService } from './service.service';
 
 @Component({
   selector: 'app-orders',
@@ -18,6 +20,7 @@ import { TableService } from '../shared/table/services/table.service';
 })
 export class OrdersComponent implements OnInit {
   isDropup = true;
+  @ViewChild('dateTemplate', { static: true }) dateTemplate;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl;
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
   @ViewChild('valueTemplate', { static: true }) valueTemplate: TemplateRef<any>;
@@ -41,28 +44,6 @@ export class OrdersComponent implements OnInit {
     '../../assets/images/Edit.svg',
     '../../assets/images/Log.svg',
   ];
-  bsConfig = omnBsConfig({
-    ranges: [
-      {
-        value: [new Date(), new Date()],
-        label: 'Azi',
-      },
-      {
-        value: [
-          new Date(new Date().setDate(new Date().getDate() - 7)),
-          new Date(),
-        ],
-        label: 'Ultima săptămână',
-      },
-      {
-        value: [
-          new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
-          new Date(new Date().getFullYear(), new Date().getMonth(), 0),
-        ],
-        label: 'Ultima lună',
-      },
-    ],
-  });
   tableConfig: TableI = {
     selectable: false,
     selectDetail: false,
@@ -80,12 +61,13 @@ export class OrdersComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute,
+    private service: OrderService
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'number',
+        identifier: 'Id',
         label: 'Number',
         sortable: true,
         minWidth: 125,
@@ -101,7 +83,7 @@ export class OrdersComponent implements OnInit {
         },
       },
       {
-        identifier: 'customer',
+        identifier: 'Company',
         label: 'Customer',
         sortable: true,
         minWidth: 273,
@@ -117,7 +99,7 @@ export class OrdersComponent implements OnInit {
         },
       },
       {
-        identifier: 'date',
+        identifier: 'CreateDate',
         label: 'Date',
         sortable: true,
         minWidth: 100,
@@ -125,6 +107,7 @@ export class OrdersComponent implements OnInit {
         sortIconPosition: 'left',
         labelPosition: 'right',
         cellContentPosition: 'right',
+        cellTemplate: this.dateTemplate,
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -132,7 +115,7 @@ export class OrdersComponent implements OnInit {
         },
       },
       {
-        identifier: 'status',
+        identifier: 'OrderStatus',
         label: 'Status',
         sortable: true,
         minWidth: 270,
@@ -148,7 +131,7 @@ export class OrdersComponent implements OnInit {
         },
       },
       {
-        identifier: 'value',
+        identifier: 'Value',
         label: 'Value',
         sortable: true,
         minWidth: 111,
@@ -165,7 +148,7 @@ export class OrdersComponent implements OnInit {
         },
       },
       {
-        identifier: 'discount',
+        identifier: 'Discount',
         label: 'Discount',
         sortable: true,
         minWidth: 111,
@@ -182,7 +165,7 @@ export class OrdersComponent implements OnInit {
         },
       },
       {
-        identifier: 'total',
+        identifier: 'TotalValue',
         label: 'Total value',
         sortable: true,
         minWidth: 111,
@@ -212,8 +195,9 @@ export class OrdersComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data) => {
+    this.service.getorders().subscribe((data:any) => {
       if (data) {
+        console.log(data)
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
         const cloneData = data.map((v) => {
@@ -245,13 +229,17 @@ export class OrdersComponent implements OnInit {
     }
     this.ref.detectChanges();
   }
+  generateOrder(){
+    this.service.generateOrder().subscribe((e:any) =>{
+      console.log(e)
+      this.router.navigate(['orders-details', e.id], { relativeTo: this.route });
+    })
+  }
   removeRow(id) {
     console.log(id);
   }
   manageSub(data: any) {
     console.log(data);
-    this.router.navigate(['orders-details', data.id], { relativeTo: this.route });
+    this.router.navigate(['orders-details', data.Id], { relativeTo: this.route });
   }
-
-
 }

@@ -107,14 +107,35 @@ html {
 .datatable-body-cell {
   overflow-wrap: break-word !important;
 }
+.totalVal input {
+   
+  background-color: #fff !important;
+}
+
+  .modal-lg {
+      width: 100% !important;
+  }
+
+
+.modal {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  height: 100%;
+}
+.order-dropdown{
+  left: 0 !important;
+}
+.empty-row{
+  display: none;
+}
 .pb-10 {
   padding-bottom: 90px;
 }
 
 .datatable-body {
   height: auto;
-   min-height: 400px !important;
-   overflow-y: hidden !important;
+   min-height: 400px;
+  //  overflow-y: hidden !important;
   }
   .ngx-datatable {
   overflow-y: hidden !important;

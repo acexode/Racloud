@@ -10,7 +10,8 @@ import { OrdersDetailsComponent } from './orders-details/orders-details.componen
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { OrdersCheckoutComponent } from './orders-checkout/orders-checkout.component';
-
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { CardModule } from '../shared/card/card.module';
 
 
 @NgModule({
@@ -20,10 +21,12 @@ import { OrdersCheckoutComponent } from './orders-checkout/orders-checkout.compo
     RcFormsModule,
     TableModule,
     ContainerModule,
+    CardModule,
     BsDropdownModule.forRoot(),
     OrdersRoutingModule,
     ReactiveFormsModule,
     AngularSvgIconModule.forRoot(),
+    ModalModule.forRoot()
   ]
 })
 export class OrdersModule { }

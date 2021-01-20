@@ -12,19 +12,19 @@
                     All orders
                 </app-toggle>
                 <!--  -->
-                <app-button type="button" color="primary">
+                <app-button (click)="generateOrder()" type="button" color="primary">
                     Add order
                 </app-button>
                 <!--  -->
             </div>
         </div>
     </div>
-      <app-table
-      [rows]="tableData | async"
-      [config]="tableConfig"
-      (filterData)="filterTable($event)"
-      [rowDetailConfig]="rowDetailIcons"
-      ></app-table>
+    <app-table
+    [rows]="tableData | async"
+    [config]="tableConfig"
+    (filterData)="filterTable($event)"
+    [rowDetailConfig]="rowDetailIcons"
+    ></app-table>
     </div>
   </app-page-container>
   
@@ -59,6 +59,13 @@
         </span>
         <span>
             {{ value }}
+        </span>
+   </div>
+</ng-template>
+<ng-template #dateTemplate let-column="column" let-row="row" let-value="cellValue">
+   <div class="text-right px-0 mx-0">        
+        <span>
+            {{ value | date }}
         </span>
    </div>
 </ng-template>

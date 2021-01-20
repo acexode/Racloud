@@ -29,6 +29,14 @@ export const optionEndpoints = {
   createOption: serverBaseUrl + '/options/create',
   getOptions: serverBaseUrl + '/options'
 };
+export const orderEndpoints = {
+  generateOrder: serverBaseUrl + '/orders/generate-order',
+  getOrders: serverBaseUrl + '/orders',
+  getSingleOrder: serverBaseUrl + '/orders',
+  addToCart: serverBaseUrl + '/orders/add-item-to-cart/',
+  reduceCartItem: serverBaseUrl + '/orders/reduce-item-quantity-in-cart/',
+  deleteCartItem: serverBaseUrl + '/orders/remove-item-from-cart/'
+}
 export const licenseEndpoints = {
   createLicense: serverBaseUrl + '/licenses/purchase',
   getLicenses: serverBaseUrl + '/licenses',
@@ -44,7 +52,7 @@ export const roleEndpoints = {
 };
 
 export const shopEndpoints = {
-  getShops: serverBaseUrl + '/shop',
+  getShops: serverBaseUrl + '/shop/company/products',
   getSingleShop: serverBaseUrl + '/shop'
 };
 export const priceListEndpoints = {

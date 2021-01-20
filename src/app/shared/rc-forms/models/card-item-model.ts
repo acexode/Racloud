@@ -1,6 +1,5 @@
 export interface CardItem {
     id?: string | number;
-    type?: string;
     productId?: number;
     priceListId?: number;
     productName?: string;
@@ -14,5 +13,6 @@ export interface CardItem {
         id?: number;
         name?: string;
         description?: string;
+        productType?: string;
     };
 };

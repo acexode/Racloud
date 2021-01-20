@@ -79,13 +79,13 @@ export class ProductCardComponent implements OnInit {
     return (this.item?.product?.description) ? true : false;
   }
   get theCardType(): any {
-    if (typeof this.item?.type === 'undefined' || typeof this.item?.type === null) {
+    if (typeof this.item?.product.productType === 'undefined' || typeof this.item?.product.productType === null) {
       return this.cardTypes.wl;
     } else {
-      if (this.item?.type === 'pn') {
-        this.setCardTypeProduct(this.item?.type);
+      if (this.item?.product.productType === 'pn') {
+        this.setCardTypeProduct(this.item?.product.productType);
       }
-      return this.cardTypes[this.item?.type];
+      return this.cardTypes[this.item?.product.productType];
     }
   }
   setCardTypeProduct(type: any) {

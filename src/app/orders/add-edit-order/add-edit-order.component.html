@@ -1,0 +1,87 @@
+<app-page-container [config]="containerConfig">
+
+    <div container-body>
+        
+    <div class="w-100">
+        <div class="page-header position-relative">
+           <a [routerLink]="[backUrl]">
+            <svg-icon
+            [class]="'back-button'"
+            [src]="caretLeftIcon"
+            alt="Icon"
+            applyClass="true"
+            >
+        </svg-icon>
+           </a>
+            <div class="row align-items-center">
+                <div class="col">  
+                  <a [routerLink]="[backUrl]" class="pyramid-title">
+                   <span class="pyramid">PYRAMID</span></a>
+                <h3 *ngIf="!isEdit" class="new-user">New User</h3>            
+                <h3 *ngIf="isEdit" class="new-user">{{ user.first_name | titlecase }} {{ user.last_name | titlecase }}</h3>            
+              </div>       
+            </div>
+      </div>
+    </div>
+    
+    <div class="w-100 mb-64">
+        <div class="row">
+            <div class="col-12">
+                <div class="app-tabs"></div>
+               <ng-container>
+                    <app-tabs>                
+                        <app-tab-bar></app-tab-bar>
+    
+                        <form [formGroup]="userForm" class="row user-form" (ngSubmit)="submit()">
+                            <div class="col-9 row">
+                                <div class="col-4">
+                                    <app-input [config]="orderNumberConfig" formControlName="orderNumber"></app-input>
+                                </div>
+                                <div class="col-4">
+                                    <div class="btn-group w-100 d-flex flex-column" dropdown>
+                                        <label class="rc-grey-color companyLabel montserrat-regular-font text-weight-normal m-0">Customer </label>
+                                        <input type="text" formControlName="customer" hidden >
+                                        <a id="button-basic" dropdownToggle type="button" class="select-dropdown dropdown-toggle" aria-controls="dropdown-basic">
+                                            Select
+                                        </a>
+                                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu w-100"  role="menu" aria-labelledby="button-basic">
+                                            <li *ngFor="let role of roleOptions" (click)="setCompany(role.id)" role="menuitem"><a class="dropdown-item">{{role.option}}</a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <app-input [config]="valueConfig" formControlName="value"></app-input>
+                                </div>                       
+                                                        
+                                <div class="col-4">                                
+                                    <app-input [config]="createDateConfig" formControlName="createDate"></app-input>
+                                </div>
+                                <div class="col-4">                                
+                                    <app-input [config]="orderStatusConfig" formControlName="orderStatus"></app-input>
+                                </div>
+                                <div class="col-4">                                
+                                    <app-input [config]="discountConfig" formControlName="discount"></app-input>
+                                </div>
+                            </div>
+                            <div class="col-3 totalVal">
+                                <app-input [config]="totalValueConfig" formControlName="totalValue"></app-input>
+                            </div>
+                            <div class="col-12 submit-row">
+                                <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
+                                    Cancel
+                                </app-button>
+                                <app-button type="submit" color="primary">
+                                    Save
+                                </app-button>
+                            </div>
+                            
+                        </form>
+                </app-tabs>
+               </ng-container>
+            </div>
+        </div>
+    </div>
+    </div>
+</app-page-container>
+

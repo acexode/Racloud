@@ -42,7 +42,7 @@
                     Customer
                 </p>
                 <p class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular">
-                    Abracadabra SRL
+                    {{customerDetails?.companyName}}
                 </p>
             </div>
 
@@ -51,7 +51,7 @@
                     Order Number
                 </p>
                 <p class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular">
-                    123456
+                    {{checkoutDetails?.orderId}}
                 </p>
             </div>
 
@@ -60,7 +60,7 @@
                     Discount
                 </p>
                 <p class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular">
-                    $ 123.4
+                    $ {{checkoutDetails?.discount}}
                 </p>
             </div>
 
@@ -69,7 +69,7 @@
                     Total Value
                 </p>
                 <p class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular">
-                    $ 1,234.56
+                    $ {{checkoutDetails?.totalValue}}
                 </p>
             </div>
 

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { RcFormsModule } from '../rc-forms/rc-forms.module';
 import { CardGroupComponent } from './components/card-group/card-group.component';
 import { CardComponent } from './components/card/card.component';
@@ -25,6 +26,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     RcFormsModule,
     AngularSvgIconModule,
     LoaderModule,
+    ModalModule,
     ReactiveFormsModule,
   ],
   exports: [
