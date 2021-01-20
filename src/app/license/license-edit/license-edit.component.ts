@@ -21,7 +21,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   preselectedRows : any[] = []
   isEdit = false;
   caretLeftIcon = '../assets/images/caret-left.svg';
-  backUrl = '/customer';
+  backUrl = '/licenses';
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
