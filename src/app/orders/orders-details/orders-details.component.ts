@@ -24,6 +24,7 @@ export class OrdersDetailsComponent implements OnInit {
   caretLeftIcon = '../assets/images/caret-left.svg';
   orderId = ''
   backUrl = '/orders';
+  disableForm = false;
   noProduct = true
   containerConfig: PageContainerConfig = {
     closeButton: true,
@@ -144,6 +145,7 @@ export class OrdersDetailsComponent implements OnInit {
     if(id){
       const idx = parseInt(id,10)
       this.service.getSingleOrder(idx).subscribe((e: Order) =>{
+        console.log(e)
         console.log(e.OrderItems)
         const orderItems: any[] = e.OrderItems
         this.service.getShops().subscribe((shop:any[]) =>{
@@ -187,6 +189,7 @@ export class OrdersDetailsComponent implements OnInit {
           dBody.style.height = 'auto';
           console.log(this.addedProducts)
         })
+        console.log(e.OrderStatus)
         this.componentForm.patchValue({
           orderNumber: e.Id,
           customer: e.Company,
@@ -196,6 +199,10 @@ export class OrdersDetailsComponent implements OnInit {
           totalValue: e.TotalValue
         })
         this.componentForm.get('orderDate').patchValue(this.formatDate(new Date(e.CreateDate)));
+        if(e.OrderStatus === 'WaitingPaymentConfirmation'){
+          this.disableForm = true;
+          this.componentForm.disable()
+        }
       })
     }
   }
@@ -484,7 +491,13 @@ export class OrdersDetailsComponent implements OnInit {
   cancelOrder(){
     const id = this.route.snapshot.paramMap.get('id');
     this.service.cancelOrder(id).subscribe(e =>{
-      console.log(e)
+      this.router.navigate(['orders'])
+    })
+  }
+  payOrder(){
+    const id = this.route.snapshot.paramMap.get('id');
+    this.service.payOrder(id).subscribe(e =>{
+      this.router.navigate(['orders'])
     })
   }
   deleteItem(row){

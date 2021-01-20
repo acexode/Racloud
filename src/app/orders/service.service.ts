@@ -28,7 +28,13 @@ export class OrderService {
     return this.reqS.get(customersEndpoints.getCustomers + '/' + id)
   }
   cancelOrder(id){
-    return this.reqS.get(orderEndpoints.getOrders+'/' + id + '/cancel')
+    return this.reqS.post(orderEndpoints.getOrders+'/' + id + '/cancel', {})
+  }
+  payOrder(id){
+    return this.reqS.post(orderEndpoints.getOrders+'/' + id + '/pay', {})
+  }
+  sendOrder(id){
+    return this.reqS.post(orderEndpoints.getOrders+'/' + id + '/license-generate', {})
   }
   addOrderToCart(id,obj){
     return this.reqS.put(orderEndpoints.addToCart + id,obj)

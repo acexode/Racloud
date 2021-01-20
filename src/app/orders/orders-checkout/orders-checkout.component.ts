@@ -23,23 +23,55 @@ export class OrdersCheckoutComponent implements OnInit {
       body: 'no-shadow',
     },
   };
+  paymentMethod= [
+    {title: 'Bank Transfer', name: 'button1'},
+    {title: 'Credit Card', name: 'button2'},
+  ];
+  orderId
+  paymentMethodBtn = this.paymentMethod[0]
   constructor(private msgS: MessagesService, private route: ActivatedRoute,
     private service: OrderService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.checkoutDetails = params;
+      this.orderId = params.orderId
       this.service.getOneCustomers(params.id).subscribe(e =>{
         this.customerDetails = e
       })
     });
+    const msg = 'You will receive a proforma invoice with all the data necessary to make the bank transfer by email.'
+    this.displayMsg(msg, 'info')
+  }
+  selectPaymentMethod(event,button){
+    event.preventDefault();
+    if (button === this.paymentMethodBtn) {
+      // this.setFormValue('partner',button.title);
+      this.paymentMethodBtn = undefined;
+    } else {
+      // this.setFormValue('partner', button.title);
+      this.paymentMethodBtn = button;
+    }
+  }
+  sendOrder(){
+    console.log(this.orderId)
+    this.service.sendOrder(this.orderId).subscribe(e =>{
+      console.log(e)
+    },(err) =>{
+      console.log(err)
+      this.displayMsg(err.error, 'danger');
+    })
+  }
+  displayMsg(msg, type){
     this.msgS.addMessage({
-      text: 'You will receive a proforma invoice with all the data necessary to make the bank transfer by email.',
-      type: 'info',
+      text: msg,
+      type,
       dismissible: true,
       customClass: 'mt-32',
       hasIcon: true,
     });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
   }
-
 }

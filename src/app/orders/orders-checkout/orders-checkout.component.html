@@ -79,24 +79,21 @@
 
 
     <div class="w-100 mt-14">
-        <p class="m-0 s12-h16 rc-grey-color text-weight-normal montserrat-regular-font">
-            Payment method
-        </p>
         <div>
-            <app-chips color="selected" class="mr-8">
-                Bank transfer
-            </app-chips>
-            <app-chips class="mr-2" color="default">
-                Credit Card
-            </app-chips>
-        </div>
+          <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Payment method</label>
+          <div class="rc-form-group rc-form-group-without-prefix" >
+              <app-chips *ngFor="let button of paymentMethod" class="mr-2"  [color]="(paymentMethodBtn == button) ? 'selected' : 'default'" (click)="selectPaymentMethod($event,button)">
+                  {{button.title}}
+              </app-chips>
+          </div>
+      </div>
     </div>
 
      <div class="w-100">
 
         <div class="w-100 rc-light-grey-bg mt-24 p-16 d-flex justify-content-end">
-            
-             <app-button type="submit" color="primary">
+
+             <app-button type="submit" (click)="sendOrder()" color="primary">
                 Send order
             </app-button>
 

@@ -99,7 +99,7 @@
 
           <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu order-dropdown mr-5" role="menu"
             aria-labelledby="button-basic">
-            <li role="menuitem"><a class="dropdown-item" href="#">Payed</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="payOrder()">Payed</a></li>
             <li (click)="cancelOrder()" role="menuitem"><a class="dropdown-item">Cancel</a></li>
           </ul>
         </div>
