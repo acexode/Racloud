@@ -4,8 +4,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { FooterService } from '../core/services/footer/footer.service';
-
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
@@ -25,6 +25,7 @@ export class FooterComponent implements OnInit {
 
   ngOnInit(): void {
     this.templateList$.subscribe((v) => this.cdRef.markForCheck());
+    console.log(environment.appVersion);
   }
 
   /**
