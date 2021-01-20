@@ -99,7 +99,6 @@ const routes: Routes = [
       import('./license/license.module').then(
         (m) => m.LicenseModule
       ),
-      canActivate: [AuthGuard],
     data: { title: 'Licenses Listing' },
     canActivate: [AuthGuard],
   },

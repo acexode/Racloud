@@ -84,7 +84,6 @@
                 <td style="width:427px;">{{val.Name}}</td>
               </tr>
             </tbody>
-<<<<<<< HEAD
           </table>
         </ul>
       </div>
@@ -98,82 +97,4 @@
         {{row.ValueString}} </span> <input autofocus (blur)="updateValue($event, 'ValueString', row.Id)"
         *ngIf="editing[row.Id + '-ValueString']" type="text" [value]="row.ValueString" /> </div>
   </ng-container>
-=======
-        </table>
-        
-    </div>
-</ng-template>
-<ng-template #colmunDropDownTemplate let-column="column" let-rowIndex="rowIndex" let-row="row" let-value="cellValue">
-    <ng-container>
-        <span class="pb-10" *ngIf="row.OptionType == 'ValueList'">
-            <div class="btn-group" dropdown  [dropup]="isDropup" >
-                <!-- <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="a-ellipse text"
-                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{toString(value)}}
-                </a> -->
-                <div class="d-flex justify-content-between w-100">
-                    <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
-                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                   <span class="text"> {{toString(row.ValueList)}}</span>
-                </a>
-                <img *ngIf="rowValue != row" src="assets/images/chevron.svg" alt="expired-icon" class="chevron" />
-                <img *ngIf="rowValue == row" src="assets/images/Chevron-red.svg" alt="expired-icon" class="chevron" />
-                </div>
-                <ul aria-labelledby="dropdownMenuButton" *dropdownMenu class="dropdown-menu" role="menu"
-                    aria-labelledby="button-basic">
-                    <table class="w-100">
-                        <tbody class="w-100">
-                            <tr *ngFor="let val of row.ValueList" class="tables-cell8"> 
-                                <td *ngIf="val.selected">
-                                    <label class="container">
-                                        <input type="checkbox"  [value]="val.Name" (change)="onCheckValueList($event, row, val.Id)" checked="checked">
-                                        <span class="checkmark"></span>
-                                      </label>
-                                </td>                          
-                                <td *ngIf="!val.selected">
-                                    <label class="container">
-                                        <input type="checkbox"  [value]="val.Name" (change)="onCheckValueList($event, row, val.Id)">
-                                        <span class="checkmark"></span>
-                                      </label>
-                                </td>                          
-                                <td style="width:427px;">{{val.Name}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </ul>
-            </div>
-        </span>
-        <span *ngIf="row.OptionType =='Boolean' && !row.ValueBoolean">
-            <label class="container">False
-                <input type="checkbox" (change)="onCheckValueBoolean($event, row)">
-                <span class="checkmark"></span>
-              </label>
-        </span>
-        <span *ngIf="row.OptionType =='Boolean' && row.ValueBoolean">
-            <label class="container">True
-                <input type="checkbox" (change)="onCheckValueBoolean($event, row)" checked="checked">
-                <span class="checkmark"></span>
-              </label>
-        </span>
-        <div *ngIf="row.OptionType == 'String'">            
-            <span
-              title="Double click to edit"
-              (dblclick)="editing[row.Id + '-ValueString'] = true"
-              *ngIf="!editing[row.Id + '-ValueString']"
-            >
-            {{row.ValueString}}
-            </span>
-            <input
-              autofocus
-              (blur)="updateValue($event, 'ValueString', row.Id)"
-              *ngIf="editing[row.Id + '-ValueString']"
-              type="text"
-              [value]="row.ValueString"
-            />
-        </div>
-       
-        
-    </ng-container>
-    
->>>>>>> 5c4587472be7807b0f6cae2e15a257817e1bc6a8
 </ng-template>
