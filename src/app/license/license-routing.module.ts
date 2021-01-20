@@ -14,6 +14,11 @@ const routes: Routes = [
     path: 'license-edit',
     component: LicenseEditComponent,
     data: { title: 'Licenses' }
+  },
+  {
+    path: 'license-buy',
+    component: LicenseEditComponent,
+    data: { title: 'Licenses' }
   }
 ];
 

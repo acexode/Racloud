@@ -29,6 +29,11 @@ export const optionEndpoints = {
   createOption: serverBaseUrl + '/options/create',
   getOptions: serverBaseUrl + '/options'
 };
+export const licenseEndpoints = {
+  createLicense: serverBaseUrl + '/licenses/purchase',
+  getLicenses: serverBaseUrl + '/licenses',
+  getOneLicense: serverBaseUrl + '/licenses/'
+}
 export const userEndpoints = {
   getCreateUpdateUser: serverBaseUrl + '/users',
   getUsers: serverBaseUrl + '/users/logged-in-company-users'

@@ -12,15 +12,18 @@
                         Own licenses
                     </app-toggle>
                     <!--  -->
-                    <app-button type="button" color="primary">
+                    <app-button routerLink="/shop" type="button" color="primary">
                         Buy license
                     </app-button>
                     <!--  -->
                 </div>
             </div>
         </div>
-        <app-table [rows]="tableData | async" [config]="tableConfig" (filterData)="filterTable($event)"
-            [rowDetailConfig]="rowDetailIcons"></app-table>
+        <ng-container>
+            <app-table [rows]="tableData | async" [config]="tableConfig" (filterData)="filterTable($event)"
+                [rowDetailConfig]="rowDetailIcons"></app-table>
+        </ng-container>
+       
     </div>
 </app-page-container>
 
@@ -31,23 +34,47 @@
         </div>
     </div>
 </ng-template>
-
-<ng-template #actionDropdown let-column="column" let-row="row" let-rowIndex="rowIndex">
+  <ng-template #actionDropdown let-column="column" let-row="row" let-rowIndex="rowIndex">
     <div class="btn-group" dropdown [dropup]="isDropup">
-      <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
-              aria-controls="dropdown-basic">
-              <i class="fa fa-ellipsis-h" aria-hidden="true"></i> 
-      </a>
-      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-          role="menu" aria-labelledby="button-basic">
-        <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
-        <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
-      
-      </ul>
-    </div>
-    
-  </ng-template>
+        <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
+            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+        </a>
+        <ul aria-labelledby="dropdownMenuButton" *dropdownMenu class="dropdown-menu" role="menu"
+            aria-labelledby="button-basic">
+            <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item" >Manage</a></li>
+            <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item" >Delete</a></li>
 
+        </ul>
+    </div>
+
+</ng-template>
+  <ng-template #purchaseTemplate let-column="column" let-row="row">
+    <div class="row-detail d-flex">
+        {{row.purchaseDate | date:'d MMM y'}}
+    </div>        
+</ng-template>
+  <ng-template #expireTemplate let-column="column" let-row="row">
+    <div class="row-detail d-flex">
+        {{row.expirationDate | date:'d MMM y'}}
+    </div>        
+</ng-template>
+  <ng-template #partnerLicenseTemplate let-column="column" let-row="row">
+    <div *ngIf="row.isPartnerLicense" class="row-detail d-flex">
+        Yes
+    </div>        
+    <div *ngIf="!row.isPartnerLicense" class="row-detail d-flex">
+        No
+    </div>        
+</ng-template>
+  <ng-template #renewByUserCompanyTemplate let-column="column" let-row="row">
+    <div *ngIf="row.renewByUserCompany" class="row-detail d-flex">
+        Yes
+    </div>        
+    <div *ngIf="!row.renewByUserCompany" class="row-detail d-flex">
+        No
+    </div>        
+</ng-template>
 
 <ng-template #expiredIconTemplate let-column="column" let-value="cellValue">
     <div class="table-status-column">
