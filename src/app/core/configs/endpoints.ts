@@ -37,6 +37,11 @@ export const orderEndpoints = {
   reduceCartItem: serverBaseUrl + '/orders/reduce-item-quantity-in-cart/',
   deleteCartItem: serverBaseUrl + '/orders/remove-item-from-cart/'
 }
+export const licenseEndpoints = {
+  createLicense: serverBaseUrl + '/licenses/purchase',
+  getLicenses: serverBaseUrl + '/licenses',
+  getOneLicense: serverBaseUrl + '/licenses/'
+}
 export const userEndpoints = {
   getCreateUpdateUser: serverBaseUrl + '/users',
   getUsers: serverBaseUrl + '/users/logged-in-company-users'
