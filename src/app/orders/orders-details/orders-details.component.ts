@@ -23,7 +23,7 @@ export class OrdersDetailsComponent implements OnInit {
 
   caretLeftIcon = '../assets/images/caret-left.svg';
   orderId = ''
-  backUrl = '/customer';
+  backUrl = '/orders';
   noProduct = true
   containerConfig: PageContainerConfig = {
     closeButton: true,
