@@ -1,14 +1,15 @@
 {
   "name": "ra-cloud-angular",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "hmr": "ng serve --configuration hmr"
+    "hmr": "ng serve --configuration hmr",
+    "prebuild": "npm --no-git-tag-version version patch"
   },
   "private": true,
   "dependencies": {

@@ -1,12 +1,10 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { get } from 'lodash';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { CurrencyService } from 'src/app/core/services/currency/currency.service';
 import { PriceListService } from 'src/app/core/services/price-list/price-list.service';
-import { RequestService } from 'src/app/core/services/request/request.service';
 import { ProductModel } from 'src/app/products/models/products.model';
 import { ProductServiceService } from 'src/app/products/product-service.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
@@ -18,10 +16,9 @@ import { TableFilterType } from 'src/app/shared/table/models/table-filter-types'
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
 import { CreatePriceListModel } from '../../models/create-price-list-model';
-import { PriceListModel } from '../../models/price-list-model';
 import { PriceListProductManagerModel } from '../../models/price-list-product-manager.model';
 import { getUTCdate } from 'src/app/core/helpers/dateHelpers';
-
+import { formatPrice } from 'src/app/core/helpers/formatNumber';
 @Component({
   selector: 'app-create-edit-price-list',
   templateUrl: './create-edit-price-list.component.html',
@@ -441,6 +438,9 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
       };
       this.componentForm.setValue({ ...d });
     }
+  }
+  formatThePrice(price: number) {
+    return formatPrice(price);
   }
   ngOnDestroy(): void {
     this.getProducts$.unsubscribe();
