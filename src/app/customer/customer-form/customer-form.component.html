@@ -14,21 +14,21 @@
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Name')"
+                    [config]="inputConfig('Name', 'text', 'Type Here', false, false, theFormControl.companyName)"
                     formControlName="companyName"
                 ></app-input>
             </div>
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Contact person first name')"
+                    [config]="inputConfig('Contact person first name','text', 'Type Here', false, false, theFormControl.firstName)"
                     formControlName="firstName"
                 ></app-input>
             </div>
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Contact person last name')"
+                    [config]="inputConfig('Contact person last name', 'text', 'Type Here', false, false, theFormControl.lastName)"
                     formControlName="lastName"
                 ></app-input>
             </div>
@@ -38,6 +38,14 @@
                     [config]="selectConfig('Type', 'Select Parent', true)"
                     formControlName="companyType"
                     [options]="typeOptions"
+                ></app-select>
+            </div>
+
+            <div class="col-12 mb-14 m-0 p-0">
+                <app-select
+                    [config]="selectConfig('Price List', 'Select Price List', true, 'id', 'name')"
+                    formControlName="priceListId"
+                    [options]="optionData.priceListOptions"
                 ></app-select>
             </div>
 
@@ -85,20 +93,20 @@
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Phone', 'tel')"
+                    [config]="inputConfig('Phone', 'tel', 'Type Here', false, false, theFormControl.phoneNumber)"
                     formControlName="phoneNumber"
                 ></app-input>
             </div>
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Email', 'email')"
+                    [config]="inputConfig('Email', 'email', 'Type Here', false, false, theFormControl.email)"
                     formControlName="email"
                 ></app-input>
             </div>
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Company Email', 'email')"
+                    [config]="inputConfig('Company Email', 'Email', 'Type Here', false, false, theFormControl.companyEmail)"
                     formControlName="companyEmail"
                 ></app-input>
             </div>
@@ -110,38 +118,30 @@
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Anniversary date', 'text', 'Enter Aniversary Date', false, false)"
+                    [config]="inputConfig('Anniversary date', 'datetime-local', 'Enter Aniversary Date', false, !editMode, theFormControl.anniversaryDate)"
                     formControlName="anniversaryDate"
                 ></app-input>
             </div>
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Subscription fee', 'text', 'Type here', true)"
+                    [config]="inputConfig('Subscription fee', 'text', 'Type here', true, !editMode, theFormControl.supportHoursContract)"
                     formControlName="subscriptionFee"
                 ></app-input>
             </div>
             
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Support hours contract')"
+                    [config]="inputConfig('Support hours contract','number', 'Type here', false, !editMode, theFormControl.supportHoursContract)"
                     formControlName="supportHoursContract"
                 ></app-input>
             </div>
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Support hours available')"
+                    [config]="inputConfig('Support hours available','number', 'Type here', false, !editMode, theFormControl.supportHoursAvailable)"
                     formControlName="supportHoursAvailable"
                 ></app-input>
-            </div>
-
-             <div class="col-12 mb-14 m-0 p-0">
-                <app-select
-                    [config]="selectConfig('Price List', 'Select Price List', true, 'id', 'name')"
-                    formControlName="priceListId"
-                    [options]="optionData.priceListOptions"
-                ></app-select>
             </div>
             
 

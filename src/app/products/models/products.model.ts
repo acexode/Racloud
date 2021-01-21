@@ -2,7 +2,7 @@ export interface ProductModel {
     id?: number;
     name?: string;
     description?: string;
-    application?: string;
+    application?: ProductApplication;
     productType?: string;
     productOptions?: Array<ProductOption>;
     productPrices?: string | null;
@@ -18,4 +18,9 @@ export interface ProductOption {
     partnerAccess?: string;
     option?: any;
     productId?: number;
+}
+
+export interface ProductApplication {
+    id: number;
+    name: string;
 }

@@ -174,7 +174,8 @@
     }
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
   border-radius: 4px;
   margin-right: -4px;
@@ -184,6 +185,35 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(0.8);
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator:hover {
+input[type="date"]::-webkit-calendar-picker-indicator:hover,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+input::-webkit-datetime-edit, input::-webkit-inner-spin-button, input::-webkit-clear-button {
+    color: $rc-grey;
+}
+
+
+/* style all input elements with a required attribute */
+input:required {
+    color: red;
+  box-shadow: 4px 4px 20px rgba(200, 0, 0, 0.85);
+}
+
+/**
+ * style input elements that have a required
+ * attribute and a focus state
+ */
+input:required:focus {
+  border: 1px solid red;
+  outline: none;
+}
+
+/**
+ * style input elements that have a required
+ * attribute and a hover state
+ */
+input:required:hover {
   opacity: 1;
 }

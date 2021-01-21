@@ -51,7 +51,7 @@ export class PriceListService {
     const nD: PriceListProductManagerModel = {
       ...data,
       uuid: uuid(),
-      application: prod.application,
+      application: prod?.application?.name || 'null',
       product: prod.name,
       productType: prod.productType,
     };
@@ -93,6 +93,7 @@ export class PriceListService {
   loadProductsForPriceListing(): void {
     this.product$ = this.productS.getProducts().subscribe(
       res => {
+        console.log(res);
         this.products.next(res);
       },
       _err => {

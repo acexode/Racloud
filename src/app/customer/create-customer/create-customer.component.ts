@@ -13,6 +13,7 @@ import { CustomerModel } from '../model/customer.model';
   styleUrls: ['./create-customer.component.scss']
 })
 export class CreateCustomerComponent implements OnInit, OnDestroy {
+  formEditMode = false;
   formButtonConfig: any = {
     buttonA: 'Save',
     buttonB: 'Cancle',
