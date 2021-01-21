@@ -8,7 +8,7 @@
   [limit]="config?.limit || 10"
   [count]="config?.count"
   [selected]="selected"  
-  [selectionType]="config?.selectable ? SelectionType.check : null"
+  [selectionType]="SelectionType.checkbox"
   (activate)="onActivate($event)"
   (select)="onSelect($event)"
   [scrollbarH]="true"

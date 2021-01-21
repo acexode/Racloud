@@ -105,6 +105,7 @@ export class TableComponent implements OnInit {
     }
   }
   onSelect(selectedObj) {
+    console.log(selectedObj)
     const {selected} = selectedObj
     const lastItem = selected[selected.length -1]
     lastItem.selected = !lastItem.selected

@@ -277,5 +277,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   }
   getRow(row){
     this.selectedRows = row.selected
+    this.preselectedRows = this.selectedRows
+    console.log(this.selectedRows)
   }
 }
