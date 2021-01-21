@@ -58,3 +58,6 @@ export const shopEndpoints = {
 export const priceListEndpoints = {
   create: baseEndpoints.priceLists + '/create',
 }
+export const ApplicationEndpoints = {
+  getApplications: serverBaseUrl + '/applications',
+}

@@ -18,7 +18,9 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   optionList = [];
   isEdit = false
   isLoading = false
+  ApplicationList = []
   product: any;
+  productType = ['RAWorkShopLite']
   selectedRows : any[] = []
   preselectedRows : any[] = []
   productOptions: any[] = []
@@ -101,14 +103,19 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     this.initForm();
     if(id){
       this.isEdit = true
+      this.productS.getApplications().subscribe((app:[]) =>{
+        console.log(app)
+        this.ApplicationList = app
+      })
       this.productS.getProducts().subscribe((obj:any) =>{
         this.productOptions = obj
+        console.log(obj)
         const data = obj.filter(e => e.id.toString() === id)[0];
         this.product = data
         console.log(data)
         this.preselectedRows = data.productOptions
         this.productForm.patchValue({
-          application: data.application,
+          applicationId: data.applicationId,
           name: data.name,
           productType: data.productType,
           description: data.description
@@ -116,6 +123,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
       });
     }else{
       this.productS.getProducts().subscribe((obj:any) =>{
+        console.log(obj)
         this.productOptions = obj
       })
     }
@@ -143,7 +151,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   }
   initForm() {
     this.productForm = this.fb.group({
-      application: [
+      applicationId: [
         '',
         [
           Validators.required,
@@ -202,6 +210,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   submitForm(){
     this.isLoading = true
   const productValues = this.productForm.value
+  console.log(productValues)
   const resArr = []
   console.log(this.selectedRows)
   this.selectedRows.reverse().filter(item =>{

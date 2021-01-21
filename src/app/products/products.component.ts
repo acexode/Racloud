@@ -89,7 +89,7 @@ export class ProductsComponent implements OnInit {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'application',
+        identifier: 'application.name',
         label: 'Apllication Name',
         sortable: true,
         minWidth: 200,

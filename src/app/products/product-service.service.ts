@@ -1,4 +1,4 @@
-import { productEndpoints } from './../core/configs/endpoints';
+import { productEndpoints,ApplicationEndpoints } from './../core/configs/endpoints';
 import { Injectable } from '@angular/core';
 import { RequestService } from '../core/services/request/request.service';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -52,5 +52,8 @@ export class ProductServiceService {
   }
   closeAddProductFormStepModal(): void {
     this.displayAddProductFormStepModal.next(false);
+  }
+  getApplications() {
+    return this.reqS.get(ApplicationEndpoints.getApplications );
   }
 }

@@ -1,4 +1,4 @@
-<app-page-container [config]="containerConfig">    
+<app-page-container [config]="containerConfig">
     <div class="w-100" container-body>
       <div class="page-header">
         <div class="row align-items-center">
@@ -21,7 +21,6 @@
               Products
             </app-button>
             <!--  -->
-  
             <h1 *ngIf="!isEdit"
               class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0"
             >
@@ -40,37 +39,32 @@
            <ng-container [style.display]="tabSwitch ? 'block' : 'none'">
 
                 <app-tabs [selectedTemplate]="tabSwitch">
-                
                     <app-tab-bar [marked]="tabMarked">
-                        <app-tab-button 
-                            [selected]="tab.isSelected" 
-                            [defaultSelected]="tab.defaultSelected" 
-                            (click)="switchTab($event, tab.template, i)" 
+                        <app-tab-button
+                            [selected]="tab.isSelected"
+                            [defaultSelected]="tab.defaultSelected"
+                            (click)="switchTab($event, tab.template, i)"
                             *ngFor="let tab of tabs; let i = index"
                         >
                             {{ tab.name }}
                         </app-tab-button>
                     </app-tab-bar>
-                
-                
-                
-                    <ng-template #firstTab> 
+                    <ng-template #firstTab>
                         <form [formGroup]="productForm" class="row infoForm" (ngSubmit)="submitForm()">
                             <div class="col-6 mb-14">
                                 <label
                       class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Application Name</label>
-                    <div *ngIf="!isEdit" class="rc-select"> <select formcontrolname="application"
-                        (change)="onChange($event.target.value, 'application')" class="ng-pristine ng-valid ng-touched">
+                    <div *ngIf="!isEdit" class="rc-select"> <select formcontrolname="applicationId"
+                        (change)="onChange($event.target.value, 'applicationId')" class="ng-pristine ng-valid ng-touched">
                         <option  selected disabled>Select</option>
-                        <option *ngFor="let product of productOptions"  [value]="product.application">
-                          {{product.application}} </option>
+                        <option *ngFor="let application of ApplicationList"  [value]="application.id">
+                          {{application?.name}} </option>
                       </select>
                             </div>
-                    <div *ngIf="isEdit" class="rc-select"> <select formcontrolname="application"
-                        (change)="onChange($event.target.value, 'application')" class="ng-pristine ng-valid ng-touched">
-                        
-                        <option *ngFor="let product of productOptions" [selected]="product.application" [value]="product.application">
-                          {{product.application}} </option>
+                    <div *ngIf="isEdit" class="rc-select"> <select formcontrolname="applicationId"
+                        (change)="onChange($event.target.value, 'applicationId')" class="ng-pristine ng-valid ng-touched">
+                        <option *ngFor="let application of ApplicationList" [selected]="application.id" [value]="application.id">
+                          {{application?.name}} </option>
                       </select>
                             </div>
                             </div>
@@ -86,24 +80,23 @@
                             <div *ngIf="!isEdit" class="rc-select"> <select formcontrolname="productType"
                                 (change)="onChange($event.target.value, 'productType')" class="ng-pristine ng-valid ng-touched">
                                 <option  selected disabled>Select</option>
-                                <option *ngFor="let product of productOptions"  [value]="product.productType">
-                                  {{product.productType}} </option>
+                                <option *ngFor="let type of productType"  [value]="type">
+                                  {{type}} </option>
                               </select>
                                     </div>
                             <div *ngIf="isEdit" class="rc-select"> <select formcontrolname="productType"
                                 (change)="onChange($event.target.value, 'productType')" class="ng-pristine ng-valid ng-touched">
-                                
-                                <option *ngFor="let product of productOptions"  [value]="product.productType" [selected]="product.ProductType">
-                                  {{product.productType}} </option>
+                                <option *ngFor="let type of productType"  [value]="type" [selected]="type">
+                                  {{type}} </option>
                               </select>
                                     </div>
                             </div>
-                         
+
                             <div class="col-12 mb-6 mb-14">
-                                    <app-textarea 
+                                    <app-textarea
                                        [config]="textAreaConfig"
                                        formControlName="description"
-                                       id="description" 
+                                       id="description"
                                    >
                                    </app-textarea>
                             </div>
@@ -118,7 +111,7 @@
                             </div>
                         </form>
                     </ng-template>
-                    <ng-template #secondTab> 
+                    <ng-template #secondTab>
                       <app-option-tab (selectedRows)="getRow($event)" [preselectedRows]="preselectedRows" [optionList]="optionList"></app-option-tab>
                       <div class="col-12 submit-row">
                         <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
@@ -127,19 +120,13 @@
                         <app-button (click)="submitForm()" color="primary">
                           <app-loader type="button" *ngIf="isLoading"></app-loader>
                           <span *ngIf="!isLoading">Save</span>
-                            
+
                         </app-button>
                     </div>
                     </ng-template>
-                    
-                
                 </app-tabs>
            </ng-container>
         </div>
     </div>
-     
-  
-     
     </div>
   </app-page-container>
-  

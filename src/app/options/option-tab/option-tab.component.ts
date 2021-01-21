@@ -1,6 +1,6 @@
 import { ProductServiceService } from './../../products/product-service.service';
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FooterService } from 'src/app/core/services/footer/footer.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
@@ -16,7 +16,7 @@ import { TableService } from 'src/app/shared/table/services/table.service';
   templateUrl: './option-tab.component.html',
   styleUrls: ['./option-tab.component.scss']
 })
-export class OptionTabComponent implements OnInit {
+export class OptionTabComponent implements OnInit,AfterViewInit {
 
   @ViewChild('colmunDropDownTemplate', { static: true }) colmunDropDownTemplate: TemplateRef<any>;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
@@ -90,7 +90,12 @@ export class OptionTabComponent implements OnInit {
     private http: HttpClient,
     private productS: ProductServiceService,
     private ref: ChangeDetectorRef
-  ) { }
+  ) {
+    console.log('contructor')
+  }
+  ngAfterViewInit() {
+    console.log('view init')
+  }
   ngOnInit(): void {
     console.log(this.preselectedRows)
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -191,7 +196,7 @@ export class OptionTabComponent implements OnInit {
       })
       this.tableConfig.loadingIndicator = true;
       this.rowData = this.optionList;
-      console.log(this.rowData)
+      // console.log(this.rowData)
       const cloneData = this.optionList.map((v: any) => {
         return { ...v };
       });
