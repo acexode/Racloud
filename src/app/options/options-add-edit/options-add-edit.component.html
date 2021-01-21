@@ -55,7 +55,7 @@
                   <div class="col-5">
                     <div *ngIf="selectedType == 'valuelist'" class="row justify-content-between w-100">
                       <div class="col-9">
-                        <app-input [config]="valueListConfig('Value 1')" class="" formControlName="optionListName"></app-input>
+                        <app-input [config]="valueListConfig()" class="" formControlName="optionListName"></app-input>
                       </div>
                       <div class="col-1"> <button (click)="addValue($event)" class="addBtn"><img
                             src="assets/images/Plus.svg" class="rc-checkbox-icon"></button> </div>

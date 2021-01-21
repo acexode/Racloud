@@ -13,6 +13,9 @@ import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 })
 export class OptionsAddEditComponent implements OnInit {
   isEdit = false;
+  optionForm: FormGroup;
+  selectedType = 'string';
+  selectedStatus: any;
   editObj
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/options';
@@ -88,9 +91,6 @@ export class OptionsAddEditComponent implements OnInit {
       }
     };
   }
-  optionForm: FormGroup;
-  selectedType = 'string';
-  selectedStatus: any;
   constructor(private fb: FormBuilder, private service: LicenseServiceService,
     private router: Router, private route: ActivatedRoute, private cdRef: ChangeDetectorRef) { }
 
