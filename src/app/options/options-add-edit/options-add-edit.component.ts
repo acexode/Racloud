@@ -71,7 +71,6 @@ export class OptionsAddEditComponent implements OnInit {
   //   placeholder: 'Type here',
   // };
   valueListConfig(
-    label: string,
     type: string = 'text',
     placeholder: string = 'Type here',
     prefixIcon: boolean = false,
