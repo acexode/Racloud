@@ -128,8 +128,8 @@
     </button>
   </div>
   <div class="modal-body px-32">
-    <div class=" rc-card-grid row">
-      <div class="col-3 mb-32" *ngFor="let item of allProducts">
+    <div class=" rc-card-grid">
+      <div  *ngFor="let item of allProducts">
         <app-shop-card [item]="item"></app-shop-card>
 
       </div>
