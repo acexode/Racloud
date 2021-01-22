@@ -192,6 +192,7 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     idKey: string = 'id',
     labelKey: string = 'option',
     isDisabled: boolean = false,
+    formControl: boolean = false,
   ): SelectConfig {
     return {
       selectLabel: {
@@ -203,6 +204,7 @@ export class CustomerFormComponent implements OnInit, OnChanges {
       searchable,
       formStatus: {
         isDisabled,
+        isError: this.checkStatusOfForm(formControl),
       }
     };
   }
@@ -258,6 +260,7 @@ export class CustomerFormComponent implements OnInit, OnChanges {
       };
       this.componentForm.setValue({ ...d });
       this.componentForm.markAllAsTouched();
+      this.componentForm.updateValueAndValidity();
     }
   }
   updateData(): CustomerModel {

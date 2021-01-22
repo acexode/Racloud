@@ -35,7 +35,7 @@
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-select
-                    [config]="selectConfig('Type', 'Select Parent', true)"
+                    [config]="selectConfig('Type', 'Select Parent', true, 'id', 'option', false, theFormControl.language)"
                     formControlName="companyType"
                     [options]="typeOptions"
                 ></app-select>
@@ -43,7 +43,7 @@
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-select
-                    [config]="selectConfig('Price List', 'Select Price List', true, 'id', 'name')"
+                    [config]="selectConfig('Price List', 'Select Price List', true, 'id', 'name', false, theFormControl.language)"
                     formControlName="priceListId"
                     [options]="optionData.priceListOptions"
                 ></app-select>
@@ -55,7 +55,7 @@
             
             <div class="col-12 mx-0 p-0 mb-14">
                 <app-select
-                    [config]="selectConfig('Parent', 'Select Parent', true, 'id', 'companyName')"
+                    [config]="selectConfig('Parent', 'Select Parent', true, 'id', 'companyName',false, theFormControl.parentId)"
                     formControlName="parentId"
                     [options]="optionData.customerParentOptions"
                 ></app-select>
@@ -72,7 +72,7 @@
 
             <div class="col-12 p-0">
                 <app-select
-                    [config]="selectConfig('Language', 'Select Langugae', true, 'id', 'option')"
+                    [config]="selectConfig('Language', 'Select Langugae', true, 'id', 'option', false, theFormControl.language)"
                     formControlName="language"
                     [options]="optionData.languageOptions"
                 ></app-select>
@@ -85,7 +85,7 @@
             
             <div class="col-12 mb-14 m-0 p-0">
                 <app-select
-                    [config]="selectConfig('Country', 'Select Country', true, 'code', 'name')"
+                    [config]="selectConfig('Country', 'Select Country', true, 'code', 'name', false, theFormControl.language)"
                     formControlName="country"
                     [options]="optionData.countryOptions"
                 ></app-select>
