@@ -5,7 +5,6 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { FooterService } from '../core/services/footer/footer.service';
-
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',

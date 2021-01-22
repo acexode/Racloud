@@ -11,7 +11,8 @@ export class ShopComponent implements OnInit {
   constructor(public shopService: ShopService) { }
 
   ngOnInit(): void {
-    this.shopService.shopStore.pipe().subscribe((e:any) =>{
+    this.shopService.getAllShops().subscribe((e:any) =>{
+      console.log(e)
       this.shops = e
     })
   }

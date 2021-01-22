@@ -1,5 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { CountriesModel } from './core/models/countries-model';
 import { AuthService } from './core/services/auth/auth.service';
 import { CountriesService } from './core/services/countries/countries.service';
@@ -85,6 +86,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   public getYear(): number {
     const data = new Date().getFullYear();
     return data;
+  }
+  public getAppVersion(): string {
+    return environment.appVersion;
   }
   ngOnDestroy(): void {
     this.getCountriesState$.unsubscribe();

@@ -1,4 +1,3 @@
-import { OrdersComponent } from './orders/orders.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
@@ -8,10 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
-import { UsersComponent } from './users/users.component';
-import { ProductsComponent } from './products/products.component';
 import { SignupComponent } from './signup/signup.component';
-import { PriceListsComponent } from './price-lists/price-lists.component';
 
 import { ShopComponent } from './shop/shop.component';
 const routes: Routes = [
@@ -83,6 +79,7 @@ const routes: Routes = [
     path: 'style',
     component: StyleGuideComponent,
     data: { title: 'style guide' },
+    canActivate: [AuthGuard],
   },
   {
     path: 'customer',
@@ -112,14 +109,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'users',
-    loadChildren: () =>
-      import('./users/users.module').then(
-        (m) => m.UsersModule
-      ),
-    data: { title: 'Users Listing' },
-  },
-  {
     path: 'shop',
     component: ShopComponent,
     data: { title: 'Shop' },
@@ -131,7 +120,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { title: 'Price List' },
   },
-  // { path: '**', redirectTo: '/not-found' },
+  { path: '**', redirectTo: '/not-found' },
 ];
 
 @NgModule({

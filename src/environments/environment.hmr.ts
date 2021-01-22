@@ -4,4 +4,5 @@ export const environment = {
   serverUrl: 'https://ra-core.azure.softescu.com',
   fakeBackend: true,
   recaptchaKey: '6LcvoUgUAAAAAJJbhcXvLn3KgG-pyULLusaU4mL1',
+  appVersion: require('./../../package.json').version,
 };

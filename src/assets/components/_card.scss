@@ -4,16 +4,16 @@
 .rc-card-grid,
 .rc-card-grid-b {
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(rem(292), 1fr));
+  display: flex;
+  flex-wrap: wrap;
 }
+
 .rc-card-grid{
-   gap: rem(30) 0;
+   gap: rem(10) 0;
 }
 
 .rc-card-grid-b {
   /* this set both align-items and justify-items to center (note: justify-content is different from justify-items) */
-  place-items: center !important; 
   gap: rem(16);
 }
 
