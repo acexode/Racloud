@@ -33,12 +33,18 @@ export class OrdersCheckoutComponent implements OnInit {
     private service: OrderService) { }
 
   ngOnInit(): void {
+    const id = parseInt(this.route.snapshot.paramMap.get('id'), 10)
+    this.service.getSingleOrder(id).subscribe((e:any) =>{
+      console.log(e)
+      this.checkoutDetails = e
+      this.service.getOneCustomers(e.CompanyId).subscribe(e =>{
+        this.customerDetails = e
+      })
+    })
     this.route.queryParams.subscribe(params => {
       this.checkoutDetails = params;
       this.orderId = params.orderId
-      this.service.getOneCustomers(params.id).subscribe(e =>{
-        this.customerDetails = e
-      })
+     
     });
     const msg = 'You will receive a proforma invoice with all the data necessary to make the bank transfer by email.'
     this.displayMsg(msg, 'info')

@@ -51,5 +51,8 @@ export class OrderService {
   checkoutOrder(id, obj){
     return this.reqS.post(orderEndpoints.getSingleOrder +'/' + id + '/checkout', obj)
   }
+  applyDiscount(id, obj){
+    return this.reqS.put(orderEndpoints.applyDiscount + id, obj)
+  }
 
 }

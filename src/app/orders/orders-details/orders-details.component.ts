@@ -41,6 +41,12 @@ export class OrdersDetailsComponent implements OnInit {
   @ViewChild('quantityTemplate', { static: true }) quantityTemplate: TemplateRef<any>;
   @ViewChild('discountTemplate', { static: true }) discountTemplate: TemplateRef<any>;
   rows = [];
+  discountTypes =  [
+    {title: 'Percentage', name: 'button1'},
+    {title: 'Fixed', name: 'button2'},
+  ];
+  selectedDiscountBtn = this.discountTypes[0]
+
   modalRef: BsModalRef;
   rowDetailIcons = [
     '../../assets/images/Edit.svg',
@@ -63,9 +69,12 @@ export class OrdersDetailsComponent implements OnInit {
     removePageCounter: true,
   };
   componentForm: FormGroup;
+  discountForm: FormGroup;
   addedProducts = []
   allProducts = []
   customers
+  savedCompanyId = null
+  disableCustomer = false
   controlStore: { [key: string]: AbstractControl; } = {};
   isDropup: boolean;
   routeId:any
@@ -113,6 +122,7 @@ export class OrdersDetailsComponent implements OnInit {
     return this.componentForm.get('type');
   }
   ngOnInit(): void {
+    this.loadOrder()
     this.service.getcustomers().subscribe(e =>{
       this.customers = e
       console.log(e)
@@ -121,11 +131,14 @@ export class OrdersDetailsComponent implements OnInit {
     this.shopS.buyStore.subscribe((e:any) =>{
       console.log(e)
       const orderId = this.routeId
+      console.log(this.savedCompanyId)
       console.log(e.hasOwnProperty('id'))
       if(e.hasOwnProperty('id')){
+        const companyId = this.componentForm.get('companyId').value
         const obj = {
           orderId,
-          productPriceId: e.id
+          productPriceId: e.id,
+          companyId
         }
         console.log(obj)
         this.service.addOrderToCart(orderId, obj).subscribe(res =>{
@@ -146,6 +159,12 @@ export class OrdersDetailsComponent implements OnInit {
       const idx = parseInt(id,10)
       this.service.getSingleOrder(idx).subscribe((e: Order) =>{
         console.log(e)
+        console.log(e.CompanyId)
+        if(e.CompanyId){
+          this.savedCompanyId = e.CompanyId
+          this.componentForm.get('companyId').disable()
+          this.disableCustomer = true
+        }
         console.log(e.OrderItems)
         const orderItems: any[] = e.OrderItems
         this.service.getShops().subscribe((shop:any[]) =>{
@@ -192,7 +211,7 @@ export class OrdersDetailsComponent implements OnInit {
         console.log(e.OrderStatus)
         this.componentForm.patchValue({
           orderNumber: e.Id,
-          customer: e.Company,
+          companyId: e.Company,
           status: e.OrderStatus,
           value: e.Value,
           discount: e.Discount,
@@ -215,7 +234,7 @@ export class OrdersDetailsComponent implements OnInit {
           Validators.maxLength(50),
         ],
       ],
-      customer: [
+      companyId: [
         '',
         [
           Validators.required,
@@ -417,14 +436,14 @@ export class OrdersDetailsComponent implements OnInit {
     this.tableData.next(newRows);
   }
   checkout() {
-    const companyId = this.componentForm.get('customer').value
-    this.service.checkoutOrder(this.routeId, {company:companyId }).subscribe((e:any) =>{
-      const data = {
-        ...e,
-        id: this.routeId
-      }
-      this.router.navigate(['orders', 'orders-checkout'], {queryParams: data});
-    })
+    const companyId = this.componentForm.get('companyId').value
+    // this.service.checkoutOrder(this.routeId, {company:companyId }).subscribe((e:any) =>{
+    //   const data = {
+    //     ...e,
+    //     id: this.routeId
+    //   }
+    // })
+    this.router.navigate(['orders/orders-checkout', { id: this.routeId }]);
   }
   formatDate(date) {
     const d = new Date(date);
@@ -441,6 +460,30 @@ export class OrdersDetailsComponent implements OnInit {
       this.allProducts = e
     })
     this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray modal-lg' }));
+  }
+  openDiscountModal(template: TemplateRef<any>, row) {
+    console.log(row)
+    this.discountForm = this.fb.group({
+      orderItemId: [
+        row.orderItemId,
+        [
+          Validators.required,
+        ],
+      ],
+      discountType: [
+        'Percentage',
+        [
+          Validators.required,
+        ],
+      ],
+      value: [
+        0,
+      ],
+      vat: [
+        0,
+      ],
+    })
+    this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray' }));
   }
   changeQuantity(type,row){
     this.addedProducts = this.addedProducts.map(e =>{
@@ -508,11 +551,50 @@ export class OrdersDetailsComponent implements OnInit {
     console.log(obj)
     this.service.deleteCartItem(row.orderItemId, obj).subscribe(e =>{
       console.log(e)
+      this.loadOrder()
     },err => {
       if(err.status === 200){
         console.log(err.status)
         this.loadOrder()
       }
+    })
+  }
+  setDiscountType(event, button) {
+    console.log(button)
+    event.preventDefault();
+    this.discountForm.patchValue({
+      value: 0
+    },{onlySelf:true});
+    if (button === this.selectedDiscountBtn) {
+      this.setFormValue('discountType',button.title);
+      this.selectedDiscountBtn = undefined;
+    } else {
+      this.setFormValue('discountType', button.title);
+      this.selectedDiscountBtn = button;
+    }
+  }
+  setFormValue(field,value){
+    console.log(field, value)
+    this.discountForm.get(field).patchValue(value, {
+      onlySelf: false
+    });
+  }
+  submitDiscountForm(){
+    const values = this.discountForm.value
+    if(values.discountType === 'Fixed'){
+      values.discountInValue = parseInt(values.value,10)
+      values.discountInPercentage = 0
+      values.discountType = 'FixedValue'
+    }else{
+      values.discountInValue = 0
+      values.discountInPercentage = parseInt(values.value,10)
+    }
+    delete values.value
+    console.log(values)
+    this.service.applyDiscount(values.orderItemId, values).subscribe(e =>{
+      console.log(e)
+      this.loadOrder()
+      this.modalService.hide(1)
     })
   }
 }
