@@ -104,7 +104,7 @@
                                 <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
                                     Cancel
                                 </app-button>
-                                <app-button type="submit" color="primary">
+                                <app-button type="submit" [disabled]="!productForm.valid" color="primary">
                                   <app-loader type="button" *ngIf="isLoading"></app-loader>
                                   <span *ngIf="!isLoading">Save</span>
                                 </app-button>

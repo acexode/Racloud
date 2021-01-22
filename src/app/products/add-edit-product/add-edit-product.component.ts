@@ -23,7 +23,6 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   productType = ['RAWorkShopLite']
   selectedRows : any[] = []
   preselectedRows : any[] = []
-  productOptions: any[] = []
   @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
   @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
@@ -101,53 +100,79 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     this.initForm();
+    this.productS.getApplications().subscribe((app:[]) =>{
+      this.ApplicationList = app
+    })
     if(id){
       this.isEdit = true
-      this.productS.getApplications().subscribe((app:[]) =>{
-        console.log(app)
-        this.ApplicationList = app
+      this.productS.getSingleProductOption(id).subscribe((opt:any) =>{
+        this.preselectedRows = opt
       })
-      this.productS.getProducts().subscribe((obj:any) =>{
-        this.productOptions = obj
-        console.log(obj)
-        const data = obj.filter(e => e.id.toString() === id)[0];
+      this.productS.getSingleProduct(id).subscribe((obj:any) =>{
+        const data = obj
         this.product = data
         console.log(data)
-        this.preselectedRows = data.productOptions
         this.productForm.patchValue({
-          applicationId: data.applicationId,
-          name: data.name,
-          productType: data.productType,
-          description: data.description
+          applicationId: data.Application.id,
+          name: data.Name,
+          productType: data.ProductType,
+          description: data.Description
         });
       });
+      this.service.getOption().subscribe((options: any) =>{
+        console.log(options)
+        console.log(this.preselectedRows)
+        this.optionList = options.map((obj:any) =>{
+          const index = this.preselectedRows.findIndex(idx => obj.Id === idx.OptionId)
+          if (index > -1) {
+            const item = options[index]
+            const rawList = this.preselectedRows[index].ValueListItems
+            const formattedList = rawList.map(e =>{
+              return {
+                Id: e.id,
+                Name: e.name,
+                OptionId: item.Id,
+                Value: e.value,
+              }
+            })
+            const retObj = {
+              ...item,
+              Name: this.preselectedRows[index].option.name,
+              OptionType: this.preselectedRows[index].option.optionType,
+              ValueBoolean: this.preselectedRows[index].ValueBoolean,
+              ValueString: this.preselectedRows[index].ValueString,
+              ValueList: formattedList,
+              PartnerAccess: this.preselectedRows[index].PartnerAccess,
+              UserAccess: this.preselectedRows[index].UserAccess,
+              selected: true
+            }
+            console.log(retObj)
+            return retObj
+          }else{
+            return {
+              ...obj,
+              UserAccess: 'Hidden',
+              PartnerAccess: 'Hidden',
+              selected: false
+            }
+          }
+        })
+        console.log(this.optionList)
+      })
     }else{
-      this.productS.getProducts().subscribe((obj:any) =>{
-        console.log(obj)
-        this.productOptions = obj
+      this.service.getOption().subscribe((options: any) =>{
+        console.log(options)
+        this.optionList = options.map((obj:any) =>{
+            return {
+              ...obj,
+              UserAccess: 'Hidden',
+              PartnerAccess: 'Hidden',
+              selected: false
+            }
+        })
+        console.log(this.optionList)
       })
     }
-    this.service.getOption().subscribe((options: any) =>{
-      this.optionList = options.map((obj:any) =>{
-        const index = this.preselectedRows.findIndex(idx => obj.Id === idx.optionId)
-        if (index > -1) {
-          const item = options[index]
-          return {
-            ...item,
-            PartnerAccess: this.preselectedRows[index].partnerAccess,
-            UserAccess: this.preselectedRows[index].userAccess,
-            selected: true
-          }
-        }else{
-          return {
-            ...obj,
-            UserAccess: 'Hidden',
-            PartnerAccess: 'Hidden',
-            selected: false
-          }
-        }
-      })
-    })
   }
   initForm() {
     this.productForm = this.fb.group({

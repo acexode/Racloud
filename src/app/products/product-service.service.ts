@@ -56,4 +56,10 @@ export class ProductServiceService {
   getApplications() {
     return this.reqS.get(ApplicationEndpoints.getApplications );
   }
+  getSingleProduct(id) {
+    return this.reqS.get(productEndpoints.updateProduct + id);
+  }
+  getSingleProductOption(id) {
+    return this.reqS.get(productEndpoints.updateProduct + id + '/options');
+  }
 }
