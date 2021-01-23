@@ -76,8 +76,6 @@
         </div>
 
     </div>
-
-
     <div class="w-100 mt-14">
         <div>
           <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Payment method</label>
@@ -87,6 +85,30 @@
               </app-chips>
           </div>
       </div>
+      <div *ngIf="paymentMethodBtn.name ==='BankTransfer'" class="nothing mt-16" >
+        <img src="./../../../assets/images/info.svg" alt="Delete-icon" class="icon-40" />
+        <div class="nothing-text">
+          <span>You will receive a proforma invoice with all the data necessary to make the bank transfer by email.</span>
+        </div>
+      </div>
+    </div>
+    <div class="w-50 mt-5">
+      <!-- <app-table [rows]="tableData | async" [config]="tableConfig" (filterData)="filterTable($event)"
+        [rowDetailConfig]="rowDetailIcons"></app-table>  -->
+      <span class="summary">Order Summary</span>
+      <table class="table summaryTable mt-32">
+        <tbody>
+          <tr *ngFor="let item of addedProducts;">
+            <td scope="row">{{item.Quantity}} x</td>
+            <td>{{item.ProductName}}</td>
+            <td>$ {{item.TotalValue}}</td>
+          </tr>
+          <tr class="total">
+            <td colspan="2">Total Value</td>
+            <td colspan="2">$ {{totalValue}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
      <div class="w-100">
@@ -103,3 +125,54 @@
 
   </div>
 </app-page-container>
+<ng-template #hoverDetailTpl let-column="column" let-row="row">
+  <div class="d-flex justify-content-end w-100">
+    <div class="d-flex bg-container justify-content-end py-10 mt-n10">
+      <div class="row-detail d-flex align-items-center"></div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #actionDropdown let-column="column" let-row="row">
+  <div>
+    <img (click)="deleteItem(row)" src="./../../../assets/images/Delete.svg" alt="Delete-icon" class="icon-w20-h20" />
+  </div>
+
+</ng-template>
+
+<ng-template #valueTemplate let-column="column" let-row="row" let-value="cellValue">
+  <div class="text-right px-0 mx-0">
+    <span>
+      $
+    </span>
+    <span>
+      {{ value }}
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #discountTemplate let-column="column" let-row="row" let-value="cellValue">
+  <div class="text-right px-0 mx-0">
+    <span>
+      {{ value }}
+    </span>
+    <span>
+      %
+    </span>
+    <img (click)="openDiscountModal(DiscountModalTemplate, row)" src="./../../../assets/images/Edit.svg" alt="edit-icon" class="icon-w16-h16" />
+  </div>
+</ng-template>
+
+<ng-template #quantityTemplate let-column="column" let-row="row" let-value="cellValue">
+  <div class="text-right d-flex flex-row align-items-center justify-content-center">
+    <div class="mr-8">
+      {{ value }}
+    </div>
+    <div class="d-flex flex-column align-items-center justify-content-center">
+      <img (click)="changeQuantity('inc', row)" src="./../../../assets/images/Caret-up.svg" alt="Caret-up"
+        class="icon-w20-h10" />
+      <img (click)="changeQuantity('dec', row)" src="./../../../assets/images/Caret-down.svg" alt="Caret-down"
+        class="icon-w20-h10" />
+    </div>
+  </div>
+</ng-template>

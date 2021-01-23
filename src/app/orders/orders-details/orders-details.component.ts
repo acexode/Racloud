@@ -135,10 +135,15 @@ export class OrdersDetailsComponent implements OnInit {
       console.log(e.hasOwnProperty('id'))
       if(e.hasOwnProperty('id')){
         const companyId = this.componentForm.get('companyId').value
-        const obj = {
+        const obj: any = {
           orderId,
-          productPriceId: e.id,
-          companyId
+          productPriceId: e.id
+        }
+        if(!this.savedCompanyId){
+          obj.companyId = companyId
+        }else{
+          obj.companyId = this.savedCompanyId
+
         }
         console.log(obj)
         this.service.addOrderToCart(orderId, obj).subscribe(res =>{
@@ -437,12 +442,6 @@ export class OrdersDetailsComponent implements OnInit {
   }
   checkout() {
     const companyId = this.componentForm.get('companyId').value
-    // this.service.checkoutOrder(this.routeId, {company:companyId }).subscribe((e:any) =>{
-    //   const data = {
-    //     ...e,
-    //     id: this.routeId
-    //   }
-    // })
     this.router.navigate(['orders/orders-checkout', { id: this.routeId }]);
   }
   formatDate(date) {
@@ -487,10 +486,12 @@ export class OrdersDetailsComponent implements OnInit {
   }
   changeQuantity(type,row){
     this.addedProducts = this.addedProducts.map(e =>{
+      console.log(this.savedCompanyId)
       if(e.id === row.id && type === 'inc'){
         const obj = {
           orderId: this.routeId,
-          productPriceId: e.priceListId
+          productPriceId: e.priceListId,
+          companyId: this.savedCompanyId
         }
         console.log(obj)
         this.service.addOrderToCart(this.routeId, obj).subscribe(res =>{
