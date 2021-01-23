@@ -83,9 +83,9 @@ export class OrdersCheckoutComponent implements OnInit {
       console.log(e)
       this.checkoutDetails = e
       this.addedProducts = e.OrderItems
-      this.totalValue = this.addedProducts.map(e => e.TotalValue).reduce((total,num) => total + num)
-      this.service.getOneCustomers(e.CompanyId).subscribe(e =>{
-        this.customerDetails = e
+      this.totalValue = this.addedProducts.map(product => product.TotalValue).reduce((total,num) => total + num)
+      this.service.getOneCustomers(e.CompanyId).subscribe(customer =>{
+        this.customerDetails = customer
       })
     })
     this.route.queryParams.subscribe(params => {
@@ -180,7 +180,7 @@ export class OrdersCheckoutComponent implements OnInit {
   }
   sendOrder(){
     const obj = {
-      "paymentMethod": this.paymentMethodBtn.name
+      paymentMethod: this.paymentMethodBtn.name
     }
     console.log(this.orderId)
     this.service.sendOrder(this.orderId, obj).subscribe(e =>{
