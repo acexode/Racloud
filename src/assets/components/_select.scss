@@ -42,6 +42,7 @@
       border: $rc-secondary-ouline;
       background: $rc-light-grey;
       color: $rc-accent-blue-30;
+      pointer-events: none;
     }
   }
   &.rc-select-error {
@@ -127,6 +128,30 @@
         }
         
       }
+    }
+  }
+  &.rc-select-b-disabled {
+    ng-select {
+      border: $rc-secondary-ouline !important;
+      background: $rc-light-grey !important;
+      color: $rc-accent-blue-30 !important;
+      pointer-events: none !important;
+    }
+    .ng-select-container {
+      .ng-value-container{
+        .ng-placeholder {
+          color: $rc-accent-blue-30 !important;
+        }
+        .ng-value{
+          color: $rc-accent-blue-30 !important;
+        }
+        .ng-input{
+          input {
+            color: $rc-accent-blue-30 !important;
+          }
+        }
+      }
+      
     }
   }
 }

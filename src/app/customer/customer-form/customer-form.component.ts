@@ -165,13 +165,9 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     private priceService: PriceListService
   ) { }
   ngOnChanges(changes: SimpleChanges): void {
-    this.componentForm.valueChanges.subscribe(d => {
-      console.log(this.theFormControl);
-    });
+    // this.componentForm.valueChanges.subscribe(d => {});
   }
   ngOnInit(): void {
-    console.log(this.editMode);
-    console.log(this.theFormControl);
     // get country option
     this.countryOptions$ = this.cS.getCountriesState().pipe(
       map(d => d.data),
@@ -268,12 +264,16 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     const newData: CustomerModel = {
       ...d,
       parentId: Number(get(d, 'parentId', 0)),
+      priceListId: Number(get(d, 'priceListId', 0)),
       // anniversaryDate: convertDateBackToUTCDate(get(d, 'anniversaryDate', '')),
       subscriptionFee: Number(get(d, 'subscriptionFee', 0)),
       supportHoursContract: Number(get(d, 'supportHoursContract', 0)),
       supportHoursAvailable: Number(get(d, 'supportHoursAvailable', 0)),
-      contactPersonName: get(d, 'firstName', 'Default'),
     };
+    // handle full by the backend: remove if you are to create new user
+    if (!this.editMode) {
+      delete newData?.priceListId;
+    }
     return newData;
 
   }
