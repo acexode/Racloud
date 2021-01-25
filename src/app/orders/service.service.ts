@@ -38,7 +38,7 @@ export class OrderService {
   }
   sendOrder(id, obj){
     // return this.reqS.post(orderEndpoints.getOrders+'/' + id + '/license-generate', {})
-    return this.reqS.post(orderEndpoints.getSingleOrder +'/' + id + '/checkout', obj)
+    return this.reqS.post(orderEndpoints.getSingleOrder +'/' + id + '/send', obj)
   }
   addOrderToCart(id,obj){
     return this.reqS.put(orderEndpoints.addToCart + id,obj)

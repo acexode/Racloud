@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
@@ -74,13 +74,14 @@ export class OrdersCheckoutComponent implements OnInit {
   totalValue
   paymentMethodBtn = this.paymentMethod[0]
   noProduct: boolean;
-  constructor(private msgS: MessagesService, private route: ActivatedRoute,
+  constructor(private msgS: MessagesService, 
+    private router: Router,
+    private route: ActivatedRoute,
     private service: OrderService) { }
 
   ngOnInit(): void {
-    const id = parseInt(this.route.snapshot.paramMap.get('id'), 10)
-    this.service.getSingleOrder(id).subscribe((e:any) =>{
-      console.log(e)
+    this.orderId = parseInt(this.route.snapshot.paramMap.get('id'), 10)
+    this.service.getSingleOrder(this.orderId).subscribe((e:any) =>{
       this.checkoutDetails = e
       this.addedProducts = e.OrderItems
       this.totalValue = this.addedProducts.map(product => product.TotalValue).reduce((total,num) => total + num)
@@ -88,10 +89,6 @@ export class OrdersCheckoutComponent implements OnInit {
         this.customerDetails = customer
       })
     })
-    this.route.queryParams.subscribe(params => {
-      this.checkoutDetails = params;
-      this.orderId = params.orderId
-    });
   }
   onInitTable(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -171,10 +168,8 @@ export class OrdersCheckoutComponent implements OnInit {
   selectPaymentMethod(event,button){
     event.preventDefault();
     if (button === this.paymentMethodBtn) {
-      // this.setFormValue('partner',button.title);
       this.paymentMethodBtn = undefined;
     } else {
-      // this.setFormValue('partner', button.title);
       this.paymentMethodBtn = button;
     }
   }
@@ -182,11 +177,9 @@ export class OrdersCheckoutComponent implements OnInit {
     const obj = {
       paymentMethod: this.paymentMethodBtn.name
     }
-    console.log(this.orderId)
     this.service.sendOrder(this.orderId, obj).subscribe(e =>{
-      console.log(e)
+      this.router.navigate(['orders'])
     },(err) =>{
-      console.log(err)
       this.displayMsg(err.error, 'danger');
     })
   }
