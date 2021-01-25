@@ -13,6 +13,9 @@ import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 })
 export class OptionsAddEditComponent implements OnInit {
   isEdit = false;
+  optionForm: FormGroup;
+  selectedType = 'string';
+  selectedStatus: any;
   editObj
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/options';
@@ -60,16 +63,33 @@ export class OptionsAddEditComponent implements OnInit {
     type: 'text',
     placeholder: 'Type here',
   };
-  valueListConfig: InputConfig = {
-    inputLabel: {
-      text: 'Value 1'
-    },
-    type: 'text',
-    placeholder: 'Type here',
-  };
-  optionForm: FormGroup;
-  selectedType = 'string';
-  selectedStatus: any;
+  // valueListConfig: InputConfig = {
+  //   inputLabel: {
+  //     text: 'Value 1'
+  //   },
+  //   type: 'text',
+  //   placeholder: 'Type here',
+  // };
+  valueListConfig(
+    type: string = 'text',
+    placeholder: string = 'Type here',
+    prefixIcon: boolean = false,
+    isDisabled: boolean = false,
+  ): InputConfig {
+    const len = this.valueLists.controls.length;
+    const labelNum = len === 0 ? 1 : len + 1;
+    return {
+      inputLabel: {
+        text: 'Value ' + labelNum,
+      },
+      type: type || 'text',
+      placeholder: placeholder || '',
+      prefixIcon: prefixIcon || false,
+      formStatus: {
+        isDisabled,
+      }
+    };
+  }
   constructor(private fb: FormBuilder, private service: LicenseServiceService,
     private router: Router, private route: ActivatedRoute, private cdRef: ChangeDetectorRef) { }
 

@@ -27,7 +27,6 @@
     ></app-table>
     </div>
   </app-page-container>
-  
   <ng-template #hoverDetailTpl let-column="column" let-row="row">
     <div class="d-flex justify-content-end w-100">
       <div class="d-flex bg-container justify-content-end py-10 mt-n10">
@@ -40,16 +39,14 @@
     <div class="btn-group" dropdown [dropup]="isDropup">
       <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
               aria-controls="dropdown-basic">
-              <i class="fa fa-ellipsis-h" aria-hidden="true"></i> 
+              <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
       </a>
       <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
           role="menu" aria-labelledby="button-basic">
         <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
         <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
-      
       </ul>
     </div>
-    
   </ng-template>
 
 <ng-template #valueTemplate let-column="column" let-row="row" let-value="cellValue">
@@ -63,7 +60,7 @@
    </div>
 </ng-template>
 <ng-template #dateTemplate let-column="column" let-row="row" let-value="cellValue">
-   <div class="text-right px-0 mx-0">        
+   <div class="text-right px-0 mx-0">
         <span>
             {{ value | date }}
         </span>
@@ -82,26 +79,15 @@
 </ng-template>
 
 <ng-template #statusTemplate let-column="column" let-row="row" let-value="cellValue">
-   
-      <ng-container [ngSwitch]="value">
-
-         <span *ngSwitchCase="-1">Canceled?</span>
-
-          <span *ngSwitchCase="0">Cart</span>
-
-          <span *ngSwitchCase="1" class="table-status-column">
-            <span>Paid</span>
-            <img src="./../../assets/images/check2.svg" alt="check-icon" class="" />
-          </span>
-
-          <span *ngSwitchCase="2" class="table-status-column">
-            <span>Waiting payment confirmation</span> 
-            <img src="./../../assets/images/price-list-red.svg" alt="price-list-icon" class="" />
-          </span>
-         
-          <span *ngSwitchCase="3">Draft</span>
-
-          <span *ngSwitchDefault>Draft</span>
-
-      </ng-container>
+      <span *ngIf="row.OrderStatus == 'Paid'" class="table-status-column">
+        <span> {{row.OrderStatus}}</span>
+        <img src="./../../assets/images/check2.svg" alt="check-icon" class="" />
+      </span>
+      <span *ngIf="row.OrderStatus == 'WaitingPaymentConfirmation'" class="table-status-column">
+        <span>Waiting payment confirmation</span>
+        <img src="./../../assets/images/price-list-red.svg" alt="price-list-icon" class="" />
+      </span>
+      <span *ngIf="row.OrderStatus != 'Paid' && row.OrderStatus != 'WaitingPaymentConfirmation' " class="table-status-column">
+        <span> {{row.OrderStatus}}</span>
+      </span>
 </ng-template>
