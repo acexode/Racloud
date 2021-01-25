@@ -257,7 +257,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
               anniversaryDate: getUTCdate(v.anniversaryDate),
               parent: v?.parent?.companyName,
             };
-          }).reverse();
+          });
           this.tableConfig.loadingIndicator = true;
           this.rowData = data;
           this.tableData.next(data);
