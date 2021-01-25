@@ -3,7 +3,6 @@ import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { get } from 'lodash';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { getUTCLongMonthDate, convertDateBackToUTCDate } from 'src/app/core/helpers/dateHelpers';
 import { CompanyTypes } from 'src/app/core/enum/companyTypes';
 import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
 import { CountriesService } from 'src/app/core/services/countries/countries.service';
