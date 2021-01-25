@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { customersEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
@@ -13,6 +14,7 @@ import { CustomerModel } from '../model/customer.model';
   styleUrls: ['./create-customer.component.scss']
 })
 export class CreateCustomerComponent implements OnInit, OnDestroy {
+  formEditMode = false;
   formButtonConfig: any = {
     buttonA: 'Save',
     buttonB: 'Cancle',
@@ -30,7 +32,11 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
     },
   };
   addCustomer$: Subscription;
-  constructor(private reqS: RequestService, private msgS: MessagesService,) { }
+  constructor(
+    private reqS: RequestService,
+    private msgS: MessagesService,
+    private routerS: Router
+  ) { }
 
   selectConfig(
     label: string,
@@ -67,7 +73,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   isLoadingStatus() {
     this.isLoading = !this.isLoading;
   }
-  ngOnInit(): void {}
+  ngOnInit(): void { }
   submitData(data: any) {
     // loadingIndicator
     this.isLoadingStatus();
@@ -84,8 +90,11 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
         });
         // loadingIndicator
         this.isLoadingStatus();
+        // redirect to login page
+        this.routerS.navigateByUrl('/login');
       },
       err => {
+        console.log(err);
         this.msgS.addMessage({
           text: err.error,
           type: 'danger',

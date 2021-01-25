@@ -24,7 +24,7 @@
         </div>
 
         <div 
-            class="" 
+            [class]="'rc-select-b ' + (config?.formStatus?.isError && 'rc-select-b-invalid ') + (config?.formStatus?.isDisabled && ' rc-select-b-disabled ')"  
             *ngIf="config?.searchable"
         >
             <ng-select [items]="items | async"

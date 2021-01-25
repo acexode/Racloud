@@ -299,6 +299,7 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
         (d: Array<PriceListProductManagerModel>) => {
           return d.map(
             (v) => {
+              console.log(v);
               return {
                 ...v,
               };
@@ -427,7 +428,6 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
     );
   }
   updateValueForForm(data: any) {
-    console.log(data);
     if (typeof data !== 'undefined' || typeof data !== null) {
 
       // get data

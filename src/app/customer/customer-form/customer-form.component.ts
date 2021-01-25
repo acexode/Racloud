@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { get } from 'lodash';
 import { Observable } from 'rxjs';
@@ -21,7 +21,8 @@ import { CustomerModel } from '../model/customer.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class CustomerFormComponent implements OnInit {
+export class CustomerFormComponent implements OnInit, OnChanges {
+  @Input() formEditMode: boolean;
   defaultToButtons: any = {
     buttonA: 'Button A',
     buttonB: 'Button B',
@@ -163,6 +164,9 @@ export class CustomerFormComponent implements OnInit {
     private lgS: LanguagesService,
     private priceService: PriceListService
   ) { }
+  ngOnChanges(changes: SimpleChanges): void {
+    // this.componentForm.valueChanges.subscribe(d => {});
+  }
   ngOnInit(): void {
     // get country option
     this.countryOptions$ = this.cS.getCountriesState().pipe(
@@ -183,6 +187,8 @@ export class CustomerFormComponent implements OnInit {
     searchable: boolean = false,
     idKey: string = 'id',
     labelKey: string = 'option',
+    isDisabled: boolean = false,
+    formControl: boolean = false,
   ): SelectConfig {
     return {
       selectLabel: {
@@ -192,6 +198,10 @@ export class CustomerFormComponent implements OnInit {
       idKey,
       labelKey,
       searchable,
+      formStatus: {
+        isDisabled,
+        isError: this.checkStatusOfForm(formControl),
+      }
     };
   }
   inputConfig(
@@ -200,6 +210,7 @@ export class CustomerFormComponent implements OnInit {
     placeholder: string = 'Type here',
     prefixIcon: boolean = false,
     isDisabled: boolean = false,
+    formControl: boolean = false,
   ): InputConfig {
     return {
       inputLabel: {
@@ -210,8 +221,12 @@ export class CustomerFormComponent implements OnInit {
       prefixIcon: prefixIcon || false,
       formStatus: {
         isDisabled,
+        isError: this.checkStatusOfForm(formControl),
       }
     };
+  }
+  get editMode() {
+    return this.formEditMode || false;
   }
   updateValueForForm() {
 
@@ -232,7 +247,7 @@ export class CustomerFormComponent implements OnInit {
         phoneNumber: get(data, 'phoneNumber', ''),
         companyEmail: get(data, 'companyEmail', ''),
         // anniversaryDate: getUTCLongMonthDate(get(data, 'anniversaryDate', '')),
-        anniversaryDate: getUTCLongMonthDate(get(data, 'anniversaryDate', '')),
+        anniversaryDate: get(data, 'anniversaryDate', ''),
         subscriptionFee: get(data, 'subscriptionFee', ''),
         supportHoursContract: get(data, 'supportHoursContract', ''),
         supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
@@ -240,6 +255,8 @@ export class CustomerFormComponent implements OnInit {
         priceListId: Number(get(get(data, 'priceList', {}), 'id', 0)),
       };
       this.componentForm.setValue({ ...d });
+      this.componentForm.markAllAsTouched();
+      this.componentForm.updateValueAndValidity();
     }
   }
   updateData(): CustomerModel {
@@ -247,12 +264,16 @@ export class CustomerFormComponent implements OnInit {
     const newData: CustomerModel = {
       ...d,
       parentId: Number(get(d, 'parentId', 0)),
-      anniversaryDate: convertDateBackToUTCDate(get(d, 'anniversaryDate', '')),
+      priceListId: Number(get(d, 'priceListId', 0)),
+      // anniversaryDate: convertDateBackToUTCDate(get(d, 'anniversaryDate', '')),
       subscriptionFee: Number(get(d, 'subscriptionFee', 0)),
       supportHoursContract: Number(get(d, 'supportHoursContract', 0)),
       supportHoursAvailable: Number(get(d, 'supportHoursAvailable', 0)),
-      contactPersonName: get(d, 'firstName', 'Default'),
     };
+    // handle full by the backend: remove if you are to create new user
+    if (!this.editMode) {
+      delete newData?.priceListId;
+    }
     return newData;
 
   }
@@ -266,6 +287,15 @@ export class CustomerFormComponent implements OnInit {
     } else {
       return this.buttonConfig;
     }
+  }
+  get theFormControl() {
+    return this.componentForm.controls;
+  }
+  checkStatusOfForm(passedInFormControl: any) {
+    return this.editMode ?
+      ((passedInFormControl.invalid && passedInFormControl.touched) ? true : false)
+      :
+      ((passedInFormControl.invalid && passedInFormControl.dirty) ? true : false);
   }
 }
 
