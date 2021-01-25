@@ -75,6 +75,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void { }
   submitData(data: any) {
+    console.log(data);
     // loadingIndicator
     this.isLoadingStatus();
     const queryEndpoint = `${ customersEndpoints.addCustomer }`;
@@ -91,7 +92,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
         // loadingIndicator
         this.isLoadingStatus();
         // redirect to login page
-        this.routerS.navigateByUrl('/login');
+        this.routerS.navigateByUrl('/customer');
       },
       err => {
         console.log(err);

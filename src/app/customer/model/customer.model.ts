@@ -1,7 +1,7 @@
 export interface CustomerModel {
     address?: string;
     anniversaryDate?: string | Date;
-    companyEmail: string;
+    companyEmail?: string;
     companyName: string;
     companyType: string;
     contactPersonFirstName?: string | null;

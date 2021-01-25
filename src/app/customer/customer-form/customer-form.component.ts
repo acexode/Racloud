@@ -3,7 +3,6 @@ import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { get } from 'lodash';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { getUTCLongMonthDate, convertDateBackToUTCDate } from 'src/app/core/helpers/dateHelpers';
 import { CompanyTypes } from 'src/app/core/enum/companyTypes';
 import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
 import { CountriesService } from 'src/app/core/services/countries/countries.service';
@@ -97,13 +96,6 @@ export class CustomerFormComponent implements OnInit, OnChanges {
       ],
     ],
     email: [
-      '',
-      [
-        Validators.required,
-        Validators.email
-      ],
-    ],
-    companyEmail: [
       '',
       [
         Validators.required,
@@ -245,7 +237,6 @@ export class CustomerFormComponent implements OnInit, OnChanges {
         address: get(data, 'address', ''),
         country: get(data, 'country', ''),
         phoneNumber: get(data, 'phoneNumber', ''),
-        companyEmail: get(data, 'companyEmail', ''),
         // anniversaryDate: getUTCLongMonthDate(get(data, 'anniversaryDate', '')),
         anniversaryDate: get(data, 'anniversaryDate', ''),
         subscriptionFee: get(data, 'subscriptionFee', ''),
@@ -265,6 +256,7 @@ export class CustomerFormComponent implements OnInit, OnChanges {
       ...d,
       parentId: Number(get(d, 'parentId', 0)),
       priceListId: Number(get(d, 'priceListId', 0)),
+      companyEmail: get(d, 'email', ''),
       // anniversaryDate: convertDateBackToUTCDate(get(d, 'anniversaryDate', '')),
       subscriptionFee: Number(get(d, 'subscriptionFee', 0)),
       supportHoursContract: Number(get(d, 'supportHoursContract', 0)),

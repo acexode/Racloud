@@ -41,17 +41,16 @@
                 ></app-select>
             </div>
 
-            <div class="col-12 mb-14 m-0 p-0">
+        </div>
+
+        <div class="col-12 col-md-3 px-0 px-md-16 m-0">
+            <div class="col-12 mx-0 p-0 mb-14">
                 <app-select
                     [config]="selectConfig('Price List', 'Select Price List', true, 'id', 'name', !editMode, theFormControl.language)"
                     formControlName="priceListId"
                     [options]="optionData.priceListOptions"
                 ></app-select>
             </div>
-
-        </div>
-
-        <div class="col-12 col-md-3 px-0 px-md-16 m-0">
             
             <div class="col-12 mx-0 p-0 mb-14">
                 <app-select
@@ -70,18 +69,17 @@
                 </app-textarea>
             </div>
 
-            <div class="col-12 p-0">
+        </div>
+
+
+        <div class="col-12 col-md-3 px-0 px-md-16 m-0">
+            <div class="col-12 mb-14 m-0 p-0">
                 <app-select
                     [config]="selectConfig('Language', 'Select Langugae', true, 'id', 'option', false, theFormControl.language)"
                     formControlName="language"
                     [options]="optionData.languageOptions"
                 ></app-select>
             </div>
-
-        </div>
-
-
-        <div class="col-12 col-md-3 px-0 px-md-16 m-0">
             
             <div class="col-12 mb-14 m-0 p-0">
                 <app-select
@@ -100,14 +98,8 @@
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Email', 'email', 'Type Here', false, false, theFormControl.email)"
+                    [config]="inputConfig('Company Email', 'email', 'Type Here', false, false, theFormControl.email)"
                     formControlName="email"
-                ></app-input>
-            </div>
-            <div class="col-12 mb-14 m-0 p-0">
-                <app-input
-                    [config]="inputConfig('Company Email', 'Email', 'Type Here', false, false, theFormControl.companyEmail)"
-                    formControlName="companyEmail"
                 ></app-input>
             </div>
 
