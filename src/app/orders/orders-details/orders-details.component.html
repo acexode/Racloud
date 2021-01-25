@@ -39,13 +39,14 @@
           <div class="row m-0">
             <div class="col-12 px-0 mb-14">
               <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Customer</label>
-              <div  class="rc-select"> <select formcontrolname="customer"
-                  (change)="onChange($event.target.value, 'customer')" class="ng-pristine ng-valid ng-touched">
+              <div  class="rc-select"> <select [disabled]="disableCustomer"  formcontrolname="customer"
+                  (change)="onChange($event.target.value, 'companyId')" [value]="savedCompanyId || null" class="ng-pristine ng-valid ng-touched">
                   <option selected disabled>Select</option>
                   <option *ngFor="let customer of customers" [value]="customer.id">
                     {{customer.companyName}} </option>
                 </select>
               </div>
+              <!--  -->
             </div>
             <div class="col-12 px-0 mb-14">
               <app-input [config]="inputConfig('Status')" formControlName="status"></app-input>
@@ -99,7 +100,7 @@
 
           <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu order-dropdown mr-5" role="menu"
             aria-labelledby="button-basic">
-            <li role="menuitem"><a class="dropdown-item" href="#">Payed</a></li>
+            <li role="menuitem"><a class="dropdown-item" (click)="payOrder()">Payed</a></li>
             <li (click)="cancelOrder()" role="menuitem"><a class="dropdown-item">Cancel</a></li>
           </ul>
         </div>
@@ -120,6 +121,41 @@
     </div>
   </div>
 </app-page-container>
+<ng-template #DiscountModalTemplate>
+  <div class="modal-header px-32">
+    <span class="add-product">Apply discount</span>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div [formGroup]="discountForm" class="modal-body px-32 discount-body">
+    <div class="row">
+      <div class="col-12 mb-14">
+        <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Discount type</label>
+        <div class="rc-form-group rc-form-group-without-prefix" >
+            <app-chips *ngFor="let button of discountTypes" class="mr-2"  [color]="(selectedDiscountBtn == button) ? 'selected' : 'default'" (click)="setDiscountType($event,button)">
+                {{button.title}}
+            </app-chips>
+        </div>
+    </div>
+    <div class="col-12  mb-14">
+      <app-input formControlName="value" [config]="inputConfig('Discount Value', 'number', 'Type here', true)" ></app-input>
+    </div>
+    <div *ngIf="selectedDiscountBtn.title === 'Fixed'" class="col-12  mb-14">
+      <app-input formControlName="vat" [config]="inputConfig('Of which VAT', 'number', '', true)" ></app-input>
+    </div>
+    </div>
+  </div>
+  <div class="discount-footer d-flex justify-content-end">
+    <app-button type="button" (click)="modalRef.hide()" color="secondaryB" class="mr-8">
+      Cancel
+    </app-button>
+
+    <app-button type="button" color="primary" (click)="submitDiscountForm()">
+      Apply
+    </app-button>
+  </div>
+</ng-template>
 <ng-template #template>
   <div class="modal-header px-32">
     <span class="add-product">Add Product</span>
@@ -166,12 +202,12 @@
 <ng-template #discountTemplate let-column="column" let-row="row" let-value="cellValue">
   <div class="text-right px-0 mx-0">
     <span>
-      {{ value }}
+      {{ value | number: '1.0-0'}}
     </span>
     <span>
       %
     </span>
-    <img src="./../../../assets/images/Edit.svg" alt="edit-icon" class="icon-w16-h16" />
+    <img (click)="openDiscountModal(DiscountModalTemplate, row)" src="./../../../assets/images/Edit.svg" alt="edit-icon" class="icon-w16-h16" />
   </div>
 </ng-template>
 

@@ -14,6 +14,7 @@ import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { OrderService } from '../service.service';
+import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 @Component({
   selector: 'app-orders-details',
   templateUrl: './orders-details.component.html',
@@ -24,6 +25,7 @@ export class OrdersDetailsComponent implements OnInit {
   caretLeftIcon = '../assets/images/caret-left.svg';
   orderId = ''
   backUrl = '/orders';
+  disableForm = false;
   noProduct = true
   containerConfig: PageContainerConfig = {
     closeButton: true,
@@ -40,6 +42,12 @@ export class OrdersDetailsComponent implements OnInit {
   @ViewChild('quantityTemplate', { static: true }) quantityTemplate: TemplateRef<any>;
   @ViewChild('discountTemplate', { static: true }) discountTemplate: TemplateRef<any>;
   rows = [];
+  discountTypes =  [
+    {title: 'Percentage', name: 'button1'},
+    {title: 'Fixed', name: 'button2'},
+  ];
+  selectedDiscountBtn = this.discountTypes[0]
+
   modalRef: BsModalRef;
   rowDetailIcons = [
     '../../assets/images/Edit.svg',
@@ -62,9 +70,12 @@ export class OrdersDetailsComponent implements OnInit {
     removePageCounter: true,
   };
   componentForm: FormGroup;
+  discountForm: FormGroup;
   addedProducts = []
   allProducts = []
   customers
+  savedCompanyId = 'Select'
+  disableCustomer = false
   controlStore: { [key: string]: AbstractControl; } = {};
   isDropup: boolean;
   routeId:any
@@ -77,7 +88,8 @@ export class OrdersDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private service: OrderService,
     private shopS: ShopService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private msgS: MessagesService
   ) { }
 
   selectionConfig(label: string): SelectConfig {
@@ -112,24 +124,33 @@ export class OrdersDetailsComponent implements OnInit {
     return this.componentForm.get('type');
   }
   ngOnInit(): void {
+    this.loadOrder()
     this.service.getcustomers().subscribe(e =>{
       this.customers = e
-      console.log(e)
     })
     this.routeId = parseInt(this.route.snapshot.paramMap.get('id'), 10)
     this.shopS.buyStore.subscribe((e:any) =>{
-      console.log(e)
       const orderId = this.routeId
       console.log(e.hasOwnProperty('id'))
       if(e.hasOwnProperty('id')){
-        const obj = {
+        const companyId = this.componentForm.get('companyId').value || this.savedCompanyId
+        const obj: any = {
           orderId,
           productPriceId: e.id
         }
-        console.log(obj)
+        console.log(this.addedProducts)
+          if(companyId !== null){
+            obj.companyId = companyId
+            this.componentForm.get('companyId').disable()
+            this.ref.detectChanges()
+          }else{
+            this.displayMsg('Please select a customer', 'info')
+          }
+          console.log(obj)
         this.service.addOrderToCart(orderId, obj).subscribe(res =>{
-          console.log(res)
           this.loadOrder()
+        },(err)=>{
+          this.displayMsg(err.error, 'danger')
         })
         this.onInitTable()
       }
@@ -138,16 +159,32 @@ export class OrdersDetailsComponent implements OnInit {
     this.loadOrder()
     this.onInitTable();
   }
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
+  }
   loadOrder(){
     const id = this.route.snapshot.paramMap.get('id');
     this.orderId = id
     if(id){
       const idx = parseInt(id,10)
-      this.service.getSingleOrder(idx).subscribe((e: Order) =>{
-        console.log(e.OrderItems)
+      this.service.getSingleOrder(idx).subscribe((e: any) =>{
+        if(e.CompanyId !== null){
+          this.savedCompanyId = e.CompanyId
+          this.componentForm.get('companyId').disable()
+          this.disableCustomer = true
+          this.ref.detectChanges()
+        }
         const orderItems: any[] = e.OrderItems
         this.service.getShops().subscribe((shop:any[]) =>{
-          console.log(shop)
           this.addedProducts = []
           shop.forEach(s =>{
               const index = orderItems.findIndex((item:any) => item.ProductId === s.product.id )
@@ -160,7 +197,7 @@ export class OrdersDetailsComponent implements OnInit {
                   totalValue: orderItems[index].TotalValue,
                   application: s.product.name,
                   productType: s.product.productType,
-                  priceListId: s.priceListId,
+                  priceListId: s.id,
                   supportHours: s.supportHours,
                   renewalValue: s.renewalValue,
                   orderItemId: orderItems[index].Id
@@ -169,11 +206,9 @@ export class OrdersDetailsComponent implements OnInit {
                 return null
               }
           })
-          console.log(this.addedProducts.length)
           const uniqueArray = this.addedProducts.filter((v,i) =>{
             return this.addedProducts.indexOf(v) === i
           })
-          console.log(uniqueArray)
           this.rowData = this.addedProducts;
           const cloneData = this.addedProducts.map((v) => {
             return { ...v };
@@ -185,17 +220,23 @@ export class OrdersDetailsComponent implements OnInit {
           const dBody = document.querySelector('.datatable-body') as HTMLElement;
           dBody.style.minHeight = 'auto';
           dBody.style.height = 'auto';
-          console.log(this.addedProducts)
         })
+        console.log(e)
+        const discountPrc = e.DiscountPrc.toFixed(2)
         this.componentForm.patchValue({
           orderNumber: e.Id,
-          customer: e.Company,
+          companyId: e.CompanyId,
           status: e.OrderStatus,
           value: e.Value,
-          discount: e.Discount,
-          totalValue: e.TotalValue
+          discount: discountPrc,
+          totalValue: e.TotalValue.toFixed(2)
         })
         this.componentForm.get('orderDate').patchValue(this.formatDate(new Date(e.CreateDate)));
+        if(e.OrderStatus === 'WaitingPaymentConfirmation'){
+          this.disableForm = true;
+          this.componentForm.disable()
+          this.ref.detectChanges()
+        }
       })
     }
   }
@@ -208,7 +249,7 @@ export class OrdersDetailsComponent implements OnInit {
           Validators.maxLength(50),
         ],
       ],
-      customer: [
+      companyId: [
         '',
         [
           Validators.required,
@@ -393,13 +434,9 @@ export class OrdersDetailsComponent implements OnInit {
         this.noProduct = true
         const empty = document.getElementsByClassName('empty-row') as HTMLCollectionOf<HTMLElement>
         if(empty.length !== 0){
-          console.log(empty)
           empty[0].style.display = 'none'
         }
       }
-  }
-  public getJSON(): Observable<any> {
-    return this.http.get('./assets/order-details.json');
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
@@ -410,14 +447,8 @@ export class OrdersDetailsComponent implements OnInit {
     this.tableData.next(newRows);
   }
   checkout() {
-    const companyId = this.componentForm.get('customer').value
-    this.service.checkoutOrder(this.routeId, {company:companyId }).subscribe((e:any) =>{
-      const data = {
-        ...e,
-        id: this.routeId
-      }
-      this.router.navigate(['orders', 'orders-checkout'], {queryParams: data});
-    })
+    const companyId = this.componentForm.get('companyId').value
+    this.router.navigate(['orders/orders-checkout', { id: this.routeId }]);
   }
   formatDate(date) {
     const d = new Date(date);
@@ -426,7 +457,6 @@ export class OrdersDetailsComponent implements OnInit {
     const year = d.getFullYear();
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
-    console.log([year, month, day].join('-'))
     return [year, month, day].join('-');
   }
   openModal(template: TemplateRef<any>) {
@@ -435,38 +465,51 @@ export class OrdersDetailsComponent implements OnInit {
     })
     this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray modal-lg' }));
   }
+  openDiscountModal(template: TemplateRef<any>, row) {
+    this.discountForm = this.fb.group({
+      orderItemId: [
+        row.orderItemId,
+        [
+          Validators.required,
+        ],
+      ],
+      discountType: [
+        'Percentage',
+        [
+          Validators.required,
+        ],
+      ],
+      value: [
+        0,
+      ],
+      vat: [
+        0,
+      ],
+    })
+    this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray' }));
+  }
   changeQuantity(type,row){
     this.addedProducts = this.addedProducts.map(e =>{
-      if(e.id === row.id && type === 'inc'){
+      if(e.orderItemId === row.orderItemId && type === 'inc'){
         const obj = {
           orderId: this.routeId,
-          productPriceId: e.priceListId
+          productPriceId: e.priceListId,
+          companyId: this.savedCompanyId
         }
-        console.log(obj)
         this.service.addOrderToCart(this.routeId, obj).subscribe(res =>{
-          console.log(res)
+          this.loadOrder()
         })
-        e.quantity = e.quantity + 1
-        e.totalValue = e.quantity * e.value
         return e
       }
-      else if(e.id === row.id && type === 'dec'){
+      else if(e.orderItemId === row.orderItemId && type === 'dec'){
         const obj = {
           orderItemId: e.orderItemId,
         }
-        console.log(obj)
         this.service.reduceCartItem(e.orderItemId, obj).subscribe(res =>{
-          console.log(res)
+          this.loadOrder()
         },err => {
-          if(err.status === 200){
-            console.log(err.status)
-            this.loadOrder()
-          }
+          console.log(err)
         })
-        if(e.quantity > 1){
-          e.quantity = e.quantity - 1
-          e.totalValue = e.quantity * e.value
-        }
         return e;
       }
       return e
@@ -478,13 +521,18 @@ export class OrdersDetailsComponent implements OnInit {
     const values = this.componentForm.value
   }
   onChange(option, field) {
-    console.log(option, field)
     this.componentForm.get(field).patchValue(option)
   }
   cancelOrder(){
     const id = this.route.snapshot.paramMap.get('id');
     this.service.cancelOrder(id).subscribe(e =>{
-      console.log(e)
+      this.router.navigate(['orders'])
+    })
+  }
+  payOrder(){
+    const id = this.route.snapshot.paramMap.get('id');
+    this.service.payOrder(id).subscribe(e =>{
+      this.router.navigate(['orders'])
     })
   }
   deleteItem(row){
@@ -492,14 +540,47 @@ export class OrdersDetailsComponent implements OnInit {
       orderItemId: row.orderItemId,
       orderId: this.routeId
     }
-    console.log(obj)
     this.service.deleteCartItem(row.orderItemId, obj).subscribe(e =>{
-      console.log(e)
+      this.loadOrder()
     },err => {
       if(err.status === 200){
         console.log(err.status)
         this.loadOrder()
       }
+    })
+  }
+  setDiscountType(event, button) {
+    event.preventDefault();
+    this.discountForm.patchValue({
+      value: 0
+    },{onlySelf:true});
+    if (button === this.selectedDiscountBtn) {
+      this.setFormValue('discountType',button.title);
+      this.selectedDiscountBtn = undefined;
+    } else {
+      this.setFormValue('discountType', button.title);
+      this.selectedDiscountBtn = button;
+    }
+  }
+  setFormValue(field,value){
+    this.discountForm.get(field).patchValue(value, {
+      onlySelf: false
+    });
+  }
+  submitDiscountForm(){
+    const values = this.discountForm.value
+    if(values.discountType === 'Fixed'){
+      values.discountInValue = parseInt(values.value,10)
+      values.discountInPercentage = 0
+      values.discountType = 'FixedValue'
+    }else{
+      values.discountInValue = 0
+      values.discountInPercentage = parseInt(values.value,10)
+    }
+    delete values.value
+    this.service.applyDiscount(values.orderItemId, values).subscribe(e =>{
+      this.loadOrder()
+      this.modalService.hide(1)
     })
   }
 }

@@ -245,5 +245,8 @@
       }
     }
   },
-  "defaultProject": "ra-cloud-angular"
+  "defaultProject": "ra-cloud-angular",
+  "cli": {
+    "analytics": "5af7b0b6-5dfc-4145-b632-8a442c0a968b"
+  }
 }
