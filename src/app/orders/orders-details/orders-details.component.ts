@@ -132,7 +132,7 @@ export class OrdersDetailsComponent implements OnInit {
     this.shopS.buyStore.subscribe((e:any) =>{
       const orderId = this.routeId
       if(e.hasOwnProperty('id')){
-        const companyId = this.componentForm.get('companyId').value | this.savedCompanyId
+        const companyId = this.componentForm.get('companyId').value || this.savedCompanyId
         const obj: any = {
           orderId,
           productPriceId: e.id
