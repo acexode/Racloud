@@ -60,7 +60,7 @@
               <app-input [config]="inputConfig('Value')" formControlName="value"></app-input>
             </div>
             <div class="col-12 px-0 mb-14">
-              <app-input (click)="openDiscountModal(DiscountModalTemplate, row)" [config]="inputConfig('Discount', 'text', '', true)" formControlName="discount">
+              <app-input [config]="inputConfig('Discount', 'text', '', true)" formControlName="discount">
               </app-input>
             </div>
           </div>
