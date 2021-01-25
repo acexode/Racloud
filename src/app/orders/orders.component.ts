@@ -195,6 +195,9 @@ export class OrdersComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
+    this.loadOrders()
+  }
+  loadOrders(){
     this.service.getorders().subscribe((data:any) => {
       if (data) {
         console.log(data)
@@ -235,8 +238,11 @@ export class OrdersComponent implements OnInit {
       this.router.navigate(['orders-details', e.id], { relativeTo: this.route });
     })
   }
-  removeRow(id) {
-    console.log(id);
+  removeRow(row) {
+    console.log(row);
+    this.service.deleteOrder(row.Id).subscribe(e =>{
+      this.loadOrders()
+    })
   }
   manageSub(data: any) {
     console.log(data);

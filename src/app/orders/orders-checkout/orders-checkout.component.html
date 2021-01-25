@@ -6,7 +6,7 @@
           <!--  -->
           <app-button
             color="tertiary"
-            [routerLink]="[backUrl]"
+            (click)="navigateBack()"
             [class]="
               'd-flex align-items-center rc-accent-blue-160-color montserrat-semibold-font ml-n20'
             "
@@ -51,7 +51,7 @@
                     Order Number
                 </p>
                 <p class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular">
-                    {{checkoutDetails?.orderId}}
+                    {{checkoutDetails?.Id}}
                 </p>
             </div>
 
@@ -60,7 +60,7 @@
                     Discount
                 </p>
                 <p class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular">
-                    $ {{checkoutDetails?.discount}}
+                    $ {{checkoutDetails?.Discount}}
                 </p>
             </div>
 
@@ -69,34 +69,53 @@
                     Total Value
                 </p>
                 <p class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular">
-                    $ {{checkoutDetails?.totalValue}}
+                    $ {{checkoutDetails?.TotalValue}}
                 </p>
             </div>
 
         </div>
 
     </div>
-
-
     <div class="w-100 mt-14">
-        <p class="m-0 s12-h16 rc-grey-color text-weight-normal montserrat-regular-font">
-            Payment method
-        </p>
         <div>
-            <app-chips color="selected" class="mr-8">
-                Bank transfer
-            </app-chips>
-            <app-chips class="mr-2" color="default">
-                Credit Card
-            </app-chips>
+          <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Payment method</label>
+          <div class="rc-form-group rc-form-group-without-prefix" >
+              <app-chips *ngFor="let button of paymentMethod" class="mr-2"  [color]="(paymentMethodBtn == button) ? 'selected' : 'default'" (click)="selectPaymentMethod($event,button)">
+                  {{button.title}}
+              </app-chips>
+          </div>
+      </div>
+      <div *ngIf="paymentMethodBtn.name ==='BankTransfer'" class="nothing mt-16" >
+        <img src="./../../../assets/images/info.svg" alt="Delete-icon" class="icon-40" />
+        <div class="nothing-text">
+          <span>You will receive a proforma invoice with all the data necessary to make the bank transfer by email.</span>
         </div>
+      </div>
+    </div>
+    <div class="w-50 mt-5">
+      <!-- <app-table [rows]="tableData | async" [config]="tableConfig" (filterData)="filterTable($event)"
+        [rowDetailConfig]="rowDetailIcons"></app-table>  -->
+      <span class="summary">Order Summary</span>
+      <table class="table summaryTable mt-32">
+        <tbody>
+          <tr *ngFor="let item of addedProducts;">
+            <td scope="row">{{item.Quantity}} x</td>
+            <td>{{item.ProductName}}</td>
+            <td>$ {{item.TotalValue}}</td>
+          </tr>
+          <tr class="total">
+            <td colspan="2">Total Value</td>
+            <td colspan="2">$ {{totalValue}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
      <div class="w-100">
 
         <div class="w-100 rc-light-grey-bg mt-24 p-16 d-flex justify-content-end">
-            
-             <app-button type="submit" color="primary">
+
+             <app-button type="submit" (click)="sendOrder()" color="primary">
                 Send order
             </app-button>
 
@@ -106,3 +125,54 @@
 
   </div>
 </app-page-container>
+<ng-template #hoverDetailTpl let-column="column" let-row="row">
+  <div class="d-flex justify-content-end w-100">
+    <div class="d-flex bg-container justify-content-end py-10 mt-n10">
+      <div class="row-detail d-flex align-items-center"></div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #actionDropdown let-column="column" let-row="row">
+  <div>
+    <img (click)="deleteItem(row)" src="./../../../assets/images/Delete.svg" alt="Delete-icon" class="icon-w20-h20" />
+  </div>
+
+</ng-template>
+
+<ng-template #valueTemplate let-column="column" let-row="row" let-value="cellValue">
+  <div class="text-right px-0 mx-0">
+    <span>
+      $
+    </span>
+    <span>
+      {{ value }}
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #discountTemplate let-column="column" let-row="row" let-value="cellValue">
+  <div class="text-right px-0 mx-0">
+    <span>
+      {{ value }}
+    </span>
+    <span>
+      %
+    </span>
+    <img (click)="openDiscountModal(DiscountModalTemplate, row)" src="./../../../assets/images/Edit.svg" alt="edit-icon" class="icon-w16-h16" />
+  </div>
+</ng-template>
+
+<ng-template #quantityTemplate let-column="column" let-row="row" let-value="cellValue">
+  <div class="text-right d-flex flex-row align-items-center justify-content-center">
+    <div class="mr-8">
+      {{ value }}
+    </div>
+    <div class="d-flex flex-column align-items-center justify-content-center">
+      <img (click)="changeQuantity('inc', row)" src="./../../../assets/images/Caret-up.svg" alt="Caret-up"
+        class="icon-w20-h10" />
+      <img (click)="changeQuantity('dec', row)" src="./../../../assets/images/Caret-down.svg" alt="Caret-down"
+        class="icon-w20-h10" />
+    </div>
+  </div>
+</ng-template>

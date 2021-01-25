@@ -28,7 +28,17 @@ export class OrderService {
     return this.reqS.get(customersEndpoints.getCustomers + '/' + id)
   }
   cancelOrder(id){
-    return this.reqS.get(orderEndpoints.getOrders+'/' + id + '/cancel')
+    return this.reqS.post(orderEndpoints.getOrders+'/' + id + '/cancel', {})
+  }
+  deleteOrder(id){
+    return this.reqS.delete(orderEndpoints.getOrders+'/' + id )
+  }
+  payOrder(id){
+    return this.reqS.post(orderEndpoints.getOrders+'/' + id + '/pay', {})
+  }
+  sendOrder(id, obj){
+    // return this.reqS.post(orderEndpoints.getOrders+'/' + id + '/license-generate', {})
+    return this.reqS.post(orderEndpoints.getSingleOrder +'/' + id + '/send', obj)
   }
   addOrderToCart(id,obj){
     return this.reqS.put(orderEndpoints.addToCart + id,obj)
@@ -42,8 +52,11 @@ export class OrderService {
   getShops(){
     return this.reqS.get(shopEndpoints.getShops)
   }
-  checkoutOrder(id, obj){
-    return this.reqS.post(orderEndpoints.getSingleOrder +'/' + id + '/checkout', obj)
+  // checkoutOrder(id, obj){
+  //   return this.reqS.post(orderEndpoints.getSingleOrder +'/' + id + '/checkout', obj)
+  // }
+  applyDiscount(id, obj){
+    return this.reqS.put(orderEndpoints.applyDiscount + id, obj)
   }
 
 }
