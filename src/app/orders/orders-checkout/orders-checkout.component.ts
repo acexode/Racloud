@@ -7,7 +7,7 @@ import { MessagesService } from 'src/app/shared/messages/services/messages.servi
 import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { OrderService } from '../service.service';
-
+import {Location} from '@angular/common';
 @Component({
   selector: 'app-orders-checkout',
   templateUrl: './orders-checkout.component.html',
@@ -15,7 +15,7 @@ import { OrderService } from '../service.service';
 })
 export class OrdersCheckoutComponent implements OnInit {
   caretLeftIcon = '../assets/images/caret-left.svg';
-  backUrl = '/customer';
+  backUrl = '/orders';
   checkoutDetails
   customerDetails
   containerConfig: PageContainerConfig = {
@@ -77,6 +77,7 @@ export class OrdersCheckoutComponent implements OnInit {
   constructor(private msgS: MessagesService,
     private router: Router,
     private route: ActivatedRoute,
+    private _location: Location,
     private service: OrderService) { }
 
   ngOnInit(): void {
@@ -182,6 +183,9 @@ export class OrdersCheckoutComponent implements OnInit {
     },(err) =>{
       this.displayMsg(err.error, 'danger');
     })
+  }
+  navigateBack(){
+    this._location.back()
   }
   displayMsg(msg, type){
     this.msgS.addMessage({

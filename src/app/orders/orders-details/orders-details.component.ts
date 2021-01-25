@@ -14,6 +14,7 @@ import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { OrderService } from '../service.service';
+import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 @Component({
   selector: 'app-orders-details',
   templateUrl: './orders-details.component.html',
@@ -87,7 +88,8 @@ export class OrdersDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private service: OrderService,
     private shopS: ShopService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private msgS: MessagesService
   ) { }
 
   selectionConfig(label: string): SelectConfig {
@@ -130,19 +132,24 @@ export class OrdersDetailsComponent implements OnInit {
     this.shopS.buyStore.subscribe((e:any) =>{
       const orderId = this.routeId
       if(e.hasOwnProperty('id')){
-        const companyId = this.componentForm.get('companyId').value
+        const companyId = this.componentForm.get('companyId').value | this.savedCompanyId
         const obj: any = {
           orderId,
           productPriceId: e.id
         }
-        if(!this.savedCompanyId){
-          obj.companyId = companyId
-        }else{
-          obj.companyId = this.savedCompanyId
-
-        }
+        console.log(this.addedProducts)
+          if(companyId !== null){
+            obj.companyId = companyId
+            this.componentForm.get('companyId').disable()
+            this.ref.detectChanges()
+          }else{
+            this.displayMsg('Please select a customer', 'info')
+          }
+          console.log(obj)
         this.service.addOrderToCart(orderId, obj).subscribe(res =>{
           this.loadOrder()
+        },(err)=>{
+          this.displayMsg(err.error, 'danger')
         })
         this.onInitTable()
       }
@@ -151,16 +158,29 @@ export class OrdersDetailsComponent implements OnInit {
     this.loadOrder()
     this.onInitTable();
   }
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
+  }
   loadOrder(){
     const id = this.route.snapshot.paramMap.get('id');
     this.orderId = id
     if(id){
       const idx = parseInt(id,10)
-      this.service.getSingleOrder(idx).subscribe((e: Order) =>{
-        if(e.CompanyId){
+      this.service.getSingleOrder(idx).subscribe((e: any) =>{
+        if(e.CompanyId !== null){
           this.savedCompanyId = e.CompanyId
           this.componentForm.get('companyId').disable()
           this.disableCustomer = true
+          this.ref.detectChanges()
         }
         const orderItems: any[] = e.OrderItems
         this.service.getShops().subscribe((shop:any[]) =>{
@@ -214,6 +234,7 @@ export class OrdersDetailsComponent implements OnInit {
         if(e.OrderStatus === 'WaitingPaymentConfirmation'){
           this.disableForm = true;
           this.componentForm.disable()
+          this.ref.detectChanges()
         }
       })
     }

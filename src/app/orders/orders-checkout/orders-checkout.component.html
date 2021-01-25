@@ -6,7 +6,7 @@
           <!--  -->
           <app-button
             color="tertiary"
-            [routerLink]="[backUrl]"
+            (click)="navigateBack()"
             [class]="
               'd-flex align-items-center rc-accent-blue-160-color montserrat-semibold-font ml-n20'
             "
