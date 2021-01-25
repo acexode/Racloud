@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { get } from 'lodash';
 import { Subscription } from 'rxjs';
 import { customersEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
@@ -74,12 +75,23 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
     this.isLoading = !this.isLoading;
   }
   ngOnInit(): void { }
-  submitData(data: any) {
-    console.log(data);
+  submitData(data: CustomerModel) {
+    const toSendData = {
+      firstName: get(data, 'firstName', ''),
+      lastName: get(data, 'lastName', ''),
+      companyType: get(data, 'companyType', ''),
+      companyEmail: get(data, 'email', ''),
+      parentId: get(data, 'parentId', 0),
+      companyName: get(data, 'companyName', ''),
+      address: get(data, 'address', ''),
+      country: get(data, 'country', null),
+      language: get(data, 'language', null),
+      phoneNumber: get(data, 'phoneNumber', 1234567890),
+    };
     // loadingIndicator
     this.isLoadingStatus();
     const queryEndpoint = `${ customersEndpoints.addCustomer }`;
-    this.addCustomer$ = this.reqS.post<CustomerModel>(queryEndpoint, data).subscribe(
+    this.addCustomer$ = this.reqS.post<CustomerModel>(queryEndpoint, toSendData).subscribe(
       res => {
         this.msgS.addMessage({
           text: 'Sucessfully updated profile',
