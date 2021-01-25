@@ -107,11 +107,11 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
       this.isEdit = true
       this.productS.getSingleProductOption(id).subscribe((opt:any) =>{
         this.preselectedRows = opt
+        this.cdref.detectChanges()
       })
       this.productS.getSingleProduct(id).subscribe((obj:any) =>{
         const data = obj
         this.product = data
-        console.log(data)
         this.productForm.patchValue({
           applicationId: data.Application.id,
           name: data.Name,
@@ -127,14 +127,25 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
           if (index > -1) {
             const item = options[index]
             const rawList = this.preselectedRows[index].ValueListItems
-            const formattedList = rawList.map(e =>{
-              return {
-                Id: e.id,
-                Name: e.name,
-                OptionId: item.Id,
-                Value: e.value,
+            console.log(item)
+            console.log(rawList)
+            const formattedList = item.ValueList.map((e,i) =>{
+              const rawListIndex = rawList.findIndex(idx => e.Value === idx.value)
+              console.log(rawList[i]?.value, e.Value)
+              if(rawListIndex > -1){
+                console.log(rawList)
+                return {
+                  Id: rawList[rawListIndex]?.id,
+                  Name: rawList[rawListIndex]?.name,
+                  OptionId: item.Id,
+                  Value: rawList[rawListIndex]?.value,
+                  checked: true
+                }
+              }else{
+                return e
               }
             })
+            console.log(formattedList)
             const retObj = {
               ...item,
               Name: this.preselectedRows[index].option.name,
@@ -211,6 +222,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     this.tabSwitch = this.firstTab;
   }
   switchTab(event: any, tabName: string, index: number) {
+    console.log(tabName)
     this.tabSwitch = this[tabName];
     this.ressetTabSelectStatus();
     // set as active
