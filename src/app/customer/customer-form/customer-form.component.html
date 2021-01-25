@@ -14,30 +14,38 @@
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Name')"
+                    [config]="inputConfig('Name', 'text', 'Type Here', false, false)"
                     formControlName="companyName"
                 ></app-input>
             </div>
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Contact person first name')"
+                    [config]="inputConfig('Contact person first name','text', 'Type Here', false, false)"
                     formControlName="firstName"
                 ></app-input>
             </div>
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Contact person last name')"
+                    [config]="inputConfig('Contact person last name', 'text', 'Type Here', false, false)"
                     formControlName="lastName"
                 ></app-input>
             </div>
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-select
-                    [config]="selectConfig('Type', 'Select Parent', true)"
+                    [config]="selectConfig('Type', 'Select Parent', true, 'id', 'option')"
                     formControlName="companyType"
                     [options]="typeOptions"
+                ></app-select>
+            </div>
+
+            <div class="col-12 mb-14 m-0 p-0">
+                <app-select
+                    [config]="selectConfig('Price List', 'Select Price List', true, 'id', 'name')"
+                    formControlName="priceListId"
+                    [options]="optionData.priceListOptions"
                 ></app-select>
             </div>
 
@@ -85,20 +93,20 @@
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Phone', 'tel')"
+                    [config]="inputConfig('Phone', 'tel', 'Type Here', false, false)"
                     formControlName="phoneNumber"
                 ></app-input>
             </div>
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Email', 'email')"
+                    [config]="inputConfig('Email', 'email', 'Type Here', false, false)"
                     formControlName="email"
                 ></app-input>
             </div>
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Company Email', 'email')"
+                    [config]="inputConfig('Company Email', 'Email', 'Type Here', false, false)"
                     formControlName="companyEmail"
                 ></app-input>
             </div>
@@ -110,7 +118,7 @@
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Anniversary date', 'text', 'Enter Aniversary Date', false, false)"
+                    [config]="inputConfig('Anniversary date', 'datetime-local', 'Enter Aniversary Date', false)"
                     formControlName="anniversaryDate"
                 ></app-input>
             </div>
@@ -124,14 +132,14 @@
             
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Support hours contract')"
+                    [config]="inputConfig('Support hours contract','number', 'Type here', false)"
                     formControlName="supportHoursContract"
                 ></app-input>
             </div>
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-input
-                    [config]="inputConfig('Support hours available')"
+                    [config]="inputConfig('Support hours available','number', 'Type here', false)"
                     formControlName="supportHoursAvailable"
                 ></app-input>
             </div>
