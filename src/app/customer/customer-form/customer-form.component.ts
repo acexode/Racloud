@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { get } from 'lodash';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -188,7 +188,7 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     idKey: string = 'id',
     labelKey: string = 'option',
     isDisabled: boolean = false,
-    formControl: boolean = false,
+    formControl: AbstractControl = null,
   ): SelectConfig {
     return {
       selectLabel: {
@@ -210,7 +210,7 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     placeholder: string = 'Type here',
     prefixIcon: boolean = false,
     isDisabled: boolean = false,
-    formControl: boolean = false,
+    formControl: AbstractControl = null,
   ): InputConfig {
     return {
       inputLabel: {
