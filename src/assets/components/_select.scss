@@ -42,7 +42,6 @@
       border: $rc-secondary-ouline;
       background: $rc-light-grey;
       color: $rc-accent-blue-30;
-      pointer-events: none;
     }
   }
   &.rc-select-error {
@@ -73,85 +72,38 @@
     }
 }
 
-.rc-select-b {
-  ng-select {
+ng-select{
+  width: 100%;
+  color: $rc-black !important;
+  border: $rc-accent-blue-60-outline;
+  font-size: rem(14) !important;
+  line-height: rem(16) !important;
+
+  &:focus-within {
+    color: $rc-black !important;
+    border: $rc-secondary-focus-outline;
+  }
+  .ng-select-container{
     width: 100%;
-    color: $rc-black;
-    border: $rc-accent-blue-60-outline;
-    font-size: rem(14) !important;
-    line-height: rem(16) !important;
-    &:focus-within {
-      color: $rc-black !important;
-      border: $rc-secondary-focus-outline;
-    }
-    .ng-select-container{
-      width: 100%;
-      min-height: rem(32) !important; /* the min  height and height were declared in the package so I redeclare to fit design */
-      height: rem(32) !important;
-      overflow: hidden !important;
-      padding-left: rem(8) !important; 
-      .ng-value-container{
-        .ng-placeholder {
-          color: $rc-grey !important;
-        }
-        .ng-value{
-          margin: 0 !important;
-          padding: 0 !important;
-        }
-        .ng-input{
-          padding-left: rem(8) !important;
-          input {
-            margin-top: -8px !important;
-          }
+    min-height: rem(32) !important; /* the min  height and height were declared in the package so I redeclare to fit design */
+    height: rem(32) !important;
+    overflow: hidden !important;
+    padding-left: rem(8) !important; 
+    .ng-value-container{
+      .ng-placeholder {
+        color: $rc-grey !important;
+      }
+      .ng-value{
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .ng-input{
+        padding-left: rem(8) !important;
+        input {
+          margin-top: -8px !important;
         }
       }
-      
     }
-  }
-  &.rc-select-b-invalid{
-    ng-select {
-      color: $rc-red;
-      border: $rc-red-outline !important;
-      .ng-select-container {
-        .ng-value-container{
-          .ng-placeholder {
-            color: $rc-red !important;
-          }
-          .ng-value{
-            color: $rc-red !important;
-          }
-          .ng-input{
-            input {
-              color: $rc-red !important;
-            }
-          }
-        }
-        
-      }
-    }
-  }
-  &.rc-select-b-disabled {
-    ng-select {
-      border: $rc-secondary-ouline !important;
-      background: $rc-light-grey !important;
-      color: $rc-accent-blue-30 !important;
-      pointer-events: none !important;
-    }
-    .ng-select-container {
-      .ng-value-container{
-        .ng-placeholder {
-          color: $rc-accent-blue-30 !important;
-        }
-        .ng-value{
-          color: $rc-accent-blue-30 !important;
-        }
-        .ng-input{
-          input {
-            color: $rc-accent-blue-30 !important;
-          }
-        }
-      }
-      
-    }
+    
   }
 }

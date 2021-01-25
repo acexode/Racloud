@@ -15,7 +15,6 @@ import { CustomerModel } from '../../model/customer.model';
   styleUrls: ['./details-tab.component.scss']
 })
 export class DetailsTabComponent implements OnInit, OnDestroy {
-  formEditMode = true;
   isLoading: boolean;
   @Input() detailsData: any;
   textAreaConfig: TextAreaConfig = {
@@ -29,7 +28,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
   formButtonConfig: any = {
     buttonA: 'Update profile',
     buttonB: 'Renew Subscription',
-  };
+  }
   constructor(
     private reqS: RequestService,
     private msgS: MessagesService,
@@ -40,6 +39,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     this.detailsId = get(this.detailsData, 'id', null);
     this.isLoading = false;
     this.cdref.detectChanges();
+
   }
   isLoadingStatus() {
     this.isLoading = !this.isLoading;
@@ -91,6 +91,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     };
     // loadingIndicator
     this.isLoadingStatus();
+    console.log('called', this.isLoading, profileData);
     this.updateProfile$ = this.updateData(profileData).subscribe(
       _res => {
         // sucessfully updated
