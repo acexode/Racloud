@@ -40,7 +40,7 @@
             <div class="col-12 px-0 mb-14">
               <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Customer</label>
               <div  class="rc-select"> <select [disabled]="disableCustomer"  formcontrolname="customer"
-                  (change)="onChange($event.target.value, 'companyId')" [value]="savedCompanyId" class="ng-pristine ng-valid ng-touched">
+                  (change)="onChange($event.target.value, 'companyId')" [value]="savedCompanyId || null" class="ng-pristine ng-valid ng-touched">
                   <option selected disabled>Select</option>
                   <option *ngFor="let customer of customers" [value]="customer.id">
                     {{customer.companyName}} </option>
@@ -202,7 +202,7 @@
 <ng-template #discountTemplate let-column="column" let-row="row" let-value="cellValue">
   <div class="text-right px-0 mx-0">
     <span>
-      {{ value }}
+      {{ value | number: '1.0-0'}}
     </span>
     <span>
       %

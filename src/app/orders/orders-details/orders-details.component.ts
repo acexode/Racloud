@@ -74,7 +74,7 @@ export class OrdersDetailsComponent implements OnInit {
   addedProducts = []
   allProducts = []
   customers
-  savedCompanyId = null
+  savedCompanyId = 'Select'
   disableCustomer = false
   controlStore: { [key: string]: AbstractControl; } = {};
   isDropup: boolean;
@@ -131,6 +131,7 @@ export class OrdersDetailsComponent implements OnInit {
     this.routeId = parseInt(this.route.snapshot.paramMap.get('id'), 10)
     this.shopS.buyStore.subscribe((e:any) =>{
       const orderId = this.routeId
+      console.log(e.hasOwnProperty('id'))
       if(e.hasOwnProperty('id')){
         const companyId = this.componentForm.get('companyId').value || this.savedCompanyId
         const obj: any = {
@@ -221,14 +222,14 @@ export class OrdersDetailsComponent implements OnInit {
           dBody.style.height = 'auto';
         })
         console.log(e)
-        const discountPrc = e.DiscountPrc.toPrecision(3)
+        const discountPrc = e.DiscountPrc.toFixed(2)
         this.componentForm.patchValue({
           orderNumber: e.Id,
           companyId: e.CompanyId,
           status: e.OrderStatus,
           value: e.Value,
           discount: discountPrc,
-          totalValue: e.TotalValue
+          totalValue: e.TotalValue.toFixed(2)
         })
         this.componentForm.get('orderDate').patchValue(this.formatDate(new Date(e.CreateDate)));
         if(e.OrderStatus === 'WaitingPaymentConfirmation'){
