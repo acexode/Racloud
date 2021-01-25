@@ -498,7 +498,7 @@ export class OrdersDetailsComponent implements OnInit {
         }
         this.service.addOrderToCart(this.routeId, obj).subscribe(res =>{
           this.loadOrder()
-        })
+        },(err) => this.displayMsg(err.error, 'danger'))
         return e
       }
       else if(e.orderItemId === row.orderItemId && type === 'dec'){
@@ -508,6 +508,7 @@ export class OrdersDetailsComponent implements OnInit {
         this.service.reduceCartItem(e.orderItemId, obj).subscribe(res =>{
           this.loadOrder()
         },err => {
+          this.displayMsg(err.error, 'danger')
           console.log(err)
         })
         return e;
@@ -547,6 +548,7 @@ export class OrdersDetailsComponent implements OnInit {
         console.log(err.status)
         this.loadOrder()
       }
+      this.displayMsg(err.error, 'danger')
     })
   }
   setDiscountType(event, button) {
@@ -581,6 +583,9 @@ export class OrdersDetailsComponent implements OnInit {
     this.service.applyDiscount(values.orderItemId, values).subscribe(e =>{
       this.loadOrder()
       this.modalService.hide(1)
+    },(err)=>{
+      this.modalRef.hide()
+      this.displayMsg(err.error, 'danger')
     })
   }
 }
