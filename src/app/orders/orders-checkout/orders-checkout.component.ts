@@ -74,7 +74,7 @@ export class OrdersCheckoutComponent implements OnInit {
   totalValue
   paymentMethodBtn = this.paymentMethod[0]
   noProduct: boolean;
-  constructor(private msgS: MessagesService, 
+  constructor(private msgS: MessagesService,
     private router: Router,
     private route: ActivatedRoute,
     private service: OrderService) { }
