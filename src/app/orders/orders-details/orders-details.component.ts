@@ -481,10 +481,7 @@ export class OrdersDetailsComponent implements OnInit {
       ],
       value: [
         0,
-      ],
-      vat: [
-        0,
-      ],
+      ]
     })
     this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray' }));
   }
