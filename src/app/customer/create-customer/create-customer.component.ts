@@ -18,7 +18,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   formEditMode = false;
   formButtonConfig: any = {
     buttonA: 'Save',
-    buttonB: 'Cancle',
+    buttonB: 'Cancel',
   };
   isLoading = false;
   caretLeftIcon = '../assets/images/caret-left.svg';
