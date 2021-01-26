@@ -141,9 +141,6 @@
     <div class="col-12  mb-14">
       <app-input formControlName="value" [config]="inputConfig('Discount Value', 'number', 'Type here', true)" ></app-input>
     </div>
-    <div *ngIf="selectedDiscountBtn.title === 'Fixed'" class="col-12  mb-14">
-      <app-input formControlName="vat" [config]="inputConfig('Of which VAT', 'number', '', true)" ></app-input>
-    </div>
     </div>
   </div>
   <div class="discount-footer d-flex justify-content-end">
