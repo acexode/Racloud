@@ -188,6 +188,7 @@ export class OptionListComponent implements OnInit {
     this.modalRef.hide()
     this.service.deleteOption(row.Id).subscribe(e =>{
       this.getJSON()
+      this.displayMsg('Option removed Successfully', 'success')
     },(err)=>{
       this.displayMsg(err.error, 'info')
     })
