@@ -61,9 +61,9 @@
                           {{application?.name}} </option>
                       </select>
                             </div>
-                    <div *ngIf="isEdit" class="rc-select"> <select formcontrolname="applicationId"
-                        (change)="onChange($event.target.value, 'applicationId')" class="ng-pristine ng-valid ng-touched">
-                        <option *ngFor="let application of ApplicationList" [selected]="application.id" [value]="application.id">
+                    <div *ngIf="isEdit" class="rc-select"><select formcontrolname="applicationId"
+                        (change)="onChange($event.target.value, 'applicationId')" [value]="selectedapplicationId"  class="ng-pristine ng-valid ng-touched">
+                        <option *ngFor="let application of ApplicationList" [selected]="application.id === selectedapplicationId" [value]="application.id">
                           {{application?.name}} </option>
                       </select>
                             </div>
@@ -85,8 +85,8 @@
                               </select>
                                     </div>
                             <div *ngIf="isEdit" class="rc-select"> <select formcontrolname="productType"
-                                (change)="onChange($event.target.value, 'productType')" class="ng-pristine ng-valid ng-touched">
-                                <option *ngFor="let type of productType"  [value]="type" [selected]="type">
+                                (change)="onChange($event.target.value, 'productType')" [value]="selectedproductType" class="ng-pristine ng-valid ng-touched">
+                                <option *ngFor="let type of productType"  [value]="type" >
                                   {{type}} </option>
                               </select>
                                     </div>

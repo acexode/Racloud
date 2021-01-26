@@ -177,22 +177,21 @@ export class OptionTabComponent implements OnInit,AfterViewInit {
     ];
     if (this.optionList) {
       console.log(this.optionList)
-      // this.optionList = this.optionList.map(e => {
-      //   if(e.OptionType === 'ValueList'){
-      //     const arrObj = e.ValueList.map(val => {
-      //       return {
-      //         ...val,
-      //         selected: true
-      //       }
-      //     })
-      //     return {
-      //       ...e,
-      //       ValueList: arrObj
-      //     }
-      //   }
-      //   return e
-      // })
-      console.log(this.optionList)
+      this.optionList = this.optionList.map(e => {
+        if(e.OptionType === 'ValueList'){
+          const arrObj = e.ValueList.map(val => {
+            return {
+              ...val,
+              selected: true
+            }
+          })
+          return {
+            ...e,
+            ValueList: arrObj
+          }
+        }
+        return e
+      })
       this.tableConfig.loadingIndicator = true;
       this.rowData = this.optionList;
       console.log(this.rowData)
@@ -201,6 +200,7 @@ export class OptionTabComponent implements OnInit,AfterViewInit {
       });
       this.tableData.next(cloneData);
       this.tableConfig.loadingIndicator = false;
+      this.ref.detectChanges()
     }
     // this.getJSON().subscribe((data) => {
     // });
@@ -248,7 +248,6 @@ export class OptionTabComponent implements OnInit,AfterViewInit {
   }
   toString(arr: any[]) {
     const str =   arr.map(e => e.Name).slice(0,3).join(', ');
-    console.log(str)
     if(arr.length > 3){
       return str + '...'
     }else{

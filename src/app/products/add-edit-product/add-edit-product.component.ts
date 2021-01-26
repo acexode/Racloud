@@ -21,6 +21,8 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   ApplicationList = []
   product: any;
   productType = ['RAWorkShopLite']
+  selectedproductType = 'Select'
+  selectedapplicationId = 'Select'
   selectedRows : any[] = []
   preselectedRows : any[] = []
   @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
@@ -98,6 +100,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
      private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
+    console.log('hello')
     const id = this.route.snapshot.paramMap.get('id');
     this.initForm();
     this.productS.getApplications().subscribe((app:[]) =>{
@@ -118,6 +121,8 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
           productType: data.ProductType,
           description: data.Description
         });
+        this.selectedapplicationId = data.Application.id
+        this.selectedproductType = data.ProductType
       });
       this.service.getOption().subscribe((options: any) =>{
         this.optionList = options.map((obj:any) =>{
@@ -219,6 +224,12 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   switchTab(event: any, tabName: string, index: number) {
     console.log(tabName)
     console.log(this.productForm.value)
+    this.selectedproductType = this.productForm.get('productType').value
+    this.selectedapplicationId = this.productForm.get('applicationId').value
+    this.productForm.patchValue({
+      productType: this.selectedproductType,
+      applicationId: this.selectedapplicationId
+    })
     console.log(this.selectedRows)
     this.preselectedRows = this.selectedRows
     this.cdref.detectChanges()
@@ -238,6 +249,10 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     }
   }
   onChange(option, field) {
+    console.log(field)
+    if(field === 'applicationId'){
+      this.selectedapplicationId = option
+    }
     this.productForm.get(field).patchValue(option)
   }
   get selectedOptions() {
