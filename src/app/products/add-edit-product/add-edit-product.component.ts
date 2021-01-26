@@ -1,3 +1,4 @@
+import { MessagesService } from './../../shared/messages/services/messages.service';
 import { ProductServiceService } from './../product-service.service';
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
@@ -97,7 +98,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   }
   constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef,
     private productS: ProductServiceService, private service: LicenseServiceService,
-     private route: ActivatedRoute, private router: Router) { }
+     private route: ActivatedRoute, private router: Router, private msgS: MessagesService) { }
 
   ngOnInit(): void {
     console.log('hello')
@@ -259,7 +260,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     return this.productForm.get('selectedOptions') as FormArray;
   }
   submitForm(){
-    this.isLoading = true
+  this.isLoading = true
   const productValues = this.productForm.value
   console.log(productValues)
   const resArr = []
@@ -310,25 +311,42 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   });
   const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
   console.log(resArr)
-  if(this.isEdit){
-    productValues.productOptions = resArr
-    productValues.id =  id
-    console.log(productValues)
-    this.productS.updateProducts(id, productValues).subscribe(e =>{
-      this.isLoading = false
-      this.router.navigate(['products'])
-    });
+  if(resArr.length > 0){
+
+    if(this.isEdit){
+      productValues.productOptions = resArr
+      productValues.id =  id
+      console.log(productValues)
+      this.productS.updateProducts(id, productValues).subscribe(e =>{
+        this.isLoading = false
+        this.router.navigate(['products'])
+      });
+    }else{
+      productValues.selectedOptions = resArr
+      this.productS.createProducts(productValues).subscribe(e =>{
+        this.isLoading = false
+        this.router.navigate(['products'])
+      });
+    }
   }else{
-    productValues.selectedOptions = resArr
-    this.productS.createProducts(productValues).subscribe(e =>{
-      this.isLoading = false
-      this.router.navigate(['products'])
-    });
+    this.displayMsg('You must select at least  one option', 'info')
   }
   }
   getRow(row){
     this.selectedRows = row.selected
     this.preselectedRows = this.selectedRows
     console.log(this.selectedRows)
+  }
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
   }
 }
