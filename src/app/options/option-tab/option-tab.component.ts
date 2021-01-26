@@ -1,6 +1,6 @@
 import { ProductServiceService } from './../../products/product-service.service';
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FooterService } from 'src/app/core/services/footer/footer.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
@@ -16,7 +16,7 @@ import { TableService } from 'src/app/shared/table/services/table.service';
   templateUrl: './option-tab.component.html',
   styleUrls: ['./option-tab.component.scss']
 })
-export class OptionTabComponent implements OnInit,AfterViewInit {
+export class OptionTabComponent implements OnInit {
 
   @ViewChild('colmunDropDownTemplate', { static: true }) colmunDropDownTemplate: TemplateRef<any>;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
@@ -90,10 +90,7 @@ export class OptionTabComponent implements OnInit,AfterViewInit {
     private http: HttpClient,
     private productS: ProductServiceService,
     private ref: ChangeDetectorRef
-  ) {
-    console.log('contructor')
-  }
-  ngAfterViewInit() {}
+  ) { }
   ngOnInit(): void {
     console.log(this.preselectedRows)
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -200,7 +197,6 @@ export class OptionTabComponent implements OnInit,AfterViewInit {
       });
       this.tableData.next(cloneData);
       this.tableConfig.loadingIndicator = false;
-      this.ref.detectChanges()
     }
     // this.getJSON().subscribe((data) => {
     // });
@@ -246,7 +242,7 @@ export class OptionTabComponent implements OnInit,AfterViewInit {
   isString(value) {
     return typeof value === 'string';
   }
-  toString(arr: any[]) {
+  toString(arr: any[]) {;
     const str =   arr.map(e => e.Name).slice(0,3).join(', ');
     if(arr.length > 3){
       return str + '...'

@@ -65,18 +65,12 @@
 <ng-template #colmunDropDownTemplate let-column="column" let-rowIndex="rowIndex" let-row="row" let-value="cellValue">
   <ng-container> <span class="pb-10" *ngIf="row.OptionType == 'ValueList'">
       <div class="btn-group" dropdown [dropup]="isDropup">
-        <span class="d-none">{{toString(row.ValueList)}}</span>
         <!-- <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="a-ellipse text"                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                     {{toString(value)}}                 </a> -->
-        <div class="d-flex justify-content-between w-100"> 
-          <a (click)="setDropUp(row)" id="button-basic" dropdownToggle
+        <div class="d-flex justify-content-between w-100"> <a (click)="setDropUp(row)" id="button-basic" dropdownToggle
             type="button" class="text-dark a-ellipse" id="dropdownMenuButton" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false"> 
-            <span class="text"> {{toString(row.ValueList)}}</span> 
-          </a> 
-          <img
+            aria-haspopup="true" aria-expanded="false"> <span class="text"> {{toString(row.ValueList)}}</span> </a> <img
             *ngIf="rowValue != row" src="assets/images/chevron.svg" alt="expired-icon" class="chevron" /> <img
-            *ngIf="rowValue == row" src="assets/images/Chevron-red.svg" alt="expired-icon" class="chevron" /> 
-        </div>
+            *ngIf="rowValue == row" src="assets/images/Chevron-red.svg" alt="expired-icon" class="chevron" /> </div>
         <ul aria-labelledby="dropdownMenuButton" *dropdownMenu class="dropdown-menu" role="menu"
           aria-labelledby="button-basic">
           <table class="w-100">
