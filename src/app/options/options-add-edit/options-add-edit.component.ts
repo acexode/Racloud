@@ -1,3 +1,4 @@
+import { MessagesService } from './../../shared/messages/services/messages.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -17,6 +18,7 @@ export class OptionsAddEditComponent implements OnInit {
   selectedType = 'string';
   selectedStatus: any;
   editObj
+  optionBody
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/options';
   containerConfig: PageContainerConfig = {
@@ -91,16 +93,19 @@ export class OptionsAddEditComponent implements OnInit {
     };
   }
   constructor(private fb: FormBuilder, private service: LicenseServiceService,
-    private router: Router, private route: ActivatedRoute, private cdRef: ChangeDetectorRef) { }
+    private router: Router, private route: ActivatedRoute, private msgS: MessagesService,
+    private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+
     if(id){
       this.initForm()
       this.isEdit = true
       this.service.getOption().subscribe((obj:any[]) =>{
         const data = obj.filter(e => e.Id.toString() === id)[0];
         this.editObj = data.ValueList
+        this.optionBody = data;
         this.optionForm.patchValue({
           optionName: data.Name,
           optionType: data.OptionType,
@@ -109,7 +114,7 @@ export class OptionsAddEditComponent implements OnInit {
           optionListName: '',
           defaultStatus: data.ValueBoolean
         });
-        this.onChange(data.OptionType.toLowerCase())
+        this.onChange(data.OptionType.toLowerCase(), false)
         if(data.OptionType === 'ValueList'){
           data.ValueList.forEach(val =>{
             this.valueLists.push(
@@ -171,10 +176,18 @@ export class OptionsAddEditComponent implements OnInit {
   deleteValue(index) {
     this.valueLists.removeAt(index);
   }
-  onChange(option) {
-    this.selectedType =option;
-    this.setFormValue('optionType',option);
-    this.cdRef.detectChanges();
+  onChange(option, clk) {
+    if(this.isEdit && clk){
+      console.log(this.optionBody)
+      this.displayMsg('Option Type can not be changed', 'warning')
+      this.selectedType =this.optionBody.OptionType;
+      this.setFormValue('optionType',this.optionBody.OptionType);
+      this.cdRef.detectChanges();
+    }else{
+      this.selectedType =option;
+      this.setFormValue('optionType',option);
+      this.cdRef.detectChanges();
+    }
   }
   setStatus(event, button) {
     event.preventDefault();
@@ -229,6 +242,18 @@ export class OptionsAddEditComponent implements OnInit {
     }else if(val === 'boolean'){
       return 'Boolean';
     }
+  }
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
   }
 
 }
