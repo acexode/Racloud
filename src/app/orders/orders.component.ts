@@ -83,7 +83,7 @@ export class OrdersComponent implements OnInit {
         },
       },
       {
-        identifier: 'Company',
+        identifier: 'CompanyName',
         label: 'Customer',
         sortable: true,
         minWidth: 273,

@@ -24,5 +24,6 @@ export interface InputConfig {
     step?: number;
     // prefix option
     prefixIcon?: boolean;
+    IconType?: string;
     formStatus?: FormStatus;
 }

@@ -36,7 +36,8 @@ export const orderEndpoints = {
   addToCart: serverBaseUrl + '/orders/add-item-to-cart/',
   reduceCartItem: serverBaseUrl + '/orders/reduce-item-quantity-in-cart/',
   deleteCartItem: serverBaseUrl + '/orders/remove-item-from-cart/',
-  applyDiscount: serverBaseUrl + '/orders/discount/apply/'
+  applyDiscount: serverBaseUrl + '/orders/discount/apply/',
+  orderDiscount: serverBaseUrl + '/orders/order-discount/apply/'
 }
 export const licenseEndpoints = {
   createLicense: serverBaseUrl + '/licenses/purchase',

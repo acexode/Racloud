@@ -103,7 +103,9 @@ export class OrdersDetailsComponent implements OnInit {
     label: string,
     type: string = 'text',
     placeholder: string = '',
-    prefixIcon: boolean = false)
+    prefixIcon: boolean = false,
+    Icon: string = 'dollar',
+    )
     : InputConfig {
     return {
       inputLabel: {
@@ -112,6 +114,7 @@ export class OrdersDetailsComponent implements OnInit {
       type: type || 'text',
       placeholder ,
       prefixIcon: prefixIcon || false,
+      IconType: Icon || 'dollar',
     };
   }
 
@@ -485,6 +488,26 @@ export class OrdersDetailsComponent implements OnInit {
     })
     this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray' }));
   }
+  openOrderDiscountModal(template: TemplateRef<any>, row) {
+    this.discountForm = this.fb.group({
+      orderId: [
+        this.routeId,
+        [
+          Validators.required,
+        ],
+      ],
+      discountType: [
+        'Percentage',
+        [
+          Validators.required,
+        ],
+      ],
+      value: [
+        0,
+      ]
+    })
+    this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray' }));
+  }
   changeQuantity(type,row){
     this.addedProducts = this.addedProducts.map(e =>{
       if(e.orderItemId === row.orderItemId && type === 'inc'){
@@ -495,7 +518,7 @@ export class OrdersDetailsComponent implements OnInit {
         }
         this.service.addOrderToCart(this.routeId, obj).subscribe(res =>{
           this.loadOrder()
-        })
+        },(err) => this.displayMsg(err.error, 'danger'))
         return e
       }
       else if(e.orderItemId === row.orderItemId && type === 'dec'){
@@ -505,6 +528,7 @@ export class OrdersDetailsComponent implements OnInit {
         this.service.reduceCartItem(e.orderItemId, obj).subscribe(res =>{
           this.loadOrder()
         },err => {
+          this.displayMsg(err.error, 'danger')
           console.log(err)
         })
         return e;
@@ -544,6 +568,7 @@ export class OrdersDetailsComponent implements OnInit {
         console.log(err.status)
         this.loadOrder()
       }
+      this.displayMsg(err.error, 'danger')
     })
   }
   setDiscountType(event, button) {
@@ -578,6 +603,26 @@ export class OrdersDetailsComponent implements OnInit {
     this.service.applyDiscount(values.orderItemId, values).subscribe(e =>{
       this.loadOrder()
       this.modalService.hide(1)
+      this.selectedDiscountBtn = this.discountTypes[0]
+    },(err)=>{
+      this.modalRef.hide()
+      this.displayMsg(err.error, 'danger')
+    })
+  }
+  submitOrderDiscountForm(){
+    const values = this.discountForm.value
+    console.log(values)
+    const obj = {
+      orderId: this.routeId,
+      discountPrc: values.value
+    }
+    this.service.orderDiscount(this.routeId, obj).subscribe(e =>{
+      this.loadOrder()
+      this.modalService.hide(1)
+      this.selectedDiscountBtn = this.discountTypes[0]
+    },(err)=>{
+      this.modalRef.hide()
+      this.displayMsg(err.error, 'danger')
     })
   }
 }
