@@ -35,7 +35,7 @@
 
             <div class="col-12 mb-14 m-0 p-0">
                 <app-select
-                    [config]="selectConfig('Type', 'Select Parent', true, 'id', 'option', false, theFormControl.language)"
+                    [config]="selectConfig('Type', 'Select Parent', true, 'id', 'option', false, theFormControl.companyType)"
                     formControlName="companyType"
                     [options]="typeOptions"
                 ></app-select>
@@ -46,7 +46,7 @@
         <div class="col-12 col-md-3 px-0 px-md-16 m-0">
             <div class="col-12 mx-0 p-0 mb-14">
                 <app-select
-                    [config]="selectConfig('Price List', 'Select Price List', true, 'id', 'name', !editMode, theFormControl.language)"
+                    [config]="selectConfig('Price List', 'Select Price List', true, 'id', 'name', !editMode, theFormControl.priceListId)"
                     formControlName="priceListId"
                     [options]="optionData.priceListOptions"
                 ></app-select>
@@ -62,7 +62,7 @@
 
             <div class="col-12 mb-6 m-0 p-0">
                     <app-textarea 
-                    [config]="textAreaConfig"
+                    [config]="textAreaConfig(false, theFormControl.address)"
                     formControlName="address"
                     id="address" 
                 >
@@ -83,7 +83,7 @@
             
             <div class="col-12 mb-14 m-0 p-0">
                 <app-select
-                    [config]="selectConfig('Country', 'Select Country', true, 'code', 'name', false, theFormControl.language)"
+                    [config]="selectConfig('Country', 'Select Country', true, 'code', 'name', false, theFormControl.country)"
                     formControlName="country"
                     [options]="optionData.countryOptions"
                 ></app-select>
@@ -145,7 +145,7 @@
                     {{buttons.buttonB}}
                 </app-button>
 
-                <app-button type="submit" color="primary" [disabled]="!componentForm.valid || isLoading"> 
+                <app-button type="submit" color="primary" [disabled]="isLoading"> 
                     <app-loader type="button" *ngIf="isLoading"></app-loader>
                     <span *ngIf="!isLoading">{{buttons.buttonA}}</span> 
                 </app-button>
