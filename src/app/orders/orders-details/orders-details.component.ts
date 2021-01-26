@@ -603,6 +603,7 @@ export class OrdersDetailsComponent implements OnInit {
     this.service.applyDiscount(values.orderItemId, values).subscribe(e =>{
       this.loadOrder()
       this.modalService.hide(1)
+      this.selectedDiscountBtn = this.discountTypes[0]
     },(err)=>{
       this.modalRef.hide()
       this.displayMsg(err.error, 'danger')
@@ -618,6 +619,7 @@ export class OrdersDetailsComponent implements OnInit {
     this.service.orderDiscount(this.routeId, obj).subscribe(e =>{
       this.loadOrder()
       this.modalService.hide(1)
+      this.selectedDiscountBtn = this.discountTypes[0]
     },(err)=>{
       this.modalRef.hide()
       this.displayMsg(err.error, 'danger')
