@@ -80,6 +80,8 @@ export class TableComponent implements OnInit {
   ngOnInit(): void {
     const selectedrows = this.rows.filter(obj => obj.selected === true)
     this.selected = [...selectedrows]
+    console.log(this.selected)
+    this.cdRef.detectChanges()
     this.doFilterActions();
     this.selectableClass =
       '' +

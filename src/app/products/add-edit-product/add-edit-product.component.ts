@@ -120,18 +120,13 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         });
       });
       this.service.getOption().subscribe((options: any) =>{
-        console.log(options)
-        console.log(this.preselectedRows)
         this.optionList = options.map((obj:any) =>{
           const index = this.preselectedRows.findIndex(idx => obj.Id === idx.OptionId)
           if (index > -1) {
             const item = options[index]
             const rawList = this.preselectedRows[index].ValueListItems
-            console.log(item)
-            console.log(rawList)
             const formattedList = item.ValueList.map((e,i) =>{
               const rawListIndex = rawList.findIndex(idx => e.Value === idx.value)
-              console.log(rawList[i]?.value, e.Value)
               if(rawListIndex > -1){
                 console.log(rawList)
                 return {
@@ -223,6 +218,10 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   }
   switchTab(event: any, tabName: string, index: number) {
     console.log(tabName)
+    console.log(this.productForm.value)
+    console.log(this.selectedRows)
+    this.preselectedRows = this.selectedRows
+    this.cdref.detectChanges()
     this.tabSwitch = this[tabName];
     this.ressetTabSelectStatus();
     // set as active

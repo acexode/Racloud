@@ -93,9 +93,7 @@ export class OptionTabComponent implements OnInit,AfterViewInit {
   ) {
     console.log('contructor')
   }
-  ngAfterViewInit() {
-    console.log('view init')
-  }
+  ngAfterViewInit() {}
   ngOnInit(): void {
     console.log(this.preselectedRows)
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -179,24 +177,25 @@ export class OptionTabComponent implements OnInit,AfterViewInit {
     ];
     if (this.optionList) {
       console.log(this.optionList)
-      this.optionList = this.optionList.map(e => {
-        if(e.OptionType === 'ValueList'){
-          const arrObj = e.ValueList.map(val => {
-            return {
-              ...val,
-              selected: true
-            }
-          })
-          return {
-            ...e,
-            ValueList: arrObj
-          }
-        }
-        return e
-      })
+      // this.optionList = this.optionList.map(e => {
+      //   if(e.OptionType === 'ValueList'){
+      //     const arrObj = e.ValueList.map(val => {
+      //       return {
+      //         ...val,
+      //         selected: true
+      //       }
+      //     })
+      //     return {
+      //       ...e,
+      //       ValueList: arrObj
+      //     }
+      //   }
+      //   return e
+      // })
+      console.log(this.optionList)
       this.tableConfig.loadingIndicator = true;
       this.rowData = this.optionList;
-      // console.log(this.rowData)
+      console.log(this.rowData)
       const cloneData = this.optionList.map((v: any) => {
         return { ...v };
       });
@@ -247,8 +246,9 @@ export class OptionTabComponent implements OnInit,AfterViewInit {
   isString(value) {
     return typeof value === 'string';
   }
-  toString(arr: any[]) {;
+  toString(arr: any[]) {
     const str =   arr.map(e => e.Name).slice(0,3).join(', ');
+    console.log(str)
     if(arr.length > 3){
       return str + '...'
     }else{
