@@ -1,4 +1,3 @@
-import { MessagesService } from './../../shared/messages/services/messages.service';
 import { ProductServiceService } from './../product-service.service';
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
@@ -19,13 +18,10 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   optionList = [];
   isEdit = false
   isLoading = false
-  ApplicationList = []
   product: any;
-  productType = ['RAWorkShopLite']
-  selectedproductType = 'Select'
-  selectedapplicationId = 'Select'
   selectedRows : any[] = []
   preselectedRows : any[] = []
+  productOptions: any[] = []
   @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
   @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
@@ -60,6 +56,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     }
   ];
   productForm: FormGroup;
+  productType = ['RAWorkShopLite']
   partnerLicense= [
     {title: 'Yes', name: 'button1'},
     {title: 'No', name: 'button2'},
@@ -74,6 +71,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     },
     placeholder: ''
   };
+  ApplicationList: any;
   inputConfig(
     label: string,
     type: string = 'text',
@@ -98,10 +96,9 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   }
   constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef,
     private productS: ProductServiceService, private service: LicenseServiceService,
-     private route: ActivatedRoute, private router: Router, private msgS: MessagesService) { }
+     private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-    console.log('hello')
     const id = this.route.snapshot.paramMap.get('id');
     this.initForm();
     this.productS.getApplications().subscribe((app:[]) =>{
@@ -109,86 +106,49 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     })
     if(id){
       this.isEdit = true
-      this.productS.getSingleProductOption(id).subscribe((opt:any) =>{
-        this.preselectedRows = opt
-        this.cdref.detectChanges()
-      })
-      this.productS.getSingleProduct(id).subscribe((obj:any) =>{
-        const data = obj
+      this.productS.getProducts().subscribe((obj:any) =>{
+        this.productOptions = obj
+        const data = obj.filter(e => e.id.toString() === id)[0];
         this.product = data
+        console.log(data)
+        this.preselectedRows = data.productOptions
         this.productForm.patchValue({
-          applicationId: data.Application.id,
-          name: data.Name,
-          productType: data.ProductType,
-          description: data.Description
+          application: data.application,
+          name: data.name,
+          productType: data.productType,
+          description: data.description
         });
-        this.selectedapplicationId = data.Application.id
-        this.selectedproductType = data.ProductType
       });
-      this.service.getOption().subscribe((options: any) =>{
-        this.optionList = options.map((obj:any) =>{
-          const index = this.preselectedRows.findIndex(idx => obj.Id === idx.OptionId)
-          if (index > -1) {
-            const item = options[index]
-            const rawList = this.preselectedRows[index].ValueListItems
-            const formattedList = item.ValueList.map((e,i) =>{
-              const rawListIndex = rawList.findIndex(idx => e.Value === idx.value)
-              if(rawListIndex > -1){
-                console.log(rawList)
-                return {
-                  Id: rawList[rawListIndex]?.id,
-                  Name: rawList[rawListIndex]?.name,
-                  OptionId: item.Id,
-                  Value: rawList[rawListIndex]?.value,
-                  checked: true
-                }
-              }else{
-                return e
-              }
-            })
-            console.log(formattedList)
-            const retObj = {
-              ...item,
-              Name: this.preselectedRows[index].option.name,
-              OptionType: this.preselectedRows[index].option.optionType,
-              ValueBoolean: this.preselectedRows[index].ValueBoolean,
-              ValueString: this.preselectedRows[index].ValueString,
-              ValueList: formattedList,
-              PartnerAccess: this.preselectedRows[index].PartnerAccess,
-              UserAccess: this.preselectedRows[index].UserAccess,
-              selected: true
-            }
-            console.log(retObj)
-            return retObj
-          }else{
-            return {
-              ...obj,
-              UserAccess: 'Hidden',
-              PartnerAccess: 'Hidden',
-              selected: false
-            }
-          }
-        })
-        console.log(this.optionList)
-      })
     }else{
-      this.service.getOption().subscribe((options: any) =>{
-        console.log(options)
-        this.optionList = options.map((obj:any) =>{
-            return {
-              ...obj,
-              UserAccess: 'Hidden',
-              PartnerAccess: 'Hidden',
-              selected: false
-            }
-        })
-        console.log(this.optionList)
+      this.productS.getProducts().subscribe((obj:any) =>{
+        this.productOptions = obj
       })
     }
+    this.service.getOption().subscribe((options: any) =>{
+      this.optionList = options.map((obj:any) =>{
+        const index = this.preselectedRows.findIndex(idx => obj.Id === idx.optionId)
+        if (index > -1) {
+          const item = options[index]
+          return {
+            ...item,
+            PartnerAccess: this.preselectedRows[index].partnerAccess,
+            UserAccess: this.preselectedRows[index].userAccess,
+            selected: true
+          }
+        }else{
+          return {
+            ...obj,
+            UserAccess: 'Hidden',
+            PartnerAccess: 'Hidden',
+            selected: false
+          }
+        }
+      })
+    })
   }
   initForm() {
     this.productForm = this.fb.group({
-      applicationId: [
+      application: [
         '',
         [
           Validators.required,
@@ -223,17 +183,6 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     this.tabSwitch = this.firstTab;
   }
   switchTab(event: any, tabName: string, index: number) {
-    console.log(tabName)
-    console.log(this.productForm.value)
-    this.selectedproductType = this.productForm.get('productType').value
-    this.selectedapplicationId = this.productForm.get('applicationId').value
-    this.productForm.patchValue({
-      productType: this.selectedproductType,
-      applicationId: this.selectedapplicationId
-    })
-    console.log(this.selectedRows)
-    this.preselectedRows = this.selectedRows
-    this.cdref.detectChanges()
     this.tabSwitch = this[tabName];
     this.ressetTabSelectStatus();
     // set as active
@@ -250,19 +199,14 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     }
   }
   onChange(option, field) {
-    console.log(field)
-    if(field === 'applicationId'){
-      this.selectedapplicationId = option
-    }
     this.productForm.get(field).patchValue(option)
   }
   get selectedOptions() {
     return this.productForm.get('selectedOptions') as FormArray;
   }
   submitForm(){
-  this.isLoading = true
+    this.isLoading = true
   const productValues = this.productForm.value
-  console.log(productValues)
   const resArr = []
   console.log(this.selectedRows)
   this.selectedRows.reverse().filter(item =>{
@@ -311,42 +255,23 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   });
   const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
   console.log(resArr)
-  if(resArr.length > 0){
-
-    if(this.isEdit){
-      productValues.productOptions = resArr
-      productValues.id =  id
-      console.log(productValues)
-      this.productS.updateProducts(id, productValues).subscribe(e =>{
-        this.isLoading = false
-        this.router.navigate(['products'])
-      });
-    }else{
-      productValues.selectedOptions = resArr
-      this.productS.createProducts(productValues).subscribe(e =>{
-        this.isLoading = false
-        this.router.navigate(['products'])
-      });
-    }
+  if(this.isEdit){
+    productValues.productOptions = resArr
+    productValues.id =  id
+    console.log(productValues)
+    this.productS.updateProducts(id, productValues).subscribe(e =>{
+      this.isLoading = false
+      this.router.navigate(['products'])
+    });
   }else{
-    this.displayMsg('You must select at least  one option', 'info')
+    productValues.selectedOptions = resArr
+    this.productS.createProducts(productValues).subscribe(e =>{
+      this.isLoading = false
+      this.router.navigate(['products'])
+    });
   }
   }
   getRow(row){
     this.selectedRows = row.selected
-    this.preselectedRows = this.selectedRows
-    console.log(this.selectedRows)
-  }
-  displayMsg(msg, type){
-    this.msgS.addMessage({
-      text: msg,
-      type,
-      dismissible: true,
-      customClass: 'mt-32',
-      hasIcon: true,
-    });
-    setTimeout(()=> {
-      this.msgS.clearMessages()
-    },5000)
   }
 }
