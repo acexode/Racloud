@@ -104,39 +104,21 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     ],
     anniversaryDate: [
       '',
-      [
-        Validators.required,
-      ],
     ],
     subscriptionFee: [
       '',
-      [
-        Validators.required,
-      ],
     ],
     supportHoursContract: [
       '',
-      [
-        Validators.required,
-      ],
     ],
     supportHoursAvailable: [
       '',
-      [
-        Validators.required,
-      ],
     ],
     language: [
       null,
-      [
-        Validators.required,
-      ],
     ],
     priceListId: [
       null,
-      [
-        Validators.required,
-      ],
     ],
   });
   textAreaConfig: TextAreaConfig = {

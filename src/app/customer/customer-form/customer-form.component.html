@@ -145,7 +145,7 @@
                     {{buttons.buttonB}}
                 </app-button>
 
-                <app-button type="submit" color="primary" [disabled]="isLoading"> 
+                <app-button type="submit" color="primary" [disabled]="!componentForm.valid || isLoading"> 
                     <app-loader type="button" *ngIf="isLoading"></app-loader>
                     <span *ngIf="!isLoading">{{buttons.buttonA}}</span> 
                 </app-button>
