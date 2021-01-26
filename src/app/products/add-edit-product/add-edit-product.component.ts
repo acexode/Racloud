@@ -57,6 +57,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   ];
   productForm: FormGroup;
   productType = ['RAWorkShopLite']
+  selectedapplicationId = null
   partnerLicense= [
     {title: 'Yes', name: 'button1'},
     {title: 'No', name: 'button2'},
@@ -112,8 +113,9 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         this.product = data
         console.log(data)
         this.preselectedRows = data.productOptions
+        this.selectedapplicationId = data.applicationId
         this.productForm.patchValue({
-          application: data.application,
+          applicationId: data.applicationId,
           name: data.name,
           productType: data.productType,
           description: data.description
@@ -148,7 +150,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   }
   initForm() {
     this.productForm = this.fb.group({
-      application: [
+      applicationId: [
         '',
         [
           Validators.required,
@@ -191,6 +193,16 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
       width: `${ event.target.offsetWidth }px`
     };
     this.tabs[index].isSelected = true;
+    const data = this.productForm.value
+    this.productForm.patchValue({
+      applicationId: data.applicationId,
+      name: data.name,
+      productType: data.productType,
+      description: data.description
+    });
+    this.selectedapplicationId =data.applicationId
+    console.log(data)
+    this.cdref.detectChanges()
   }
   ressetTabSelectStatus() {
     for (const tab of this.tabs) {
