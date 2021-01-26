@@ -103,7 +103,9 @@ export class OrdersDetailsComponent implements OnInit {
     label: string,
     type: string = 'text',
     placeholder: string = '',
-    prefixIcon: boolean = false)
+    prefixIcon: boolean = false,
+    Icon: string = 'dollar',
+    )
     : InputConfig {
     return {
       inputLabel: {
@@ -112,6 +114,7 @@ export class OrdersDetailsComponent implements OnInit {
       type: type || 'text',
       placeholder ,
       prefixIcon: prefixIcon || false,
+      IconType: Icon || 'dollar',
     };
   }
 

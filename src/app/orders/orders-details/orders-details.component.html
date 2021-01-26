@@ -138,8 +138,11 @@
             </app-chips>
         </div>
     </div>
-    <div class="col-12  mb-14">
-      <app-input formControlName="value" [config]="inputConfig('Discount Value', 'number', 'Type here', true)" ></app-input>
+    <div *ngIf="selectedDiscountBtn.title === 'Percentage'" class="col-12  mb-14">
+      <app-input formControlName="value" [config]="inputConfig('Discount Value', 'number', 'Type here', true, 'percent')" ></app-input>
+    </div>
+    <div *ngIf="selectedDiscountBtn.title === 'Fixed'" class="col-12  mb-14">
+      <app-input formControlName="value" [config]="inputConfig('Discount Value', 'number', 'Type here', true, 'dollar')" ></app-input>
     </div>
     </div>
   </div>
@@ -170,8 +173,11 @@
             </app-chips>
         </div>
     </div>
-    <div class="col-12  mb-14">
-      <app-input formControlName="value" [config]="inputConfig('Discount Value', 'number', 'Type here', true)" ></app-input>
+    <div *ngIf="selectedDiscountBtn.title === 'Percentage'" class="col-12  mb-14">
+      <app-input formControlName="value" [config]="inputConfig('Discount Value', 'number', 'Type here', true, 'percent')" ></app-input>
+    </div>
+    <div *ngIf="selectedDiscountBtn.title === 'Fixed'" class="col-12  mb-14">
+      <app-input formControlName="value" [config]="inputConfig('Discount Value', 'number', 'Type here', true, 'dollar')" ></app-input>
     </div>
     </div>
   </div>
