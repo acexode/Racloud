@@ -58,5 +58,8 @@ export class OrderService {
   applyDiscount(id, obj){
     return this.reqS.put(orderEndpoints.applyDiscount + id, obj)
   }
+  orderDiscount(id, obj){
+    return this.reqS.put(orderEndpoints.orderDiscount + id, obj)
+  }
 
 }

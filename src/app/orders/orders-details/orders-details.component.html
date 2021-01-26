@@ -60,7 +60,7 @@
               <app-input [config]="inputConfig('Value')" formControlName="value"></app-input>
             </div>
             <div class="col-12 px-0 mb-14">
-              <app-input [config]="inputConfig('Discount', 'text', '', true)" formControlName="discount">
+              <app-input (click)="openOrderDiscountModal(OrderDiscountModalTemplate, orderId)" [config]="inputConfig('Discount', 'text', '', true)" formControlName="discount">
               </app-input>
             </div>
           </div>
@@ -141,9 +141,6 @@
     <div class="col-12  mb-14">
       <app-input formControlName="value" [config]="inputConfig('Discount Value', 'number', 'Type here', true)" ></app-input>
     </div>
-    <div *ngIf="selectedDiscountBtn.title === 'Fixed'" class="col-12  mb-14">
-      <app-input formControlName="vat" [config]="inputConfig('Of which VAT', 'number', '', true)" ></app-input>
-    </div>
     </div>
   </div>
   <div class="discount-footer d-flex justify-content-end">
@@ -152,6 +149,38 @@
     </app-button>
 
     <app-button type="button" color="primary" (click)="submitDiscountForm()">
+      Apply
+    </app-button>
+  </div>
+</ng-template>
+<ng-template #OrderDiscountModalTemplate>
+  <div class="modal-header px-32">
+    <span class="add-product">Apply discount</span>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div [formGroup]="discountForm" class="modal-body px-32 discount-body">
+    <div class="row">
+      <div class="col-12 mb-14">
+        <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Discount type</label>
+        <div class="rc-form-group rc-form-group-without-prefix" >
+            <app-chips *ngFor="let button of discountTypes" class="mr-2"  [color]="(selectedDiscountBtn == button) ? 'selected' : 'default'" (click)="setDiscountType($event,button)">
+                {{button.title}}
+            </app-chips>
+        </div>
+    </div>
+    <div class="col-12  mb-14">
+      <app-input formControlName="value" [config]="inputConfig('Discount Value', 'number', 'Type here', true)" ></app-input>
+    </div>
+    </div>
+  </div>
+  <div class="discount-footer d-flex justify-content-end">
+    <app-button type="button" (click)="modalRef.hide()" color="secondaryB" class="mr-8">
+      Cancel
+    </app-button>
+
+    <app-button type="button" color="primary" (click)="submitOrderDiscountForm()">
       Apply
     </app-button>
   </div>
