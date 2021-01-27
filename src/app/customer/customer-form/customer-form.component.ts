@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { get } from 'lodash';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -24,7 +24,10 @@ export class CustomerFormComponent implements OnInit, OnChanges {
   @Input() formEditMode: boolean;
   defaultToButtons: any = {
     buttonA: 'Button A',
-    buttonB: 'Button B',
+    buttonB: {
+      name: 'Button B',
+      link: '/customer'
+    }
   };
   @Input() buttonConfig: {
     buttonA: string;
@@ -36,12 +39,7 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     this.isLoading = status;
   };
   @Input() editableData!: any;
-  textAreaConfig: TextAreaConfig = {
-    textAreaLabel: {
-      text: 'Address'
-    },
-    placeholder: ''
-  };
+  backUrl = '/customer';
 
   typeOptions = Object.keys(CompanyTypes).map(companyType => {
     return {
@@ -116,17 +114,14 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     ],
     language: [
       null,
+      [
+        Validators.required,
+      ],
     ],
     priceListId: [
       null,
     ],
   });
-  textAreaConfig: TextAreaConfig = {
-    textAreaLabel: {
-      text: 'Address'
-    },
-    placeholder: 'Type Here'
-  };
   countryOptions$: Observable<any>;
   customerParentOptions$: Observable<any>;
   languageOptions$: Observable<any>;
@@ -154,6 +149,21 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     this.priceListOptions$ = this.priceService.getPriceLists();
     // update form Data
     this.updateValueForForm();
+  }
+  textAreaConfig(
+    isDisabled: boolean = false,
+    formControl: AbstractControl = null
+  ): TextAreaConfig {
+    return {
+      textAreaLabel: {
+        text: 'Address'
+      },
+      placeholder: 'Type Here',
+      formStatus: {
+        isDisabled,
+        isError: this.checkStatusOfForm(formControl),
+      }
+    };
   }
   selectConfig(
     label: string,
@@ -252,7 +262,14 @@ export class CustomerFormComponent implements OnInit, OnChanges {
 
   }
   getValue(): void {
-    this.customerFormEmitter.emit(this.updateData());
+    if (this.componentForm.valid) {
+      this.customerFormEmitter.emit(this.updateData());
+    } else {
+      this.componentForm.markAllAsTouched();
+      this.markDirty();
+      this.componentForm.updateValueAndValidity();
+    }
+
   }
 
   get buttons() {
@@ -270,6 +287,42 @@ export class CustomerFormComponent implements OnInit, OnChanges {
       ((passedInFormControl.invalid && passedInFormControl.touched) ? true : false)
       :
       ((passedInFormControl.invalid && passedInFormControl.dirty) ? true : false);
+  }
+  markDirty() {
+    this.markGroupDirty(this.componentForm);
+  }
+  markGroupDirty(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(key => {
+      switch (formGroup.get(key).constructor.name) {
+        case 'FormGroup':
+          this.markGroupDirty(formGroup.get(key) as FormGroup);
+          break;
+        case 'FormArray':
+          this.markArrayDirty(formGroup.get(key) as FormArray);
+          break;
+        case 'FormControl':
+          this.markControlDirty(formGroup.get(key) as FormControl);
+          break;
+      }
+    });
+  }
+  markArrayDirty(formArray: FormArray) {
+    formArray.controls.forEach(control => {
+      switch (control.constructor.name) {
+        case 'FormGroup':
+          this.markGroupDirty(control as FormGroup);
+          break;
+        case 'FormArray':
+          this.markArrayDirty(control as FormArray);
+          break;
+        case 'FormControl':
+          this.markControlDirty(control as FormControl);
+          break;
+      }
+    });
+  }
+  markControlDirty(formControl: FormControl) {
+    formControl.markAsDirty();
   }
 }
 

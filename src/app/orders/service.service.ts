@@ -34,7 +34,7 @@ export class OrderService {
     return this.reqS.delete(orderEndpoints.getOrders+'/' + id )
   }
   payOrder(id){
-    return this.reqS.post(orderEndpoints.getOrders+'/' + id + '/pay', {})
+    return this.reqS.post(orderEndpoints.getOrders+'/' + id + '/confirm-payment', {})
   }
   sendOrder(id, obj){
     // return this.reqS.post(orderEndpoints.getOrders+'/' + id + '/license-generate', {})

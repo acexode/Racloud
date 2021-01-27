@@ -20,12 +20,8 @@
         >
             <ng-container  *ngIf="config?.prefixIcon">
                 <div class="input-prefix">
-                    <span
-                        class="input-prefix-text" *ngIf="config?.IconType !== 'percent'"
+                    <span class="input-prefix-text" *ngIf="config?.IconType !== 'percent'"
                     >{{thePrefix}}</span>
-                    <span
-                        class="input-prefix-text" *ngIf="config?.IconType === 'percent'"
-                    >%</span>
                 </div> 
             </ng-container>
             <input [type]="config?.type" #input formControlName="input" [placeholder]="config?.placeholder"

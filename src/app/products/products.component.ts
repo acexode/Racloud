@@ -89,7 +89,7 @@ export class ProductsComponent implements OnInit {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'application',
+        identifier: 'application.name',
         label: 'Apllication Name',
         sortable: true,
         minWidth: 200,
@@ -151,7 +151,7 @@ export class ProductsComponent implements OnInit {
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
         const cloneData = data.map((v) => {
-          return { ...v, application: v.application.name };
+          return { ...v };
         }).reverse();
         this.tableData.next(cloneData);
         this.tableConfig.loadingIndicator = false;

@@ -134,7 +134,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         },
       },
       {
-        identifier: 'companyEmail',
+        identifier: 'email',
         label: 'Email',
         sortable: true,
         minWidth: 250,
