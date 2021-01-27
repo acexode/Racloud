@@ -60,7 +60,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   ];
   productForm: FormGroup;
   productType = ['RAWorkShopLite']
-  selectedapplicationId = 'Select'
+  selectedapplicationId:any = 'Select'
   partnerLicense= [
     {title: 'Yes', name: 'button1'},
     {title: 'No', name: 'button2'},
