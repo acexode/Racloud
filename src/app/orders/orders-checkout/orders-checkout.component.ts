@@ -60,6 +60,7 @@ export class OrdersCheckoutComponent implements OnInit {
   ngOnInit(): void {
     this.orderId = parseInt(this.route.snapshot.paramMap.get('id'), 10)
     this.service.getSingleOrder(this.orderId).subscribe((e:any) =>{
+      console.log(e)
       this.checkoutDetails = e
       this.addedProducts = e.OrderItems
       this.totalValue = this.addedProducts.map(product => product.TotalValue).reduce((total,num) => total + num)
