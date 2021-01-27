@@ -120,14 +120,15 @@
   <ng-template #valueTemplate let-column="column" let-row="row" let-value="cellValue">
    <div class="text-right px-0 mx-0">
         <span>
-           $ {{ formatThePrice(value)  }}
+           {{currencySymbol}} {{ formatThePrice(value)  }}
         </span>
    </div>
 </ng-template>
 
-<ng-container *ngIf="products">
+<ng-container *ngIf="products && currency">
   <app-add-product-form-step 
     [products]="products" 
+    [currency]="currency"
     (productFormEmitter)="addProductToPriceListProductManager($event)"
     (closeModalStateEmitter)="setEditStateToNull($event)"
     [editableData]="toEditProduct"

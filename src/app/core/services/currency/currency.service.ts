@@ -69,10 +69,16 @@ export class CurrencyService {
         return v.map(currency => {
           return {
             ...currency,
-            name: `${currency.name} - (${currency.code})`,
-          }
-        })
-      } )
+            name: `${ currency.name } - (${ currency.code })`,
+          };
+        });
+      })
     );
+  }
+  getCurrencySymbol(code: string): string {
+    if ((code !== '' || typeof code !== null) && typeof code === 'string') {
+      const currency = this.appUsedcurrencies.find(curr => curr.code === code);
+      return currency?.symbol || code;
+    }
   }
 }
