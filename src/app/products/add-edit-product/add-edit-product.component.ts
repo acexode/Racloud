@@ -1,3 +1,4 @@
+import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 import { ProductServiceService } from './../product-service.service';
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
@@ -17,11 +18,13 @@ import { LicenseServiceService } from 'src/app/license/license-service.service';
 export class AddEditProductComponent implements OnInit, AfterViewInit {
   optionList = [];
   isEdit = false
+  tabChange = false
   isLoading = false
   product: any;
   selectedRows : any[] = []
   preselectedRows : any[] = []
   productOptions: any[] = []
+  selectedproductType
   @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
   @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
@@ -57,7 +60,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   ];
   productForm: FormGroup;
   productType = ['RAWorkShopLite']
-  selectedapplicationId = null
+  selectedapplicationId = 'Select'
   partnerLicense= [
     {title: 'Yes', name: 'button1'},
     {title: 'No', name: 'button2'},
@@ -97,7 +100,8 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   }
   constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef,
     private productS: ProductServiceService, private service: LicenseServiceService,
-     private route: ActivatedRoute, private router: Router) { }
+     private route: ActivatedRoute, private msgS: MessagesService,
+     private router: Router) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -113,13 +117,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         this.product = data
         console.log(data)
         this.preselectedRows = data.productOptions
-        this.selectedapplicationId = data.applicationId
-        this.productForm.patchValue({
-          applicationId: data.applicationId,
-          name: data.name,
-          productType: data.productType,
-          description: data.description
-        });
+        this.updateForm(data)
       });
     }else{
       this.productS.getProducts().subscribe((obj:any) =>{
@@ -147,6 +145,16 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         }
       })
     })
+  }
+  updateForm(data){
+    this.productForm.patchValue({
+      applicationId: data.applicationId,
+      name: data.name,
+      productType: data.productType,
+      description: data.description
+    });
+    this.selectedproductType = data.productType
+    this.selectedapplicationId = parseInt(data.applicationId,10)
   }
   initForm() {
     this.productForm = this.fb.group({
@@ -179,13 +187,13 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     this.showDefaultTab();
-    this.cdref.detectChanges();
   }
   showDefaultTab() {
     this.tabSwitch = this.firstTab;
   }
   switchTab(event: any, tabName: string, index: number) {
     this.tabSwitch = this[tabName];
+    this.tabChange = true
     this.ressetTabSelectStatus();
     // set as active
     this.tabMarked = {
@@ -194,13 +202,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     };
     this.tabs[index].isSelected = true;
     const data = this.productForm.value
-    this.productForm.patchValue({
-      applicationId: data.applicationId,
-      name: data.name,
-      productType: data.productType,
-      description: data.description
-    });
-    this.selectedapplicationId =data.applicationId
+    this.updateForm(data)
     console.log(data)
     this.cdref.detectChanges()
   }
@@ -271,19 +273,41 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     productValues.productOptions = resArr
     productValues.id =  id
     console.log(productValues)
-    this.productS.updateProducts(id, productValues).subscribe(e =>{
+    if(resArr.length === 0){
       this.isLoading = false
-      this.router.navigate(['products'])
-    });
+      this.displayMsg('Options must be selected', 'info')
+    }else{
+      this.productS.updateProducts(id, productValues).subscribe(e =>{
+        this.isLoading = false
+        this.router.navigate(['products'])
+      });
+    }
   }else{
     productValues.selectedOptions = resArr
-    this.productS.createProducts(productValues).subscribe(e =>{
+    if(resArr.length === 0){
       this.isLoading = false
-      this.router.navigate(['products'])
-    });
+      this.displayMsg('Options must be selected', 'info')
+    }else{
+      this.productS.createProducts(productValues).subscribe(e =>{
+        this.isLoading = false
+        this.router.navigate(['products'])
+      });
+    }
   }
   }
   getRow(row){
     this.selectedRows = row.selected
+  }
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
   }
 }

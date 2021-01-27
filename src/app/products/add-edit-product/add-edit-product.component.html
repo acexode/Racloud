@@ -54,15 +54,16 @@
                             <div class="col-6 mb-14">
                                 <label
                       class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Application Name</label>
-                    <div *ngIf="!isEdit" class="rc-select"> <select formcontrolname="applicationId"
-                        (change)="onChange($event.target.value, 'applicationId')" class="ng-pristine ng-valid ng-touched">
+                    <div *ngIf="!isEdit && !tabChange" class="rc-select"> <select formcontrolname="applicationId"
+                        (change)="onChange($event.target.value, 'applicationId')" [value]="selectedapplicationId" class="ng-pristine ng-valid ng-touched">
                         <option  selected disabled>Select</option>
-                        <option *ngFor="let application of ApplicationList"  [value]="application.id">
+                        <option *ngFor="let application of ApplicationList" [selected]="application.id === selectedapplicationId"  [value]="application.id">
                           {{application?.name}} </option>
                       </select>
                             </div>
-                    <div *ngIf="isEdit" class="rc-select"><select formcontrolname="applicationId"
-                        (change)="onChange($event.target.value, 'applicationId')" [value]="selectedapplicationId"  class="ng-pristine ng-valid ng-touched">
+                    <div *ngIf="isEdit || tabChange" class="rc-select">
+                      <select formcontrolname="applicationId"
+                        (change)="onChange($event.target.value, 'applicationId')" value={{selectedapplicationId}}  class="ng-pristine ng-valid ng-touched">
                         <option *ngFor="let application of ApplicationList" [selected]="application.id === selectedapplicationId" [value]="application.id">
                           {{application?.name}} </option>
                       </select>
@@ -77,16 +78,16 @@
                             <div class="col-6 mb-14">
                               <label
                               class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Product Type</label>
-                            <div *ngIf="!isEdit" class="rc-select"> <select formcontrolname="productType"
+                            <div *ngIf="!isEdit && !tabChange" class="rc-select"> <select formcontrolname="productType"
                                 (change)="onChange($event.target.value, 'productType')" class="ng-pristine ng-valid ng-touched">
                                 <option  selected disabled>Select</option>
                                 <option *ngFor="let type of productType"  [value]="type">
                                   {{type}} </option>
                               </select>
                                     </div>
-                            <div *ngIf="isEdit" class="rc-select"> <select formcontrolname="productType"
+                            <div *ngIf="isEdit || tabChange" class="rc-select"> <select formcontrolname="productType"
                                 (change)="onChange($event.target.value, 'productType')" [value]="selectedproductType" class="ng-pristine ng-valid ng-touched">
-                                <option *ngFor="let type of productType"  [value]="type" >
+                                <option *ngFor="let type of productType" [selected]="type === selectedproductType" [value]="type" >
                                   {{type}} </option>
                               </select>
                                     </div>

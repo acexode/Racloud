@@ -12,6 +12,7 @@ export class ProductServiceService {
   displayAddProductFormStepModal: BehaviorSubject<boolean> = new BehaviorSubject(false);
   modifiedOptionList = new BehaviorSubject<[]>([]);
   modifiedTableData: BehaviorSubject<any> = new BehaviorSubject([]);
+  formValues = {}
   constructor(private reqS: RequestService) { }
 
   getProducts(): Observable<Array<ProductModel>> {
@@ -61,5 +62,11 @@ export class ProductServiceService {
   }
   getSingleProductOption(id) {
     return this.reqS.get(productEndpoints.updateProduct + id + '/options');
+  }
+  storeVal(obj){
+    this.formValues = obj
+  }
+  getVal(){
+    return this.formValues
   }
 }
