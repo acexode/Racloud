@@ -4,7 +4,7 @@
         [ngClass]="config?.textAreaLabel?.classes">{{ config?.textAreaLabel?.text }} </label>
         <textarea 
             formControlName="textarea"
-            class="rc-form-textArea m-0"
+            [class]="'rc-form-textArea m-0 ' + (config?.formStatus?.isError && ' invalid ')"
             [placeholder]="config?.placeholder || ''"
             
             >
