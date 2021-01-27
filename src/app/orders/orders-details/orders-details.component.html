@@ -168,15 +168,15 @@
       <div class="col-12 mb-14">
         <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Discount type</label>
         <div class="rc-form-group rc-form-group-without-prefix" >
-            <app-chips *ngFor="let button of discountTypes" class="mr-2"  [color]="(selectedDiscountBtn == button) ? 'selected' : 'default'" (click)="setDiscountType($event,button)">
-                {{button.title}}
+            <app-chips  class="mr-2"  color="selected">
+                Fixed
             </app-chips>
         </div>
     </div>
-    <div *ngIf="selectedDiscountBtn.title === 'Percentage'" class="col-12  mb-14">
+    <!-- <div *ngIf="selectedDiscountBtn.title === 'Percentage'" class="col-12  mb-14">
       <app-input formControlName="value" [config]="inputConfig('Discount Value', 'number', 'Type here', true, 'percent')" ></app-input>
-    </div>
-    <div *ngIf="selectedDiscountBtn.title === 'Fixed'" class="col-12  mb-14">
+    </div> -->
+    <div class="col-12  mb-14">
       <app-input formControlName="value" [config]="inputConfig('Discount Value', 'number', 'Type here', true, 'Currency')" ></app-input>
     </div>
     </div>
