@@ -24,6 +24,7 @@ export class OrdersDetailsComponent implements OnInit {
 
   caretLeftIcon = '../assets/images/caret-left.svg';
   orderId = ''
+  Currency
   backUrl = '/orders';
   disableForm = false;
   noProduct = true
@@ -79,6 +80,7 @@ export class OrdersDetailsComponent implements OnInit {
   controlStore: { [key: string]: AbstractControl; } = {};
   isDropup: boolean;
   routeId:any
+  OrderStatus: any;
   constructor(
     private fb: FormBuilder,
     private tS: TableService,
@@ -104,9 +106,10 @@ export class OrdersDetailsComponent implements OnInit {
     type: string = 'text',
     placeholder: string = '',
     prefixIcon: boolean = false,
-    Icon: string = 'dollar',
+    Icon: string = '',
     )
     : InputConfig {
+      const icon = Icon === 'Currency' ? this.Currency : '%'
     return {
       inputLabel: {
         text: label ,
@@ -114,7 +117,7 @@ export class OrdersDetailsComponent implements OnInit {
       type: type || 'text',
       placeholder ,
       prefixIcon: prefixIcon || false,
-      IconType: Icon || 'dollar',
+      IconType: icon || '$',
     };
   }
 
@@ -180,6 +183,8 @@ export class OrdersDetailsComponent implements OnInit {
     if(id){
       const idx = parseInt(id,10)
       this.service.getSingleOrder(idx).subscribe((e: any) =>{
+        console.log(e)
+        this.OrderStatus = e.OrderStatus
         if(e.CompanyId !== null){
           this.savedCompanyId = e.CompanyId
           this.componentForm.get('companyId').disable()
@@ -197,6 +202,7 @@ export class OrdersDetailsComponent implements OnInit {
                   quantity: orderItems[index].Quantity,
                   value: orderItems[index].Value,
                   discount: orderItems[index].Discount,
+                  DiscountPrc: orderItems[index].DiscountPrc,
                   totalValue: orderItems[index].TotalValue,
                   application: s.product.name,
                   productType: s.product.productType,
@@ -226,6 +232,7 @@ export class OrdersDetailsComponent implements OnInit {
         })
         console.log(e)
         const discountPrc = e.DiscountPrc.toFixed(2)
+        this.Currency = e.Currency
         this.componentForm.patchValue({
           orderNumber: e.Id,
           companyId: e.CompanyId,
@@ -449,9 +456,13 @@ export class OrdersDetailsComponent implements OnInit {
     );
     this.tableData.next(newRows);
   }
-  checkout() {
-    const companyId = this.componentForm.get('companyId').value
-    this.router.navigate(['orders/orders-checkout', { id: this.routeId }]);
+  checkout(OrderStatus) {
+    if(OrderStatus === 'WaitingPaymentConfirmation' ||OrderStatus === 'Paid' ){
+      return
+    }else{
+      const companyId = this.componentForm.get('companyId').value
+      this.router.navigate(['orders/orders-checkout', { id: this.routeId }]);
+    }
   }
   formatDate(date) {
     const d = new Date(date);
@@ -462,11 +473,21 @@ export class OrdersDetailsComponent implements OnInit {
     if (day.length < 2) day = '0' + day;
     return [year, month, day].join('-');
   }
-  openModal(template: TemplateRef<any>) {
-    this.shopS.shopStore.subscribe(e =>{
-      this.allProducts = e
-    })
-    this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray modal-lg' }));
+  openModal(template: TemplateRef<any>, OrderStatus) {
+    console.log(OrderStatus)
+    if(OrderStatus === 'WaitingPaymentConfirmation' ||OrderStatus === 'Paid' ){
+      return
+    }else{
+      console.log(this.savedCompanyId)
+      if(this.savedCompanyId === 'Select' || this.savedCompanyId === null){
+        this.displayMsg('To add a product you must be select customer', 'info')
+      }else{
+        this.shopS.shopStore.subscribe(e =>{
+          this.allProducts = e
+        })
+        this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray modal-lg' }));
+      }
+    }
   }
   openDiscountModal(template: TemplateRef<any>, row) {
     this.discountForm = this.fb.group({
@@ -542,6 +563,8 @@ export class OrdersDetailsComponent implements OnInit {
     const values = this.componentForm.value
   }
   onChange(option, field) {
+    console.log(option)
+    this.savedCompanyId = option
     this.componentForm.get(field).patchValue(option)
   }
   cancelOrder(){
