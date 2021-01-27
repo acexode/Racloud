@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { get } from 'lodash';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { getUTCLongMonthDate, convertDateBackToUTCDate } from 'src/app/core/helpers/dateHelpers';
 import { CompanyTypes } from 'src/app/core/enum/companyTypes';
 import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
 import { CountriesService } from 'src/app/core/services/countries/countries.service';
@@ -21,10 +20,14 @@ import { CustomerModel } from '../model/customer.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class CustomerFormComponent implements OnInit {
+export class CustomerFormComponent implements OnInit, OnChanges {
+  @Input() formEditMode: boolean;
   defaultToButtons: any = {
     buttonA: 'Button A',
-    buttonB: 'Button B',
+    buttonB: {
+      name: 'Button B',
+      link: '/customer'
+    }
   };
   @Input() buttonConfig: {
     buttonA: string;
@@ -36,12 +39,7 @@ export class CustomerFormComponent implements OnInit {
     this.isLoading = status;
   };
   @Input() editableData!: any;
-  textAreaConfig: TextAreaConfig = {
-    textAreaLabel: {
-      text: 'Address'
-    },
-    placeholder: ''
-  };
+  backUrl = '/customer';
 
   typeOptions = Object.keys(CompanyTypes).map(companyType => {
     return {
@@ -102,36 +100,17 @@ export class CustomerFormComponent implements OnInit {
         Validators.email
       ],
     ],
-    companyEmail: [
-      '',
-      [
-        Validators.required,
-        Validators.email
-      ],
-    ],
     anniversaryDate: [
       '',
-      [
-        Validators.required,
-      ],
     ],
     subscriptionFee: [
       '',
-      [
-        Validators.required,
-      ],
     ],
     supportHoursContract: [
       '',
-      [
-        Validators.required,
-      ],
     ],
     supportHoursAvailable: [
       '',
-      [
-        Validators.required,
-      ],
     ],
     language: [
       null,
@@ -141,17 +120,8 @@ export class CustomerFormComponent implements OnInit {
     ],
     priceListId: [
       null,
-      [
-        Validators.required,
-      ],
     ],
   });
-  textAreaConfig: TextAreaConfig = {
-    textAreaLabel: {
-      text: 'Address'
-    },
-    placeholder: 'Type Here'
-  };
   countryOptions$: Observable<any>;
   customerParentOptions$: Observable<any>;
   languageOptions$: Observable<any>;
@@ -163,6 +133,9 @@ export class CustomerFormComponent implements OnInit {
     private lgS: LanguagesService,
     private priceService: PriceListService
   ) { }
+  ngOnChanges(changes: SimpleChanges): void {
+    // this.componentForm.valueChanges.subscribe(d => {});
+  }
   ngOnInit(): void {
     // get country option
     this.countryOptions$ = this.cS.getCountriesState().pipe(
@@ -177,12 +150,29 @@ export class CustomerFormComponent implements OnInit {
     // update form Data
     this.updateValueForForm();
   }
+  textAreaConfig(
+    isDisabled: boolean = false,
+    formControl: AbstractControl = null
+  ): TextAreaConfig {
+    return {
+      textAreaLabel: {
+        text: 'Address'
+      },
+      placeholder: 'Type Here',
+      formStatus: {
+        isDisabled,
+        isError: this.checkStatusOfForm(formControl),
+      }
+    };
+  }
   selectConfig(
     label: string,
     placeholder: string = 'Select',
     searchable: boolean = false,
     idKey: string = 'id',
     labelKey: string = 'option',
+    isDisabled: boolean = false,
+    formControl: AbstractControl = null,
   ): SelectConfig {
     return {
       selectLabel: {
@@ -192,6 +182,10 @@ export class CustomerFormComponent implements OnInit {
       idKey,
       labelKey,
       searchable,
+      formStatus: {
+        isDisabled,
+        isError: this.checkStatusOfForm(formControl),
+      }
     };
   }
   inputConfig(
@@ -200,6 +194,7 @@ export class CustomerFormComponent implements OnInit {
     placeholder: string = 'Type here',
     prefixIcon: boolean = false,
     isDisabled: boolean = false,
+    formControl: AbstractControl = null,
   ): InputConfig {
     return {
       inputLabel: {
@@ -210,8 +205,12 @@ export class CustomerFormComponent implements OnInit {
       prefixIcon: prefixIcon || false,
       formStatus: {
         isDisabled,
+        isError: this.checkStatusOfForm(formControl),
       }
     };
+  }
+  get editMode() {
+    return this.formEditMode || false;
   }
   updateValueForForm() {
 
@@ -230,9 +229,8 @@ export class CustomerFormComponent implements OnInit {
         address: get(data, 'address', ''),
         country: get(data, 'country', ''),
         phoneNumber: get(data, 'phoneNumber', ''),
-        companyEmail: get(data, 'companyEmail', ''),
         // anniversaryDate: getUTCLongMonthDate(get(data, 'anniversaryDate', '')),
-        anniversaryDate: getUTCLongMonthDate(get(data, 'anniversaryDate', '')),
+        anniversaryDate: get(data, 'anniversaryDate', ''),
         subscriptionFee: get(data, 'subscriptionFee', ''),
         supportHoursContract: get(data, 'supportHoursContract', ''),
         supportHoursAvailable: get(data, 'supportHoursAvailable', ''),
@@ -240,6 +238,8 @@ export class CustomerFormComponent implements OnInit {
         priceListId: Number(get(get(data, 'priceList', {}), 'id', 0)),
       };
       this.componentForm.setValue({ ...d });
+      this.componentForm.markAllAsTouched();
+      this.componentForm.updateValueAndValidity();
     }
   }
   updateData(): CustomerModel {
@@ -247,17 +247,29 @@ export class CustomerFormComponent implements OnInit {
     const newData: CustomerModel = {
       ...d,
       parentId: Number(get(d, 'parentId', 0)),
-      anniversaryDate: convertDateBackToUTCDate(get(d, 'anniversaryDate', '')),
+      priceListId: Number(get(d, 'priceListId', 0)),
+      companyEmail: get(d, 'email', ''),
+      // anniversaryDate: convertDateBackToUTCDate(get(d, 'anniversaryDate', '')),
       subscriptionFee: Number(get(d, 'subscriptionFee', 0)),
       supportHoursContract: Number(get(d, 'supportHoursContract', 0)),
       supportHoursAvailable: Number(get(d, 'supportHoursAvailable', 0)),
-      contactPersonName: get(d, 'firstName', 'Default'),
     };
+    // handle full by the backend: remove if you are to create new user
+    if (!this.editMode) {
+      delete newData?.priceListId;
+    }
     return newData;
 
   }
   getValue(): void {
-    this.customerFormEmitter.emit(this.updateData());
+    if (this.componentForm.valid) {
+      this.customerFormEmitter.emit(this.updateData());
+    } else {
+      this.componentForm.markAllAsTouched();
+      this.markDirty();
+      this.componentForm.updateValueAndValidity();
+    }
+
   }
 
   get buttons() {
@@ -266,6 +278,51 @@ export class CustomerFormComponent implements OnInit {
     } else {
       return this.buttonConfig;
     }
+  }
+  get theFormControl() {
+    return this.componentForm.controls;
+  }
+  checkStatusOfForm(passedInFormControl: any) {
+    return this.editMode ?
+      ((passedInFormControl.invalid && passedInFormControl.touched) ? true : false)
+      :
+      ((passedInFormControl.invalid && passedInFormControl.dirty) ? true : false);
+  }
+  markDirty() {
+    this.markGroupDirty(this.componentForm);
+  }
+  markGroupDirty(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(key => {
+      switch (formGroup.get(key).constructor.name) {
+        case 'FormGroup':
+          this.markGroupDirty(formGroup.get(key) as FormGroup);
+          break;
+        case 'FormArray':
+          this.markArrayDirty(formGroup.get(key) as FormArray);
+          break;
+        case 'FormControl':
+          this.markControlDirty(formGroup.get(key) as FormControl);
+          break;
+      }
+    });
+  }
+  markArrayDirty(formArray: FormArray) {
+    formArray.controls.forEach(control => {
+      switch (control.constructor.name) {
+        case 'FormGroup':
+          this.markGroupDirty(control as FormGroup);
+          break;
+        case 'FormArray':
+          this.markArrayDirty(control as FormArray);
+          break;
+        case 'FormControl':
+          this.markControlDirty(control as FormControl);
+          break;
+      }
+    });
+  }
+  markControlDirty(formControl: FormControl) {
+    formControl.markAsDirty();
   }
 }
 

@@ -41,7 +41,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
       id: any;
       option: string;
     }>
-    > = new BehaviorSubject([]);
+  > = new BehaviorSubject([]);
   private opts: Array<any> = [];
   @Input() formControl: FormControl;
   @Input() formControlName: string;

@@ -18,6 +18,7 @@
         color: $rc-grey;
         opacity: 1;
     }
+    &.invalid,
     &:invalid {
         border: $rc-red-outline;
         @include inputPlaceholder() {

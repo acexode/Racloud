@@ -1,4 +1,4 @@
-import { productEndpoints } from './../core/configs/endpoints';
+import { productEndpoints,ApplicationEndpoints } from './../core/configs/endpoints';
 import { Injectable } from '@angular/core';
 import { RequestService } from '../core/services/request/request.service';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -12,6 +12,7 @@ export class ProductServiceService {
   displayAddProductFormStepModal: BehaviorSubject<boolean> = new BehaviorSubject(false);
   modifiedOptionList = new BehaviorSubject<[]>([]);
   modifiedTableData: BehaviorSubject<any> = new BehaviorSubject([]);
+  formValues = {}
   constructor(private reqS: RequestService) { }
 
   getProducts(): Observable<Array<ProductModel>> {
@@ -52,5 +53,20 @@ export class ProductServiceService {
   }
   closeAddProductFormStepModal(): void {
     this.displayAddProductFormStepModal.next(false);
+  }
+  getApplications() {
+    return this.reqS.get(ApplicationEndpoints.getApplications );
+  }
+  getSingleProduct(id) {
+    return this.reqS.get(productEndpoints.updateProduct + id);
+  }
+  getSingleProductOption(id) {
+    return this.reqS.get(productEndpoints.updateProduct + id + '/options');
+  }
+  storeVal(obj){
+    this.formValues = obj
+  }
+  getVal(){
+    return this.formValues
   }
 }

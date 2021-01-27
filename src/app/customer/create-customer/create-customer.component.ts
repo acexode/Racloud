@@ -1,4 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { get } from 'lodash';
 import { Subscription } from 'rxjs';
 import { customersEndpoints } from 'src/app/core/configs/endpoints';
 import { RequestService } from 'src/app/core/services/request/request.service';
@@ -13,9 +15,13 @@ import { CustomerModel } from '../model/customer.model';
   styleUrls: ['./create-customer.component.scss']
 })
 export class CreateCustomerComponent implements OnInit, OnDestroy {
+  formEditMode = false;
   formButtonConfig: any = {
     buttonA: 'Save',
-    buttonB: 'Cancle',
+    buttonB: {
+      name: 'Cancel',
+      link: '/customer'
+    }
   };
   isLoading = false;
   caretLeftIcon = '../assets/images/caret-left.svg';
@@ -30,7 +36,11 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
     },
   };
   addCustomer$: Subscription;
-  constructor(private reqS: RequestService, private msgS: MessagesService,) { }
+  constructor(
+    private reqS: RequestService,
+    private msgS: MessagesService,
+    private routerS: Router
+  ) { }
 
   selectConfig(
     label: string,
@@ -67,12 +77,24 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   isLoadingStatus() {
     this.isLoading = !this.isLoading;
   }
-  ngOnInit(): void {}
-  submitData(data: any) {
+  ngOnInit(): void { }
+  submitData(data: CustomerModel) {
+    const toSendData = {
+      firstName: get(data, 'firstName', ''),
+      lastName: get(data, 'lastName', ''),
+      companyType: get(data, 'companyType', ''),
+      companyEmail: get(data, 'email', ''),
+      parentId: get(data, 'parentId', 0),
+      companyName: get(data, 'companyName', ''),
+      address: get(data, 'address', ''),
+      country: get(data, 'country', null),
+      language: get(data, 'language', null),
+      phoneNumber: get(data, 'phoneNumber', 1234567890),
+    };
     // loadingIndicator
     this.isLoadingStatus();
     const queryEndpoint = `${ customersEndpoints.addCustomer }`;
-    this.addCustomer$ = this.reqS.post<CustomerModel>(queryEndpoint, data).subscribe(
+    this.addCustomer$ = this.reqS.post<CustomerModel>(queryEndpoint, toSendData).subscribe(
       res => {
         this.msgS.addMessage({
           text: 'Sucessfully updated profile',
@@ -84,8 +106,11 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
         });
         // loadingIndicator
         this.isLoadingStatus();
+        // redirect to login page
+        this.routerS.navigateByUrl('/customer');
       },
       err => {
+        console.log(err);
         this.msgS.addMessage({
           text: err.error,
           type: 'danger',

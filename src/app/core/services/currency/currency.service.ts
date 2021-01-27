@@ -69,10 +69,10 @@ export class CurrencyService {
         return v.map(currency => {
           return {
             ...currency,
-            name: `${currency.name} - (${currency.code})`,
-          }
-        })
-      } )
+            name: `${ currency.name } - (${ currency.code })`,
+          };
+        });
+      })
     );
   }
 }
