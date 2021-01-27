@@ -79,10 +79,10 @@ export class ProductsComponent implements OnInit {
     private http: HttpClient,
     private ref: ChangeDetectorRef,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    if(this.rowData.length){
+    if (this.rowData.length) {
       const dBody = document.querySelector('.datatable-body') as HTMLElement;
       dBody.style.minHeight = 'auto';
     }
@@ -143,7 +143,7 @@ export class ProductsComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getProducts()
+    this.getProducts();
   }
   public getProducts() {
     this.productS.getProducts().subscribe((data) => {
@@ -151,44 +151,44 @@ export class ProductsComponent implements OnInit {
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
         const cloneData = data.map((v) => {
-          return { ...v };
-        });
+          return { ...v, application: v.application.name };
+        }).reverse();
         this.tableData.next(cloneData);
         this.tableConfig.loadingIndicator = false;
       }
     });
-}
-filterTable(filterObj: TableFilterConfig) {
-  const newRows = this.tS.filterRowInputs(
-    this.tableConfig?.columns,
-    this.rowData,
-    filterObj
-  );
-  this.tableData.next(newRows);
-}
-setDropUp(row) {
-  const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
-  const mod = idx % 10 === 0 ? 10 : idx % 10;
-  if((this.rowData.length % 10) < 5){
-    const dBody = document.querySelector('.datatable-body') as HTMLElement;
-    dBody.style.minHeight = (this.rowData.length % 10) * 40 + 100 +'px';
   }
-  if(mod < 6) {
-    this.isDropup = false;
-  }else {
-    this.isDropup = true;
+  filterTable(filterObj: TableFilterConfig) {
+    const newRows = this.tS.filterRowInputs(
+      this.tableConfig?.columns,
+      this.rowData,
+      filterObj
+    );
+    this.tableData.next(newRows);
   }
-  this.ref.detectChanges()
-}
-removeRow(data){
-  this.productS.deleteProducts(data.id).subscribe(e =>{
-    this.getProducts()
-  })
-}
-manageSub(data: any) {
-  this.router.navigate(['products/edit-product', { id: data.id }]);
-  console.log(data)
-}
+  setDropUp(row) {
+    const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
+    const mod = idx % 10 === 0 ? 10 : idx % 10;
+    if ((this.rowData.length % 10) < 5) {
+      const dBody = document.querySelector('.datatable-body') as HTMLElement;
+      dBody.style.minHeight = (this.rowData.length % 10) * 40 + 100 + 'px';
+    }
+    if (mod < 6) {
+      this.isDropup = false;
+    } else {
+      this.isDropup = true;
+    }
+    this.ref.detectChanges();
+  }
+  removeRow(data) {
+    this.productS.deleteProducts(data.id).subscribe(e => {
+      this.getProducts();
+    });
+  }
+  manageSub(data: any) {
+    this.router.navigate(['products/edit-product', { id: data.id }]);
+    console.log(data);
+  }
 
 
 }
