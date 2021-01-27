@@ -24,7 +24,10 @@ export class CustomerFormComponent implements OnInit, OnChanges {
   @Input() formEditMode: boolean;
   defaultToButtons: any = {
     buttonA: 'Button A',
-    buttonB: 'Button B',
+    buttonB: {
+      name: 'Button B',
+      link: '/customer'
+    }
   };
   @Input() buttonConfig: {
     buttonA: string;
@@ -36,6 +39,7 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     this.isLoading = status;
   };
   @Input() editableData!: any;
+  backUrl = '/customer';
 
   typeOptions = Object.keys(CompanyTypes).map(companyType => {
     return {
