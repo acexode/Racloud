@@ -80,6 +80,8 @@ export class TableComponent implements OnInit {
   ngOnInit(): void {
     const selectedrows = this.rows.filter(obj => obj.selected === true)
     this.selected = [...selectedrows]
+    console.log(this.selected)
+    this.cdRef.detectChanges()
     this.doFilterActions();
     this.selectableClass =
       '' +
@@ -105,6 +107,7 @@ export class TableComponent implements OnInit {
     }
   }
   onSelect(selectedObj) {
+    console.log(selectedObj)
     const {selected} = selectedObj
     const lastItem = selected[selected.length -1]
     lastItem.selected = !lastItem.selected
