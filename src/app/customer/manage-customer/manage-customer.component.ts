@@ -99,7 +99,7 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
               customClass: 'mt-32',
               hasIcon: true
             });
-           }
+          }
         );
       }
     );

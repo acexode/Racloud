@@ -35,6 +35,7 @@
 
     <div class="w-100 pt-40">
       <app-customer-form 
+          [formEditMode]="formEditMode"
           [loadingStatus]="isLoading" 
           [buttonConfig]="formButtonConfig"
           (customerFormEmitter)="submitData($event)"

@@ -1,3 +1,4 @@
+import { MessagesService } from './../../shared/messages/services/messages.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
@@ -10,6 +11,7 @@ import { TableFilterType } from 'src/app/shared/table/models/table-filter-types'
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
 import { LicenseServiceService } from 'src/app/license/license-service.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 
 @Component({
@@ -29,6 +31,7 @@ export class OptionListComponent implements OnInit {
 
 
   rowData: Array<any> = [];
+  rowToDelete  = null
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   containerConfig: PageContainerConfig = {
     closeButton: true,
@@ -67,7 +70,7 @@ export class OptionListComponent implements OnInit {
     ],
   });
   tableConfig: TableI = {
-    selectable: true,
+    selectable: false,
     selectDetail: false,
     hoverDetail: true,
     expand: true,
@@ -78,13 +81,16 @@ export class OptionListComponent implements OnInit {
     action: true
   };
   isDropup: boolean;
+  modalRef: BsModalRef;
   constructor(
     private tS: TableService,
     private footerS: FooterService,
     private http: HttpClient,
     private router: Router,
     private service: LicenseServiceService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private msgS: MessagesService,
+    private modalService: BsModalService,
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -179,8 +185,12 @@ export class OptionListComponent implements OnInit {
   }
 
   removeRow(row) {
+    this.modalRef.hide()
     this.service.deleteOption(row.Id).subscribe(e =>{
       this.getJSON()
+      this.displayMsg('Option removed Successfully', 'success')
+    },(err)=>{
+      this.displayMsg(err.error, 'info')
     })
   }
   manageSub(data: any) {
@@ -206,5 +216,25 @@ export class OptionListComponent implements OnInit {
       return str
     }
 
+  }
+  openModal(template: TemplateRef<any>, row) {
+    this.rowToDelete = row
+    console.log(row)
+    this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray' }));
+  }
+  deleteRow(){
+
+  }
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
   }
 }
