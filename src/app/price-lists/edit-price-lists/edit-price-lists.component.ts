@@ -24,11 +24,10 @@ export class EditPriceListsComponent implements OnInit, OnDestroy {
     private priceListS: PriceListService,
     private cdref: ChangeDetectorRef,
     private msgS: MessagesService,
-  ) {
-    this.priceListS.loadProductsForPriceListing();
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.priceListS.loadProductsForPriceListing();
     this.route$ = this.route.paramMap.subscribe(
       params => {
         this.priceListId = params.get('id');

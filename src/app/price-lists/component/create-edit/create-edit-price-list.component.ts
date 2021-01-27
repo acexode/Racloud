@@ -129,7 +129,6 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initForm();
     this.componentFormValueChange$ = this.componentForm.valueChanges.subscribe(d => {
-      console.log(d);
       // setCurrency
       this.setCurrency(d);
     });
