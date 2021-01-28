@@ -176,6 +176,7 @@ export class TableComponent implements OnInit {
   }
 
   updateSorting(column) {
+    console.log(column)
     column.sorting = true;
     column.isDesc = !column.isDesc;
     this.sortingData.emit(column);

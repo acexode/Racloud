@@ -240,12 +240,13 @@ export class LicensesListingComponent implements OnInit {
   }
   renewSub(id: any) { }
 
-  setDropUp(row) {
-    const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
+  setDropUp(rowIndex, row) {
+    // const idx = this.rowData.findIndex(e => e.Id === row.Id) + 1;
+    const idx = rowIndex + 1;
     const mod = idx % 10 === 0 ? 10 : idx % 10;
-    if(this.rowData.length < 5){
+    if((this.rowData.length % 10) < 5){
       const dBody = document.querySelector('.datatable-body') as HTMLElement;
-      dBody.style.paddingBottom = '90px';
+      dBody.style.minHeight = (this.rowData.length % 10) * 40 + 100 +'px';
     }
     if (mod < 6) {
       this.isDropup = false;
