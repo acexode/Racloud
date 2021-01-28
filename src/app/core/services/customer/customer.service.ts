@@ -22,4 +22,12 @@ export class CustomerService {
     const customerDisapbleEndpoint = baseEndpoints.customers + '/' + id + '/disable-customer';
     return this.reqS.put<any>(customerDisapbleEndpoint, d);
   }
+  getCustomerById(id: any) {
+    const queryEndpoint = `${ baseEndpoints.customers }/${ id }`;
+    return this.reqS.get<CustomerModel>(queryEndpoint);
+  }
+  getCustomerUsers(id: any): Observable<any> {
+    const queryEndpoint = `${ baseEndpoints.customers }/${ id }/users`;
+    return this.reqS.get<Array<CustomerModel>>(queryEndpoint);
+  }
 }

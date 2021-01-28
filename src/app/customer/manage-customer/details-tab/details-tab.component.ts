@@ -17,7 +17,7 @@ import { CustomerModel } from '../../model/customer.model';
 export class DetailsTabComponent implements OnInit, OnDestroy {
   formEditMode = true;
   isLoading: boolean;
-  @Input() detailsData: any;
+  @Input() detailsData: CustomerModel;
   textAreaConfig: TextAreaConfig = {
     textAreaLabel: {
       text: 'Address'
