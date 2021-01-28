@@ -15,6 +15,7 @@ import { TableService } from 'src/app/shared/table/services/table.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { OrderService } from '../service.service';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
+import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 @Component({
   selector: 'app-orders-details',
   templateUrl: './orders-details.component.html',
@@ -42,7 +43,9 @@ export class OrdersDetailsComponent implements OnInit {
   @ViewChild('valueTemplate', { static: true }) valueTemplate: TemplateRef<any>;
   @ViewChild('quantityTemplate', { static: true }) quantityTemplate: TemplateRef<any>;
   @ViewChild('discountTemplate', { static: true }) discountTemplate: TemplateRef<any>;
+  @ViewChild('dropdown', { static: true }) dropdown: TemplateRef<any>;
   rows = [];
+  autoClose = false
   discountTypes =  [
     {title: 'Percentage', name: 'button1'},
     {title: 'Fixed', name: 'button2'},
@@ -75,6 +78,9 @@ export class OrdersDetailsComponent implements OnInit {
   addedProducts = []
   allProducts = []
   customers
+  searchText = ''
+  filteredCustomer
+  customerLabel = 'Select'
   savedCompanyId = 'Select'
   disableCustomer = false
   controlStore: { [key: string]: AbstractControl; } = {};
@@ -133,6 +139,7 @@ export class OrdersDetailsComponent implements OnInit {
     this.loadOrder()
     this.service.getcustomers().subscribe(e =>{
       this.customers = e
+      this.filteredCustomer = e
     })
     this.routeId = parseInt(this.route.snapshot.paramMap.get('id'), 10)
     this.shopS.buyStore.subscribe((e:any) =>{
@@ -296,6 +303,9 @@ export class OrdersDetailsComponent implements OnInit {
         [
           Validators.required,
         ],
+      ],
+      searchText: [
+        ''
       ],
     });
   }
@@ -565,7 +575,34 @@ export class OrdersDetailsComponent implements OnInit {
   onChange(option, field) {
     console.log(option)
     this.savedCompanyId = option
+    this.customerLabel = option
     this.componentForm.get(field).patchValue(option)
+
+  }
+  setClose(){
+    console.log(this.autoClose)
+    
+    this.autoClose = false
+    // if(this.autoClose){
+    // }else{
+    //   this.autoClose = true
+    // }
+  }
+  setCustomer(company, id){
+    console.log(company,id)
+    this.autoClose = true
+    this.componentForm.get('companyId').setValue(id);
+    this.customerLabel = company;
+    // console.log(this.autoClose)
+    this.filteredCustomer = this.customers
+    this.componentForm.get('searchText').patchValue('')
+    this.ref.detectChanges()
+  }
+  onSearchChange(customer:string){
+     this.autoClose = false
+     console.log(this.autoClose)
+    this.filteredCustomer = this.customers.filter(e => e.companyName.toLowerCase().includes(customer.toLowerCase()))
+    this.ref.detectChanges()
   }
   cancelOrder(){
     const id = this.route.snapshot.paramMap.get('id');
