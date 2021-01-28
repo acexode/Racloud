@@ -46,7 +46,29 @@
                     {{customer.companyName}} </option>
                 </select>
               </div>
+              <div  class="btn-group w-100 d-flex flex-column" dropdown #dropdown="bs-dropdown" [autoClose]="autoClose">
+                <label class="rc-grey-color companyLabel montserrat-regular-font text-weight-normal m-0">Company </label>
+                <input type="text" formControlName="companyId" hidden >
+                <a  id="button-basic" dropdownToggle type="button" class="select-dropdown dropdown-toggle" aria-controls="dropdown-basic">
+                    {{customerLabel}}
+                </a>
+                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu company-dropdown w-100"  role="menu" aria-labelledby="button-basic">
+                  <li class="px-1"  role="menuitem">
+                    <input class="dropdown-item border" formControlName='searchText' (click)="setClose()" (input)="onSearchChange($event.target.value)" type="text" placeholder="search customer">
+                  </li>
+                    <li class="divider dropdown-divider"></li>
+                    <li *ngFor="let customer of filteredCustomer" (click)="setCustomer(customer.companyName,customer.id)" role="menuitem"><a class="dropdown-item">{{customer.companyName  | slice:0:18}}</a></li>
+                    
+                </ul>
+            </div>
               <!--  -->
+              <!-- <a id="button-basic" dropdownToggle type="button" class="select-dropdown dropdown-toggle" aria-controls="dropdown-basic">
+                <input type="text">
+            </a>
+            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu w-100"  role="menu" aria-labelledby="button-basic">
+                <li *ngFor="let customer of customers"  role="menuitem"><a class="dropdown-item">{{customer.companyName}}</a></li>
+                
+            </ul> -->
             </div>
             <div class="col-12 px-0 mb-14">
               <app-input [config]="inputConfig('Status')" formControlName="status"></app-input>
