@@ -9,6 +9,7 @@ import { RequestService } from 'src/app/core/services/request/request.service';
 import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 import { CustomerModel } from '../../model/customer.model';
+import { CustomerService } from 'src/app/core/services/customer/customer.service';
 @Component({
   selector: 'app-details-tab',
   templateUrl: './details-tab.component.html',
@@ -34,9 +35,9 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     }
   };
   constructor(
-    private reqS: RequestService,
     private msgS: MessagesService,
     private cdref: ChangeDetectorRef,
+    private customerS: CustomerService
   ) { }
   ngOnInit(): void {
     // get details ID
@@ -83,10 +84,6 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
       }
     };
   }
-  updateData(newData: any): Observable<any> {
-    const queryEndpoint = `${ baseEndpoints.customers }/${ this.detailsId }`;
-    return this.reqS.put<CustomerModel>(queryEndpoint, newData);
-  }
   updateProfile(data: any): void {
     const profileData = {
       ...data,
@@ -94,7 +91,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     };
     // loadingIndicator
     this.isLoadingStatus();
-    this.updateProfile$ = this.updateData(profileData).subscribe(
+    this.updateProfile$ = this.customerS.updateCustomerData(this.detailsId, profileData).subscribe(
       _res => {
         // sucessfully updated
         this.msgS.addMessage({

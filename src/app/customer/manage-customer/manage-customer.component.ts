@@ -77,7 +77,6 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
   constructor(
     private cdref: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private reqS: RequestService,
     private msgS: MessagesService,
     private customerS: CustomerService
   ) { }

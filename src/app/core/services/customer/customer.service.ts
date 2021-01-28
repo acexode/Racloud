@@ -18,16 +18,20 @@ export class CustomerService {
   disableCustomers(id: number | string) {
     const d = {
       id,
-    }
+    };
     const customerDisapbleEndpoint = baseEndpoints.customers + '/' + id + '/disable-customer';
     return this.reqS.put<any>(customerDisapbleEndpoint, d);
   }
-  getCustomerById(id: any) {
+  getCustomerById(id: any): Observable<CustomerModel> {
     const queryEndpoint = `${ baseEndpoints.customers }/${ id }`;
     return this.reqS.get<CustomerModel>(queryEndpoint);
   }
-  getCustomerUsers(id: any): Observable<any> {
+  getCustomerUsers(id: any): Observable<Array<CustomerModel>> {
     const queryEndpoint = `${ baseEndpoints.customers }/${ id }/users`;
     return this.reqS.get<Array<CustomerModel>>(queryEndpoint);
+  }
+  updateCustomerData(id: any, data: any): Observable<CustomerModel> {
+    const queryEndpoint = `${ baseEndpoints.customers }/${ id }`;
+    return this.reqS.put<CustomerModel>(queryEndpoint, data);
   }
 }

@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { CustomerService } from 'src/app/core/services/customer/customer.service';
-import { FooterService } from 'src/app/core/services/footer/footer.service';
 import { omnBsConfig } from 'src/app/shared/date-picker/data/omn-bsConfig';
 import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
 import { TableI } from 'src/app/shared/table/models/table.interface';
@@ -15,7 +14,7 @@ import { CustomerModel } from '../../model/customer.model';
   styleUrls: ['./user-tab.component.scss']
 })
 
-export class UserTabComponent implements OnInit {
+export class UserTabComponent implements OnInit, OnDestroy {
   isDropup = true;
   @Input() customerId: CustomerModel['id'];
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
@@ -60,9 +59,9 @@ export class UserTabComponent implements OnInit {
     externalSorting: false,
     action: true
   };
+  getCustomerUsers$: Subscription;
   constructor(
     private tS: TableService,
-    private http: HttpClient,
     private ref: ChangeDetectorRef,
     private customerS: CustomerService
   ) { }
@@ -71,7 +70,7 @@ export class UserTabComponent implements OnInit {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'firstName',
+        identifier: 'firstname',
         label: 'First Name',
         sortable: true,
         minWidth: 200,
@@ -79,7 +78,7 @@ export class UserTabComponent implements OnInit {
         noGrow: true
       },
       {
-        identifier: 'lastName',
+        identifier: 'lastname',
         label: 'Last Name',
         sortable: true,
         minWidth: 150,
@@ -123,13 +122,12 @@ export class UserTabComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.customerS.getCustomerUsers(this.customerId).subscribe((data) => {
+    this.getCustomerUsers$ = this.customerS.getCustomerUsers(this.customerId).subscribe((data) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
-        const d = data.map((v) => {
-          return { ...v, role: 'no role' };
+        const d = data.map((v: any) => {
+          return { ...v?.user, role: v?.role?.name ?? '-' };
         }).reverse();
-        console.log(d);
         this.rowData = d;
         this.tableData.next(d);
         this.tableConfig.loadingIndicator = false;
@@ -159,5 +157,8 @@ export class UserTabComponent implements OnInit {
       this.isDropup = true;
     }
     this.ref.detectChanges();
+  }
+  ngOnDestroy(): void {
+    this.getCustomerUsers$.unsubscribe();
   }
 }
