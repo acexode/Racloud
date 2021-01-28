@@ -90,7 +90,7 @@ export class ProductsComponent implements OnInit {
     this.tableConfig.columns = [
       {
         identifier: 'application.name',
-        label: 'Apllication Name',
+        label: 'Application Name',
         sortable: true,
         minWidth: 200,
         width: 90,

@@ -186,7 +186,7 @@ export class PriceListsComponent implements OnInit, OnDestroy {
                 ...r,
                 created: getUTCdate(r.createDate),
               };
-            });
+            }).reverse();
           this.rowData = data;
           this.tableData.next(data);
           this.tableConfig.loadingIndicator = false;
