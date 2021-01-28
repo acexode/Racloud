@@ -45,7 +45,7 @@
     border: none;
     border: 0.0625rem solid #A4A7BF;
     box-shadow: none;
-    color: #878999;
+    color: #161A37 !important;
     outline: none !important;
     -webkit-appearance: none;
     appearance: none;
@@ -54,6 +54,12 @@
 .dropdown-menu.show{
   height: 200px !important;
   overflow: auto;
+}
+input{
+  color: #161A37 !important;
+}
+::placeholder{
+  color:  #8b8b8b;
 }
 ::-webkit-scrollbar {
   width: 10px;

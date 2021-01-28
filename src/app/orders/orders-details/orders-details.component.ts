@@ -594,6 +594,7 @@ export class OrdersDetailsComponent implements OnInit {
     this.componentForm.get('companyId').setValue(id);
     this.customerLabel = company;
     // console.log(this.autoClose)
+    this.savedCompanyId = id
     this.filteredCustomer = this.customers
     this.componentForm.get('searchText').patchValue('')
     this.ref.detectChanges()
