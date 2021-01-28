@@ -581,7 +581,6 @@ export class OrdersDetailsComponent implements OnInit {
   }
   setClose(){
     console.log(this.autoClose)
-    
     this.autoClose = false
     // if(this.autoClose){
     // }else{
