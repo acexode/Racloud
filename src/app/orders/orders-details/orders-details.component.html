@@ -38,15 +38,28 @@
         <div class="col-12 col-md-3 px-0 px-md-16">
           <div class="row m-0">
             <div class="col-12 px-0 mb-14">
-              <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Customer</label>
-              <div  class="rc-select"> <select [disabled]="disableCustomer"  formcontrolname="customer"
-                  (change)="onChange($event.target.value, 'companyId')" [value]="savedCompanyId || null" class="ng-pristine ng-valid ng-touched">
+              <label *ngIf="disableCustomer" class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Customer</label>
+              <div *ngIf="disableCustomer" class="rc-select"> <select [disabled]="disableCustomer"  formcontrolname="customer"
+                  (change)="onChange($event.target.value, 'companyId')" [value]="savedCompanyId" class="ng-pristine ng-valid ng-touched">
                   <option selected disabled>Select</option>
-                  <option *ngFor="let customer of customers" [value]="customer.id">
+                  <option *ngFor="let customer of customers" [value]="customer.id" [selected]="customer.id === savedCompanyId">
                     {{customer.companyName}} </option>
                 </select>
               </div>
-              <!--  -->
+              <div *ngIf="!disableCustomer" class="btn-group w-100 d-flex flex-column" dropdown #dropdown="bs-dropdown" [autoClose]="autoClose">
+                <label class="rc-grey-color companyLabel montserrat-regular-font text-weight-normal m-0">Company </label>
+                <input type="text" formControlName="companyId" hidden >
+                <a  id="button-basic" dropdownToggle type="button" class="select-dropdown dropdown-toggle" aria-controls="dropdown-basic">
+                    {{customerLabel}}
+                </a>
+                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu company-dropdown w-100"  role="menu" aria-labelledby="button-basic">
+                  <li class="px-1"  role="menuitem">
+                    <input class="dropdown-item border" formControlName='searchText' (click)="setClose()" (input)="onSearchChange($event.target.value)" type="text" placeholder="search customer">
+                  </li>
+                    <li class="divider dropdown-divider"></li>
+                    <li *ngFor="let customer of filteredCustomer" (click)="setCustomer(customer.companyName,customer.id)" role="menuitem"><a class="dropdown-item">{{customer.companyName  | slice:0:18}}</a></li>
+              </ul>
+            </div>
             </div>
             <div class="col-12 px-0 mb-14">
               <app-input [config]="inputConfig('Status')" formControlName="status"></app-input>
