@@ -7,7 +7,7 @@ import { ContainerModule } from '../shared/container/container.module';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { OrdersRoutingModule } from './orders-routing.module';
 import { OrdersDetailsComponent } from './orders-details/orders-details.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { OrdersCheckoutComponent } from './orders-checkout/orders-checkout.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -19,6 +19,7 @@ import { CardModule } from '../shared/card/card.module';
   imports: [
     CommonModule,
     RcFormsModule,
+    FormsModule,
     TableModule,
     ContainerModule,
     CardModule,
