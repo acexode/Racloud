@@ -237,7 +237,7 @@ export class OrdersDetailsComponent implements OnInit {
           dBody.style.minHeight = 'auto';
           dBody.style.height = 'auto';
         })
-        console.log(e)
+        
         const discountPrc = e.DiscountPrc.toFixed(2)
         this.Currency = e.Currency
         this.componentForm.patchValue({

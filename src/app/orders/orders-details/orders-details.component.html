@@ -40,9 +40,9 @@
             <div class="col-12 px-0 mb-14">
               <label *ngIf="disableCustomer" class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Customer</label>
               <div *ngIf="disableCustomer" class="rc-select"> <select [disabled]="disableCustomer"  formcontrolname="customer"
-                  (change)="onChange($event.target.value, 'companyId')" [value]="savedCompanyId || null" class="ng-pristine ng-valid ng-touched">
+                  (change)="onChange($event.target.value, 'companyId')" [value]="savedCompanyId" class="ng-pristine ng-valid ng-touched">
                   <option selected disabled>Select</option>
-                  <option *ngFor="let customer of customers" [value]="customer.id">
+                  <option *ngFor="let customer of customers" [value]="customer.id" [selected]="customer.id === savedCompanyId">
                     {{customer.companyName}} </option>
                 </select>
               </div>
@@ -58,17 +58,8 @@
                   </li>
                     <li class="divider dropdown-divider"></li>
                     <li *ngFor="let customer of filteredCustomer" (click)="setCustomer(customer.companyName,customer.id)" role="menuitem"><a class="dropdown-item">{{customer.companyName  | slice:0:18}}</a></li>
-                    
-                </ul>
+              </ul>
             </div>
-              <!--  -->
-              <!-- <a id="button-basic" dropdownToggle type="button" class="select-dropdown dropdown-toggle" aria-controls="dropdown-basic">
-                <input type="text">
-            </a>
-            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu w-100"  role="menu" aria-labelledby="button-basic">
-                <li *ngFor="let customer of customers"  role="menuitem"><a class="dropdown-item">{{customer.companyName}}</a></li>
-                
-            </ul> -->
             </div>
             <div class="col-12 px-0 mb-14">
               <app-input [config]="inputConfig('Status')" formControlName="status"></app-input>
