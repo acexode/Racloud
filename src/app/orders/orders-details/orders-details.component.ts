@@ -144,14 +144,12 @@ export class OrdersDetailsComponent implements OnInit {
     this.routeId = parseInt(this.route.snapshot.paramMap.get('id'), 10)
     this.shopS.buyStore.subscribe((e:any) =>{
       const orderId = this.routeId
-      console.log(e.hasOwnProperty('id'))
       if(e.hasOwnProperty('id')){
         const companyId = this.componentForm.get('companyId').value || this.savedCompanyId
         const obj: any = {
           orderId,
           productPriceId: e.id
         }
-        console.log(this.addedProducts)
           if(companyId !== null){
             obj.companyId = companyId
             this.componentForm.get('companyId').disable()
@@ -159,7 +157,6 @@ export class OrdersDetailsComponent implements OnInit {
           }else{
             this.displayMsg('Please select a customer', 'info')
           }
-          console.log(obj)
         this.service.addOrderToCart(orderId, obj).subscribe(res =>{
           this.loadOrder()
         },(err)=>{
@@ -190,7 +187,6 @@ export class OrdersDetailsComponent implements OnInit {
     if(id){
       const idx = parseInt(id,10)
       this.service.getSingleOrder(idx).subscribe((e: any) =>{
-        console.log(e)
         this.OrderStatus = e.OrderStatus
         if(e.CompanyId !== null){
           this.savedCompanyId = e.CompanyId
@@ -237,7 +233,6 @@ export class OrdersDetailsComponent implements OnInit {
           dBody.style.minHeight = 'auto';
           dBody.style.height = 'auto';
         })
-        
         const discountPrc = e.DiscountPrc.toFixed(2)
         this.Currency = e.Currency
         this.componentForm.patchValue({
@@ -484,11 +479,9 @@ export class OrdersDetailsComponent implements OnInit {
     return [year, month, day].join('-');
   }
   openModal(template: TemplateRef<any>, OrderStatus) {
-    console.log(OrderStatus)
     if(OrderStatus === 'WaitingPaymentConfirmation' ||OrderStatus === 'Paid' ){
       return
     }else{
-      console.log(this.savedCompanyId)
       if(this.savedCompanyId === 'Select' || this.savedCompanyId === null){
         this.displayMsg('To add a product you must be select customer', 'info')
       }else{
@@ -573,14 +566,12 @@ export class OrdersDetailsComponent implements OnInit {
     const values = this.componentForm.value
   }
   onChange(option, field) {
-    console.log(option)
     this.savedCompanyId = option
     this.customerLabel = option
     this.componentForm.get(field).patchValue(option)
 
   }
   setClose(){
-    console.log(this.autoClose)
     this.autoClose = false
     // if(this.autoClose){
     // }else{
@@ -588,11 +579,9 @@ export class OrdersDetailsComponent implements OnInit {
     // }
   }
   setCustomer(company, id){
-    console.log(company,id)
     this.autoClose = true
     this.componentForm.get('companyId').setValue(id);
     this.customerLabel = company;
-    // console.log(this.autoClose)
     this.savedCompanyId = id
     this.filteredCustomer = this.customers
     this.componentForm.get('searchText').patchValue('')
@@ -600,7 +589,6 @@ export class OrdersDetailsComponent implements OnInit {
   }
   onSearchChange(customer:string){
      this.autoClose = false
-     console.log(this.autoClose)
     this.filteredCustomer = this.customers.filter(e => e.companyName.toLowerCase().includes(customer.toLowerCase()))
     this.ref.detectChanges()
   }
@@ -671,7 +659,6 @@ export class OrdersDetailsComponent implements OnInit {
   }
   submitOrderDiscountForm(){
     const values = this.discountForm.value
-    console.log(values)
     const obj = {
       orderId: this.routeId,
       discountPrc: values.value
