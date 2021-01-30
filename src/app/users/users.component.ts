@@ -136,17 +136,6 @@ filterTable(filterObj: TableFilterConfig) {
   );
   this.tableData.next(newRows);
 }
-setDropUp(rowIndex, row) {
-  // const idx = this.rowData.findIndex(e => e.Id === row.Id) + 1;
-  const idx = rowIndex + 1;
-  const mod = idx % 10 === 0 ? 10 : idx % 10;
-  if (mod < 6) {
-    this.isDropup = false;
-  } else {
-    this.isDropup = true;
-  }
-  this.ref.detectChanges();
-}
 removeRow(row){
   console.log(row.id);
   this.userService.deleteUser(row.user.id).subscribe(e =>{

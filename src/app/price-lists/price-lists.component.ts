@@ -223,22 +223,6 @@ export class PriceListsComponent implements OnInit, OnDestroy {
     this.router.navigate(['edit', data.id], { relativeTo: this.route });
   }
   renewSub(id: any) { }
-
-  setDropUp(rowIndex, row) {
-    // const idx = this.rowData.findIndex(e => e.Id === row.Id) + 1;
-    const idx = rowIndex + 1;
-    const mod = idx % 10 === 0 ? 10 : idx % 10;
-    if((this.rowData.length % 10) < 5){
-      const dBody = document.querySelector('.datatable-body') as HTMLElement;
-      dBody.style.minHeight = (this.rowData.length % 10) * 40 + 100 +'px';
-    }
-    if (mod < 6) {
-      this.isDropup = false;
-    } else {
-      this.isDropup = true;
-    }
-    this.ref.detectChanges();
-  }
   ngOnDestroy(): void {
     this.priceList$.unsubscribe();
     if (this.deletePriceList$) {

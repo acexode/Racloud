@@ -52,19 +52,28 @@
         
 </ng-template>
 <ng-template #actionDropdown let-column="column" let-row="row" let-rowIndex="rowIndex">
-    <div class="btn-group float-right" dropdown [dropup]="isDropup">
-      <a (click)="setDropUp(rowIndex, row)" id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse float-right"
+    <div *ngIf="rowIndex<6" class="btn-group" dropdown >
+      <a  id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
               aria-controls="dropdown-basic">
-              <i class="fa fa-ellipsis-h" aria-hidden="true"></i> 
+              <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
       </a>
       <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
           role="menu" aria-labelledby="button-basic">
         <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
-        <li (click)="openModal(deleteOptionTemplate, row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
-      
+        <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
       </ul>
     </div>
-    
+    <div *ngIf="rowIndex>=6" class="btn-group" dropdown [dropup]="true">
+      <a  id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
+              aria-controls="dropdown-basic">
+              <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+      </a>
+      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+          role="menu" aria-labelledby="button-basic">
+        <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
+        <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
+      </ul>
+    </div>
   </ng-template>
 
 
