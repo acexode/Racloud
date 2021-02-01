@@ -24,7 +24,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   formGroup = this.fb.group({
     input: this.fb.control(null),
   });
-  constructor(private fb: FormBuilder, private currencyS: CurrencyService,) { }
+  constructor(private fb: FormBuilder, private currencyS: CurrencyService) { }
   writeValue(obj: any): void {
     this.value = obj;
     this.formGroup.setValue({ input: obj });

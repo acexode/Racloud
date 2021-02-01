@@ -11,6 +11,7 @@ import { TableFilterType } from '../shared/table/models/table-filter-types';
 import { TableI } from '../shared/table/models/table.interface';
 import { TableService } from '../shared/table/services/table.service';
 import { OrderService } from './service.service';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-orders',
@@ -19,7 +20,7 @@ import { OrderService } from './service.service';
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
-  isDropup = true;
+  isDropup = false;
   @ViewChild('dateTemplate', { static: true }) dateTemplate;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl;
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
@@ -27,7 +28,8 @@ export class OrdersComponent implements OnInit {
   @ViewChild('discountTemplate', { static: true }) discountTemplate: TemplateRef<any>;
   @ViewChild('selectT', { static: true }) selectT: any;
   @ViewChild('statusTemplate', { static: true }) statusTemplate: TemplateRef<any>;
-
+  @ViewChild(DatatableComponent)      // import {DatatableComponent} from '@swimlane/ngx-datatable';
+  private readonly table: DatatableComponent;
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   containerConfig: PageContainerConfig = {
@@ -221,18 +223,6 @@ export class OrdersComponent implements OnInit {
       filterObj
     );
     this.tableData.next(newRows);
-  }
-  setDropUp(row) {
-    console.log(this.rowData)
-    console.log(row)
-    const idx = this.rowData.findIndex(e => e.Id === row.Id) + 1;
-    const mod = idx % 10 === 0 ? 10 : idx % 10;
-    if (mod < 6) {
-      this.isDropup = false;
-    } else {
-      this.isDropup = true;
-    }
-    this.ref.detectChanges();
   }
   generateOrder(){
     this.service.generateOrder().subscribe((e:any) =>{

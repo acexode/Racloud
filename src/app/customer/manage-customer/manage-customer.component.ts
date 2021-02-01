@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, Templat
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { baseEndpoints } from 'src/app/core/configs/endpoints';
+import { CustomerService } from 'src/app/core/services/customer/customer.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
@@ -76,15 +77,15 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
   constructor(
     private cdref: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private reqS: RequestService,
     private msgS: MessagesService,
+    private customerS: CustomerService
   ) { }
 
   ngOnInit(): void {
     this.route$ = this.route.paramMap.subscribe(
       params => {
         const id: any = params.get('id');
-        this.fetch$ = this.fetchDataForDetails(id).subscribe(
+        this.fetch$ = this.customerS.getCustomerById(id).subscribe(
           (res: any) => {
             if (res) {
               this.detailsData$.next(res);
@@ -104,11 +105,6 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
       }
     );
     this.cdref.markForCheck();
-  }
-
-  fetchDataForDetails(id: any) {
-    const queryEndpoint = `${ baseEndpoints.customers }/${ id }`;
-    return this.reqS.get<CustomerModel>(queryEndpoint);
   }
   /* tab */
   ngAfterViewInit() {

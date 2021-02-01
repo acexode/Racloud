@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { FooterService } from 'src/app/core/services/footer/footer.service';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { CustomerService } from 'src/app/core/services/customer/customer.service';
 import { omnBsConfig } from 'src/app/shared/date-picker/data/omn-bsConfig';
 import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
+import { CustomerModel } from '../../model/customer.model';
 
 @Component({
   selector: 'app-user-tab',
@@ -13,8 +14,9 @@ import { TableService } from 'src/app/shared/table/services/table.service';
   styleUrls: ['./user-tab.component.scss']
 })
 
-export class UserTabComponent implements OnInit {
+export class UserTabComponent implements OnInit, OnDestroy {
   isDropup = true;
+  @Input() customerId: CustomerModel['id'];
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: TemplateRef<any>;
   @ViewChild('selectT', { static: true }) selectT;
@@ -57,17 +59,18 @@ export class UserTabComponent implements OnInit {
     externalSorting: false,
     action: true
   };
+  getCustomerUsers$: Subscription;
   constructor(
     private tS: TableService,
-    private footerS: FooterService,
-    private http: HttpClient,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private customerS: CustomerService
   ) { }
   ngOnInit(): void {
+    console.log(this.customerId);
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'first_name',
+        identifier: 'firstname',
         label: 'First Name',
         sortable: true,
         minWidth: 200,
@@ -75,7 +78,7 @@ export class UserTabComponent implements OnInit {
         noGrow: true
       },
       {
-        identifier: 'last_name',
+        identifier: 'lastname',
         label: 'Last Name',
         sortable: true,
         minWidth: 150,
@@ -119,20 +122,17 @@ export class UserTabComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data) => {
+    this.getCustomerUsers$ = this.customerS.getCustomerUsers(this.customerId).subscribe((data) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
-        this.rowData = data.slice(0, 5);
-        const cloneData = data.slice(0, 5).map((v) => {
-          return { ...v };
-        });
-        this.tableData.next(cloneData);
+        const d = data.map((v: any) => {
+          return { ...v?.user, role: v?.role?.name ?? '-' };
+        }).reverse();
+        this.rowData = d;
+        this.tableData.next(d);
         this.tableConfig.loadingIndicator = false;
       }
     });
-  }
-  public getJSON(): Observable<any> {
-    return this.http.get('./assets/role.json');
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
@@ -148,14 +148,7 @@ export class UserTabComponent implements OnInit {
   manageSub(id) {
     console.log(id);
   }
-  setDropUp(row) {
-    const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
-    const mod = idx % 10 === 0 ? 10 : idx % 10;
-    if (mod < 6) {
-      this.isDropup = false;
-    } else {
-      this.isDropup = true;
-    }
-    this.ref.detectChanges();
+  ngOnDestroy(): void {
+    this.getCustomerUsers$.unsubscribe();
   }
 }

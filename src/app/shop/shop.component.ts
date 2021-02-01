@@ -7,14 +7,14 @@ import { ShopService } from './shop.service';
   styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
-  shops = []
+  shops = [];
   constructor(public shopService: ShopService) { }
 
   ngOnInit(): void {
-    this.shopService.getAllShops().subscribe((e:any) =>{
-      console.log(e)
-      this.shops = e
-    })
+    this.shopService.getAllShops().subscribe((e: any) => {
+      console.log(e);
+      this.shops = e;
+    });
   }
 
 }

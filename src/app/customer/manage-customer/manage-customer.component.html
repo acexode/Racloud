@@ -69,7 +69,7 @@
 
  <ng-template #userTab> 
 
-    <app-user-tab></app-user-tab>
+    <app-user-tab [customerId]="detailsData?.id" *ngIf="detailsData$ | async as detailsData"></app-user-tab>
 
 </ng-template>
 
