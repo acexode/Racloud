@@ -148,16 +148,6 @@ export class UserTabComponent implements OnInit, OnDestroy {
   manageSub(id) {
     console.log(id);
   }
-  setDropUp(row) {
-    const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
-    const mod = idx % 10 === 0 ? 10 : idx % 10;
-    if (mod < 6) {
-      this.isDropup = false;
-    } else {
-      this.isDropup = true;
-    }
-    this.ref.detectChanges();
-  }
   ngOnDestroy(): void {
     this.getCustomerUsers$.unsubscribe();
   }

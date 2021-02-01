@@ -223,17 +223,6 @@ export class PriceListsComponent implements OnInit, OnDestroy {
     this.router.navigate(['edit', data.id], { relativeTo: this.route });
   }
   renewSub(id: any) { }
-
-  setDropUp(row) {
-    const idx = this.rowData.findIndex(e => e.id === row.id) + 1;
-    const mod = idx % 10 === 0 ? 10 : idx % 10;
-    if (mod < 6) {
-      this.isDropup = false;
-    } else {
-      this.isDropup = true;
-    }
-    this.ref.detectChanges();
-  }
   ngOnDestroy(): void {
     this.priceList$.unsubscribe();
     if (this.deletePriceList$) {

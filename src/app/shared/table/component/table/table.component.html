@@ -266,6 +266,7 @@
       let-value="value"
       let-column="column"
       let-row="row"
+      let-rowIndex="rowIndex"
       ngx-datatable-cell-template
     >
       <ng-container *ngIf="!data?.cellTemplate">
@@ -287,7 +288,8 @@
         [ngTemplateOutletContext]="{
           cellValue: value,
           column: column,
-          row: row
+          row: row,
+          rowIndex: rowIndex
         }"
       >
       </ng-container>
