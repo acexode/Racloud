@@ -86,16 +86,17 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     };
   }
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = parseInt(this.route.snapshot.paramMap.get('id'), 10)
     this.initForm();
     if(id){
       this.isEdit = true
-      this.service.getOneLicense(id).subscribe((data:any) =>{
-        console.log(data)
-        // const data = obj.filter(e => e.id === id)[0];
-        this.preselectedRows = data.licenseOptions
+      this.service.getOwnLicenses().subscribe((obj:any) =>{
+         console.log(obj)
+         const data = obj.filter(e => e.id === id)[0];
+         console.log(data)
+        this.preselectedRows = data?.licenseOptions
         const selectedP = data.isPartnerLicense ? 'Yes' : 'No'
-        const selectedR = data.isPartnerLicense ? 'Yes' : 'No'
+        const selectedR = data.renewByUserCompany ? 'Yes' : 'No'
         const isAssigned = data.iAssigned ? 'Yes' : 'No'
         this.selectedPartnerLicenseBtn = this.setBoolean( selectedP );
         this.selectedRenewBtn = this.setBoolean( selectedR );

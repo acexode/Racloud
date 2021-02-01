@@ -208,7 +208,7 @@ export class LicensesListingComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.service.getLicenses().subscribe((data:any) => {
+    this.service.getOwnLicenses().subscribe((data:any) => {
       if (data) {
         console.log(data)
         this.tableConfig.loadingIndicator = true;
