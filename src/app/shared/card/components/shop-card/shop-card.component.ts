@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ShopService } from 'src/app/shop/shop.service';
 import { OrderService } from 'src/app/orders/service.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { CurrencyService } from 'src/app/core/services/currency/currency.service';
 
 @Component({
   selector: 'app-shop-card',
@@ -64,8 +65,14 @@ export class ShopCardComponent implements OnInit {
       bgColor: 'rc-black-bg',
     },
   };
-  constructor(private orderS: OrderService, private route: ActivatedRoute,
-    private router: Router,private service: ShopService, private modalService: BsModalService) { }
+  constructor(
+    private orderS: OrderService,
+    private route: ActivatedRoute,
+    private currencyS: CurrencyService,
+    private router: Router,
+    private service: ShopService,
+    private modalService: BsModalService
+  ) { }
 
   ngOnInit(): void {
     const str = this.item?.product?.name;
@@ -90,16 +97,20 @@ export class ShopCardComponent implements OnInit {
     this.cardTypes[type].productName = this.item?.product.name || 'Product name';
     this.cardTypes[type].productVersion = this.item?.productVersion || '& version';
   }
-  buy(item){
-    console.log(item)
-    this.service.buyStore.next(item)
-    if(this.router.url.includes('shop')){
-      this.orderS.generateOrder().subscribe((e:any) =>{
-        this.router.navigateByUrl('orders/orders-details/'+ e.id);
-        console.log(e)
-      })
-    }else{
-      this.modalService.hide(1)
+  buy(item) {
+    this.service.buyStore.next(item);
+    if (this.router.url.includes('shop')) {
+      this.orderS.generateOrder().subscribe((e: any) => {
+        this.router.navigateByUrl('orders/orders-details/' + e.id);
+      });
+    } else {
+      this.modalService.hide(1);
     }
+  }
+  getCurrencySymbol(code: string): string {
+    return this.currencyS.getCurrencySymbol(code);
+  }
+  get cardCurrencySymbol() {
+    return this.getCurrencySymbol(this.item?.priceList?.currency) || '$';
   }
 }

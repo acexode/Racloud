@@ -250,6 +250,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
     this.loadCustomers$ = this.customerS.getCustomers().subscribe(
       res => {
         if (res) {
+          console.log(res);
           const data = res.map((v: any) => {
             return {
               ...v,

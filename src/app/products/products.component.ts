@@ -79,10 +79,10 @@ export class ProductsComponent implements OnInit {
     private http: HttpClient,
     private ref: ChangeDetectorRef,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    if(this.rowData.length){
+    if (this.rowData.length) {
       const dBody = document.querySelector('.datatable-body') as HTMLElement;
       dBody.style.minHeight = 'auto';
     }
@@ -90,7 +90,7 @@ export class ProductsComponent implements OnInit {
     this.tableConfig.columns = [
       {
         identifier: 'application.name',
-        label: 'Apllication Name',
+        label: 'Application Name',
         sortable: true,
         minWidth: 200,
         width: 90,
@@ -143,7 +143,7 @@ export class ProductsComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getProducts()
+    this.getProducts();
   }
   public getProducts() {
     this.productS.getProducts().subscribe((data) => {
@@ -152,29 +152,29 @@ export class ProductsComponent implements OnInit {
         this.rowData = data;
         const cloneData = data.map((v) => {
           return { ...v };
-        });
+        }).reverse();
         this.tableData.next(cloneData);
         this.tableConfig.loadingIndicator = false;
       }
     });
-}
-filterTable(filterObj: TableFilterConfig) {
-  const newRows = this.tS.filterRowInputs(
-    this.tableConfig?.columns,
-    this.rowData,
-    filterObj
-  );
-  this.tableData.next(newRows);
-}
+  }
+  filterTable(filterObj: TableFilterConfig) {
+    const newRows = this.tS.filterRowInputs(
+      this.tableConfig?.columns,
+      this.rowData,
+      filterObj
+    );
+    this.tableData.next(newRows);
+  }
 
-removeRow(data){
-  this.productS.deleteProducts(data.id).subscribe(e =>{
-    this.getProducts()
-  })
-}
-manageSub(data: any) {
-  this.router.navigate(['products/edit-product', { id: data.id }]);
-  console.log(data)
-}
+  removeRow(data) {
+    this.productS.deleteProducts(data.id).subscribe(e => {
+      this.getProducts();
+    });
+  }
+  manageSub(data: any) {
+    this.router.navigate(['products/edit-product', { id: data.id }]);
+    console.log(data);
+  }
 
 }

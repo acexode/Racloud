@@ -1,4 +1,4 @@
-import { ProductModel } from 'src/app/products/models/products.model';
+import { ProductApplication, ProductModel } from 'src/app/products/models/products.model';
 
 export interface PriceListProductManagerModel {
     renewalValue: number;
@@ -7,7 +7,7 @@ export interface PriceListProductManagerModel {
     productId: number;
     product?: ProductModel | string;
     id: string; /* introduced to make the product distict */
-    application?: null | string;
+    application?: ProductApplication;
     productType?: null | string,
     uuid?: string;
 }

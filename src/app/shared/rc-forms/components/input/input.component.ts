@@ -3,6 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormBuilder } from '@angular/f
 import { InputConfig } from './../../models/input/input-config';
 import { get } from 'lodash';
 import { config } from 'rxjs';
+import { CurrencyService } from 'src/app/core/services/currency/currency.service';
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
@@ -23,7 +24,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   formGroup = this.fb.group({
     input: this.fb.control(null),
   });
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private currencyS: CurrencyService) { }
   writeValue(obj: any): void {
     this.value = obj;
     this.formGroup.setValue({ input: obj });
@@ -61,5 +62,13 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   get isDisable() {
     return get(this.config?.formStatus, 'isDisabled', false);
   }
-
+  get currency() {
+    return get(this.config, 'currency', '');
+  }
+  loadCurrencySymbol(code: string): string {
+    return this.currencyS.getCurrencySymbol(code);
+  }
+  get thePrefix() {
+    return this.loadCurrencySymbol(this.currency) || '$';
+  }
 }
