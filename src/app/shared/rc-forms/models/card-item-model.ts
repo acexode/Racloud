@@ -15,4 +15,7 @@ export interface CardItem {
         description?: string;
         productType?: string;
     };
+    priceList?: {
+        currency: string;
+    };
 };

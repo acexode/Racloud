@@ -26,4 +26,5 @@ export interface InputConfig {
     prefixIcon?: boolean;
     IconType?: string;
     formStatus?: FormStatus;
+    currency?: string;
 }

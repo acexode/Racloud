@@ -16,6 +16,7 @@ export class AddProductFormStepComponent implements OnInit, OnDestroy {
   @Output() closeModalStateEmitter = new EventEmitter<boolean>(false);
   @Input() editableData!: Observable<any>;
   @Input() products: any;
+  @Input() currency: string;
   displayFormModal = true;
   displayModal$: Subscription;
   caretLeftIcon = 'assets/images/caret-left.svg';
@@ -64,7 +65,8 @@ export class AddProductFormStepComponent implements OnInit, OnDestroy {
       prefixIcon: prefixIcon || false,
       formStatus: {
         isDisabled,
-      }
+      },
+      currency: this.currency,
     };
   }
   selectConfig(
@@ -85,6 +87,7 @@ export class AddProductFormStepComponent implements OnInit, OnDestroy {
     };
   }
   ngOnInit(): void {
+    console.log(this.currency);
     this.editableData.subscribe(
       d => {
         if (d !== null) {
@@ -122,7 +125,7 @@ export class AddProductFormStepComponent implements OnInit, OnDestroy {
   }
   emitPriceListFormData() {
     if (this.inEditMode && this.editItem !== 'none') {
-      this.productFormEmitter.emit({ ...this.editItem, ...this.componentForm.value  });
+      this.productFormEmitter.emit({ ...this.editItem, ...this.componentForm.value });
     } else {
       this.productFormEmitter.emit(this.componentForm.value);
     }

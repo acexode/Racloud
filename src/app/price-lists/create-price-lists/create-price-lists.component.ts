@@ -16,10 +16,10 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
     private priceListS: PriceListService,
     private msgS: MessagesService,
     private router: Router,
-  ) {
+  ) {}
+  ngOnInit(): void {
     this.priceListS.loadProductsForPriceListing();
   }
-  ngOnInit(): void { }
   saveData(data: any) {
     this.createPriceList$ = this.priceListS.createPriceList(data).subscribe(
       (_res: PriceListModel) => {
