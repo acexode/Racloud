@@ -2,7 +2,7 @@
     <div class="toggleDiv">
             <label for="toggle-rc" class="rc-toggle">
             
-                <input type="checkbox" id="toggle-rc">
+                <input #inp type="checkbox" (change)="onChange($event.target.checked)" id="toggle-rc">
             
                 <div class="toggle-icon">
             

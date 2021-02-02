@@ -41,6 +41,7 @@ export class LicensesListingComponent implements OnInit {
     },
   };
   rows = [];
+  showOwnLicenses = false;
   rowDetailIcons = [
     '../../assets/images/Edit.svg',
     '../../assets/images/Log.svg',
@@ -55,6 +56,7 @@ export class LicensesListingComponent implements OnInit {
     loadingIndicator: true,
     action: true
   };
+
   constructor(
     private tS: TableService,
     private http: HttpClient,
@@ -63,7 +65,7 @@ export class LicensesListingComponent implements OnInit {
     private service: LicenseServiceService
   ) { }
   ngOnInit(): void {
-    console.log(this.actionDropdown);
+    console.log(this.showOwnLicenses)
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
@@ -208,21 +210,24 @@ export class LicensesListingComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.service.getOwnLicenses().subscribe((data:any) => {
-      if (data) {
-        console.log(data)
-        this.tableConfig.loadingIndicator = true;
-        this.rowData = data;
-        const cloneData = data.map((v: any) => {
-          return { ...v };
-        });
-        this.tableData.next(cloneData);
-        this.tableConfig.loadingIndicator = false;
-      }
+    this.service.getLicenses().subscribe((data:any) => {
+      this.loadTableData(data)
     });
   }
   public getJSON(): Observable<any> {
     return this.http.get('./assets/ra-table-license.json');
+  }
+  loadTableData(data){
+    if (data) {
+      console.log(data)
+      this.tableConfig.loadingIndicator = true;
+      this.rowData = data;
+      const cloneData = data.map((v: any) => {
+        return { ...v };
+      });
+      this.tableData.next(cloneData);
+      this.tableConfig.loadingIndicator = false;
+    }
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
@@ -232,7 +237,18 @@ export class LicensesListingComponent implements OnInit {
     );
     this.tableData.next(newRows);
   }
-
+  toggle(){
+    console.log(this.showOwnLicenses)
+    if(this.showOwnLicenses){
+      this.service.getOwnLicenses().subscribe((data:any) => {
+        this.loadTableData(data)
+      });
+    }else{
+      this.service.getLicenses().subscribe((data:any) => {
+        this.loadTableData(data)
+      });
+    }
+  }
   removeRow(id: any) { }
   manageSub(data: any) {
     this.router.navigate(['licenses/license-edit', { id: data.id }]);

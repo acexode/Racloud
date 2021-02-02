@@ -102,17 +102,20 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         this.selectedRenewBtn = this.setBoolean( selectedR );
         const exp = new Date(data.expirationDate).toLocaleDateString()
         const purchase = new Date(data.purchaseDate).toLocaleDateString()
+        console.log(exp)
+        console.log(purchase)
         this.infoForm.patchValue({
           productName: data.product.name,
           partner: data.ispartnerLicense,
           purchased: purchase,
-          userCompany: data.companyUser,
-          renew: data.renewByUserCompany,
+          customer: data.company.companyName,
           expires: exp,
+          renew: data.renewByUserCompany,
           isAssigned,
-          customer: data.company.companyName
+          userCompany: data.companyUser || '',
         });
         this.onChange(data.licenseStatus)
+        this.cdref.detectChanges()
       });
     }
     this.service.getOption().subscribe((options: any) =>{
