@@ -23,6 +23,9 @@ export class LicenseServiceService {
   getLicenses(){
     return this.reqS.get(licenseEndpoints.getLicenses)
   }
+  getOwnLicenses(){
+    return this.reqS.get(licenseEndpoints.getOwnLicenses)
+  }
   createLicenses(obj){
     return this.reqS.post(licenseEndpoints.createLicense, obj);
   }

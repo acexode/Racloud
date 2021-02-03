@@ -86,16 +86,15 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     };
   }
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = parseInt(this.route.snapshot.paramMap.get('id'), 10)
     this.initForm();
     if(id){
       this.isEdit = true
       this.service.getOneLicense(id).subscribe((data:any) =>{
-        console.log(data)
-        // const data = obj.filter(e => e.id === id)[0];
-        this.preselectedRows = data.licenseOptions
+        //  const data = obj.filter(e => e.id === id)[0];
+        this.preselectedRows = data?.licenseOptions
         const selectedP = data.isPartnerLicense ? 'Yes' : 'No'
-        const selectedR = data.isPartnerLicense ? 'Yes' : 'No'
+        const selectedR = data.renewByUserCompany ? 'Yes' : 'No'
         const isAssigned = data.iAssigned ? 'Yes' : 'No'
         this.selectedPartnerLicenseBtn = this.setBoolean( selectedP );
         this.selectedRenewBtn = this.setBoolean( selectedR );
@@ -105,13 +104,14 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
           productName: data.product.name,
           partner: data.ispartnerLicense,
           purchased: purchase,
-          userCompany: data.companyUser,
-          renew: data.renewByUserCompany,
+          customer: data.company.companyName,
           expires: exp,
+          renew: data.renewByUserCompany,
           isAssigned,
-          customer: data.company.companyName
+          userCompany: data.companyUser || '',
         });
         this.onChange(data.licenseStatus)
+        this.cdref.detectChanges()
       });
     }
     this.service.getOption().subscribe((options: any) =>{
@@ -260,11 +260,9 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   submitForm(){
     const id = this.route.snapshot.paramMap.get('id');
     const values = this.infoForm.value
-    console.log(values)
     const selectedP = values.partner === 'Yes' ? true : false
     const selectedR = values.renew === 'Yes' ? true : false
     const resArr = []
-    console.log(this.selectedRows)
     this.selectedRows.reverse().filter(item =>{
       const i = resArr.findIndex(x => x.optionId === item.Id);
       if(i <= -1){
@@ -314,9 +312,9 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         id: parseInt(id, 10),
         isPartnerLicense: selectedP,
         licenseStatus: values.status,
+        userCompany: values.userCompany,
         licenseOptions: resArr
       }
-      console.log(editObj)
       this.service.updateLicense(id, editObj).subscribe(e =>{
         this.router.navigate(['licenses'])
       })

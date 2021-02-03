@@ -41,6 +41,7 @@ export class LicensesListingComponent implements OnInit {
     },
   };
   rows = [];
+  showOwnLicenses = false;
   rowDetailIcons = [
     '../../assets/images/Edit.svg',
     '../../assets/images/Log.svg',
@@ -55,6 +56,7 @@ export class LicensesListingComponent implements OnInit {
     loadingIndicator: true,
     action: true
   };
+
   constructor(
     private tS: TableService,
     private http: HttpClient,
@@ -63,11 +65,10 @@ export class LicensesListingComponent implements OnInit {
     private service: LicenseServiceService
   ) { }
   ngOnInit(): void {
-    console.log(this.actionDropdown);
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'product.name',
+        identifier: 'productName',
         label: 'Product Name',
         sortable: true,
         minWidth: 161,
@@ -97,7 +98,7 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'company.companyName',
+        identifier: 'companyName',
         label: 'Customer',
         sortable: true,
         minWidth: 160,
@@ -209,20 +210,30 @@ export class LicensesListingComponent implements OnInit {
       },
     ];
     this.service.getLicenses().subscribe((data:any) => {
-      if (data) {
-        console.log(data)
-        this.tableConfig.loadingIndicator = true;
-        this.rowData = data;
-        const cloneData = data.map((v: any) => {
-          return { ...v };
-        });
-        this.tableData.next(cloneData);
-        this.tableConfig.loadingIndicator = false;
-      }
+      this.loadTableData(data)
     });
   }
   public getJSON(): Observable<any> {
     return this.http.get('./assets/ra-table-license.json');
+  }
+  loadTableData(data:[]){
+    if (data) {
+      const formattedData = data.map((e:any)=>{
+        return {
+          ...e,
+          productName: e.product.name,
+          companyName:e.company.companyName
+
+        }
+      })
+      this.tableConfig.loadingIndicator = true;
+      this.rowData = formattedData;
+      const cloneData = formattedData.map((v: any) => {
+        return { ...v };
+      });
+      this.tableData.next(cloneData);
+      this.tableConfig.loadingIndicator = false;
+    }
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
@@ -232,11 +243,22 @@ export class LicensesListingComponent implements OnInit {
     );
     this.tableData.next(newRows);
   }
-
+  toggle(){
+    // this.tableData.next(null)
+    this.tableConfig.loadingIndicator = false
+    if(this.showOwnLicenses){
+      this.service.getOwnLicenses().subscribe((data:any) => {
+        this.loadTableData(data)
+      });
+    }else{
+      this.service.getLicenses().subscribe((data:any) => {
+        this.loadTableData(data)
+      });
+    }
+  }
   removeRow(id: any) { }
   manageSub(data: any) {
     this.router.navigate(['licenses/license-edit', { id: data.id }]);
-    console.log(data);
   }
   renewSub(id: any) { }
 
