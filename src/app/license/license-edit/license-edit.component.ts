@@ -318,6 +318,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         id: parseInt(id, 10),
         isPartnerLicense: selectedP,
         licenseStatus: values.status,
+        userCompany: values.userCompany,
         licenseOptions: resArr
       }
       console.log(editObj)

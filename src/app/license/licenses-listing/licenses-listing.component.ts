@@ -65,11 +65,10 @@ export class LicensesListingComponent implements OnInit {
     private service: LicenseServiceService
   ) { }
   ngOnInit(): void {
-    console.log(this.showOwnLicenses)
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'product.name',
+        identifier: 'productName',
         label: 'Product Name',
         sortable: true,
         minWidth: 161,
@@ -99,7 +98,7 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'company.companyName',
+        identifier: 'companyName',
         label: 'Customer',
         sortable: true,
         minWidth: 160,
@@ -217,12 +216,19 @@ export class LicensesListingComponent implements OnInit {
   public getJSON(): Observable<any> {
     return this.http.get('./assets/ra-table-license.json');
   }
-  loadTableData(data){
+  loadTableData(data:[]){
     if (data) {
-      console.log(data)
+      const formattedData = data.map((e:any)=>{
+        return {
+          ...e,
+          productName: e.product.name,
+          companyName:e.company.companyName
+
+        }
+      })
       this.tableConfig.loadingIndicator = true;
-      this.rowData = data;
-      const cloneData = data.map((v: any) => {
+      this.rowData = formattedData;
+      const cloneData = formattedData.map((v: any) => {
         return { ...v };
       });
       this.tableData.next(cloneData);
@@ -230,6 +236,7 @@ export class LicensesListingComponent implements OnInit {
     }
   }
   filterTable(filterObj: TableFilterConfig) {
+    console.log(filterObj)
     const newRows = this.tS.filterRowInputs(
       this.tableConfig?.columns,
       this.rowData,
@@ -239,6 +246,8 @@ export class LicensesListingComponent implements OnInit {
   }
   toggle(){
     console.log(this.showOwnLicenses)
+    // this.tableData.next(null)
+    this.tableConfig.loadingIndicator = false
     if(this.showOwnLicenses){
       this.service.getOwnLicenses().subscribe((data:any) => {
         this.loadTableData(data)
