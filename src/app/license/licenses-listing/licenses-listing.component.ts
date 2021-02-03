@@ -236,7 +236,6 @@ export class LicensesListingComponent implements OnInit {
     }
   }
   filterTable(filterObj: TableFilterConfig) {
-    console.log(filterObj)
     const newRows = this.tS.filterRowInputs(
       this.tableConfig?.columns,
       this.rowData,
@@ -245,7 +244,6 @@ export class LicensesListingComponent implements OnInit {
     this.tableData.next(newRows);
   }
   toggle(){
-    console.log(this.showOwnLicenses)
     // this.tableData.next(null)
     this.tableConfig.loadingIndicator = false
     if(this.showOwnLicenses){
@@ -261,7 +259,6 @@ export class LicensesListingComponent implements OnInit {
   removeRow(id: any) { }
   manageSub(data: any) {
     this.router.navigate(['licenses/license-edit', { id: data.id }]);
-    console.log(data);
   }
   renewSub(id: any) { }
 

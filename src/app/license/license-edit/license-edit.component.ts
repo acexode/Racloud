@@ -91,9 +91,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     if(id){
       this.isEdit = true
       this.service.getOneLicense(id).subscribe((data:any) =>{
-        //  console.log(obj)
         //  const data = obj.filter(e => e.id === id)[0];
-        //  console.log(data)
         this.preselectedRows = data?.licenseOptions
         const selectedP = data.isPartnerLicense ? 'Yes' : 'No'
         const selectedR = data.renewByUserCompany ? 'Yes' : 'No'
@@ -102,8 +100,6 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         this.selectedRenewBtn = this.setBoolean( selectedR );
         const exp = new Date(data.expirationDate).toLocaleDateString()
         const purchase = new Date(data.purchaseDate).toLocaleDateString()
-        console.log(exp)
-        console.log(purchase)
         this.infoForm.patchValue({
           productName: data.product.name,
           partner: data.ispartnerLicense,
@@ -264,11 +260,9 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   submitForm(){
     const id = this.route.snapshot.paramMap.get('id');
     const values = this.infoForm.value
-    console.log(values)
     const selectedP = values.partner === 'Yes' ? true : false
     const selectedR = values.renew === 'Yes' ? true : false
     const resArr = []
-    console.log(this.selectedRows)
     this.selectedRows.reverse().filter(item =>{
       const i = resArr.findIndex(x => x.optionId === item.Id);
       if(i <= -1){
@@ -321,7 +315,6 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         userCompany: values.userCompany,
         licenseOptions: resArr
       }
-      console.log(editObj)
       this.service.updateLicense(id, editObj).subscribe(e =>{
         this.router.navigate(['licenses'])
       })
