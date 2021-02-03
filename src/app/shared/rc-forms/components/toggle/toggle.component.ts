@@ -29,7 +29,7 @@ import {
 })
 export class ToggleComponent implements ControlValueAccessor  {
 
-  @ViewChild("inp", { static: true }) input: ElementRef<HTMLInputElement>;
+  @ViewChild('inp', { static: true }) input: ElementRef<HTMLInputElement>;
 
   onChange = (_: any) => { };
 
