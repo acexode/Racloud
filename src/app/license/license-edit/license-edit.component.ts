@@ -90,10 +90,10 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     this.initForm();
     if(id){
       this.isEdit = true
-      this.service.getOwnLicenses().subscribe((obj:any) =>{
-         console.log(obj)
-         const data = obj.filter(e => e.id === id)[0];
-         console.log(data)
+      this.service.getOneLicense(id).subscribe((data:any) =>{
+        //  console.log(obj)
+        //  const data = obj.filter(e => e.id === id)[0];
+        //  console.log(data)
         this.preselectedRows = data?.licenseOptions
         const selectedP = data.isPartnerLicense ? 'Yes' : 'No'
         const selectedR = data.renewByUserCompany ? 'Yes' : 'No'
