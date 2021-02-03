@@ -19,6 +19,7 @@ export const authEndpoints = {
 export const customersEndpoints = {
   addCustomer: baseEndpoints.customers + '/add-customer',
   getCustomers: serverBaseUrl + '/customers',
+  getCompanyUsers: serverBaseUrl + '/customers/',
 }
 export const productEndpoints = {
   getProducts: serverBaseUrl + '/products',

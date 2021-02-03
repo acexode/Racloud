@@ -102,10 +102,18 @@
                                 </div>                                
                             </div>
                             <div class="col-6 mb-14">
-                                <app-select
+                                <!-- <app-select
                                 [config]="selectionConfig('Assigned to')"
-                                formControlName="assignedTo"
-                            ></app-select>
+                                formControlName="userId"
+                            ></app-select> -->
+                            <label  class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Assigned to</label>
+                            <div  class="rc-select"> <select [disabled]="disableCustomer"  formcontrolname="userId"
+                                (change)="setUserId($event.target.value, 'userId')" [value]="savedCompanyUserId" class="ng-pristine ng-valid ng-touched">
+                                <option selected disabled>Select</option>
+                                <option *ngFor="let user of companyUsers" [value]="user.id" [selected]="user.id === savedCompanyUserId">
+                                  {{user.firstname}} {{user.lastname}} </option>
+                              </select>
+                            </div>
                                 </div>
                             <div class="col-12 submit-row">
                                 <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
