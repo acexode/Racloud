@@ -51,7 +51,7 @@ export class PriceListService {
     const nD: PriceListProductManagerModel = {
       ...data,
       uuid: uuid(),
-      application: prod.application,
+      application: prod.application.name,
       product: prod.name,
       productType: prod.productType,
     };

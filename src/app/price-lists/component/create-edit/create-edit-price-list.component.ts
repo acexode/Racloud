@@ -78,6 +78,9 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
   button$: Subscription;
   toEditProduct: Observable<PriceListProductManagerModel>;
   isLoading = false;
+  currency: string;
+  currencySymbol: string;
+  componentFormValueChange$: Subscription;
   constructor(
     private fb: FormBuilder,
     private tS: TableService,
@@ -125,6 +128,11 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.initForm();
+    this.componentFormValueChange$ = this.componentForm.valueChanges.subscribe(d => {
+      // setCurrency
+      this.setCurrency(d);
+    });
+
     this.getProducts$ = this.priceListS.getProductsForPriceListing().subscribe(
       res => {
         this.products = res;
@@ -436,15 +444,25 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
         currency: get(data, 'currency', null),
         createDate: getUTCdate(get(data, 'createDate', ''))
       };
+      // setCurrency
+      this.setCurrency(data);
       this.componentForm.setValue({ ...d });
     }
   }
   formatThePrice(price: number) {
     return formatPrice(price);
   }
+  loadCurrencySymbol(code: string): string {
+    return this.currencyS.getCurrencySymbol(code);
+  }
+  setCurrency(data: any) {
+    this.currency = get(data, 'currency', '');
+    this.currencySymbol = this.loadCurrencySymbol(this.currency);
+  }
   ngOnDestroy(): void {
     this.getProducts$.unsubscribe();
     this.getPriceListProducts$.unsubscribe();
+    this.componentFormValueChange$.unsubscribe();
     if (this.proccessPriceListProducts$) {
       this.proccessPriceListProducts$.unsubscribe();
     }

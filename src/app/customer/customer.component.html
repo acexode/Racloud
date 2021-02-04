@@ -56,9 +56,9 @@
 
 <ng-template #subFeeTemplate let-column="column" let-row="row" let-value="cellValue">
     <span>
-        $
+        {{ value }}
     </span>
     <span>
-        {{ value }}
+        {{row?.currency || 'USD'}}
     </span>
 </ng-template>

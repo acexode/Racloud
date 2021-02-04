@@ -75,4 +75,10 @@ export class CurrencyService {
       })
     );
   }
+  getCurrencySymbol(code: string): string {
+    if ((code !== '' || typeof code !== null) && typeof code === 'string') {
+      const currency = this.appUsedcurrencies.find(curr => curr.code === code);
+      return currency?.symbol || code;
+    }
+  }
 }

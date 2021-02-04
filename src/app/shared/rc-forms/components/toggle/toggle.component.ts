@@ -2,8 +2,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnInit,
+  Renderer2,
+  ViewChild,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -24,50 +27,26 @@ import {
     },
   ],
 })
-export class ToggleComponent implements OnInit {
+export class ToggleComponent implements ControlValueAccessor  {
 
-  formGroup = this.fb.group({
-    toggle: this.fb.control(null),
-  });
+  @ViewChild('inp', { static: true }) input: ElementRef<HTMLInputElement>;
 
-  onChange: (_: any) => void;
-  onTouched: () => void;
-  value: any;
+  onChange = (_: any) => { };
 
+  onTouched = () => { };
 
-  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) { }
+  constructor(private _renderer: Renderer2) { }
 
-  writeValue(obj: any): void {
-    this.value = obj;
-    this.formGroup.setValue({ radio: obj });
-    this.formGroup.updateValueAndValidity();
-    this.cdRef.markForCheck();
-  }
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-  setDisabledState?(isDisabled: boolean): void {
-    if (isDisabled) {
-      this.formGroup.disable({ emitEvent: true });
-    } else {
-      this.formGroup.enable({ emitEvent: true });
-    }
-    this.cdRef.markForCheck();
+  writeValue(value: any): void {
+    this._renderer.setProperty(this.input.nativeElement, 'checked', value);
   }
 
-  ngOnInit(): void {
-    this.formGroup.valueChanges.subscribe((vals) => {
-      if (this.onChange) {
-        this.onChange(this.getFieldValue());
-      }
-    });
-  }
-  getFieldValue() {
-    const field = this.formGroup.get('toggle');
-    return field ? field.value : null;
+  registerOnChange(fn: (_: any) => {}): void { this.onChange = fn; }
+
+  registerOnTouched(fn: () => {}): void { this.onTouched = fn; }
+
+  setDisabledState(isDisabled: boolean): void {
+    this._renderer.setProperty(this.input.nativeElement, 'disabled', isDisabled);
   }
 
 }
