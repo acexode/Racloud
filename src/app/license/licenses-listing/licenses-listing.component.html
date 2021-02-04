@@ -35,7 +35,7 @@
     </div>
 </ng-template>
 <ng-template #actionDropdown let-column="column" let-row="row" let-rowIndex="rowIndex">
-    <div *ngIf="rowIndex<6" class="btn-group" dropdown >
+    <div *ngIf="rowIndex % 10 <6" class="btn-group" dropdown >
       <a  id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
               aria-controls="dropdown-basic">
               <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
@@ -46,7 +46,7 @@
         <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
       </ul>
     </div>
-    <div *ngIf="rowIndex>6" class="btn-group" dropdown [dropup]="true">
+    <div *ngIf="rowIndex % 10 >= 6" class="btn-group" dropdown [dropup]="true">
       <a  id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
               aria-controls="dropdown-basic">
               <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
