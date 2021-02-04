@@ -20,8 +20,11 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   selectedRows = [];
   preselectedRows : any[] = []
   isEdit = false;
+  savedCompanyUserId
+  userLabel = 'Select'
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/licenses';
+  companyUsers
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -92,6 +95,11 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
       this.isEdit = true
       this.service.getOneLicense(id).subscribe((data:any) =>{
         //  const data = obj.filter(e => e.id === id)[0];
+        this.service.getCompanyUsers(data.companyId).subscribe((users:any) =>{
+          this.companyUsers = users.map(user => user.user)
+          console.log(this.companyUsers)
+        })
+        console.log(data)
         this.preselectedRows = data?.licenseOptions
         const selectedP = data.isPartnerLicense ? 'Yes' : 'No'
         const selectedR = data.renewByUserCompany ? 'Yes' : 'No'
@@ -100,12 +108,14 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         this.selectedRenewBtn = this.setBoolean( selectedR );
         const exp = new Date(data.expirationDate).toLocaleDateString()
         const purchase = new Date(data.purchaseDate).toLocaleDateString()
+        this.savedCompanyUserId = data.user?.userId
         this.infoForm.patchValue({
           productName: data.product.name,
           partner: data.ispartnerLicense,
           purchased: purchase,
           customer: data.company.companyName,
           expires: exp,
+          userId: this.savedCompanyUserId,
           renew: data.renewByUserCompany,
           isAssigned,
           userCompany: data.companyUser || '',
@@ -134,6 +144,8 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
           }
         }
       })
+      console.log(this.preselectedRows)
+      console.log(this.optionList)
     })
   }
   initForm() {
@@ -193,7 +205,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
           Validators.required,
         ],
       ],
-      assignedTo: [
+      userId: [
         '',
         [
           Validators.required,
@@ -257,6 +269,15 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   setBoolean(data){
     return this.partnerLicense.filter(e => e.title === data)[0];
   }
+  compareFn(c1: any, c2:any): boolean {
+    return c1 && c2 ? c1.id === c2.id : c1 === c2;
+  }
+  setUserId(option, field) {
+    this.savedCompanyUserId = option
+    this.userLabel = option
+    this.infoForm.get(field).patchValue(option)
+
+  }
   submitForm(){
     const id = this.route.snapshot.paramMap.get('id');
     const values = this.infoForm.value
@@ -311,6 +332,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
       const editObj = {
         id: parseInt(id, 10),
         isPartnerLicense: selectedP,
+        userId: this.savedCompanyUserId,
         licenseStatus: values.status,
         userCompany: values.userCompany,
         licenseOptions: resArr

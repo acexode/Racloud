@@ -1,7 +1,5 @@
-import { licenseEndpoints } from './../core/configs/endpoints';
-
+import { licenseEndpoints, customersEndpoints, optionEndpoints } from './../core/configs/endpoints';
 import { Injectable } from '@angular/core';
-import { optionEndpoints } from '../core/configs/endpoints';
 import { RequestService } from '../core/services/request/request.service';
 
 @Injectable({
@@ -22,6 +20,9 @@ export class LicenseServiceService {
   }
   getLicenses(){
     return this.reqS.get(licenseEndpoints.getLicenses)
+  }
+  getCompanyUsers(id){
+    return this.reqS.get(customersEndpoints.getCompanyUsers + id +'/users')
   }
   getOwnLicenses(){
     return this.reqS.get(licenseEndpoints.getOwnLicenses)
