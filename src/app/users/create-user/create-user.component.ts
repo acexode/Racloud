@@ -19,6 +19,11 @@ export class CreateUserComponent implements OnInit {
   backUrl = '/users';
   isEdit = false;
   user = null;
+  userForm: FormGroup;
+  loggedInUser = null;
+  canChangePassword = false
+  changePasswordForm: FormGroup;
+  modalRef: BsModalRef;
   inputConfig(
     label: string,
     type: string = 'text',
@@ -84,11 +89,6 @@ export class CreateUserComponent implements OnInit {
     },
     placeholder: 'Select'
   };
-  userForm: FormGroup;
-  loggedInUser = null;
-  canChangePassword = false
-  changePasswordForm: FormGroup;
-  modalRef: BsModalRef;
   constructor(private fb: FormBuilder, private router : Router,
     private route: ActivatedRoute, private service: UsersService,
     private modalService: BsModalService, private cStorage: CustomStorageService) { }
