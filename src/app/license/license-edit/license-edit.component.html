@@ -108,7 +108,7 @@
                             ></app-select> -->
                             <label  class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Assigned to</label>
                             <div  class="rc-select"> <select [disabled]="disableCustomer"  formcontrolname="userId"
-                                (change)="setUserId($event.target.value, 'userId')" [value]="savedCompanyUserId" class="ng-pristine ng-valid ng-touched">
+                                (change)="setUserId($event.target.value, 'userId')"  class="ng-pristine ng-valid ng-touched">
                                 <option selected disabled>Select</option>
                                 <option *ngFor="let user of companyUsers" [value]="user.id" [selected]="user.id === savedCompanyUserId">
                                   {{user.firstname}} {{user.lastname}} </option>
