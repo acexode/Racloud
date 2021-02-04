@@ -17,7 +17,7 @@ html {
 .a-ellipse{
   z-index: 100 !important;
 }
-.dropdown-item{ 
+.dropdown-item{
   height: rem(40);
   color: $rc-grey;
   font-family: Montserrat;
@@ -26,14 +26,14 @@ html {
   line-height: 24px;
   transition: all 0.5s ease;
 }
-.dropdown-item:hover, .dropdown-item:focus{ 
+.dropdown-item:hover, .dropdown-item:focus{
   background-color: $rc-light-grey;
   font-weight: 500;
   color: $rc-accent-blue-160;
 }
 .dropdown-menu{
   position: absolute !important;
-  z-index: 10000 !important;  
+  z-index: 10000 !important;
   left: auto !important;
   right: 0 !important;
 }
@@ -46,7 +46,7 @@ html {
   bottom: rem(30) !important;
 }
 .btn-group.show .dropdown-toggle {
-   box-shadow: none 
+   box-shadow: none
 }
 .datatable-body-cell{
   overflow: visible !important;
@@ -56,14 +56,14 @@ html {
   align-items: start !important;
 }
 .ngx-datatable.bootstrap .datatable-header .datatable-header-cell {
-   border-bottom: 1px dotted $rc-accent-blue-160; 
+   border-bottom: 1px dotted $rc-accent-blue-160;
 }
 /* remove border if noFiltering is true for table config  */
 .ngx-datatable.noFiltering  {
   border-top: none !important;
 }
 .ngx-datatable.noFiltering .datatable-header .datatable-header-cell {
-   border-bottom: none !important; 
+   border-bottom: none !important;
 }
 /*  */
 .footer-container {
@@ -71,7 +71,7 @@ html {
   padding-top: 15px;
   height: 120px !important;
 }
-.pyramid-title {  
+.pyramid-title {
   color: $rc-accent-blue;
   font-family: Montserrat;
   font-size: 11px;
@@ -82,7 +82,7 @@ html {
   margin-bottom: 0px;
 }
 
-.customers-title {    
+.customers-title {
   color: #D9471F;
   font-family: Montserrat;
   font-size: rem(30);
@@ -108,7 +108,7 @@ html {
   overflow-wrap: break-word !important;
 }
 .totalVal input {
-   
+
   background-color: #fff !important;
 }
 
@@ -140,4 +140,8 @@ html {
   .ngx-datatable {
   overflow-y: hidden !important;
   // height: 400px;
+}
+.modal-md{
+  max-width: 382px;
+  margin: 6.5rem auto;
 }

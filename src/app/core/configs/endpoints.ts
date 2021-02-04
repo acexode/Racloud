@@ -49,7 +49,8 @@ export const licenseEndpoints = {
 }
 export const userEndpoints = {
   getCreateUpdateUser: serverBaseUrl + '/users',
-  getUsers: serverBaseUrl + '/users/logged-in-company-users'
+  getUsers: serverBaseUrl + '/users/logged-in-company-users',
+  changePassword: environment.serverUrl + '/account/reset-password'
 };
 export const roleEndpoints = {
   getRoles: serverBaseUrl + '/roles',

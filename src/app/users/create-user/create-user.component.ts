@@ -1,12 +1,13 @@
+import { CustomStorageService } from './../../core/services/custom-storage/custom-storage.service';
 import { UsersService } from './../users.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
-
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-create-user',
@@ -18,6 +19,24 @@ export class CreateUserComponent implements OnInit {
   backUrl = '/users';
   isEdit = false;
   user = null;
+  inputConfig(
+    label: string,
+    type: string = 'text',
+    placeholder: string = '',
+    prefixIcon: boolean = false,
+    Icon: string = '',
+    )
+    : InputConfig {
+    return {
+      inputLabel: {
+        text: label ,
+      },
+      type: type || 'text',
+      placeholder ,
+      prefixIcon: prefixIcon || false,
+      IconType: Icon,
+    };
+  }
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -66,10 +85,19 @@ export class CreateUserComponent implements OnInit {
     placeholder: 'Select'
   };
   userForm: FormGroup;
+  loggedInUser = null;
+  canChangePassword = false
+  changePasswordForm: FormGroup;
+  modalRef: BsModalRef;
   constructor(private fb: FormBuilder, private router : Router,
-    private route: ActivatedRoute, private service: UsersService) { }
+    private route: ActivatedRoute, private service: UsersService,
+    private modalService: BsModalService, private cStorage: CustomStorageService) { }
 
   ngOnInit(): void {
+    this.cStorage.getItem("token").subscribe(data =>{
+      console.log(data.user)
+      this.loggedInUser = data.user
+    })
     this.service.getRoles().subscribe((res:any[]) =>{
       console.log(res)
       this.roleOptions = res[0]
@@ -84,18 +112,21 @@ export class CreateUserComponent implements OnInit {
         // const data = obj.filter(e => e.user.id.toString() === id)[0];
         console.log(data)
         this.user = data.user;
+        if(this.user.email === this.loggedInUser.email){
+          this.canChangePassword = true
+        }
         this.userForm.patchValue({
-          firstName: data.user.firstname,
-          lastName: data.user.lastname,
-          email: data.user.email,
-          roleId: data.role.id,
-          companyId: data.company.id,
+          firstName: data.user?.firstname,
+          lastName: data.user?.lastname,
+          email: data.user?.email,
+          roleId: data.role?.id,
+          companyId: data.company?.id,
         });
         if(this.companyOptions.length){
           const company = this.companyOptions.filter(e => e.id.toString() === data.company.id)[0]
           this.companyLabel = company?.companyName || 'Select';
         }
-        this.roleLabel = data.role.name;
+        this.roleLabel = data.role?.name;
       });
     }
   }
@@ -145,6 +176,40 @@ export class CreateUserComponent implements OnInit {
     this.userForm.get('roleId').setValue(id);
     this.roleLabel = role;
   }
+  openModal(template: TemplateRef<any>, type) {
+    this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray modal-md' }));
+    if(type === 'send'){
+      console.log(type)
+    }else if(type === 'change'){
+      this.changePasswordForm = this.fb.group({
+        Email : [
+          this.user.email,
+          [
+            Validators.required,
+          ],
+        ],
+        OldPassword : [
+          '',
+          [
+            Validators.required,
+          ],
+        ],
+        NewPassword : [
+          '',
+          [
+            Validators.required,
+          ],
+        ],
+        ConfirmPassword : [
+          '',
+          [
+            Validators.required,
+          ],
+        ],
+      })
+
+    }
+  }
   submit(){
     const user = this.userForm.value
     const id = this.route.snapshot.paramMap.get('id');
@@ -161,5 +226,20 @@ export class CreateUserComponent implements OnInit {
     }
     console.log(this.userForm.value)
   }
-
+  changePassword(){
+    console.log(this.changePasswordForm.value)
+    const value = this.changePasswordForm.value
+    this.service.changePassword(value).subscribe(e =>{
+      console.log(e)
+      // this.modalRef.hide()
+    })
+  }
+  sendResetPassword(){
+    const obj = {
+      email: this.user.email
+    }
+    this.service.sendResetPassword(obj).subscribe(e =>{
+      console.log(e)
+    })
+  }
 }

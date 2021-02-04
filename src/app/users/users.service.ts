@@ -30,4 +30,10 @@ export class UsersService {
   deleteUser(id){
     return this.reqS.delete(userEndpoints.getCreateUpdateUser +'/'+id)
   }
+  changePassword(obj){
+    return this.reqS.post(userEndpoints.changePassword,obj )
+  }
+  sendResetPassword(obj){
+    return this.reqS.post('',obj )
+  }
 }
