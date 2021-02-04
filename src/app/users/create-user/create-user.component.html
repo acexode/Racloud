@@ -1,7 +1,7 @@
 <app-page-container [config]="containerConfig">
 
     <div container-body>
-        
+
     <div class="w-100">
         <div class="page-header position-relative">
            <a [routerLink]="[backUrl]">
@@ -14,24 +14,24 @@
         </svg-icon>
            </a>
             <div class="row align-items-center">
-                <div class="col">  
+                <div class="col">
                   <a [routerLink]="[backUrl]" class="pyramid-title">
                    <span class="pyramid">PYRAMID</span></a>
-                <h3 *ngIf="!isEdit" class="new-user">New User</h3>            
-                <h3 *ngIf="isEdit" class="new-user">{{ user?.firstname | titlecase }} {{ user?.lastname | titlecase }}</h3>            
-              </div>       
+                <h3 *ngIf="!isEdit" class="new-user">New User</h3>
+                <h3 *ngIf="isEdit" class="new-user">{{ user?.firstname | titlecase }} {{ user?.lastname | titlecase }}</h3>
+              </div>
             </div>
       </div>
     </div>
-    
+
     <div class="w-100 mb-64">
         <div class="row">
             <div class="col-12">
                 <div class="app-tabs"></div>
                <ng-container>
-                    <app-tabs>                
+                    <app-tabs>
                         <app-tab-bar></app-tab-bar>
-    
+
                         <form [formGroup]="userForm" class="row user-form" (ngSubmit)="submit()">
                             <div class="col-12">
                                 <span class="personal-details">Personal Details</span>
@@ -44,12 +44,12 @@
                             </div>
                             <div class="col-4">
                                 <app-input [config]="emailConfig" formControlName="email"></app-input>
-                            </div>                        
+                            </div>
                             <div class="col-12 role-row">
                                 <span class="personal-details">Role</span>
-                            </div>                            
-                            <div class="col-4">                                
-                                <div class="btn-group w-100 d-flex flex-column" dropdown>
+                            </div>
+                            <div class="col-4">
+                                <div class="btn-group w-100 d-flex flex-column" dropdown [autoClose]="autoClose">
                                     <label class="rc-grey-color companyLabel montserrat-regular-font text-weight-normal m-0">Company </label>
                                     <input type="text" formControlName="companyId" hidden >
                                     <a id="button-basic" dropdownToggle type="button" class="select-dropdown dropdown-toggle" aria-controls="dropdown-basic">
@@ -57,13 +57,16 @@
                                     </a>
                                     <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu w-100"  role="menu" aria-labelledby="button-basic">
                                         <li (click)="addCompany()" role="menuitem"><a class="dropdown-item">Add new company   <i class="pl-1 pt-2 fa fa-plus plus" aria-hidden="true"></i></a></li>
+                                        <li class="px-1"  role="menuitem">
+                                          <input class="dropdown-item border" formControlName='searchText' (click)="setClose()" (input)="onSearchChange($event.target.value)" type="text" placeholder="search company">
+                                        </li>
                                         <li class="divider dropdown-divider"></li>
-                                        <li *ngFor="let company of companyOptions" (click)="setCompany(company.companyName,company.id)" role="menuitem"><a class="dropdown-item">{{company.companyName}}</a></li>
-                                        
+                                        <li *ngFor="let company of filteredOptions" (click)="setCompany(company.companyName,company.id)" role="menuitem"><a class="dropdown-item">{{company.companyName}}</a></li>
+
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-4">                                
+                            <div class="col-4">
                                 <div class="btn-group w-100 d-flex flex-column" dropdown>
                                     <label class="rc-grey-color companyLabel montserrat-regular-font text-weight-normal m-0">Role </label>
                                     <input type="text" formControlName="roleId" hidden >
@@ -72,7 +75,7 @@
                                     </a>
                                     <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu w-100"  role="menu" aria-labelledby="button-basic">
                                         <li *ngFor="let role of roleOptions" (click)="setRole(role.name, role.id)" role="menuitem"><a class="dropdown-item">{{role.name}}</a></li>
-                                        
+
                                     </ul>
                                 </div>
                             </div>
@@ -84,7 +87,7 @@
                                     Save
                                 </app-button>
                             </div>
-                            
+
                         </form>
                 </app-tabs>
                </ng-container>
