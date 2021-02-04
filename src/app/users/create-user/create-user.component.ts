@@ -94,7 +94,7 @@ export class CreateUserComponent implements OnInit {
     private modalService: BsModalService, private cStorage: CustomStorageService) { }
 
   ngOnInit(): void {
-    this.cStorage.getItem("token").subscribe(data =>{
+    this.cStorage.getItem('token').subscribe(data =>{
       console.log(data.user)
       this.loggedInUser = data.user
     })
