@@ -25,6 +25,12 @@ export class CreateUserComponent implements OnInit {
   changePasswordForm: FormGroup;
   modalRef: BsModalRef;
   changePasswordError = ''
+  autoClose: boolean;
+  componentForm: any;
+  filteredCustomer: any;
+  customers: any;
+  ref: any;
+  savedCompanyId: any;
   inputConfig(
     label: string,
     type: string = 'text',
@@ -91,12 +97,7 @@ export class CreateUserComponent implements OnInit {
     },
     placeholder: 'Select'
   };
-  autoClose: boolean;
-  componentForm: any;
-  filteredCustomer: any;
-  customers: any;
-  ref: any;
-  savedCompanyId: any;
+
   constructor(private fb: FormBuilder, private router : Router,
     private route: ActivatedRoute, private service: UsersService,
     private modalService: BsModalService, private cStorage: CustomStorageService) { }
