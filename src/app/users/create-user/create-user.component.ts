@@ -31,24 +31,6 @@ export class CreateUserComponent implements OnInit {
   customers: any;
   ref: any;
   savedCompanyId: any;
-  inputConfig(
-    label: string,
-    type: string = 'text',
-    placeholder: string = '',
-    prefixIcon: boolean = false,
-    Icon: string = '',
-    )
-    : InputConfig {
-    return {
-      inputLabel: {
-        text: label ,
-      },
-      type: type || 'text',
-      placeholder ,
-      prefixIcon: prefixIcon || false,
-      IconType: Icon,
-    };
-  }
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -97,6 +79,24 @@ export class CreateUserComponent implements OnInit {
     },
     placeholder: 'Select'
   };
+  inputConfig(
+    label: string,
+    type: string = 'text',
+    placeholder: string = '',
+    prefixIcon: boolean = false,
+    Icon: string = '',
+    )
+    : InputConfig {
+    return {
+      inputLabel: {
+        text: label ,
+      },
+      type: type || 'text',
+      placeholder ,
+      prefixIcon: prefixIcon || false,
+      IconType: Icon,
+    };
+  }
 
   constructor(private fb: FormBuilder, private router : Router,
     private route: ActivatedRoute, private service: UsersService,
