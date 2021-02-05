@@ -49,7 +49,8 @@
                                 <span class="personal-details">Role</span>
                             </div>
                             <div class="col-4">
-                                <div class="btn-group w-100 d-flex flex-column" dropdown>
+                                <!-- <div class="btn-group w-100 d-flex flex-column" dropdown> -->
+                                <div class="btn-group w-100 d-flex flex-column" dropdown [autoClose]="autoClose">
                                     <label class="rc-grey-color companyLabel montserrat-regular-font text-weight-normal m-0">Company </label>
                                     <input type="text" formControlName="companyId" hidden >
                                     <a id="button-basic" dropdownToggle type="button" class="select-dropdown dropdown-toggle" aria-controls="dropdown-basic">
@@ -57,8 +58,12 @@
                                     </a>
                                     <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu w-100"  role="menu" aria-labelledby="button-basic">
                                         <li (click)="addCompany()" role="menuitem"><a class="dropdown-item">Add new company   <i class="pl-1 pt-2 fa fa-plus plus" aria-hidden="true"></i></a></li>
+                                        <li class="px-1"  role="menuitem">
+                                          <input class="dropdown-item border" formControlName='searchText' (click)="setClose()" (input)="onSearchChange($event.target.value)" type="text" placeholder="search company">
+                                        </li>
                                         <li class="divider dropdown-divider"></li>
-                                        <li *ngFor="let company of companyOptions" (click)="setCompany(company.companyName,company.id)" role="menuitem"><a class="dropdown-item">{{company.companyName}}</a></li>
+                                        <!-- <li *ngFor="let company of companyOptions" (click)="setCompany(company.companyName,company.id)" role="menuitem"><a class="dropdown-item">{{company.companyName}}</a></li> -->
+                                        <li *ngFor="let company of filteredOptions" (click)="setCompany(company.companyName,company.id)" role="menuitem"><a class="dropdown-item">{{company.companyName}}</a></li>
 
                                     </ul>
                                 </div>

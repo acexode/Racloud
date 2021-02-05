@@ -56,6 +56,7 @@ export class CreateUserComponent implements OnInit {
   roleLabel = 'Select'
   ;
   companyOptions = [];
+  filteredOptions = []
   roleOptions = [];
   firstnameConfig: InputConfig = {
     inputLabel: {
@@ -90,6 +91,12 @@ export class CreateUserComponent implements OnInit {
     },
     placeholder: 'Select'
   };
+  autoClose: boolean;
+  componentForm: any;
+  filteredCustomer: any;
+  customers: any;
+  ref: any;
+  savedCompanyId: any;
   constructor(private fb: FormBuilder, private router : Router,
     private route: ActivatedRoute, private service: UsersService,
     private modalService: BsModalService, private cStorage: CustomStorageService) { }
@@ -103,6 +110,7 @@ export class CreateUserComponent implements OnInit {
       console.log(res)
       this.roleOptions = res[0]
       this.companyOptions = res[1]
+      this.filteredOptions = res[1]
     })
     const id = this.route.snapshot.paramMap.get('id');
     this.initForm();
@@ -163,15 +171,38 @@ export class CreateUserComponent implements OnInit {
         [
           Validators.required,
         ],
+      ],
+      searchText: [
+        '',
+        [
+          Validators.required,
+        ],
       ]
     });
   }
   addCompany(){
       this.router.navigate(['/users']);
   }
+  setClose(){
+    this.autoClose = false
+  }
+  setCustomer(company, id){
+    this.autoClose = true
+    this.componentForm.get('companyId').setValue(id);
+  }
+  onSearchChange(customer:string){
+     this.autoClose = false
+    this.filteredOptions = this.companyOptions.filter(e => e.companyName.toLowerCase().includes(customer.toLowerCase()))
+    // this.ref.detectChanges()
+  }
   setCompany(company, id){
+    this.autoClose = true
     this.userForm.get('companyId').setValue(id);
     this.companyLabel = company;
+    this.savedCompanyId = id
+    this.filteredOptions = this.companyOptions
+    this.userForm.get('searchText').patchValue('')
+    // this.ref.detectChanges()
   }
   setRole(role, id){
     this.userForm.get('roleId').setValue(id);

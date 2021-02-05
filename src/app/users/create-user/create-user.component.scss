@@ -54,6 +54,10 @@ $tab-btn-line-height: rem(24);
     appearance: none;
     -moz-appearance: none;
 }
+.dropdown-menu.show{
+  height: 200px !important;
+  overflow: auto;
+}
 .plus{
     color: #6A7098
 }
