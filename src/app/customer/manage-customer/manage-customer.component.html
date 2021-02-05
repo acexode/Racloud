@@ -29,6 +29,18 @@
            {{ detailsData.companyName }} <!-- do well to replace -->
           </h1>
         </div>
+         <div class="col-auto float-right ml-auto" *ngIf="UserTab.isSelected">
+
+           <ng-container *ngIf="detailsData$ | async as detailsData">
+
+            <app-button type="button" color="primary" [routerLink]="['/users/create-user', {companyId: detailsData.id}]">
+                Add user
+            </app-button>
+            
+           </ng-container>
+            
+        </div>
+
       </div>
     </div>
 

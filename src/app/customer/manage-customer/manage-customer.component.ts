@@ -132,6 +132,9 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
       tab.defaultSelected = false;
     }
   }
+  get UserTab() {
+    return this.tabs.find(tab => tab.template === 'userTab');
+  }
   /*  */
   ngOnDestroy(): void {
     this.route$.unsubscribe();
