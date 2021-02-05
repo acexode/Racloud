@@ -16,7 +16,7 @@ $tab-btn-line-height: rem(24);
     padding-top: 40px;
 }
 
-.personal-details { 
+.personal-details {
     color: #464976;
     font-family: Montserrat;
     font-size: 15px;
@@ -50,6 +50,10 @@ $tab-btn-line-height: rem(24);
     -webkit-appearance: none;
     appearance: none;
     -moz-appearance: none;
+}
+.dropdown-menu.show{
+  height: 200px !important;
+  overflow: auto;
 }
 .plus{
     color: #6A7098
