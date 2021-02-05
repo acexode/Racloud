@@ -24,6 +24,7 @@ export class CreateUserComponent implements OnInit {
   canChangePassword = false
   changePasswordForm: FormGroup;
   modalRef: BsModalRef;
+  changePasswordError = ''
   inputConfig(
     label: string,
     type: string = 'text',
@@ -177,6 +178,7 @@ export class CreateUserComponent implements OnInit {
     this.roleLabel = role;
   }
   openModal(template: TemplateRef<any>, type) {
+    this.changePasswordError = ''
     this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray modal-md' }));
     if(type === 'send'){
       console.log(type)
@@ -232,6 +234,8 @@ export class CreateUserComponent implements OnInit {
     this.service.changePassword(value).subscribe(e =>{
       console.log(e)
       // this.modalRef.hide()
+    }, (err) =>{
+      this.changePasswordError = err.error
     })
   }
   sendResetPassword(){

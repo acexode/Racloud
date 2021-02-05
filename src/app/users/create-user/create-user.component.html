@@ -133,6 +133,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <p *ngIf="changePasswordError.length" class="text-danger text-center">{{changePasswordError}}</p>
       <div [formGroup]="changePasswordForm" class="modal-body px-32 discount-body pb-0">
         <div class="row">
         <div  class="col-12  mb-14">
