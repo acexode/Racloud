@@ -33,7 +33,7 @@
 
            <ng-container *ngIf="detailsData$ | async as detailsData">
 
-            <app-button type="button" color="primary" [routerLink]="['/users/create-user', {companyId: detailsData.id}]">
+            <app-button type="button" color="primary" [routerLink]="['/users/create-user', {companyId: detailsData.id, backUrl: '/customer/manage/'+detailsData.id}]">
                 Add user
             </app-button>
             

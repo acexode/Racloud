@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { CustomerService } from 'src/app/core/services/customer/customer.service';
@@ -76,9 +76,10 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
   };
   constructor(
     private cdref: ChangeDetectorRef,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private msgS: MessagesService,
-    private customerS: CustomerService
+    private customerS: CustomerService,
+
   ) { }
 
   ngOnInit(): void {

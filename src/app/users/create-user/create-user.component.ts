@@ -73,8 +73,12 @@ export class CreateUserComponent implements OnInit {
   customers: any;
   ref: any;
   savedCompanyId: any;
-  constructor(private fb: FormBuilder, private router: Router,
-    private route: ActivatedRoute, private service: UsersService) { }
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private service: UsersService
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -85,13 +89,17 @@ export class CreateUserComponent implements OnInit {
 
       const id = this.route.snapshot.paramMap.get('id');
       const companyId = this.route.snapshot.paramMap.get('companyId');
+      const backUrl = this.route.snapshot.paramMap.get('backUrl');
+      if (backUrl) {
+        this.backUrl = backUrl;
+      }
       if (companyId) {
         this.setCompanyLabelById(companyId);
       }
       if (id) {
         this.isEdit = true;
-        const idx = parseInt(id, 10);
-        this.service.getUser(idx).subscribe((data: any) => {
+        // const idx = parseInt(id, 10);
+        this.service.getUser(id).subscribe((data: any) => {
           // const data = obj.filter(e => e.user.id.toString() === id)[0];
           console.log(data);
           this.user = data.user;
@@ -190,14 +198,19 @@ export class CreateUserComponent implements OnInit {
     const user = this.userForm.value;
     const id = this.route.snapshot.paramMap.get('id');
     if (this.isEdit) {
-      console.log(id);
       user.id = id;
-      this.service.updateUser(id, user).subscribe(e => {
-        this.router.navigate(['users']);
-      });
+      console.log(id, user);
+      this.service.updateUser(id, user).subscribe(
+        _res => {
+          this.router.navigate(['/users']);
+        },
+        err => {
+          console.log('err: ', err);
+        }
+      );
     } else {
       this.service.createUser(user).subscribe(e => {
-        this.router.navigate(['users']);
+        this.router.navigate([this.backUrl]);
       });
     }
     console.log(this.userForm.value);
