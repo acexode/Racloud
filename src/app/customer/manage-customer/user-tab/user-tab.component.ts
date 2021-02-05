@@ -66,7 +66,6 @@ export class UserTabComponent implements OnInit, OnDestroy {
     private customerS: CustomerService
   ) { }
   ngOnInit(): void {
-    console.log(this.customerId);
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {

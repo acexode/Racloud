@@ -91,7 +91,7 @@ export class CreateUserComponent implements OnInit {
       if (id) {
         this.isEdit = true;
         const idx = parseInt(id, 10);
-        this.service.getUser(id).subscribe((data: any) => {
+        this.service.getUser(idx).subscribe((data: any) => {
           // const data = obj.filter(e => e.user.id.toString() === id)[0];
           console.log(data);
           this.user = data.user;
@@ -154,9 +154,9 @@ export class CreateUserComponent implements OnInit {
     });
   }
   setCompanyLabelById(id: number | string) {
-    const company = this.companyOptions.filter(e => e.id === id)[0];
+    const company = this.companyOptions.filter(e => Number(e.id) === Number(id))[0];
     this.companyLabel = company?.companyName || 'Select';
-    console.log(id, this.companyOptions, company);
+    this.userForm.get('companyId').setValue(id);
   }
   addCompany() {
     this.router.navigate(['/users']);
