@@ -26,12 +26,12 @@ export class CreateUserComponent implements OnInit {
       header: 'd-none',
       body: 'no-shadow',
     },
-  }
+  };
   companyLabel = 'Select';
   roleLabel = 'Select'
-  ;
+    ;
   companyOptions = [];
-  filteredOptions = []
+  filteredOptions = [];
   roleOptions = [];
   firstnameConfig: InputConfig = {
     inputLabel: {
@@ -73,39 +73,52 @@ export class CreateUserComponent implements OnInit {
   customers: any;
   ref: any;
   savedCompanyId: any;
-  constructor(private fb: FormBuilder, private router : Router,
-    private route: ActivatedRoute, private service: UsersService) { }
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private service: UsersService
+  ) { }
 
   ngOnInit(): void {
-    this.service.getRoles().subscribe((res:any[]) =>{
-      console.log(res)
-      this.roleOptions = res[0]
-      this.companyOptions = res[1]
-      this.filteredOptions = res[1]
-    })
-    const id = this.route.snapshot.paramMap.get('id');
     this.initForm();
-    if(id){
-      this.isEdit = true;
-      const idx = parseInt(id, 10)
-      this.service.getUser(id).subscribe((data:any) =>{
-        // const data = obj.filter(e => e.user.id.toString() === id)[0];
-        console.log(data)
-        this.user = data.user;
-        this.userForm.patchValue({
-          firstName: data.user?.firstname,
-          lastName: data.user?.lastname,
-          email: data.user?.email,
-          roleId: data.role?.id,
-          companyId: data.company?.id,
+    this.service.getRoles().subscribe((res: any[]) => {
+      this.roleOptions = res[0];
+      this.companyOptions = res[1];
+      this.filteredOptions = res[1];
+
+      const id = this.route.snapshot.paramMap.get('id');
+      const companyId = this.route.snapshot.paramMap.get('companyId');
+      const backUrl = this.route.snapshot.paramMap.get('backUrl');
+      if (backUrl) {
+        this.backUrl = backUrl;
+      }
+      if (companyId) {
+        this.setCompanyLabelById(companyId);
+      }
+      if (id) {
+        this.isEdit = true;
+        // const idx = parseInt(id, 10);
+        this.service.getUser(id).subscribe((data: any) => {
+          // const data = obj.filter(e => e.user.id.toString() === id)[0];
+          console.log(data);
+          this.user = data.user;
+          this.userForm.patchValue({
+            firstName: data.user?.firstname,
+            lastName: data.user?.lastname,
+            email: data.user?.email,
+            roleId: data.role?.id,
+            companyId: data.company?.id,
+          });
+          if (this.companyOptions.length) {
+            this.setCompanyLabelById(data.company.id);
+          }
+          this.roleLabel = data.role?.name;
         });
-        if(this.companyOptions.length){
-          const company = this.companyOptions.filter(e => e.id.toString() === data.company.id)[0]
-          this.companyLabel = company?.companyName || 'Select';
-        }
-        this.roleLabel = data.role?.name;
-      });
-    }
+      }
+
+
+    });
   }
   initForm() {
     this.userForm = this.fb.group({
@@ -148,49 +161,59 @@ export class CreateUserComponent implements OnInit {
       ]
     });
   }
-  addCompany(){
-      this.router.navigate(['/users']);
+  setCompanyLabelById(id: number | string) {
+    const company = this.companyOptions.filter(e => Number(e.id) === Number(id))[0];
+    this.companyLabel = company?.companyName || 'Select';
+    this.userForm.get('companyId').setValue(id);
   }
-  setClose(){
-    this.autoClose = false
+  addCompany() {
+    this.router.navigate(['/users']);
   }
-  setCustomer(company, id){
-    this.autoClose = true
+  setClose() {
+    this.autoClose = false;
+  }
+  setCustomer(company, id) {
+    this.autoClose = true;
     this.componentForm.get('companyId').setValue(id);
   }
-  onSearchChange(customer:string){
-     this.autoClose = false
-    this.filteredOptions = this.companyOptions.filter(e => e.companyName.toLowerCase().includes(customer.toLowerCase()))
+  onSearchChange(customer: string) {
+    this.autoClose = false;
+    this.filteredOptions = this.companyOptions.filter(e => e.companyName.toLowerCase().includes(customer.toLowerCase()));
     // this.ref.detectChanges()
   }
-  setCompany(company, id){
-    this.autoClose = true
+  setCompany(company, id) {
+    this.autoClose = true;
     this.userForm.get('companyId').setValue(id);
     this.companyLabel = company;
-    this.savedCompanyId = id
-    this.filteredOptions = this.companyOptions
-    this.userForm.get('searchText').patchValue('')
+    this.savedCompanyId = id;
+    this.filteredOptions = this.companyOptions;
+    this.userForm.get('searchText').patchValue('');
     // this.ref.detectChanges()
   }
-  setRole(role, id){
+  setRole(role, id) {
     this.userForm.get('roleId').setValue(id);
     this.roleLabel = role;
   }
-  submit(){
-    const user = this.userForm.value
+  submit() {
+    const user = this.userForm.value;
     const id = this.route.snapshot.paramMap.get('id');
-    if(this.isEdit){
-      console.log(id)
-      user.id = id
-      this.service.updateUser(id,user).subscribe(e =>{
-        this.router.navigate(['users'])
-      })
-    }else{
-      this.service.createUser(user).subscribe(e =>{
-        this.router.navigate(['users'])
-      })
+    if (this.isEdit) {
+      user.id = id;
+      console.log(id, user);
+      this.service.updateUser(id, user).subscribe(
+        _res => {
+          this.router.navigate(['/users']);
+        },
+        err => {
+          console.log('err: ', err);
+        }
+      );
+    } else {
+      this.service.createUser(user).subscribe(e => {
+        this.router.navigate([this.backUrl]);
+      });
     }
-    console.log(this.userForm.value)
+    console.log(this.userForm.value);
   }
 
 }

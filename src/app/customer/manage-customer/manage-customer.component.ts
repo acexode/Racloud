@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { CustomerService } from 'src/app/core/services/customer/customer.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
@@ -73,9 +73,10 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
   };
   constructor(
     private cdref: ChangeDetectorRef,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private msgS: MessagesService,
-    private customerS: CustomerService
+    private customerS: CustomerService,
+
   ) { }
 
   ngOnInit(): void {
@@ -128,6 +129,9 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
       tab.isSelected = false;
       tab.defaultSelected = false;
     }
+  }
+  get UserTab() {
+    return this.tabs.find(tab => tab.template === 'userTab');
   }
   /*  */
   ngOnDestroy(): void {

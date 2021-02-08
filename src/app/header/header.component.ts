@@ -14,34 +14,32 @@ import { UsersService } from '../users/users.service';
 export class HeaderComponent implements OnInit {
   raLogoType = 'group2';
   pageTitle$ = this.titleService.titleStore;
-  user
-  company
+  user;
+  company;
   constructor(
     private titleService: TitleService,
     private authS: AuthService,
     private userS: UsersService,
     private router: Router,
 
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.authS.getAccountData().subscribe(e =>{
-      const token = this.authS.getDecodedAccessToken(e)
-      this.userS.getUser(token.id).subscribe((user:any) =>{
-        console.log(user)
-        this.user = user.user
-        this.company = user.company
-      })
-      console.log(token.id)
-    })
+    this.authS.getAccountData().subscribe(e => {
+      const token = this.authS.getDecodedAccessToken(e);
+      this.userS.getUser(token.id).subscribe((user: any) => {
+        this.user = user.user;
+        this.company = user.company;
+      });
+    });
   }
-  navigate(id, route){
-    if(route === 'user'){
+  navigate(id, route) {
+    if (route === 'user') {
       this.router.navigate(['users/edit-user', { id }]);
-    }else if( route === 'company'){
+    } else if (route === 'company') {
       this.router.navigate(['customer/manage', id]);
-    }else{
-      return null
+    } else {
+      return null;
     }
   }
 
