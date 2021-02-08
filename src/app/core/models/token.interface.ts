@@ -1,4 +1,4 @@
-export interface tokenInterface {
+export interface TokenInterface {
     token: string;
     exp: string | Date;
     username?: string;
@@ -11,7 +11,7 @@ export interface tokenInterface {
     company?: {
         companyName?: string;
         companyType?: string;
-        id?: Number | string;
+        id?: number | string;
     };
     roles?: Array<any> | string;
 }

@@ -18,5 +18,5 @@ export interface User {
 export interface Company {
   companyName?: string;
   companyType?: string;
-  id?: Number | string;
+  id?: number | string;
 }

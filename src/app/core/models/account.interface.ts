@@ -4,7 +4,7 @@ export interface Account {
   company?: {
     companyName?: string;
     companyType?: string;
-    id?: Number | string;
+    id?: number | string;
   };
   roles?: Array<string> | string;
 }

@@ -18,7 +18,7 @@ import { authEndpoints } from '../../configs/endpoints';
 import { AuthState } from '../../models/auth-state.interface';
 import { LoginResponse } from '../../models/login-response.interface';
 import { Login } from '../../models/login.interface';
-import { tokenInterface } from '../../models/token.interface';
+import { TokenInterface } from '../../models/token.interface';
 import { CustomStorageService } from '../custom-storage/custom-storage.service';
 import { RequestService } from '../request/request.service';
 
@@ -43,7 +43,7 @@ export class AuthService {
     // Load account state from local/session/cookie storage.
     this.storeS
       .getItem('token')
-      .subscribe((tokenData: tokenInterface) => {
+      .subscribe((tokenData: TokenInterface) => {
         if (tokenData !== null) {
           console.log(tokenData);
           this.authState.next({
@@ -130,7 +130,7 @@ export class AuthService {
     };
     const tokenData = data.token;
     const expirationDate = data.expiration;
-    const auth: tokenInterface = {
+    const auth: TokenInterface = {
       token: tokenData,
       exp: expirationDate || null,
       username: email,
