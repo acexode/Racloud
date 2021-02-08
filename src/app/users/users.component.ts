@@ -1,13 +1,9 @@
 import { UsersService } from './users.service';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { FooterService } from '../core/services/footer/footer.service';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
-import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
 import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
-import { TableFilterType } from '../shared/table/models/table-filter-types';
 import { TableI } from '../shared/table/models/table.interface';
 import { TableService } from '../shared/table/services/table.service';
 
@@ -50,13 +46,10 @@ export class UsersComponent implements OnInit {
   };
   constructor(
     private tS: TableService,
-    private footerS: FooterService,
-    private http: HttpClient,
-    private ref: ChangeDetectorRef,
     private router: Router,
     private userService: UsersService,
 
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
@@ -113,10 +106,10 @@ export class UsersComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getUsers()
+    this.getUsers();
   }
   public getUsers() {
-    this.userService.getUsers().subscribe((data:any) => {
+    this.userService.getUsers().subscribe((data: any) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
@@ -127,22 +120,23 @@ export class UsersComponent implements OnInit {
         this.tableConfig.loadingIndicator = false;
       }
     });
-}
-filterTable(filterObj: TableFilterConfig) {
-  const newRows = this.tS.filterRowInputs(
-    this.tableConfig?.columns,
-    this.rowData,
-    filterObj
-  );
-  this.tableData.next(newRows);
-}
-removeRow(row){  this.userService.deleteUser(row.user.id).subscribe(e =>{
-    this.getUsers()
-  })
-}
-manageSub(data: any){
-  this.router.navigate(['users/edit-user', { id: data.user.id }]);
-}
+  }
+  filterTable(filterObj: TableFilterConfig) {
+    const newRows = this.tS.filterRowInputs(
+      this.tableConfig?.columns,
+      this.rowData,
+      filterObj
+    );
+    this.tableData.next(newRows);
+  }
+  removeRow(row) {
+    this.userService.deleteUser(row.user.id).subscribe(e => {
+      this.getUsers();
+    });
+  }
+  manageSub(data: any) {
+    this.router.navigate(['users/edit-user', { id: data.user.id }]);
+  }
 
 
 }
