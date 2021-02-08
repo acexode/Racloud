@@ -78,10 +78,9 @@ export class TableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const selectedrows = this.rows.filter(obj => obj.selected === true)
-    this.selected = [...selectedrows]
-    console.log(this.selected)
-    this.cdRef.detectChanges()
+    const selectedrows = this.rows.filter(obj => obj.selected === true);
+    this.selected = [...selectedrows];
+    this.cdRef.detectChanges();
     this.doFilterActions();
     this.selectableClass =
       '' +
@@ -107,27 +106,27 @@ export class TableComponent implements OnInit {
     }
   }
   onSelect(selectedObj) {
-    console.log(selectedObj)
-    const {selected} = selectedObj
-    const lastItem = selected[selected.length -1]
-    lastItem.selected = !lastItem.selected
-    selected[selected.length -1] = lastItem
-    const uniq = []
+    console.log(selectedObj);
+    const { selected } = selectedObj;
+    const lastItem = selected[selected.length - 1];
+    lastItem.selected = !lastItem.selected;
+    selected[selected.length - 1] = lastItem;
+    const uniq = [];
     selected.reverse().forEach(e => {
-      const index = uniq.findIndex(obj => obj.Id === e.Id)
-      if(index <= -1){
-        uniq.push(e)
+      const index = uniq.findIndex(obj => obj.Id === e.Id);
+      if (index <= -1) {
+        uniq.push(e);
       }
-    })
-    selectedObj.selected = uniq
-    this.selected = uniq
-    this.selectedRows.subscribe(e =>{
-      console.log(e)
-    })
+    });
+    selectedObj.selected = uniq;
+    this.selected = uniq;
+    this.selectedRows.subscribe(e => {
+      console.log(e);
+    });
     this.selectedRows.emit(selectedObj);
   }
 
-  onActivate(event) {}
+  onActivate(event) { }
 
   toggleExpandRow(row) {
     this.table.rowDetail.toggleExpandRow(row);
@@ -176,7 +175,7 @@ export class TableComponent implements OnInit {
   }
 
   updateSorting(column) {
-    console.log(column)
+    console.log(column);
     column.sorting = true;
     column.isDesc = !column.isDesc;
     this.sortingData.emit(column);
