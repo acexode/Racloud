@@ -4,6 +4,8 @@ export interface LoginResponse {
   code?: string;
   message?: string;
   user?: User;
+  company?: Company;
+  roles?: Array<any> | string;
 }
 
 export interface User {
@@ -11,4 +13,10 @@ export interface User {
   firstname?: string;
   id?: string;
   lastname?: string;
+}
+
+export interface Company {
+  companyName?: string;
+  companyType?: string;
+  id?: Number | string;
 }

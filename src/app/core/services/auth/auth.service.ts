@@ -18,6 +18,7 @@ import { authEndpoints } from '../../configs/endpoints';
 import { AuthState } from '../../models/auth-state.interface';
 import { LoginResponse } from '../../models/login-response.interface';
 import { Login } from '../../models/login.interface';
+import { tokenInterface } from '../../models/token.interface';
 import { CustomStorageService } from '../custom-storage/custom-storage.service';
 import { RequestService } from '../request/request.service';
 
@@ -42,15 +43,18 @@ export class AuthService {
     // Load account state from local/session/cookie storage.
     this.storeS
       .getItem('token')
-      .subscribe((tokenData: { token: string; exp: string, username: string; }) => {
+      .subscribe((tokenData: tokenInterface) => {
         if (tokenData !== null) {
+          console.log(tokenData);
           this.authState.next({
             init: true,
             authToken: tokenData.token,
             expiryDate: tokenData.exp,
             account: {
-              username: tokenData.username,
-              image: null
+              username: tokenData?.username,
+              image: null,
+              company: tokenData?.company,
+              roles: tokenData?.roles[0]
             }
           });
         } else {
@@ -121,14 +125,18 @@ export class AuthService {
       username: email,
       image: null,
       user: data?.user || null,
+      company: data?.company,
+      roles: data?.roles[0],
     };
     const tokenData = data.token;
     const expirationDate = data.expiration;
-    const auth = {
+    const auth: tokenInterface = {
       token: tokenData,
       exp: expirationDate || null,
       username: email,
       user: data?.user || null,
+      company: data?.company || null,
+      roles: data?.roles || null,
     };
     return this.storeS.setItem('token', auth).pipe(
       tap(() => {
