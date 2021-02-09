@@ -1,4 +1,4 @@
-// import { AccessDeniedComponent } from './access-denied/access-denied.component';
+import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { AuthGuard } from './core/guards/auth/auth.guard';
@@ -44,7 +44,7 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuard],
     data: { title: 'User Listing' },
-    resolve: { data: UsersRouteResolver }
+    resolve: { data: UsersRouteResolver},
   },
   {
     path: 'products',
@@ -72,14 +72,11 @@ const routes: Routes = [
     component: NotFoundComponent,
     data: { title: 'Not found' },
   },
-  /* {
+  {
     path: 'access-denied',
-    loadChildren: () =>
-      import('./access-denied/access-denied.module').then(
-        (m) => m.AccessDeniedModule
-      ),
+    component: AccessDeniedComponent,
     data: { title: 'Access Denied' },
-  }, */
+  },
   {
     path: 'style',
     component: StyleGuideComponent,

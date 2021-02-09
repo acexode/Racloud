@@ -47,7 +47,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   };
   routeData$: Subscription;
   userData$: Subscription;
-  showScreen: BehaviorSubject<boolean> = new BehaviorSubject(false);
   constructor(
     private tS: TableService,
     private router: Router,
@@ -59,7 +58,10 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.routeData$ = this.route.data.subscribe(
       res => {
         const data = get(res, 'data', null);
-        this.showScreen.next(data?.showScreen || false);
+        console.log(res, data);
+        if (data?.showScreen) {
+          this.router.navigate(['/access-denied']);
+        }
       }
     );
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
