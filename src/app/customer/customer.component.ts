@@ -92,7 +92,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
     this.routeData$ = this.route.data.subscribe(
       res => {
         const data = get(res, 'data', null);
-        console.log(data);
         if (data?.accessDetailsScreen) {
           this.accessDetailsScreen$.next(true);
         }

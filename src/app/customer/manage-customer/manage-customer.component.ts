@@ -27,6 +27,7 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
     width: '0px',
   };
   tabSwitch: any;
+  customerId: any;
   tabs = [
     {
       name: 'Details',
@@ -99,6 +100,7 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
       params => {
         const id: any = params.get('id');
         const tab: any = params.get('tab');
+        this.customerId = id;
         this.fetch$ = this.customerS.getCustomerById(id).subscribe(
           (res: any) => {
             if (res) {
@@ -139,6 +141,8 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
       width: `${ event.target.offsetWidth }px`
     };
     this.tabs[index].isSelected = true;
+    // update route
+    this.router.navigate(['/customer/manage', this.customerId, 'tab', this.tabs[index].name.toLowerCase()]);
   }
   ressetTabSelectStatus() {
     for (const tab of this.tabs) {
