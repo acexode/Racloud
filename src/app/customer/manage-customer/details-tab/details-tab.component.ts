@@ -19,6 +19,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
   formEditMode = true;
   isLoading: boolean;
   @Input() detailsData: CustomerModel;
+  @Input() fieldPermission
   textAreaConfig: TextAreaConfig = {
     textAreaLabel: {
       text: 'Address'

@@ -1,3 +1,4 @@
+import { RequestService } from './../../core/services/request/request.service';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { get } from 'lodash';
@@ -39,6 +40,7 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     this.isLoading = status;
   };
   @Input() editableData!: any;
+  fieldsPermission: any
   backUrl = '/customer';
 
   typeOptions = Object.keys(CompanyTypes).map(companyType => {
@@ -131,7 +133,8 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     private cS: CountriesService,
     private parentS: CompanyParentsService,
     private lgS: LanguagesService,
-    private priceService: PriceListService
+    private priceService: PriceListService,
+    private reqS: RequestService
   ) { }
   ngOnChanges(changes: SimpleChanges): void {
     // this.componentForm.valueChanges.subscribe(d => {});
@@ -147,6 +150,10 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     this.languageOptions$ = this.lgS.getLanguages();
     // price listing options
     this.priceListOptions$ = this.priceService.getPriceLists();
+    this.reqS.get('../../../assets/main-admin-customer-details.json').subscribe((e: any) => {
+      console.log(e)
+      this.fieldsPermission = e.fields
+    })
     // update form Data
     this.updateValueForForm();
   }
@@ -323,6 +330,13 @@ export class CustomerFormComponent implements OnInit, OnChanges {
   }
   markControlDirty(formControl: FormControl) {
     formControl.markAsDirty();
+  }
+  setDisplay(permission){
+    if(permission === 'hidden'){
+      return false
+    }else{
+      return true
+    }
   }
 }
 
