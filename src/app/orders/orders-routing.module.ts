@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { BasicDetailsPageRouteResolver } from '../core/resolver/basic.details.page.route.resolver';
 import { BasicPageRouteResolver } from '../core/resolver/basic.page.route.resolver';
 import { OrdersCheckoutComponent } from './orders-checkout/orders-checkout.component';
 import { OrdersDetailsComponent } from './orders-details/orders-details.component';
@@ -16,7 +17,8 @@ const routes: Routes = [
     {
         path: 'orders-details/:id',
         component: OrdersDetailsComponent,
-        data: { title: 'orders details' }
+        data: { title: 'orders details' },
+        resolve: { data: BasicDetailsPageRouteResolver },
     },
     {
         path: 'orders-checkout',

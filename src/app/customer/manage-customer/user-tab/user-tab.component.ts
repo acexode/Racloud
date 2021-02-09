@@ -1,7 +1,6 @@
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { CustomerService } from 'src/app/core/services/customer/customer.service';
 import { omnBsConfig } from 'src/app/shared/date-picker/data/omn-bsConfig';
 import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
@@ -61,9 +60,9 @@ export class UserTabComponent implements OnInit, OnDestroy {
     action: true
   };
   getCustomerUsers$: Subscription;
+  routeData$: Subscription;
   constructor(
     private tS: TableService,
-    private ref: ChangeDetectorRef,
     private customerS: CustomerService,
     private router: Router,
   ) { }
@@ -147,7 +146,7 @@ export class UserTabComponent implements OnInit, OnDestroy {
     console.log(id);
   }
   manageSub(data: any) {
-    this.router.navigate(['/users/edit-user', { id: data.id, backUrl: '/customer/manage/' + this.customerId }]);
+    this.router.navigate(['/users/edit-user', { id: data.id, backUrl: '/customer/manage/' + this.customerId + '/tab/users' }]);
   }
   ngOnDestroy(): void {
     this.getCustomerUsers$.unsubscribe();

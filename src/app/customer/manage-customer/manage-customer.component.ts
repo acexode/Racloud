@@ -1,5 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { get } from 'lodash';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { CustomerService } from 'src/app/core/services/customer/customer.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
@@ -31,37 +32,42 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
       name: 'Details',
       template: 'detailsTab',
       isSelected: false,
-      defaultSelected: true,
+      defaultSelected: false,
+      showTab: true,
     },
     {
       name: 'License',
       template: 'licenseTab',
       isSelected: false,
       defaultSelected: false,
+      showTab: true,
     },
     {
       name: 'Users',
       template: 'userTab',
       isSelected: false,
       defaultSelected: false,
+      showTab: true,
     },
     {
       name: 'Orders',
       template: 'ordersTab',
       isSelected: false,
       defaultSelected: false,
+      showTab: true,
     },
     {
       name: 'Customers',
       template: 'customersTab',
       isSelected: false,
       defaultSelected: false,
+      showTab: true,
     },
   ];
   /*  */
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/customer';
-
+  routeData$: Subscription;
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -76,18 +82,28 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
     public route: ActivatedRoute,
     private msgS: MessagesService,
     private customerS: CustomerService,
+    private router: Router,
 
   ) { }
 
   ngOnInit(): void {
+    this.routeData$ = this.route.data.subscribe(
+      res => {
+        const data = get(res, 'data', null);
+        if (!data?.accessDetailsScreen) {
+          this.router.navigate(['/access-denied']);
+        }
+      }
+    );
     this.route$ = this.route.paramMap.subscribe(
       params => {
         const id: any = params.get('id');
+        const tab: any = params.get('tab');
         this.fetch$ = this.customerS.getCustomerById(id).subscribe(
           (res: any) => {
             if (res) {
               this.detailsData$.next(res);
-              this.showTab(this.detailsTab);
+              this.setTab(tab);
             }
           },
           _err => {
@@ -133,10 +149,25 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
   get UserTab() {
     return this.tabs.find(tab => tab.template === 'userTab');
   }
+  setTab(tabName: any) {
+    const tabIndex = this.tabs.findIndex(tab => tab.name.toLowerCase() === tabName.toLowerCase());
+    this.ressetTabSelectStatus();
+    if (tabIndex > -1) {
+      const tab = this.tabs[tabIndex].template;
+      this.tabSwitch = this[tab];
+      this.tabs[tabIndex].defaultSelected = true;
+      this.tabs[tabIndex].isSelected = true;
+    } else {
+      this.tabs[0].defaultSelected = true;
+      this.tabs[0].isSelected = true;
+      this.showTab(this.detailsTab);
+    }
+  }
   /*  */
   ngOnDestroy(): void {
     this.route$.unsubscribe();
     this.fetch$.unsubscribe();
+    this.routeData$.unsubscribe();
   }
 
 }
