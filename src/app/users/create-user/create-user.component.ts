@@ -8,6 +8,7 @@ import { PageContainerConfig } from 'src/app/shared/container/models/page-contai
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 
 @Component({
   selector: 'app-create-user',
@@ -99,7 +100,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   constructor(private fb: FormBuilder, private router : Router,
-    private route: ActivatedRoute, private service: UsersService,
+    private route: ActivatedRoute, private service: UsersService, private msgS: MessagesService,
     private modalService: BsModalService, private cStorage: CustomStorageService) { }
 
   ngOnInit(): void {
@@ -216,25 +217,25 @@ export class CreateUserComponent implements OnInit {
       console.log(type)
     }else if(type === 'change'){
       this.changePasswordForm = this.fb.group({
-        Email : [
+        email : [
           this.user.email,
           [
             Validators.required,
           ],
         ],
-        OldPassword : [
+        oldPassword : [
           '',
           [
             Validators.required,
           ],
         ],
-        NewPassword : [
+        newPassword : [
           '',
           [
             Validators.required,
           ],
         ],
-        ConfirmPassword : [
+        confirmPassword : [
           '',
           [
             Validators.required,
@@ -263,10 +264,12 @@ export class CreateUserComponent implements OnInit {
   changePassword(){
     console.log(this.changePasswordForm.value)
     const value = this.changePasswordForm.value
-    this.service.changePassword(value).subscribe(e =>{
+    this.service.changePassword(value).subscribe((e: any) =>{
       console.log(e)
-      // this.modalRef.hide()
+      this.displayMsg(e.message, 'success')
+      this.modalRef.hide()
     }, (err) =>{
+      console.log(err)
       this.changePasswordError = err.error
     })
   }
@@ -274,8 +277,21 @@ export class CreateUserComponent implements OnInit {
     const obj = {
       email: this.user.email
     }
-    this.service.sendResetPassword(obj).subscribe(e =>{
+    this.service.sendResetPassword(obj).subscribe((e: any) =>{
       console.log(e)
+      this.displayMsg(e.message, 'info')
     })
+  }
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
   }
 }

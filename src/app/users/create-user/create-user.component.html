@@ -142,13 +142,13 @@
       <div [formGroup]="changePasswordForm" class="modal-body px-32 discount-body pb-0">
         <div class="row">
         <div  class="col-12  mb-14">
-          <app-input formControlName="OldPassword" [config]="inputConfig('Current Password', 'text', 'Type here')" ></app-input>
+          <app-input formControlName="oldPassword" [config]="inputConfig('Current Password', 'text', 'Type here')" ></app-input>
         </div>
         <div class="col-12  mb-14">
-          <app-input formControlName="NewPassword" [config]="inputConfig('New Password', 'text', 'Type here')" ></app-input>
+          <app-input formControlName="newPassword" [config]="inputConfig('New Password', 'text', 'Type here')" ></app-input>
         </div>
         <div class="col-12  mb-14">
-          <app-input formControlName="ConfirmPassword" [config]="inputConfig('Repeat Password', 'text', 'Type here')" ></app-input>
+          <app-input formControlName="confirmPassword" [config]="inputConfig('Repeat Password', 'text', 'Type here')" ></app-input>
         </div>
         </div>
         <div class="discount-footer d-flex justify-content-end pb-32">
