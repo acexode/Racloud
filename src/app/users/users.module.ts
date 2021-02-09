@@ -11,6 +11,7 @@ import { ContainerModule } from '../shared/container/container.module';
 import { RcFormsModule } from '../shared/rc-forms/rc-forms.module';
 import { TableModule } from '../shared/table/table.module';
 import { TabsModule } from '../shared/tabs/tabs.module';
+// import { AccessDeniedModule } from '../access-denied/access-denied.module';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { TabsModule } from '../shared/tabs/tabs.module';
     FormsModule,
     BsDropdownModule.forRoot(),
     ReactiveFormsModule,
-    UsersRoutingModule
+    UsersRoutingModule,
+    // AccessDeniedModule
   ]
 })
 export class UsersModule { }

@@ -1,11 +1,12 @@
 import { UsersService } from './users.service';
-import { Router } from '@angular/router';
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
 import { TableI } from '../shared/table/models/table.interface';
 import { TableService } from '../shared/table/services/table.service';
+import { get } from 'lodash';
 
 @Component({
   selector: 'app-users',
@@ -13,7 +14,7 @@ import { TableService } from '../shared/table/services/table.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
   isDropup = true;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl;
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
@@ -44,13 +45,23 @@ export class UsersComponent implements OnInit {
     externalSorting: false,
     action: true
   };
+  routeData$: Subscription;
+  userData$: Subscription;
+  showScreen: BehaviorSubject<boolean> = new BehaviorSubject(false);
   constructor(
     private tS: TableService,
     private router: Router,
     private userService: UsersService,
+    private route: ActivatedRoute
 
   ) { }
   ngOnInit(): void {
+    this.routeData$ = this.route.data.subscribe(
+      res => {
+        const data = get(res, 'data', null);
+        this.showScreen.next(data?.showScreen || false);
+      }
+    );
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
@@ -109,7 +120,7 @@ export class UsersComponent implements OnInit {
     this.getUsers();
   }
   public getUsers() {
-    this.userService.getUsers().subscribe((data: any) => {
+    this.userData$ = this.userService.getUsers().subscribe((data: any) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
@@ -129,7 +140,7 @@ export class UsersComponent implements OnInit {
     );
     this.tableData.next(newRows);
   }
-  removeRow(row) {
+  removeRow(row: any) {
     this.userService.deleteUser(row.user.id).subscribe(e => {
       this.getUsers();
     });
@@ -137,6 +148,10 @@ export class UsersComponent implements OnInit {
   manageSub(data: any) {
     this.router.navigate(['users/edit-user', { id: data.user.id }]);
   }
-
-
+  ngOnDestroy(): void {
+    this.routeData$.unsubscribe();
+    if (this.userData$) {
+      this.userData$.unsubscribe();
+    }
+  }
 }

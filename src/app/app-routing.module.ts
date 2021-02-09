@@ -1,4 +1,4 @@
-import { AccessDeniedComponent } from './access-denied/access-denied.component';
+// import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { AuthGuard } from './core/guards/auth/auth.guard';
@@ -10,6 +10,7 @@ import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { SignupComponent } from './signup/signup.component';
 
 import { ShopComponent } from './shop/shop.component';
+import { UsersRouteResolver } from './users/users.route.resolver';
 const routes: Routes = [
   {
     path: '',
@@ -43,6 +44,7 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuard],
     data: { title: 'User Listing' },
+    resolve: { data: UsersRouteResolver }
   },
   {
     path: 'products',
@@ -70,11 +72,14 @@ const routes: Routes = [
     component: NotFoundComponent,
     data: { title: 'Not found' },
   },
-  {
+  /* {
     path: 'access-denied',
-    component: AccessDeniedComponent,
+    loadChildren: () =>
+      import('./access-denied/access-denied.module').then(
+        (m) => m.AccessDeniedModule
+      ),
     data: { title: 'Access Denied' },
-  },
+  }, */
   {
     path: 'style',
     component: StyleGuideComponent,

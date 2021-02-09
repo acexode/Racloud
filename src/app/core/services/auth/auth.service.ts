@@ -45,7 +45,6 @@ export class AuthService {
       .getItem('token')
       .subscribe((tokenData: TokenInterface) => {
         if (tokenData !== null) {
-          console.log(tokenData);
           this.authState.next({
             init: true,
             authToken: tokenData.token,

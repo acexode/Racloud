@@ -1,4 +1,4 @@
-import { UserPagePermissionsData, UserRolePermissions } from "./user.permission.interface";
+import { UserPagePermissionsData, UserRolePermissions } from './user.permission.interface';
 
 export const admin: UserPagePermissionsData = {
     screen: 'full',
@@ -16,10 +16,10 @@ export const admin: UserPagePermissionsData = {
 };
 const licenseManager: UserPagePermissionsData = {
     screen: 'hidden',
-}
+};
 const user: UserPagePermissionsData = {
     screen: 'hidden',
-}
+};
 export const userPagePermission: UserRolePermissions = {
     main: {
         admin,
