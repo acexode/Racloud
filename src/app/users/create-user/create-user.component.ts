@@ -40,12 +40,12 @@ export class CreateUserComponent implements OnInit {
       header: 'd-none',
       body: 'no-shadow',
     },
-  }
+  };
   companyLabel = 'Select';
   roleLabel = 'Select'
-  ;
+    ;
   companyOptions = [];
-  filteredOptions = []
+  filteredOptions = [];
   roleOptions = [];
   firstnameConfig: InputConfig = {
     inputLabel: {
@@ -133,13 +133,9 @@ export class CreateUserComponent implements OnInit {
           roleId: data.role?.id,
           companyId: data.company?.id,
         });
-        if(this.companyOptions.length){
-          const company = this.companyOptions.filter(e => e.id.toString() === data.company.id)[0]
-          this.companyLabel = company?.companyName || 'Select';
-        }
-        this.roleLabel = data.role?.name;
-      });
+      })
     }
+
   }
   initForm() {
     this.userForm = this.fb.group({
@@ -182,31 +178,36 @@ export class CreateUserComponent implements OnInit {
       ]
     });
   }
-  addCompany(){
-      this.router.navigate(['/users']);
+  setCompanyLabelById(id: number | string) {
+    const company = this.companyOptions.filter(e => Number(e.id) === Number(id))[0];
+    this.companyLabel = company?.companyName || 'Select';
+    this.userForm.get('companyId').setValue(id);
   }
-  setClose(){
-    this.autoClose = false
+  addCompany() {
+    this.router.navigate(['/users']);
   }
-  setCustomer(company, id){
-    this.autoClose = true
+  setClose() {
+    this.autoClose = false;
+  }
+  setCustomer(company, id) {
+    this.autoClose = true;
     this.componentForm.get('companyId').setValue(id);
   }
-  onSearchChange(customer:string){
-     this.autoClose = false
-    this.filteredOptions = this.companyOptions.filter(e => e.companyName.toLowerCase().includes(customer.toLowerCase()))
+  onSearchChange(customer: string) {
+    this.autoClose = false;
+    this.filteredOptions = this.companyOptions.filter(e => e.companyName.toLowerCase().includes(customer.toLowerCase()));
     // this.ref.detectChanges()
   }
-  setCompany(company, id){
-    this.autoClose = true
+  setCompany(company, id) {
+    this.autoClose = true;
     this.userForm.get('companyId').setValue(id);
     this.companyLabel = company;
-    this.savedCompanyId = id
-    this.filteredOptions = this.companyOptions
-    this.userForm.get('searchText').patchValue('')
+    this.savedCompanyId = id;
+    this.filteredOptions = this.companyOptions;
+    this.userForm.get('searchText').patchValue('');
     // this.ref.detectChanges()
   }
-  setRole(role, id){
+  setRole(role, id) {
     this.userForm.get('roleId').setValue(id);
     this.roleLabel = role;
   }
@@ -248,18 +249,23 @@ export class CreateUserComponent implements OnInit {
   submit(){
     const user = this.userForm.value
     const id = this.route.snapshot.paramMap.get('id');
-    if(this.isEdit){
-      console.log(id)
-      user.id = id
-      this.service.updateUser(id,user).subscribe(e =>{
-        this.router.navigate(['users'])
-      })
-    }else{
-      this.service.createUser(user).subscribe(e =>{
-        this.router.navigate(['users'])
-      })
+    if (this.isEdit) {
+      user.id = id;
+      console.log(id, user);
+      this.service.updateUser(id, user).subscribe(
+        _res => {
+          this.router.navigate(['/users']);
+        },
+        err => {
+          console.log('err: ', err);
+        }
+      );
+    } else {
+      this.service.createUser(user).subscribe(e => {
+        this.router.navigate([this.backUrl]);
+      });
     }
-    console.log(this.userForm.value)
+    console.log(this.userForm.value);
   }
   changePassword(){
     console.log(this.changePasswordForm.value)

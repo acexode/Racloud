@@ -136,13 +136,11 @@ filterTable(filterObj: TableFilterConfig) {
   );
   this.tableData.next(newRows);
 }
-removeRow(row){
-  console.log(row.id);
-  this.userService.deleteUser(row.user.id).subscribe(e =>{
+removeRow(row){  this.userService.deleteUser(row.user.id).subscribe(e =>{
     this.getUsers()
   })
 }
-manageSub(data){
+manageSub(data: any){
   this.router.navigate(['users/edit-user', { id: data.user.id }]);
 }
 
