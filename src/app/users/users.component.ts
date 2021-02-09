@@ -58,8 +58,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.routeData$ = this.route.data.subscribe(
       res => {
         const data = get(res, 'data', null);
-        console.log(res, data);
-        if (data?.showScreen) {
+        if (!data?.showScreen) {
           this.router.navigate(['/access-denied']);
         }
       }

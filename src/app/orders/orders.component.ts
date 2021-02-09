@@ -1,8 +1,8 @@
 import { Order } from './../core/models/order.interface';
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { FooterService } from '../core/services/footer/footer.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
@@ -12,6 +12,7 @@ import { TableI } from '../shared/table/models/table.interface';
 import { TableService } from '../shared/table/services/table.service';
 import { OrderService } from './service.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { get } from 'lodash';
 
 @Component({
   selector: 'app-orders',
@@ -19,7 +20,7 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./orders.component.scss']
 })
-export class OrdersComponent implements OnInit {
+export class OrdersComponent implements OnInit, OnDestroy {
   isDropup = false;
   @ViewChild('dateTemplate', { static: true }) dateTemplate;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl;
@@ -56,16 +57,23 @@ export class OrdersComponent implements OnInit {
     loadingIndicator: true,
     action: true
   };
+  routeData$: Subscription;
   constructor(
     private tS: TableService,
-    private footerS: FooterService,
     private http: HttpClient,
-    private ref: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute,
     private service: OrderService
   ) { }
   ngOnInit(): void {
+    this.routeData$ = this.route.data.subscribe(
+      res => {
+        const data = get(res, 'data', null);
+        if (!data?.showScreen) {
+          this.router.navigate(['/access-denied']);
+        }
+      }
+    );
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
@@ -197,12 +205,11 @@ export class OrdersComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.loadOrders()
+    this.loadOrders();
   }
-  loadOrders(){
-    this.service.getorders().subscribe((data:any) => {
+  loadOrders() {
+    this.service.getorders().subscribe((data: any) => {
       if (data) {
-        console.log(data)
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
         const cloneData = data.map((v) => {
@@ -224,20 +231,23 @@ export class OrdersComponent implements OnInit {
     );
     this.tableData.next(newRows);
   }
-  generateOrder(){
-    this.service.generateOrder().subscribe((e:any) =>{
-      console.log(e)
+  generateOrder() {
+    this.service.generateOrder().subscribe((e: any) => {
+      console.log(e);
       this.router.navigate(['orders-details', e.id], { relativeTo: this.route });
-    })
+    });
   }
   removeRow(row) {
     console.log(row);
-    this.service.deleteOrder(row.Id).subscribe(e =>{
-      this.loadOrders()
-    })
+    this.service.deleteOrder(row.Id).subscribe(e => {
+      this.loadOrders();
+    });
   }
   manageSub(data: any) {
     console.log(data);
     this.router.navigate(['orders-details', data.Id], { relativeTo: this.route });
+  }
+  ngOnDestroy(): void {
+    this.routeData$.unsubscribe();
   }
 }

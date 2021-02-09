@@ -10,7 +10,6 @@ import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { SignupComponent } from './signup/signup.component';
 
 import { ShopComponent } from './shop/shop.component';
-import { UsersRouteResolver } from './users/users.route.resolver';
 const routes: Routes = [
   {
     path: '',
@@ -34,7 +33,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       title: 'Order'
-    }
+    },
   },
   {
     path: 'users',
@@ -44,7 +43,6 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuard],
     data: { title: 'User Listing' },
-    resolve: { data: UsersRouteResolver},
   },
   {
     path: 'products',
