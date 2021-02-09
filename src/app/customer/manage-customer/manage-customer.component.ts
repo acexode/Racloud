@@ -107,9 +107,9 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
                 for (const key in this.tabPermission) {
                   if(this.tabPermission[key] === 'full'){
                     console.log(key)
-                    this.tabs.forEach(e =>{
-                      if(e.shortName === key){
-                        filtered.push(e)
+                    this.tabs.forEach(tab =>{
+                      if(tab.shortName === key){
+                        filtered.push(tab)
                       }
                     })
                   }
