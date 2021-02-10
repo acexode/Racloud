@@ -1,4 +1,3 @@
-import { RequestService } from './../core/services/request/request.service';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -79,7 +78,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
   isDropup: boolean;
   customErrorMsg = 'There is an issue with your network. Please Refresh your network';
   disableCustomer$: Subscription;
-  fieldsPermission: any;
   constructor(
     private tS: TableService,
     private router: Router,
@@ -87,8 +85,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
     private ref: ChangeDetectorRef,
     private customerS: CustomerService,
     private countriesS: CountriesService,
-    private msgS: MessagesService,
-    private reqS: RequestService,
+    private msgS: MessagesService
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
