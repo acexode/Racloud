@@ -9,7 +9,6 @@ import { TableFilterType } from 'src/app/shared/table/models/table-filter-types'
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
 import { LicenseServiceService } from '../license-service.service';
-import { RequestService } from 'src/app/core/services/request/request.service';
 
 
 
@@ -58,6 +57,7 @@ export class LicensesListingComponent implements OnInit {
     action: true
   };
   fieldsPermission: any;
+  actionPermission: any;
 
   constructor(
     private tS: TableService,
@@ -65,7 +65,6 @@ export class LicensesListingComponent implements OnInit {
     private router: Router,
     private ref: ChangeDetectorRef,
     private service: LicenseServiceService,
-    private reqS: RequestService,
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -228,9 +227,10 @@ export class LicensesListingComponent implements OnInit {
   public getJSON(): Observable<any> {
     return this.http.get('./assets/ra-table-license.json');
   }
-  loadTableData(data:[]){
+  loadTableData(data){
+    console.log(data)
     if (data) {
-      const formattedData = data.map((e:any)=>{
+      const formattedData = data.licenses.map((e:any)=>{
         return {
           ...e,
           productName: e.product.name,
@@ -240,29 +240,26 @@ export class LicensesListingComponent implements OnInit {
       })
       console.log(formattedData)
       const filteredColumns = []
-          this.reqS.get('../../../assets/main-admin-licenses.json').subscribe((e: any) => {
-            console.log(e)
-            this.fieldsPermission = e.columns
-            this.fieldsPermission.licenseStatus = this.fieldsPermission.status
-            this.fieldsPermission.companyName = this.fieldsPermission.customer
-            for (const key in this.fieldsPermission) {
-              if (this.fieldsPermission[key] === 'full') {
-                // console.log(key)
-                this.tableConfig.columns.forEach(column =>{
-                  // console.log(column)
-                  if(column.identifier.toLowerCase() === key.toLowerCase()){
-                    console.log(key)
-                    filteredColumns.push(column)
-                  }
-                })
-              }
+      this.fieldsPermission = data.schema.columns
+      this.actionPermission = data.schema.actions
+      this.fieldsPermission.licenseStatus = this.fieldsPermission.status
+      this.fieldsPermission.companyName = this.fieldsPermission.customer
+      for (const key in this.fieldsPermission) {
+        if (this.fieldsPermission[key] === 'full') {
+          // console.log(key)
+          this.tableConfig.columns.forEach(column =>{
+            // console.log(column)
+            if(column.identifier.toLowerCase() === key.toLowerCase()){
+              console.log(key)
+              filteredColumns.push(column)
             }
-             console.log(filteredColumns)
-             const sorted  = filteredColumns.sort((a, b) => (a.index > b.index) ? 1 : (b.index > a.index) ? -1 : 0)
-            // console.log(sorted)
-            this.tableConfig.columns = [...filteredColumns,this.tableConfig.columns[this.tableConfig.columns.length -1] ]
           })
-
+        }
+      }
+       console.log(filteredColumns)
+       const sorted  = filteredColumns.sort((a, b) => (a.index > b.index) ? 1 : (b.index > a.index) ? -1 : 0)
+      // console.log(sorted)
+      this.tableConfig.columns = [...filteredColumns,this.tableConfig.columns[this.tableConfig.columns.length -1] ]
 
       this.tableConfig.loadingIndicator = true;
       this.rowData = formattedData;

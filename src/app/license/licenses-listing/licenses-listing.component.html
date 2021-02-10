@@ -44,8 +44,8 @@
       </a>
       <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
           role="menu" aria-labelledby="button-basic">
-        <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
-        <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
+        <li *ngIf="actionPermission.manageUpdate === 'full'" (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
+        <li *ngIf="actionPermission.activateDeactivate === 'full'" (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
       </ul>
     </div>
     <div *ngIf="rowIndex % 10 >= 6" class="btn-group" dropdown [dropup]="true">
@@ -55,8 +55,8 @@
       </a>
       <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
           role="menu" aria-labelledby="button-basic">
-        <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
-        <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
+        <li *ngIf="actionPermission.manageUpdate === 'full'" (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
+        <li *ngIf="actionPermission.activateDeactivate === 'full'" (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
       </ul>
     </div>
   </ng-template>
