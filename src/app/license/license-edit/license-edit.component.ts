@@ -88,7 +88,6 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
       prefixIcon: prefixIcon || false,
       formStatus: {
         isDisabled,
-       
       }
     };
   }
