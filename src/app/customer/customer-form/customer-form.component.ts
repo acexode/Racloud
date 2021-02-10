@@ -40,7 +40,6 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     this.isLoading = status;
   };
   @Input() editableData!: any;
-  fieldsPermission: any
   backUrl = '/customer';
 
   typeOptions = Object.keys(CompanyTypes).map(companyType => {
@@ -150,10 +149,6 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     this.languageOptions$ = this.lgS.getLanguages();
     // price listing options
     this.priceListOptions$ = this.priceService.getPriceLists();
-    this.reqS.get('../../../assets/main-admin-customer-details.json').subscribe((e: any) => {
-      console.log(e)
-      this.fieldsPermission = e.fields
-    })
     // update form Data
     this.updateValueForForm();
   }
