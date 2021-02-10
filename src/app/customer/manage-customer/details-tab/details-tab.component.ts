@@ -41,7 +41,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     private customerS: CustomerService
   ) { }
   ngOnInit(): void {
-    // get details ID    
+    // get details ID
     this.detailsId = get(this.detailsData.customer, 'id', null);
     this.isLoading = false;
     this.cdref.detectChanges();
