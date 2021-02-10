@@ -6,7 +6,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -14,6 +14,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { UsersService } from 'src/app/users/users.service';
 import { authEndpoints } from '../../configs/endpoints';
 import { AuthState } from '../../models/auth-state.interface';
 import { LoginResponse } from '../../models/login-response.interface';
@@ -38,7 +39,8 @@ export class AuthService {
   constructor(
     private storeS: CustomStorageService,
     private routerS: Router,
-    private reqS: RequestService
+    private reqS: RequestService,
+    private userS: UsersService
   ) {
     // Load account state from local/session/cookie storage.
     this.storeS
@@ -111,6 +113,13 @@ export class AuthService {
       switchMap((val) => {
         return this.processAuthResponse(val, loginData.email);
       }),
+      switchMap((val) => {
+        return this.userS.getUserPermissionsPerPage().pipe(
+          map(d => {
+            return { loginResponse: val, pagePermission: d };
+          })
+        );
+      }),
       tap((value) => {
         const redirectUrl = this.redirectUrlTree(
           loginData.aRoute ? loginData.aRoute.snapshot : null
@@ -150,6 +159,9 @@ export class AuthService {
       map((v) => data)
     );
   }
+  processUserPermissionResponse() {
+
+  }
 
   redirectUrlTree(snapshot: ActivatedRouteSnapshot): UrlTree {
     if (snapshot) {
@@ -166,6 +178,9 @@ export class AuthService {
     // remove token from local storage to log user out
     this.storeS.removeItem('token');
     this.authState.next({ ...this.initialState, ...{ init: true } });
+    // clear user permissions too
+    this.userS.clearUserPermission();
+    // route to login
     return this.routerS.navigateByUrl('/login');
   }
 

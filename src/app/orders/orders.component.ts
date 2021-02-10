@@ -233,18 +233,15 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
   generateOrder() {
     this.service.generateOrder().subscribe((e: any) => {
-      console.log(e);
       this.router.navigate(['orders-details', e.id], { relativeTo: this.route });
     });
   }
   removeRow(row) {
-    console.log(row);
     this.service.deleteOrder(row.Id).subscribe(e => {
       this.loadOrders();
     });
   }
   manageSub(data: any) {
-    console.log(data);
     this.router.navigate(['orders-details', data.Id], { relativeTo: this.route });
   }
   ngOnDestroy(): void {
