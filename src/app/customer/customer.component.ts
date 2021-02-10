@@ -292,7 +292,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
            const sorted  = filteredColumns.sort((a, b) => (a.index > b.index) ? 1 : (b.index > a.index) ? -1 : 0)
           // console.log(sorted)
           this.tableConfig.columns = [...filteredColumns, this.tableConfig.columns[this.tableConfig.columns.length -1]]
-          
           // this.tableConfig.columns = filteredColumns;
           this.tableConfig.loadingIndicator = true;
           this.rowData = data;
