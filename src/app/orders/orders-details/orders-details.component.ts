@@ -146,7 +146,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     );
     this.loadOrder();
     this.service.getcustomers().subscribe(e => {
-      this.customers = e;
+      this.customers = get(e, 'customers', []);
       this.filteredCustomer = e;
     });
     this.routeId = parseInt(this.route.snapshot.paramMap.get('id'), 10);

@@ -7,4 +7,10 @@ export interface Account {
     id?: number | string;
   };
   roles?: Array<string> | string;
+  user?: {
+    id?: any;
+    firstname?: string;
+    lastname?: string;
+    email?: string;
+  };
 }

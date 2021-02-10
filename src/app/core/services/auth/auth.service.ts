@@ -53,7 +53,8 @@ export class AuthService {
               username: tokenData?.username,
               image: null,
               company: tokenData?.company,
-              roles: tokenData?.roles[0]
+              roles: tokenData?.roles[0],
+              user: tokenData?.user || null,
             }
           });
         } else {

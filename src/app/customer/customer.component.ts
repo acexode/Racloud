@@ -259,18 +259,22 @@ export class CustomerComponent implements OnInit, OnDestroy {
     this.loadCustomers$ = this.customerS.getCustomers().subscribe(
       res => {
         if (res) {
-          const data = res.map((v: any) => {
-            return {
-              ...v,
-              country: this.getCountryForCutomer(v.country),
-              anniversaryDate: getUTCdate(v.anniversaryDate),
-              parent: v?.parent?.companyName,
-            };
-          }).reverse();
-          this.tableConfig.loadingIndicator = true;
-          this.rowData = data;
-          this.tableData.next(data);
-          this.tableConfig.loadingIndicator = false;
+          const customer = get(res, 'customers', null);
+          if (customer) {
+            const data = customer.map((v: any) => {
+              return {
+                ...v,
+                country: this.getCountryForCutomer(v.country),
+                anniversaryDate: getUTCdate(v.anniversaryDate),
+                parent: v?.parent?.companyName,
+              };
+            }).reverse();
+            this.tableConfig.loadingIndicator = true;
+            this.rowData = data;
+            this.tableData.next(data);
+            this.tableConfig.loadingIndicator = false;
+          }
+
         }
       },
       err => {
