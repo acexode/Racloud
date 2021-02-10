@@ -3,7 +3,7 @@ import { userEndpoints, roleEndpoints, customersEndpoints } from '../core/config
 import { RequestService } from '../core/services/request/request.service';
 import { Observable, forkJoin, BehaviorSubject } from 'rxjs';
 import { CustomStorageService } from '../core/services/custom-storage/custom-storage.service';
-import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 import { UserPagePermissions, UserPagePermissionsModel } from '../core/permission/user.page.permission.interface';
 
 @Injectable({
@@ -38,7 +38,6 @@ export class UsersService {
     return this.reqS.post(userEndpoints.getCreateUpdateUser, obj);
   }
   updateUser(id: string, obj: any) {
-    console.log('checking update');
     return this.reqS.put(userEndpoints.getCreateUpdateUser + '/' + id, obj);
   }
   getRoles() {
@@ -57,21 +56,22 @@ export class UsersService {
   }
   getUserPermissionsPerPage(): Observable<UserPagePermissions> {
     return this.reqS.get<UserPagePermissions>(userEndpoints.userPermissionPerPage).pipe(
-      tap(d => this.processUserPermissionResponse(d))
+      switchMap((val) => {
+        return this.processUserPermissionResponse(val);
+      })
     );
   }
   processUserPermissionResponse(data: UserPagePermissions) {
     return this.storeS.setItem('pagePermission', data).pipe(
-      tap(() => {
+      tap((d) => {
         this.pagePermissionData.next({
           init: true,
-          data,
+          data: d,
         });
       }),
-      map((v) => data)
     );
   }
-  getUserPagePermissions() {
+  getUserPagePermissions(): Observable<any> {
     return this.pagePermissionData.pipe(
       filter((val: UserPagePermissionsModel) => val && val.hasOwnProperty('init') && val.init),
       distinctUntilChanged(),
