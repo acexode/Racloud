@@ -42,12 +42,14 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   tabs = [
     {
       name: 'Info',
+      shortName: 'info',
       template: 'firstTab',
       isSelected: false,
       defaultSelected: true,
     },
     {
       name: 'Options',
+      shortName: 'optionList',
       template: 'secondTab',
       isSelected: false,
       defaultSelected: false,
@@ -62,6 +64,9 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   selectedRenewBtn;
   selectedStatus = ''
   controlStore: { [key: string]: AbstractControl; } = {};
+  fieldsPermission: any;
+  actionPermission: any;
+  tabPermission: any;
   constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef,
     private service: LicenseServiceService,
     private router: Router,
@@ -70,7 +75,9 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     label: string,
     type: string = 'text',
     placeholder: string = '',
-    prefixIcon: boolean = false)
+    prefixIcon: boolean = false,
+    isDisabled: boolean = false,
+    )
     : InputConfig {
     return {
       inputLabel: {
@@ -79,6 +86,10 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
       type: type || 'text',
       placeholder: placeholder || '',
       prefixIcon: prefixIcon || false,
+      formStatus: {
+        isDisabled,
+       
+      }
     };
   }
   selectionConfig(label: string): SelectConfig {
@@ -93,8 +104,25 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     this.initForm();
     if(id){
       this.isEdit = true
-      this.service.getOneLicense(id).subscribe((data:any) =>{
-        //  const data = obj.filter(e => e.id === id)[0];
+      this.service.getOneLicense(id).subscribe((obj:any) =>{
+        const data = obj.license
+        this.tabPermission = obj.schema.tabs
+        const filtered = []
+        for (const key in this.tabPermission) {
+          if(this.tabPermission[key] === 'full'){
+            console.log(key)
+            this.tabs.forEach(tab =>{
+              if(tab.shortName === key){
+                filtered.push(tab)
+              }
+            })
+          }
+        }
+        console.log(filtered)
+        this.tabs = [this.tabs[0], ...filtered]
+        this.fieldsPermission = obj.schema.fields
+        this.actionPermission = obj.schema.actions
+        console.log(obj)
         this.service.getCompanyUsers(data.companyId).subscribe((users:any) =>{
           this.companyUsers = users.map(user => user.user)
           console.log(this.companyUsers)
@@ -144,8 +172,6 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
           }
         }
       })
-      console.log(this.preselectedRows)
-      console.log(this.optionList)
     })
   }
   initForm() {
@@ -345,5 +371,13 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   getRow(row){
     this.selectedRows = row.selected
   }
+  setDisplay(permission){
+    if(permission === 'hidden'){
+      return false
+    }else{
+      return true
+    }
+  }
+
 }
 

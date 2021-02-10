@@ -216,9 +216,9 @@ export class LicensesListingComponent implements OnInit {
   public getJSON(): Observable<any> {
     return this.http.get('./assets/ra-table-license.json');
   }
-  loadTableData(data:[]){
+  loadTableData(data){
     if (data) {
-      const formattedData = data.map((e:any)=>{
+      const formattedData = data.licenses.map((e:any)=>{
         return {
           ...e,
           productName: e.product.name,
