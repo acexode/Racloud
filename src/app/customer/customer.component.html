@@ -8,11 +8,9 @@
                     <h1 class="customers-title">Customers</h1>
                 </div>
                 <div class="col-auto float-right ml-auto">
-                    <!--  -->
-                    <app-button type="button" color="primary" [routerLink]="['create']" >
+                    <button [disabled]="actionPermission?.add !== 'full'" class="btn btn-primary" [routerLink]="['create']" type="button"> 
                         Add Customer
-                    </app-button>
-                    <!--  -->
+                    </button>
                 </div>
             </div>
         </div>
@@ -37,8 +35,8 @@
       </a>
       <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
           role="menu" aria-labelledby="button-basic">
-        <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
-        <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
+        <li *ngIf="actionPermission?.manageUpdate === 'full'" (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
+        <li *ngIf="actionPermission?.delete === 'full'" (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
       </ul>
     </div>
     <div *ngIf="rowIndex % 10 >= 6" class="btn-group" dropdown [dropup]="true">
@@ -48,8 +46,8 @@
       </a>
       <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
           role="menu" aria-labelledby="button-basic">
-        <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
-        <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
+        <li *ngIf="actionPermission?.manageUpdate === 'full'" (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
+        <li *ngIf="actionPermission?.delete === 'full'" (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
       </ul>
     </div>
   </ng-template>

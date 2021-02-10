@@ -99,27 +99,6 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
             if (res) {
               console.log(res)
               this.detailsData$.next(res);
-              this.reqS.get('../../../assets/main-admin-customer-details.json').subscribe((e: any) => {
-                console.log(e)
-                this.tabPermission = e.tabs
-                this.fieldPermission = e.fields
-                const filtered = []
-                for (const key in this.tabPermission) {
-                  if(this.tabPermission[key] === 'full'){
-                    console.log(key)
-                    this.tabs.forEach(tab =>{
-                      if(tab.shortName === key){
-                        filtered.push(tab)
-                      }
-                    })
-                  }
-                }
-                console.log(filtered)
-                this.tabs = [this.tabs[0], ...filtered]
-                this.fieldPermission = e.fields
-
-              })
-
               this.showTab(this.detailsTab);
             }
           },
