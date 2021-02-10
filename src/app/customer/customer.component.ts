@@ -284,7 +284,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
                     filteredColumns.push(column)
                   }
                 })
-                
               }
             }
              console.log(filteredColumns)
