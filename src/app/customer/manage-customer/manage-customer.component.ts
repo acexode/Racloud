@@ -1,4 +1,3 @@
-import { RequestService } from './../../core/services/request/request.service';
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -85,7 +84,6 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
     private cdref: ChangeDetectorRef,
     public route: ActivatedRoute,
     private msgS: MessagesService,
-    private reqS: RequestService,
     private customerS: CustomerService,
 
   ) { }
@@ -99,27 +97,21 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
             if (res) {
               console.log(res)
               this.detailsData$.next(res);
-              this.reqS.get('../../../assets/main-admin-customer-details.json').subscribe((e: any) => {
-                console.log(e)
-                this.tabPermission = e.tabs
-                this.fieldPermission = e.fields
-                const filtered = []
-                for (const key in this.tabPermission) {
-                  if(this.tabPermission[key] === 'full'){
-                    console.log(key)
-                    this.tabs.forEach(tab =>{
-                      if(tab.shortName === key){
-                        filtered.push(tab)
-                      }
-                    })
-                  }
+              this.tabPermission = res.schema.tabs
+              this.fieldPermission = res.schema.fields
+              const filtered = []
+              for (const key in this.tabPermission) {
+                if(this.tabPermission[key] === 'full'){
+                  console.log(key)
+                  this.tabs.forEach(tab =>{
+                    if(tab.shortName === key){
+                      filtered.push(tab)
+                    }
+                  })
                 }
-                console.log(filtered)
-                this.tabs = [this.tabs[0], ...filtered]
-                this.fieldPermission = e.fields
-
-              })
-
+              }
+              console.log(filtered)
+              this.tabs = [this.tabs[0], ...filtered]
               this.showTab(this.detailsTab);
             }
           },
