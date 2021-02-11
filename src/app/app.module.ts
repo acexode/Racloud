@@ -29,6 +29,7 @@ import { OmnDatePickerModule } from './shared/date-picker/date-picker.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { RcFormsModule } from './shared/rc-forms/rc-forms.module';
+import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { TabsModule } from './shared/tabs/tabs.module';
 import { ProductsComponent } from './products/products.component';
 import { RaLogoComponent } from './shared/ra-logo/ra-logo.component';
@@ -49,6 +50,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     HomeComponent,
     NotFoundComponent,
     StyleGuideComponent,
+    AccessDeniedComponent,
     ProductsComponent,
     RaLogoComponent,
     SignupComponent,

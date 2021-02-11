@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private msgS: MessagesService,
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
   isLoadingStatus() {
     this.isLoading = !this.isLoading;
   }
@@ -81,7 +81,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.isLoadingStatus();
           },
           err => {
-            console.log(err);
             this.msgS.addMessage({
               text: 'Incorrect authentication! Please try again.',
               type: 'danger',
