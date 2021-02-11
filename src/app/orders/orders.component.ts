@@ -71,141 +71,142 @@ export class OrdersComponent implements OnInit, OnDestroy {
         const data = get(res, 'data', null);
         if (!data?.showScreen) {
           this.router.navigate(['/access-denied']);
+        } else {
+          this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
+          this.tableConfig.columns = [
+            {
+              identifier: 'Id',
+              label: 'Number',
+              sortable: true,
+              minWidth: 125,
+              width: 90,
+              noGrow: true,
+              sortIconPosition: 'left',
+              labelPosition: 'right',
+              cellContentPosition: 'right',
+              filterConfig: {
+                data: null,
+                filterType: TableFilterType.TEXT,
+                placeholder: 'Search'
+              },
+            },
+            {
+              identifier: 'CompanyName',
+              label: 'Customer',
+              sortable: true,
+              minWidth: 273,
+              width: 90,
+              noGrow: true,
+              sortIconPosition: 'right',
+              labelPosition: 'left',
+              cellContentPosition: 'left',
+              filterConfig: {
+                data: null,
+                filterType: TableFilterType.TEXT,
+                noIcon: true
+              },
+            },
+            {
+              identifier: 'CreateDate',
+              label: 'Date',
+              sortable: true,
+              minWidth: 100,
+              width: 100,
+              sortIconPosition: 'left',
+              labelPosition: 'right',
+              cellContentPosition: 'right',
+              cellTemplate: this.dateTemplate,
+              filterConfig: {
+                data: null,
+                filterType: TableFilterType.TEXT,
+                noIcon: true
+              },
+            },
+            {
+              identifier: 'OrderStatus',
+              label: 'Status',
+              sortable: true,
+              minWidth: 270,
+              width: 300,
+              sortIconPosition: 'right',
+              labelPosition: 'left',
+              cellContentPosition: 'left',
+              cellTemplate: this.statusTemplate,
+              filterConfig: {
+                data: null,
+                filterType: TableFilterType.TEXT,
+                noIcon: true
+              },
+            },
+            {
+              identifier: 'Value',
+              label: 'Value',
+              sortable: true,
+              minWidth: 111,
+              noGrow: true,
+              sortIconPosition: 'left',
+              labelPosition: 'right',
+              cellContentPosition: 'right',
+              cellTemplate: this.valueTemplate,
+              hasFilter: true,
+              filterConfig: {
+                data: null,
+                filterType: TableFilterType.TEXT,
+                noIcon: true
+              },
+            },
+            {
+              identifier: 'Discount',
+              label: 'Discount',
+              sortable: true,
+              minWidth: 111,
+              noGrow: true,
+              sortIconPosition: 'left',
+              labelPosition: 'right',
+              cellContentPosition: 'right',
+              cellTemplate: this.discountTemplate,
+              hasFilter: true,
+              filterConfig: {
+                data: null,
+                filterType: TableFilterType.TEXT,
+                noIcon: true
+              },
+            },
+            {
+              identifier: 'TotalValue',
+              label: 'Total value',
+              sortable: true,
+              minWidth: 111,
+              noGrow: true,
+              sortIconPosition: 'left',
+              labelPosition: 'right',
+              cellContentPosition: 'right',
+              cellTemplate: this.valueTemplate,
+              hasFilter: true,
+              filterConfig: {
+                data: null,
+                filterType: TableFilterType.TEXT,
+                noIcon: true
+              }
+            },
+            {
+              identifier: 'action',
+              label: '',
+              sortable: false,
+              minWidth: 40,
+              noGrow: true,
+              headerHasFilterIcon: true,
+              sortIconPosition: 'right',
+              labelPosition: 'left',
+              cellContentPosition: 'right',
+              hasFilter: false,
+              cellTemplate: this.actionDropdown
+            },
+          ];
+          this.loadOrders();
         }
       }
     );
-    this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
-    this.tableConfig.columns = [
-      {
-        identifier: 'Id',
-        label: 'Number',
-        sortable: true,
-        minWidth: 125,
-        width: 90,
-        noGrow: true,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          placeholder: 'Search'
-        },
-      },
-      {
-        identifier: 'CompanyName',
-        label: 'Customer',
-        sortable: true,
-        minWidth: 273,
-        width: 90,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'left',
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'CreateDate',
-        label: 'Date',
-        sortable: true,
-        minWidth: 100,
-        width: 100,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
-        cellTemplate: this.dateTemplate,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'OrderStatus',
-        label: 'Status',
-        sortable: true,
-        minWidth: 270,
-        width: 300,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'left',
-        cellTemplate: this.statusTemplate,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'Value',
-        label: 'Value',
-        sortable: true,
-        minWidth: 111,
-        noGrow: true,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
-        cellTemplate: this.valueTemplate,
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'Discount',
-        label: 'Discount',
-        sortable: true,
-        minWidth: 111,
-        noGrow: true,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
-        cellTemplate: this.discountTemplate,
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'TotalValue',
-        label: 'Total value',
-        sortable: true,
-        minWidth: 111,
-        noGrow: true,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
-        cellTemplate: this.valueTemplate,
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        }
-      },
-      {
-        identifier: 'action',
-        label: '',
-        sortable: false,
-        minWidth: 40,
-        noGrow: true,
-        headerHasFilterIcon: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: false,
-        cellTemplate: this.actionDropdown
-      },
-    ];
-    this.loadOrders();
   }
   loadOrders() {
     this.service.getorders().subscribe((data: any) => {

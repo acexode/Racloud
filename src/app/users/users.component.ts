@@ -60,65 +60,66 @@ export class UsersComponent implements OnInit, OnDestroy {
         const data = get(res, 'data', null);
         if (!data?.showScreen) {
           this.router.navigate(['/access-denied']);
+        } else {
+          this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
+          this.tableConfig.columns = [
+            {
+              identifier: 'user.firstname',
+              label: 'First Name',
+              sortable: true,
+              minWidth: 200,
+              width: 90,
+              noGrow: true
+            },
+            {
+              identifier: 'user.lastname',
+              label: 'Last Name',
+              sortable: true,
+              minWidth: 150,
+              width: 100,
+              sortIconPosition: 'right',
+              labelPosition: 'left',
+              cellContentPosition: 'right'
+            },
+            {
+              identifier: 'user.email',
+              label: 'Email',
+              sortable: true,
+              minWidth: 150,
+              width: 300,
+              sortIconPosition: 'right',
+              labelPosition: 'left',
+              cellContentPosition: 'right'
+            },
+            {
+              identifier: 'role.name',
+              label: 'Role',
+              sortable: true,
+              minWidth: 250,
+              noGrow: true,
+              sortIconPosition: 'right',
+              labelPosition: 'left',
+              cellContentPosition: 'right',
+              hasFilter: true
+            },
+            {
+              identifier: 'action',
+              label: '',
+              sortable: true,
+              minWidth: 60,
+              noGrow: true,
+              headerHasFilterIcon: false,
+              sortIconPosition: 'right',
+              labelPosition: 'left',
+              cellContentPosition: 'right',
+              hasFilter: true,
+              cellTemplate: this.actionDropdown
+            },
+          ];
+          this.getUsers();
         }
       }
     );
-    this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
-    this.tableConfig.columns = [
-      {
-        identifier: 'user.firstname',
-        label: 'First Name',
-        sortable: true,
-        minWidth: 200,
-        width: 90,
-        noGrow: true
-      },
-      {
-        identifier: 'user.lastname',
-        label: 'Last Name',
-        sortable: true,
-        minWidth: 150,
-        width: 100,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right'
-      },
-      {
-        identifier: 'user.email',
-        label: 'Email',
-        sortable: true,
-        minWidth: 150,
-        width: 300,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right'
-      },
-      {
-        identifier: 'role.name',
-        label: 'Role',
-        sortable: true,
-        minWidth: 250,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: true
-      },
-      {
-        identifier: 'action',
-        label: '',
-        sortable: true,
-        minWidth: 60,
-        noGrow: true,
-        headerHasFilterIcon: false,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: true,
-        cellTemplate: this.actionDropdown
-      },
-    ];
-    this.getUsers();
   }
   public getUsers() {
     this.userData$ = this.userService.getUsers().subscribe((data: any) => {

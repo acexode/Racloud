@@ -141,9 +141,13 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         const data = get(res, 'data', null);
         if (!data?.accessDetailsScreen) {
           this.router.navigate(['/access-denied']);
+        } else {
+          this.ngOnInitFunction();
         }
       }
     );
+  }
+  ngOnInitFunction(): void {
     this.loadOrder();
     this.service.getcustomers().subscribe(e => {
       this.customers = get(e, 'customers', []);

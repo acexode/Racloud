@@ -89,36 +89,37 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
 
   ngOnInit(): void {
     this.routeData$ = this.route.data.subscribe(
-      res => {
-        const data = get(res, 'data', null);
+      response => {
+        const data = get(response, 'data', null);
         if (!data?.accessDetailsScreen) {
           this.router.navigate(['/access-denied']);
-        }
-      }
-    );
-    this.route$ = this.route.paramMap.subscribe(
-      params => {
-        const id: any = params.get('id');
-        const tab: any = params.get('tab');
-        this.customerId = id;
-        this.fetch$ = this.customerS.getCustomerById(id).subscribe(
-          (res: any) => {
-            const company = get(res, 'customer', null);
-            if (company) {
-              this.detailsData$.next(company);
-              this.setTab(tab);
+        } else {
+          this.route$ = this.route.paramMap.subscribe(
+            params => {
+              const id: any = params.get('id');
+              const tab: any = params.get('tab');
+              this.customerId = id;
+              this.fetch$ = this.customerS.getCustomerById(id).subscribe(
+                (res: any) => {
+                  const company = get(res, 'customer', null);
+                  if (company) {
+                    this.detailsData$.next(company);
+                    this.setTab(tab);
+                  }
+                },
+                _err => {
+                  this.msgS.addMessage({
+                    text: 'Unable to get customer Data at this current time please check your newtowrk and try again.',
+                    type: 'danger',
+                    dismissible: true,
+                    customClass: 'mt-32',
+                    hasIcon: true
+                  });
+                }
+              );
             }
-          },
-          _err => {
-            this.msgS.addMessage({
-              text: 'Unable to get customer Data at this current time please check your newtowrk and try again.',
-              type: 'danger',
-              dismissible: true,
-              customClass: 'mt-32',
-              hasIcon: true
-            });
-          }
-        );
+          );
+        }
       }
     );
     this.cdref.markForCheck();
