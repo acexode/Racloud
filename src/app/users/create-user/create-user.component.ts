@@ -285,6 +285,7 @@ export class CreateUserComponent implements OnInit {
     }
     this.service.sendResetPassword(obj).subscribe((e: any) =>{
       console.log(e)
+      this.modalRef.hide()
       this.displayMsg(e.message, 'info')
     })
   }

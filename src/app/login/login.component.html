@@ -71,6 +71,7 @@
           <div class="d-flex align-items-center justify-content-end">
             <!--  -->
             <app-button 
+            (click)="openModal(sendResetPasswordTemplate)"
               color="tertiary" 
               [class]="'s12-h16 rc-grey-color montserrat-regular-font ls-0'"
             >
@@ -84,3 +85,34 @@
     </div>
   </ng-container>
 </app-card>
+<ng-template #sendResetPasswordTemplate>
+  <div class="modal-header px-32">
+    <span class="change-pwd">Reset Password</span>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body pt-32 px-35 discount-body pb-0">
+    <div class="row">
+    <div  class="col-12  mb-14">
+      <span class="reset-text">Enter your email to reset your password</span>
+    </div>
+    </div>
+    <div class="d-flex flex-column mb-14">      
+        <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Email </label><div class="rc-form-group rc-form-group-without-prefix" >
+        <input  [formControl]="resetEmail" type="email" placeholder="Type Here"  class="ng-pristine ng-valid ng-touched">
+      </div>
+
+    </div>
+    <div class="discount-footer d-flex justify-content-end pb-32 mx-0">
+      <app-button type="button" (click)="modalRef.hide()" color="secondaryB" class="mr-8">
+        Cancel
+      </app-button>
+
+      <app-button [disabled]="resetEmail.invalid" type="button"  color="primary" (click)="sendResetPassword()">
+        <app-loader type="button" *ngIf="resetLoading"></app-loader>
+        <span *ngIf="!resetLoading">Send reset password email</span>
+      </app-button>
+    </div>
+  </div>
+</ng-template>

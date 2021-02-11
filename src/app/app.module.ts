@@ -3,7 +3,7 @@ import { ContainerModule } from './shared/container/container.module';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -59,6 +59,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
   imports: [
     BrowserModule,
     CoreModule,
+    FormsModule,
     MessagesModule,
     AppRoutingModule,
     HttpClientModule,
