@@ -18,7 +18,7 @@ export class CountriesService {
     this.initialState
   );
 
-  constructor(private reqS: RequestService, private storeS: CustomStorageService,) {
+  constructor(private reqS: RequestService, private storeS: CustomStorageService) {
     // Load account state from local/session/cookie storage.
     this.storeS
       .getItem('countries')

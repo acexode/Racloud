@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { get } from 'lodash';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { getUTCdate } from '../core/helpers/dateHelpers';
 import { CountriesModel } from '../core/models/countries-model';
@@ -78,16 +78,25 @@ export class CustomerComponent implements OnInit, OnDestroy {
   isDropup: boolean;
   customErrorMsg = 'There is an issue with your network. Please Refresh your network';
   disableCustomer$: Subscription;
+  routeData$: Subscription;
+  accessDetailsScreen$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   constructor(
     private tS: TableService,
     private router: Router,
     private route: ActivatedRoute,
-    private ref: ChangeDetectorRef,
     private customerS: CustomerService,
     private countriesS: CountriesService,
     private msgS: MessagesService,
   ) { }
   ngOnInit(): void {
+    this.routeData$ = this.route.data.subscribe(
+      res => {
+        const data = get(res, 'data', null);
+        if (data?.accessDetailsScreen) {
+          this.accessDetailsScreen$.next(true);
+        }
+      }
+    );
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
@@ -250,18 +259,22 @@ export class CustomerComponent implements OnInit, OnDestroy {
     this.loadCustomers$ = this.customerS.getCustomers().subscribe(
       res => {
         if (res) {
-          const data = res.map((v: any) => {
-            return {
-              ...v,
-              country: this.getCountryForCutomer(v.country),
-              anniversaryDate: getUTCdate(v.anniversaryDate),
-              parent: v?.parent?.companyName,
-            };
-          }).reverse();
-          this.tableConfig.loadingIndicator = true;
-          this.rowData = data;
-          this.tableData.next(data);
-          this.tableConfig.loadingIndicator = false;
+          const customer = get(res, 'customers', null);
+          if (customer) {
+            const data = customer.map((v: any) => {
+              return {
+                ...v,
+                country: this.getCountryForCutomer(v.country),
+                anniversaryDate: getUTCdate(v.anniversaryDate),
+                parent: v?.parent?.companyName,
+              };
+            }).reverse();
+            this.tableConfig.loadingIndicator = true;
+            this.rowData = data;
+            this.tableData.next(data);
+            this.tableConfig.loadingIndicator = false;
+          }
+
         }
       },
       err => {
@@ -315,7 +328,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
     );
   }
   manageSub(data: any) {
-    this.router.navigate(['manage', data.id], { relativeTo: this.route });
+    this.router.navigate(['manage', data.id, 'tab', 'details'], { relativeTo: this.route });
   }
   renewSub(id: any) { }
   ngOnDestroy(): void {

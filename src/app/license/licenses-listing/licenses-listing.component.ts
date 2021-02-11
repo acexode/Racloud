@@ -9,6 +9,7 @@ import { TableFilterType } from 'src/app/shared/table/models/table-filter-types'
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
 import { LicenseServiceService } from '../license-service.service';
+import { get } from 'lodash';
 
 
 
@@ -209,30 +210,33 @@ export class LicensesListingComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.service.getLicenses().subscribe((data:any) => {
-      this.loadTableData(data)
+    this.service.getLicenses().subscribe((data: any) => {
+      this.loadTableData(data);
     });
   }
   public getJSON(): Observable<any> {
     return this.http.get('./assets/ra-table-license.json');
   }
-  loadTableData(data:[]){
+  loadTableData(data: []) {
     if (data) {
-      const formattedData = data.map((e:any)=>{
-        return {
-          ...e,
-          productName: e.product.name,
-          companyName:e.company.companyName
+      const d = get(data, 'licenses', null);
+      if (d !== null) {
+        const formattedData = d.map((e: any) => {
+          return {
+            ...e,
+            productName: e.product.name,
+            companyName: e.company.companyName
 
-        }
-      })
-      this.tableConfig.loadingIndicator = true;
-      this.rowData = formattedData;
-      const cloneData = formattedData.map((v: any) => {
-        return { ...v };
-      });
-      this.tableData.next(cloneData);
-      this.tableConfig.loadingIndicator = false;
+          };
+        });
+        this.tableConfig.loadingIndicator = true;
+        this.rowData = formattedData;
+        const cloneData = formattedData.map((v: any) => {
+          return { ...v };
+        });
+        this.tableData.next(cloneData);
+        this.tableConfig.loadingIndicator = false;
+      }
     }
   }
   filterTable(filterObj: TableFilterConfig) {
@@ -243,16 +247,16 @@ export class LicensesListingComponent implements OnInit {
     );
     this.tableData.next(newRows);
   }
-  toggle(){
+  toggle() {
     // this.tableData.next(null)
-    this.tableConfig.loadingIndicator = false
-    if(this.showOwnLicenses){
-      this.service.getOwnLicenses().subscribe((data:any) => {
-        this.loadTableData(data)
+    this.tableConfig.loadingIndicator = false;
+    if (this.showOwnLicenses) {
+      this.service.getOwnLicenses().subscribe((data: any) => {
+        this.loadTableData(data);
       });
-    }else{
-      this.service.getLicenses().subscribe((data:any) => {
-        this.loadTableData(data)
+    } else {
+      this.service.getLicenses().subscribe((data: any) => {
+        this.loadTableData(data);
       });
     }
   }
