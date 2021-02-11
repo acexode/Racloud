@@ -18,7 +18,7 @@ import { CustomerService } from 'src/app/core/services/customer/customer.service
 export class DetailsTabComponent implements OnInit, OnDestroy {
   formEditMode = true;
   isLoading: boolean;
-  @Input() detailsData: CustomerModel;
+  @Input() detailsData
   @Input() fieldPermission
   textAreaConfig: TextAreaConfig = {
     textAreaLabel: {
@@ -42,7 +42,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
   ) { }
   ngOnInit(): void {
     // get details ID
-    this.detailsId = get(this.detailsData, 'id', null);
+    this.detailsId = get(this.detailsData.customer, 'id', null);
     this.isLoading = false;
     this.cdref.detectChanges();
   }

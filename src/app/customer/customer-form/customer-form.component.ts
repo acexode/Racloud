@@ -1,4 +1,3 @@
-import { RequestService } from './../../core/services/request/request.service';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { get } from 'lodash';
@@ -40,6 +39,8 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     this.isLoading = status;
   };
   @Input() editableData!: any;
+  fieldsPermission: any
+  actionPermission: any
   backUrl = '/customer';
 
   typeOptions = Object.keys(CompanyTypes).map(companyType => {
@@ -132,8 +133,7 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     private cS: CountriesService,
     private parentS: CompanyParentsService,
     private lgS: LanguagesService,
-    private priceService: PriceListService,
-    private reqS: RequestService
+    private priceService: PriceListService
   ) { }
   ngOnChanges(changes: SimpleChanges): void {
     // this.componentForm.valueChanges.subscribe(d => {});
@@ -149,6 +149,9 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     this.languageOptions$ = this.lgS.getLanguages();
     // price listing options
     this.priceListOptions$ = this.priceService.getPriceLists();
+    this.fieldsPermission = this.editableData.schema.fields
+    this.actionPermission = this.editableData.schema.actions
+    console.log(this.editableData)
     // update form Data
     this.updateValueForForm();
   }
@@ -216,7 +219,7 @@ export class CustomerFormComponent implements OnInit, OnChanges {
   }
   updateValueForForm() {
 
-    const data = this.editableData;
+    const data = this.editableData.customer;
 
     if (typeof data !== 'undefined') {
 
