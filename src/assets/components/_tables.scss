@@ -554,11 +554,12 @@
   @include justify-content(space-between);
   @include align-items(center);
 }
-.ngx-datatable.fixed-row .datatable-scroll .datatable-body-row .datatable-body-cell, .ngx-datatable.fixed-row .datatable-scroll .datatable-body-row .datatable-body-group-cell {
+.ngx-datatable.fixed-row .datatable-scroll .datatable-body-row .datatable-body-cell, 
+.ngx-datatable.fixed-row .datatable-scroll .datatable-body-row .datatable-body-group-cell {
   /* white-space: normal !important;
   word-wrap: break-word !important; */
   text-overflow: ellipsis !important;
-  // overflow: hidden !important;
-white-space: nowrap !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
 }
 
