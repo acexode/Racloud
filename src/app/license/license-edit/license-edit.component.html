@@ -60,7 +60,7 @@
                                 </div>
                             </div>
                             <div *ngIf="setDisplay(fieldsPermission?.customer)" class="col-6 mb-14">
-                                <app-input [config]="inputConfig('Customer', 'text', '', false, fieldsPermission?.IsPartnerlicense === 'readonly')" formControlName="customer"></app-input>
+                                <app-input [config]="inputConfig('Customer', 'text', '', false, fieldsPermission?.customer === 'readonly')" formControlName="customer"></app-input>
                             </div>
                             <div *ngIf="setDisplay(fieldsPermission?.userCompany)" class="col-6 mb-14">
                                 <app-input [config]="inputConfig('User Company', 'text', '', false, fieldsPermission?.userCompany === 'readonly')" formControlName="userCompany"></app-input>
