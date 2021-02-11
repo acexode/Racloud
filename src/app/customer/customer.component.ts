@@ -78,6 +78,8 @@ export class CustomerComponent implements OnInit, OnDestroy {
   isDropup: boolean;
   customErrorMsg = 'There is an issue with your network. Please Refresh your network';
   disableCustomer$: Subscription;
+  fieldsPermission: any;
+  actionPermission: any
   constructor(
     private tS: TableService,
     private router: Router,
@@ -250,6 +252,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
     this.loadCustomers$ = this.customerS.getCustomers().subscribe(
       res => {
         if (res) {
+          console.log(res)
           const data = res.customers.map((v: any) => {
             return {
               ...v,
@@ -258,6 +261,26 @@ export class CustomerComponent implements OnInit, OnDestroy {
               parent: v?.parent?.companyName,
             };
           }).reverse();
+          const filteredColumns = []
+          // console.log(e)
+          this.fieldsPermission = res.schema.fields
+          this.actionPermission = res.schema.actions
+          for (const key in this.fieldsPermission) {
+            if (this.fieldsPermission[key] === 'full') {
+              // console.log(key)
+              this.tableConfig.columns.forEach(column =>{
+                // console.log(column)
+                if(column.identifier === key){
+                  console.log(key)
+                  filteredColumns.push(column)
+                }
+              })
+            }
+          }
+           console.log(filteredColumns)
+           const sorted  = filteredColumns.sort((a, b) => (a.index > b.index) ? 1 : (b.index > a.index) ? -1 : 0)
+          // console.log(sorted)
+          this.tableConfig.columns = [...filteredColumns, this.tableConfig.columns[this.tableConfig.columns.length -1]]
           // this.tableConfig.columns = filteredColumns;
           this.tableConfig.loadingIndicator = true;
           this.rowData = data;

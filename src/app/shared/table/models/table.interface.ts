@@ -3,6 +3,7 @@ import { TableFilterConfigItem } from './table-filter-config.interface';
 
 export interface TableColumnI {
   identifier: string;
+  index?: number;
   label: string;
   resizeable?: boolean;
   headerHasFilterIcon?: boolean;

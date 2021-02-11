@@ -1,0 +1,21 @@
+{
+    "screen" : "full",
+    "columns": {
+    "productName": "hidden",
+    "customer": "full",
+    "purchaseDate": "full",
+    "expirationDate": "full",
+    "status": "hidden",
+    "IsPartnerlicense": "full",
+    "userCompany": "full",
+    "renewByUserCompany": "full",
+    "IsAssigned": "hidden",
+    "assignedTo": "full"
+    },
+    "actions": {
+    "manageUpdate": "full",
+    "activateDeactivate": "full",
+    "assignToUserCompany": "full",
+    "assignToUser": "full"
+    }
+}
