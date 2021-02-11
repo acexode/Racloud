@@ -228,7 +228,6 @@ export class LicensesListingComponent implements OnInit {
     return this.http.get('./assets/ra-table-license.json');
   }
   loadTableData(data){
-    console.log(data)
     if (data) {
       const formattedData = data.licenses.map((e:any)=>{
         return {
