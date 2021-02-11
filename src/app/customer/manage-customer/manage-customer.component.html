@@ -33,7 +33,7 @@
 
            <ng-container *ngIf="detailsData$ | async as detailsData">
 
-            <app-button type="button" color="primary" [routerLink]="['/users/create-user', {companyId: detailsData.id, backUrl: '/customer/manage/'+detailsData.id+'/tab/users'}]">
+            <app-button type="button" color="primary" [routerLink]="['/users/create-user', {companyId: detailsData.id, backUrl: '/customer/manage/'+detailsData.id}]">
                 Add user
             </app-button>
             
@@ -49,15 +49,12 @@
 
             <app-tabs [selectedTemplate]="tabSwitch">
                 <app-tab-bar [marked]="tabMarked">
-                  <ng-container *ngFor="let tab of tabs; let i = index" >
                     <app-tab-button 
                         [selected]="tab.isSelected" 
                         [defaultSelected]="tab.defaultSelected" 
                         (click)="switchTab($event, tab.template, i)" 
-                        *ngIf="tab?.showTab"
+                        *ngFor="let tab of tabs; let i = index" 
                     >{{ tab.name }}</app-tab-button>
-                  </ng-container>
-                    
                 </app-tab-bar>  
 
             </app-tabs>

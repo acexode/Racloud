@@ -6,7 +6,6 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
-import { get } from 'lodash';
 
 
 @Component({
@@ -85,8 +84,8 @@ export class CreateUserComponent implements OnInit {
     this.initForm();
     this.service.getRoles().subscribe((res: any[]) => {
       this.roleOptions = res[0];
-      this.companyOptions = get(res[1], 'customers', null);
-      this.filteredOptions = this.companyOptions;
+      this.companyOptions = res[1];
+      this.filteredOptions = res[1];
 
       const id = this.route.snapshot.paramMap.get('id');
       const companyId = this.route.snapshot.paramMap.get('companyId');
@@ -102,6 +101,7 @@ export class CreateUserComponent implements OnInit {
         // const idx = parseInt(id, 10);
         this.service.getUser(id).subscribe((data: any) => {
           // const data = obj.filter(e => e.user.id.toString() === id)[0];
+          console.log(data);
           this.user = data.user;
           this.userForm.patchValue({
             firstName: data.user?.firstname,
@@ -110,7 +110,7 @@ export class CreateUserComponent implements OnInit {
             roleId: data.role?.id,
             companyId: data.company?.id,
           });
-          if (this.companyOptions.length > -1) {
+          if (this.companyOptions.length) {
             this.setCompanyLabelById(data.company.id);
           }
           this.roleLabel = data.role?.name;

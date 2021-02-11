@@ -7,7 +7,6 @@ import { CountriesService } from './core/services/countries/countries.service';
 import { FooterService } from './core/services/footer/footer.service';
 import { TitleService } from './core/services/title/title.service';
 import { MessagesService } from './shared/messages/services/messages.service';
-import { UsersService } from './users/users.service';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +27,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   /*  */
   getCountriesState$: Subscription;
   loadCountriesState$: Subscription;
-  forkJoin$: Subscription;
   constructor(
     private authS: AuthService,
     private titleService: TitleService,
@@ -36,7 +34,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private cdref: ChangeDetectorRef,
     private countriesS: CountriesService,
     private msgS: MessagesService,
-    private userS: UsersService
   ) {
     this.currentYear = this.getYear();
     this.titleService.handleNavigationTitle();

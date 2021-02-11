@@ -3,13 +3,11 @@ import { CustomerComponent } from './customer.component';
 import { Routes, RouterModule } from '@angular/router';
 import { CreateCustomerComponent } from './create-customer/create-customer.component';
 import { ManageCustomerComponent } from './manage-customer/manage-customer.component';
-import { BasicDetailsPageRouteResolver } from '../core/resolver/basic.details.page.route.resolver';
 
 const routes: Routes = [
     {
         path: '',
         component: CustomerComponent,
-        resolve: { data: BasicDetailsPageRouteResolver },
     },
     {
         path: 'create',
@@ -17,10 +15,9 @@ const routes: Routes = [
         data: { title: 'Create Customer' },
     },
     {
-        path: 'manage/:id/tab/:tab',
+        path: 'manage/:id',
         component: ManageCustomerComponent,
         data: { title: 'Create Customer' },
-        resolve: { data: BasicDetailsPageRouteResolver },
     },
 ];
 
