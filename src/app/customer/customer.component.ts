@@ -1,3 +1,4 @@
+import { RequestService } from './../core/services/request/request.service';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -78,6 +79,8 @@ export class CustomerComponent implements OnInit, OnDestroy {
   isDropup: boolean;
   customErrorMsg = 'There is an issue with your network. Please Refresh your network';
   disableCustomer$: Subscription;
+  fieldsPermission: any;
+  actionPermission: any
   constructor(
     private tS: TableService,
     private router: Router,
@@ -86,6 +89,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
     private customerS: CustomerService,
     private countriesS: CountriesService,
     private msgS: MessagesService,
+    private reqS: RequestService,
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -93,6 +97,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
       {
         identifier: 'companyName',
         label: 'Name',
+        index: 1,
         sortable: true,
         minWidth: 200,
         width: 90,
@@ -105,6 +110,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
       },
       {
         identifier: 'country',
+        index: 2,
         label: 'Country',
         sortable: true,
         minWidth: 150,
@@ -120,6 +126,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
       },
       {
         identifier: 'phoneNumber',
+        index: 3,
         label: 'Phone',
         sortable: true,
         minWidth: 150,
@@ -135,6 +142,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
       },
       {
         identifier: 'email',
+        index: 4,
         label: 'Email',
         sortable: true,
         minWidth: 250,
@@ -151,6 +159,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
       },
       {
         identifier: 'companyType',
+        index: 5,
         label: 'Type',
         sortable: true,
         minWidth: 130,
@@ -167,6 +176,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
       },
       {
         identifier: 'companyName',
+        index: 6,
         label: 'Parent',
         sortable: true,
         minWidth: 130,
@@ -183,6 +193,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
       },
       {
         identifier: 'anniversaryDate',
+        index: 7,
         label: 'Anniv-date',
         sortable: true,
         minWidth: 130,
@@ -199,6 +210,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
       },
       {
         identifier: 'subscriptionFee',
+        index: 8,
         label: 'Sub.fee',
         sortable: true,
         minWidth: 130,
@@ -216,6 +228,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
       },
       {
         identifier: 'action',
+        index: 9,
         label: '',
         sortable: true,
         minWidth: 60,
@@ -250,7 +263,8 @@ export class CustomerComponent implements OnInit, OnDestroy {
     this.loadCustomers$ = this.customerS.getCustomers().subscribe(
       res => {
         if (res) {
-          const data = res.map((v: any) => {
+          console.log(res)
+          const data = res.customers.map((v: any) => {
             return {
               ...v,
               country: this.getCountryForCutomer(v.country),
@@ -258,6 +272,27 @@ export class CustomerComponent implements OnInit, OnDestroy {
               parent: v?.parent?.companyName,
             };
           }).reverse();
+          const filteredColumns = []
+          // console.log(e)
+          this.fieldsPermission = res.schema.fields
+          this.actionPermission = res.schema.actions
+          for (const key in this.fieldsPermission) {
+            if (this.fieldsPermission[key] === 'full') {
+              // console.log(key)
+              this.tableConfig.columns.forEach(column =>{
+                // console.log(column)
+                if(column.identifier === key){
+                  console.log(key)
+                  filteredColumns.push(column)
+                }
+              })
+            }
+          }
+           console.log(filteredColumns)
+           const sorted  = filteredColumns.sort((a, b) => (a.index > b.index) ? 1 : (b.index > a.index) ? -1 : 0)
+          // console.log(sorted)
+          this.tableConfig.columns = [...filteredColumns, this.tableConfig.columns[this.tableConfig.columns.length -1]]
+          // this.tableConfig.columns = filteredColumns;
           this.tableConfig.loadingIndicator = true;
           this.rowData = data;
           this.tableData.next(data);

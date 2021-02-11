@@ -1,3 +1,4 @@
+import { RequestService } from './../../core/services/request/request.service';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { get } from 'lodash';
@@ -131,7 +132,8 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     private cS: CountriesService,
     private parentS: CompanyParentsService,
     private lgS: LanguagesService,
-    private priceService: PriceListService
+    private priceService: PriceListService,
+    private reqS: RequestService
   ) { }
   ngOnChanges(changes: SimpleChanges): void {
     // this.componentForm.valueChanges.subscribe(d => {});
@@ -323,6 +325,13 @@ export class CustomerFormComponent implements OnInit, OnChanges {
   }
   markControlDirty(formControl: FormControl) {
     formControl.markAsDirty();
+  }
+  setDisplay(permission){
+    if(permission === 'hidden'){
+      return false
+    }else{
+      return true
+    }
   }
 }
 

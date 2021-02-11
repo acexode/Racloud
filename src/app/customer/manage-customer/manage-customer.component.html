@@ -29,7 +29,7 @@
            {{ detailsData.companyName }} <!-- do well to replace -->
           </h1>
         </div>
-         <div class="col-auto float-right ml-auto" *ngIf="UserTab.isSelected">
+         <div class="col-auto float-right ml-auto" *ngIf="UserTab?.isSelected">
 
            <ng-container *ngIf="detailsData$ | async as detailsData">
 
@@ -50,7 +50,7 @@
             <app-tabs [selectedTemplate]="tabSwitch">
                 <app-tab-bar [marked]="tabMarked">
                     <app-tab-button 
-                        [selected]="tab.isSelected" 
+                        [selected]="tab?.isSelected" 
                         [defaultSelected]="tab.defaultSelected" 
                         (click)="switchTab($event, tab.template, i)" 
                         *ngFor="let tab of tabs; let i = index" 
@@ -75,7 +75,7 @@
 
  <ng-template #detailsTab> 
 
-    <app-details-tab [detailsData]="detailsData" *ngIf="detailsData$ | async as detailsData"></app-details-tab>
+    <app-details-tab  [detailsData]="detailsData" *ngIf="detailsData$ | async as detailsData"></app-details-tab>
 
 </ng-template>
 

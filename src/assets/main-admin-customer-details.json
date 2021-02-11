@@ -1,0 +1,40 @@
+{
+    "fields": {
+    "id": "full",
+    "firstName": "full",
+    "lastName": "full",
+    "parent": {
+    "id": "full",
+    "companyName": "full"
+    },
+    "priceList": {
+    "id": "full",
+    "name": "full"
+    },
+    "email": "full",
+    "registrationDate": "full",
+    "companyName": "full",
+    "address": "full",
+    "country": "full",
+    "language": "full",
+    "phoneNumber": "full",
+    "companyType": "full",
+    "lastLoginDate": "full",
+    "anniversaryDate": "full",
+    "subscriptionFee": "full",
+    "currency": "full",
+    "supportHoursContract": "full",
+    "supportHoursAvailable": "full",
+    "disabled": "full"
+    },
+    "actions": {
+    "update": "full",
+    "renewSubscription": "full"
+    },
+    "tabs": {
+    "licences": "full",
+    "users": "hidden",
+    "orders":"hidden",
+    "customers": "hidden"
+    }
+    }
