@@ -39,6 +39,8 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     this.isLoading = status;
   };
   @Input() editableData!: any;
+  fieldsPermission: any
+  actionPermission: any
   backUrl = '/customer';
 
   typeOptions = Object.keys(CompanyTypes).map(companyType => {
@@ -147,6 +149,9 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     this.languageOptions$ = this.lgS.getLanguages();
     // price listing options
     this.priceListOptions$ = this.priceService.getPriceLists();
+    this.fieldsPermission = this.editableData.schema.fields
+    this.actionPermission = this.editableData.schema.actions
+    console.log(this.editableData)
     // update form Data
     this.updateValueForForm();
   }
@@ -214,7 +219,7 @@ export class CustomerFormComponent implements OnInit, OnChanges {
   }
   updateValueForForm() {
 
-    const data = this.editableData;
+    const data = this.editableData.customer;
 
     if (typeof data !== 'undefined') {
 
@@ -323,6 +328,13 @@ export class CustomerFormComponent implements OnInit, OnChanges {
   }
   markControlDirty(formControl: FormControl) {
     formControl.markAsDirty();
+  }
+  setDisplay(permission){
+    if(permission === 'hidden'){
+      return false
+    }else{
+      return true
+    }
   }
 }
 

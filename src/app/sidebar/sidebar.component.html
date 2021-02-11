@@ -1,39 +1,37 @@
 <div class="sidebar w-200px d-flex flex-column w-100">
   <div class="nav flex-column rc-nav">
     <div *ngFor="let menu of menuJSON">
-      <ng-container *ngIf="menu.activate">
-          <div *ngIf="!menu.children || (menu.children && menu.children.length === 0)"
-          class="nav-item menu-item d-flex flex-row justify-content-apart" [routerLink]="[menu.url]"
-          routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" (click)="hideSubmenu()">
-          <svg-icon class="nav-icon" src="{{ menu.icon }}" [applyClass]="true"></svg-icon>
-          <a class="text-links">{{ menu.name }}</a>
-          <!-- <div class="rectangle align-self-center ml-32"></div> -->
+      <div *ngIf="!menu.children || (menu.children && menu.children.length === 0)"
+        class="nav-item menu-item d-flex flex-row justify-content-apart" [routerLink]="[menu.url]"
+        routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" (click)="hideSubmenu()">
+        <svg-icon class="nav-icon" src="{{ menu.icon }}" [applyClass]="true"></svg-icon>
+        <a class="text-links">{{ menu.name }}</a>
+        <!-- <div class="rectangle align-self-center ml-32"></div> -->
+      </div>
+      <div *ngIf="menu.children && menu.children.length > 0"
+        class="nav-item menu-item d-flex flex-column justify-content-end parent" [ngClass]="{
+          'focused-background': selected === true,
+          'normal-background': selected === false
+        }" routerLinkActive="active-link">
+        <div class="d-flex flex-row justify-content-end py-11 pr-35" (click)="showSubmenu()">
+          <a class="text-body">{{ menu.name }}</a>
+          <svg-icon [ngClass]="{
+              green: selected === true
+            }" class="nav-icon ml-3" src="{{ menu.icon }}" [applyClass]="true"></svg-icon>
         </div>
-        <div *ngIf="menu.children && menu.children.length > 0"
-          class="nav-item menu-item d-flex flex-column justify-content-end parent" [ngClass]="{
-            'focused-background': selected === true,
-            'normal-background': selected === false
-          }" routerLinkActive="active-link">
-          <div class="d-flex flex-row justify-content-end py-11 pr-35" (click)="showSubmenu()">
-            <a class="text-body">{{ menu.name }}</a>
-            <svg-icon [ngClass]="{
-                green: selected === true
-              }" class="nav-icon ml-3" src="{{ menu.icon }}" [applyClass]="true"></svg-icon>
-          </div>
-          <div class="admin-submenu" *ngIf="selected || adminRoute">
-            <div *ngFor="let child of menu.children"
-              class="nav child-item pr-32 py-11 d-flex flex-row justify-content-end" [routerLink]="[child.url]"
-              routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" ng-model="query">
-              <div class="d-flex flex-row">
-                <a class="text-body">
-                  {{ child.name }}
-                </a>
-                <svg-icon class="submenu-icon" src="../../assets/images/arrow-left.svg" [applyClass]="true"></svg-icon>
-              </div>
+        <div class="admin-submenu" *ngIf="selected || adminRoute">
+          <div *ngFor="let child of menu.children"
+            class="nav child-item pr-32 py-11 d-flex flex-row justify-content-end" [routerLink]="[child.url]"
+            routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" ng-model="query">
+            <div class="d-flex flex-row">
+              <a class="text-body">
+                {{ child.name }}
+              </a>
+              <svg-icon class="submenu-icon" src="../../assets/images/arrow-left.svg" [applyClass]="true"></svg-icon>
             </div>
           </div>
         </div>
-      </ng-container>
+      </div>
     </div>
   </div>
 

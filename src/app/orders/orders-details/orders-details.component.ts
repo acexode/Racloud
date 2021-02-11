@@ -1,8 +1,10 @@
 import { ShopService } from './../../shop/shop.service';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Order } from './../../core/models/order.interface';
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
@@ -13,20 +15,20 @@ import { TableService } from 'src/app/shared/table/services/table.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { OrderService } from '../service.service';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
-import { get } from 'lodash';
+import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 @Component({
   selector: 'app-orders-details',
   templateUrl: './orders-details.component.html',
   styleUrls: ['./orders-details.component.scss']
 })
-export class OrdersDetailsComponent implements OnInit, OnDestroy {
+export class OrdersDetailsComponent implements OnInit {
 
   caretLeftIcon = '../assets/images/caret-left.svg';
-  orderId = '';
-  Currency;
+  orderId = ''
+  Currency
   backUrl = '/orders';
   disableForm = false;
-  noProduct = true;
+  noProduct = true
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -43,12 +45,12 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
   @ViewChild('discountTemplate', { static: true }) discountTemplate: TemplateRef<any>;
   @ViewChild('dropdown', { static: true }) dropdown: TemplateRef<any>;
   rows = [];
-  autoClose = false;
-  discountTypes = [
-    { title: 'Percentage', name: 'button1' },
-    { title: 'Fixed', name: 'button2' },
+  autoClose = false
+  discountTypes =  [
+    {title: 'Percentage', name: 'button1'},
+    {title: 'Fixed', name: 'button2'},
   ];
-  selectedDiscountBtn = this.discountTypes[0];
+  selectedDiscountBtn = this.discountTypes[0]
 
   modalRef: BsModalRef;
   rowDetailIcons = [
@@ -73,24 +75,22 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
   };
   componentForm: FormGroup;
   discountForm: FormGroup;
-  addedProducts = [];
-  allProducts = [];
-  customers;
-  searchText = '';
-  filteredCustomer;
-  customerLabel = 'Select';
-  savedCompanyId = 'Select';
-  disableCustomer = false;
+  addedProducts = []
+  allProducts = []
+  customers
+  searchText = ''
+  filteredCustomer
+  customerLabel = 'Select'
+  savedCompanyId = 'Select'
+  disableCustomer = false
   controlStore: { [key: string]: AbstractControl; } = {};
   isDropup: boolean;
-  routeId: any;
+  routeId:any
   OrderStatus: any;
-  routeData$: Subscription;
-  getSingleOrder$: Subscription;
-  getShops$: Subscription;
   constructor(
     private fb: FormBuilder,
     private tS: TableService,
+    private http: HttpClient,
     private ref: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute,
@@ -103,7 +103,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
   selectionConfig(label: string): SelectConfig {
     return {
       selectLabel: {
-        text: label,
+        text: label ,
       },
     };
   }
@@ -113,15 +113,15 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     placeholder: string = '',
     prefixIcon: boolean = false,
     Icon: string = '',
-  )
+    )
     : InputConfig {
-    const icon = Icon === 'Currency' ? this.Currency : '%';
+      const icon = Icon === 'Currency' ? this.Currency : '%'
     return {
       inputLabel: {
-        text: label,
+        text: label ,
       },
       type: type || 'text',
-      placeholder,
+      placeholder ,
       prefixIcon: prefixIcon || false,
       IconType: icon || '$',
     };
@@ -136,52 +136,40 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     return this.componentForm.get('type');
   }
   ngOnInit(): void {
-    this.routeData$ = this.route.data.subscribe(
-      res => {
-        const data = get(res, 'data', null);
-        if (!data?.accessDetailsScreen) {
-          this.router.navigate(['/access-denied']);
-        } else {
-          this.ngOnInitFunction();
-        }
-      }
-    );
-  }
-  ngOnInitFunction(): void {
-    this.loadOrder();
-    this.service.getcustomers().subscribe(e => {
-      this.customers = get(e, 'customers', []);
-      this.filteredCustomer = e;
-    });
-    this.routeId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
-    this.shopS.buyStore.subscribe((e: any) => {
-      const orderId = this.routeId;
-      if (e.hasOwnProperty('id')) {
-        const companyId = this.componentForm.get('companyId').value || this.savedCompanyId;
+    this.loadOrder()
+    this.service.getcustomers().subscribe(e =>{
+      this.customers = e
+      this.filteredCustomer = e
+    })
+    this.routeId = parseInt(this.route.snapshot.paramMap.get('id'), 10)
+    this.shopS.buyStore.subscribe((e:any) =>{
+      const orderId = this.routeId
+      if(e.hasOwnProperty('id')){
+        const companyId = this.componentForm.get('companyId').value || this.savedCompanyId
         const obj: any = {
           orderId,
           productPriceId: e.id
-        };
-        if (companyId !== null) {
-          obj.companyId = companyId;
-          this.componentForm.get('companyId').disable();
-          this.ref.detectChanges();
-        } else {
-          this.displayMsg('Please select a customer', 'info');
         }
-        this.service.addOrderToCart(orderId, obj).subscribe(res => {
-          this.loadOrder();
-        }, (err) => {
-          this.displayMsg(err.error, 'danger');
-        });
-        this.onInitTable();
+          if(companyId !== null){
+            obj.companyId = companyId
+            this.componentForm.get('companyId').disable()
+            this.ref.detectChanges()
+          }else{
+            this.displayMsg('Please select a customer', 'info')
+          }
+        this.service.addOrderToCart(orderId, obj).subscribe(res =>{
+          this.loadOrder()
+        },(err)=>{
+          this.displayMsg(err.error, 'danger')
+        })
+        this.onInitTable()
       }
-    });
+    })
     this.initForm();
-    this.loadOrder();
+    this.loadOrder()
     this.onInitTable();
   }
-  displayMsg(msg, type) {
+  displayMsg(msg, type){
     this.msgS.addMessage({
       text: msg,
       type,
@@ -189,67 +177,64 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       customClass: 'mt-32',
       hasIcon: true,
     });
-    setTimeout(() => {
-      this.msgS.clearMessages();
-    }, 5000);
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
   }
-  loadOrder() {
+  loadOrder(){
     const id = this.route.snapshot.paramMap.get('id');
-    this.orderId = id;
-    if (id) {
-      const idx = parseInt(id, 10);
-      this.getSingleOrder$ = this.service.getSingleOrder(idx).subscribe((e: any) => {
-        this.OrderStatus = e.OrderStatus;
-        if (e.CompanyId !== null) {
-          this.savedCompanyId = e.CompanyId;
-          this.componentForm.get('companyId').disable();
-          this.disableCustomer = true;
-          this.ref.detectChanges();
+    this.orderId = id
+    if(id){
+      const idx = parseInt(id,10)
+      this.service.getSingleOrder(idx).subscribe((e: any) =>{
+        this.OrderStatus = e.OrderStatus
+        if(e.CompanyId !== null){
+          this.savedCompanyId = e.CompanyId
+          this.componentForm.get('companyId').disable()
+          this.disableCustomer = true
+          this.ref.detectChanges()
         }
-        const orderItems: any[] = e.OrderItems;
-        this.getShops$ = this.service.getShops().subscribe((shop: any[]) => {
-          this.addedProducts = [];
-          shop.forEach(s => {
-            const index = orderItems.findIndex((item: any) => item.ProductId === s.product.id);
-            if (index > -1) {
-              this.noProduct = false;
-              this.addedProducts.push({
-                quantity: orderItems[index].Quantity,
-                value: orderItems[index].Value,
-                discount: orderItems[index].Discount,
-                DiscountPrc: orderItems[index].DiscountPrc,
-                totalValue: orderItems[index].TotalValue,
-                application: s.product.name,
-                productType: s.product.productType,
-                priceListId: s.id,
-                supportHours: s.supportHours,
-                renewalValue: s.renewalValue,
-                orderItemId: orderItems[index].Id
-              });
-            } else {
-              return null;
-            }
-          });
-          const uniqueArray = this.addedProducts.filter((v, i) => {
-            return this.addedProducts.indexOf(v) === i;
-          });
+        const orderItems: any[] = e.OrderItems
+        this.service.getShops().subscribe((shop:any[]) =>{
+          this.addedProducts = []
+          shop.forEach(s =>{
+              const index = orderItems.findIndex((item:any) => item.ProductId === s.product.id )
+              if(index > -1){
+                this.noProduct = false
+                this.addedProducts.push({
+                  quantity: orderItems[index].Quantity,
+                  value: orderItems[index].Value,
+                  discount: orderItems[index].Discount,
+                  DiscountPrc: orderItems[index].DiscountPrc,
+                  totalValue: orderItems[index].TotalValue,
+                  application: s.product.name,
+                  productType: s.product.productType,
+                  priceListId: s.id,
+                  supportHours: s.supportHours,
+                  renewalValue: s.renewalValue,
+                  orderItemId: orderItems[index].Id
+                })
+              }else{
+                return null
+              }
+          })
+          const uniqueArray = this.addedProducts.filter((v,i) =>{
+            return this.addedProducts.indexOf(v) === i
+          })
           this.rowData = this.addedProducts;
           const cloneData = this.addedProducts.map((v) => {
             return { ...v };
           });
           this.tableData.next(cloneData);
-          if (this.addedProducts.length < 1) {
-            this.noProduct = true;
+          if(this.addedProducts.length < 1){
+            this.noProduct = true
           }
           const dBody = document.querySelector('.datatable-body') as HTMLElement;
-          if (dBody) {
-            dBody.style.minHeight = 'auto';
-            dBody.style.height = 'auto';
-          }
-
-        });
-        const discountPrc = e.DiscountPrc.toFixed(2);
-        this.Currency = e.Currency;
+          dBody.style.minHeight = 'auto';
+          dBody.style.height = 'auto';
+        })
+        const discountPrc = e.DiscountPrc.toFixed(2)
+        this.Currency = e.Currency
         this.componentForm.patchValue({
           orderNumber: e.Id,
           companyId: e.CompanyId,
@@ -257,14 +242,14 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
           value: e.Value,
           discount: discountPrc,
           totalValue: e.TotalValue.toFixed(2)
-        });
+        })
         this.componentForm.get('orderDate').patchValue(this.formatDate(new Date(e.CreateDate)));
-        if (e.OrderStatus === 'WaitingPaymentConfirmation') {
+        if(e.OrderStatus === 'WaitingPaymentConfirmation'){
           this.disableForm = true;
-          this.componentForm.disable();
-          this.ref.detectChanges();
+          this.componentForm.disable()
+          this.ref.detectChanges()
         }
-      });
+      })
     }
   }
   initForm() {
@@ -450,23 +435,23 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         cellTemplate: this.actionDropdown
       },
     ];
-    if (this.addedProducts.length) {
-      // this.tableConfig.loadingIndicator = true;
-      this.noProduct = false;
-      this.rowData = this.addedProducts;
-      const cloneData = this.addedProducts.map((v) => {
-        return { ...v };
-      });
-      this.tableData.next(cloneData);
-      this.tableConfig.loadingIndicator = false;
-    } else {
-      this.tableConfig.loadingIndicator = false;
-      this.noProduct = true;
-      const empty = document.getElementsByClassName('empty-row') as HTMLCollectionOf<HTMLElement>;
-      if (empty.length !== 0) {
-        empty[0].style.display = 'none';
+      if (this.addedProducts.length) {
+        // this.tableConfig.loadingIndicator = true;
+        this.noProduct = false
+        this.rowData = this.addedProducts;
+        const cloneData = this.addedProducts.map((v) => {
+          return { ...v };
+        });
+        this.tableData.next(cloneData);
+        this.tableConfig.loadingIndicator = false;
+      }else{
+        this.tableConfig.loadingIndicator = false
+        this.noProduct = true
+        const empty = document.getElementsByClassName('empty-row') as HTMLCollectionOf<HTMLElement>
+        if(empty.length !== 0){
+          empty[0].style.display = 'none'
+        }
       }
-    }
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
@@ -477,10 +462,10 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     this.tableData.next(newRows);
   }
   checkout(OrderStatus) {
-    if (OrderStatus === 'WaitingPaymentConfirmation' || OrderStatus === 'Paid') {
-      return;
-    } else {
-      const companyId = this.componentForm.get('companyId').value;
+    if(OrderStatus === 'WaitingPaymentConfirmation' ||OrderStatus === 'Paid' ){
+      return
+    }else{
+      const companyId = this.componentForm.get('companyId').value
       this.router.navigate(['orders/orders-checkout', { id: this.routeId }]);
     }
   }
@@ -494,16 +479,16 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     return [year, month, day].join('-');
   }
   openModal(template: TemplateRef<any>, OrderStatus) {
-    if (OrderStatus === 'WaitingPaymentConfirmation' || OrderStatus === 'Paid') {
-      return;
-    } else {
-      if (this.savedCompanyId === 'Select' || this.savedCompanyId === null) {
-        this.displayMsg('To add a product you must be select customer', 'info');
-      } else {
-        this.shopS.shopStore.subscribe(e => {
-          this.allProducts = e;
-        });
-        this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray modal-lg' }));
+    if(OrderStatus === 'WaitingPaymentConfirmation' ||OrderStatus === 'Paid' ){
+      return
+    }else{
+      if(this.savedCompanyId === 'Select' || this.savedCompanyId === null){
+        this.displayMsg('To add a product you must be select customer', 'info')
+      }else{
+        this.shopS.shopStore.subscribe(e =>{
+          this.allProducts = e
+        })
+        this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray modal-lg' }));
       }
     }
   }
@@ -524,8 +509,8 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       value: [
         0,
       ]
-    });
-    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray' }));
+    })
+    this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray' }));
   }
   openOrderDiscountModal(template: TemplateRef<any>, row) {
     this.discountForm = this.fb.group({
@@ -544,156 +529,147 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       value: [
         0,
       ]
-    });
-    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray' }));
+    })
+    this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray' }));
   }
-  changeQuantity(type, row) {
-    this.addedProducts = this.addedProducts.map(e => {
-      if (e.orderItemId === row.orderItemId && type === 'inc') {
+  changeQuantity(type,row){
+    this.addedProducts = this.addedProducts.map(e =>{
+      if(e.orderItemId === row.orderItemId && type === 'inc'){
         const obj = {
           orderId: this.routeId,
           productPriceId: e.priceListId,
           companyId: this.savedCompanyId
-        };
-        this.service.addOrderToCart(this.routeId, obj).subscribe(res => {
-          this.loadOrder();
-        }, (err) => this.displayMsg(err.error, 'danger'));
-        return e;
+        }
+        this.service.addOrderToCart(this.routeId, obj).subscribe(res =>{
+          this.loadOrder()
+        },(err) => this.displayMsg(err.error, 'danger'))
+        return e
       }
-      else if (e.orderItemId === row.orderItemId && type === 'dec') {
+      else if(e.orderItemId === row.orderItemId && type === 'dec'){
         const obj = {
           orderItemId: e.orderItemId,
-        };
-        this.service.reduceCartItem(e.orderItemId, obj).subscribe(res => {
-          this.loadOrder();
-        }, err => {
-          this.displayMsg(err.error, 'danger');
-          console.log(err);
-        });
+        }
+        this.service.reduceCartItem(e.orderItemId, obj).subscribe(res =>{
+          this.loadOrder()
+        },err => {
+          this.displayMsg(err.error, 'danger')
+          console.log(err)
+        })
         return e;
       }
-      return e;
-    });
-    this.ref.detectChanges();
-    this.tableData.next(this.addedProducts);
+      return e
+    })
+    this.ref.detectChanges()
+    this.tableData.next(this.addedProducts)
   }
-  submitForm() {
-    const values = this.componentForm.value;
+  submitForm(){
+    const values = this.componentForm.value
   }
   onChange(option, field) {
-    this.savedCompanyId = option;
-    this.customerLabel = option;
-    this.componentForm.get(field).patchValue(option);
+    this.savedCompanyId = option
+    this.customerLabel = option
+    this.componentForm.get(field).patchValue(option)
 
   }
-  setClose() {
-    this.autoClose = false;
+  setClose(){
+    this.autoClose = false
     // if(this.autoClose){
     // }else{
     //   this.autoClose = true
     // }
   }
-  setCustomer(company, id) {
-    this.autoClose = true;
+  setCustomer(company, id){
+    this.autoClose = true
     this.componentForm.get('companyId').setValue(id);
     this.customerLabel = company;
-    this.savedCompanyId = id;
-    this.filteredCustomer = this.customers;
-    this.componentForm.get('searchText').patchValue('');
-    this.ref.detectChanges();
+    this.savedCompanyId = id
+    this.filteredCustomer = this.customers
+    this.componentForm.get('searchText').patchValue('')
+    this.ref.detectChanges()
   }
-  onSearchChange(customer: string) {
-    this.autoClose = false;
-    this.filteredCustomer = this.customers.filter(e => e.companyName.toLowerCase().includes(customer.toLowerCase()));
-    this.ref.detectChanges();
+  onSearchChange(customer:string){
+     this.autoClose = false
+    this.filteredCustomer = this.customers.filter(e => e.companyName.toLowerCase().includes(customer.toLowerCase()))
+    this.ref.detectChanges()
   }
-  cancelOrder() {
+  cancelOrder(){
     const id = this.route.snapshot.paramMap.get('id');
-    this.service.cancelOrder(id).subscribe(e => {
-      this.router.navigate(['orders']);
-    });
+    this.service.cancelOrder(id).subscribe(e =>{
+      this.router.navigate(['orders'])
+    })
   }
-  payOrder() {
+  payOrder(){
     const id = this.route.snapshot.paramMap.get('id');
-    this.service.payOrder(id).subscribe(e => {
-      this.router.navigate(['orders']);
-    });
+    this.service.payOrder(id).subscribe(e =>{
+      this.router.navigate(['orders'])
+    })
   }
-  deleteItem(row) {
+  deleteItem(row){
     const obj = {
       orderItemId: row.orderItemId,
       orderId: this.routeId
-    };
-    this.service.deleteCartItem(row.orderItemId, obj).subscribe(e => {
-      this.loadOrder();
-    }, err => {
-      if (err.status === 200) {
-        console.log(err.status);
-        this.loadOrder();
+    }
+    this.service.deleteCartItem(row.orderItemId, obj).subscribe(e =>{
+      this.loadOrder()
+    },err => {
+      if(err.status === 200){
+        console.log(err.status)
+        this.loadOrder()
       }
-      this.displayMsg(err.error, 'danger');
-    });
+      this.displayMsg(err.error, 'danger')
+    })
   }
   setDiscountType(event, button) {
     event.preventDefault();
     this.discountForm.patchValue({
       value: 0
-    }, { onlySelf: true });
+    },{onlySelf:true});
     if (button === this.selectedDiscountBtn) {
-      this.setFormValue('discountType', button.title);
+      this.setFormValue('discountType',button.title);
       this.selectedDiscountBtn = undefined;
     } else {
       this.setFormValue('discountType', button.title);
       this.selectedDiscountBtn = button;
     }
   }
-  setFormValue(field, value) {
+  setFormValue(field,value){
     this.discountForm.get(field).patchValue(value, {
       onlySelf: false
     });
   }
-  submitDiscountForm() {
-    const values = this.discountForm.value;
-    if (values.discountType === 'Fixed') {
-      values.discountInValue = parseInt(values.value, 10);
-      values.discountInPercentage = 0;
-      values.discountType = 'FixedValue';
-    } else {
-      values.discountInValue = 0;
-      values.discountInPercentage = parseInt(values.value, 10);
+  submitDiscountForm(){
+    const values = this.discountForm.value
+    if(values.discountType === 'Fixed'){
+      values.discountInValue = parseInt(values.value,10)
+      values.discountInPercentage = 0
+      values.discountType = 'FixedValue'
+    }else{
+      values.discountInValue = 0
+      values.discountInPercentage = parseInt(values.value,10)
     }
-    delete values.value;
-    this.service.applyDiscount(values.orderItemId, values).subscribe(e => {
-      this.loadOrder();
-      this.modalService.hide(1);
-      this.selectedDiscountBtn = this.discountTypes[0];
-    }, (err) => {
-      this.modalRef.hide();
-      this.displayMsg(err.error, 'danger');
-    });
+    delete values.value
+    this.service.applyDiscount(values.orderItemId, values).subscribe(e =>{
+      this.loadOrder()
+      this.modalService.hide(1)
+      this.selectedDiscountBtn = this.discountTypes[0]
+    },(err)=>{
+      this.modalRef.hide()
+      this.displayMsg(err.error, 'danger')
+    })
   }
-  submitOrderDiscountForm() {
-    const values = this.discountForm.value;
+  submitOrderDiscountForm(){
+    const values = this.discountForm.value
     const obj = {
       orderId: this.routeId,
       discountPrc: values.value
-    };
-    this.service.orderDiscount(this.routeId, obj).subscribe(e => {
-      this.loadOrder();
-      this.modalService.hide(1);
-      this.selectedDiscountBtn = this.discountTypes[0];
-    }, (err) => {
-      this.modalRef.hide();
-      this.displayMsg(err.error, 'danger');
-    });
-  }
-  ngOnDestroy() {
-    this.routeData$.unsubscribe();
-    if (this.getSingleOrder$) {
-      this.getSingleOrder$.unsubscribe();
     }
-    if (this.getShops$) {
-      this.getShops$.unsubscribe();
-    }
+    this.service.orderDiscount(this.routeId, obj).subscribe(e =>{
+      this.loadOrder()
+      this.modalService.hide(1)
+      this.selectedDiscountBtn = this.discountTypes[0]
+    },(err)=>{
+      this.modalRef.hide()
+      this.displayMsg(err.error, 'danger')
+    })
   }
 }

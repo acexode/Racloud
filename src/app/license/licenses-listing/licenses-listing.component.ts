@@ -9,7 +9,6 @@ import { TableFilterType } from 'src/app/shared/table/models/table-filter-types'
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
 import { LicenseServiceService } from '../license-service.service';
-import { get } from 'lodash';
 
 
 
@@ -57,19 +56,22 @@ export class LicensesListingComponent implements OnInit {
     loadingIndicator: true,
     action: true
   };
+  fieldsPermission: any;
+  actionPermission: any;
 
   constructor(
     private tS: TableService,
     private http: HttpClient,
     private router: Router,
     private ref: ChangeDetectorRef,
-    private service: LicenseServiceService
+    private service: LicenseServiceService,
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
         identifier: 'productName',
+         index: 1,
         label: 'Product Name',
         sortable: true,
         minWidth: 161,
@@ -85,6 +87,7 @@ export class LicensesListingComponent implements OnInit {
       },
       {
         identifier: 'orderId',
+         index: 2,
         label: 'Order ID',
         sortable: true,
         minWidth: 104,
@@ -100,6 +103,7 @@ export class LicensesListingComponent implements OnInit {
       },
       {
         identifier: 'companyName',
+         index: 3,
         label: 'Customer',
         sortable: true,
         minWidth: 160,
@@ -115,6 +119,7 @@ export class LicensesListingComponent implements OnInit {
       },
       {
         identifier: 'purchaseDate',
+         index: 4,
         label: 'Purchased',
         sortable: true,
         minWidth: 120,
@@ -131,6 +136,7 @@ export class LicensesListingComponent implements OnInit {
       },
       {
         identifier: 'expirationDate',
+         index: 5,
         label: 'Expires',
         sortable: true,
         minWidth: 104,
@@ -147,6 +153,7 @@ export class LicensesListingComponent implements OnInit {
       },
       {
         identifier: 'licenseStatus',
+         index: 6,
         label: 'Status',
         sortable: true,
         minWidth: 104,
@@ -164,6 +171,7 @@ export class LicensesListingComponent implements OnInit {
       },
       {
         identifier: 'isPartnerLicense',
+         index: 7,
         label: 'Partner license',
         sortable: true,
         minWidth: 104,
@@ -181,6 +189,7 @@ export class LicensesListingComponent implements OnInit {
       },
       {
         identifier: 'renewByUserCompany',
+         index: 8,
         label: 'Renew by User Company',
         sortable: true,
         minWidth: 136,
@@ -198,6 +207,7 @@ export class LicensesListingComponent implements OnInit {
       },
       {
         identifier: 'action',
+         index: 9,
         label: '',
         sortable: true,
         minWidth: 40,
@@ -210,33 +220,53 @@ export class LicensesListingComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.service.getLicenses().subscribe((data: any) => {
-      this.loadTableData(data);
+    this.service.getLicenses().subscribe((data:any) => {
+      this.loadTableData(data)
     });
   }
   public getJSON(): Observable<any> {
     return this.http.get('./assets/ra-table-license.json');
   }
-  loadTableData(data: []) {
+  loadTableData(data){
     if (data) {
-      const d = get(data, 'licenses', null);
-      if (d !== null) {
-        const formattedData = d.map((e: any) => {
-          return {
-            ...e,
-            productName: e.product.name,
-            companyName: e.company.companyName
-
-          };
-        });
-        this.tableConfig.loadingIndicator = true;
-        this.rowData = formattedData;
-        const cloneData = formattedData.map((v: any) => {
-          return { ...v };
-        });
-        this.tableData.next(cloneData);
-        this.tableConfig.loadingIndicator = false;
+      const formattedData = data.licenses.map((e:any)=>{
+        return {
+          ...e,
+          productName: e.product.name,
+          companyName:e.company.companyName,
+          customer: e.company.companyName
+        }
+      })
+      console.log(formattedData)
+      const filteredColumns = []
+      this.fieldsPermission = data.schema.columns
+      this.actionPermission = data.schema.actions
+      this.fieldsPermission.licenseStatus = this.fieldsPermission.status
+      this.fieldsPermission.companyName = this.fieldsPermission.customer
+      for (const key in this.fieldsPermission) {
+        if (this.fieldsPermission[key] === 'full') {
+          // console.log(key)
+          this.tableConfig.columns.forEach(column =>{
+            // console.log(column)
+            if(column.identifier.toLowerCase() === key.toLowerCase()){
+              console.log(key)
+              filteredColumns.push(column)
+            }
+          })
+        }
       }
+       console.log(filteredColumns)
+       const sorted  = filteredColumns.sort((a, b) => (a.index > b.index) ? 1 : (b.index > a.index) ? -1 : 0)
+      // console.log(sorted)
+      this.tableConfig.columns = [...filteredColumns,this.tableConfig.columns[this.tableConfig.columns.length -1] ]
+
+      this.tableConfig.loadingIndicator = true;
+      this.rowData = formattedData;
+      const cloneData = formattedData.map((v: any) => {
+        return { ...v };
+      });
+      this.tableData.next(cloneData);
+      this.tableConfig.loadingIndicator = false;
     }
   }
   filterTable(filterObj: TableFilterConfig) {
@@ -247,16 +277,16 @@ export class LicensesListingComponent implements OnInit {
     );
     this.tableData.next(newRows);
   }
-  toggle() {
+  toggle(){
     // this.tableData.next(null)
-    this.tableConfig.loadingIndicator = false;
-    if (this.showOwnLicenses) {
-      this.service.getOwnLicenses().subscribe((data: any) => {
-        this.loadTableData(data);
+    this.tableConfig.loadingIndicator = false
+    if(this.showOwnLicenses){
+      this.service.getOwnLicenses().subscribe((data:any) => {
+        this.loadTableData(data)
       });
-    } else {
-      this.service.getLicenses().subscribe((data: any) => {
-        this.loadTableData(data);
+    }else{
+      this.service.getLicenses().subscribe((data:any) => {
+        this.loadTableData(data)
       });
     }
   }

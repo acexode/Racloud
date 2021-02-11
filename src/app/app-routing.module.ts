@@ -33,7 +33,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       title: 'Order'
-    },
+    }
   },
   {
     path: 'users',

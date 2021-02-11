@@ -61,11 +61,7 @@
                                           <input class="dropdown-item border" formControlName='searchText' (click)="setClose()" (input)="onSearchChange($event.target.value)" type="text" placeholder="search company">
                                         </li>
                                         <li class="divider dropdown-divider"></li>
-                                        <li *ngFor="let company of filteredOptions" (click)="setCompany(company.companyName,company.id)" role="menuitem">
-                                            <a class="dropdown-item">
-                                                {{company.companyName}}
-                                            </a>
-                                        </li>
+                                        <li *ngFor="let company of filteredOptions" (click)="setCompany(company.companyName,company.id)" role="menuitem"><a class="dropdown-item">{{company.companyName}}</a></li>
 
                                     </ul>
                                 </div>

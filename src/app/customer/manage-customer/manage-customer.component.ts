@@ -1,10 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { get } from 'lodash';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { CustomerService } from 'src/app/core/services/customer/customer.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
+import { CustomerModel } from '../model/customer.model';
 
 @Component({
   selector: 'app-manage-customer',
@@ -27,48 +28,49 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
     width: '0px',
   };
   tabSwitch: any;
-  customerId: any;
+  tabPermission: any;
+  fieldPermission: any;
   tabs = [
     {
       name: 'Details',
+      shortName: 'details',
       template: 'detailsTab',
       isSelected: false,
-      defaultSelected: false,
-      showTab: true,
+      defaultSelected: true,
     },
     {
       name: 'License',
       template: 'licenseTab',
+      shortName: 'licences',
       isSelected: false,
       defaultSelected: false,
-      showTab: true,
     },
     {
       name: 'Users',
       template: 'userTab',
+      shortName: 'users',
       isSelected: false,
       defaultSelected: false,
-      showTab: true,
     },
     {
       name: 'Orders',
       template: 'ordersTab',
       isSelected: false,
+      shortName: 'orders',
       defaultSelected: false,
-      showTab: true,
     },
     {
       name: 'Customers',
       template: 'customersTab',
+      shortName: 'customers',
       isSelected: false,
       defaultSelected: false,
-      showTab: true,
     },
   ];
   /*  */
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/customer';
-  routeData$: Subscription;
+
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -83,43 +85,46 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
     public route: ActivatedRoute,
     private msgS: MessagesService,
     private customerS: CustomerService,
-    private router: Router,
 
   ) { }
 
   ngOnInit(): void {
-    this.routeData$ = this.route.data.subscribe(
-      response => {
-        const data = get(response, 'data', null);
-        if (!data?.accessDetailsScreen) {
-          this.router.navigate(['/access-denied']);
-        } else {
-          this.route$ = this.route.paramMap.subscribe(
-            params => {
-              const id: any = params.get('id');
-              const tab: any = params.get('tab');
-              this.customerId = id;
-              this.fetch$ = this.customerS.getCustomerById(id).subscribe(
-                (res: any) => {
-                  const company = get(res, 'customer', null);
-                  if (company) {
-                    this.detailsData$.next(company);
-                    this.setTab(tab);
-                  }
-                },
-                _err => {
-                  this.msgS.addMessage({
-                    text: 'Unable to get customer Data at this current time please check your newtowrk and try again.',
-                    type: 'danger',
-                    dismissible: true,
-                    customClass: 'mt-32',
-                    hasIcon: true
-                  });
+    this.route$ = this.route.paramMap.subscribe(
+      params => {
+        const id: any = params.get('id');
+        this.fetch$ = this.customerS.getCustomerById(id).subscribe(
+          (res: any) => {
+            if (res) {
+              console.log(res)
+              this.detailsData$.next(res);
+              this.tabPermission = res.schema.tabs
+              this.fieldPermission = res.schema.fields
+              const filtered = []
+              for (const key in this.tabPermission) {
+                if(this.tabPermission[key] === 'full'){
+                  console.log(key)
+                  this.tabs.forEach(tab =>{
+                    if(tab.shortName === key){
+                      filtered.push(tab)
+                    }
+                  })
                 }
-              );
+              }
+              console.log(filtered)
+              this.tabs = [this.tabs[0], ...filtered]
+              this.showTab(this.detailsTab);
             }
-          );
-        }
+          },
+          _err => {
+            this.msgS.addMessage({
+              text: 'Unable to get customer Data at this current time please check your newtowrk and try again.',
+              type: 'danger',
+              dismissible: true,
+              customClass: 'mt-32',
+              hasIcon: true
+            });
+          }
+        );
       }
     );
     this.cdref.markForCheck();
@@ -143,8 +148,6 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
       width: `${ event.target.offsetWidth }px`
     };
     this.tabs[index].isSelected = true;
-    // update route
-    this.router.navigate(['/customer/manage', this.customerId, 'tab', this.tabs[index].name.toLowerCase()]);
   }
   ressetTabSelectStatus() {
     for (const tab of this.tabs) {
@@ -155,25 +158,10 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
   get UserTab() {
     return this.tabs.find(tab => tab.template === 'userTab');
   }
-  setTab(tabName: any) {
-    const tabIndex = this.tabs.findIndex(tab => tab.name.toLowerCase() === tabName.toLowerCase());
-    this.ressetTabSelectStatus();
-    if (tabIndex > -1) {
-      const tab = this.tabs[tabIndex].template;
-      this.tabSwitch = this[tab];
-      this.tabs[tabIndex].defaultSelected = true;
-      this.tabs[tabIndex].isSelected = true;
-    } else {
-      this.tabs[0].defaultSelected = true;
-      this.tabs[0].isSelected = true;
-      this.showTab(this.detailsTab);
-    }
-  }
   /*  */
   ngOnDestroy(): void {
     this.route$.unsubscribe();
     this.fetch$.unsubscribe();
-    this.routeData$.unsubscribe();
   }
 
 }
