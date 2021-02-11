@@ -205,7 +205,7 @@ export class OrderTabComponent implements OnInit {
   removeRow(id) {
     console.log(id);
   }
-  manageSub(id) {
+  manageSub(id: any) {
     console.log(id);
   }
 
