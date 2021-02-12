@@ -34,6 +34,7 @@ export const orderEndpoints = {
   generateOrder: serverBaseUrl + '/orders/generate-order',
   getOrders: serverBaseUrl + '/orders',
   getSingleOrder: serverBaseUrl + '/orders',
+  getCustomerOrders: serverBaseUrl + '/orders/customer/',
   addToCart: serverBaseUrl + '/orders/add-item-to-cart/',
   reduceCartItem: serverBaseUrl + '/orders/reduce-item-quantity-in-cart/',
   deleteCartItem: serverBaseUrl + '/orders/remove-item-from-cart/',

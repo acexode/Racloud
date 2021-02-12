@@ -18,6 +18,9 @@ export class OrderService {
   getSingleOrder(id){
     return this.reqS.get(orderEndpoints.getSingleOrder +'/' + id)
   }
+  getCustomerOrders(id){
+    return this.reqS.get(orderEndpoints.getCustomerOrders  + id)
+  }
   getorders(){
     return this.reqS.get(orderEndpoints.getOrders)
   }
