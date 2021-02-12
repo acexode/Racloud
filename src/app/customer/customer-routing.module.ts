@@ -4,12 +4,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { CreateCustomerComponent } from './create-customer/create-customer.component';
 import { ManageCustomerComponent } from './manage-customer/manage-customer.component';
 import { BasicDetailsPageRouteResolver } from '../core/resolver/basic.details.page.route.resolver';
+import { BasicPageRouteResolver } from '../core/resolver/basic.page.route.resolver';
 
 const routes: Routes = [
     {
         path: '',
         component: CustomerComponent,
-        resolve: { data: BasicDetailsPageRouteResolver },
+        resolve: { data: BasicPageRouteResolver },
     },
     {
         path: 'create',

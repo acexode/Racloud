@@ -2,11 +2,9 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, Templat
 import { ActivatedRoute, Router } from '@angular/router';
 import { get } from 'lodash';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { baseEndpoints } from 'src/app/core/configs/endpoints';
 import { CustomerService } from 'src/app/core/services/customer/customer.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
-import { CustomerModel } from '../model/customer.model';
 
 @Component({
   selector: 'app-manage-customer',

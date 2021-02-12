@@ -124,7 +124,12 @@ export class AuthService {
         const redirectUrl = this.redirectUrlTree(
           loginData.aRoute ? loginData.aRoute.snapshot : null
         );
-        Promise.resolve(this.routerS.navigateByUrl(redirectUrl));
+        if (value.pagePermission.customers) {
+          Promise.resolve(this.routerS.navigateByUrl(redirectUrl));
+        } else {
+          Promise.resolve(this.routerS.navigateByUrl('/shop'));
+        }
+
       })
     );
   }

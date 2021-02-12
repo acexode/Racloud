@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { FooterService } from 'src/app/core/services/footer/footer.service';
@@ -15,7 +15,7 @@ import { TableService } from 'src/app/shared/table/services/table.service';
   templateUrl: './order-tab.component.html',
   styleUrls: ['./order-tab.component.scss']
 })
-export class OrderTabComponent implements OnInit {
+export class OrderTabComponent implements OnInit, OnDestroy {
   isDropup = true;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: TemplateRef<any>;

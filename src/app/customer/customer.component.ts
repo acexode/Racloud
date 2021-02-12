@@ -82,7 +82,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
   fieldsPermission: any;
   actionPermission: any;
   routeData$: Subscription;
-  accessDetailsScreen$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   constructor(
     private tS: TableService,
     private router: Router,
@@ -95,12 +94,18 @@ export class CustomerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.routeData$ = this.route.data.subscribe(
       res => {
+        console.log(res);
         const data = get(res, 'data', null);
-        if (data?.accessDetailsScreen) {
-          this.accessDetailsScreen$.next(true);
+        if (!data?.showScreen) {
+          // user have no access so redirect to shop
+          this.router.navigate(['/access-denied']);
+        } else {
+          this.ngOnInitIt();
         }
       }
     );
+  }
+  ngOnInitIt(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
@@ -258,7 +263,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
       }
     );
 
-  }
+  };
   loadCustomers(): void {
     this.loadCustomers$ = this.customerS.getCustomers().subscribe(
       res => {
@@ -282,6 +287,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
               this.tableConfig.columns.forEach(column => {
                 // console.log(column)
                 if (column.identifier === key) {
+                  console.log(key);
                   filteredColumns.push(column);
                 }
               });
@@ -308,7 +314,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         });
       }
     );
-  }
+  };
   getCountryForCutomer(code: string) {
     const getCountry = this.countriesData.data.find(country => country.code === code);
     if (typeof getCountry !== 'undefined') {
@@ -353,8 +359,12 @@ export class CustomerComponent implements OnInit, OnDestroy {
   }
   renewSub(id: any) { }
   ngOnDestroy(): void {
-    this.loadCountries$.unsubscribe();
-    this.loadCustomers$.unsubscribe();
+    if (this.loadCountries$) {
+      this.loadCountries$.unsubscribe();
+    }
+    if (this.loadCustomers$) {
+      this.loadCustomers$.unsubscribe();
+    }
     if (this.disableCustomer$) {
       this.disableCustomer$.unsubscribe();
     }
