@@ -137,9 +137,9 @@ export class OrdersDetailsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.loadOrder()
-    this.service.getcustomers().subscribe(e =>{
-      this.customers = e
-      this.filteredCustomer = e
+    this.service.getcustomers().subscribe((e:any) =>{
+      this.customers = e.customers
+      this.filteredCustomer = e.customers
     })
     this.routeId = parseInt(this.route.snapshot.paramMap.get('id'), 10)
     this.shopS.buyStore.subscribe((e:any) =>{
