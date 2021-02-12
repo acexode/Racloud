@@ -1,15 +1,12 @@
 import { UsersService } from './users.service';
-import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { FooterService } from '../core/services/footer/footer.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
-import { omnBsConfig } from '../shared/date-picker/data/omn-bsConfig';
 import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
-import { TableFilterType } from '../shared/table/models/table-filter-types';
 import { TableI } from '../shared/table/models/table.interface';
 import { TableService } from '../shared/table/services/table.service';
+import { get } from 'lodash';
 
 @Component({
   selector: 'app-users',
@@ -17,7 +14,7 @@ import { TableService } from '../shared/table/services/table.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
   isDropup = true;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl;
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
@@ -48,75 +45,84 @@ export class UsersComponent implements OnInit {
     externalSorting: false,
     action: true
   };
+  routeData$: Subscription;
+  userData$: Subscription;
   constructor(
     private tS: TableService,
-    private footerS: FooterService,
-    private http: HttpClient,
-    private ref: ChangeDetectorRef,
     private router: Router,
     private userService: UsersService,
+    private route: ActivatedRoute
 
-  ) {}
+  ) { }
   ngOnInit(): void {
-    this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
-    this.tableConfig.columns = [
-      {
-        identifier: 'user.firstname',
-        label: 'First Name',
-        sortable: true,
-        minWidth: 200,
-        width: 90,
-        noGrow: true
-      },
-      {
-        identifier: 'user.lastname',
-        label: 'Last Name',
-        sortable: true,
-        minWidth: 150,
-        width: 100,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right'
-      },
-      {
-        identifier: 'user.email',
-        label: 'Email',
-        sortable: true,
-        minWidth: 150,
-        width: 300,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right'
-      },
-      {
-        identifier: 'role.name',
-        label: 'Role',
-        sortable: true,
-        minWidth: 250,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: true
-      },
-      {
-        identifier: 'action',
-        label: '',
-        sortable: true,
-        minWidth: 60,
-        noGrow: true,
-        headerHasFilterIcon: false,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: true,
-        cellTemplate: this.actionDropdown
-      },
-    ];
-    this.getUsers()
+    this.routeData$ = this.route.data.subscribe(
+      res => {
+        const data = get(res, 'data', null);
+        if (!data?.showScreen) {
+          this.router.navigate(['/access-denied']);
+        } else {
+          this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
+          this.tableConfig.columns = [
+            {
+              identifier: 'user.firstname',
+              label: 'First Name',
+              sortable: true,
+              minWidth: 200,
+              width: 90,
+              noGrow: true
+            },
+            {
+              identifier: 'user.lastname',
+              label: 'Last Name',
+              sortable: true,
+              minWidth: 150,
+              width: 100,
+              sortIconPosition: 'right',
+              labelPosition: 'left',
+              cellContentPosition: 'right'
+            },
+            {
+              identifier: 'user.email',
+              label: 'Email',
+              sortable: true,
+              minWidth: 150,
+              width: 300,
+              sortIconPosition: 'right',
+              labelPosition: 'left',
+              cellContentPosition: 'right'
+            },
+            {
+              identifier: 'role.name',
+              label: 'Role',
+              sortable: true,
+              minWidth: 250,
+              noGrow: true,
+              sortIconPosition: 'right',
+              labelPosition: 'left',
+              cellContentPosition: 'right',
+              hasFilter: true
+            },
+            {
+              identifier: 'action',
+              label: '',
+              sortable: true,
+              minWidth: 60,
+              noGrow: true,
+              headerHasFilterIcon: false,
+              sortIconPosition: 'right',
+              labelPosition: 'left',
+              cellContentPosition: 'right',
+              hasFilter: true,
+              cellTemplate: this.actionDropdown
+            },
+          ];
+          this.getUsers();
+        }
+      }
+    );
   }
   public getUsers() {
-    this.userService.getUsers().subscribe((data:any) => {
+    this.userData$ = this.userService.getUsers().subscribe((data: any) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
@@ -127,22 +133,27 @@ export class UsersComponent implements OnInit {
         this.tableConfig.loadingIndicator = false;
       }
     });
-}
-filterTable(filterObj: TableFilterConfig) {
-  const newRows = this.tS.filterRowInputs(
-    this.tableConfig?.columns,
-    this.rowData,
-    filterObj
-  );
-  this.tableData.next(newRows);
-}
-removeRow(row){  this.userService.deleteUser(row.user.id).subscribe(e =>{
-    this.getUsers()
-  })
-}
-manageSub(data: any){
-  this.router.navigate(['users/edit-user', { id: data.user.id }]);
-}
-
-
+  }
+  filterTable(filterObj: TableFilterConfig) {
+    const newRows = this.tS.filterRowInputs(
+      this.tableConfig?.columns,
+      this.rowData,
+      filterObj
+    );
+    this.tableData.next(newRows);
+  }
+  removeRow(row: any) {
+    this.userService.deleteUser(row.user.id).subscribe(e => {
+      this.getUsers();
+    });
+  }
+  manageSub(data: any) {
+    this.router.navigate(['users/edit-user', { id: data.user.id }]);
+  }
+  ngOnDestroy(): void {
+    this.routeData$.unsubscribe();
+    if (this.userData$) {
+      this.userData$.unsubscribe();
+    }
+  }
 }

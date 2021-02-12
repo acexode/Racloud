@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { FooterService } from 'src/app/core/services/footer/footer.service';
@@ -15,7 +15,7 @@ import { TableService } from 'src/app/shared/table/services/table.service';
   templateUrl: './order-tab.component.html',
   styleUrls: ['./order-tab.component.scss']
 })
-export class OrderTabComponent implements OnInit {
+export class OrderTabComponent implements OnInit, OnDestroy {
   isDropup = true;
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: TemplateRef<any>;
@@ -167,14 +167,14 @@ export class OrderTabComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.loadOrders()
+    this.loadOrders();
   }
   public loadOrders() {
-    this.route$ = this.route.paramMap.subscribe(params =>{
-      const id = params.get('id')
-      console.log(id)
-      this.orderS.getCustomerOrders(id).subscribe((orders:any[]) =>{
-        console.log(orders)
+    this.route$ = this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      console.log(id);
+      this.orderS.getCustomerOrders(id).subscribe((orders: any[]) => {
+        console.log(orders);
         if (orders) {
           this.tableConfig.loadingIndicator = true;
           this.rowData = orders;
@@ -184,8 +184,8 @@ export class OrderTabComponent implements OnInit {
           this.tableData.next(cloneData);
           this.tableConfig.loadingIndicator = false;
         }
-      })
-    })
+      });
+    });
   }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
@@ -197,12 +197,11 @@ export class OrderTabComponent implements OnInit {
   }
   removeRow(row) {
     console.log(row);
-    this.orderS.deleteOrder(row.id).subscribe(e =>{
-      this.loadOrders()
-    })
+    this.orderS.deleteOrder(row.id).subscribe(e => {
+      this.loadOrders();
+    });
   }
   manageSub(data: any) {
-    console.log(data);
     this.router.navigate(['../../orders/orders-details', data.id]);
   }
   ngOnDestroy(): void {

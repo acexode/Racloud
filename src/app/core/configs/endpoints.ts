@@ -20,7 +20,7 @@ export const customersEndpoints = {
   addCustomer: baseEndpoints.customers + '/add-customer',
   getCustomers: serverBaseUrl + '/customers',
   getCompanyUsers: serverBaseUrl + '/customers/',
-}
+};
 export const productEndpoints = {
   getProducts: serverBaseUrl + '/products',
   createProduct: serverBaseUrl + '/products/create',
@@ -40,20 +40,21 @@ export const orderEndpoints = {
   deleteCartItem: serverBaseUrl + '/orders/remove-item-from-cart/',
   applyDiscount: serverBaseUrl + '/orders/discount/apply/',
   orderDiscount: serverBaseUrl + '/orders/order-discount/apply/'
-}
+};
 export const licenseEndpoints = {
   createLicense: serverBaseUrl + '/licenses/purchase',
   getLicenses: serverBaseUrl + '/licenses',
   getOwnLicenses: serverBaseUrl + '/loggedcustomer/licenses',
   getCustomerLicenses: serverBaseUrl + '/loggedcustomer/licenses',
   getOneLicense: serverBaseUrl + '/licenses/'
-}
+};
 export const userEndpoints = {
   getCreateUpdateUser: serverBaseUrl + '/users',
   getUsers: serverBaseUrl + '/users/logged-in-company-users',
   changePassword: serverBaseUrl + '/account/changepassword',
   sendResetPassword: serverBaseUrl + '/send-password-reset-email',
   resetPassword: serverBaseUrl + '/account/resetpassword',
+  userPermissionPerPage: serverBaseUrl + '/user-permission-per-page',
 };
 export const roleEndpoints = {
   getRoles: serverBaseUrl + '/roles',
@@ -66,7 +67,7 @@ export const shopEndpoints = {
 };
 export const priceListEndpoints = {
   create: baseEndpoints.priceLists + '/create',
-}
+};
 export const ApplicationEndpoints = {
   getApplications: serverBaseUrl + '/applications',
-}
+};
