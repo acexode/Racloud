@@ -151,7 +151,6 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     this.priceListOptions$ = this.priceService.getPriceLists();
     this.fieldsPermission = this.editableData.schema.fields
     this.actionPermission = this.editableData.schema.actions
-    console.log(this.editableData)
     // update form Data
     this.updateValueForForm();
   }

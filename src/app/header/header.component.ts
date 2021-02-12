@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { TitleService } from '../core/services/title/title.service';
 import { UsersService } from '../users/users.service';
+import { get } from 'lodash';
 
 @Component({
   selector: 'app-header',
@@ -25,12 +26,15 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.authS.getAccountData().subscribe(e => {
-      const token = this.authS.getDecodedAccessToken(e);
-      this.userS.getUser(token.id).subscribe((user: any) => {
-        this.user = user.user;
-        this.company = user.company;
-      });
+    this.authS.getAuthState().subscribe(e => {
+      const account = get(e, 'account', null);
+      this.company = get(account, 'company', null) || 'No company';
+      const firstname = get(get(account, 'user', null), 'firstname', null) || 'firstname';
+      const lastname = get(get(account, 'user', null), 'lastname', null) || 'lastname';
+      this.user = {
+        firstname,
+        lastname,
+      };
     });
   }
   navigate(id, route) {

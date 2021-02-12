@@ -2,13 +2,15 @@ import { CreateUserComponent } from './create-user/create-user.component';
 import { UsersComponent } from './users.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { BasicPageRouteResolver } from '../core/resolver/basic.page.route.resolver';
 
 
 const routes: Routes = [
   {
     path: '',
     component: UsersComponent,
-    data: { title: 'Users' }
+    data: { title: 'Users' },
+    resolve: { data: BasicPageRouteResolver },
   },
   {
     path: 'create-user',
