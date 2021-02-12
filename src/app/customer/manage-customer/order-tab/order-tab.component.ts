@@ -31,7 +31,7 @@ export class OrderTabComponent implements OnInit {
     '../../assets/images/Edit.svg',
     '../../assets/images/Log.svg',
   ];
-  
+
   tableConfig: TableI = {
     selectable: false,
     selectDetail: false,
