@@ -5,13 +5,15 @@ import {
   Component,
   OnInit,
   OnDestroy,
+  TemplateRef,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Subscription } from 'rxjs';
 import { InputConfig } from '../shared/rc-forms/models/input/input-config';
-
+import { UsersService } from '../users/users.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -20,8 +22,11 @@ import { InputConfig } from '../shared/rc-forms/models/input/input-config';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   isLoading = false;
+  resetLoading = false;
   raLogoType = 'group1';
   signUpUrl = '/signup';
+  modalRef: BsModalRef;
+  resetEmail = new FormControl('', [Validators.required, Validators.email]);
   emailInputConfig: InputConfig = {
     inputLabel: {
       text: 'Email'
@@ -55,6 +60,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private cdRef: ChangeDetectorRef,
     private aRoute: ActivatedRoute,
     private msgS: MessagesService,
+    private service: UsersService,
+    private modalService: BsModalService
   ) { }
 
   ngOnInit(): void {}
@@ -109,5 +116,34 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.resetSubs();
+  }
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray modal-md' }));
+  }
+  sendResetPassword(){
+    this.resetLoading = true
+    if(this.resetEmail.valid){
+      const obj = {
+        email: this.resetEmail.value
+      }
+      this.service.sendResetPassword(obj).subscribe((e: any) =>{
+        console.log(e)
+        this.modalRef.hide()
+        this.resetLoading = false
+        this.displayMsg(e.message, 'info')
+      })
+    }
+  }
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
   }
 }
