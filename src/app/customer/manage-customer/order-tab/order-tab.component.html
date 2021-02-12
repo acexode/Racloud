@@ -14,31 +14,37 @@
       </div>
     </div>
   </ng-template>
-
-  <ng-template #actionDropdown let-column="column" let-row="row" let-rowIndex="rowIndex">
-    <div *ngIf="rowIndex % 10 >= 6" class="btn-group" dropdown >
-      <a  id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
-              aria-controls="dropdown-basic">
-              <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-      </a>
-      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-          role="menu" aria-labelledby="button-basic">
-        <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
-        <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
-      </ul>
+  <ng-template #dateTemplate let-column="column" let-row="row" let-value="cellValue">
+    <div class="text-right px-0 mx-0">
+         <span>
+             {{ value | date }}
+         </span>
     </div>
-    <div *ngIf="rowIndex % 10 >= 6" class="btn-group" dropdown [dropup]="true">
-      <a  id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
-              aria-controls="dropdown-basic">
-              <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-      </a>
-      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-          role="menu" aria-labelledby="button-basic">
-        <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
-        <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
-      </ul>
-    </div>
-  </ng-template>
+ </ng-template>
+ <ng-template #actionDropdown let-column="column" let-row="row" let-rowIndex="rowIndex">
+  <div *ngIf="rowIndex % 10 < 6" class="btn-group" dropdown >
+    <a  id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
+            aria-controls="dropdown-basic">
+            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+    </a>
+    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+        role="menu" aria-labelledby="button-basic">
+      <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
+      <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
+    </ul>
+  </div>
+  <div *ngIf="rowIndex % 10 >= 6" class="btn-group" dropdown [dropup]="true">
+    <a  id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
+            aria-controls="dropdown-basic">
+            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+    </a>
+    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+        role="menu" aria-labelledby="button-basic">
+      <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
+      <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
+    </ul>
+  </div>
+</ng-template>
 
 <ng-template #valueTemplate let-column="column" let-row="row" let-value="cellValue">
    <div class="text-right px-0 mx-0">
@@ -60,4 +66,17 @@
             {{ value }}
         </span>
    </div>
+</ng-template>
+<ng-template #statusTemplate let-column="column" let-row="row" let-value="cellValue">
+  <span *ngIf="row.orderStatus === 'Paid'" class="table-status-column">
+    <span> {{row.orderStatus}}</span>
+    <img src="./../../assets/images/check2.svg" alt="check-icon" class="" />
+  </span>
+  <span *ngIf="row.orderStatus === 'WaitingPaymentConfirmation'" class="table-status-column">
+    <span>Waiting payment confirmation</span>
+    <img src="./../../assets/images/price-list-red.svg" alt="price-list-icon" class="" />
+  </span>
+  <span *ngIf="row.orderStatus !== 'Paid' && row.orderStatus !== 'WaitingPaymentConfirmation' " class="table-status-column">
+    <span> {{row.orderStatus}}</span>
+  </span>
 </ng-template>

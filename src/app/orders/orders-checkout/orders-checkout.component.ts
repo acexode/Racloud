@@ -64,8 +64,8 @@ export class OrdersCheckoutComponent implements OnInit {
       this.checkoutDetails = e
       this.addedProducts = e.OrderItems
       this.totalValue = this.addedProducts.map(product => product.TotalValue).reduce((total,num) => total + num)
-      this.service.getOneCustomers(e.CompanyId).subscribe(customer =>{
-        this.customerDetails = customer
+      this.service.getOneCustomers(e.CompanyId).subscribe((obj:any) =>{
+        this.customerDetails = obj.customer
       })
     })
   }

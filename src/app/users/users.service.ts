@@ -81,4 +81,13 @@ export class UsersService {
     this.storeS.removeItem('pagePermission');
     this.pagePermissionData.next({ ...this.initialState, ...{ init: true } });
   }
+  changePassword(obj) {
+    return this.reqS.post(userEndpoints.changePassword, obj);
+  }
+  sendResetPassword(obj) {
+    return this.reqS.post(userEndpoints.sendResetPassword, obj);
+  }
+  resetPassword(obj) {
+    return this.reqS.post(userEndpoints.resetPassword, obj);
+  }
 }

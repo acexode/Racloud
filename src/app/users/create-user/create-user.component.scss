@@ -32,10 +32,13 @@ $tab-btn-line-height: rem(24);
     padding: 16px;
     background-color: #F7F9FB;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     margin-top: 16px;
 }
-
+.floatLeft{
+  display: flex;
+  align-self: flex-start;
+}
 .select-dropdown {
     width: 100%;
     // background: transparent url(chevron.svg) no-repeat right 0.375rem center/1.25rem 1.25rem;
@@ -91,4 +94,19 @@ $tab-btn-line-height: rem(24);
   }
   .companyLabel{
     font-size: 0.75rem !important;
+  }
+  .change-pwd{
+    color: #464976;
+    font-family: Montserrat;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 32px;
+  }
+  .reset-text {
+    color: #464976;
+    font-family: Montserrat;
+    font-size: 15px;
+    letter-spacing: 0;
+    line-height: 24px;
   }

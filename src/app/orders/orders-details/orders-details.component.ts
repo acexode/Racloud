@@ -2,7 +2,7 @@ import { ShopService } from './../../shop/shop.service';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
@@ -142,16 +142,16 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         if (!data?.accessDetailsScreen) {
           this.router.navigate(['/access-denied']);
         } else {
-          this.ngOnInitFunction();
+          this.ngOnInitIt();
         }
       }
     );
   }
-  ngOnInitFunction(): void {
+  ngOnInitIt(): void {
     this.loadOrder();
-    this.service.getcustomers().subscribe(e => {
-      this.customers = get(e, 'customers', []);
-      this.filteredCustomer = e;
+    this.service.getcustomers().subscribe((e: any) => {
+      this.customers = e.customers;
+      this.filteredCustomer = e.customers;
     });
     this.routeId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.shopS.buyStore.subscribe((e: any) => {
