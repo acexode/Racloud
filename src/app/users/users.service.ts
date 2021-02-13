@@ -4,7 +4,7 @@ import { RequestService } from '../core/services/request/request.service';
 import { Observable, forkJoin, BehaviorSubject } from 'rxjs';
 import { CustomStorageService } from '../core/services/custom-storage/custom-storage.service';
 import { distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
-import { UserPagePermissions, UserPagePermissionsModel } from '../core/permission/user.page.permission.interface';
+import { UserPagePermissions, UserPagePermissionsModel } from '../core/permission/user/user.page.permission.interface';
 
 @Injectable({
   providedIn: 'root'

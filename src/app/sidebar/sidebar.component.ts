@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { get } from 'lodash';
 import { Subscription } from 'rxjs';
-import { UserPagePermissionsModel } from '../core/permission/user.page.permission.interface';
+import { UserPagePermissionsModel } from '../core/permission/user/user.page.permission.interface';
 import { UsersService } from '../users/users.service';
 @Component({
   selector: 'app-sidebar',
