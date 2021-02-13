@@ -199,6 +199,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     if (id) {
       const idx = parseInt(id, 10);
       this.getSingleOrder$ = this.service.getSingleOrder(idx).subscribe((e: any) => {
+        console.log(e);
         this.OrderStatus = e.OrderStatus;
         if (e.CompanyId !== null) {
           this.savedCompanyId = e.CompanyId;

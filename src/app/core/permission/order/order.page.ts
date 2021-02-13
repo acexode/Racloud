@@ -33,10 +33,10 @@ const adminCustomerReadonly: OrderPagePermissionsData = {
         totalValue: 'full'
     },
     actions: {
-        add: 'full',
-        manageUpdate: 'full',
+        add: 'hidden',
+        manageUpdate: 'hidden',
         view: 'full',
-        delete: 'full'
+        delete: 'hidden'
     }
 
 };

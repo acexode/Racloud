@@ -57,6 +57,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
     action: true
   };
   routeData$: Subscription;
+  permissions: any;
   constructor(
     private tS: TableService,
     private http: HttpClient,
@@ -73,9 +74,10 @@ export class OrdersComponent implements OnInit, OnDestroy {
           this.router.navigate(['/access-denied']);
         } else {
           const auth = get(data, 'auth', null);
-          const permissions = getOrderPagePermissions(auth);
+          this.permissions = getOrderPagePermissions(auth);
+          console.log(this.permissions);
           this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
-          this.tableConfig.columns = this.getTableColumns(permissions);
+          this.tableConfig.columns = this.getTableColumns(this.permissions);
           this.loadOrders();
         }
       }
@@ -117,6 +119,13 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
   manageSub(data: any) {
     this.router.navigate(['orders-details', data.Id], { relativeTo: this.route });
+  }
+  get actions() {
+    return {
+      add: this.permissions.actions.add === 'full' ? true : false,
+      view: this.permissions.actions.view === 'full' ? true : false,
+      delete: this.permissions.actions.delete === 'full' ? true : false,
+    }
   }
   getTableColumns(permission: any): Array<any> {
     const columns = [
@@ -234,21 +243,21 @@ export class OrdersComponent implements OnInit, OnDestroy {
           filterType: TableFilterType.TEXT,
           noIcon: true
         }
-      },
-      {
-        identifier: 'action',
-        label: '',
-        sortable: false,
-        minWidth: 40,
-        noGrow: true,
-        headerHasFilterIcon: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: false,
-        cellTemplate: this.actionDropdown
-      },
+      }
     ];
+    const action = {
+      identifier: 'action',
+      label: '',
+      sortable: false,
+      minWidth: 40,
+      noGrow: true,
+      headerHasFilterIcon: true,
+      sortIconPosition: 'right',
+      labelPosition: 'left',
+      cellContentPosition: 'right',
+      hasFilter: false,
+      cellTemplate: this.actionDropdown
+    };
 
     const tempColumn = [];
     const columnsPermission = get(permission, 'columns', null);
@@ -260,6 +269,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
         }
       }
     }
+    tempColumn.push(action);
     return tempColumn;
   }
   ngOnDestroy(): void {
