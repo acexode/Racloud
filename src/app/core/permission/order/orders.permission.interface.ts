@@ -29,7 +29,7 @@ export interface OrderDetailsGridColumnsPermissionsData {
 export interface OrderPermissionsFields {
     orderNumber: 'full' | 'hidden' | 'readonly';
     orderDate: 'full' | 'hidden' | 'readonly';
-    customer: 'full' | 'hidden' | 'readonly';
+    companyId: 'full' | 'hidden' | 'readonly';
     status: 'full' | 'hidden' | 'readonly';
     value: 'full' | 'hidden' | 'readonly';
     discount: 'full' | 'hidden' | 'readonly';

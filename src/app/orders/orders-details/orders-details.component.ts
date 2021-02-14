@@ -14,6 +14,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { OrderService } from '../service.service';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 import { get } from 'lodash';
+import { getOrderDetailsPagePermissions } from 'src/app/core/permission/order/order.details.permission';
 @Component({
   selector: 'app-orders-details',
   templateUrl: './orders-details.component.html',
@@ -88,6 +89,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
   routeData$: Subscription;
   getSingleOrder$: Subscription;
   getShops$: Subscription;
+  permissions: any;
   constructor(
     private fb: FormBuilder,
     private tS: TableService,
@@ -100,11 +102,14 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     private msgS: MessagesService
   ) { }
 
-  selectionConfig(label: string): SelectConfig {
+  selectionConfig(label: string, isDisabled: boolean = false): SelectConfig {
     return {
       selectLabel: {
         text: label,
       },
+      formStatus: {
+        isDisabled,
+      }
     };
   }
   inputConfig(
@@ -113,6 +118,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     placeholder: string = '',
     prefixIcon: boolean = false,
     Icon: string = '',
+    isDisabled: boolean = false
   )
     : InputConfig {
     const icon = Icon === 'Currency' ? this.Currency : '%';
@@ -124,6 +130,9 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       placeholder,
       prefixIcon: prefixIcon || false,
       IconType: icon || '$',
+      formStatus: {
+        isDisabled,
+      }
     };
   }
 
@@ -142,7 +151,11 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         if (!data?.accessDetailsScreen) {
           this.router.navigate(['/access-denied']);
         } else {
+          const auth = get(data, 'auth', null);
+          this.permissions = getOrderDetailsPagePermissions(auth);
+          console.log(this.permissions);
           this.ngOnInitIt();
+          this.setFormDisableAccess();
         }
       }
     );
@@ -529,24 +542,26 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray' }));
   }
   openOrderDiscountModal(template: TemplateRef<any>, row) {
-    this.discountForm = this.fb.group({
-      orderId: [
-        this.routeId,
-        [
-          Validators.required,
+    if (this.fieldsAccessStatus.discount) {
+      this.discountForm = this.fb.group({
+        orderId: [
+          this.routeId,
+          [
+            Validators.required,
+          ],
         ],
-      ],
-      discountType: [
-        'Percentage',
-        [
-          Validators.required,
+        discountType: [
+          'Percentage',
+          [
+            Validators.required,
+          ],
         ],
-      ],
-      value: [
-        0,
-      ]
-    });
-    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray' }));
+        value: [
+          0,
+        ]
+      });
+      this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray' }));
+    }
   }
   changeQuantity(type, row) {
     this.addedProducts = this.addedProducts.map(e => {
@@ -687,6 +702,52 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       this.modalRef.hide();
       this.displayMsg(err.error, 'danger');
     });
+  }
+  get fieldsHiddenStatus() {
+    return {
+      orderNumber: this.permissions === 'hidden' ? true : false,
+      companyId: this.permissions === 'hidden' ? true : false,
+      status: this.permissions === 'hidden' ? true : false,
+      orderDate: this.permissions === 'hidden' ? true : false,
+      value: this.permissions === 'hidden' ? true : false,
+      discount: this.permissions === 'hidden' ? true : false,
+      totalValue: this.permissions === 'hidden' ? true : false,
+    }
+  }
+  get fieldsAccessStatus() {
+    return {
+      orderNumber: this.permissions === 'full' ? true : false,
+      companyId: this.permissions === 'full' ? true : false,
+      status: this.permissions === 'full' ? true : false,
+      orderDate: this.permissions === 'full' ? true : false,
+      value: this.permissions === 'full' ? true : false,
+      discount: this.permissions === 'full' ? true : false,
+      totalValue: this.permissions === 'full' ? true : false,
+    };
+  }
+  get totalFieldHiddenAccess() {
+    const orderNumber = get(this.fieldsHiddenStatus, 'orderNumber', false);
+    const companyId = get(this.fieldsHiddenStatus, 'companyId', false);
+    const status = get(this.fieldsHiddenStatus, 'status', false);
+    const orderDate = get(this.fieldsHiddenStatus, 'orderDate', false);
+    const value = get(this.fieldsHiddenStatus, 'value', false);
+    const discount = get(this.fieldsHiddenStatus, 'discount', false);
+    const totalValue = get(this.fieldsHiddenStatus, 'totalValue', false);
+    return (orderNumber && companyId && status && orderDate && value && discount && totalValue)
+      ? true
+      : false;
+  }
+  setFormDisableAccess() {
+    const orderNumber = get(this.fieldsAccessStatus, 'orderNumber', false);
+    const companyId = get(this.fieldsAccessStatus, 'companyId', false);
+    const status = get(this.fieldsAccessStatus, 'status', false);
+    const orderDate = get(this.fieldsAccessStatus, 'orderDate', false);
+    const value = get(this.fieldsAccessStatus, 'value', false);
+    const discount = get(this.fieldsAccessStatus, 'discount', false);
+    const totalValue = get(this.fieldsAccessStatus, 'totalValue', false);
+    (orderNumber && companyId && status && orderDate && value && discount && totalValue)
+      ? this.componentForm.disable()
+      : this.componentForm.enable();
   }
   ngOnDestroy() {
     this.routeData$.unsubscribe();
