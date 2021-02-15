@@ -1,8 +1,20 @@
 <div class="w-100 mt-64 mb-24">
     <span class="shop">Shop</span>
 </div>
-<div class="w-100">
-    <div class="rc-card-grid">
-        <app-shop-card [item]="shop" *ngFor="let shop of shops"></app-shop-card>
+<ng-container *ngIf="!shopsStatus">
+    <div class="w-100">
+        <div class="rc-card-grid">
+            <app-shop-card [item]="shop" *ngFor="let shop of shops"></app-shop-card>
+        </div>
     </div>
-</div>
+</ng-container>
+<ng-container *ngIf="shopsStatus">
+
+    <div class="w-100 pt-149 pb-30 d-flex flex-column justify-content-center align-items-center">
+        <app-loader type="page"></app-loader>
+        <div class="rc-accent-blue-160-color montserrat-semibold-font s15-h24">
+            Please wait...
+        </div>
+    </div>
+    
+</ng-container>
