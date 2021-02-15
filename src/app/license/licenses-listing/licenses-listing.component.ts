@@ -224,15 +224,14 @@ export class LicensesListingComponent implements OnInit {
   }
   loadTableData(data){
     if (data) {
-      const formattedData = data.licenses.map((e:any)=>{
+      const formattedData = data.licenses.map((e: any) => {
         return {
           ...e,
           productName: e.product.name,
-          companyName:e.company.companyName,
+          companyName: e.company.companyName,
           customer: e.company.companyName
-        }
-      })
-      console.log(formattedData)
+        };
+      });
       const filteredColumns = []
       this.fieldsPermission = data.schema.columns
       this.actionPermission = data.schema.actions
@@ -240,19 +239,14 @@ export class LicensesListingComponent implements OnInit {
       this.fieldsPermission.companyName = this.fieldsPermission.customer
       for (const key in this.fieldsPermission) {
         if (this.fieldsPermission[key] === 'full') {
-          // console.log(key)
           this.tableConfig.columns.forEach(column =>{
-            // console.log(column)
             if(column.identifier.toLowerCase() === key.toLowerCase()){
-              console.log(key)
               filteredColumns.push(column)
             }
           })
         }
       }
-       console.log(filteredColumns)
-       const sorted  = filteredColumns.sort((a, b) => (a.index > b.index) ? 1 : (b.index > a.index) ? -1 : 0)
-      // console.log(sorted)
+      const sorted = filteredColumns.sort((a, b) => (a.index > b.index) ? 1 : (b.index > a.index) ? -1 : 0);
       this.tableConfig.columns = [...filteredColumns,this.tableConfig.columns[this.tableConfig.columns.length -1] ]
 
       this.tableConfig.loadingIndicator = true;
