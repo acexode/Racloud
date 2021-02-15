@@ -1,6 +1,6 @@
 import { UserPagePermissionsData, UserRolePermissions } from './user.permission.interface';
 
-export const admin: UserPagePermissionsData = {
+const admin: UserPagePermissionsData = {
     screen: 'full',
     columns: {
         firstName: 'full',

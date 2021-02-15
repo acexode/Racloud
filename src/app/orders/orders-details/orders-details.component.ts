@@ -14,6 +14,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { OrderService } from '../service.service';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 import { get } from 'lodash';
+import { getOrderDetailsPagePermissions } from 'src/app/core/permission/order/order.details.permission';
 @Component({
   selector: 'app-orders-details',
   templateUrl: './orders-details.component.html',
@@ -88,6 +89,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
   routeData$: Subscription;
   getSingleOrder$: Subscription;
   getShops$: Subscription;
+  permissions: any;
   constructor(
     private fb: FormBuilder,
     private tS: TableService,
@@ -100,11 +102,14 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     private msgS: MessagesService
   ) { }
 
-  selectionConfig(label: string): SelectConfig {
+  selectionConfig(label: string, isDisabled: boolean = false): SelectConfig {
     return {
       selectLabel: {
         text: label,
       },
+      formStatus: {
+        isDisabled,
+      }
     };
   }
   inputConfig(
@@ -113,6 +118,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     placeholder: string = '',
     prefixIcon: boolean = false,
     Icon: string = '',
+    isDisabled: boolean = false
   )
     : InputConfig {
     const icon = Icon === 'Currency' ? this.Currency : '%';
@@ -124,6 +130,9 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       placeholder,
       prefixIcon: prefixIcon || false,
       IconType: icon || '$',
+      formStatus: {
+        isDisabled,
+      }
     };
   }
 
@@ -142,7 +151,11 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         if (!data?.accessDetailsScreen) {
           this.router.navigate(['/access-denied']);
         } else {
+          const auth = get(data, 'auth', null);
+          this.permissions = getOrderDetailsPagePermissions(auth);
+          console.log(this.permissions);
           this.ngOnInitIt();
+          this.setFormDisableAccess();
         }
       }
     );
@@ -199,6 +212,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     if (id) {
       const idx = parseInt(id, 10);
       this.getSingleOrder$ = this.service.getSingleOrder(idx).subscribe((e: any) => {
+        console.log(e);
         this.OrderStatus = e.OrderStatus;
         if (e.CompanyId !== null) {
           this.savedCompanyId = e.CompanyId;
@@ -321,135 +335,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
   }
   onInitTable(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
-    this.tableConfig.columns = [
-      {
-        identifier: 'application',
-        label: 'Application',
-        sortable: true,
-        minWidth: 226,
-        width: 90,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'left',
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          placeholder: 'Search'
-        },
-      },
-      {
-        identifier: 'productType',
-        label: 'Product',
-        sortable: true,
-        minWidth: 226,
-        width: 90,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'left',
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'um',
-        label: 'UM?',
-        sortable: true,
-        minWidth: 160,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'left',
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'quantity',
-        label: 'Quantity',
-        sortable: true,
-        minWidth: 97,
-        noGrow: true,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
-        cellTemplate: this.quantityTemplate,
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'value',
-        label: 'Value',
-        sortable: true,
-        minWidth: 120,
-        noGrow: true,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
-        cellTemplate: this.valueTemplate,
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'discount',
-        label: 'Discount',
-        sortable: true,
-        minWidth: 120,
-        noGrow: true,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
-        cellTemplate: this.discountTemplate,
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        }
-      },
-      {
-        identifier: 'totalValue',
-        label: 'Total Value',
-        sortable: true,
-        minWidth: 120,
-        noGrow: true,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
-        cellTemplate: this.valueTemplate,
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        }
-      },
-      {
-        identifier: 'action',
-        label: '',
-        sortable: false,
-        minWidth: 40,
-        noGrow: true,
-        headerHasFilterIcon: false,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: false,
-        cellTemplate: this.actionDropdown
-      },
-    ];
+    this.tableConfig.columns = this.getTableColumns();
     if (this.addedProducts.length) {
       // this.tableConfig.loadingIndicator = true;
       this.noProduct = false;
@@ -528,24 +414,26 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray' }));
   }
   openOrderDiscountModal(template: TemplateRef<any>, row) {
-    this.discountForm = this.fb.group({
-      orderId: [
-        this.routeId,
-        [
-          Validators.required,
+    if (this.fieldsAccessStatus.discount) {
+      this.discountForm = this.fb.group({
+        orderId: [
+          this.routeId,
+          [
+            Validators.required,
+          ],
         ],
-      ],
-      discountType: [
-        'Percentage',
-        [
-          Validators.required,
+        discountType: [
+          'Percentage',
+          [
+            Validators.required,
+          ],
         ],
-      ],
-      value: [
-        0,
-      ]
-    });
-    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray' }));
+        value: [
+          0,
+        ]
+      });
+      this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray' }));
+    }
   }
   changeQuantity(type, row) {
     this.addedProducts = this.addedProducts.map(e => {
@@ -686,6 +574,215 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       this.modalRef.hide();
       this.displayMsg(err.error, 'danger');
     });
+  }
+  get fieldsHiddenStatus() {
+    const field = get(this.permissions, 'fields', null);
+    if (field) {
+      return {
+        orderNumber: field.orderNumber === 'hidden' ? true : false,
+        companyId: field.companyId === 'hidden' ? true : false,
+        status: field.status === 'hidden' ? true : false,
+        orderDate: field.orderDate === 'hidden' ? true : false,
+        value: field.value === 'hidden' ? true : false,
+        discount: field.discount === 'hidden' ? true : false,
+        totalValue: field.totalValue === 'hidden' ? true : false,
+      };
+    }
+  }
+  get fieldsAccessStatus() {
+    const field = get(this.permissions, 'fields', null);
+    if (field) {
+      return {
+        orderNumber: field.orderNumber === 'full' ? true : false,
+        companyId: field.companyId === 'full' ? true : false,
+        status: field.status === 'full' ? true : false,
+        orderDate: field.orderDate === 'full' ? true : false,
+        value: field.value === 'full' ? true : false,
+        discount: field.discount === 'full' ? true : false,
+        totalValue: field.totalValue === 'full' ? true : false,
+      };
+    }
+  }
+  get totalFieldHiddenAccess() {
+    const orderNumber = get(this.fieldsHiddenStatus, 'orderNumber', false);
+    const companyId = get(this.fieldsHiddenStatus, 'companyId', false);
+    const status = get(this.fieldsHiddenStatus, 'status', false);
+    const orderDate = get(this.fieldsHiddenStatus, 'orderDate', false);
+    const value = get(this.fieldsHiddenStatus, 'value', false);
+    const discount = get(this.fieldsHiddenStatus, 'discount', false);
+    const totalValue = get(this.fieldsHiddenStatus, 'totalValue', false);
+    return (orderNumber && companyId && status && orderDate && value && discount && totalValue)
+      ? true
+      : false;
+  }
+  setFormDisableAccess() {
+    const orderNumber = get(this.fieldsAccessStatus, 'orderNumber', false);
+    const companyId = get(this.fieldsAccessStatus, 'companyId', false);
+    const status = get(this.fieldsAccessStatus, 'status', false);
+    const orderDate = get(this.fieldsAccessStatus, 'orderDate', false);
+    const value = get(this.fieldsAccessStatus, 'value', false);
+    const discount = get(this.fieldsAccessStatus, 'discount', false);
+    const totalValue = get(this.fieldsAccessStatus, 'totalValue', false);
+    (orderNumber && companyId && status && orderDate && value && discount && totalValue)
+      ? this.componentForm.disable()
+      : this.componentForm.enable();
+  }
+  get gridColumnsReadOnlyAccessStatus() {
+    const field = get(this.permissions, 'gridColumns', null);
+    return {
+      productType: field.productType === 'readonly' ? true : false,
+      quantity: field.productType === 'readonly' ? true : false,
+      value: field.productType === 'readonly' ? true : false,
+      discount: field.productType === 'readonly' ? true : false,
+      totalValue: field.productType === 'readonly' ? true : false,
+    };
+  }
+  getTableColumns(permission: any = this.permissions): Array<any> {
+    const applicationColumn = {
+      identifier: 'application',
+      label: 'Application',
+      sortable: true,
+      minWidth: 226,
+      width: 90,
+      noGrow: true,
+      sortIconPosition: 'right',
+      labelPosition: 'left',
+      cellContentPosition: 'left',
+      filterConfig: {
+        data: null,
+        filterType: TableFilterType.TEXT,
+        placeholder: 'Search'
+      },
+    };
+    const umColumn = {
+      identifier: 'um',
+      label: 'UM?',
+      sortable: true,
+      minWidth: 160,
+      sortIconPosition: 'right',
+      labelPosition: 'left',
+      cellContentPosition: 'left',
+      filterConfig: {
+        data: null,
+        filterType: TableFilterType.TEXT,
+        noIcon: true
+      },
+    };
+    const columns = [
+      {
+        identifier: 'productType',
+        label: 'Product',
+        sortable: true,
+        minWidth: 226,
+        width: 90,
+        noGrow: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        },
+      },
+      {
+        identifier: 'quantity',
+        label: 'Quantity',
+        sortable: true,
+        minWidth: 97,
+        noGrow: true,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
+        cellTemplate: this.quantityTemplate,
+        hasFilter: true,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        },
+      },
+      {
+        identifier: 'value',
+        label: 'Value',
+        sortable: true,
+        minWidth: 120,
+        noGrow: true,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
+        cellTemplate: this.valueTemplate,
+        hasFilter: true,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        },
+      },
+      {
+        identifier: 'discount',
+        label: 'Discount',
+        sortable: true,
+        minWidth: 120,
+        noGrow: true,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
+        cellTemplate: this.discountTemplate,
+        hasFilter: true,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        }
+      },
+      {
+        identifier: 'totalValue',
+        label: 'Total Value',
+        sortable: true,
+        minWidth: 120,
+        noGrow: true,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
+        cellTemplate: this.valueTemplate,
+        hasFilter: true,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true
+        }
+      },
+    ];
+    const action = {
+      identifier: 'action',
+      label: '',
+      sortable: false,
+      minWidth: 40,
+      noGrow: true,
+      headerHasFilterIcon: false,
+      sortIconPosition: 'right',
+      labelPosition: 'left',
+      cellContentPosition: 'right',
+      hasFilter: false,
+      cellTemplate: this.actionDropdown
+    };
+    const tempColumn = [];
+    const columnsPermission = get(permission, 'gridColumns', null);
+    for (const columnKey in columnsPermission) {
+      if (columnsPermission[columnKey] === 'full' || columnsPermission[columnKey] === 'readonly') {
+        const d = columns.find(column => column.identifier.toLowerCase() === columnKey.toLowerCase());
+        if (d) {
+          tempColumn.push(d);
+        }
+      }
+    }
+    tempColumn.unshift(applicationColumn);
+    tempColumn.splice(2, 0, umColumn);
+    if (tempColumn.length !== 0) {
+      tempColumn.push(action);
+    }
+    return tempColumn;
   }
   ngOnDestroy() {
     this.routeData$.unsubscribe();

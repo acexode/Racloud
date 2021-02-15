@@ -22,7 +22,7 @@
 
     <div class="line-h1 rc-secondary-bg mt-24 mb-39"></div>
 
-    <div class="w-100 pt-40 pb-40">
+    <div class="w-100 pt-40 pb-40" *ngIf="!totalFieldHiddenAccess">
       <form [formGroup]="componentForm" class="row no-gutters">
         <div class="col-12 col-md-3 px-0 pr-0 pr-md-16">
           <div class="row m-0 p-0">
@@ -37,7 +37,7 @@
 
         <div class="col-12 col-md-3 px-0 px-md-16">
           <div class="row m-0">
-            <div class="col-12 px-0 mb-14">
+            <div class="col-12 px-0 mb-14" *ngIf="!fieldsHiddenStatus.companyId">
               <label *ngIf="disableCustomer" class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Customer</label>
               <div *ngIf="disableCustomer" class="rc-select"> <select [disabled]="disableCustomer"  formcontrolname="customer"
                   (change)="onChange($event.target.value, 'companyId')" [value]="savedCompanyId" class="ng-pristine ng-valid ng-touched">
@@ -230,7 +230,7 @@
 </ng-template>
 
 <ng-template #actionDropdown let-column="column" let-row="row">
-  <div>
+  <div [class]="(gridColumnsReadOnlyAccessStatus.quantity &&'pointer-event-none')">
     <img (click)="deleteItem(row)" src="./../../../assets/images/Delete.svg" alt="Delete-icon" class="icon-w20-h20" />
   </div>
 
@@ -249,7 +249,7 @@
 
 <ng-template #discountTemplate let-column="column" let-row="row" let-value="cellValue">
   <!-- {{toStr(row)}} -->
-  <div class="text-right px-0 mx-0">
+  <div [class]="'text-right px-0 mx-0 ' + (gridColumnsReadOnlyAccessStatus.quantity &&'pointer-event-none')">
     <span *ngIf="row.discount === 0">
       {{ row.DiscountPrc}} {{Currency}}
     </span>
@@ -266,7 +266,7 @@
     <div class="mr-8">
       {{ value }}
     </div>
-    <div class="d-flex flex-column align-items-center justify-content-center">
+    <div [class]="'d-flex flex-column align-items-center justify-content-center ' + (gridColumnsReadOnlyAccessStatus.quantity &&'pointer-event-none')">
       <img (click)="changeQuantity('inc', row)" src="./../../../assets/images/Caret-up.svg" alt="Caret-up"
         class="icon-w20-h10" />
       <img (click)="changeQuantity('dec', row)" src="./../../../assets/images/Caret-down.svg" alt="Caret-down"

@@ -1,28 +1,28 @@
 export interface UserPagePermissionsData {
-    screen: 'full' | 'hidden';
+    screen: 'full' | 'hidden' | 'readonly';
     columns?: UserPermissionsFields;
     actions?: UserPermissionsPageAction;
 }
 export interface UserDetailsPagePermissionsData {
-    screen: 'full' | 'hidden';
+    screen: 'full' | 'hidden' | 'readonly';
     fields?: UserPermissionsFields;
     actions?: UserDetailsPermissionsAction;
 }
 export interface UserPermissionsFields {
-    firstName: 'full' | 'hidden';
-    lastName: 'full' | 'hidden';
-    email: 'full' | 'hidden';
-    role: 'full' | 'hidden';
+    firstName: 'full' | 'hidden' | 'readonly';
+    lastName: 'full' | 'hidden' | 'readonly';
+    email: 'full' | 'hidden' | 'readonly';
+    role: 'full' | 'hidden' | 'readonly';
 }
 
 export interface UserPermissionsPageAction {
-    add: 'full' | 'hidden';
-    manageUpdate: 'full' | 'hidden';
-    delete: 'full' | 'hidden';
+    add: 'full' | 'hidden' | 'readonly';
+    manageUpdate: 'full' | 'hidden' | 'readonly';
+    delete: 'full' | 'hidden' | 'readonly';
 }
 export interface UserDetailsPermissionsAction {
-    update: 'full' | 'hidden';
-    changePassword: 'full' | 'hidden';
+    update: 'full' | 'hidden' | 'readonly';
+    changePassword: 'full' | 'hidden' | 'readonly';
 }
 export interface UserRoles {
     admin: UserPagePermissionsData | UserDetailsPagePermissionsData;
