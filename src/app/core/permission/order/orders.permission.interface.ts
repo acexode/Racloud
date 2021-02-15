@@ -1,13 +1,13 @@
 export interface OrderPagePermissionsData {
     screen: 'full' | 'hidden' | 'readonly';
-    columns?: OrderPageGridColumnsPermissionsData;
-    actions?: OrderPermissionsPageAction;
+    columns: OrderPageGridColumnsPermissionsData;
+    actions: OrderPermissionsPageAction;
 }
 export interface OrderDetailsPagePermissionsData {
     screen: 'full' | 'hidden' | 'readonly';
-    fields?: OrderPermissionsFields;
-    gridColumn?: OrderDetailsGridColumnsPermissionsData;
-    actions?: OrderDetailsPermissionsAction;
+    fields: OrderPermissionsFields;
+    gridColumns: OrderDetailsGridColumnsPermissionsData;
+    actions: OrderDetailsPermissionsAction;
 }
 export interface OrderPageGridColumnsPermissionsData {
     id: 'full' | 'hidden' | 'readonly';
@@ -19,7 +19,7 @@ export interface OrderPageGridColumnsPermissionsData {
     totalValue: 'full' | 'hidden' | 'readonly';
 }
 export interface OrderDetailsGridColumnsPermissionsData {
-    product: 'full' | 'hidden' | 'readonly';
+    productType: 'full' | 'hidden' | 'readonly';
     quantity: 'full' | 'hidden' | 'readonly';
     value: 'full' | 'hidden' | 'readonly';
     discount: 'full' | 'hidden' | 'readonly';

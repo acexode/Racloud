@@ -13,6 +13,13 @@ const adminFull: OrderDetailsPagePermissionsData = {
         discount: 'full',
         totalValue: 'full'
     },
+    gridColumns: {
+        productType: 'full',
+        quantity: 'full',
+        value: 'full',
+        discount: 'full',
+        totalValue: 'full',
+    },
     actions: {
         add: 'full',
         update: 'full',
@@ -30,6 +37,13 @@ const adminReadonly: OrderDetailsPagePermissionsData = {
         discount: 'readonly',
         totalValue: 'readonly'
     },
+    gridColumns: {
+        productType: 'readonly',
+        quantity: 'readonly',
+        value: 'readonly',
+        discount: 'readonly',
+        totalValue: 'readonly',
+    },
     actions: {
         add: 'hidden',
         update: 'hidden',
@@ -46,6 +60,13 @@ const allHidden: OrderDetailsPagePermissionsData = {
         value: 'hidden',
         discount: 'hidden',
         totalValue: 'hidden'
+    },
+    gridColumns: {
+        productType: 'hidden',
+        quantity: 'hidden',
+        value: 'hidden',
+        discount: 'hidden',
+        totalValue: 'hidden',
     },
     actions: {
         add: 'hidden',
