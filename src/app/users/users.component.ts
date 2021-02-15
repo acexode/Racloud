@@ -92,7 +92,7 @@ export class UsersComponent implements OnInit, OnDestroy {
               identifier: 'role.name',
               label: 'Role',
               sortable: true,
-              minWidth: 201,
+              minWidth: 250,
               noGrow: true,
               sortIconPosition: 'right',
               labelPosition: 'left',
