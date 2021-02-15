@@ -128,16 +128,16 @@ export class ProductsComponent implements OnInit {
         hasFilter: true,
       },
       {
-        identifier: '',
+        identifier: 'action',
         label: '',
         sortable: true,
-        width: 60,
+        minWidth: 40,
         noGrow: true,
         headerHasFilterIcon: false,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'left',
-        hasFilter: false,
+        cellContentPosition: 'right',
+        hasFilter: true,
         cellTemplate: this.actionDropdown
       },
     ];

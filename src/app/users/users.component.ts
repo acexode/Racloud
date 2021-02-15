@@ -67,14 +67,14 @@ export class UsersComponent implements OnInit, OnDestroy {
               identifier: 'user.firstname',
               label: 'First Name',
               sortable: true,
-              minWidth: 267,
+              minWidth: 200,
               noGrow: true
             },
             {
               identifier: 'user.lastname',
               label: 'Last Name',
               sortable: true,
-              minWidth: 268,
+              minWidth: 200,
               sortIconPosition: 'right',
               labelPosition: 'left',
               cellContentPosition: 'right'
@@ -83,7 +83,7 @@ export class UsersComponent implements OnInit, OnDestroy {
               identifier: 'user.email',
               label: 'Email',
               sortable: true,
-              minWidth: 360,
+              minWidth: 300,
               sortIconPosition: 'right',
               labelPosition: 'left',
               cellContentPosition: 'right'
@@ -103,7 +103,7 @@ export class UsersComponent implements OnInit, OnDestroy {
               identifier: 'action',
               label: '',
               sortable: true,
-              width: 60,
+              minWidth: 60,
               noGrow: true,
               headerHasFilterIcon: false,
               sortIconPosition: 'right',
