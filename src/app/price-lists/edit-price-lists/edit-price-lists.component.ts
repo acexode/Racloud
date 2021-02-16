@@ -19,35 +19,52 @@ export class EditPriceListsComponent implements OnInit, OnDestroy {
   updatePriceList$: Subscription;
   requestedData: PriceListModel;
   priceListId: any = null;
+  product$: Subscription;
   constructor(
     private route: ActivatedRoute,
     private priceListS: PriceListService,
     private cdref: ChangeDetectorRef,
     private msgS: MessagesService,
-  ) {}
+    private productS: ProductServiceService,
+  ) { }
 
   ngOnInit(): void {
-    this.priceListS.loadProductsForPriceListing();
-    this.route$ = this.route.paramMap.subscribe(
-      params => {
-        this.priceListId = params.get('id');
-        this.fetch$ = this.priceListS.getPriceList(this.priceListId).subscribe(
-          (res: PriceListModel) => {
-            const productLists: Array<PriceListModel> = get(res, 'productPrices', []);
-            this.pushResponseDataProductIntoPriceLisitingProductManager(productLists);
-            this.requestedData = res;
-          },
-          _err => {
-            this.msgS.addMessage({
-              text: 'Unable to get customer Data at this current time please check your newtowrk and try again.',
-              type: 'danger',
-              dismissible: true,
-              customClass: 'mt-32',
-              hasIcon: true
-            });
+    // load products
+    this.product$ = this.productS.getProducts().subscribe(
+      resp => {
+        this.priceListS.products.next(resp);
+
+        this.route$ = this.route.paramMap.subscribe(
+          params => {
+            this.priceListId = params.get('id');
+            this.fetch$ = this.priceListS.getPriceList(this.priceListId).subscribe(
+              (res: PriceListModel) => {
+                const productLists: Array<PriceListModel> = get(res, 'productPrices', []);
+                this.pushResponseDataProductIntoPriceLisitingProductManager(productLists);
+                this.requestedData = res;
+              },
+              _err => {
+                this.msgS.addMessage({
+                  text: 'Unable to get customer Data at this current time please check your newtowrk and try again.',
+                  type: 'danger',
+                  dismissible: true,
+                  customClass: 'mt-32',
+                  hasIcon: true
+                });
+              }
+            );
           }
         );
-      }
+      },
+      _err => {
+        this.msgS.addMessage({
+          text: 'unable to load products at this time. Please refresh your browser',
+          type: 'danger',
+          dismissible: true,
+          customClass: 'mt-32',
+          hasIcon: true,
+        });
+      },
     );
     this.cdref.markForCheck();
   }

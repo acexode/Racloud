@@ -87,7 +87,6 @@ export class AddProductFormStepComponent implements OnInit, OnDestroy {
     };
   }
   ngOnInit(): void {
-    console.log(this.currency);
     this.editableData.subscribe(
       d => {
         if (d !== null) {

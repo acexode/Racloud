@@ -357,7 +357,17 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
     }
   }
   openAddProductFormModal(): void {
-    this.productS.openAddProductFormStepModal();
+    if (this.products && this.currency) {
+      this.productS.openAddProductFormStepModal();
+    } else {
+      this.msgS.addMessage({
+        text: 'You can not add product at this current time please check your newtowrk and try again.',
+        type: 'danger',
+        dismissible: true,
+        customClass: 'mt-32',
+        hasIcon: true
+      });
+    }
   }
   getProductAvailabilityStatus() {
     return this.products !== null || this.products !== undefined ? true : false;
@@ -435,7 +445,6 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
     );
   }
   updateValueForForm(data: any) {
-    console.log(data);
     if (typeof data !== 'undefined' || typeof data !== null) {
 
       // get data
