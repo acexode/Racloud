@@ -55,6 +55,8 @@ export const userEndpoints = {
   sendResetPassword: serverBaseUrl + '/send-password-reset-email',
   resetPassword: serverBaseUrl + '/account/resetpassword',
   userPermissionPerPage: serverBaseUrl + '/user-permission-per-page',
+  impersonate: serverBaseUrl + '/auth/impersonate',
+  stopImpersonate: serverBaseUrl + '/auth/stop-impersonate',
 };
 export const roleEndpoints = {
   getRoles: serverBaseUrl + '/roles',

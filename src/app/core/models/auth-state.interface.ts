@@ -5,4 +5,5 @@ export interface AuthState {
   account?: Account;
   authToken?: string;
   expiryDate?: string | Date;
+  impersonatorId?: string;
 }
