@@ -47,22 +47,27 @@ export class PriceListService {
     return this.reqS.post<PriceListModel>(priceListEndpoints.create, data);
   }
   addProductToPriceListingProductManager(data: any): void {
-    const prod = this.products.value.find((p: ProductModel) => p.id === data.productId);
-    const nD: PriceListProductManagerModel = {
-      ...data,
-      uuid: uuid(),
-      application: prod.application.name,
-      product: prod.name,
-      productType: prod.productType,
-    };
-    const d = [
-      ...this.priceListProductManager.value,
-      {
-        // id: uuid(),
-        ...nD
-      }
-    ];
-    this.priceListProductManager.next(d);
+    if (this.products.value) {
+      const prod = this.products.value.find((p: ProductModel) => p.id === data.productId);
+      const nD: PriceListProductManagerModel = {
+        ...data,
+        uuid: uuid(),
+        application: prod.application.name,
+        product: prod.name,
+        productType: prod.productType,
+      };
+      const d = [
+        ...this.priceListProductManager.value,
+        {
+          // id: uuid(),
+          ...nD
+        }
+      ];
+      this.priceListProductManager.next(d);
+    } else {
+      this.priceListProductManager.next([]);
+    }
+
   }
   removeProductToPriceListingProductManager(id: string | number): void {
     const dd = this.priceListProductManager.value.filter(d => d.id !== id);
@@ -89,22 +94,6 @@ export class PriceListService {
   }
   getEdittablePriceListProductManagerState(): Observable<PriceListProductManagerModel> {
     return this.toEditPriceListProductManager.asObservable();
-  }
-  loadProductsForPriceListing(): void {
-    this.product$ = this.productS.getProducts().subscribe(
-      res => {
-        this.products.next(res);
-      },
-      _err => {
-        this.msgS.addMessage({
-          text: 'unable to load products at this time. Please refresh your browser',
-          type: 'danger',
-          dismissible: true,
-          customClass: 'mt-32',
-          hasIcon: true,
-        });
-      },
-    );
   }
   getProductsForPriceListing(): Observable<Array<ProductModel>> {
     return this.products.asObservable();

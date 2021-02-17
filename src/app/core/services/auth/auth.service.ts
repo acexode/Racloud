@@ -125,10 +125,13 @@ export class AuthService {
         const redirectUrl = this.redirectUrlTree(
           loginData.aRoute ? loginData.aRoute.snapshot : null
         );
+        console.log(value);
         if (value.pagePermission.customers) {
           Promise.resolve(this.routerS.navigateByUrl(redirectUrl));
         } else {
-          Promise.resolve(this.routerS.navigateByUrl('/shop'));
+          value.pagePermission.shop ?
+            Promise.resolve(this.routerS.navigateByUrl('/shop'))
+            : Promise.resolve(this.routerS.navigateByUrl('/access-denied'));
         }
 
       })

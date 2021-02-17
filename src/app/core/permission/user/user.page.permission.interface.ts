@@ -6,6 +6,7 @@ export interface UserPagePermissions {
     pricelists: boolean;
     products: boolean;
     users: boolean;
+    shop: boolean;
 }
 export interface UserPagePermissionsModel {
     init?: boolean;
