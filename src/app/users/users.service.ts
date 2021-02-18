@@ -62,6 +62,7 @@ export class UsersService {
     );
   }
   processUserPermissionResponse(data: UserPagePermissions) {
+    console.log(data)
     return this.storeS.setItem('pagePermission', data).pipe(
       tap((d) => {
         this.pagePermissionData.next({
@@ -89,5 +90,11 @@ export class UsersService {
   }
   resetPassword(obj) {
     return this.reqS.post(userEndpoints.resetPassword, obj);
+  }
+  impersonate(obj){
+    return this.reqS.post(userEndpoints.impersonate, obj);
+  }
+  stopImpersonate(obj){
+    return this.reqS.post(userEndpoints.stopImpersonate, obj);
   }
 }

@@ -32,6 +32,7 @@ export class AuthService {
     account: null,
     authToken: '',
     expiryDate: null,
+    impersonatorId: ''
   };
   authState: BehaviorSubject<AuthState> = new BehaviorSubject(
     this.initialState

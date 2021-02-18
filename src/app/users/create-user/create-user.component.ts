@@ -9,6 +9,8 @@ import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
+import { tap } from 'rxjs/operators';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-create-user',
@@ -22,6 +24,7 @@ export class CreateUserComponent implements OnInit {
   user = null;
   userForm: FormGroup;
   loggedInUser = null;
+  canImpersonate = false;
   canChangePassword = false
   changePasswordForm: FormGroup;
   modalRef: BsModalRef;
@@ -30,6 +33,7 @@ export class CreateUserComponent implements OnInit {
   componentForm: any;
   filteredCustomer: any;
   customers: any;
+  userInfo
   ref: any;
   savedCompanyId: any;
   containerConfig: PageContainerConfig = {
@@ -80,6 +84,7 @@ export class CreateUserComponent implements OnInit {
     },
     placeholder: 'Select'
   };
+  loggedInUserRole: any;
   inputConfig(
     label: string,
     type: string = 'text',
@@ -101,12 +106,14 @@ export class CreateUserComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private router : Router,
     private route: ActivatedRoute, private service: UsersService, private msgS: MessagesService,
-    private modalService: BsModalService, private cStorage: CustomStorageService) { }
+    private modalService: BsModalService, private cStorage: CustomStorageService,
+    private authS: AuthService) { }
 
   ngOnInit(): void {
     this.cStorage.getItem('token').subscribe(data =>{
       console.log(data.user)
       this.loggedInUser = data.user
+      this.loggedInUserRole = data.roles[0]
     })
     this.service.getRoles().subscribe((res:any[]) =>{
       console.log(res)
@@ -121,10 +128,15 @@ export class CreateUserComponent implements OnInit {
       const idx = parseInt(id, 10)
       this.service.getUser(id).subscribe((data:any) =>{
         // const data = obj.filter(e => e.user.id.toString() === id)[0];
-        console.log(data)
+        console.log(this.loggedInUserRole)
         this.user = data.user;
+        this.userInfo = data
+        console.log(data)
         if(this.user.email === this.loggedInUser.email){
-          this.canChangePassword = true
+          this.canChangePassword = true;
+        }
+        if(this.loggedInUserRole === 'admin' && this.user.email !== this.loggedInUser.email){
+          this.canImpersonate = true;
         }
         this.userForm.patchValue({
           firstName: data.user?.firstname,
@@ -300,5 +312,50 @@ export class CreateUserComponent implements OnInit {
     setTimeout(()=> {
       this.msgS.clearMessages()
     },5000)
+  }
+  impersonate(){
+    const id = this.route.snapshot.paramMap.get('id');
+    const obj = {
+      userId: id
+    }
+    this.service.impersonate(obj).subscribe((res:any) =>{
+      this.displayMsg(`You are now logged in as ${this.user.firstname}`, 'info')
+      this.cStorage.getItem('token').subscribe(e =>{
+        this.cStorage.setItem('oldToken', e)
+      })
+      const account = {
+        username: this.userInfo.user.email,
+        image: null,
+        user: this.userInfo.user || null,
+        company: this.userInfo.company,
+        roles:this.userInfo.role.name,
+      };
+      const currentUser = {
+        company: this.userInfo.company,
+        exp: res.expiration,
+        roles: [this.userInfo.role.name],
+        user: this.userInfo.user,
+        token: res.token,
+        username: this.userInfo.user.email,
+        impersonatorId: res.impersonatorId
+      }
+      this.cStorage.setItem('token', currentUser).pipe(
+        tap(() => {
+          this.authS.authState.next({
+            init: true,
+            account,
+            authToken: res.token,
+            impersonatorId: res.impersonatorId,
+            expiryDate: res.expiration || null,
+          });
+        })).subscribe(()=>{
+          this.authS.getAuthState().subscribe(e =>{
+            console.log(e)
+            this.service.getUserPermissionsPerPage().subscribe(p => console.log(p))
+          })
+        })
+    },err =>{
+      this.displayMsg(err.error, 'danger')
+    })
   }
 }

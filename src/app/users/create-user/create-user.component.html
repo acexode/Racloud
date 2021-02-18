@@ -82,15 +82,18 @@
                                 </div>
                             </div>
                             <div class="col-12 submit-row">
-                               <div>
+                               <div class="row">
                                 <app-button *ngIf="canChangePassword" (click)="openModal(changePasswordTemplate, 'change')" color="secondary" class="cancel-btn floatLeft">
                                   Change Password
                               </app-button>
                                 <app-button *ngIf="!canChangePassword" (click)="openModal(sendResetPasswordTemplate, 'send')"  color="secondary" class="cancel-btn floatLeft">
                                   Reset Password
                               </app-button>
+                                <app-button *ngIf="canImpersonate" (click)="impersonate()"  color="secondary" class="cancel-btn floatLeft">
+                                  Impersonate
+                              </app-button>
                                </div>
-                                <div>
+                                <div >
                                   <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
                                       Cancel
                                   </app-button>
