@@ -136,9 +136,7 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     private priceService: PriceListService
   ) { }
   ngOnChanges(changes: SimpleChanges): void {
-    this.componentForm.valueChanges.subscribe(d => {
-      console.log(d);
-    });
+    // this.componentForm.valueChanges.subscribe(d => {});
   }
   ngOnInit(): void {
     // get country option
