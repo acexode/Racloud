@@ -136,7 +136,9 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     private priceService: PriceListService
   ) { }
   ngOnChanges(changes: SimpleChanges): void {
-    // this.componentForm.valueChanges.subscribe(d => {});
+    this.componentForm.valueChanges.subscribe(d => {
+      console.log(d);
+    });
   }
   ngOnInit(): void {
     // get country option
@@ -150,6 +152,7 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     // price listing options
     this.priceListOptions$ = this.priceService.getPriceLists();
 
+    console.log('this.editableData', this.editableData);
     if (typeof this.editableData !== 'undefined') {
       this.fieldsPermission = this.editableData.schema.fields;
       this.actionPermission = this.editableData.schema.actions;
@@ -333,6 +336,14 @@ export class CustomerFormComponent implements OnInit, OnChanges {
       return false;
     } else {
       return true;
+    }
+  }
+  get activateBtn() {
+    if (this.formEditMode && this.actionPermission) {
+      return this.actionPermission?.update !== 'full' ? true : false;
+    } else {
+      // user want to create
+      return this.formEditMode;
     }
   }
 }
