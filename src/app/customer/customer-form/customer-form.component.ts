@@ -280,6 +280,9 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
       });
     }
   }
+  get priceListPlaceHolder() {
+    return this.formEditMode ? 'Select Price List' : 'Price List Defaulfted to Parent';
+  }
   updateData(): CustomerModel {
     const d = this.componentForm.value;
     const newData: CustomerModel = {
