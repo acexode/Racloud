@@ -149,8 +149,6 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     this.languageOptions$ = this.lgS.getLanguages();
     // price listing options
     this.priceListOptions$ = this.priceService.getPriceLists();
-
-    console.log('this.editableData', this.editableData);
     if (typeof this.editableData !== 'undefined') {
       this.fieldsPermission = this.editableData.schema.fields;
       this.actionPermission = this.editableData.schema.actions;
