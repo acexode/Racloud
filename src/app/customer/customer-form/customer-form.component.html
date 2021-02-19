@@ -30,7 +30,7 @@
 
       <div *ngIf="setDisplay(fieldsPermission?.companyType)" class="col-12 mb-14 m-0 p-0">
         <app-select
-          [config]="selectConfig('Type', 'Select Parent', true, 'id', 'option', fieldsPermission?.companyType === 'readonly', theFormControl.companyType)"
+          [config]="selectConfig('Type', 'Select Type', true, 'id', 'option', fieldsPermission?.companyType === 'readonly', theFormControl.companyType)"
           formControlName="companyType" [options]="typeOptions"></app-select>
       </div>
 

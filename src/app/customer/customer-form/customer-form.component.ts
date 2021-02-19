@@ -1,9 +1,20 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { get } from 'lodash';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CompanyTypes } from 'src/app/core/enum/companyTypes';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
 import { CountriesService } from 'src/app/core/services/countries/countries.service';
 import { LanguagesService } from 'src/app/core/services/languages/languages.service';
@@ -20,7 +31,7 @@ import { CustomerModel } from '../model/customer.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class CustomerFormComponent implements OnInit, OnChanges {
+export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() formEditMode: boolean;
   defaultToButtons: any = {
     buttonA: 'Button A',
@@ -128,12 +139,14 @@ export class CustomerFormComponent implements OnInit, OnChanges {
   customerParentOptions$: Observable<any>;
   languageOptions$: Observable<any>;
   priceListOptions$: Observable<any>;
+  auth$: Subscription;
   constructor(
     private fb: FormBuilder,
     private cS: CountriesService,
     private parentS: CompanyParentsService,
     private lgS: LanguagesService,
-    private priceService: PriceListService
+    private priceService: PriceListService,
+    private authS: AuthService,
   ) { }
   ngOnChanges(changes: SimpleChanges): void {
     // this.componentForm.valueChanges.subscribe(d => {});
@@ -243,6 +256,28 @@ export class CustomerFormComponent implements OnInit, OnChanges {
       this.componentForm.setValue({ ...d });
       this.componentForm.markAllAsTouched();
       this.componentForm.updateValueAndValidity();
+    } else {
+      // set companyType to fabricator
+      this.setCompanyType('fabricator');
+      // set parent
+      this.setParent();
+    }
+  }
+  setCompanyType(companyType: string) {
+    this.componentForm.get('companyType').setValue(companyType);
+  }
+  setParent(parentId: number = 0) {
+    if (parentId !== 0) {
+      this.componentForm.get('parentId').setValue(parentId);
+    } else {
+      this.auth$ = this.authS.getAuthState().subscribe(e => {
+        const account = get(e, 'account', null);
+        const company = get(account, 'company', null);
+        const companyParentId = get(company, 'id', null);
+        if (companyParentId) {
+          this.componentForm.get('parentId').setValue(companyParentId);
+        }
+      });
     }
   }
   updateData(): CustomerModel {
@@ -340,6 +375,11 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     } else {
       // user want to create
       return this.formEditMode;
+    }
+  }
+  ngOnDestroy() {
+    if (this.auth$) {
+      this.auth$.unsubscribe();
     }
   }
 }

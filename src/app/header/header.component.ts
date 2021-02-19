@@ -1,9 +1,7 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CustomStorageService } from './../core/services/custom-storage/custom-storage.service';
 import { Router } from '@angular/router';
-import { RequestService } from './../core/services/request/request.service';
-import { userEndpoints } from './../core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TitleService } from '../core/services/title/title.service';
 import { UsersService } from '../users/users.service';
 import { get } from 'lodash';
