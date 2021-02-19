@@ -17,6 +17,7 @@ import { CompanyTypes } from 'src/app/core/enum/companyTypes';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
 import { CountriesService } from 'src/app/core/services/countries/countries.service';
+import { CustomerService } from 'src/app/core/services/customer/customer.service';
 import { LanguagesService } from 'src/app/core/services/languages/languages.service';
 import { PriceListService } from 'src/app/core/services/price-list/price-list.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
@@ -140,6 +141,8 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
   languageOptions$: Observable<any>;
   priceListOptions$: Observable<any>;
   auth$: Subscription;
+
+  getCustomerPriceList$: Subscription;
   constructor(
     private fb: FormBuilder,
     private cS: CountriesService,
@@ -147,6 +150,7 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
     private lgS: LanguagesService,
     private priceService: PriceListService,
     private authS: AuthService,
+    private customerS: CustomerService,
   ) { }
   ngOnChanges(changes: SimpleChanges): void {
     // this.componentForm.valueChanges.subscribe(d => {});
@@ -259,26 +263,37 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       // set companyType to fabricator
       this.setCompanyType('fabricator');
-      // set parent
-      this.setParent();
-    }
-  }
-  setCompanyType(companyType: string) {
-    this.componentForm.get('companyType').setValue(companyType);
-  }
-  setParent(parentId: number = 0) {
-    if (parentId !== 0) {
-      this.componentForm.get('parentId').setValue(parentId);
-    } else {
+      // get details from authorization
       this.auth$ = this.authS.getAuthState().subscribe(e => {
         const account = get(e, 'account', null);
         const company = get(account, 'company', null);
         const companyParentId = get(company, 'id', null);
         if (companyParentId) {
-          this.componentForm.get('parentId').setValue(companyParentId);
+          // set parent
+          this.setParent(companyParentId);
+          // for pricelist
+          this.getCustomerPriceList$ = this.customerS.getCustomerById(companyParentId).subscribe(
+            resp => {
+              const customer = get(resp, 'customer', null);
+              const priceList = get(customer, 'priceList', null);
+              const priceListId: number = get(priceList, 'id', null);
+              if (priceListId) {
+                this.setPriceList(priceListId);
+              }
+            },
+          );
         }
       });
     }
+  }
+  setCompanyType(companyType: string) {
+    this.componentForm.get('companyType').setValue(companyType);
+  }
+  setParent(parentId: number) {
+    this.componentForm.get('parentId').setValue(parentId);
+  }
+  setPriceList(priceListId: number) {
+    this.componentForm.get('priceListId').setValue(priceListId);
   }
   get priceListPlaceHolder() {
     return this.formEditMode ? 'Select Price List' : 'Price List Defaulfted to Parent';
@@ -383,6 +398,9 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
   ngOnDestroy() {
     if (this.auth$) {
       this.auth$.unsubscribe();
+    }
+    if (this.getCustomerPriceList$) {
+      this.getCustomerPriceList$.unsubscribe();
     }
   }
 }
