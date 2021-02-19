@@ -47,76 +47,104 @@
                     </app-tab-bar>
 
                     <ng-template #firstTab>
-                        <form [formGroup]="infoForm" class="row infoForm" (ngSubmit)="submitForm()">
-                            <div *ngIf="setDisplay(fieldsPermission?.productName)" class="col-6 mb-14">
-                                <app-input [config]="inputConfig('Product Name', 'text', '', false, fieldsPermission?.productName === 'readonly')" formControlName="productName"></app-input>
-                            </div>
-                            <div *ngIf="setDisplay(fieldsPermission?.IsPartnerlicense)" class="col-6 mb-14">
-                                <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Is Partner License</label>
-                                <div class="rc-form-group rc-form-group-without-prefix" >
-                                    <app-chips [disabled]="fieldsPermission?.IsPartnerlicense === 'readonly'" *ngFor="let button of partnerLicense" class="mr-2"  [color]="(selectedPartnerLicenseBtn == button) ? 'selected' : 'default'" (click)="isPartnerLicense($event,button)">
-                                        {{button.title}}
-                                    </app-chips>
-                                </div>
-                            </div>
-                            <div *ngIf="setDisplay(fieldsPermission?.customer)" class="col-6 mb-14">
-                                <app-input [config]="inputConfig('Customer', 'text', '', false, fieldsPermission?.customer === 'readonly')" formControlName="customer"></app-input>
-                            </div>
-                            <div *ngIf="setDisplay(fieldsPermission?.userCompany)" class="col-6 mb-14">
-                                <app-input [config]="inputConfig('User Company', 'text', '', false, fieldsPermission?.userCompany === 'readonly')" formControlName="userCompany"></app-input>
-                            </div>
-                            <div *ngIf="setDisplay(fieldsPermission?.purchaseDate)" class="col-6 mb-14">
-                                <app-input [config]="inputConfig('Purchased', 'text', '', false, fieldsPermission?.purchasedDate === 'readonly')" formControlName="purchased"></app-input>
-                            </div>
-                            <div *ngIf="setDisplay(fieldsPermission?.renewByUserCompany)" class="col-6 mb-14">
-                                <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Renew by User Company</label>
-                                <div class="rc-form-group rc-form-group-without-prefix" >
-                                    <input type="text" hidden formControlName="renew">
-                                    <app-chips [disabled]="fieldsPermission?.renewByUserCompany === 'readonly'" *ngFor="let button of partnerLicense" class="mr-2"  [color]="(selectedRenewBtn == button) ? 'selected' : 'default'" (click)="renewbyUserCompany($event,button)">
-                                        {{button.title}}
-                                    </app-chips>
-                                </div>
-                            </div>
-                            <div *ngIf="setDisplay(fieldsPermission?.expirationDate)" class="col-6 mb-14">
-                                <app-input [config]="inputConfig('Expires', 'text', '', false, fieldsPermission?.expirationDate === 'readonly')" formControlName="expires"></app-input>
-                            </div>
-                            <div *ngIf="setDisplay(fieldsPermission?.IsAssigned)" class="col-6 mb-14">
-                                <app-input [config]="inputConfig('Is Assigned', 'text', '', false, fieldsPermission?.IsAssigned === 'readonly')" formControlName="isAssigned"></app-input>
-                            </div>
-                            <div *ngIf="setDisplay(fieldsPermission?.status)" class="col-6 mb-14">
-                                <!-- <app-select
-                                    [config]="selectionConfig('Status')"
-                                    formControlName="status"
-                                ></app-select> -->
-                                <div  class="mx-0">
-                                    <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Status </label>
-                                    <div class="rc-select" >
-                                        <select [disabled]="fieldsPermission?.status === 'readonly'" (change)="onChange($event.target.value)"  formcontrolname="status">
-                                            <option [selected]="selectedStatus == 'Active'" value="Active">Active</option>
-                                            <option [selected]="selectedStatus == 'Inactive'" value="Inactive">In Active</option>
-                                        </select>
+
+                         <div class="w-70p pt-40">
+                            <form [formGroup]="infoForm" class="row no-gutters" (ngSubmit)="submitForm()">
+
+                                <div class="col-12 col-md-6 px-0 py-0 pr-md-16 m-0">
+
+                                    <div *ngIf="setDisplay(fieldsPermission?.productName)" class="col mb-14 px-0">
+                                        <app-input [config]="inputConfig('Product Name', 'text', '', false, fieldsPermission?.productName === 'readonly')" formControlName="productName"></app-input>
                                     </div>
+
+                                    <div *ngIf="setDisplay(fieldsPermission?.customer)" class="col mb-14 px-0">
+                                        <app-input [config]="inputConfig('Customer', 'text', '', false, fieldsPermission?.customer === 'readonly')" formControlName="customer"></app-input>
+                                    </div>
+
+                                    <div *ngIf="setDisplay(fieldsPermission?.purchaseDate)" class="col mb-14 px-0">
+                                        <app-input [config]="inputConfig('Purchased', 'text', '', false, fieldsPermission?.purchasedDate === 'readonly')" formControlName="purchased"></app-input>
+                                    </div>
+
+                                    <div *ngIf="setDisplay(fieldsPermission?.expirationDate)" class="col mb-14 px-0">
+                                        <app-input [config]="inputConfig('Expires', 'text', '', false, fieldsPermission?.expirationDate === 'readonly')" formControlName="expires"></app-input>
+                                    </div>
+
+
+                                    <div *ngIf="setDisplay(fieldsPermission?.status)" class="col px-0">
+                                        <!-- <app-select
+                                            [config]="selectionConfig('Status')"
+                                            formControlName="status"
+                                        ></app-select> -->
+                                        <div  class="mx-0">
+                                            <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Status </label>
+                                            <div class="rc-select" >
+                                                <select [disabled]="fieldsPermission?.status === 'readonly'" (change)="onChange($event.target.value)"  formcontrolname="status">
+                                                    <option [selected]="selectedStatus == 'Active'" value="Active">Active</option>
+                                                    <option [selected]="selectedStatus == 'Inactive'" value="Inactive">In Active</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
-                            </div>
-                            <div *ngIf="setDisplay(fieldsPermission?.assignedTo)" class="col-6 mb-14">
-                            <label  class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Assigned to</label>
-                            <div  class="rc-select"> <select [disabled]="fieldsPermission?.assignedTo === 'readonly'"  formcontrolname="userId"
-                                (change)="setUserId($event.target.value, 'userId')"  class="ng-pristine ng-valid ng-touched">
-                                <option selected disabled>Select</option>
-                                <option *ngFor="let user of companyUsers" [value]="user.id" [selected]="user.id === savedCompanyUserId">
-                                  {{user.firstname}} {{user.lastname}} </option>
-                              </select>
-                            </div>
+
+                                <div class="col-12 col-md-6 px-0 py-0 pl-md-16 m-0">
+
+                                    <div *ngIf="setDisplay(fieldsPermission?.IsPartnerlicense)" class="col mb-14 px-0">
+                                        <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Is Partner License</label>
+                                        <div class="rc-form-group rc-form-group-without-prefix" >
+                                            <app-chips [disabled]="fieldsPermission?.IsPartnerlicense === 'readonly'" *ngFor="let button of partnerLicense" class="mr-2"  [color]="(selectedPartnerLicenseBtn == button) ? 'selected' : 'default'" (click)="isPartnerLicense($event,button)">
+                                                {{button.title}}
+                                            </app-chips>
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="setDisplay(fieldsPermission?.userCompany)" class="col mb-14 px-0">
+                                        <app-input [config]="inputConfig('User Company', 'text', '', false, fieldsPermission?.userCompany === 'readonly')" formControlName="userCompany"></app-input>
+                                    </div>
+
+                                    <div *ngIf="setDisplay(fieldsPermission?.renewByUserCompany)" class="col mb-14 px-0">
+                                        <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Renew by User Company</label>
+                                        <div class="rc-form-group rc-form-group-without-prefix" >
+                                            <input type="text" hidden formControlName="renew">
+                                            <app-chips [disabled]="fieldsPermission?.renewByUserCompany === 'readonly'" *ngFor="let button of partnerLicense" class="mr-2"  [color]="(selectedRenewBtn == button) ? 'selected' : 'default'" (click)="renewbyUserCompany($event,button)">
+                                                {{button.title}}
+                                            </app-chips>
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="setDisplay(fieldsPermission?.IsAssigned)" class="col mb-14 px-0">
+                                        <app-input [config]="inputConfig('Is Assigned', 'text', '', false, fieldsPermission?.IsAssigned === 'readonly')" formControlName="isAssigned"></app-input>
+                                    </div>
+
+                                    <div *ngIf="setDisplay(fieldsPermission?.assignedTo)" class="col px-0">
+                                        <label  class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Assigned to</label>
+                                        <div  class="rc-select"> 
+                                            <select [disabled]="fieldsPermission?.assignedTo === 'readonly'"  formcontrolname="userId"
+                                            (change)="setUserId($event.target.value, 'userId')"  class="ng-pristine ng-valid ng-touched">
+                                                <option selected disabled>Select</option>
+                                                <option *ngFor="let user of companyUsers" [value]="user.id" [selected]="user.id === savedCompanyUserId">
+                                                {{user.firstname}} {{user.lastname}} </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+
                                 </div>
-                            <div class="col-12 submit-row">
-                                <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
-                                    Cancel
-                                </app-button>
-                                <app-button type="submit" color="primary">
-                                    Save
-                                </app-button>
-                            </div>
-                        </form>
+                                
+
+                                <div class="col-12 submit-row">
+                                    <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
+                                        Cancel
+                                    </app-button>
+                                    <app-button type="submit" color="primary">
+                                        Save
+                                    </app-button>
+                                </div>
+
+                            </form>
+                         </div>
+                        
                     </ng-template>
                     <ng-template #secondTab>
                         <app-option-tab (selectedRows)="getRow($event)" [preselectedRows]="preselectedRows" [optionList]="optionList"></app-option-tab>
