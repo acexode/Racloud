@@ -1,98 +1,174 @@
 <app-page-container [config]="containerConfig">
-
-    <div container-body>
-
-    <div class="w-100">
-        <div class="page-header position-relative">
-           <a [routerLink]="[backUrl]">
+  <div class="w-100" container-body>
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <app-button
+            color="tertiary"
+            [routerLink]="[backUrl]"
+            [class]="
+              'd-flex align-items-center rc-accent-blue-160-color montserrat-semibold-font ml-n20'
+            "
+          >
             <svg-icon
-            [class]="'back-button'"
-            [src]="caretLeftIcon"
-            alt="Icon"
-            applyClass="true"
+              [class]="'icon-w16-h16 mr-1'"
+              [src]="caretLeftIcon"
+              alt="Icon"
+              applyClass="true"
             >
-        </svg-icon>
-           </a>
-            <div class="row align-items-center">
-                <div class="col">
-                  <a [routerLink]="[backUrl]" class="pyramid-title">
-                   <span class="pyramid">PYRAMID</span></a>
-                <h3 *ngIf="!isEdit" class="new-user">New User</h3>
-                <h3 *ngIf="isEdit" class="new-user">{{ user?.firstname | titlecase }} {{ user?.lastname | titlecase }}</h3>
-              </div>
-            </div>
+            </svg-icon>
+                <span class="pyramid">PYRAMID</span> <br>
+          </app-button>
+
+          <!-- <h1
+            class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0"
+          >
+            New customer
+          </h1> -->
+          <h3 *ngIf="!isEdit" class="new-user">New User</h3>
+          <h3 *ngIf="isEdit" class="new-user">{{ user?.firstname | titlecase }} {{ user?.lastname | titlecase }}</h3>
+        </div>
       </div>
     </div>
 
-    <div class="w-100 mb-64">
-        <div class="row">
-            <div class="col-12">
-                <div class="app-tabs"></div>
-               <ng-container>
-                    <app-tabs>
-                        <app-tab-bar></app-tab-bar>
+    <div class="line-h1 rc-secondary-bg mt-24 mb-39"></div>
 
-                        <form [formGroup]="userForm" class="row user-form" (ngSubmit)="submit()">
-                            <div class="col-12">
-                                <span class="personal-details">Personal Details</span>
-                            </div>
-                            <div class="col-4">
-                                <app-input [config]="firstnameConfig" formControlName="firstName"></app-input>
-                            </div>
-                            <div class="col-4">
-                                <app-input [config]="lastnameConfig" formControlName="lastName"></app-input>
-                            </div>
-                            <div class="col-4">
-                                <app-input [config]="emailConfig" formControlName="email"></app-input>
-                            </div>
-                            <div class="col-12 role-row">
-                                <span class="personal-details">Role</span>
-                            </div>
-                            <div class="col-4">
-                                <div class="btn-group w-100 d-flex flex-column" dropdown [autoClose]="autoClose">
-                                    <label class="rc-grey-color companyLabel montserrat-regular-font text-weight-normal m-0">Company </label>
-                                    <input type="text" formControlName="companyId" hidden >
-                                    <a id="button-basic" dropdownToggle type="button" class="select-dropdown dropdown-toggle" aria-controls="dropdown-basic">
-                                        {{companyLabel}}
-                                    </a>
-                                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu w-100"  role="menu" aria-labelledby="button-basic">
-                                        <li (click)="addCompany()" role="menuitem"><a class="dropdown-item">Add new company   <i class="pl-1 pt-2 fa fa-plus plus" aria-hidden="true"></i></a></li>
-                                        <li class="px-1"  role="menuitem">
-                                          <input class="dropdown-item border" formControlName='searchText' (click)="setClose()" (input)="onSearchChange($event.target.value)" type="text" placeholder="search company">
-                                        </li>
-                                        <li class="divider dropdown-divider"></li>
-                                        <li *ngFor="let company of filteredOptions" (click)="setCompany(company.companyName,company.id)" role="menuitem"><a class="dropdown-item">{{company.companyName}}</a></li>
+    <div class="w-80p pt-40">
+       <form [formGroup]="userForm" class="row no-gutters" (ngSubmit)="submit()">
+          <div class="col-12">
+              <span class="personal-details">Personal Details</span>
+          </div>
+          <div class="col-4 pr-16">
+              <app-input [config]="firstnameConfig" formControlName="firstName"></app-input>
+          </div>
+          <div class="col-4 px-16">
+              <app-input [config]="lastnameConfig" formControlName="lastName"></app-input>
+          </div>
+          <div class="col-4 pl-16">
+              <app-input [config]="emailConfig" formControlName="email"></app-input>
+          </div>
+          <div class="col-12 role-row">
+              <span class="personal-details">Role</span>
+          </div>
+          <div class="col-4 pr-16">
+              <!-- <div class="btn-group w-100 d-flex flex-column" dropdown> -->
+              <div class="btn-group w-100 d-flex flex-column" dropdown [autoClose]="autoClose">
+                  <label class="rc-grey-color companyLabel montserrat-regular-font text-weight-normal m-0">Company </label>
+                  <input type="text" formControlName="companyId" hidden >
+                  <a id="button-basic" dropdownToggle type="button" class="select-dropdown dropdown-toggle" aria-controls="dropdown-basic">
+                      {{companyLabel}}
+                  </a>
+                  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu w-100"  role="menu" aria-labelledby="button-basic">
+                      <li (click)="addCompany()" role="menuitem"><a class="dropdown-item">Add new company   <i class="pl-1 pt-2 fa fa-plus plus" aria-hidden="true"></i></a></li>
+                      <li class="px-1"  role="menuitem">
+                        <input class="dropdown-item border" formControlName='searchText' (click)="setClose()" (input)="onSearchChange($event.target.value)" type="text" placeholder="search company">
+                      </li>
+                      <li class="divider dropdown-divider"></li>
+                      <!-- <li *ngFor="let company of companyOptions" (click)="setCompany(company.companyName,company.id)" role="menuitem"><a class="dropdown-item">{{company.companyName}}</a></li> -->
+                      <li *ngFor="let company of filteredOptions" (click)="setCompany(company.companyName,company.id)" role="menuitem"><a class="dropdown-item">{{company.companyName}}</a></li>
 
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="btn-group w-100 d-flex flex-column" dropdown>
-                                    <label class="rc-grey-color companyLabel montserrat-regular-font text-weight-normal m-0">Role </label>
-                                    <input type="text" formControlName="roleId" hidden >
-                                    <a id="button-basic" dropdownToggle type="button" class="select-dropdown dropdown-toggle" aria-controls="dropdown-basic">
-                                        {{roleLabel}}
-                                    </a>
-                                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu w-100"  role="menu" aria-labelledby="button-basic">
-                                        <li *ngFor="let role of roleOptions" (click)="setRole(role.name, role.id)" role="menuitem"><a class="dropdown-item">{{role.name}}</a></li>
+                  </ul>
+              </div>
+          </div>
+          <div class="col-4 px-16">
+              <div class="btn-group w-100 d-flex flex-column" dropdown>
+                  <label class="rc-grey-color companyLabel montserrat-regular-font text-weight-normal m-0">Role </label>
+                  <input type="text" formControlName="roleId" hidden >
+                  <a id="button-basic" dropdownToggle type="button" class="select-dropdown dropdown-toggle" aria-controls="dropdown-basic">
+                      {{roleLabel}}
+                  </a>
+                  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu w-100"  role="menu" aria-labelledby="button-basic">
+                      <li *ngFor="let role of roleOptions" (click)="setRole(role.name, role.id)" role="menuitem"><a class="dropdown-item">{{role.name}}</a></li>
 
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-12 submit-row">
-                                <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
-                                    Cancel
-                                </app-button>
-                                <app-button type="submit" color="primary">
-                                    Save
-                                </app-button>
-                            </div>
+                  </ul>
+              </div>
+          </div>
+          <div class="w-100">
+              <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-between">
+                  <div>
+                    <app-button *ngIf="canChangePassword" (click)="openModal(changePasswordTemplate, 'change')" color="secondary" class="cancel-btn floatLeft">
+                        Change Password
+                    </app-button>
+                      <app-button *ngIf="!canChangePassword" (click)="openModal(sendResetPasswordTemplate, 'send')"  color="secondary" class="cancel-btn floatLeft">
+                        Reset Password
+                    </app-button>
+                      <app-button *ngIf="canImpersonate" (click)="impersonate()"  color="secondary" class="cancel-btn floatLeft">
+                        Impersonate
+                    </app-button>
+                  </div>
+                  <div>
+                    <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
+                        Cancel
+                    </app-button>
+                    <app-button type="submit" color="primary">
+                        Save
+                    </app-button>
+              </div>
+              </div>
+          </div>
 
-                        </form>
-                </app-tabs>
-               </ng-container>
-            </div>
-        </div>
+      </form>
     </div>
-    </div>
+
+  </div>
 </app-page-container>
+
+
+
+
+    
+<ng-template #sendResetPasswordTemplate>
+  <div class="modal-header px-32">
+    <span class="change-pwd">Reset Password</span>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body pt-64 px-35 discount-body pb-0">
+    <div class="row">
+    <div  class="col-12  mb-14">
+      <span class="reset-text">Are you sure you want to reset the password?</span>
+    </div>
+    </div>
+    <div class="discount-footer d-flex justify-content-end pb-32">
+      <app-button type="button" (click)="modalRef.hide()" color="secondaryB" class="mr-8">
+        Cancel
+      </app-button>
+
+      <app-button type="button"  color="primary" (click)="sendResetPassword()">
+        Send reset password email
+      </app-button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #changePasswordTemplate>
+  <div class="modal-header px-32">
+    <span class="change-pwd">Change Password</span>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <p *ngIf="changePasswordError.length" class="text-danger text-center">{{changePasswordError}}</p>
+  <div [formGroup]="changePasswordForm" class="modal-body px-32 discount-body pb-0">
+    <div class="row">
+    <div  class="col-12  mb-14">
+      <app-input formControlName="oldPassword" [config]="inputConfig('Current Password', 'text', 'Type here')" ></app-input>
+    </div>
+    <div class="col-12  mb-14">
+      <app-input formControlName="newPassword" [config]="inputConfig('New Password', 'text', 'Type here')" ></app-input>
+    </div>
+    <div class="col-12  mb-14">
+      <app-input formControlName="confirmPassword" [config]="inputConfig('Repeat Password', 'text', 'Type here')" ></app-input>
+    </div>
+    </div>
+    <div class="discount-footer d-flex justify-content-end pb-32">
+      <app-button type="button" (click)="modalRef.hide()" color="secondaryB" class="mr-8">
+        Cancel
+      </app-button>
+
+      <app-button type="button" [disabled]="changePasswordForm.invalid" color="primary" (click)="changePassword()">
+        Save
+      </app-button>
+    </div>
+  </div>
+</ng-template>

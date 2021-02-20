@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ShopService } from './shop.service';
 
 @Component({
@@ -6,14 +7,19 @@ import { ShopService } from './shop.service';
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.scss']
 })
-export class ShopComponent implements OnInit {
+export class ShopComponent implements OnInit, OnDestroy {
   shops = [];
+  shopsSub$: Subscription;
   constructor(public shopService: ShopService) { }
-
   ngOnInit(): void {
-    this.shopService.getAllShops().subscribe((e: any) => {
+    this.shopsSub$ = this.shopService.getAllShops().subscribe((e: any) => {
       this.shops = e;
     });
   }
-
+  get shopsStatus(): boolean {
+    return (this.shops === undefined || this.shops.length === 0) ? true : false;
+  }
+  ngOnDestroy(): void {
+    this.shopsSub$.unsubscribe();
+  }
 }

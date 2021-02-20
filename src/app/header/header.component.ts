@@ -1,3 +1,4 @@
+import { CustomStorageService } from './../core/services/custom-storage/custom-storage.service';
 import { Router } from '@angular/router';
 import { RequestService } from './../core/services/request/request.service';
 import { userEndpoints } from './../core/configs/endpoints';
@@ -5,6 +6,7 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { TitleService } from '../core/services/title/title.service';
 import { UsersService } from '../users/users.service';
+import { get } from 'lodash';
 
 @Component({
   selector: 'app-header',
@@ -15,23 +17,34 @@ export class HeaderComponent implements OnInit {
   raLogoType = 'group2';
   pageTitle$ = this.titleService.titleStore;
   user;
+  impersonatorId;
   company;
   constructor(
     private titleService: TitleService,
     private authS: AuthService,
     private userS: UsersService,
     private router: Router,
+    private CStore: CustomStorageService,
 
   ) { }
 
   ngOnInit(): void {
-    this.authS.getAccountData().subscribe(e => {
-      const token = this.authS.getDecodedAccessToken(e);
-      this.userS.getUser(token.id).subscribe((user: any) => {
-        this.user = user.user;
-        this.company = user.company;
-      });
+    this.authS.getAuthState().subscribe(e => {
+      console.log(e)
+      const account = get(e, 'account', null);
+      this.company = get(account, 'company', null) || 'No company';
+      const firstname = get(get(account, 'user', null), 'firstname', null) || 'firstname';
+      const lastname = get(get(account, 'user', null), 'lastname', null) || 'lastname';
+      this.impersonatorId = get(e, 'impersonatorId', null);
+      this.user = {
+        firstname,
+        lastname,
+      };
     });
+    this.CStore.getItem('token').subscribe(e =>{
+      console.log(e)
+      this.impersonatorId = e.impersonatorId
+    })
   }
   navigate(id, route) {
     if (route === 'user') {
@@ -45,6 +58,39 @@ export class HeaderComponent implements OnInit {
 
   userLogOut() {
     this.authS.logout();
+  }
+  stopImpersonation() {
+    const obj = {
+      impersonatorId: this.impersonatorId
+    }
+    this.userS.stopImpersonate(obj).subscribe((res: any) =>{
+      this.CStore.getItem('oldToken').subscribe(e =>{
+        const userInfo = e
+        const newToken = {
+          ...e,
+          token: res.token,
+          exp: res.expiration
+        }
+        const account = {
+          username: userInfo.user.email,
+          image: null,
+          user: userInfo.user || null,
+          company: userInfo.company,
+          roles: userInfo.roles[0],
+        };
+        this.authS.authState.next({
+          init: true,
+          account,
+          authToken: res.token,
+          expiryDate: res.expiration || null,
+        });
+        this.CStore.setItem('token', newToken).subscribe(t =>{
+          this.userS.getUserPermissionsPerPage();
+          this.CStore.removeItem('oldToken')
+
+        })
+      })
+    })
   }
 
 }

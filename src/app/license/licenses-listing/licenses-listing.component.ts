@@ -74,8 +74,7 @@ export class LicensesListingComponent implements OnInit {
          index: 1,
         label: 'Product Name',
         sortable: true,
-        minWidth: 161,
-        width: 100,
+        minWidth: 260,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -90,8 +89,7 @@ export class LicensesListingComponent implements OnInit {
          index: 2,
         label: 'Order ID',
         sortable: true,
-        minWidth: 104,
-        width: 100,
+        minWidth: 100,
         sortIconPosition: 'left',
         labelPosition: 'right',
         cellContentPosition: 'right',
@@ -106,8 +104,7 @@ export class LicensesListingComponent implements OnInit {
          index: 3,
         label: 'Customer',
         sortable: true,
-        minWidth: 160,
-        width: 100,
+        minWidth: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -122,8 +119,7 @@ export class LicensesListingComponent implements OnInit {
          index: 4,
         label: 'Purchased',
         sortable: true,
-        minWidth: 120,
-        width: 100,
+        minWidth: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -140,7 +136,6 @@ export class LicensesListingComponent implements OnInit {
         label: 'Expires',
         sortable: true,
         minWidth: 104,
-        width: 300,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -229,15 +224,14 @@ export class LicensesListingComponent implements OnInit {
   }
   loadTableData(data){
     if (data) {
-      const formattedData = data.licenses.map((e:any)=>{
+      const formattedData = data.licenses.map((e: any) => {
         return {
           ...e,
           productName: e.product.name,
-          companyName:e.company.companyName,
+          companyName: e.company.companyName,
           customer: e.company.companyName
-        }
-      })
-      console.log(formattedData)
+        };
+      });
       const filteredColumns = []
       this.fieldsPermission = data.schema.columns
       this.actionPermission = data.schema.actions
@@ -245,19 +239,14 @@ export class LicensesListingComponent implements OnInit {
       this.fieldsPermission.companyName = this.fieldsPermission.customer
       for (const key in this.fieldsPermission) {
         if (this.fieldsPermission[key] === 'full') {
-          // console.log(key)
           this.tableConfig.columns.forEach(column =>{
-            // console.log(column)
             if(column.identifier.toLowerCase() === key.toLowerCase()){
-              console.log(key)
               filteredColumns.push(column)
             }
           })
         }
       }
-       console.log(filteredColumns)
-       const sorted  = filteredColumns.sort((a, b) => (a.index > b.index) ? 1 : (b.index > a.index) ? -1 : 0)
-      // console.log(sorted)
+      const sorted = filteredColumns.sort((a, b) => (a.index > b.index) ? 1 : (b.index > a.index) ? -1 : 0);
       this.tableConfig.columns = [...filteredColumns,this.tableConfig.columns[this.tableConfig.columns.length -1] ]
 
       this.tableConfig.loadingIndicator = true;

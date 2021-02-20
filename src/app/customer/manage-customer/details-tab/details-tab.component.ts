@@ -18,8 +18,8 @@ import { CustomerService } from 'src/app/core/services/customer/customer.service
 export class DetailsTabComponent implements OnInit, OnDestroy {
   formEditMode = true;
   isLoading: boolean;
-  @Input() detailsData
-  @Input() fieldPermission
+  @Input() detailsData;
+  @Input() fieldPermission;
   textAreaConfig: TextAreaConfig = {
     textAreaLabel: {
       text: 'Address'

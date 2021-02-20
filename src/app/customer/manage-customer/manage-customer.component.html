@@ -26,7 +26,7 @@
             class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0 text-capitalize"
             *ngIf="detailsData$ | async as detailsData"
           >
-           {{ detailsData.companyName }} <!-- do well to replace -->
+           {{ detailsData?.customer?.companyName }}
           </h1>
         </div>
          <div class="col-auto float-right ml-auto" *ngIf="UserTab?.isSelected">
@@ -49,12 +49,15 @@
 
             <app-tabs [selectedTemplate]="tabSwitch">
                 <app-tab-bar [marked]="tabMarked">
+                  <ng-container *ngFor="let tab of tabs; let i = index" >
                     <app-tab-button 
-                        [selected]="tab?.isSelected" 
+                        [selected]="tab.isSelected" 
                         [defaultSelected]="tab.defaultSelected" 
                         (click)="switchTab($event, tab.template, i)" 
-                        *ngFor="let tab of tabs; let i = index" 
+                        *ngIf="tab?.showTab"
                     >{{ tab.name }}</app-tab-button>
+                  </ng-container>
+                    
                 </app-tab-bar>  
 
             </app-tabs>
@@ -81,7 +84,7 @@
 
  <ng-template #userTab> 
 
-    <app-user-tab [customerId]="detailsData?.id" *ngIf="detailsData$ | async as detailsData"></app-user-tab>
+    <app-user-tab [customerId]="detailsData?.customer?.id" *ngIf="detailsData$ | async as detailsData"></app-user-tab>
 
 </ng-template>
 

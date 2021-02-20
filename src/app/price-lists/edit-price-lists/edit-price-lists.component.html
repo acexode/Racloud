@@ -1,3 +1,14 @@
 <ng-container *ngIf="requestedData">
     <app-create-edit-price-list [editableData]="requestedData" (priceListFormDataEmitter)="updateData($event)"></app-create-edit-price-list>
 </ng-container>
+
+<ng-container *ngIf="!requestedData">
+
+    <div class="w-100 pt-149 pb-30 d-flex flex-column justify-content-center align-items-center">
+        <app-loader type="page"></app-loader>
+        <div class="rc-accent-blue-160-color montserrat-semibold-font s15-h24">
+            Please wait...
+        </div>
+    </div>
+    
+</ng-container>

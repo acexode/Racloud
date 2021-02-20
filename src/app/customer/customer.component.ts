@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { get } from 'lodash';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { getUTCdate } from '../core/helpers/dateHelpers';
 import { CountriesModel } from '../core/models/countries-model';
@@ -79,7 +80,8 @@ export class CustomerComponent implements OnInit, OnDestroy {
   customErrorMsg = 'There is an issue with your network. Please Refresh your network';
   disableCustomer$: Subscription;
   fieldsPermission: any;
-  actionPermission: any
+  actionPermission: any;
+  routeData$: Subscription;
   constructor(
     private tS: TableService,
     private router: Router,
@@ -90,14 +92,27 @@ export class CustomerComponent implements OnInit, OnDestroy {
     private msgS: MessagesService
   ) { }
   ngOnInit(): void {
+    this.routeData$ = this.route.data.subscribe(
+      res => {
+        const data = get(res, 'data', null);
+        if (!data?.showScreen) {
+          // user have no access so redirect to shop
+          this.router.navigate(['/access-denied']);
+        } else {
+          this.ngOnInitIt();
+        }
+      }
+    );
+  }
+  ngOnInitIt(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
         identifier: 'companyName',
         label: 'Name',
         sortable: true,
-        minWidth: 200,
-        width: 90,
+        minWidth: 280,
+        // width: 90,
         noGrow: true,
         filterConfig: {
           data: null,
@@ -110,7 +125,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         label: 'Country',
         sortable: true,
         minWidth: 150,
-        width: 100,
+        // width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -125,7 +140,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
         label: 'Phone',
         sortable: true,
         minWidth: 150,
-        width: 300,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -155,7 +169,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         identifier: 'companyType',
         label: 'Type',
         sortable: true,
-        minWidth: 130,
+        minWidth: 200,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -171,7 +185,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         identifier: 'companyName',
         label: 'Parent',
         sortable: true,
-        minWidth: 130,
+        minWidth: 280,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -221,6 +235,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         label: '',
         sortable: true,
         minWidth: 60,
+        width: 60,
         noGrow: true,
         headerHasFilterIcon: true,
         sortIconPosition: 'right',
@@ -247,12 +262,11 @@ export class CustomerComponent implements OnInit, OnDestroy {
       }
     );
 
-  }
+  };
   loadCustomers(): void {
     this.loadCustomers$ = this.customerS.getCustomers().subscribe(
       res => {
         if (res) {
-          console.log(res)
           const data = res.customers.map((v: any) => {
             return {
               ...v,
@@ -261,26 +275,20 @@ export class CustomerComponent implements OnInit, OnDestroy {
               parent: v?.parent?.companyName,
             };
           }).reverse();
-          const filteredColumns = []
-          // console.log(e)
-          this.fieldsPermission = res.schema.fields
-          this.actionPermission = res.schema.actions
+          const filteredColumns = [];
+          this.fieldsPermission = res.schema.fields;
+          this.actionPermission = res.schema.actions;
           for (const key in this.fieldsPermission) {
             if (this.fieldsPermission[key] === 'full') {
-              // console.log(key)
-              this.tableConfig.columns.forEach(column =>{
-                // console.log(column)
-                if(column.identifier === key){
-                  console.log(key)
-                  filteredColumns.push(column)
+              this.tableConfig.columns.forEach(column => {
+                if (column.identifier === key) {
+                  filteredColumns.push(column);
                 }
-              })
+              });
             }
           }
-           console.log(filteredColumns)
-           const sorted  = filteredColumns.sort((a, b) => (a.index > b.index) ? 1 : (b.index > a.index) ? -1 : 0)
-          // console.log(sorted)
-          this.tableConfig.columns = [...filteredColumns, this.tableConfig.columns[this.tableConfig.columns.length -1]]
+          const sorted = filteredColumns.sort((a, b) => (a.index > b.index) ? 1 : (b.index > a.index) ? -1 : 0);
+          this.tableConfig.columns = [...filteredColumns, this.tableConfig.columns[this.tableConfig.columns.length - 1]];
           // this.tableConfig.columns = filteredColumns;
           this.tableConfig.loadingIndicator = true;
           this.rowData = data;
@@ -298,7 +306,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         });
       }
     );
-  }
+  };
   getCountryForCutomer(code: string) {
     const getCountry = this.countriesData.data.find(country => country.code === code);
     if (typeof getCountry !== 'undefined') {
@@ -339,15 +347,20 @@ export class CustomerComponent implements OnInit, OnDestroy {
     );
   }
   manageSub(data: any) {
-    this.router.navigate(['manage', data.id], { relativeTo: this.route });
+    this.router.navigate(['manage', data.id, 'tab', 'details'], { relativeTo: this.route });
   }
   renewSub(id: any) { }
   ngOnDestroy(): void {
-    this.loadCountries$.unsubscribe();
-    this.loadCustomers$.unsubscribe();
+    if (this.loadCountries$) {
+      this.loadCountries$.unsubscribe();
+    }
+    if (this.loadCustomers$) {
+      this.loadCustomers$.unsubscribe();
+    }
     if (this.disableCustomer$) {
       this.disableCustomer$.unsubscribe();
     }
+    this.routeData$.unsubscribe();
   }
 
 }

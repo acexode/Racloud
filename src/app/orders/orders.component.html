@@ -12,9 +12,11 @@
                     All orders
                 </app-toggle>
                 <!--  -->
-                <app-button (click)="generateOrder()" type="button" color="primary">
-                    Add order
-                </app-button>
+                <ng-container *ngIf="actions.add">
+                  <app-button (click)="generateOrder()" type="button" color="primary">
+                      Add order
+                  </app-button>
+                </ng-container>
                 <!--  -->
             </div>
         </div>
@@ -45,8 +47,12 @@
       </a>
       <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
           role="menu" aria-labelledby="button-basic">
-        <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
-        <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
+        <ng-container *ngIf="actions.view">
+            <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
+          </ng-container>
+          <ng-container *ngIf="actions.delete">
+            <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
+          </ng-container>
       </ul>
     </div>
     <div *ngIf="rowIndex % 10 >= 6" class="btn-group" dropdown [dropup]="true">
@@ -56,8 +62,12 @@
       </a>
       <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
           role="menu" aria-labelledby="button-basic">
-        <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
-        <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
+          <ng-container *ngIf="actions.view">
+            <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
+          </ng-container>
+          <ng-container *ngIf="actions.delete">
+            <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
+          </ng-container>
       </ul>
     </div>
   </ng-template>
