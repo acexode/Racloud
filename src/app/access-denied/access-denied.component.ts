@@ -19,11 +19,20 @@ export class AccessDeniedComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getUserPagePermissions$ = this.userS.getUserPagePermissions().subscribe((res: UserPagePermissionsModel) => {
       const pagePermissions = get(res, 'data', null);
-      if (pagePermissions.shops) {
-        this.userPermissionTooLow = false;
-      } else {
-        this.userPermissionTooLow = true;
+      let redirectTo = null;
+      for (const permission in pagePermissions) {
+        if (pagePermissions[permission]) {
+          redirectTo = `/${permission}`;
+          break;
+        }
       }
+      if (typeof redirectTo === null) {
+        this.userPermissionTooLow = true;
+      } else {
+        this.userPermissionTooLow = false;
+        this.bactToLink = redirectTo;
+      }
+
     });
   }
   userLogOut() {

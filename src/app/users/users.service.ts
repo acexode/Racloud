@@ -62,7 +62,6 @@ export class UsersService {
     );
   }
   processUserPermissionResponse(data: UserPagePermissions) {
-    console.log(data)
     return this.storeS.setItem('pagePermission', data).pipe(
       tap((d) => {
         this.pagePermissionData.next({

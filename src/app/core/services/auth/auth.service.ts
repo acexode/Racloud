@@ -5,6 +5,7 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
+import { DH_CHECK_P_NOT_SAFE_PRIME } from 'constants';
 import * as jwt_decode from 'jwt-decode';
 import { BehaviorSubject } from 'rxjs';
 import {
@@ -123,17 +124,9 @@ export class AuthService {
       }),
       tap((value) => {
         const redirectUrl = this.redirectUrlTree(
-          loginData.aRoute ? loginData.aRoute.snapshot : null
+          loginData.aRoute ? loginData.aRoute.snapshot : null, value.pagePermission
         );
-        console.log(value);
-        if (value.pagePermission.customers) {
-          Promise.resolve(this.routerS.navigateByUrl(redirectUrl));
-        } else {
-          value.pagePermission.shop ?
-            Promise.resolve(this.routerS.navigateByUrl('/shop'))
-            : Promise.resolve(this.routerS.navigateByUrl('/access-denied'));
-        }
-
+        Promise.resolve(this.routerS.navigateByUrl(redirectUrl));
       })
     );
   }
@@ -172,7 +165,7 @@ export class AuthService {
 
   }
 
-  redirectUrlTree(snapshot: ActivatedRouteSnapshot): UrlTree {
+  redirectUrlTree(snapshot: ActivatedRouteSnapshot, pagePermissions: any = null): UrlTree {
     if (snapshot) {
       const qP = snapshot.queryParams;
       const rUk = 'returnUrl';
@@ -180,7 +173,24 @@ export class AuthService {
         return this.routerS.createUrlTree([qP[rUk]]);
       }
     }
-    return this.routerS.createUrlTree(['/']);
+    // add for user pagePermission
+    console.log('redirectTo', pagePermissions);
+    let redirectTo = '/access-denied';
+    for (const permission in pagePermissions) {
+      if (permission) {
+        console.log(permission, pagePermissions[permission]);
+        if (pagePermissions[permission]) {
+          redirectTo = `/${ permission }`;
+          if (redirectTo === '/customers') {
+            redirectTo = '/customer';
+          }
+          break;
+        }
+      }
+    }
+    // return this.routerS.createUrlTree(['/']);
+    console.log(redirectTo);
+    return this.routerS.createUrlTree([redirectTo]);
   }
 
   logout() {
