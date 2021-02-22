@@ -1,24 +1,24 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CustomStorageService } from './../core/services/custom-storage/custom-storage.service';
 import { Router } from '@angular/router';
-import { RequestService } from './../core/services/request/request.service';
-import { userEndpoints } from './../core/configs/endpoints';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
-import { Component, OnInit } from '@angular/core';
 import { TitleService } from '../core/services/title/title.service';
 import { UsersService } from '../users/users.service';
 import { get } from 'lodash';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   raLogoType = 'group2';
   pageTitle$ = this.titleService.titleStore;
-  user;
-  impersonatorId;
-  company;
+  user: any;
+  impersonatorId: any;
+  company: any;
+  authS$: Subscription;
   constructor(
     private titleService: TitleService,
     private authS: AuthService,
@@ -29,8 +29,7 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.authS.getAuthState().subscribe(e => {
-      console.log(e)
+    this.authS$ = this.authS.getAuthState().subscribe(e => {
       const account = get(e, 'account', null);
       this.company = get(account, 'company', null) || 'No company';
       const firstname = get(get(account, 'user', null), 'firstname', null) || 'firstname';
@@ -42,7 +41,6 @@ export class HeaderComponent implements OnInit {
       };
     });
     this.CStore.getItem('token').subscribe(e =>{
-      console.log(e)
       this.impersonatorId = e.impersonatorId
     })
   }
@@ -92,5 +90,7 @@ export class HeaderComponent implements OnInit {
       })
     })
   }
-
+  ngOnDestroy() {
+    this.authS$.unsubscribe();
+  }
 }
