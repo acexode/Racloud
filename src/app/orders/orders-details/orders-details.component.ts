@@ -153,7 +153,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         } else {
           const auth = get(data, 'auth', null);
           this.permissions = getOrderDetailsPagePermissions(auth);
-          console.log(this.permissions);
           this.ngOnInitIt();
           this.setFormDisableAccess();
         }

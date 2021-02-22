@@ -51,11 +51,13 @@ export interface OrderDetailsPermissionsAction {
 
 }
 export interface OrderRoles {
+    systemadmin: OrderPagePermissionsData | OrderDetailsPagePermissionsData;
     admin: OrderPagePermissionsData | OrderDetailsPagePermissionsData;
     licenseManager: OrderPagePermissionsData | OrderDetailsPagePermissionsData;
     user: OrderPagePermissionsData | OrderDetailsPagePermissionsData;
 }
 export interface OrderRoleFabricator {
+    systemadmin: OrderPagePermissionsData | OrderDetailsPagePermissionsData;
     admin: OrderPagePermissionsData | OrderDetailsPagePermissionsData;
     user: OrderPagePermissionsData | OrderDetailsPagePermissionsData;
 }
