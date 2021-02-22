@@ -77,7 +77,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
   addedProducts = [];
   allProducts = [];
   customers;
-  searchText = '';
+  // searchText = '';
   filteredCustomer;
   customerLabel = 'Select';
   savedCompanyId = 'Select';
@@ -155,6 +155,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
           this.permissions = getOrderDetailsPagePermissions(auth);
           this.ngOnInitIt();
           this.setFormDisableAccess();
+          this.componentForm.get('searchCompany').enable()
         }
       }
     );
@@ -327,8 +328,11 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
           Validators.required,
         ],
       ],
-      searchText: [
-        ''
+      searchCompany: [
+        '',
+        [
+          Validators.required,
+        ],
       ],
     });
   }
@@ -486,7 +490,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     this.customerLabel = company;
     this.savedCompanyId = id;
     this.filteredCustomer = this.customers;
-    this.componentForm.get('searchText').patchValue('');
+    this.componentForm.get('searchCompany').patchValue('');
     this.ref.detectChanges();
   }
   onSearchChange(customer: string) {
