@@ -54,7 +54,7 @@
                 </a>
                 <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu company-dropdown w-100"  role="menu" aria-labelledby="button-basic">
                   <li class="px-1"  role="menuitem">
-                    <input class="dropdown-item border" formControlName='searchText' (click)="setClose()" (input)="onSearchChange($event.target.value)" type="text" placeholder="search customer">
+                    <input class="dropdown-item border" formControlName='searchCompany' (click)="setClose()" (input)="onSearchChange($event.target.value)" type="text" placeholder="search company">
                   </li>
                     <li class="divider dropdown-divider"></li>
                     <li *ngFor="let customer of filteredCustomer" (click)="setCustomer(customer.companyName,customer.id)" role="menuitem"><a class="dropdown-item">{{customer.companyName  | slice:0:18}}</a></li>
