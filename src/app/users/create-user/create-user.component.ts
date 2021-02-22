@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { CustomStorageService } from './../../core/services/custom-storage/custom-storage.service';
 import { UsersService } from './../users.service';
 import { HttpClient } from '@angular/common/http';
@@ -117,9 +118,10 @@ export class CreateUserComponent implements OnInit {
     })
     this.service.getRoles().subscribe((res:any[]) =>{
       console.log(res)
+      console.log(get(res[1],'customers', []))
       this.roleOptions = res[0]
-      this.companyOptions = res[1]
-      this.filteredOptions = res[1]
+      this.companyOptions = get(res[1],'customers', [])
+      this.filteredOptions = get(res[1],'customers', [])
     })
     const id = this.route.snapshot.paramMap.get('id');
     this.initForm();
@@ -182,7 +184,7 @@ export class CreateUserComponent implements OnInit {
           Validators.required,
         ],
       ],
-      searchText: [
+      searchCompany: [
         '',
         [
           Validators.required,
@@ -216,7 +218,7 @@ export class CreateUserComponent implements OnInit {
     this.companyLabel = company;
     this.savedCompanyId = id;
     this.filteredOptions = this.companyOptions;
-    this.userForm.get('searchText').patchValue('');
+    this.userForm.get('searchCompany').patchValue('');
     // this.ref.detectChanges()
   }
   setRole(role, id) {

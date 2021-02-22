@@ -75,7 +75,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
         } else {
           const auth = get(data, 'auth', null);
           this.permissions = getOrderPagePermissions(auth);
-          console.log(this.permissions);
           this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
           this.tableConfig.columns = this.getTableColumns(this.permissions);
           this.loadOrders();
@@ -122,9 +121,9 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
   get actions() {
     return {
-      add: this.permissions.actions.add === 'full' ? true : false,
-      view: this.permissions.actions.view === 'full' ? true : false,
-      delete: this.permissions.actions.delete === 'full' ? true : false,
+      add: this.permissions?.actions.add === 'full' ? true : false,
+      view: this.permissions?.actions.view === 'full' ? true : false,
+      delete: this.permissions?.actions.delete === 'full' ? true : false,
     }
   }
   getTableColumns(permission: any): Array<any> {

@@ -63,21 +63,25 @@ const licenseManager = allHidden;
 const user = allHidden;
 export const orderPagePermission: OrderRolePermissions = {
     main: {
+        systemadmin: adminFull,
         admin: adminFull,
         licenseManager,
         user,
     },
     partner: {
+        systemadmin: adminCustomerReadonly,
         admin: adminCustomerReadonly,
         licenseManager,
         user,
     },
     reseller: {
+        systemadmin: adminFull,
         admin: adminFull,
         licenseManager,
         user,
     },
     fabricator: {
+        systemadmin: adminCustomerReadonly,
         admin: adminCustomerReadonly,
         user,
     }
