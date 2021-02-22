@@ -155,7 +155,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
           this.permissions = getOrderDetailsPagePermissions(auth);
           this.ngOnInitIt();
           this.setFormDisableAccess();
-          this.componentForm.get('searchCompany').enable()
+          this.componentForm.get('searchCompany').enable();
         }
       }
     );
