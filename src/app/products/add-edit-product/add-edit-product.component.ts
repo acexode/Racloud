@@ -125,7 +125,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     }
     this.service.getOption().subscribe((options: any) =>{
       this.optionList = options.map((obj:any, idx) =>{
-        const index = this.preselectedRows.findIndex(idx => obj.Id === idx.optionId)
+        const index = this.preselectedRows.findIndex(x => obj.Id === x.optionId)
         if (index > -1) {
           const item = options[idx]
           return {
