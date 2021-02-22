@@ -50,28 +50,6 @@ export class OptionTabComponent implements OnInit {
     '../../assets/images/Edit.svg',
     '../../assets/images/Log.svg',
   ];
-  bsConfig = omnBsConfig({
-    ranges: [
-      {
-        value: [new Date(), new Date()],
-        label: 'Azi',
-      },
-      {
-        value: [
-          new Date(new Date().setDate(new Date().getDate() - 7)),
-          new Date(),
-        ],
-        label: 'Ultima săptămână',
-      },
-      {
-        value: [
-          new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
-          new Date(new Date().getFullYear(), new Date().getMonth(), 0),
-        ],
-        label: 'Ultima lună',
-      },
-    ],
-  });
   tableConfig: TableI = {
     selectable: true,
     selectDetail: true,
@@ -92,7 +70,6 @@ export class OptionTabComponent implements OnInit {
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
-    console.log(this.preselectedRows)
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.selectDetailTemplate = this.selectDetailTemplate;
     this.tableConfig.columns = [
@@ -173,7 +150,6 @@ export class OptionTabComponent implements OnInit {
       }
     ];
     if (this.optionList) {
-      console.log(this.optionList)
       this.optionList = this.optionList.map(e => {
         if(e.OptionType === 'ValueList'){
           const arrObj = e.ValueList.map(val => {
@@ -191,7 +167,6 @@ export class OptionTabComponent implements OnInit {
       })
       this.tableConfig.loadingIndicator = true;
       this.rowData = this.optionList;
-      console.log(this.rowData)
       const cloneData = this.optionList.map((v: any) => {
         return { ...v };
       });
@@ -252,16 +227,15 @@ export class OptionTabComponent implements OnInit {
   }
   getRow(item){
     this.rowValue = item.selected[0]
-    // console.log(item)
     this.selectedRows.emit(item)
   }
   setPartnerAccess(row, access){
     this.optionList = this.optionList.map(obj =>{
       if(obj.Id === row.Id){
-        console.log(true)
         return {
           ...obj,
-          PartnerAccess: access
+          PartnerAccess: access,
+          selected: true
         }
       }
       return obj
@@ -273,34 +247,33 @@ export class OptionTabComponent implements OnInit {
       if(obj.Id === row.Id){
         return {
           ...obj,
-          UserAccess: access
+          UserAccess: access,
+          selected: true
         }
       }
       return obj
     })
+    this.ref.detectChanges()
     this.reInitData(this.optionList)
   }
   reInitData(data: []){
     this.rowData = data
-    console.log(data)
     const cloneData = data.map((v: any) => {
         return { ...v };
     });
     this.productS.SetOptionList(data)
     this.tableData.next(cloneData);
+    this.ref.detectChanges()
   }
   onCheckValueBoolean($event, row){
     const checked = $event.target.checked
-    console.log(row)
     this.checkedValueList = this.optionList.map(obj => {
       if(obj.Id === row.Id){
         obj.ValueBoolean = checked
-        console.log(obj)
         return obj
       }
       return obj
     })
-    console.log(this.optionList)
     this.reInitData(this.optionList)
   }
   onCheckValueList($event, row, valueId){
@@ -323,7 +296,6 @@ export class OptionTabComponent implements OnInit {
       }
       return e
     })
-    console.log(this.optionList)
     this.reInitData(this.optionList)
   }
   updateValue(event, cell, rowIndex) {
