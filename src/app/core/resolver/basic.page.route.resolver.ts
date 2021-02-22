@@ -16,7 +16,7 @@ export class BasicPageRouteResolver implements Resolve<any> {
         return {
             auth,
             role,
-            showScreen: (role.toLowerCase() === 'admin' || role.toLowerCase() === 'licensemanager') ? true : false
+            showScreen: (role.toLowerCase() === 'systemadmin' ||role.toLowerCase() === 'admin' || role.toLowerCase() === 'licensemanager') ? true : false
         };
     }
 }

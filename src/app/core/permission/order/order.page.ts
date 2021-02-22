@@ -63,21 +63,25 @@ const licenseManager = allHidden;
 const user = allHidden;
 export const orderPagePermission: OrderRolePermissions = {
     main: {
+        systemadmin: adminFull,
         admin: adminFull,
         licenseManager,
         user,
     },
     partner: {
+        systemadmin: adminCustomerReadonly,
         admin: adminCustomerReadonly,
         licenseManager,
         user,
     },
     reseller: {
+        systemadmin: adminFull,
         admin: adminFull,
         licenseManager,
         user,
     },
     fabricator: {
+        systemadmin: adminCustomerReadonly,
         admin: adminCustomerReadonly,
         user,
     }
@@ -86,6 +90,7 @@ export const getOrderPagePermissions = (userAuth: AuthState): OrderPagePermissio
     const account = get(userAuth, 'account', null);
     const role = get(account, 'roles', null);
     const companyType = get(get(account, 'company', null), 'companyType', null);
+    console.log(orderPagePermission[companyType.toLowerCase()] , companyType)
     if (role && companyType) {
         return orderPagePermission[companyType.toLowerCase()][role.toLowerCase()];
     } else {
