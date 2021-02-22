@@ -1,11 +1,23 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { get } from 'lodash';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CompanyTypes } from 'src/app/core/enum/companyTypes';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
 import { CountriesService } from 'src/app/core/services/countries/countries.service';
+import { CustomerService } from 'src/app/core/services/customer/customer.service';
 import { LanguagesService } from 'src/app/core/services/languages/languages.service';
 import { PriceListService } from 'src/app/core/services/price-list/price-list.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
@@ -20,7 +32,7 @@ import { CustomerModel } from '../model/customer.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class CustomerFormComponent implements OnInit, OnChanges {
+export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() formEditMode: boolean;
   defaultToButtons: any = {
     buttonA: 'Button A',
@@ -128,12 +140,17 @@ export class CustomerFormComponent implements OnInit, OnChanges {
   customerParentOptions$: Observable<any>;
   languageOptions$: Observable<any>;
   priceListOptions$: Observable<any>;
+  auth$: Subscription;
+
+  getCustomerPriceList$: Subscription;
   constructor(
     private fb: FormBuilder,
     private cS: CountriesService,
     private parentS: CompanyParentsService,
     private lgS: LanguagesService,
-    private priceService: PriceListService
+    private priceService: PriceListService,
+    private authS: AuthService,
+    private customerS: CustomerService,
   ) { }
   ngOnChanges(changes: SimpleChanges): void {
     // this.componentForm.valueChanges.subscribe(d => {});
@@ -149,7 +166,6 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     this.languageOptions$ = this.lgS.getLanguages();
     // price listing options
     this.priceListOptions$ = this.priceService.getPriceLists();
-
     if (typeof this.editableData !== 'undefined') {
       this.fieldsPermission = this.editableData.schema.fields;
       this.actionPermission = this.editableData.schema.actions;
@@ -244,7 +260,43 @@ export class CustomerFormComponent implements OnInit, OnChanges {
       this.componentForm.setValue({ ...d });
       this.componentForm.markAllAsTouched();
       this.componentForm.updateValueAndValidity();
+    } else {
+      // set companyType to fabricator
+      this.setCompanyType('fabricator');
+      // get details from authorization
+      this.auth$ = this.authS.getAuthState().subscribe(e => {
+        const account = get(e, 'account', null);
+        const company = get(account, 'company', null);
+        const companyParentId = get(company, 'id', null);
+        if (companyParentId) {
+          // set parent
+          this.setParent(companyParentId);
+          // for pricelist
+          this.getCustomerPriceList$ = this.customerS.getCustomerById(companyParentId).subscribe(
+            resp => {
+              const customer = get(resp, 'customer', null);
+              const priceList = get(customer, 'priceList', null);
+              const priceListId: number = get(priceList, 'id', null);
+              if (priceListId) {
+                this.setPriceList(priceListId);
+              }
+            },
+          );
+        }
+      });
     }
+  }
+  setCompanyType(companyType: string) {
+    this.componentForm.get('companyType').setValue(companyType);
+  }
+  setParent(parentId: number) {
+    this.componentForm.get('parentId').setValue(parentId);
+  }
+  setPriceList(priceListId: number) {
+    this.componentForm.get('priceListId').setValue(priceListId);
+  }
+  get priceListPlaceHolder() {
+    return this.formEditMode ? 'Select Price List' : 'Price List Defaulfted to Parent';
   }
   updateData(): CustomerModel {
     const d = this.componentForm.value;
@@ -333,6 +385,22 @@ export class CustomerFormComponent implements OnInit, OnChanges {
       return false;
     } else {
       return true;
+    }
+  }
+  get activateBtn() {
+    if (this.formEditMode && this.actionPermission) {
+      return this.actionPermission?.update !== 'full' ? true : false;
+    } else {
+      // user want to create
+      return this.formEditMode;
+    }
+  }
+  ngOnDestroy() {
+    if (this.auth$) {
+      this.auth$.unsubscribe();
+    }
+    if (this.getCustomerPriceList$) {
+      this.getCustomerPriceList$.unsubscribe();
     }
   }
 }
