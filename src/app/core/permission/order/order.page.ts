@@ -87,7 +87,11 @@ export const getOrderPagePermissions = (userAuth: AuthState): OrderPagePermissio
     const role = get(account, 'roles', null);
     const companyType = get(get(account, 'company', null), 'companyType', null);
     if (role && companyType) {
-        return orderPagePermission[companyType.toLowerCase()][role.toLowerCase()];
+        if (role.toLowerCase() === 'systemadmin') {
+            return adminFull;
+        } else {
+            return orderPagePermission[companyType.toLowerCase()][role.toLowerCase()];
+        }
     } else {
         return null;
     }
