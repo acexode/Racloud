@@ -11,7 +11,7 @@
           <div class="no-permi" *ngIf="userPermissionTooLow">Your Access Permission is too Low. Please Contact Admin</div>
 
           <button [routerLink]="bactToLink" class="btn btn-primary go-back" *ngIf="!userPermissionTooLow">
-            Go to back
+            Go back
           </button>
 
           <button class="btn btn-primary go-back" *ngIf="userPermissionTooLow" (click)="userLogOut()">
