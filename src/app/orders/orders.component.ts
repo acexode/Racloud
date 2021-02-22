@@ -70,14 +70,11 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.routeData$ = this.route.data.subscribe(
       res => {
         const data = get(res, 'data', null);
-        console.log(data)
         if (!data?.showScreen) {
           this.router.navigate(['/access-denied']);
         } else {
           const auth = get(data, 'auth', null);
-          console.log(auth)
           this.permissions = getOrderPagePermissions(auth);
-          console.log(this.permissions);
           this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
           this.tableConfig.columns = this.getTableColumns(this.permissions);
           this.loadOrders();
@@ -262,7 +259,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
     };
 
     const tempColumn = [];
-    console.log(permission)
     const columnsPermission = get(permission, 'columns', null);
     for (const columnKey in columnsPermission) {
       if (columnsPermission[columnKey] === 'full') {

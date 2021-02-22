@@ -90,7 +90,6 @@ export const getOrderPagePermissions = (userAuth: AuthState): OrderPagePermissio
     const account = get(userAuth, 'account', null);
     const role = get(account, 'roles', null);
     const companyType = get(get(account, 'company', null), 'companyType', null);
-    console.log(orderPagePermission[companyType.toLowerCase()] , companyType)
     if (role && companyType) {
         return orderPagePermission[companyType.toLowerCase()][role.toLowerCase()];
     } else {

@@ -148,13 +148,11 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     this.routeData$ = this.route.data.subscribe(
       res => {
         const data = get(res, 'data', null);
-        console.log(data)
         if (!data?.accessDetailsScreen) {
           this.router.navigate(['/access-denied']);
         } else {
           const auth = get(data, 'auth', null);
           this.permissions = getOrderDetailsPagePermissions(auth);
-          console.log(this.permissions);
           this.ngOnInitIt();
           this.setFormDisableAccess();
         }
@@ -578,7 +576,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
   }
   get fieldsHiddenStatus() {
     const field = get(this.permissions, 'fields', null);
-    console.log(this.permissions)
     if (field) {
       return {
         orderNumber: field.orderNumber === 'hidden' ? true : false,
