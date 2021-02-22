@@ -30,7 +30,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.authS.getAuthState().subscribe(e => {
-      console.log(e)
       const account = get(e, 'account', null);
       this.company = get(account, 'company', null) || 'No company';
       const firstname = get(get(account, 'user', null), 'firstname', null) || 'firstname';
@@ -42,7 +41,6 @@ export class HeaderComponent implements OnInit {
       };
     });
     this.CStore.getItem('token').subscribe(e =>{
-      console.log(e)
       this.impersonatorId = e.impersonatorId
     })
   }

@@ -7,6 +7,7 @@ import {
   Output,
   ViewChild,
   HostListener,
+  OnChanges, SimpleChanges, SimpleChange
 } from '@angular/core';
 import {
   ColumnMode,
@@ -78,8 +79,7 @@ export class TableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const selectedrows = this.rows.filter(obj => obj.selected === true);
-    this.selected = [...selectedrows];
+    this.setSelecetedRow(this.rows)
     this.cdRef.detectChanges();
     this.doFilterActions();
     this.selectableClass =
@@ -87,7 +87,14 @@ export class TableComponent implements OnInit {
       (this.config.selectDetail ? 'has-select-detail ' : '') +
       (this.config.selectable ? 'has-selectable' : '');
   }
-
+  ngOnChanges(changes: SimpleChanges){
+    const row: SimpleChange = changes.rows
+    this.setSelecetedRow(row.currentValue)
+  }
+  setSelecetedRow(rows){
+    const selectedrows = rows.filter(obj => obj.selected === true);
+    this.selected = [...selectedrows];
+  }
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     const width =
@@ -106,7 +113,6 @@ export class TableComponent implements OnInit {
     }
   }
   onSelect(selectedObj) {
-    console.log(selectedObj);
     const { selected } = selectedObj;
     const lastItem = selected[selected.length - 1];
     lastItem.selected = !lastItem.selected;
@@ -120,9 +126,6 @@ export class TableComponent implements OnInit {
     });
     selectedObj.selected = uniq;
     this.selected = uniq;
-    this.selectedRows.subscribe(e => {
-      console.log(e);
-    });
     this.selectedRows.emit(selectedObj);
   }
 

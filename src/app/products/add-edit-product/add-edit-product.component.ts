@@ -115,7 +115,6 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         this.productOptions = obj
         const data = obj.filter(e => e.id.toString() === id)[0];
         this.product = data
-        console.log(data)
         this.preselectedRows = data.productOptions
         this.updateForm(data)
       });
@@ -125,10 +124,10 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
       })
     }
     this.service.getOption().subscribe((options: any) =>{
-      this.optionList = options.map((obj:any) =>{
+      this.optionList = options.map((obj:any, idx) =>{
         const index = this.preselectedRows.findIndex(idx => obj.Id === idx.optionId)
         if (index > -1) {
-          const item = options[index]
+          const item = options[idx]
           return {
             ...item,
             PartnerAccess: this.preselectedRows[index].partnerAccess,
@@ -144,6 +143,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
           }
         }
       })
+      this.selectedRows = this.optionList.filter(op => op.selected === true)
     })
   }
   updateForm(data){
@@ -203,7 +203,6 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     this.tabs[index].isSelected = true;
     const data = this.productForm.value
     this.updateForm(data)
-    console.log(data)
     this.cdref.detectChanges()
   }
   ressetTabSelectStatus() {
@@ -222,7 +221,6 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     this.isLoading = true
   const productValues = this.productForm.value
   const resArr = []
-  console.log(this.selectedRows)
   this.selectedRows.reverse().filter(item =>{
     const i = resArr.findIndex(x => x.optionId === item.Id);
     if(i <= -1){
