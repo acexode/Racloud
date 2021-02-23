@@ -2,7 +2,7 @@ import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormBuilder } from '@angular/forms';
 import { InputConfig } from './../../models/input/input-config';
 import { get } from 'lodash';
-import { config, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { CurrencyService } from 'src/app/core/services/currency/currency.service';
 import { PriceListService } from 'src/app/core/services/price-list/price-list.service';
 @Component({
@@ -67,7 +67,6 @@ export class InputComponent implements OnInit, ControlValueAccessor, OnDestroy {
     if (!this.currency) {
       this.priceListS$ = this.priceListS.getCompanyPriceListNow().subscribe(
         d => {
-          console.log(d);
           this.companyCurrencyCode = d?.data.currency || null;
         });
     }
