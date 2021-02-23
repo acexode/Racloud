@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { CreatePriceListModel } from 'src/app/price-lists/models/create-price-list-model';
 import { PriceListModel } from 'src/app/price-lists/models/price-list-model';
 import { PriceListProductManagerModel } from 'src/app/price-lists/models/price-list-product-manager.model';
@@ -8,6 +9,7 @@ import { ProductServiceService } from 'src/app/products/product-service.service'
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 import { baseEndpoints, priceListEndpoints } from '../../configs/endpoints';
 import { uuid } from '../../helpers/uuid';
+import { CustomStorageService } from '../custom-storage/custom-storage.service';
 import { RequestService } from '../request/request.service';
 
 @Injectable({
@@ -23,11 +25,31 @@ export class PriceListService {
   product$: Subscription;
   products: BehaviorSubject<Array<ProductModel>> = new BehaviorSubject<Array<ProductModel>>(null);
   buttonLoadingStatus: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  initialState: any = {
+    init: false,
+    data: null,
+  };
+  companyPriceList: BehaviorSubject<any> = new BehaviorSubject(
+    this.initialState
+  );
+
   constructor(
-    private reqS: RequestService,
-    private productS: ProductServiceService,
-    private msgS: MessagesService
-  ) { }
+    private reqS: RequestService, private storeS: CustomStorageService
+  ) {
+    // Load account state from local/session/cookie storage.
+    this.storeS
+      .getItem('companyPricelist')
+      .subscribe((data: any) => {
+        if (data !== null) {
+          this.companyPriceList.next({
+            init: true,
+            data,
+          });
+        } else {
+          this.companyPriceList.next({ ...this.initialState, ...{ init: true } });
+        }
+      });
+  }
   getPriceLists(): Observable<Array<PriceListModel>> {
     return this.reqS.get<Array<PriceListModel>>(baseEndpoints.priceLists);
   }
@@ -103,5 +125,22 @@ export class PriceListService {
   }
   updateButtonLoadingStatus(d: boolean): void {
     this.buttonLoadingStatus.next(d);
+  }
+  getCompanyCurrency(id: any): Observable<any> {
+    return this.reqS.get<any>(`${ priceListEndpoints.currency }/${ id }`).pipe(
+      switchMap((val) => {
+        return this.processCompanyPriceListing(val);
+      })
+    );
+  }
+  processCompanyPriceListing(data: any) {
+    return this.storeS.setItem('companyPricelist', data).pipe(
+      tap((d) => {
+        this.companyPriceList.next({
+          init: true,
+          data: d,
+        });
+      }),
+    );
   }
 }

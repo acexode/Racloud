@@ -6,6 +6,7 @@ import { TitleService } from '../core/services/title/title.service';
 import { UsersService } from '../users/users.service';
 import { get } from 'lodash';
 import { Subscription } from 'rxjs';
+import { PriceListService } from '../core/services/price-list/price-list.service';
 
 @Component({
   selector: 'app-header',
@@ -25,6 +26,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private userS: UsersService,
     private router: Router,
     private CStore: CustomStorageService,
+    private ps: PriceListService,
 
   ) { }
 
@@ -39,6 +41,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         firstname,
         lastname,
       };
+      this.ps.getCompanyCurrency(1).subscribe(d=>console.log(d));
     });
     this.CStore.getItem('token').subscribe(e =>{
       this.impersonatorId = e.impersonatorId
