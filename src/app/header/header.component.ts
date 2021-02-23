@@ -25,9 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private authS: AuthService,
     private userS: UsersService,
     private router: Router,
-    private CStore: CustomStorageService,
-    private ps: PriceListService,
-
+    private CStore: CustomStorageService
   ) { }
 
   ngOnInit(): void {
@@ -41,7 +39,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         firstname,
         lastname,
       };
-      this.ps.getCompanyCurrency(1).subscribe(d=>console.log(d));
     });
     this.CStore.getItem('token').subscribe(e =>{
       this.impersonatorId = e.impersonatorId

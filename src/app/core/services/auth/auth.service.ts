@@ -125,7 +125,7 @@ export class AuthService {
         );
       }),
       switchMap((val: any) => {
-        return this.priceListS.getCompanyCurrency(val.loginResponse.company.id).pipe(
+        return this.priceListS.getCompanyPriceList(val.loginResponse.company.id).pipe(
           map(
             pricelist =>
             {
