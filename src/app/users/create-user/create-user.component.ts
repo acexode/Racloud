@@ -134,10 +134,12 @@ export class CreateUserComponent implements OnInit {
         this.user = data.user;
         this.userInfo = data
         console.log(data)
+        this.roleLabel = get(get(data, 'role',null), 'name',null)
+        this.companyLabel = get(get(data,'company', null), 'companyName', null)
         if(this.user.email === this.loggedInUser.email){
           this.canChangePassword = true;
         }
-        if(this.loggedInUserRole === 'admin' && this.user.email !== this.loggedInUser.email){
+        if(this.loggedInUserRole === 'systemadmin' && this.user.email !== this.loggedInUser.email){
           this.canImpersonate = true;
         }
         this.userForm.patchValue({
