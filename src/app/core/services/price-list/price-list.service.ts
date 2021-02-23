@@ -132,6 +132,9 @@ export class PriceListService {
       })
     );
   }
+  getCompanyPriceListTemp(id: any): Observable<CompanyPriceListData> {
+    return this.reqS.get<CompanyPriceListData>(`${ priceListEndpoints.currency }/${ id }`);
+  }
   processCompanyPriceListing(data: CompanyPriceListData) {
     return this.storeS.setItem('companyPricelist', data).pipe(
       tap((d) => {

@@ -27,7 +27,11 @@ export class InputComponent implements OnInit, ControlValueAccessor, OnDestroy {
   });
   companyCurrencyCode: any = null;
   priceListS$: Subscription;
-  constructor(private fb: FormBuilder, private currencyS: CurrencyService, private priceListS: PriceListService) { }
+  constructor(
+    private fb: FormBuilder,
+    private currencyS: CurrencyService,
+    private priceListS: PriceListService
+  ) { }
   writeValue(obj: any): void {
     this.value = obj;
     this.formGroup.setValue({ input: obj });
@@ -73,7 +77,7 @@ export class InputComponent implements OnInit, ControlValueAccessor, OnDestroy {
     return get(this.config?.formStatus, 'isDisabled', false);
   }
   get currency() {
-    return get(this.config, 'currency', null);
+    return get(this.config, 'currency', '');
   }
   loadCurrencySymbol(code: string): string {
     return this.currencyS.getCurrencySymbol(code);

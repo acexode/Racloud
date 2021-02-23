@@ -15,6 +15,7 @@ import { OrderService } from '../service.service';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 import { get } from 'lodash';
 import { getOrderDetailsPagePermissions } from 'src/app/core/permission/order/order.details.permission';
+import { PriceListService } from 'src/app/core/services/price-list/price-list.service';
 @Component({
   selector: 'app-orders-details',
   templateUrl: './orders-details.component.html',
@@ -99,7 +100,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     private service: OrderService,
     private shopS: ShopService,
     private modalService: BsModalService,
-    private msgS: MessagesService
+    private msgS: MessagesService,
   ) { }
 
   selectionConfig(label: string, isDisabled: boolean = false): SelectConfig {
@@ -118,7 +119,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     placeholder: string = '',
     prefixIcon: boolean = false,
     Icon: string = '',
-    isDisabled: boolean = false
+    isDisabled: boolean = false,
   )
     : InputConfig {
     const icon = Icon === 'Currency' ? this.Currency : '%';
@@ -132,7 +133,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       IconType: icon || '$',
       formStatus: {
         isDisabled,
-      }
+      },
     };
   }
 
