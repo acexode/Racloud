@@ -92,7 +92,7 @@
                       <app-button *ngIf="!canChangePassword" (click)="openModal(sendResetPasswordTemplate, 'send')"  color="secondary" class="cancel-btn floatLeft">
                         Reset Password
                     </app-button>
-                      <app-button *ngIf="canImpersonate" (click)="impersonate()"  color="secondary" class="cancel-btn floatLeft">
+                      <app-button *ngIf="canImpersonate" [disabled]="impersonatorId" (click)="impersonate()"  color="secondary" class="cancel-btn floatLeft">
                         Impersonate
                     </app-button>
                   </div>

@@ -86,6 +86,7 @@ export class CreateUserComponent implements OnInit {
     placeholder: 'Select'
   };
   loggedInUserRole: any;
+  impersonatorId: any;
   inputConfig(
     label: string,
     type: string = 'text',
@@ -318,48 +319,59 @@ export class CreateUserComponent implements OnInit {
     },5000)
   }
   impersonate(){
-    const id = this.route.snapshot.paramMap.get('id');
-    const obj = {
-      userId: id
-    }
-    this.service.impersonate(obj).subscribe((res:any) =>{
-      this.displayMsg(`You are now logged in as ${this.user.firstname}`, 'info')
-      this.cStorage.getItem('token').subscribe(e =>{
-        this.cStorage.setItem('oldToken', e)
-      })
-      const account = {
-        username: this.userInfo.user.email,
-        image: null,
-        user: this.userInfo.user || null,
-        company: this.userInfo.company,
-        roles:this.userInfo.role.name,
-      };
-      const currentUser = {
-        company: this.userInfo.company,
-        exp: res.expiration,
-        roles: [this.userInfo.role.name],
-        user: this.userInfo.user,
-        token: res.token,
-        username: this.userInfo.user.email,
-        impersonatorId: res.impersonatorId
+    if(this.impersonatorId){
+      console.log(this.impersonatorId)
+    }else{
+
+      const id = this.route.snapshot.paramMap.get('id');
+      const obj = {
+        userId: id
       }
-      this.cStorage.setItem('token', currentUser).pipe(
-        tap(() => {
-          this.authS.authState.next({
-            init: true,
-            account,
-            authToken: res.token,
-            impersonatorId: res.impersonatorId,
-            expiryDate: res.expiration || null,
-          });
-        })).subscribe(()=>{
-          this.authS.getAuthState().subscribe(e =>{
-            console.log(e)
-            this.service.getUserPermissionsPerPage().subscribe(p => console.log(p))
-          })
+      this.service.impersonate(obj).subscribe((res:any) =>{
+        this.displayMsg(`You are now logged in as ${this.user.firstname}`, 'info')
+        this.cStorage.getItem('token').subscribe(e =>{
+          this.cStorage.setItem('oldToken', e)
         })
-    },err =>{
-      this.displayMsg(err.error, 'danger')
-    })
+        const account = {
+          username: this.userInfo.user.email,
+          image: null,
+          user: this.userInfo.user || null,
+          company: this.userInfo.company,
+          roles:this.userInfo.role.name,
+        };
+        const currentUser = {
+          company: this.userInfo.company,
+          exp: res.expiration,
+          roles: [this.userInfo.role.name],
+          user: this.userInfo.user,
+          token: res.token,
+          username: this.userInfo.user.email,
+          impersonatorId: res.impersonatorId
+        }
+        this.cStorage.setItem('token', currentUser).pipe(
+          tap(() => {
+            this.authS.authState.next({
+              init: true,
+              account,
+              authToken: res.token,
+              impersonatorId: res.impersonatorId,
+              expiryDate: res.expiration || null,
+            });
+            this.impersonatorId = res.impersonatorId
+          })).subscribe(()=>{
+            this.authS.getAuthState().subscribe(e =>{
+              console.log(e)
+              const id = get(e, 'impersonatorId', null)
+              if(id === null){
+                console.log(id)
+                this.impersonatorId = null
+              }
+              this.service.getUserPermissionsPerPage().subscribe(p => console.log(p))
+            })
+          })
+      },err =>{
+        this.displayMsg(err.error, 'danger')
+      })
+    }
   }
 }
