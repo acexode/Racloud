@@ -361,9 +361,8 @@ export class CreateUserComponent implements OnInit {
           })).subscribe(()=>{
             this.authS.getAuthState().subscribe(e =>{
               console.log(e)
-              const id = get(e, 'impersonatorId', null)
-              if(id === null){
-                console.log(id)
+              const idX = get(e, 'impersonatorId', null)
+              if(idX === null){
                 this.impersonatorId = null
               }
               this.service.getUserPermissionsPerPage().subscribe(p => console.log(p))
