@@ -30,14 +30,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authS$ = this.authS.getAuthState().subscribe(e => {
+      console.log(e)
       const account = get(e, 'account', null);
       this.company = get(account, 'company', null) || 'No company';
       const firstname = get(get(account, 'user', null), 'firstname', null) || 'firstname';
       const lastname = get(get(account, 'user', null), 'lastname', null) || 'lastname';
+      const id = get(get(account, 'user', null), 'id', null) || get(e, 'impersonatorId', null);
       this.impersonatorId = get(e, 'impersonatorId', null);
       this.user = {
         firstname,
         lastname,
+        id
       };
     });
     this.CStore.getItem('token').subscribe(e =>{
@@ -45,10 +48,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     })
   }
   navigate(id, route) {
+    console.log(this.user)
     if (route === 'user') {
       this.router.navigate(['users/edit-user', { id }]);
     } else if (route === 'company') {
-      this.router.navigate(['customer/manage', id]);
+      this.router.navigate(['customer/manage/'+ id + '/tab/details']);
     } else {
       return null;
     }
