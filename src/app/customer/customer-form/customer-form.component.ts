@@ -167,6 +167,7 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
     // price listing options
     this.priceListOptions$ = this.priceService.getPriceLists();
     if (typeof this.editableData !== 'undefined') {
+      console.log(this.editableData.schema.fields);
       this.fieldsPermission = this.editableData.schema.fields;
       this.actionPermission = this.editableData.schema.actions;
     }
