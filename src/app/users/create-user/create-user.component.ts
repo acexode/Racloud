@@ -137,7 +137,7 @@ export class CreateUserComponent implements OnInit {
         if(this.user.email === this.loggedInUser.email){
           this.canChangePassword = true;
         }
-        if(this.loggedInUserRole === 'admin' && this.user.email !== this.loggedInUser.email){
+        if(this.loggedInUserRole === 'systemadmin' && this.user.email !== this.loggedInUser.email){
           this.canImpersonate = true;
         }
         this.userForm.patchValue({
