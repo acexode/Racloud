@@ -267,14 +267,30 @@ export class LicensesListingComponent implements OnInit {
     this.tableData.next(newRows);
   }
   toggle(){
-    // this.tableData.next(null)
-    this.tableConfig.loadingIndicator = false
+    this.tableData.next([])
+    this.tableConfig.loadingIndicator = true
     if(this.showOwnLicenses){
       this.service.getOwnLicenses().subscribe((data:any) => {
-        this.loadTableData(data)
+        const formattedData = data.map((e: any) => {
+          return {
+            ...e,
+            productName: e.product.name,
+            companyName: e.company.companyName,
+            customer: e.company.companyName
+          };
+        });
+        console.log(data)
+        this.tableConfig.loadingIndicator = true;
+        this.rowData = formattedData;
+        const cloneData = formattedData.map((v: any) => {
+          return { ...v };
+        });
+        this.tableData.next(cloneData);
+        this.tableConfig.loadingIndicator = false;
       });
     }else{
       this.service.getLicenses().subscribe((data:any) => {
+        console.log(data)
         this.loadTableData(data)
       });
     }
