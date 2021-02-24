@@ -91,6 +91,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
   getSingleOrder$: Subscription;
   getShops$: Subscription;
   permissions: any;
+  companyCurrencyCode: any;
   constructor(
     private fb: FormBuilder,
     private tS: TableService,
@@ -134,7 +135,11 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       formStatus: {
         isDisabled,
       },
+      currency: this.getTheCompanyCurrencyCode
     };
+  }
+  get getTheCompanyCurrencyCode() {
+    return this.companyCurrencyCode ?? '';
   }
 
   setType(e) {
@@ -216,6 +221,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         console.log(e);
         this.OrderStatus = e.OrderStatus;
         if (e.CompanyId !== null) {
+          this.companyCurrencyCode = get(e, 'Currency', '');
           this.savedCompanyId = e.CompanyId;
           this.componentForm.get('companyId').disable();
           this.disableCustomer = true;
