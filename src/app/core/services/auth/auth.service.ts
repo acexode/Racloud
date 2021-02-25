@@ -22,6 +22,7 @@ import { LoginResponse } from '../../models/login-response.interface';
 import { Login } from '../../models/login.interface';
 import { TokenInterface } from '../../models/token.interface';
 import { CustomStorageService } from '../custom-storage/custom-storage.service';
+import { PriceListService } from '../price-list/price-list.service';
 import { RequestService } from '../request/request.service';
 
 @Injectable({
@@ -42,7 +43,8 @@ export class AuthService {
     private storeS: CustomStorageService,
     private routerS: Router,
     private reqS: RequestService,
-    private userS: UsersService
+    private userS: UsersService,
+    private priceListS: PriceListService,
   ) {
     // Load account state from local/session/cookie storage.
     this.storeS
@@ -121,6 +123,19 @@ export class AuthService {
             return { loginResponse: val, pagePermission: d };
           })
         );
+      }),
+      switchMap((val: any) => {
+        return this.priceListS.getCompanyPriceList(val.loginResponse.company.id).pipe(
+          map(
+            pricelist =>
+            {
+              return {
+                ...val,
+                companyPricelist: pricelist,
+              }
+            }
+          )
+        )
       }),
       tap((value) => {
         const redirectUrl = this.redirectUrlTree(

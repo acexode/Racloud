@@ -172,9 +172,7 @@ export class OrderTabComponent implements OnInit, OnDestroy {
   public loadOrders() {
     this.route$ = this.route.paramMap.subscribe(params => {
       const id = params.get('id');
-      console.log(id);
       this.orderS.getCustomerOrders(id).subscribe((orders: any[]) => {
-        console.log(orders);
         if (orders) {
           this.tableConfig.loadingIndicator = true;
           this.rowData = orders;

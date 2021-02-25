@@ -1,9 +1,10 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormBuilder } from '@angular/forms';
 import { InputConfig } from './../../models/input/input-config';
 import { get } from 'lodash';
-import { config } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { CurrencyService } from 'src/app/core/services/currency/currency.service';
+import { PriceListService } from 'src/app/core/services/price-list/price-list.service';
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
@@ -16,7 +17,7 @@ import { CurrencyService } from 'src/app/core/services/currency/currency.service
     },
   ],
 })
-export class InputComponent implements OnInit, ControlValueAccessor {
+export class InputComponent implements OnInit, ControlValueAccessor, OnDestroy {
   @Input() config: InputConfig;
   onChange: (_: any) => void;
   onTouched: () => void;
@@ -24,7 +25,13 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   formGroup = this.fb.group({
     input: this.fb.control(null),
   });
-  constructor(private fb: FormBuilder, private currencyS: CurrencyService) { }
+  companyCurrencyCode: any = null;
+  priceListS$: Subscription;
+  constructor(
+    private fb: FormBuilder,
+    private currencyS: CurrencyService,
+    private priceListS: PriceListService
+  ) { }
   writeValue(obj: any): void {
     this.value = obj;
     this.formGroup.setValue({ input: obj });
@@ -57,6 +64,12 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     if (this.isDisable) {
       this.formGroup.disable();
     }
+    if (!this.currency) {
+      this.priceListS$ = this.priceListS.getCompanyPriceListNow().subscribe(
+        d => {
+          this.companyCurrencyCode = d?.data.currency || null;
+        });
+    }
   }
 
   get isDisable() {
@@ -69,6 +82,15 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     return this.currencyS.getCurrencySymbol(code);
   }
   get thePrefix() {
-    return this.loadCurrencySymbol(this.currency) || '$';
+    if (this.currency) {
+      return this.currency;
+    } else {
+      return this.companyCurrencyCode || 'USD';
+    }
+  }
+  ngOnDestroy() {
+    if (this.priceListS$) {
+      this.priceListS$.unsubscribe();
+    }
   }
 }

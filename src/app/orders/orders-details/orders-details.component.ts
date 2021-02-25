@@ -15,6 +15,7 @@ import { OrderService } from '../service.service';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 import { get } from 'lodash';
 import { getOrderDetailsPagePermissions } from 'src/app/core/permission/order/order.details.permission';
+import { PriceListService } from 'src/app/core/services/price-list/price-list.service';
 @Component({
   selector: 'app-orders-details',
   templateUrl: './orders-details.component.html',
@@ -90,6 +91,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
   getSingleOrder$: Subscription;
   getShops$: Subscription;
   permissions: any;
+  companyCurrencyCode: any;
   constructor(
     private fb: FormBuilder,
     private tS: TableService,
@@ -99,7 +101,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     private service: OrderService,
     private shopS: ShopService,
     private modalService: BsModalService,
-    private msgS: MessagesService
+    private msgS: MessagesService,
   ) { }
 
   selectionConfig(label: string, isDisabled: boolean = false): SelectConfig {
@@ -118,7 +120,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     placeholder: string = '',
     prefixIcon: boolean = false,
     Icon: string = '',
-    isDisabled: boolean = false
+    isDisabled: boolean = false,
   )
     : InputConfig {
     const icon = Icon === 'Currency' ? this.Currency : '%';
@@ -132,8 +134,12 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       IconType: icon || '$',
       formStatus: {
         isDisabled,
-      }
+      },
+      currency: this.getTheCompanyCurrencyCode
     };
+  }
+  get getTheCompanyCurrencyCode() {
+    return this.companyCurrencyCode ?? '';
   }
 
   setType(e) {
@@ -155,7 +161,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
           this.permissions = getOrderDetailsPagePermissions(auth);
           this.ngOnInitIt();
           this.setFormDisableAccess();
-          this.componentForm.get('searchCompany').enable()
+          this.componentForm.get('searchCompany').enable();
         }
       }
     );
@@ -215,6 +221,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         console.log(e);
         this.OrderStatus = e.OrderStatus;
         if (e.CompanyId !== null) {
+          this.companyCurrencyCode = get(e, 'Currency', '');
           this.savedCompanyId = e.CompanyId;
           this.componentForm.get('companyId').disable();
           this.disableCustomer = true;

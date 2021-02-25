@@ -85,14 +85,14 @@
           </div>
           <div class="w-100">
               <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-between">
-                  <div>
+                  <div class="d-flex">
                     <app-button *ngIf="canChangePassword" (click)="openModal(changePasswordTemplate, 'change')" color="secondary" class="cancel-btn floatLeft">
                         Change Password
                     </app-button>
                       <app-button *ngIf="!canChangePassword" (click)="openModal(sendResetPasswordTemplate, 'send')"  color="secondary" class="cancel-btn floatLeft">
                         Reset Password
                     </app-button>
-                      <app-button *ngIf="canImpersonate" (click)="impersonate()"  color="secondary" class="cancel-btn floatLeft">
+                      <app-button *ngIf="canImpersonate" [disabled]="impersonatorId" (click)="impersonate()"  color="secondary" class="cancel-btn floatLeft">
                         Impersonate
                     </app-button>
                   </div>
