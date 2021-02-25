@@ -16,7 +16,10 @@
                     <p class="s12-h16 rc-grey-color montserrat-regular-font text-weight-normal ls-0 m-0">First fee</p>
                 </div>
                 <div class="rc-product-fees-price">
-                    <p class="s22-h32 rc-accent-blue-160-color montserrat-medium-font text-weight-500 ls-0 m-0">{{item?.value}} {{cardCurrencySymbol}}</p>
+                    <p class="rc-accent-blue-160-color montserrat-medium-font text-weight-500 ls-0 m-0">
+                        <span class="rc-accent-blue-160-color montserrat-medium-font text-weight-500 ls-0 m-0 s22-h32">{{item?.value}}</span> 
+                        <span class="rc-accent-blue-160-color montserrat-medium-font text-weight-500 ls-0 m-0 s15-h24">{{item?.priceList?.currency}}</span>
+                    </p>
                 </div>
             </div>
             <div class="rc-product-fees-group">
@@ -24,7 +27,10 @@
                     <p class="s12-h16 rc-grey-color montserrat-regular-font text-weight-normal ls-0 m-0">Subscription fee</p>
                 </div>
                 <div class="rc-product-fees-price">
-                    <p class="s22-h32 rc-accent-blue-160-color montserrat-medium-font text-weight-500 ls-0 m-0">{{item?.renewalValue}} {{cardCurrencySymbol}}</p>
+                    <p class="rc-accent-blue-160-color montserrat-medium-font text-weight-500 ls-0 m-0">
+                        <span class="rc-accent-blue-160-color montserrat-medium-font text-weight-500 ls-0 m-0 s22-h32">{{item?.renewalValue}}</span>
+                        <span class="rc-accent-blue-160-color montserrat-medium-font text-weight-500 ls-0 m-0 s15-h24">{{item?.priceList?.currency}}</span>
+                    </p>
                 </div>
             </div>
         </div>

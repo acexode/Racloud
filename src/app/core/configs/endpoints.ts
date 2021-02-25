@@ -69,6 +69,7 @@ export const shopEndpoints = {
 };
 export const priceListEndpoints = {
   create: baseEndpoints.priceLists + '/create',
+  currency: baseEndpoints.priceLists + '/currency/company' // currency/company/{companyId}
 };
 export const ApplicationEndpoints = {
   getApplications: serverBaseUrl + '/applications',

@@ -48,8 +48,8 @@
 
 <ng-template #valueTemplate let-column="column" let-row="row" let-value="cellValue">
    <div class="text-right px-0 mx-0">
-        <span>
-        $
+        <span class="ml-6">
+        {{row.currency}}
         </span>
         <span>
             {{ value }}

@@ -27,7 +27,7 @@ import { CardModule } from '../shared/card/card.module';
     OrdersRoutingModule,
     ReactiveFormsModule,
     AngularSvgIconModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
   ]
 })
 export class OrdersModule { }
