@@ -271,23 +271,8 @@ export class LicensesListingComponent implements OnInit {
     this.tableConfig.loadingIndicator = true
     if(this.showOwnLicenses){
       this.service.getOwnLicenses().subscribe((data:any) => {
-        const formattedData = data.map((e: any) => {
-          return {
-            ...e,
-            productName: e.product.name,
-            companyName: e.company.companyName,
-            customer: e.company.companyName
-          };
-        });
-        console.log(data)
-        this.tableConfig.loadingIndicator = true;
-        this.rowData = formattedData;
-        const cloneData = formattedData.map((v: any) => {
-          return { ...v };
-        });
-        this.tableData.next(cloneData);
-        this.tableConfig.loadingIndicator = false;
-      });
+        this.loadTableData(data)
+      })
     }else{
       this.service.getLicenses().subscribe((data:any) => {
         console.log(data)
