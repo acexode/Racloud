@@ -28,7 +28,8 @@ export const productEndpoints = {
 };
 export const optionEndpoints = {
   createOption: serverBaseUrl + '/options/create',
-  getOptions: serverBaseUrl + '/options'
+  getOptions: serverBaseUrl + '/options',
+  isOptionInUse: serverBaseUrl + '/IsOptionInUse/'
 };
 export const orderEndpoints = {
   generateOrder: serverBaseUrl + '/orders/generate-order',

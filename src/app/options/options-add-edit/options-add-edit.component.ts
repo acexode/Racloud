@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { MessagesService } from './../../shared/messages/services/messages.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
@@ -14,6 +15,7 @@ import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 })
 export class OptionsAddEditComponent implements OnInit {
   isEdit = false;
+  isOptionInUse = false
   optionForm: FormGroup;
   selectedType = 'string';
   selectedStatus: any;
@@ -128,6 +130,10 @@ export class OptionsAddEditComponent implements OnInit {
           const btn = data.ValueBoolean === true ? this.booleanOptions[0] : this.booleanOptions[1]
           this.selectedStatus = btn;
         }
+        this.service.isOptionInUse(id).subscribe((res:any) =>{
+          this.isOptionInUse = get(res, 'isOptionInUse', false)
+          console.log(this.isOptionInUse)
+        })
       })
     }else{
       this.initForm();
@@ -177,17 +183,17 @@ export class OptionsAddEditComponent implements OnInit {
     this.valueLists.removeAt(index);
   }
   onChange(option, clk) {
-    if(this.isEdit && clk){
-      console.log(this.optionBody)
-      this.displayMsg('Option Type can not be changed', 'warning')
-      this.selectedType =this.optionBody.OptionType;
-      this.setFormValue('optionType',this.optionBody.OptionType);
-      this.cdRef.detectChanges();
-    }else{
-      this.selectedType =option;
-      this.setFormValue('optionType',option);
-      this.cdRef.detectChanges();
-    }
+    this.selectedType =option;
+    this.setFormValue('optionType',option);
+    this.cdRef.detectChanges();
+    // if(this.isEdit && clk){
+    //   console.log(this.optionBody)
+    //   this.displayMsg('Option Type can not be changed', 'warning')
+    //   this.selectedType =this.optionBody.OptionType;
+    //   this.setFormValue('optionType',this.optionBody.OptionType);
+    //   this.cdRef.detectChanges();
+    // }else{
+    // }
   }
   setStatus(event, button) {
     event.preventDefault();
@@ -226,6 +232,9 @@ export class OptionsAddEditComponent implements OnInit {
       this.service.updateOption(id, obj).subscribe(e =>{
         console.log(e)
         this.router.navigate(['options'])
+      }, err =>{
+        console.log(err)
+        this.displayMsg(err.error, 'danger')
       })
     }else{
       this.service.createOption(obj).subscribe(e =>{

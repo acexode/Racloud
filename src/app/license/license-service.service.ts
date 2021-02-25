@@ -39,4 +39,7 @@ export class LicenseServiceService {
   deleteOption(id){
     return this.reqS.delete(optionEndpoints.getOptions +'/'+id)
   }
+  isOptionInUse(id){
+    return this.reqS.get(optionEndpoints.isOptionInUse + id)
+  }
 }
