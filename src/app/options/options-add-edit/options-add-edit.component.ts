@@ -193,7 +193,6 @@ export class OptionsAddEditComponent implements OnInit {
     //   this.setFormValue('optionType',this.optionBody.OptionType);
     //   this.cdRef.detectChanges();
     // }else{
-      
     // }
   }
   setStatus(event, button) {
