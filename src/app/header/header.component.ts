@@ -65,14 +65,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const obj = {
       impersonatorId: this.impersonatorId
     }
-    this.userS.stopImpersonate(obj).subscribe((res: any) =>{
       this.CStore.getItem('oldToken').subscribe(e =>{
         const userInfo = e
-        const newToken = {
-          ...e,
-          token: res.token,
-          exp: res.expiration
-        }
         const account = {
           username: userInfo.user.email,
           image: null,
@@ -83,16 +77,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.authS.authState.next({
           init: true,
           account,
-          authToken: res.token,
-          expiryDate: res.expiration || null,
+          authToken: e.token,
+          expiryDate: e.exp || null,
         });
-        this.CStore.setItem('token', newToken).subscribe(t =>{
+        this.CStore.setItem('token', userInfo).subscribe(t =>{
           this.userS.getUserPermissionsPerPage();
           this.CStore.removeItem('oldToken')
 
         })
       })
-    })
   }
   ngOnDestroy() {
     this.authS$.unsubscribe();
