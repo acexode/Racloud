@@ -7,7 +7,9 @@ import {
   Output,
   ViewChild,
   HostListener,
-  OnChanges, SimpleChanges, SimpleChange
+  OnChanges,
+  SimpleChanges,
+  SimpleChange
 } from '@angular/core';
 import {
   ColumnMode,
@@ -25,7 +27,7 @@ import { TableI } from './../../models/table.interface';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnChanges {
   vReset;
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @Input() rows: any;
