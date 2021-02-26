@@ -135,36 +135,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
         },
       },
       {
-        identifier: 'phoneNumber',
-        label: 'Phone',
-        sortable: true,
-        minWidth: 150,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'email',
-        label: 'Email',
-        sortable: true,
-        minWidth: 250,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
         identifier: 'companyType',
         label: 'Type',
         sortable: true,
@@ -266,6 +236,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
     this.loadCustomers$ = this.customerS.getCustomers().subscribe(
       res => {
         if (res) {
+          console.log(res)
           const data = res.customers.map((v: any) => {
             return {
               ...v,
