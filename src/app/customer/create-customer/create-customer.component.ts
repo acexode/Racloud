@@ -93,7 +93,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
       language: get(data, 'language', null),
       phoneNumber: get(data, 'phoneNumber', 1234567890),
     };
-    const priceListId: number = get(data, 'priceListId', null);
+    const priceListId: number = get(data, 'priceListId', 0);
     if (priceListId) {
       toSendData.priceListId = priceListId;
     }

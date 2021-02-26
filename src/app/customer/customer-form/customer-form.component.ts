@@ -312,9 +312,10 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
       supportHoursAvailable: Number(get(d, 'supportHoursAvailable', 0)),
     };
     // handle full by the backend: remove if you are to create new user
+    /*  i commented this out (the client requested that they should be able to change pricelist on customer creation)
     if (!this.editMode) {
       delete newData?.priceListId;
-    }
+    } */
     return newData;
 
   }
