@@ -167,6 +167,7 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
     // price listing options
     this.priceListOptions$ = this.priceService.getPriceLists();
     if (typeof this.editableData !== 'undefined') {
+      console.log(this.editableData.schema.fields);
       this.fieldsPermission = this.editableData.schema.fields;
       this.actionPermission = this.editableData.schema.actions;
     }
@@ -311,9 +312,10 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
       supportHoursAvailable: Number(get(d, 'supportHoursAvailable', 0)),
     };
     // handle full by the backend: remove if you are to create new user
+    /*  i commented this out (the client requested that they should be able to change pricelist on customer creation)
     if (!this.editMode) {
       delete newData?.priceListId;
-    }
+    } */
     return newData;
 
   }

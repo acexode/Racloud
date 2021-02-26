@@ -81,7 +81,7 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.setSelecetedRow(this.rows)
+    this.setSelecetedRow(this.rows);
     this.cdRef.detectChanges();
     this.doFilterActions();
     this.selectableClass =
@@ -89,11 +89,11 @@ export class TableComponent implements OnInit, OnChanges {
       (this.config.selectDetail ? 'has-select-detail ' : '') +
       (this.config.selectable ? 'has-selectable' : '');
   }
-  ngOnChanges(changes: SimpleChanges){
-    const row: SimpleChange = changes.rows
-    this.setSelecetedRow(row.currentValue)
+  ngOnChanges(changes: SimpleChanges) {
+    const row: SimpleChange = changes.rows;
+    this.setSelecetedRow(row.currentValue);
   }
-  setSelecetedRow(rows){
+  setSelecetedRow(rows) {
     const selectedrows = rows.filter(obj => obj.selected === true);
     this.selected = [...selectedrows];
   }

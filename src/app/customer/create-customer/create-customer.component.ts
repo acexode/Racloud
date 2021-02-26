@@ -3,11 +3,13 @@ import { Router } from '@angular/router';
 import { get } from 'lodash';
 import { Subscription } from 'rxjs';
 import { customersEndpoints } from 'src/app/core/configs/endpoints';
+import { CustomerService } from 'src/app/core/services/customer/customer.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
+import { CreateCustomer } from '../model/create-customer.model';
 import { CustomerModel } from '../model/customer.model';
 @Component({
   selector: 'app-edit-customer',
@@ -79,7 +81,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void { }
   submitData(data: CustomerModel) {
-    const toSendData = {
+    const toSendData: CreateCustomer = {
       firstName: get(data, 'firstName', ''),
       lastName: get(data, 'lastName', ''),
       companyType: get(data, 'companyType', ''),
@@ -91,6 +93,10 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
       language: get(data, 'language', null),
       phoneNumber: get(data, 'phoneNumber', 1234567890),
     };
+    const priceListId: number = get(data, 'priceListId', 0);
+    if (priceListId) {
+      toSendData.priceListId = priceListId;
+    }
     // loadingIndicator
     this.isLoadingStatus();
     const queryEndpoint = `${ customersEndpoints.addCustomer }`;

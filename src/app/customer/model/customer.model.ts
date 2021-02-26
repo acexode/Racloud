@@ -22,7 +22,7 @@ export interface CustomerModel {
     subscriptionFee?: number;
     supportHoursAvailable?: number;
     supportHoursContract?: number;
-    priceListId?: number | string;
+    priceListId?: number;
 }
 
 export interface CustomerParentModel {
