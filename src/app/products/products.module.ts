@@ -18,6 +18,7 @@ import { TableModule } from '../shared/table/table.module';
 import { TabsModule } from '../shared/tabs/tabs.module';
 
 import { OptionsModule } from '../options/options.module';
+import { CoreModule } from '../core/core.module';
 
 
 
@@ -37,7 +38,8 @@ import { OptionsModule } from '../options/options.module';
     BsDropdownModule.forRoot(),
     ReactiveFormsModule,
     ProductsRoutingModule,
-    OptionsModule
+    OptionsModule,
+    CoreModule
   ]
 })
 export class ProductsModule { }

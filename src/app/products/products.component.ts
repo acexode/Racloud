@@ -1,6 +1,5 @@
 import { ProductServiceService } from './product-service.service';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, HostListener, OnInit, ViewChild, ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FooterService } from '../core/services/footer/footer.service';
@@ -25,6 +24,7 @@ export class ProductsComponent implements OnInit {
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl;
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
   @ViewChild('selectT', { static: true }) selectT;
+  @ViewChild('descriptionTemplate', { static: true }) descriptionTemplate: TemplateRef<any>;
 
   rowData: ProductModel[] = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
@@ -96,7 +96,6 @@ export class ProductsComponent implements OnInit {
         label: 'Application Name',
         sortable: true,
         minWidth: 200,
-        width: 90,
         noGrow: true,
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -105,8 +104,8 @@ export class ProductsComponent implements OnInit {
         identifier: 'name',
         label: 'Product Name',
         sortable: true,
-        minWidth: 150,
-        width: 150,
+        minWidth: 250,
+        noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -115,11 +114,12 @@ export class ProductsComponent implements OnInit {
         identifier: 'description',
         label: 'Description',
         sortable: true,
-        minWidth: 100,
-        width: 100,
+        minWidth: 300,
+        noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
+        cellTemplate: this.descriptionTemplate,
       },
       {
         identifier: 'productType',
