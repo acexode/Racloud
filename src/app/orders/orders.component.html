@@ -51,7 +51,7 @@
             <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
           </ng-container>
           <ng-container *ngIf="actions.delete">
-            <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
+            <li (click)="openModal(deleteTemplate, row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
           </ng-container>
       </ul>
     </div>
@@ -66,7 +66,7 @@
             <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
           </ng-container>
           <ng-container *ngIf="actions.delete">
-            <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
+            <li (click)="openModal(deleteTemplate, row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
           </ng-container>
       </ul>
     </div>
@@ -113,4 +113,12 @@
       <span *ngIf="row.OrderStatus != 'Paid' && row.OrderStatus != 'WaitingPaymentConfirmation' " class="table-status-column">
         <span> {{row.OrderStatus}}</span>
       </span>
+</ng-template>
+
+<ng-template #deleteTemplate>
+  <div class="modal-body text-center">
+    <p>Do you want to confirm?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+  </div>
 </ng-template>

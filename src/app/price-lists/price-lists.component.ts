@@ -197,7 +197,6 @@ export class PriceListsComponent implements OnInit, OnDestroy {
   openModal(template: TemplateRef<any>, rowData: any) {
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
     this.temporaryRowData.next(rowData);
-    console.log(rowData);
   }
   confirm(): void {
     this.modalRef.hide();
