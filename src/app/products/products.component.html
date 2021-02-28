@@ -12,12 +12,16 @@
           </div>
         </div>
       </div>
-      <app-table
-      [rows]="tableData | async"
-      [config]="tableConfig"
-      (filterData)="filterTable($event)"
-      [rowDetailConfig]="rowDetailIcons"
-      ></app-table>
+      <div class="row">
+        <div class="col-12">
+          <app-table
+          [rows]="tableData | async"
+          [config]="tableConfig"
+          (filterData)="filterTable($event)"
+          [rowDetailConfig]="rowDetailIcons"
+        ></app-table>
+        </div>
+      </div>
     </div>
   </app-page-container>
   
