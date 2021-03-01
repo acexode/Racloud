@@ -67,7 +67,9 @@ export class InputComponent implements OnInit, ControlValueAccessor, OnDestroy {
     if (!this.currency) {
       this.priceListS$ = this.priceListS.getCompanyPriceListNow().subscribe(
         d => {
-          this.companyCurrencyCode = d?.data.currency || null;
+          if (d) {
+            this.companyCurrencyCode = d?.data?.currency ? d?.data?.currency : null;
+          }
         });
     }
   }

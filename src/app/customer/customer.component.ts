@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { get } from 'lodash';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { getUTCdate } from '../core/helpers/dateHelpers';
 import { CountriesModel } from '../core/models/countries-model';
@@ -77,18 +78,21 @@ export class CustomerComponent implements OnInit, OnDestroy {
   };
   isDropup: boolean;
   customErrorMsg = 'There is an issue with your network. Please Refresh your network';
-  disableCustomer$: Subscription;
+  disableTheCustomer$: Subscription;
   fieldsPermission: any;
   actionPermission: any;
   routeData$: Subscription;
+  modalRef: BsModalRef;
+  temporaryRowData: BehaviorSubject<any> = new BehaviorSubject(null);
   constructor(
     private tS: TableService,
     private router: Router,
     private route: ActivatedRoute,
-    private ref: ChangeDetectorRef,
     private customerS: CustomerService,
     private countriesS: CountriesService,
-    private msgS: MessagesService
+    private msgS: MessagesService,
+    private modalService: BsModalService,
+    private cdref: ChangeDetectorRef,
   ) { }
   ngOnInit(): void {
     this.routeData$ = this.route.data.subscribe(
@@ -102,6 +106,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         }
       }
     );
+    this.cdref.detectChanges();
   }
   ngOnInitIt(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -294,9 +299,8 @@ export class CustomerComponent implements OnInit, OnDestroy {
     this.tableData.next(newRows);
   }
   removeRow(rData: any) {
-    this.disableCustomer$ = this.customerS.disableCustomers(rData.id).subscribe(
+    this.disableTheCustomer$ = this.customerS.disableCustomer(rData.id).subscribe(
       _res => {
-        this.loadCustomers();
         this.msgS.addMessage({
           text: 'Successfully disabled customer',
           type: 'danger',
@@ -304,8 +308,14 @@ export class CustomerComponent implements OnInit, OnDestroy {
           customClass: 'mt-32',
           hasIcon: true
         });
+        // reset resetTemporaryRowData
+        this.resetTemporaryRowData();
+        this.loadCustomers();
       },
       err => {
+        // reset resetTemporaryRowData
+        this.resetTemporaryRowData();
+        // display msg
         this.msgS.addMessage({
           text: err.error || this.customErrorMsg,
           type: 'danger',
@@ -319,7 +329,30 @@ export class CustomerComponent implements OnInit, OnDestroy {
   manageSub(data: any) {
     this.router.navigate(['manage', data.id, 'tab', 'details'], { relativeTo: this.route });
   }
-  renewSub(id: any) { }
+  resetTemporaryRowData() {
+    this.temporaryRowData.next(null);
+  };
+  openModal(template: TemplateRef<any>, rowData: any) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.temporaryRowData.next(rowData);
+  }
+  confirm(): void {
+    this.modalRef.hide();
+    if (this.temporaryRowData.value) {
+      this.removeRow(this.temporaryRowData.value);
+    } else {
+      this.msgS.addMessage({
+        text: 'Looks like there is a technical error. Please contact Engineer to resolve it (Error: 00RA2)',
+        type: 'danger',
+        dismissible: true,
+        customClass: 'mt-32',
+        hasIcon: true,
+      });
+    }
+  }
+  decline(): void {
+    this.modalRef.hide();
+  }
   ngOnDestroy(): void {
     if (this.loadCountries$) {
       this.loadCountries$.unsubscribe();
@@ -327,8 +360,8 @@ export class CustomerComponent implements OnInit, OnDestroy {
     if (this.loadCustomers$) {
       this.loadCustomers$.unsubscribe();
     }
-    if (this.disableCustomer$) {
-      this.disableCustomer$.unsubscribe();
+    if (this.disableTheCustomer$) {
+      this.disableTheCustomer$.unsubscribe();
     }
     this.routeData$.unsubscribe();
   }

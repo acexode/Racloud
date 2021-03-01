@@ -30,7 +30,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authS$ = this.authS.getAuthState().subscribe(e => {
-      console.log(e)
       const account = get(e, 'account', null);
       this.company = get(account, 'company', null) || 'No company';
       const firstname = get(get(account, 'user', null), 'firstname', null) || 'firstname';

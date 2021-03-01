@@ -7,7 +7,7 @@ import { MessageI } from '../models/message.interface';
 })
 export class MessagesService {
   public messages: BehaviorSubject<Array<MessageI>> = new BehaviorSubject([]);
-  constructor() {}
+  constructor() { }
 
   /**
    * Add a new message to our list.
@@ -15,17 +15,22 @@ export class MessagesService {
    * @param message - The new message.
    * @param unshift - Default will unshift. Set as false to push to end.
    */
-  addMessage(message: MessageI, unshift = true) {
+  _addMessage(message: MessageI, unshift = true) {
     const values = this.messages.value;
     if (unshift) {
       values.unshift(message);
     } else {
       values.push(message);
     }
-
     this.messages.next(values);
   }
-
+  /**
+   * (requested by client... this load in a single message).
+   */
+  addMessage(message: MessageI) {
+    // load messages
+    this.messages.next([message]);
+  }
   /**
    * Remove a message from the list.
    *

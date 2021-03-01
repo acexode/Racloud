@@ -36,7 +36,7 @@
         <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
             role="menu" aria-labelledby="button-basic">
             <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
-            <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
+            <li (click)="openModal(deleteTemplate, row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
         </ul>
         </div>
         <div *ngIf="rowIndex % 10 >= 6" class="btn-group" dropdown [dropup]="true">
@@ -47,7 +47,7 @@
         <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
             role="menu" aria-labelledby="button-basic">
             <li (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
-            <li (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
+            <li (click)="openModal(deleteTemplate, row)" role="menuitem"><a class="dropdown-item">Delete</a></li>
         </ul>
     </div>
   </ng-template>
@@ -60,4 +60,13 @@
     <span>
         {{row?.currency || 'USD'}}
     </span>
+</ng-template>
+
+
+<ng-template #deleteTemplate>
+  <div class="modal-body text-center">
+    <p>Do you want to confirm?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+  </div>
 </ng-template>

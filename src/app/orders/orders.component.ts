@@ -12,6 +12,8 @@ import { OrderService } from './service.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { get } from 'lodash';
 import { getOrderPagePermissions } from '../core/permission/order/order.page';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { MessagesService } from '../shared/messages/services/messages.service';
 
 @Component({
   selector: 'app-orders',
@@ -58,12 +60,16 @@ export class OrdersComponent implements OnInit, OnDestroy {
   };
   routeData$: Subscription;
   permissions: any;
+  modalRef: BsModalRef;
+  temporaryRowData: BehaviorSubject<any> = new BehaviorSubject(null);
   constructor(
     private tS: TableService,
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private service: OrderService
+    private service: OrderService,
+    private msgS: MessagesService,
+    private modalService: BsModalService
   ) { }
   ngOnInit(): void {
 
@@ -271,6 +277,31 @@ export class OrdersComponent implements OnInit, OnDestroy {
     tempColumn.push(action);
     return tempColumn;
   }
+  openModal(template: TemplateRef<any>, rowData: any) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.temporaryRowData.next(rowData);
+  }
+  confirm(): void {
+    this.modalRef.hide();
+    if (this.temporaryRowData.value) {
+      this.removeRow(this.temporaryRowData.value);
+    } else {
+      this.msgS.addMessage({
+        text: 'Looks like there is a technical error. Please contact Engineer to resolve it (Error: 00RA1)',
+        type: 'danger',
+        dismissible: true,
+        customClass: 'mt-32',
+        hasIcon: true,
+      });
+    }
+  }
+
+  decline(): void {
+    this.modalRef.hide();
+  }
+  resetTemporaryRowData() {
+    this.temporaryRowData.next(null);
+  };
   ngOnDestroy(): void {
     this.routeData$.unsubscribe();
   }

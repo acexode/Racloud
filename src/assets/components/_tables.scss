@@ -180,8 +180,8 @@
       width: 100% !important;
       @include flexbox();
       .bg-container {
-        
-        border-bottom: 1px solid #D9471F;
+        /* ereyomi commented this out because it cause double line for last item */
+        /* border-bottom: 1px solid #D9471F; */
       }
     }
   }
@@ -562,4 +562,5 @@
   text-overflow: ellipsis !important;
   /* overflow: hidden !important; */
   white-space: nowrap !important;
+  /* width: 100px; */
 }
