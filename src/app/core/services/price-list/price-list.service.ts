@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { of } from 'rxjs';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
 import { CompanyPriceList, CompanyPriceListData } from 'src/app/price-lists/models/company-pricelist-interface';
 import { CreatePriceListModel } from 'src/app/price-lists/models/create-price-list-model';
 import { PriceListModel } from 'src/app/price-lists/models/price-list-model';
@@ -128,8 +129,11 @@ export class PriceListService {
   getCompanyPriceList(id: any): Observable<CompanyPriceListData> {
     return this.reqS.get<CompanyPriceListData>(`${ priceListEndpoints.currency }/${ id }`).pipe(
       switchMap((val) => {
-        return this.processCompanyPriceListing(val);
-      })
+        return this.processCompanyPriceListing(val ? val : null);
+      }),
+      catchError(_err => {
+        return of(null);
+      }),
     );
   }
   processCompanyPriceListing(data: CompanyPriceListData) {

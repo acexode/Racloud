@@ -1,12 +1,14 @@
 import { UsersService } from './users.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { TableFilterConfig } from '../shared/table/models/table-filter-config.interface';
 import { TableI } from '../shared/table/models/table.interface';
 import { TableService } from '../shared/table/services/table.service';
 import { get } from 'lodash';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { MessagesService } from '../shared/messages/services/messages.service';
 
 @Component({
   selector: 'app-users',
@@ -47,11 +49,15 @@ export class UsersComponent implements OnInit, OnDestroy {
   };
   routeData$: Subscription;
   userData$: Subscription;
+  modalRef: BsModalRef;
+  temporaryRowData: BehaviorSubject<any> = new BehaviorSubject(null);
   constructor(
     private tS: TableService,
     private router: Router,
     private userService: UsersService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modalService: BsModalService,
+    private msgS: MessagesService,
 
   ) { }
   ngOnInit(): void {
@@ -147,6 +153,32 @@ export class UsersComponent implements OnInit, OnDestroy {
   manageSub(data: any) {
     this.router.navigate(['users/edit-user', { id: data.user.id }]);
   }
+  openModal(template: TemplateRef<any>, rowData: any) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.temporaryRowData.next(rowData);
+  }
+  confirm(): void {
+    this.modalRef.hide();
+    if (this.temporaryRowData.value) {
+      this.removeRow(this.temporaryRowData.value);
+    } else {
+      this.msgS.addMessage({
+        text: 'Looks like there is a technical error. Please contact Engineer to resolve it (Error: 00RA1)',
+        type: 'danger',
+        dismissible: true,
+        customClass: 'mt-32',
+        hasIcon: true,
+      });
+    }
+    this.resetTemporaryRowData();
+  }
+
+  decline(): void {
+    this.modalRef.hide();
+  }
+  resetTemporaryRowData() {
+    this.temporaryRowData.next(null);
+  };
   ngOnDestroy(): void {
     this.routeData$.unsubscribe();
     if (this.userData$) {

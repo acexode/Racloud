@@ -1,7 +1,6 @@
 import { ProductServiceService } from './product-service.service';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, HostListener, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnInit, ViewChild, ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FooterService } from '../core/services/footer/footer.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
@@ -11,6 +10,8 @@ import { TableFilterType } from '../shared/table/models/table-filter-types';
 import { TableI } from '../shared/table/models/table.interface';
 import { TableService } from '../shared/table/services/table.service';
 import { ProductModel } from './models/products.model';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { MessagesService } from '../shared/messages/services/messages.service';
 
 @Component({
   selector: 'app-products',
@@ -23,6 +24,7 @@ export class ProductsComponent implements OnInit {
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl;
   @ViewChild('actionDropdown', { static: true }) actionDropdown;
   @ViewChild('selectT', { static: true }) selectT;
+  @ViewChild('descriptionTemplate', { static: true }) descriptionTemplate: TemplateRef<any>;
 
   rowData: ProductModel[] = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
@@ -72,13 +74,14 @@ export class ProductsComponent implements OnInit {
     externalSorting: false,
     action: true
   };
+  modalRef: BsModalRef;
+  temporaryRowData: BehaviorSubject<any> = new BehaviorSubject(null);
   constructor(
     private tS: TableService,
-    private footerS: FooterService,
     private productS: ProductServiceService,
-    private http: HttpClient,
-    private ref: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private modalService: BsModalService,
+    private msgS: MessagesService
   ) { }
 
   ngOnInit(): void {
@@ -93,7 +96,6 @@ export class ProductsComponent implements OnInit {
         label: 'Application Name',
         sortable: true,
         minWidth: 200,
-        width: 90,
         noGrow: true,
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -102,8 +104,8 @@ export class ProductsComponent implements OnInit {
         identifier: 'name',
         label: 'Product Name',
         sortable: true,
-        minWidth: 150,
-        width: 150,
+        minWidth: 250,
+        noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -112,11 +114,12 @@ export class ProductsComponent implements OnInit {
         identifier: 'description',
         label: 'Description',
         sortable: true,
-        minWidth: 100,
-        width: 100,
+        minWidth: 300,
+        noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
+        cellTemplate: this.descriptionTemplate,
       },
       {
         identifier: 'productType',
@@ -168,13 +171,56 @@ export class ProductsComponent implements OnInit {
   }
 
   removeRow(data) {
-    this.productS.deleteProducts(data.id).subscribe(e => {
-      this.getProducts();
-    });
+    this.productS.deleteProducts(data.id).subscribe(
+      _res => {
+        this.msgS.addMessage({
+          text: 'Product Successfully Removed',
+          type: 'success',
+          dismissible: true,
+          customClass: 'mt-32',
+          hasIcon: true,
+        });
+        this.getProducts();
+      },
+      err => {
+        this.msgS.addMessage({
+          text: err.error,
+          type: 'danger',
+          dismissible: true,
+          customClass: 'mt-32',
+          hasIcon: true,
+        });
+      }
+    );
   }
   manageSub(data: any) {
     this.router.navigate(['products/edit-product', { id: data.id }]);
     console.log(data);
   }
+  openModal(template: TemplateRef<any>, rowData: any) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.temporaryRowData.next(rowData);
+  }
+  confirm(): void {
+    this.modalRef.hide();
+    if (this.temporaryRowData.value) {
+      this.removeRow(this.temporaryRowData.value);
+    } else {
+      this.msgS.addMessage({
+        text: 'Looks like there is a technical error. Please contact Engineer to resolve it (Error: 00RA1)',
+        type: 'danger',
+        dismissible: true,
+        customClass: 'mt-32',
+        hasIcon: true,
+      });
+    }
+  }
+
+  decline(): void {
+    this.modalRef.hide();
+  }
+  resetTemporaryRowData() {
+    this.temporaryRowData.next(null);
+  };
 
 }

@@ -127,15 +127,14 @@ export class AuthService {
       switchMap((val: any) => {
         return this.priceListS.getCompanyPriceList(val.loginResponse.company.id).pipe(
           map(
-            pricelist =>
-            {
+            pricelist => {
               return {
                 ...val,
                 companyPricelist: pricelist,
-              }
+              };
             }
           )
-        )
+        );
       }),
       tap((value) => {
         const redirectUrl = this.redirectUrlTree(
@@ -189,11 +188,9 @@ export class AuthService {
       }
     }
     // add for user pagePermission
-    console.log('redirectTo', pagePermissions);
     let redirectTo = '/access-denied';
     for (const permission in pagePermissions) {
       if (permission) {
-        console.log(permission, pagePermissions[permission]);
         if (pagePermissions[permission]) {
           redirectTo = `/${ permission }`;
           if (redirectTo === '/customers') {
@@ -204,7 +201,6 @@ export class AuthService {
       }
     }
     // return this.routerS.createUrlTree(['/']);
-    console.log(redirectTo);
     return this.routerS.createUrlTree([redirectTo]);
   }
 
