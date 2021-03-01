@@ -115,7 +115,6 @@ export class CreateUserComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     const companyID = this.route.snapshot.paramMap.get('companyId')
-    
     console.log(companyID)
     this.cStorage.getItem('token').subscribe(data =>{
       console.log(data.user)
