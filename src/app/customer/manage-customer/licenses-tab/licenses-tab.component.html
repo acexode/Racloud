@@ -11,7 +11,11 @@
         </div>
     </div>
 </ng-template>
-
+<ng-template #purchaseTemplate let-column="column" let-row="row">
+  <div class="row-detail d-flex">
+      {{row.PurchaseDate | date:'d MMM y'}}
+  </div>
+</ng-template>
 <ng-template #actionDropdown let-column="column" let-row="row" let-rowIndex="rowIndex">
     <div *ngIf="rowIndex % 10 <6" class="btn-group" dropdown >
       <a  id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
@@ -37,15 +41,31 @@
     </div>
   </ng-template>
 
-
-<ng-template #expiredIconTemplate let-column="column" let-value="cellValue">
-    <div class="table-status-column">
-        <ng-container [ngSwitch]="value">
-            <span *ngSwitchCase="1">Active</span>
-            <span *ngSwitchCase="2">InActive</span>
-            <span *ngSwitchCase="0">Expired</span>
-            <span *ngSwitchDefault>Expired</span>
-        </ng-container>
-        <img *ngIf="value === 0" src="./../../assets/images/expired.svg" alt="expired-icon" class="isExpired" />
+  <ng-template #expireTemplate let-column="column" let-row="row">
+    <div class="row-detail d-flex">
+        {{row.ExpirationDate | date:'d MMM y'}}
     </div>
+</ng-template>
+<ng-template #partnerLicenseTemplate let-column="column" let-row="row">
+  <div *ngIf="row.IsPartnerLicense" class="row-detail d-flex">
+      Yes
+  </div>
+  <div *ngIf="!row.IsPartnerLicense" class="row-detail d-flex">
+      No
+  </div>
+</ng-template>
+<ng-template #renewByUserCompanyTemplate let-column="column" let-row="row">
+  <div *ngIf="row.RenewByUserCompany" class="row-detail d-flex">
+      Yes
+  </div>        
+  <div *ngIf="!row.RenewByUserCompany" class="row-detail d-flex">
+      No
+  </div>        
+</ng-template>
+
+<ng-template #statusIconTemplate let-column="column" let-value="cellValue">
+  <div class="table-status-column">
+      <span >{{value}}</span>
+      <img *ngIf="value === 'Expired'" src="./../../assets/images/expired.svg" alt="expired-icon" class="isExpired" />
+  </div>
 </ng-template>

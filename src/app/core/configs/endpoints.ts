@@ -46,7 +46,7 @@ export const licenseEndpoints = {
   createLicense: serverBaseUrl + '/licenses/purchase',
   getLicenses: serverBaseUrl + '/licenses',
   getOwnLicenses: serverBaseUrl + '/loggedcustomer/licenses',
-  getCustomerLicenses: serverBaseUrl + '/loggedcustomer/licenses',
+  getCustomerLicenses: serverBaseUrl + '/licenses/customer/',
   getOneLicense: serverBaseUrl + '/licenses/'
 };
 export const userEndpoints = {

@@ -1,3 +1,5 @@
+import { ActivatedRoute } from '@angular/router';
+import { LicenseServiceService } from 'src/app/license/license-service.service';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -18,8 +20,16 @@ export class LicensesTabComponent implements OnInit {
   @ViewChild('actionDropdown', { static: true }) actionDropdown: TemplateRef<any>;
   @ViewChild('selectT', { static: true }) selectT: any;
 
-  @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
-
+  @ViewChild('statusIconTemplate', { static: true }) statusIconTemplate: TemplateRef<any>;
+  @ViewChild('renewByUserCompanyTemplate', { static: true })
+  renewByUserCompanyTemplate: TemplateRef<any>;
+  @ViewChild('partnerLicenseTemplate', { static: true })
+  partnerLicenseTemplate: TemplateRef<any>;
+  @ViewChild('purchaseTemplate', { static: true })
+  purchaseTemplate: TemplateRef<any>;
+  @ViewChild('expireTemplate', { static: true })
+  expireTemplate: TemplateRef<any>;
+  @ViewChild('hoverDetailTpl', { static: true })
 
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
@@ -28,28 +38,6 @@ export class LicensesTabComponent implements OnInit {
     '../../assets/images/Edit.svg',
     '../../assets/images/Log.svg',
   ];
-  bsConfig = omnBsConfig({
-    ranges: [
-      {
-        value: [new Date(), new Date()],
-        label: 'Azi',
-      },
-      {
-        value: [
-          new Date(new Date().setDate(new Date().getDate() - 7)),
-          new Date(),
-        ],
-        label: 'Ultima săptămână',
-      },
-      {
-        value: [
-          new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
-          new Date(new Date().getFullYear(), new Date().getMonth(), 0),
-        ],
-        label: 'Ultima lună',
-      },
-    ],
-  });
   tableConfig: TableI = {
     selectable: false,
     selectDetail: false,
@@ -64,17 +52,19 @@ export class LicensesTabComponent implements OnInit {
   constructor(
     private tS: TableService,
     private http: HttpClient,
+    private services: LicenseServiceService,
+    private route: ActivatedRoute,
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
-        identifier: 'product-name',
+        identifier: 'productName',
         label: 'Product Name',
         sortable: true,
         minWidth: 237,
-        width: 100,
+        // width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -88,11 +78,11 @@ export class LicensesTabComponent implements OnInit {
         identifier: 'customer',
         label: 'Customer',
         sortable: true,
-        minWidth: 160,
-        width: 100,
+        minWidth: 260,
+        // width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'right',
+        cellContentPosition: 'left',
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -100,14 +90,15 @@ export class LicensesTabComponent implements OnInit {
         },
       },
       {
-        identifier: 'purchased',
+        identifier: 'PurchaseDate',
         label: 'Purchased',
         sortable: true,
-        minWidth: 150,
-        width: 100,
+        minWidth: 200,
+        // width: 100,
         sortIconPosition: 'left',
-        labelPosition: 'right',
+        labelPosition: 'left',
         cellContentPosition: 'right',
+        cellTemplate: this.purchaseTemplate,
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -115,14 +106,15 @@ export class LicensesTabComponent implements OnInit {
         },
       },
       {
-        identifier: 'expires',
+        identifier: 'ExpirationDate',
         label: 'Expires',
         sortable: true,
         minWidth: 160,
-        width: 300,
+        // width: 300,
         sortIconPosition: 'left',
-        labelPosition: 'right',
+        labelPosition: 'left',
         cellContentPosition: 'right',
+        cellTemplate: this.expireTemplate,
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -130,7 +122,7 @@ export class LicensesTabComponent implements OnInit {
         },
       },
       {
-        identifier: 'status',
+        identifier: 'LicenseStatus',
         label: 'Status',
         sortable: true,
         minWidth: 161,
@@ -138,7 +130,7 @@ export class LicensesTabComponent implements OnInit {
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
-        cellTemplate: this.expiredIconTemplate,
+        cellTemplate: this.statusIconTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -147,7 +139,7 @@ export class LicensesTabComponent implements OnInit {
         },
       },
       {
-        identifier: 'partner-license',
+        identifier: 'IsPartnerLicense',
         label: 'Partner license',
         sortable: true,
         minWidth: 91,
@@ -155,6 +147,7 @@ export class LicensesTabComponent implements OnInit {
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
+        cellTemplate: this.partnerLicenseTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -163,7 +156,7 @@ export class LicensesTabComponent implements OnInit {
         },
       },
       {
-        identifier: 'renew',
+        identifier: 'RenewByUserCompany',
         label: 'Renew by User Company',
         sortable: true,
         minWidth: 131,
@@ -171,6 +164,7 @@ export class LicensesTabComponent implements OnInit {
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
+        cellTemplate: this.renewByUserCompanyTemplate,
         hasFilter: true,
         filterConfig: {
           data: null,
@@ -192,11 +186,22 @@ export class LicensesTabComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data) => {
+    const id = parseInt(this.route.snapshot.paramMap.get('id'), 10)
+    console.log(id)
+    this.services.getCustomerLicenses(id).subscribe((data: any) => {
+      console.log(data)
       if (data) {
+        const formattedData = data.map((e: any) => {
+          return {
+            ...e,
+            productName: e.Product.Name,
+            companyName: e.Company.CompanyName,
+            customer: e.Company.CompanyName,
+          };
+        });
         this.tableConfig.loadingIndicator = true;
-        this.rowData = data;
-        const cloneData = data.map((v: any) => {
+        this.rowData = formattedData;
+        const cloneData = formattedData.map((v: any) => {
           return { ...v };
         });
         this.tableData.next(cloneData);
