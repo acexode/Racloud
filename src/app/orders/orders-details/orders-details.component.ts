@@ -168,6 +168,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
   }
   ngOnInitIt(): void {
     this.loadOrder();
+    this.initForm();
     this.service.getcustomers().subscribe((e: any) => {
       this.customers = e.customers;
       this.filteredCustomer = e.customers;
@@ -196,7 +197,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         this.onInitTable();
       }
     });
-    this.initForm();
     this.loadOrder();
     this.onInitTable();
   }
