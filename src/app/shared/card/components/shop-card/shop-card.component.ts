@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 import { CardItem } from 'src/app/shared/rc-forms/models/card-item-model';
@@ -14,6 +15,7 @@ import { CurrencyService } from 'src/app/core/services/currency/currency.service
 })
 export class ShopCardComponent implements OnInit {
   @Input() item!: CardItem;
+  companyId
   acronym;
   cardTypes = {
     wl: {
@@ -71,10 +73,17 @@ export class ShopCardComponent implements OnInit {
     private currencyS: CurrencyService,
     private router: Router,
     private service: ShopService,
+    private authS: AuthService,
     private modalService: BsModalService
   ) { }
 
   ngOnInit(): void {
+    this.authS.authState.subscribe(data =>{
+      console.log(data)
+      this.companyId = data.account?.company.id
+      console.log(this.companyId)
+
+    })
     const str = this.item?.product?.name;
     if (str) {
       this.acronym = str.split(/\s/).reduce((response, word) => response += word.slice(0, 1), '');
@@ -98,10 +107,22 @@ export class ShopCardComponent implements OnInit {
     this.cardTypes[type].productVersion = this.item?.productVersion || '& version';
   }
   buy(item) {
+    console.log(item)
+    const {productId} = item
+    console.log(productId)
     this.service.buyStore.next(item);
     if (this.router.url.includes('shop')) {
       this.orderS.generateOrder().subscribe((e: any) => {
-        this.router.navigateByUrl('orders/orders-details/' + e.id);
+        const obj: any = {
+          orderId: e.id,
+          productPriceId: productId,
+          companyId: this.companyId
+        };
+        this.orderS.addOrderToCart(e.id, obj).subscribe((res: any) => {
+          console.log(res)
+          this.service.cartStore.next(res.OrderItems)
+          // this.router.navigateByUrl('orders/orders-details/' + e.id);
+        })
       });
     } else {
       this.modalService.hide(1);

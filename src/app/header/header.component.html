@@ -23,8 +23,9 @@
                 </a>
               </li>
               <li class="nav-item pr-5">
-                <a class="nav-link" href="javascript:;">
+                <a class="nav-link position-relative" href="javascript:;">
                   <img  src="../../assets/images/Cart.svg" />
+                  <div *ngIf="totalOrder > 0" class="cart"><span>{{totalOrder}}</span></div>
                 </a>
               </li>
               <li class=" border-left nav-item dropdown px-3 d-flex flex-row">

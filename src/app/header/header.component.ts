@@ -1,3 +1,4 @@
+import { OrderService } from 'src/app/orders/service.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CustomStorageService } from './../core/services/custom-storage/custom-storage.service';
 import { Router } from '@angular/router';
@@ -7,6 +8,7 @@ import { UsersService } from '../users/users.service';
 import { get } from 'lodash';
 import { Subscription } from 'rxjs';
 import { PriceListService } from '../core/services/price-list/price-list.service';
+import { ShopService } from '../shop/shop.service';
 
 @Component({
   selector: 'app-header',
@@ -20,15 +22,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   impersonatorId: any;
   company: any;
   authS$: Subscription;
+  totalOrder
   constructor(
     private titleService: TitleService,
     private authS: AuthService,
     private userS: UsersService,
+    private orderS: OrderService,
+    private shopS: ShopService,
     private router: Router,
     private CStore: CustomStorageService
   ) { }
 
   ngOnInit(): void {
+    this.shopS.cartStore.subscribe(cart =>{
+      console.log(cart)
+      this.totalOrder = cart.length
+    })
     this.authS$ = this.authS.getAuthState().subscribe(e => {
       const account = get(e, 'account', null);
       this.company = get(account, 'company', null) || 'No company';
@@ -41,6 +50,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
         lastname,
         id
       };
+      console.log(e)
+      this.orderS.generateOrder().subscribe((orders:any) =>{
+        console.log(orders)
+        const order:any = orders.orderItems.filter((ord:any) => ord.orderStatus === 'Cart' )[0]
+        this.totalOrder = orders?.orderItems.length
+        console.log(order)
+      })
     });
     this.CStore.getItem('token').subscribe(e =>{
       this.impersonatorId = e.impersonatorId

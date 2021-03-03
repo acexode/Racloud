@@ -10,6 +10,7 @@ import { RequestService } from '../core/services/request/request.service';
 export class ShopService {
   shopStore: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   buyStore: BehaviorSubject<any> = new BehaviorSubject({});
+  cartStore: BehaviorSubject<any> = new BehaviorSubject([]);
   constructor(private reqS: RequestService) {
     this.getShops();
   }

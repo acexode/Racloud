@@ -230,8 +230,10 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         const orderItems: any[] = e.OrderItems;
         this.getShops$ = this.service.getShops().subscribe((shop: any[]) => {
           this.addedProducts = [];
+          console.log(shop)
+          console.log(orderItems)
           shop.forEach(s => {
-            const index = orderItems.findIndex((item: any) => item.ProductId === s.product.id);
+            const index = orderItems.findIndex((item: any) => item.ProductPriceId === s.product.id);
             if (index > -1) {
               this.noProduct = false;
               this.addedProducts.push({
@@ -251,6 +253,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
               return null;
             }
           });
+          // console.log(this.addedProducts)
           const uniqueArray = this.addedProducts.filter((v, i) => {
             return this.addedProducts.indexOf(v) === i;
           });
