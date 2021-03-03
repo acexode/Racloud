@@ -446,6 +446,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     }
   }
   changeQuantity(type, row) {
+    console.log(type)
     this.addedProducts = this.addedProducts.map(e => {
       if (e.orderItemId === row.orderItemId && type === 'inc') {
         const obj = {
