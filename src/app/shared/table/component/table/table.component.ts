@@ -91,7 +91,7 @@ export class TableComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges) {
     const row: SimpleChange = changes.rows;
-    this.setSelecetedRow(row.currentValue);
+    this.setSelecetedRow(row?.currentValue);
   }
   setSelecetedRow(rows) {
     const selectedrows = rows.filter(obj => obj.selected === true);
