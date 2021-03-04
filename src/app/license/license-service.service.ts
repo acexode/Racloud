@@ -21,6 +21,9 @@ export class LicenseServiceService {
   getLicenses(){
     return this.reqS.get(licenseEndpoints.getLicenses)
   }
+  getCustomerLicenses(id){
+    return this.reqS.get(licenseEndpoints.getCustomerLicenses + id)
+  }
   getCompanyUsers(id){
     return this.reqS.get(customersEndpoints.getCompanyUsers + id +'/users')
   }

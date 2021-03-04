@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 import { CardItem } from 'src/app/shared/rc-forms/models/card-item-model';
@@ -6,6 +7,9 @@ import { ShopService } from 'src/app/shop/shop.service';
 import { OrderService } from 'src/app/orders/service.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CurrencyService } from 'src/app/core/services/currency/currency.service';
+import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
+import { TokenInterface } from 'src/app/core/models/token.interface';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-shop-card',
@@ -14,6 +18,7 @@ import { CurrencyService } from 'src/app/core/services/currency/currency.service
 })
 export class ShopCardComponent implements OnInit {
   @Input() item!: CardItem;
+  companyId
   acronym;
   cardTypes = {
     wl: {
@@ -69,12 +74,20 @@ export class ShopCardComponent implements OnInit {
     private orderS: OrderService,
     private route: ActivatedRoute,
     private currencyS: CurrencyService,
+    private authS: AuthService,
     private router: Router,
     private service: ShopService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private storeS: CustomStorageService
   ) { }
 
   ngOnInit(): void {
+    this.authS.authState.subscribe(data =>{
+      console.log(data)
+      this.companyId = data.account?.company.id
+      console.log(this.companyId)
+
+    })
     const str = this.item?.product?.name;
     if (str) {
       this.acronym = str.split(/\s/).reduce((response, word) => response += word.slice(0, 1), '');

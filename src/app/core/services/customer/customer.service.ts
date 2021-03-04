@@ -13,7 +13,10 @@ export class CustomerService {
   constructor(private reqS: RequestService) {
   }
   getCustomers(): Observable<any> {
-    return this.reqS.get<Array<CustomerModel>>(baseEndpoints.customers);
+    return this.reqS.get<Array<CustomerModel>>(baseEndpoints.allCustomers);
+  }
+  getCustomerCustomers(id): Observable<any> {
+    return this.reqS.get<Array<CustomerModel>>(baseEndpoints.allCustomers + '?customerId='+ id);
   }
   disableCustomer(id: number) {
     const customerDisapbleEndpoint = `${ baseEndpoints.customers }/${ id }/disable-customer`;

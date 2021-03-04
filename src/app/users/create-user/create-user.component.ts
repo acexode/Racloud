@@ -22,6 +22,7 @@ export class CreateUserComponent implements OnInit {
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/users';
   isEdit = false;
+  isCreateUserFromCustomer = false
   user = null;
   userForm: FormGroup;
   loggedInUser = null;
@@ -112,19 +113,38 @@ export class CreateUserComponent implements OnInit {
     private authS: AuthService) { }
 
   ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    const companyID = this.route.snapshot.paramMap.get('companyId')
+    console.log(companyID)
     this.cStorage.getItem('token').subscribe(data =>{
       console.log(data.user)
       this.loggedInUser = data.user
       this.loggedInUserRole = data.roles[0]
     })
     this.service.getRoles().subscribe((res:any[]) =>{
-      console.log(res)
       console.log(get(res[1],'customers', []))
       this.roleOptions = res[0]
       this.companyOptions = get(res[1],'customers', [])
       this.filteredOptions = get(res[1],'customers', [])
+      if(companyID){
+        console.log(this.companyOptions)
+        this.backUrl = '/customer/manage/'+ companyID + '/tab/users'
+        this.isCreateUserFromCustomer = true
+        this.savedCompanyId = companyID
+        const userCompany = this.companyOptions.filter(c => c.id === parseInt(companyID,10))[0]
+        console.log(userCompany)
+        this.companyLabel = get(userCompany, 'companyName', null)
+        console.log(userCompany)
+        this.userForm.patchValue({
+          firstName: '',
+          lastName: '',
+          email: '',
+          roleId: '',
+          companyId: companyID,
+        });
+      }
     })
-    const id = this.route.snapshot.paramMap.get('id');
+
     this.initForm();
     if(id){
       this.isEdit = true;
@@ -271,7 +291,12 @@ export class CreateUserComponent implements OnInit {
       console.log(id, user);
       this.service.updateUser(id, user).subscribe(
         _res => {
-          this.router.navigate(['/users']);
+          if(this.isCreateUserFromCustomer){
+            this.router.navigate([this.backUrl]);
+          }else{
+            this.router.navigate(['/users']);
+
+          }
         },
         err => {
           console.log('err: ', err);
