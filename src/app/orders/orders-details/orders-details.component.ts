@@ -168,6 +168,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
   }
   ngOnInitIt(): void {
     this.loadOrder();
+    this.initForm();
     this.service.getcustomers().subscribe((e: any) => {
       this.customers = e.customers;
       this.filteredCustomer = e.customers;
@@ -196,7 +197,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         this.onInitTable();
       }
     });
-    this.initForm();
     this.loadOrder();
     this.onInitTable();
   }
@@ -230,10 +230,11 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         const orderItems: any[] = e.OrderItems;
         this.getShops$ = this.service.getShops().subscribe((shop: any[]) => {
           this.addedProducts = [];
-          console.log(shop)
-          console.log(orderItems)
+          // console.log(shop)
+          // console.log(orderItems)
           shop.forEach(s => {
-            const index = orderItems.findIndex((item: any) => item.ProductPriceId === s.product.id);
+            const index = orderItems.findIndex((item: any) => item.ProductPriceId === s.id);
+            console.log(index)
             if (index > -1) {
               this.noProduct = false;
               this.addedProducts.push({
@@ -257,6 +258,8 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
           const uniqueArray = this.addedProducts.filter((v, i) => {
             return this.addedProducts.indexOf(v) === i;
           });
+          console.log(this.addedProducts)
+          this.shopS.cartStore.next(this.addedProducts)
           this.rowData = this.addedProducts;
           const cloneData = this.addedProducts.map((v) => {
             return { ...v };
@@ -265,6 +268,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
           if (this.addedProducts.length < 1) {
             this.noProduct = true;
           }
+          this.ref.detectChanges()
           const dBody = document.querySelector('.datatable-body') as HTMLElement;
           if (dBody) {
             dBody.style.minHeight = 'auto';
@@ -449,6 +453,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     }
   }
   changeQuantity(type, row) {
+    console.log(type)
     this.addedProducts = this.addedProducts.map(e => {
       if (e.orderItemId === row.orderItemId && type === 'inc') {
         const obj = {

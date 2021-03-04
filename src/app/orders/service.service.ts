@@ -28,7 +28,7 @@ export class OrderService {
     return this.reqS.get(customersEndpoints.getCustomers)
   }
   getOneCustomers(id){
-    return this.reqS.get(customersEndpoints.getCustomers + '/' + id)
+    return this.reqS.get(customersEndpoints.getOneCustomers + '/' + id)
   }
   cancelOrder(id){
     return this.reqS.post(orderEndpoints.getOrders+'/' + id + '/cancel', {})

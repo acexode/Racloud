@@ -5,6 +5,7 @@ export const serverBaseUrl = environment.serverUrl + '/api';
 export const baseEndpoints = {
   auth: serverBaseUrl + '/auth',
   customers: serverBaseUrl + '/customers',
+  allCustomers: serverBaseUrl + '/allcustomers',
   priceLists: serverBaseUrl + '/pricelists',
   countries: serverBaseUrl + '/countries',
   customerparent: serverBaseUrl + '/parents',
@@ -18,7 +19,8 @@ export const authEndpoints = {
 
 export const customersEndpoints = {
   addCustomer: baseEndpoints.customers + '/add-customer',
-  getCustomers: serverBaseUrl + '/customers',
+  getCustomers: serverBaseUrl + '/allcustomers',
+  getOneCustomers: serverBaseUrl + '/customers',
   getCompanyUsers: serverBaseUrl + '/customers/',
 };
 export const productEndpoints = {
@@ -47,7 +49,7 @@ export const licenseEndpoints = {
   createLicense: serverBaseUrl + '/licenses/purchase',
   getLicenses: serverBaseUrl + '/licenses',
   getOwnLicenses: serverBaseUrl + '/loggedcustomer/licenses',
-  getCustomerLicenses: serverBaseUrl + '/loggedcustomer/licenses',
+  getCustomerLicenses: serverBaseUrl + '/licenses/customer/',
   getOneLicense: serverBaseUrl + '/licenses/'
 };
 export const userEndpoints = {

@@ -113,6 +113,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
     this.tableConfig.columns = [
       {
         identifier: 'companyName',
+        index: 1,
         label: 'Name',
         sortable: true,
         minWidth: 280,
@@ -126,6 +127,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
       },
       {
         identifier: 'country',
+        index: 2,
         label: 'Country',
         sortable: true,
         minWidth: 150,
@@ -140,38 +142,9 @@ export class CustomerComponent implements OnInit, OnDestroy {
         },
       },
       {
-        identifier: 'phoneNumber',
-        label: 'Phone',
-        sortable: true,
-        minWidth: 150,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
-        identifier: 'email',
-        label: 'Email',
-        sortable: true,
-        minWidth: 250,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true
-        },
-      },
-      {
         identifier: 'companyType',
         label: 'Type',
+        index: 3,
         sortable: true,
         minWidth: 200,
         noGrow: true,
@@ -186,8 +159,9 @@ export class CustomerComponent implements OnInit, OnDestroy {
         },
       },
       {
-        identifier: 'companyName',
+        identifier: 'parent',
         label: 'Parent',
+        index: 4,
         sortable: true,
         minWidth: 280,
         noGrow: true,
@@ -203,6 +177,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
       },
       {
         identifier: 'anniversaryDate',
+        index: 5,
         label: 'Anniv-date',
         sortable: true,
         minWidth: 130,
@@ -219,6 +194,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
       },
       {
         identifier: 'subscriptionFee',
+        index: 6,
         label: 'Sub.fee',
         sortable: true,
         minWidth: 130,
@@ -236,6 +212,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
       },
       {
         identifier: 'action',
+        index: 7,
         label: '',
         sortable: true,
         minWidth: 60,
@@ -271,6 +248,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
     this.loadCustomers$ = this.customerS.getCustomers().subscribe(
       res => {
         if (res) {
+          console.log(res)
           const data = res.customers.map((v: any) => {
             return {
               ...v,
@@ -284,6 +262,14 @@ export class CustomerComponent implements OnInit, OnDestroy {
           this.actionPermission = res.schema.actions;
           for (const key in this.fieldsPermission) {
             if (this.fieldsPermission[key] === 'full') {
+              console.log(key)
+              this.tableConfig.columns.forEach(column => {
+                if (column.identifier === key) {
+                  filteredColumns.push(column);
+                }
+              });
+            }else if(typeof this.fieldsPermission[key] === 'object'){
+              console.log(key, 'object')
               this.tableConfig.columns.forEach(column => {
                 if (column.identifier === key) {
                   filteredColumns.push(column);
@@ -294,6 +280,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
           const sorted = filteredColumns.sort((a, b) => (a.index > b.index) ? 1 : (b.index > a.index) ? -1 : 0);
           this.tableConfig.columns = [...filteredColumns, this.tableConfig.columns[this.tableConfig.columns.length - 1]];
           // this.tableConfig.columns = filteredColumns;
+          console.log(parent)
           this.tableConfig.loadingIndicator = true;
           this.rowData = data;
           this.tableData.next(data);

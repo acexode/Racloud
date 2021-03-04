@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { CustomerService } from 'src/app/core/services/customer/customer.service';
 import { omnBsConfig } from 'src/app/shared/date-picker/data/omn-bsConfig';
 import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
 import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
@@ -64,9 +65,12 @@ import { TableService } from 'src/app/shared/table/services/table.service';
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private customerS: CustomerService,
   ) { }
   ngOnInit(): void {
+    const id = parseInt(this.route.snapshot.paramMap.get('id'), 10)
+    console.log(id)
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
@@ -207,13 +211,14 @@ import { TableService } from 'src/app/shared/table/services/table.service';
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON().subscribe((data) => {
+    this.customerS.getCustomerCustomers(id).subscribe((data) => {
+      console.log(data)
       if (data) {
         this.tableConfig.loadingIndicator = true;
-        this.rowData = data.slice(0, 16);
-        const cloneData = data.slice(0, 16).map((v: any) => {
+        this.rowData = data.length > 0 ? data.slice(0, 16) : []
+        const cloneData = data.length > 0 ? data.slice(0, 16).map((v: any) => {
           return { ...v };
-        });
+        }): [];
         this.tableData.next(cloneData);
         this.tableConfig.loadingIndicator = false;
       }

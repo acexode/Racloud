@@ -73,7 +73,7 @@
                         <div class="form-group"> <label
                             class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0"> Value
                             {{valueIndex + 1}} </label> <input class="form-input" formControlName="name" /> </div>
-                        <button (click)="deleteValue(valueIndex)" class="addBtn del"><img src="assets/images/trash.svg"
+                        <button (click)="deleteValue(valueIndex)" [disabled]="isOptionInUse && isOptionInUse" class="addBtn del"><img src="assets/images/trash.svg"
                             class="rc-checkbox-icon"></button>
                       </div>
                     </div>
