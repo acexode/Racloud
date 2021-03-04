@@ -9,6 +9,7 @@ import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from 'src/app/shared/rc-forms/models/textarea/textarea-config';
 import { LicenseServiceService } from 'src/app/license/license-service.service';
+import { get } from 'lodash';
 
 @Component({
   selector: 'app-add-edit-product',
@@ -159,7 +160,9 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
       applicationId: data.applicationId,
       name: data.name,
       productType: data.productType,
-      description: data.description
+      description: data.description,
+      productUrl: get(data, 'productUrl', ''),
+      productCode: get(data, 'productCode', ''),
     });
     this.selectedproductType = data.productType;
     this.selectedapplicationId = parseInt(data.applicationId, 10);
@@ -185,6 +188,18 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         ],
       ],
       description: [
+        '',
+        [
+          Validators.required,
+        ],
+      ],
+      productCode: [
+        '',
+        [
+          Validators.required,
+        ],
+      ],
+      productUrl: [
         '',
         [
           Validators.required,
@@ -286,7 +301,6 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     if (this.isEdit) {
       productValues.productOptions = resArr;
       productValues.id = id;
-      console.log(productValues);
       if (resArr.length === 0) {
         this.isLoading = false;
         this.displayMsg('Options must be selected', 'info');
