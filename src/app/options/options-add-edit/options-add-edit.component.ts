@@ -62,7 +62,7 @@ export class OptionsAddEditComponent implements OnInit {
   ];
   optionName: InputConfig = {
     inputLabel: {
-      text: 'Default Value'
+      text: 'Option Name'
     },
     type: 'text',
     placeholder: 'Type here',
