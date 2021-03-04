@@ -114,8 +114,10 @@ export class ShopCardComponent implements OnInit {
     console.log(item)
     const {productId} = item
     console.log(productId)
-    this.service.buyStore.next(item);
     if (this.router.url.includes('shop')) {
+      console.log('HEY')
+      item.fromStore = true
+      this.service.buyStore.next(item);
       this.orderS.generateOrder().subscribe((e: any) => {
         const obj: any = {
           orderId: e.id,
@@ -129,6 +131,8 @@ export class ShopCardComponent implements OnInit {
         })
       });
     } else {
+      item.fromStore = false
+      this.service.buyStore.next(item);
       this.modalService.hide(1);
     }
   }

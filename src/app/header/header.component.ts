@@ -50,7 +50,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         lastname,
         id
       };
-      console.log(e)
       this.orderS.cartTotal().subscribe((res:any) =>{
         console.log(res.numberOfProductsInCart)
         // const order:any = orders.orderItems.filter((ord:any) => ord.orderStatus === 'Cart' )[0]
@@ -63,7 +62,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     })
   }
   navigate(id, route) {
-    console.log(this.user)
     if (route === 'user') {
       this.router.navigate(['users/edit-user', { id }]);
     } else if (route === 'company') {

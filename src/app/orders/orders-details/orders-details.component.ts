@@ -25,6 +25,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
 
   caretLeftIcon = '../assets/images/caret-left.svg';
   orderId = '';
+  addProduct = false
   Currency;
   backUrl = '/orders';
   disableForm = false;
@@ -175,25 +176,28 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     });
     this.routeId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.shopS.buyStore.subscribe((e: any) => {
+      console.log(e)
       const orderId = this.routeId;
-      if (e.hasOwnProperty('id')) {
+      if (e.hasOwnProperty('id') && !e.fromStore) {
         const companyId = this.componentForm.get('companyId').value || this.savedCompanyId;
         const obj: any = {
           orderId,
           productPriceId: e.id
         };
-        if (companyId !== null) {
+        if (companyId !== null && companyId !== 'Select') {
           obj.companyId = companyId;
           this.componentForm.get('companyId').disable();
+          this.service.addOrderToCart(orderId, obj).subscribe(res => {
+            this.loadOrder();
+          }, (err) => {
+            this.displayMsg(err.error, 'danger');
+          });
           this.ref.detectChanges();
         } else {
           this.displayMsg('Please select a customer', 'info');
         }
-        this.service.addOrderToCart(orderId, obj).subscribe(res => {
-          this.loadOrder();
-        }, (err) => {
-          this.displayMsg(err.error, 'danger');
-        });
+        console.log(obj)
+        
         this.onInitTable();
       }
     });
@@ -218,7 +222,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     if (id) {
       const idx = parseInt(id, 10);
       this.getSingleOrder$ = this.service.getSingleOrder(idx).subscribe((e: any) => {
-        console.log(e);
+        // console.log(e);
         this.OrderStatus = e.OrderStatus;
         if (e.CompanyId !== null) {
           this.companyCurrencyCode = get(e, 'Currency', '');
@@ -230,10 +234,10 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         const orderItems: any[] = e.OrderItems;
         this.getShops$ = this.service.getShops().subscribe((shop: any[]) => {
           this.addedProducts = [];
-          // console.log(shop)
-          // console.log(orderItems)
+          console.log(shop)
+          console.log(orderItems)
           shop.forEach(s => {
-            const index = orderItems.findIndex((item: any) => item.ProductPriceId === s.id);
+            const index = orderItems.findIndex((item: any) => item.ProductId === s.product.id);
             console.log(index)
             if (index > -1) {
               this.noProduct = false;
