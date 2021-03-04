@@ -49,7 +49,7 @@
                             {{ tab.name }}
                         </app-tab-button>
                     </app-tab-bar>
-                    <ng-template #firstTab>
+                    <ng-template #infoTab>
 
                       <div class="w-70p pt-40">
                         <form [formGroup]="productForm" class="row no-gutters" (ngSubmit)="submitForm()">
@@ -113,7 +113,7 @@
 
                         
                     </ng-template>
-                    <ng-template #secondTab>
+                    <ng-template #optionsTab>
                       <app-option-tab (selectedRows)="getRow($event)" [preselectedRows]="preselectedRows" [optionList]="optionList"></app-option-tab>
                       <div class="col-12 submit-row">
                         <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
@@ -132,3 +132,15 @@
     </div>
     </div>
   </app-page-container>
+
+  
+ <ng-template #loaderTemplate>
+
+    <div class="w-100 pt-60 pb-30 d-flex flex-column justify-content-center align-items-center">
+        <app-loader type="page"></app-loader>
+        <div class="rc-accent-blue-160-color montserrat-semibold-font s15-h24">
+            Please wait...
+        </div>
+    </div>
+    
+</ng-template>

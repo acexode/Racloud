@@ -116,19 +116,21 @@ export class TableComponent implements OnInit, OnChanges {
   }
   onSelect(selectedObj) {
     const { selected } = selectedObj;
-    const lastItem = selected[selected.length - 1];
-    lastItem.selected = !lastItem.selected;
-    selected[selected.length - 1] = lastItem;
-    const uniq = [];
-    selected.reverse().forEach(e => {
-      const index = uniq.findIndex(obj => obj.Id === e.Id);
-      if (index <= -1) {
-        uniq.push(e);
-      }
-    });
-    selectedObj.selected = uniq;
-    this.selected = uniq;
-    this.selectedRows.emit(selectedObj);
+    if (selected.length > 0) {
+      const lastItem = selected[selected.length - 1];
+      lastItem.selected = !lastItem.selected;
+      selected[selected.length - 1] = lastItem;
+      const uniq = [];
+      selected.reverse().forEach(e => {
+        const index = uniq.findIndex(obj => obj.Id === e.Id);
+        if (index <= -1) {
+          uniq.push(e);
+        }
+      });
+      selectedObj.selected = uniq;
+      this.selected = uniq;
+      this.selectedRows.emit(selectedObj);
+    }
   }
 
   onActivate(event) { }

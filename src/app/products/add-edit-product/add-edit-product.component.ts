@@ -25,9 +25,11 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   preselectedRows: any[] = [];
   productOptions: any[] = [];
   selectedproductType;
-  @ViewChild('firstTab', { read: TemplateRef }) firstTab: TemplateRef<any>;
-  @ViewChild('secondTab', { read: TemplateRef }) secondTab: TemplateRef<any>;
+  @ViewChild('infoTab', { read: TemplateRef }) infoTab: TemplateRef<any>;
+  @ViewChild('optionsTab', { read: TemplateRef }) optionsTab: TemplateRef<any>;
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
+
+  @ViewChild('loaderTemplate', { read: TemplateRef }) loaderTemplate: TemplateRef<any>;
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/products';
   containerConfig: PageContainerConfig = {
@@ -46,20 +48,19 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   };
   tabs = [
     {
-      name: 'Info',
-      template: 'firstTab',
+      name: 'Options',
+      template: 'optionsTab',
       isSelected: false,
       defaultSelected: true,
     },
     {
-      name: 'Options',
-      template: 'secondTab',
+      name: 'Info',
+      template: 'infoTab',
       isSelected: false,
       defaultSelected: false,
     }
   ];
   productForm: FormGroup;
-  // productType = ['RAWorkShopLite'];
   productType = [
     {
       id: 'RAWorkShopLite',
@@ -122,7 +123,6 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         const data = obj.filter(e => e.id.toString() === id)[0];
         this.product = data;
         this.preselectedRows = data.productOptions;
-        console.log(data);
         this.updateForm(data);
       });
     } else {
@@ -151,6 +151,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         }
       });
       this.selectedRows = this.optionList.filter(op => op.selected === true);
+      this.setTab('Options');
     });
   }
   updateForm(data) {
@@ -196,7 +197,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     this.showDefaultTab();
   }
   showDefaultTab() {
-    this.tabSwitch = this.firstTab;
+    this.tabSwitch = this.loaderTemplate;
   }
   switchTab(event: any, tabName: string, index: number) {
     this.tabSwitch = this[tabName];
@@ -209,7 +210,6 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     };
     this.tabs[index].isSelected = true;
     const data = this.productForm.value;
-    console.log(data);
     this.updateForm(data);
     this.cdref.detectChanges();
   }
@@ -355,5 +355,18 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         isDisabled,
       }
     };
+  }
+  setTab(tabName: any) {
+    const tabIndex = this.tabs.findIndex(tab => tab.name.toLowerCase() === tabName.toLowerCase());
+    this.ressetTabSelectStatus();
+    if (tabIndex > -1) {
+      const tab = this.tabs[tabIndex].template;
+      this.tabSwitch = this[tab];
+      this.tabs[tabIndex].defaultSelected = true;
+      this.tabs[tabIndex].isSelected = true;
+    } else {
+      this.tabs[0].defaultSelected = true;
+      this.tabs[0].isSelected = true;
+    }
   }
 }
