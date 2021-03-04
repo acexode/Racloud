@@ -59,7 +59,13 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     }
   ];
   productForm: FormGroup;
-  productType = ['RAWorkShopLite'];
+  // productType = ['RAWorkShopLite'];
+  productType = [
+    {
+      id: 'RAWorkShopLite',
+      option: 'RAWorkShopLite'
+    }
+  ];
   selectedapplicationId: any = 'Select';
   partnerLicense = [
     { title: 'Yes', name: 'button1' },
@@ -115,8 +121,8 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         this.productOptions = obj;
         const data = obj.filter(e => e.id.toString() === id)[0];
         this.product = data;
-        console.log(data.productOptions);
         this.preselectedRows = data.productOptions;
+        console.log(data);
         this.updateForm(data);
       });
     } else {
@@ -328,5 +334,26 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     this.optionList.forEach(d => {
       d.selected = false;
     });
+  }
+  selectConfig(
+    label: string,
+    placeholder: string = 'Select',
+    searchable: boolean = false,
+    idKey: string = 'id',
+    labelKey: string = 'option',
+    isDisabled: boolean = false,
+  ): SelectConfig {
+    return {
+      selectLabel: {
+        text: label,
+      },
+      placeholder,
+      idKey,
+      labelKey,
+      searchable,
+      formStatus: {
+        isDisabled,
+      }
+    };
   }
 }
