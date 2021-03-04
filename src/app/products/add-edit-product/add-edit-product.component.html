@@ -119,7 +119,7 @@
                         <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
                             Cancel
                         </app-button>
-                        <app-button (click)="submitForm()" color="primary">
+                        <app-button (click)="submitIt()" color="primary">
                           <app-loader type="button" *ngIf="isLoading"></app-loader>
                           <span *ngIf="!isLoading">Save</span>
 
@@ -133,7 +133,7 @@
     </div>
   </app-page-container>
 
-  
+
  <ng-template #loaderTemplate>
 
     <div class="w-100 pt-60 pb-30 d-flex flex-column justify-content-center align-items-center">

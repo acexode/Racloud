@@ -225,6 +225,14 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   get selectedOptions() {
     return this.productForm.get('selectedOptions') as FormArray;
   }
+  submitIt() {
+    console.log();
+    if (this.productForm.valid) {
+      this.submitForm();
+    } else {
+      this.displayMsg('Please fill the product info and then try again', 'info');
+    }
+  }
   submitForm() {
     this.isLoading = true;
     const productValues = this.productForm.value;
