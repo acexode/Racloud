@@ -197,7 +197,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
           this.displayMsg('Please select a customer', 'info');
         }
         console.log(obj)
-        
         this.onInitTable();
       }
     });
