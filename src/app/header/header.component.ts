@@ -51,11 +51,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
         id
       };
       console.log(e)
-      this.orderS.generateOrder().subscribe((orders:any) =>{
-        console.log(orders)
-        const order:any = orders.orderItems.filter((ord:any) => ord.orderStatus === 'Cart' )[0]
-        this.totalOrder = orders?.orderItems.length
-        console.log(order)
+      this.orderS.cartTotal().subscribe((res:any) =>{
+        console.log(res.numberOfProductsInCart)
+        // const order:any = orders.orderItems.filter((ord:any) => ord.orderStatus === 'Cart' )[0]
+        this.totalOrder = res.numberOfProductsInCart
+        // console.log(order)
       })
     });
     this.CStore.getItem('token').subscribe(e =>{
