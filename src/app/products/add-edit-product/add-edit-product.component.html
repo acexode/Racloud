@@ -73,7 +73,7 @@
 
                           </div>
                             
-                          <div class="col-12 col-md-12 px-0 py-0 m-0 mb-14">
+                          <div class="col-12 col-md-12 px-0 py-0 m-0 mb-14 d-flex flex-row">
 
                               <div class="col-6 px-0 pr-16">
                                 <div>
@@ -84,7 +84,12 @@
 
                               </div>
 
-                              <div class="col"></div>
+                              <div class="col-6 px-0 pl-16">
+                                <app-input
+                                    [config]="inputConfig('Product Code', 'text', 'e.g ABC')"
+                                    formControlName="productCode">
+                                  </app-input>
+                            </div>
 
                           </div>
 
@@ -97,6 +102,13 @@
                                   id="description"
                               >
                               </app-textarea>
+                          </div>
+
+                          <div class="col-12 p-0 m-0">
+                              <app-input
+                                  [config]="inputConfig('Product Link', 'url')"
+                                  formControlName="productUrl">
+                                </app-input>
                           </div>
 
                             <div class="col-12 mx-0 mb-0 submit-row">
