@@ -171,10 +171,6 @@ export class LicenseOptionsComponent implements OnInit {
         delete curCol.tempFieldName
         filteredColumns.push(curCol)
       }
-      // if (Object.prototype.hasOwnProperty.call(object, key)) {
-      //   const element = object[key];
-        
-      // }
     }
     console.log(filteredColumns)
     this.tableConfig.columns = filteredColumns
@@ -194,7 +190,6 @@ export class LicenseOptionsComponent implements OnInit {
         }
         return e
       })
-      
       this.tableConfig.loadingIndicator = true;
       this.rowData = this.optionList;
       const cloneData = this.optionList.map((v: any) => {
