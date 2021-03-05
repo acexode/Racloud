@@ -65,6 +65,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   selectedStatus = ''
   controlStore: { [key: string]: AbstractControl; } = {};
   fieldsPermission: any;
+  licenseOptionPermission: any;
   actionPermission: any;
   tabPermission: any;
   constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef,
@@ -120,6 +121,10 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         console.log(filtered)
         this.tabs = [this.tabs[0], ...filtered]
         this.fieldsPermission = obj.schema.fields
+
+        // to be replaced with BE
+        this.licenseOptionPermission = {}
+
         this.actionPermission = obj.schema.actions
         console.log(obj)
         this.service.getCompanyUsers(data.companyId).subscribe((users:any) =>{
