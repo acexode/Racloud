@@ -405,5 +405,16 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
       this.getCustomerPriceList$.unsubscribe();
     }
   }
+  get isAdmin() {
+    const auth = this.authS.authState.value;
+    const authAccount = get(auth, 'account', null);
+    const role = get(authAccount, 'roles', null);
+    if (role) {
+      return (role.toLowerCase() === 'systemadmin' || role.toLowerCase() === 'admin')
+        ? true : false;
+    } else {
+      return false;
+    }
+  }
 }
 

@@ -210,6 +210,8 @@ export class AuthService {
     this.authState.next({ ...this.initialState, ...{ init: true } });
     // clear user permissions too
     this.userS.clearUserPermission();
+    // clear pricelisting permissions
+    this.priceListS.clearCompanyPriceLisiting();
     // route to login
     return this.routerS.navigateByUrl('/login');
   }
