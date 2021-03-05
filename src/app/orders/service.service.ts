@@ -64,5 +64,8 @@ export class OrderService {
   orderDiscount(id, obj){
     return this.reqS.put(orderEndpoints.orderDiscount + id, obj)
   }
+  cartTotal(){
+    return this.reqS.get(orderEndpoints.cartTotal)
+  }
 
 }

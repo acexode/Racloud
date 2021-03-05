@@ -111,12 +111,28 @@ export class ShopCardComponent implements OnInit {
     this.cardTypes[type].productVersion = this.item?.productVersion || '& version';
   }
   buy(item) {
-    this.service.buyStore.next(item);
+    console.log(item)
+    const {productId} = item
+    console.log(productId)
     if (this.router.url.includes('shop')) {
+      console.log('HEY')
+      item.fromStore = true
+      this.service.buyStore.next(item);
       this.orderS.generateOrder().subscribe((e: any) => {
-        this.router.navigateByUrl('orders/orders-details/' + e.id);
+        const obj: any = {
+          orderId: e.id,
+          productPriceId: productId,
+          companyId: this.companyId
+        };
+        this.orderS.addOrderToCart(e.id, obj).subscribe((res: any) => {
+          console.log(res)
+          this.service.cartStore.next(res.OrderItems)
+          // this.router.navigateByUrl('orders/orders-details/' + e.id);
+        })
       });
     } else {
+      item.fromStore = false
+      this.service.buyStore.next(item);
       this.modalService.hide(1);
     }
   }

@@ -42,7 +42,8 @@ export const orderEndpoints = {
   reduceCartItem: serverBaseUrl + '/orders/reduce-item-quantity-in-cart/',
   deleteCartItem: serverBaseUrl + '/orders/remove-item-from-cart/',
   applyDiscount: serverBaseUrl + '/orders/discount/apply/',
-  orderDiscount: serverBaseUrl + '/orders/order-discount/apply/'
+  orderDiscount: serverBaseUrl + '/orders/order-discount/apply/',
+  cartTotal: serverBaseUrl + '/orders/GetProductsCountInCart'
 };
 export const licenseEndpoints = {
   createLicense: serverBaseUrl + '/licenses/purchase',
