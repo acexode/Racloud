@@ -160,12 +160,13 @@ export class LicenseOptionsComponent implements OnInit {
       console.log(this.licenseOptionPermission)
     const filteredColumns = []
     for (const key in permission) {
-
-      const idx = columns.findIndex(col => col.tempFieldName === key)
-      if(idx > -1 && permission[key] !== 'hidden'){
-        const curCol = columns[idx]
-        delete curCol.tempFieldName
-        filteredColumns.push(curCol)
+      if (true) {
+        const idx = columns.findIndex(col => col.tempFieldName === key)
+        if(idx > -1 && permission[key] !== 'hidden'){
+          const curCol = columns[idx]
+          delete curCol.tempFieldName
+          filteredColumns.push(curCol)
+        }
       }
     }
     console.log(filteredColumns)
