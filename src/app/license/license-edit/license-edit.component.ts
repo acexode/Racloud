@@ -65,6 +65,8 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   selectedStatus = ''
   controlStore: { [key: string]: AbstractControl; } = {};
   fieldsPermission: any;
+  licenseOptionPermission: any;
+  licenseOptionAction: any;
   actionPermission: any;
   tabPermission: any;
   constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef,
@@ -105,7 +107,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
       this.isEdit = true
       this.service.getOneLicense(id).subscribe((obj:any) =>{
         const data = obj.license
-        this.tabPermission = obj.schema.tabs
+        this.tabPermission = obj.schema.license.tabs
         const filtered = []
         for (const key in this.tabPermission) {
           if(this.tabPermission[key] === 'full'){
@@ -119,8 +121,13 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         }
         console.log(filtered)
         this.tabs = [this.tabs[0], ...filtered]
-        this.fieldsPermission = obj.schema.fields
-        this.actionPermission = obj.schema.actions
+        this.fieldsPermission = obj.schema.license.fields
+
+        // to be replaced with BE
+        this.licenseOptionPermission = obj.schema.options.fields
+
+        this.licenseOptionAction = obj.schema.options.actions
+        this.actionPermission = obj.schema.license.actions
         console.log(obj)
         this.service.getCompanyUsers(data.companyId).subscribe((users:any) =>{
           this.companyUsers = users.map(user => user.user)

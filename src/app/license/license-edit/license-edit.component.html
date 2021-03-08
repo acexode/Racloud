@@ -147,7 +147,7 @@
                         
                     </ng-template>
                     <ng-template #secondTab>
-                        <app-option-tab (selectedRows)="getRow($event)" [preselectedRows]="preselectedRows" [optionList]="optionList"></app-option-tab>
+                        <app-license-options (selectedRows)="getRow($event)" [licenseOptionAction]="licenseOptionAction" [licenseOptionPermission]="licenseOptionPermission" [preselectedRows]="preselectedRows" [optionList]="optionList"></app-license-options>
                         <div class="col-12 submit-row">
                             <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
                                 Cancel
