@@ -262,14 +262,12 @@ export class CustomerComponent implements OnInit, OnDestroy {
           this.actionPermission = res.schema.actions;
           for (const key in this.fieldsPermission) {
             if (this.fieldsPermission[key] === 'full') {
-              console.log(key)
               this.tableConfig.columns.forEach(column => {
                 if (column.identifier === key) {
                   filteredColumns.push(column);
                 }
               });
             }else if(typeof this.fieldsPermission[key] === 'object'){
-              console.log(key, 'object')
               this.tableConfig.columns.forEach(column => {
                 if (column.identifier === key) {
                   filteredColumns.push(column);

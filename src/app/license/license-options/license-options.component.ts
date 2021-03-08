@@ -27,6 +27,7 @@ export class LicenseOptionsComponent implements OnInit {
   @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
   @Input() optionList
   @Input() licenseOptionPermission
+  @Input() licenseOptionAction
   @Input() preselectedRows
   @Output() selectedRows: EventEmitter<any> = new EventEmitter();
   rowData: Array<any> = [];
@@ -155,13 +156,8 @@ export class LicenseOptionsComponent implements OnInit {
         cellTemplate: this.UserAccess
       }
     ];
-    const permission =  {
-      "optionName": "readonly",
-      "optionType": "readonly",
-      "value": "full",
-      "partnerAccess": "hidden",
-      "userAccess": "hidden"
-      }
+    const permission =  this.licenseOptionPermission
+      console.log(this.licenseOptionPermission)
     const filteredColumns = []
     for (const key in permission) {
 
@@ -173,7 +169,9 @@ export class LicenseOptionsComponent implements OnInit {
       }
     }
     console.log(filteredColumns)
+    this.tableConfig.selectable = this.licenseOptionAction.add === 'full' ? true : false;
     this.tableConfig.columns = filteredColumns
+    console.log(this.optionList)
     if (this.optionList) {
       this.optionList = this.optionList.map(e => {
         if(e.OptionType === 'ValueList'){
