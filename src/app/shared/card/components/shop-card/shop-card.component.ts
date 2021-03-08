@@ -121,7 +121,7 @@ export class ShopCardComponent implements OnInit {
       this.orderS.generateOrder().subscribe((e: any) => {
         const obj: any = {
           orderId: e.id,
-          productPriceId: productId,
+          productPriceId: item.id,
           companyId: this.companyId
         };
         this.orderS.addOrderToCart(e.id, obj).subscribe((res: any) => {
