@@ -133,6 +133,7 @@ export class ProductsComponent implements OnInit {
         label: '',
         sortable: true,
         minWidth: 40,
+        noGrow: true,
         headerHasFilterIcon: false,
         sortIconPosition: 'right',
         labelPosition: 'left',
