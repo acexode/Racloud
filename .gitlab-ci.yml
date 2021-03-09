@@ -2,6 +2,8 @@ image: softescu/centos:node12
 stages:
   - ng-lint
   - devENV-deploy
+  - testENV-deploy
+
 
 ng-lint:
   stage: ng-lint
@@ -43,3 +45,33 @@ devENV-deploy:
   environment:
     name: Development
     url: https://$DEV_URL
+
+testENV-deploy:
+  stage: testENV-deploy
+  tags:
+    - docker-runner
+  only:
+    - test
+  variables:
+    ENV_USER: $TEST_USER
+    ENV_URL: $TEST_URL
+    NG_PARAM_1: $TEST_NG_PARAM_1
+    NG_PARAM_2: $TEST_NG_PARAM_2
+    NG_PARAM_3: $TEST_NG_PARAM_3
+    BUILD_DIRECTORY: /home/${TEST_USER}/repo
+  script:
+    - eval $(ssh-agent -s)
+    ### Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    - ssh-add <(echo "${SSH_PRIVATE_KEY}")
+    - mkdir -p ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - git clone git@gitlab.softescu.com:DevOps/DeployServiceAngular.git
+    - if [ -n "${TEST_USER}" ]; then echo "TEST_USER exists. Continue..."; else exit 1;fi
+    - if [ -n "${TEST_URL}" ]; then echo "TEST_URL exists. Continue..."; else exit 1;fi
+    - make develop --directory=$CI_PROJECT_DIR/DeployServiceAngular/test
+    ###
+    # Customizations
+    ###
+  environment:
+    name: Test
+    url: https://$TEST_URL
