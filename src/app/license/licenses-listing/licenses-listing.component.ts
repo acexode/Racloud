@@ -86,7 +86,6 @@ export class LicensesListingComponent implements OnInit {
         label: 'Product Name',
         sortable: true,
         minWidth: 240,
-        
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -117,7 +116,6 @@ export class LicensesListingComponent implements OnInit {
         label: 'Customer',
         sortable: true,
         minWidth: 250,
-        
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -133,7 +131,6 @@ export class LicensesListingComponent implements OnInit {
         label: 'Purchased',
         sortable: true,
         minWidth: 160,
-        
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -150,7 +147,6 @@ export class LicensesListingComponent implements OnInit {
         label: 'Expires',
         sortable: true,
         minWidth: 100,
-        
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -167,7 +163,6 @@ export class LicensesListingComponent implements OnInit {
         label: 'Status',
         sortable: true,
         minWidth: 100,
-        
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
