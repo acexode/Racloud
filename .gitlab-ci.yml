@@ -68,7 +68,7 @@ testENV-deploy:
     - git clone git@gitlab.softescu.com:DevOps/DeployServiceAngular.git
     - if [ -n "${TEST_USER}" ]; then echo "TEST_USER exists. Continue..."; else exit 1;fi
     - if [ -n "${TEST_URL}" ]; then echo "TEST_URL exists. Continue..."; else exit 1;fi
-    - make develop --directory=$CI_PROJECT_DIR/DeployServiceAngular/test
+    - make test --directory=$CI_PROJECT_DIR/DeployServiceAngular/test
     ###
     # Customizations
     ###
