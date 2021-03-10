@@ -23,8 +23,6 @@ export class LicenseOptionsComponent implements OnInit {
   @ViewChild('UserAccess', { static: true }) UserAccess: any;
   @ViewChild('PartnerAccess', { static: true }) PartnerAccess: any;
   @ViewChild('selectT', { static: true }) selectT: any;
-
-  @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
   @Input() optionList
   @Input() licenseOptionPermission
   @Input() licenseOptionAction
@@ -169,10 +167,13 @@ export class LicenseOptionsComponent implements OnInit {
         }
       }
     }
-    console.log(filteredColumns)
-    this.tableConfig.selectable = this.licenseOptionAction.add === 'full' ? true : false;
-    this.tableConfig.columns = filteredColumns
+    this.tableConfig.selectable = this.licenseOptionPermission?.optionCheck === 'full' ? true : false;
+    console.log(this.licenseOptionAction)
     console.log(this.optionList)
+    if(this.licenseOptionPermission?.optionCheck === 'hidden'){
+      this.optionList = this.optionList.filter(opt => opt.selected)
+    }
+    this.tableConfig.columns = filteredColumns
     if (this.optionList) {
       this.optionList = this.optionList.map(e => {
         if(e.OptionType === 'ValueList'){
@@ -191,6 +192,7 @@ export class LicenseOptionsComponent implements OnInit {
       })
       this.tableConfig.loadingIndicator = true;
       this.rowData = this.optionList;
+      console.log(this.optionList)
       const cloneData = this.optionList.map((v: any) => {
         return { ...v };
       });
