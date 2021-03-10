@@ -76,7 +76,7 @@ export class LicensesListingComponent implements OnInit {
     private router: Router,
     private ref: ChangeDetectorRef,
     private service: LicenseServiceService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
@@ -85,8 +85,7 @@ export class LicensesListingComponent implements OnInit {
         index: 1,
         label: 'Product Name',
         sortable: true,
-        minWidth: 260,
-        noGrow: true,
+        minWidth: 240,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -102,7 +101,6 @@ export class LicensesListingComponent implements OnInit {
         label: 'Order ID',
         sortable: true,
         minWidth: 100,
-        noGrow: true,
         sortIconPosition: 'left',
         labelPosition: 'right',
         cellContentPosition: 'right',
@@ -118,7 +116,6 @@ export class LicensesListingComponent implements OnInit {
         label: 'Customer',
         sortable: true,
         minWidth: 250,
-        noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -133,8 +130,7 @@ export class LicensesListingComponent implements OnInit {
         index: 4,
         label: 'Purchased',
         sortable: true,
-        minWidth: 100,
-        noGrow: true,
+        minWidth: 160,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -150,8 +146,7 @@ export class LicensesListingComponent implements OnInit {
         index: 5,
         label: 'Expires',
         sortable: true,
-        minWidth: 104,
-        noGrow: true,
+        minWidth: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
@@ -167,8 +162,7 @@ export class LicensesListingComponent implements OnInit {
         index: 6,
         label: 'Status',
         sortable: true,
-        minWidth: 104,
-        noGrow: true,
+        minWidth: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -185,7 +179,7 @@ export class LicensesListingComponent implements OnInit {
         index: 7,
         label: 'Partner license',
         sortable: true,
-        minWidth: 104,
+        minWidth: 100,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -287,26 +281,26 @@ export class LicensesListingComponent implements OnInit {
     );
     this.tableData.next(newRows);
   }
-  toggle(){
-    this.tableData.next([])
-    this.tableConfig.loadingIndicator = true
-    if(this.showOwnLicenses){
-      this.service.getOwnLicenses().subscribe((data:any) => {
-        this.loadTableData(data)
-      })
-    }else{
-      this.service.getLicenses().subscribe((data:any) => {
-        console.log(data)
-        this.loadTableData(data)
+  toggle() {
+    this.tableData.next([]);
+    this.tableConfig.loadingIndicator = true;
+    if (this.showOwnLicenses) {
+      this.service.getOwnLicenses().subscribe((data: any) => {
+        this.loadTableData(data);
+      });
+    } else {
+      this.service.getLicenses().subscribe((data: any) => {
+        console.log(data);
+        this.loadTableData(data);
       });
     }
   }
 
-  removeRow(id: any) {}
+  removeRow(id: any) { }
 
   manageSub(data: any) {
     this.router.navigate(['licenses/license-edit', { id: data.id }]);
   }
 
-  renewSub(id: any) {}
+  renewSub(id: any) { }
 }
