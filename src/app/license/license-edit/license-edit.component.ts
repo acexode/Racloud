@@ -163,7 +163,6 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   }
   getOptions(){
     this.service.getOption().subscribe((options: any) =>{
-      console.log(options)
       // const sorted = this.preselectedRows.sort((a,b)=> a.optionId > b.optionId ? 1 : (b.optionId > a.optionId) ? -1 : 0)
       this.optionList = options.map((obj:any) =>{
         const index = this.preselectedRows.findIndex(idx => obj.Id === idx.optionId)
@@ -183,7 +182,6 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
               }
             })
             item.ValueList = arr
-            console.log(item)
           }
           return {
             ...item,
@@ -201,8 +199,6 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         }
       })
       const sorted = this.optionList.sort((a,b)=> b.selected - a.selected)
-      console.log(sorted)
-      
     })
   }
   initForm() {
