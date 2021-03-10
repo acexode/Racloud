@@ -9,6 +9,7 @@ import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-conf
 import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
+import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'app-license-options',
@@ -78,7 +79,7 @@ export class LicenseOptionsComponent implements OnInit {
         tempFieldName: 'optionName',
         label: 'Option Name',
         sortable: true,
-        minWidth: 276,
+        minWidth: 176,
         width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -95,7 +96,7 @@ export class LicenseOptionsComponent implements OnInit {
         label: 'Option Type',
         sortable: true,
         minWidth: 169,
-        width: 100,
+        // width: 160,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -110,7 +111,7 @@ export class LicenseOptionsComponent implements OnInit {
         tempFieldName: 'value',
         label: 'Value',
         sortable: false,
-        minWidth: 427,
+        minWidth: 327,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -173,6 +174,10 @@ export class LicenseOptionsComponent implements OnInit {
     if(this.licenseOptionPermission?.optionCheck === 'hidden'){
       this.optionList = this.optionList.filter(opt => opt.selected)
     }
+    // if(this.licenseOptionPermission?.optionCheck !== 'hidden'){
+    //   this.optionList = this.optionList.filter(opt => opt.PartnerAccess !== 'Hidden')
+
+    // }
     this.tableConfig.columns = filteredColumns
     if (this.optionList) {
       this.optionList = this.optionList.map(e => {
@@ -279,6 +284,7 @@ export class LicenseOptionsComponent implements OnInit {
       }
       return obj
     })
+    console.log(this.optionList)
     this.ref.detectChanges()
     this.reInitData(this.optionList)
   }

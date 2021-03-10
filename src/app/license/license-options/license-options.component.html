@@ -17,12 +17,15 @@
         type="button" class="text-dark a-ellipse" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
         aria-expanded="false"> <span class="text"> {{row.UserAccess}}</span> </a> <img src="assets/images/chevron.svg"
         alt="expired-icon" class="isExpired" /> </div>
-    <ul aria-labelledby="dropdownMenuButton" *dropdownMenu class="dropdown-menu" role="menu"
-      aria-labelledby="button-basic">
-      <li role="menuitem"><a (click)="setUserAccess(row, 'Editable')" class="dropdown-item">Editable</a></li>
-      <li role="menuitem"><a (click)="setUserAccess(row, 'Hidden')" class="dropdown-item">Hidden</a></li>
-      <li role="menuitem"><a (click)="setUserAccess(row, 'Readonly')" class="dropdown-item">Read Only</a></li>
-    </ul>
+    <div *ngIf="row.PartnerAccess === 'Editable'">
+        <ul aria-labelledby="dropdownMenuButton" *dropdownMenu class="dropdown-menu" role="menu"
+          aria-labelledby="button-basic">
+          <li role="menuitem"><a (click)="setUserAccess(row, 'Editable')" class="dropdown-item">Editable</a></li>
+          <li role="menuitem"><a (click)="setUserAccess(row, 'Hidden')" class="dropdown-item">Hidden</a></li>
+          <li role="menuitem"><a (click)="setUserAccess(row, 'Readonly')" class="dropdown-item">Read Only</a></li>
+        </ul>
+
+    </div>
   </div>
 </ng-template>
 <ng-template #PartnerAccess let-column="column" let-row="row" let-value="cellValue" let-rowIndex="rowIndex">
@@ -54,7 +57,19 @@
   </div>
 </ng-template>
 <ng-template #colmunDropDownTemplate let-column="column" let-rowIndex="rowIndex" let-row="row" let-value="cellValue">
-  <ng-container> <span class="pb-10" *ngIf="row.OptionType == 'ValueList'">
+  <ng-container> 
+    <span class="pb-10" *ngIf="row.OptionType == 'ValueList' && row.PartnerAccess !== 'Editable'">
+        <div class="btn-group" dropdown [dropup]="isDropup">
+            <!-- <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="a-ellipse text"                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                     {{toString(value)}}                 </a> -->
+            <div class="d-flex justify-content-between w-100"> <a (click)="setDropUp(row)" id="button-basic" dropdownToggle
+                type="button" class="text-dark a-ellipse" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false"> <span class="text"> {{toString(row.ValueList)}}</span> </a> <img
+                *ngIf="rowValue != row" src="assets/images/chevron.svg" alt="expired-icon" class="chevron" /> <img
+                *ngIf="rowValue == row" src="assets/images/Chevron-red.svg" alt="expired-icon" class="chevron" /> </div>
+          </div>
+    </span>
+    <span class="pb-10" *ngIf="row.OptionType == 'ValueList' && row.PartnerAccess === 'Editable'">
+      
       <div class="btn-group" dropdown [dropup]="isDropup">
         <!-- <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="a-ellipse text"                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                     {{toString(value)}}                 </a> -->
         <div class="d-flex justify-content-between w-100"> <a (click)="setDropUp(row)" id="button-basic" dropdownToggle
@@ -79,14 +94,27 @@
         </ul>
       </div>
     </span>
-    <span *ngIf="row.OptionType =='Boolean' && !row.ValueBoolean"> <label class="container">False <input type="checkbox"
-          (change)="onCheckValueBoolean($event, row)"> <span class="checkmark"></span> </label> </span>
-    <span *ngIf="row.OptionType =='Boolean' && row.ValueBoolean"> <label class="container">True <input type="checkbox"
-          (change)="onCheckValueBoolean($event, row)" checked="checked"> <span class="checkmark"></span> </label>
+    <span *ngIf="row.OptionType =='Boolean' && !row.ValueBoolean"> 
+        <label class="container">False 
+            <input type="checkbox" [disabled]="row.PartnerAccess !== 'Editable'" (change)="onCheckValueBoolean($event, row)"> 
+            <span class="checkmark"></span> 
+        </label> 
     </span>
-    <div *ngIf="row.OptionType == 'String'"> <span title="Double click to edit"
+    <span *ngIf="row.OptionType =='Boolean' && row.ValueBoolean"> 
+        <label class="container">True 
+            <input type="checkbox" (change)="onCheckValueBoolean($event, row)" [disabled]="row.PartnerAccess !== 'Editable'" checked="checked">
+            <span class="checkmark"></span> 
+        </label>
+    </span>
+    <div *ngIf="row.OptionType == 'String' && row.PartnerAccess !== 'Editable'"> 
+        <span>
+            {{row.ValueString}} 
+        </span> 
+    </div>
+    <div *ngIf="row.OptionType == 'String' && row.PartnerAccess === 'Editable'"> <span title="Double click to edit"
         (dblclick)="editing[row.Id + '-ValueString'] = true" *ngIf="!editing[row.Id + '-ValueString']">
         {{row.ValueString}} </span> <input autofocus (blur)="updateValue($event, 'ValueString', row.Id)"
-        *ngIf="editing[row.Id + '-ValueString']" type="text" [value]="row.ValueString" /> </div>
+        *ngIf="editing[row.Id + '-ValueString']" type="text" [value]="row.ValueString" /> 
+    </div>
   </ng-container>
 </ng-template>

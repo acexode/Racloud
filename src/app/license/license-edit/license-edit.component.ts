@@ -160,14 +160,31 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         this.cdref.detectChanges()
       });
     }
-    
   }
   getOptions(){
     this.service.getOption().subscribe((options: any) =>{
+      console.log(options)
+      const sorted = this.preselectedRows.sort((a,b)=> a.optionId > b.optionId ? 1 : (b.optionId > a.optionId) ? -1 : 0)
       this.optionList = options.map((obj:any) =>{
         const index = this.preselectedRows.findIndex(idx => obj.Id === idx.optionId)
         if (index > -1) {
-          const item = options[index]
+          const optIdx = options.findIndex(idx => idx.Id === this.preselectedRows[index].optionId)
+          const item = options[optIdx]
+          if(item.OptionType === 'Boolean'){
+            item.ValueBoolean = this.preselectedRows[index].valueBoolean
+          } else if(item.OptionType === 'String'){
+            item.ValueString = this.preselectedRows[index].valueString
+          } else if(item.OptionType === 'ValueList'){
+            const arr = this.preselectedRows[index].valueListItems.map( v =>{
+              return {
+                Name: v.name,
+                Value: v.value,
+                Id: v.id
+              }
+            })
+            item.ValueList = arr
+            console.log(item)
+          }
           return {
             ...item,
             PartnerAccess: this.preselectedRows[index].partnerAccess,

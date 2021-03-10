@@ -91,11 +91,16 @@ export class TableComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges) {
     const row: SimpleChange = changes.rows;
+    console.log(row)
     this.setSelecetedRow(row?.currentValue);
+    this.selectedRows.emit({selected: this.selected})
+    this.selectedRows.subscribe(e => console.log(e))
   }
   setSelecetedRow(rows) {
     const selectedrows = rows.filter(obj => obj.selected === true);
     this.selected = [...selectedrows];
+    // this.onSelect({selected: this.selected})
+    // console.log(this.selected)
   }
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -129,6 +134,7 @@ export class TableComponent implements OnInit, OnChanges {
       });
       selectedObj.selected = uniq;
       this.selected = uniq;
+      console.log(selectedObj)
       this.selectedRows.emit(selectedObj);
     }
   }
