@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
@@ -21,6 +22,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   preselectedRows : any[] = []
   isEdit = false;
   savedCompanyUserId
+  currentLicense
   userLabel = 'Select'
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/licenses';
@@ -72,6 +74,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef,
     private service: LicenseServiceService,
     private router: Router,
+    private authS: AuthService,
     private http: HttpClient, private route: ActivatedRoute,) { }
   inputConfig(
     label: string,
@@ -107,11 +110,11 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
       this.isEdit = true
       this.service.getOneLicense(id).subscribe((obj:any) =>{
         const data = obj.license
+        this.currentLicense = data
         this.tabPermission = obj.schema.license.tabs
         const filtered = []
         for (const key in this.tabPermission) {
           if(this.tabPermission[key] === 'full'){
-            console.log(key)
             this.tabs.forEach(tab =>{
               if(tab.shortName === key){
                 filtered.push(tab)
@@ -119,7 +122,6 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
             })
           }
         }
-        console.log(filtered)
         this.tabs = [this.tabs[0], ...filtered]
         this.fieldsPermission = obj.schema.license.fields
 
@@ -131,10 +133,10 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         console.log(obj)
         this.service.getCompanyUsers(data.companyId).subscribe((users:any) =>{
           this.companyUsers = users.map(user => user.user)
-          console.log(this.companyUsers)
         })
         console.log(data)
         this.preselectedRows = data?.licenseOptions
+        this.getOptions()
         const selectedP = data.isPartnerLicense ? 'Yes' : 'No'
         const selectedR = data.renewByUserCompany ? 'Yes' : 'No'
         const isAssigned = data.iAssigned ? 'Yes' : 'No'
@@ -158,11 +160,29 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         this.cdref.detectChanges()
       });
     }
+  }
+  getOptions(){
     this.service.getOption().subscribe((options: any) =>{
+      // const sorted = this.preselectedRows.sort((a,b)=> a.optionId > b.optionId ? 1 : (b.optionId > a.optionId) ? -1 : 0)
       this.optionList = options.map((obj:any) =>{
         const index = this.preselectedRows.findIndex(idx => obj.Id === idx.optionId)
         if (index > -1) {
-          const item = options[index]
+          const optIdx = options.findIndex(idx => idx.Id === this.preselectedRows[index].optionId)
+          const item = options[optIdx]
+          if(item.OptionType === 'Boolean'){
+            item.ValueBoolean = this.preselectedRows[index].valueBoolean
+          } else if(item.OptionType === 'String'){
+            item.ValueString = this.preselectedRows[index].valueString
+          } else if(item.OptionType === 'ValueList'){
+            const arr = this.preselectedRows[index].valueListItems.map( v =>{
+              return {
+                Name: v.name,
+                Value: v.value,
+                Id: v.id
+              }
+            })
+            item.ValueList = arr
+          }
           return {
             ...item,
             PartnerAccess: this.preselectedRows[index].partnerAccess,
@@ -178,6 +198,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
           }
         }
       })
+      const sorted = this.optionList.sort((a,b)=> b.selected - a.selected)
     })
   }
   initForm() {

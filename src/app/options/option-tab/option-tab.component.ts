@@ -167,6 +167,7 @@ export class OptionTabComponent implements OnInit {
       })
       this.tableConfig.loadingIndicator = true;
       this.rowData = this.optionList;
+      console.log(this.optionList)
       const cloneData = this.optionList.map((v: any) => {
         return { ...v };
       });

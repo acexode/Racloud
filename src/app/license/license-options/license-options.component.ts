@@ -9,6 +9,7 @@ import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-conf
 import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
+import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'app-license-options',
@@ -23,8 +24,6 @@ export class LicenseOptionsComponent implements OnInit {
   @ViewChild('UserAccess', { static: true }) UserAccess: any;
   @ViewChild('PartnerAccess', { static: true }) PartnerAccess: any;
   @ViewChild('selectT', { static: true }) selectT: any;
-
-  @ViewChild('expiredIconTemplate', { static: true }) expiredIconTemplate: TemplateRef<any>;
   @Input() optionList
   @Input() licenseOptionPermission
   @Input() licenseOptionAction
@@ -80,7 +79,7 @@ export class LicenseOptionsComponent implements OnInit {
         tempFieldName: 'optionName',
         label: 'Option Name',
         sortable: true,
-        minWidth: 276,
+        minWidth: 176,
         width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -97,7 +96,7 @@ export class LicenseOptionsComponent implements OnInit {
         label: 'Option Type',
         sortable: true,
         minWidth: 169,
-        width: 100,
+        // width: 160,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -112,7 +111,7 @@ export class LicenseOptionsComponent implements OnInit {
         tempFieldName: 'value',
         label: 'Value',
         sortable: false,
-        minWidth: 427,
+        minWidth: 327,
         noGrow: true,
         sortIconPosition: 'right',
         labelPosition: 'left',
@@ -169,10 +168,17 @@ export class LicenseOptionsComponent implements OnInit {
         }
       }
     }
-    console.log(filteredColumns)
-    this.tableConfig.selectable = this.licenseOptionAction.add === 'full' ? true : false;
-    this.tableConfig.columns = filteredColumns
+    this.tableConfig.selectable = this.licenseOptionPermission?.optionCheck === 'full' ? true : false;
+    console.log(this.licenseOptionAction)
     console.log(this.optionList)
+    if(this.licenseOptionPermission?.optionCheck === 'hidden'){
+      this.optionList = this.optionList.filter(opt => opt.selected)
+    }
+    // if(this.licenseOptionPermission?.optionCheck !== 'hidden'){
+    //   this.optionList = this.optionList.filter(opt => opt.PartnerAccess !== 'Hidden')
+
+    // }
+    this.tableConfig.columns = filteredColumns
     if (this.optionList) {
       this.optionList = this.optionList.map(e => {
         if(e.OptionType === 'ValueList'){
@@ -191,6 +197,7 @@ export class LicenseOptionsComponent implements OnInit {
       })
       this.tableConfig.loadingIndicator = true;
       this.rowData = this.optionList;
+      console.log(this.optionList)
       const cloneData = this.optionList.map((v: any) => {
         return { ...v };
       });
@@ -277,6 +284,7 @@ export class LicenseOptionsComponent implements OnInit {
       }
       return obj
     })
+    console.log(this.optionList)
     this.ref.detectChanges()
     this.reInitData(this.optionList)
   }
