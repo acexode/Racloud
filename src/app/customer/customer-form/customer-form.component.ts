@@ -91,9 +91,6 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
     ],
     address: [
       '',
-      [
-        Validators.required,
-      ],
     ],
     country: [
       null,
@@ -103,9 +100,6 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
     ],
     phoneNumber: [
       '',
-      [
-        Validators.required,
-      ],
     ],
     email: [
       '',
@@ -115,7 +109,7 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
       ],
     ],
     anniversaryDate: [
-      '',
+      new Date(),
     ],
     subscriptionFee: [
       '',
@@ -239,6 +233,7 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
   updateValueForForm() {
     if (typeof this.editableData !== 'undefined') {
       const data = this.editableData.customer;
+      console.log(data)
       // get data
       const d: CustomerModel = {
         companyName: get(data, 'companyName', ''),

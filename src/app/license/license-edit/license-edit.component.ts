@@ -27,6 +27,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/licenses';
   companyUsers
+  currentLicenseCompany
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -105,6 +106,10 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   }
   ngOnInit(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id'), 10)
+    const customerId = parseInt(this.route.snapshot.paramMap.get('customerId'), 10)
+    if(customerId){
+      this.backUrl = '/customer/manage/' + customerId + '/tab/license'
+    }
     this.initForm();
     if(id){
       this.isEdit = true
@@ -156,6 +161,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
           isAssigned,
           userCompany: data.companyUser || '',
         });
+        this.currentLicenseCompany = data.company.companyName
         this.onChange(data.licenseStatus)
         this.cdref.detectChanges()
       });
