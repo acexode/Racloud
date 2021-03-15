@@ -56,7 +56,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     );
-    
+
     this.titleService.handleNavigationTitle().subscribe((v) => {
       if (v && v === 'Not found') {
 
