@@ -60,7 +60,6 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
       isSelected: false,
       defaultSelected: false,
     }
-    
   ];
   productForm: FormGroup;
   productType = [
