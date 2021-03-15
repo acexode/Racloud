@@ -1,7 +1,6 @@
 import { get } from 'lodash';
 import { CustomStorageService } from './../../core/services/custom-storage/custom-storage.service';
 import { UsersService } from './../users.service';
-import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
@@ -12,6 +11,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 import { tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { CustomerService } from 'src/app/core/services/customer/customer.service';
 
 @Component({
   selector: 'app-create-user',
@@ -22,20 +22,20 @@ export class CreateUserComponent implements OnInit {
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/users';
   isEdit = false;
-  isCreateUserFromCustomer = false
+  isCreateUserFromCustomer = false;
   user = null;
   userForm: FormGroup;
   loggedInUser = null;
   canImpersonate = false;
-  canChangePassword = false
+  canChangePassword = false;
   changePasswordForm: FormGroup;
   modalRef: BsModalRef;
-  changePasswordError = ''
+  changePasswordError = '';
   autoClose: boolean;
   componentForm: any;
   filteredCustomer: any;
   customers: any;
-  userInfo
+  userInfo;
   ref: any;
   savedCompanyId: any;
   containerConfig: PageContainerConfig = {
@@ -94,47 +94,54 @@ export class CreateUserComponent implements OnInit {
     placeholder: string = '',
     prefixIcon: boolean = false,
     Icon: string = '',
-    )
+  )
     : InputConfig {
     return {
       inputLabel: {
-        text: label ,
+        text: label,
       },
       type: type || 'text',
-      placeholder ,
+      placeholder,
       prefixIcon: prefixIcon || false,
       IconType: Icon,
     };
   }
 
-  constructor(private fb: FormBuilder, private router : Router,
-    private route: ActivatedRoute, private service: UsersService, private msgS: MessagesService,
-    private modalService: BsModalService, private cStorage: CustomStorageService,
-    private authS: AuthService) { }
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private service: UsersService,
+    private msgS: MessagesService,
+    private modalService: BsModalService,
+    private cStorage: CustomStorageService,
+    private authS: AuthService,
+    private customerS: CustomerService,
+  ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    const companyID = this.route.snapshot.paramMap.get('companyId')
-    console.log(companyID)
-    this.cStorage.getItem('token').subscribe(data =>{
-      console.log(data.user)
-      this.loggedInUser = data.user
-      this.loggedInUserRole = data.roles[0]
-    })
-    this.service.getRoles().subscribe((res:any[]) =>{
-      console.log(get(res[1],'customers', []))
-      this.roleOptions = res[0]
-      this.companyOptions = get(res[1],'customers', [])
-      this.filteredOptions = get(res[1],'customers', [])
-      if(companyID){
-        console.log(this.companyOptions)
-        this.backUrl = '/customer/manage/'+ companyID + '/tab/users'
-        this.isCreateUserFromCustomer = true
-        this.savedCompanyId = companyID
-        const userCompany = this.companyOptions.filter(c => c.id === parseInt(companyID,10))[0]
-        console.log(userCompany)
-        this.companyLabel = get(userCompany, 'companyName', null)
-        console.log(userCompany)
+    const companyID = this.route.snapshot.paramMap.get('companyId');
+    console.log(companyID);
+    this.cStorage.getItem('token').subscribe(data => {
+      console.log(data.user);
+      this.loggedInUser = data.user;
+      this.loggedInUserRole = data.roles[0];
+    });
+    this.service.getRoles().subscribe((res: any[]) => {
+      console.log(res);
+      this.roleOptions = res[0];
+      this.companyOptions = get(res[1], 'customers', []);
+      this.filteredOptions = get(res[1], 'customers', []);
+      if (companyID) {
+        console.log(this.companyOptions);
+        this.backUrl = '/customer/manage/' + companyID + '/tab/users';
+        this.isCreateUserFromCustomer = true;
+        this.savedCompanyId = companyID;
+        const userCompany = this.companyOptions.filter(c => c.id === parseInt(companyID, 10))[0];
+        console.log(userCompany);
+        this.companyLabel = get(userCompany, 'companyName', null);
+        console.log(userCompany);
         this.userForm.patchValue({
           firstName: '',
           lastName: '',
@@ -143,24 +150,24 @@ export class CreateUserComponent implements OnInit {
           companyId: companyID,
         });
       }
-    })
+    });
 
     this.initForm();
-    if(id){
+    if (id) {
       this.isEdit = true;
-      const idx = parseInt(id, 10)
-      this.service.getUser(id).subscribe((data:any) =>{
+      const idx = parseInt(id, 10);
+      this.service.getUser(id).subscribe((data: any) => {
         // const data = obj.filter(e => e.user.id.toString() === id)[0];
-        console.log(this.loggedInUserRole)
+        console.log(this.loggedInUserRole);
         this.user = data.user;
-        this.userInfo = data
-        console.log(data)
-        this.roleLabel = get(get(data, 'role',null), 'name',null)
-        this.companyLabel = get(get(data,'company', null), 'companyName', null)
-        if(this.user.email === this.loggedInUser.email){
+        this.userInfo = data;
+        console.log(data);
+        this.roleLabel = get(get(data, 'role', null), 'name', null);
+        this.companyLabel = get(get(data, 'company', null), 'companyName', null);
+        if (this.user.email === this.loggedInUser.email) {
           this.canChangePassword = true;
         }
-        if(this.loggedInUserRole === 'systemadmin' && this.user.email !== this.loggedInUser.email){
+        if (this.loggedInUserRole === 'systemadmin' && this.user.email !== this.loggedInUser.email) {
           this.canImpersonate = true;
         }
         this.userForm.patchValue({
@@ -170,7 +177,7 @@ export class CreateUserComponent implements OnInit {
           roleId: data.role?.id,
           companyId: data.company?.id,
         });
-      })
+      });
     }
 
   }
@@ -249,51 +256,51 @@ export class CreateUserComponent implements OnInit {
     this.roleLabel = role;
   }
   openModal(template: TemplateRef<any>, type) {
-    this.changePasswordError = ''
-    this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray modal-md' }));
-    if(type === 'send'){
-      console.log(type)
-    }else if(type === 'change'){
+    this.changePasswordError = '';
+    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray modal-md' }));
+    if (type === 'send') {
+      console.log(type);
+    } else if (type === 'change') {
       this.changePasswordForm = this.fb.group({
-        email : [
+        email: [
           this.user.email,
           [
             Validators.required,
           ],
         ],
-        oldPassword : [
+        oldPassword: [
           '',
           [
             Validators.required,
           ],
         ],
-        newPassword : [
+        newPassword: [
           '',
           [
             Validators.required,
           ],
         ],
-        confirmPassword : [
+        confirmPassword: [
           '',
           [
             Validators.required,
           ],
         ],
-      })
+      });
 
     }
   }
-  submit(){
-    const user = this.userForm.value
+  submit() {
+    const user = this.userForm.value;
     const id = this.route.snapshot.paramMap.get('id');
     if (this.isEdit) {
       user.id = id;
       console.log(id, user);
       this.service.updateUser(id, user).subscribe(
         _res => {
-          if(this.isCreateUserFromCustomer){
+          if (this.isCreateUserFromCustomer) {
             this.router.navigate([this.backUrl]);
-          }else{
+          } else {
             this.router.navigate(['/users']);
 
           }
@@ -309,29 +316,29 @@ export class CreateUserComponent implements OnInit {
     }
     console.log(this.userForm.value);
   }
-  changePassword(){
-    console.log(this.changePasswordForm.value)
-    const value = this.changePasswordForm.value
-    this.service.changePassword(value).subscribe((e: any) =>{
-      console.log(e)
-      this.displayMsg(e.message, 'success')
-      this.modalRef.hide()
-    }, (err) =>{
-      console.log(err)
-      this.changePasswordError = err.error
-    })
+  changePassword() {
+    console.log(this.changePasswordForm.value);
+    const value = this.changePasswordForm.value;
+    this.service.changePassword(value).subscribe((e: any) => {
+      console.log(e);
+      this.displayMsg(e.message, 'success');
+      this.modalRef.hide();
+    }, (err) => {
+      console.log(err);
+      this.changePasswordError = err.error;
+    });
   }
-  sendResetPassword(){
+  sendResetPassword() {
     const obj = {
       email: this.user.email
-    }
-    this.service.sendResetPassword(obj).subscribe((e: any) =>{
-      console.log(e)
-      this.modalRef.hide()
-      this.displayMsg(e.message, 'info')
-    })
+    };
+    this.service.sendResetPassword(obj).subscribe((e: any) => {
+      console.log(e);
+      this.modalRef.hide();
+      this.displayMsg(e.message, 'info');
+    });
   }
-  displayMsg(msg, type){
+  displayMsg(msg, type) {
     this.msgS.addMessage({
       text: msg,
       type,
@@ -339,30 +346,30 @@ export class CreateUserComponent implements OnInit {
       customClass: 'mt-32',
       hasIcon: true,
     });
-    setTimeout(()=> {
-      this.msgS.clearMessages()
-    },5000)
+    setTimeout(() => {
+      this.msgS.clearMessages();
+    }, 5000);
   }
-  impersonate(){
-    if(this.impersonatorId){
-      console.log(this.impersonatorId)
-    }else{
+  impersonate() {
+    if (this.impersonatorId) {
+      console.log(this.impersonatorId);
+    } else {
 
       const id = this.route.snapshot.paramMap.get('id');
       const obj = {
         userId: id
-      }
-      this.service.impersonate(obj).subscribe((res:any) =>{
-        this.displayMsg(`You are now logged in as ${this.user.firstname}`, 'info')
-        this.cStorage.getItem('token').subscribe(e =>{
-          this.cStorage.setItem('oldToken', e)
-        })
+      };
+      this.service.impersonate(obj).subscribe((res: any) => {
+        this.displayMsg(`You are now logged in as ${ this.user.firstname }`, 'info');
+        this.cStorage.getItem('token').subscribe(e => {
+          this.cStorage.setItem('oldToken', e);
+        });
         const account = {
           username: this.userInfo.user.email,
           image: null,
           user: this.userInfo.user || null,
           company: this.userInfo.company,
-          roles:this.userInfo.role.name,
+          roles: this.userInfo.role.name,
         };
         const currentUser = {
           company: this.userInfo.company,
@@ -372,7 +379,7 @@ export class CreateUserComponent implements OnInit {
           token: res.token,
           username: this.userInfo.user.email,
           impersonatorId: res.impersonatorId
-        }
+        };
         this.cStorage.setItem('token', currentUser).pipe(
           tap(() => {
             this.authS.authState.next({
@@ -382,20 +389,20 @@ export class CreateUserComponent implements OnInit {
               impersonatorId: res.impersonatorId,
               expiryDate: res.expiration || null,
             });
-            this.impersonatorId = res.impersonatorId
-          })).subscribe(()=>{
-            this.authS.getAuthState().subscribe(e =>{
-              console.log(e)
-              const idX = get(e, 'impersonatorId', null)
-              if(idX === null){
-                this.impersonatorId = null
+            this.impersonatorId = res.impersonatorId;
+          })).subscribe(() => {
+            this.authS.getAuthState().subscribe(e => {
+              console.log(e);
+              const idX = get(e, 'impersonatorId', null);
+              if (idX === null) {
+                this.impersonatorId = null;
               }
-              this.service.getUserPermissionsPerPage().subscribe(p => console.log(p))
-            })
-          })
-      },err =>{
-        this.displayMsg(err.error, 'danger')
-      })
+              this.service.getUserPermissionsPerPage().subscribe(p => console.log(p));
+            });
+          });
+      }, err => {
+        this.displayMsg(err.error, 'danger');
+      });
     }
   }
 }

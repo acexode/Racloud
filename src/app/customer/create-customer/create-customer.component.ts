@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { get } from 'lodash';
 import { Subscription } from 'rxjs';
 import { customersEndpoints } from 'src/app/core/configs/endpoints';
-import { CustomerService } from 'src/app/core/services/customer/customer.service';
 import { RequestService } from 'src/app/core/services/request/request.service';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';

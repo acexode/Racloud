@@ -4,17 +4,28 @@
       <div class="row align-items-center">
         <div class="col">
           <!--  -->
-          <app-button color="tertiary" [routerLink]="[backUrl]" [class]="
+          <app-button
+            color="tertiary"
+            [routerLink]="[backUrl]"
+            [class]="
               'd-flex align-items-center rc-accent-blue-160-color montserrat-semibold-font ml-n20'
-            ">
-            <svg-icon [class]="'icon-w16-h16 mr-1'" [src]="caretLeftIcon" alt="Icon" applyClass="true">
+            "
+          >
+            <svg-icon
+              [class]="'icon-w16-h16 mr-1'"
+              [src]="caretLeftIcon"
+              alt="Icon"
+              applyClass="true"
+            >
             </svg-icon>
             ABRACADABRA SRL
           </app-button>
           <!--  -->
 
-          <h1 class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0">
-            Order ID {{orderId}}
+          <h1
+            class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0"
+          >
+            Order ID {{ orderId }}
           </h1>
         </div>
       </div>
@@ -27,42 +38,105 @@
         <div class="col-12 col-md-3 px-0 pr-0 pr-md-16">
           <div class="row m-0 p-0">
             <div class="col-12 px-0 mb-14">
-              <app-input [config]="inputConfig('Order Number')" formControlName="orderNumber"></app-input>
+              <app-input
+                [config]="inputConfig('Order Number')"
+                formControlName="orderNumber"
+              ></app-input>
             </div>
             <div class="col-12 px-0 mb-14">
-              <app-input [config]="inputConfig('Order Date', 'date')" formControlName="orderDate"></app-input>
+              <app-input
+                [config]="inputConfig('Order Date', 'date')"
+                formControlName="orderDate"
+              ></app-input>
             </div>
           </div>
         </div>
 
         <div class="col-12 col-md-3 px-0 px-md-16">
           <div class="row m-0">
-            <div class="col-12 px-0 mb-14" *ngIf="!fieldsHiddenStatus.companyId">
-              <label *ngIf="disableCustomer" class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Customer</label>
-              <div *ngIf="disableCustomer" class="rc-select"> <select [disabled]="disableCustomer"  formcontrolname="customer"
-                  (change)="onChange($event.target.value, 'companyId')" [value]="savedCompanyId" class="ng-pristine ng-valid ng-touched">
+            <div
+              class="col-12 px-0 mb-14"
+              *ngIf="!fieldsHiddenStatus.companyId"
+            >
+              <label
+                *ngIf="disableCustomer"
+                class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0"
+                >Customer</label
+              >
+              <div *ngIf="disableCustomer" class="rc-select">
+                <select
+                  [disabled]="disableCustomer"
+                  formcontrolname="customer"
+                  (change)="onChange($event.target.value, 'companyId')"
+                  [value]="savedCompanyId"
+                  class="ng-pristine ng-valid ng-touched"
+                >
                   <option selected disabled>Select</option>
-                  <option *ngFor="let customer of customers" [value]="customer.id" [selected]="customer.id === savedCompanyId">
-                    {{customer.companyName}} </option>
+                  <option
+                    *ngFor="let customer of customers"
+                    [value]="customer.id"
+                    [selected]="customer.id === savedCompanyId"
+                  >
+                    {{ customer.companyName }}
+                  </option>
                 </select>
               </div>
-              <div *ngIf="!disableCustomer" class="btn-group w-100 d-flex flex-column" dropdown #dropdown="bs-dropdown" [autoClose]="autoClose">
-                <label class="rc-grey-color companyLabel montserrat-regular-font text-weight-normal m-0">Company </label>
-                <input type="text" formControlName="companyId" hidden >
-                <a  id="button-basic" dropdownToggle type="button" class="select-dropdown dropdown-toggle" aria-controls="dropdown-basic">
-                    {{customerLabel}}
+              <div
+                *ngIf="!disableCustomer"
+                class="btn-group w-100 d-flex flex-column"
+                dropdown
+                #dropdown="bs-dropdown"
+                [autoClose]="autoClose"
+              >
+                <label
+                  class="rc-grey-color companyLabel montserrat-regular-font text-weight-normal m-0"
+                  >Company
+                </label>
+                <input type="text" formControlName="companyId" hidden />
+                <a
+                  id="button-basic"
+                  dropdownToggle
+                  type="button"
+                  class="select-dropdown dropdown-toggle"
+                  aria-controls="dropdown-basic"
+                >
+                  {{ customerLabel }}
                 </a>
-                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu company-dropdown w-100"  role="menu" aria-labelledby="button-basic">
-                  <li class="px-1"  role="menuitem">
-                    <input class="dropdown-item border" formControlName='searchCompany' (click)="setClose()" (input)="onSearchChange($event.target.value)" type="text" placeholder="search company">
+                <ul
+                  id="dropdown-basic"
+                  *dropdownMenu
+                  class="dropdown-menu company-dropdown w-100"
+                  role="menu"
+                  aria-labelledby="button-basic"
+                >
+                  <li class="px-1" role="menuitem">
+                    <input
+                      class="dropdown-item border"
+                      formControlName="searchCompany"
+                      (click)="setClose()"
+                      (input)="onSearchChange($event.target.value)"
+                      type="text"
+                      placeholder="search company"
+                    />
                   </li>
-                    <li class="divider dropdown-divider"></li>
-                    <li *ngFor="let customer of filteredCustomer" (click)="setCustomer(customer.companyName,customer.id)" role="menuitem"><a class="dropdown-item">{{customer.companyName  | slice:0:18}}</a></li>
-              </ul>
-            </div>
+                  <li class="divider dropdown-divider"></li>
+                  <li
+                    *ngFor="let customer of filteredCustomer"
+                    (click)="setCustomer(customer.companyName, customer.id)"
+                    role="menuitem"
+                  >
+                    <a class="dropdown-item">{{
+                      customer.companyName | slice: 0:18
+                    }}</a>
+                  </li>
+                </ul>
+              </div>
             </div>
             <div class="col-12 px-0 mb-14">
-              <app-input [config]="inputConfig('Status')" formControlName="status"></app-input>
+              <app-input
+                [config]="inputConfig('Status')"
+                formControlName="status"
+              ></app-input>
             </div>
           </div>
         </div>
@@ -70,66 +144,128 @@
         <div class="col-12 col-md-3 px-0 px-md-16">
           <div class="row m-0">
             <div class="col-12 px-0 mb-14">
-              <app-input [config]="inputConfig('Value')" formControlName="value"></app-input>
+              <app-input
+                [config]="inputConfig('Value')"
+                formControlName="value"
+              ></app-input>
             </div>
             <div class="col-12 px-0 mb-14">
-              <app-input (click)="openOrderDiscountModal(OrderDiscountModalTemplate, orderId)" [config]="inputConfig('Discount', 'text', '', true, 'Currency')" formControlName="discount">
+              <app-input
+                (click)="
+                  openOrderDiscountModal(OrderDiscountModalTemplate, orderId)
+                "
+                [config]="inputConfig('Discount', 'text', '', true, 'Currency')"
+                formControlName="discount"
+              >
               </app-input>
             </div>
           </div>
         </div>
 
-        <div class="col-12 col-md-3 px-0 pl-md-16 d-md-flex align-items-md-center">
-
+        <div
+          class="col-12 col-md-3 px-0 pl-md-16 d-md-flex align-items-md-center"
+        >
           <div class="col-12 px-0 pt-24 px-16 pb-32 rc-ultra-light-red-bg">
-            <app-input [config]="inputConfig('Total Value', 'text', '',true, 'Currency')" formControlName="totalValue"></app-input>
+            <app-input
+              [config]="
+                inputConfig('Total Value', 'text', '', true, 'Currency')
+              "
+              formControlName="totalValue"
+            ></app-input>
           </div>
-
         </div>
       </form>
     </div>
 
     <div class="w-100">
-      <app-table [rows]="tableData | async" [config]="tableConfig" (filterData)="filterTable($event)"
-        [rowDetailConfig]="rowDetailIcons"></app-table>
+      <app-table
+        [rows]="tableData | async"
+        [config]="tableConfig"
+        (filterData)="filterTable($event)"
+        [rowDetailConfig]="rowDetailIcons"
+      ></app-table>
       <div class="nothing" *ngIf="noProduct">
-        <img src="./../../../assets/images/info.svg" alt="Delete-icon" class="icon-40" />
+        <img
+          src="./../../../assets/images/info.svg"
+          alt="Delete-icon"
+          class="icon-40"
+        />
         <div class="nothing-text">
-          <span>Nothing added yet. Click "Add product" to select a product.</span>
+          <span
+            >Nothing added yet. Click "Add product" to select a product.</span
+          >
         </div>
       </div>
     </div>
 
     <div class="w-100 mb-50">
-      <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-between">
+      <div
+        [class]="
+          'rc-light-grey-bg mt-15 p-16 d-flex ' +
+          (displayOptions ? 'justify-content-between' : 'justify-content-end')
+        "
+      >
         <!--  -->
-        <div class="btn-group" dropdown>
-
-          <button id="button-basic" dropdownToggle type="button" class="btn-no-padding btn-tertiary-nounderlied"
-            aria-controls="dropdown-basic">
-            Options <span class="ml-6"> <img src="./../../../assets/images/Chevron-red.svg" alt="Delete-icon"
-                class="icon-w20-h20" /></span>
+        <div class="btn-group" dropdown *ngIf="displayOptions">
+          <button
+            id="button-basic"
+            dropdownToggle
+            type="button"
+            class="btn-no-padding btn-tertiary-nounderlied"
+            aria-controls="dropdown-basic"
+          >
+            Options
+            <span class="ml-6">
+              <img
+                src="./../../../assets/images/Chevron-red.svg"
+                alt="Delete-icon"
+                class="icon-w20-h20"
+            /></span>
           </button>
 
-          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu order-dropdown mr-5" role="menu"
-            aria-labelledby="button-basic">
-            <li role="menuitem"><a class="dropdown-item" (click)="payOrder()">Payed</a></li>
-            <li (click)="cancelOrder()" role="menuitem"><a class="dropdown-item">Cancel</a></li>
+          <ul
+            id="dropdown-basic"
+            *dropdownMenu
+            class="dropdown-menu order-dropdown mr-5"
+            role="menu"
+            aria-labelledby="button-basic"
+          >
+            <li role="menuitem">
+              <a class="dropdown-item" (click)="payOrder()">Payed</a>
+            </li>
+            <li (click)="cancelOrder()" role="menuitem">
+              <a class="dropdown-item">Cancel</a>
+            </li>
           </ul>
         </div>
         <!--  -->
 
         <div>
-          <app-button type="button" [disabled]="OrderStatus === 'Paid' || OrderStatus === 'WaitingPaymentConfirmation'" (click)="openModal(template,OrderStatus )" color="secondaryB" class="mr-8">
+          <app-button
+            type="button"
+            [disabled]="
+              OrderStatus === 'Paid' ||
+              OrderStatus === 'WaitingPaymentConfirmation'
+            "
+            (click)="openModal(template, OrderStatus)"
+            color="secondaryB"
+            class="mr-8"
+          >
             Add product
           </app-button>
 
-          <app-button type="button" [disabled]="OrderStatus === 'Paid' || OrderStatus === 'WaitingPaymentConfirmation'" color="primary" (click)="checkout(OrderStatus)">
+          <app-button
+            type="button"
+            [disabled]="
+              OrderStatus === 'Paid' ||
+              OrderStatus === 'WaitingPaymentConfirmation'
+            "
+            color="primary"
+            (click)="checkout(OrderStatus)"
+          >
             Check Out
           </app-button>
-
         </div>
-
       </div>
     </div>
   </div>
@@ -137,30 +273,73 @@
 <ng-template #DiscountModalTemplate>
   <div class="modal-header px-32">
     <span class="add-product">Apply discount</span>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div [formGroup]="discountForm" class="modal-body px-32 discount-body">
     <div class="row">
       <div class="col-12 mb-14">
-        <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Discount type</label>
-        <div class="rc-form-group rc-form-group-without-prefix" >
-            <app-chips *ngFor="let button of discountTypes" class="mr-2"  [color]="(selectedDiscountBtn == button) ? 'selected' : 'default'" (click)="setDiscountType($event,button)">
-                {{button.title}}
-            </app-chips>
+        <label
+          class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0"
+          >Discount type</label
+        >
+        <div class="rc-form-group rc-form-group-without-prefix">
+          <app-chips
+            *ngFor="let button of discountTypes"
+            class="mr-2"
+            [color]="selectedDiscountBtn == button ? 'selected' : 'default'"
+            (click)="setDiscountType($event, button)"
+          >
+            {{ button.title }}
+          </app-chips>
         </div>
-    </div>
-    <div *ngIf="selectedDiscountBtn.title === 'Percentage'" class="col-12  mb-14">
-      <app-input formControlName="value" [config]="inputConfig('Discount Value', 'number', 'Type here', true, 'percent')" ></app-input>
-    </div>
-    <div *ngIf="selectedDiscountBtn.title === 'Fixed'" class="col-12  mb-14">
-      <app-input formControlName="value" [config]="inputConfig('Discount Value', 'number', 'Type here', true, 'Currency')" ></app-input>
-    </div>
+      </div>
+      <div
+        *ngIf="selectedDiscountBtn.title === 'Percentage'"
+        class="col-12 mb-14"
+      >
+        <app-input
+          formControlName="value"
+          [config]="
+            inputConfig(
+              'Discount Value',
+              'number',
+              'Type here',
+              true,
+              'percent'
+            )
+          "
+        ></app-input>
+      </div>
+      <div *ngIf="selectedDiscountBtn.title === 'Fixed'" class="col-12 mb-14">
+        <app-input
+          formControlName="value"
+          [config]="
+            inputConfig(
+              'Discount Value',
+              'number',
+              'Type here',
+              true,
+              'Currency'
+            )
+          "
+        ></app-input>
+      </div>
     </div>
   </div>
   <div class="discount-footer d-flex justify-content-end">
-    <app-button type="button" (click)="modalRef.hide()" color="secondaryB" class="mr-8">
+    <app-button
+      type="button"
+      (click)="modalRef.hide()"
+      color="secondaryB"
+      class="mr-8"
+    >
       Cancel
     </app-button>
 
@@ -172,34 +351,60 @@
 <ng-template #OrderDiscountModalTemplate>
   <div class="modal-header px-32">
     <span class="add-product">Apply discount</span>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div [formGroup]="discountForm" class="modal-body px-32 discount-body">
     <div class="row">
       <div class="col-12 mb-14">
-        <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Discount type</label>
-        <div class="rc-form-group rc-form-group-without-prefix" >
-            <app-chips  class="mr-2"  color="selected">
-                Fixed
-            </app-chips>
+        <label
+          class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0"
+          >Discount type</label
+        >
+        <div class="rc-form-group rc-form-group-without-prefix">
+          <app-chips class="mr-2" color="selected"> Fixed </app-chips>
         </div>
-    </div>
-    <!-- <div *ngIf="selectedDiscountBtn.title === 'Percentage'" class="col-12  mb-14">
+      </div>
+      <!-- <div *ngIf="selectedDiscountBtn.title === 'Percentage'" class="col-12  mb-14">
       <app-input formControlName="value" [config]="inputConfig('Discount Value', 'number', 'Type here', true, 'percent')" ></app-input>
     </div> -->
-    <div class="col-12  mb-14">
-      <app-input formControlName="value" [config]="inputConfig('Discount Value', 'number', 'Type here', true, 'Currency')" ></app-input>
-    </div>
+      <div class="col-12 mb-14">
+        <app-input
+          formControlName="value"
+          [config]="
+            inputConfig(
+              'Discount Value',
+              'number',
+              'Type here',
+              true,
+              'Currency'
+            )
+          "
+        ></app-input>
+      </div>
     </div>
   </div>
   <div class="discount-footer d-flex justify-content-end">
-    <app-button type="button" (click)="modalRef.hide()" color="secondaryB" class="mr-8">
+    <app-button
+      type="button"
+      (click)="modalRef.hide()"
+      color="secondaryB"
+      class="mr-8"
+    >
       Cancel
     </app-button>
 
-    <app-button type="button" color="primary" (click)="submitOrderDiscountForm()">
+    <app-button
+      type="button"
+      color="primary"
+      (click)="submitOrderDiscountForm()"
+    >
       Apply
     </app-button>
   </div>
@@ -207,17 +412,20 @@
 <ng-template #template>
   <div class="modal-header px-32">
     <span class="add-product">Add Product</span>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body px-32">
-    <div class=" rc-card-grid">
-      <div  *ngFor="let item of allProducts">
+    <div class="rc-card-grid">
+      <div *ngFor="let item of allProducts">
         <app-shop-card [item]="item"></app-shop-card>
-
       </div>
-
     </div>
   </div>
 </ng-template>
@@ -230,16 +438,27 @@
 </ng-template>
 
 <ng-template #actionDropdown let-column="column" let-row="row">
-  <div [class]="(gridColumnsReadOnlyAccessStatus.quantity &&'pointer-event-none')">
-    <img (click)="deleteItem(row)" src="./../../../assets/images/Delete.svg" alt="Delete-icon" class="icon-w20-h20" />
+  <div
+    [class]="gridColumnsReadOnlyAccessStatus.quantity && 'pointer-event-none'"
+  >
+    <img
+      (click)="deleteItem(row)"
+      src="./../../../assets/images/Delete.svg"
+      alt="Delete-icon"
+      class="icon-w20-h20"
+    />
   </div>
-
 </ng-template>
 
-<ng-template #valueTemplate let-column="column" let-row="row" let-value="cellValue">
+<ng-template
+  #valueTemplate
+  let-column="column"
+  let-row="row"
+  let-value="cellValue"
+>
   <div class="text-right px-0 mx-0">
     <span>
-      {{Currency}}
+      {{ Currency }}
     </span>
     <span>
       {{ value }}
@@ -247,30 +466,65 @@
   </div>
 </ng-template>
 
-<ng-template #discountTemplate let-column="column" let-row="row" let-value="cellValue">
+<ng-template
+  #discountTemplate
+  let-column="column"
+  let-row="row"
+  let-value="cellValue"
+>
   <!-- {{toStr(row)}} -->
-  <div [class]="'text-right px-0 mx-0 ' + (gridColumnsReadOnlyAccessStatus.quantity &&'pointer-event-none')">
+  <div
+    [class]="
+      'text-right px-0 mx-0 ' +
+      (gridColumnsReadOnlyAccessStatus.discount && 'pointer-event-none')
+    "
+  >
     <span *ngIf="row.discount === 0">
-      {{ row.DiscountPrc}} {{Currency}}
+      {{ row.DiscountPrc }} {{ Currency }}
     </span>
-    <span *ngIf="row.discount !== 0">
-      {{ row.discount }} %
-      
-    </span>
-    <img (click)="openDiscountModal(DiscountModalTemplate, row)" src="./../../../assets/images/Edit.svg" alt="edit-icon" class="icon-w16-h16" />
+    <span *ngIf="row.discount !== 0"> {{ row.discount }} % </span>
+    <img
+      *ngIf="!gridColumnsReadOnlyAccessStatus.discount"
+      (click)="openDiscountModal(DiscountModalTemplate, row)"
+      src="./../../../assets/images/Edit.svg"
+      alt="edit-icon"
+      class="icon-w16-h16"
+    />
   </div>
 </ng-template>
 
-<ng-template #quantityTemplate let-column="column" let-row="row" let-value="cellValue">
-  <div class="text-right d-flex flex-row align-items-center justify-content-center">
+<ng-template
+  #quantityTemplate
+  let-column="column"
+  let-row="row"
+  let-value="cellValue"
+>
+  <div
+    class="text-right d-flex flex-row align-items-center justify-content-center"
+  >
     <div class="mr-8">
       {{ value }}
     </div>
-    <div [class]="'d-flex flex-column align-items-center justify-content-center ' + (gridColumnsReadOnlyAccessStatus.quantity &&'pointer-event-none')">
-      <img (click)="changeQuantity('inc', row)" src="./../../../assets/images/Caret-up.svg" alt="Caret-up"
-        class="icon-w20-h10" />
-      <img (click)="changeQuantity('dec', row)" src="./../../../assets/images/Caret-down.svg" alt="Caret-down"
-        class="icon-w20-h10" />
+    <div
+      [class]="
+        'd-flex flex-column align-items-center justify-content-center ' +
+        (gridColumnsReadOnlyAccessStatus.quantity && 'pointer-event-none')
+      "
+    >
+      <img
+        *ngIf="!gridColumnsReadOnlyAccessStatus.quantity"
+        (click)="changeQuantity('inc', row)"
+        src="./../../../assets/images/Caret-up.svg"
+        alt="Caret-up"
+        class="icon-w20-h10"
+      />
+      <img
+        *ngIf="!gridColumnsReadOnlyAccessStatus.quantity"
+        (click)="changeQuantity('dec', row)"
+        src="./../../../assets/images/Caret-down.svg"
+        alt="Caret-down"
+        class="icon-w20-h10"
+      />
     </div>
   </div>
 </ng-template>

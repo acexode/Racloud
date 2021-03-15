@@ -48,6 +48,7 @@ export interface OrderDetailsPermissionsAction {
     add: 'full' | 'hidden' | 'readonly';
     update: 'full' | 'hidden' | 'readonly';
     delete: 'full' | 'hidden' | 'readonly';
+    options?: 'full' | 'hidden' | 'readonly';
 
 }
 export interface OrderRoles {

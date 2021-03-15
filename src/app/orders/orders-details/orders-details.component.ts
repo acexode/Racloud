@@ -15,7 +15,6 @@ import { OrderService } from '../service.service';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 import { get } from 'lodash';
 import { getOrderDetailsPagePermissions } from 'src/app/core/permission/order/order.details.permission';
-import { PriceListService } from 'src/app/core/services/price-list/price-list.service';
 @Component({
   selector: 'app-orders-details',
   templateUrl: './orders-details.component.html',
@@ -25,7 +24,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
 
   caretLeftIcon = '../assets/images/caret-left.svg';
   orderId = '';
-  addProduct = false
+  addProduct = false;
   Currency;
   backUrl = '/orders';
   disableForm = false;
@@ -176,7 +175,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     });
     this.routeId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.shopS.buyStore.subscribe((e: any) => {
-      console.log(e)
+      console.log(e);
       const orderId = this.routeId;
       if (e.hasOwnProperty('id') && !e.fromStore) {
         const companyId = this.componentForm.get('companyId').value || this.savedCompanyId;
@@ -196,7 +195,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         } else {
           this.displayMsg('Please select a customer', 'info');
         }
-        console.log(obj)
+        console.log(obj);
         this.onInitTable();
       }
     });
@@ -233,11 +232,11 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         const orderItems: any[] = e.OrderItems;
         this.getShops$ = this.service.getShops().subscribe((shop: any[]) => {
           this.addedProducts = [];
-          console.log(shop)
-          console.log(orderItems)
+          console.log(shop);
+          console.log(orderItems);
           shop.forEach(s => {
             const index = orderItems.findIndex((item: any) => item.ProductId === s.product.id);
-            console.log(index)
+            console.log(index);
             if (index > -1) {
               this.noProduct = false;
               this.addedProducts.push({
@@ -261,8 +260,8 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
           const uniqueArray = this.addedProducts.filter((v, i) => {
             return this.addedProducts.indexOf(v) === i;
           });
-          console.log(this.addedProducts)
-          this.shopS.cartStore.next(this.addedProducts)
+          console.log(this.addedProducts);
+          this.shopS.cartStore.next(this.addedProducts);
           this.rowData = this.addedProducts;
           const cloneData = this.addedProducts.map((v) => {
             return { ...v };
@@ -271,7 +270,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
           if (this.addedProducts.length < 1) {
             this.noProduct = true;
           }
-          this.ref.detectChanges()
+          this.ref.detectChanges();
           const dBody = document.querySelector('.datatable-body') as HTMLElement;
           if (dBody) {
             dBody.style.minHeight = 'auto';
@@ -456,7 +455,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     }
   }
   changeQuantity(type, row) {
-    console.log(type)
+    console.log(type);
     this.addedProducts = this.addedProducts.map(e => {
       if (e.orderItemId === row.orderItemId && type === 'inc') {
         const obj = {
@@ -657,6 +656,10 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       discount: field.productType === 'readonly' ? true : false,
       totalValue: field.productType === 'readonly' ? true : false,
     };
+  }
+  get displayOptions() {
+    const optionsStatus = get(get(this.permissions, 'actions', null), 'options', null);
+    return optionsStatus === 'full' ? true : false;
   }
   getTableColumns(permission: any = this.permissions): Array<any> {
     const applicationColumn = {

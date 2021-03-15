@@ -90,10 +90,10 @@ export class UsersService {
   resetPassword(obj) {
     return this.reqS.post(userEndpoints.resetPassword, obj);
   }
-  impersonate(obj){
+  impersonate(obj) {
     return this.reqS.post(userEndpoints.impersonate, obj);
   }
-  stopImpersonate(obj){
+  stopImpersonate(obj) {
     return this.reqS.post(userEndpoints.stopImpersonate, obj);
   }
 }
