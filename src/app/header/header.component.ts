@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   user: any;
   impersonatorId: any;
   company: any;
+  role
   authS$: Subscription;
   totalOrder
   constructor(
@@ -35,11 +36,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.shopS.cartStore.subscribe(cart =>{
-      console.log(cart)
-      this.totalOrder = cart.length
+      this.getCartCount()
     })
     this.authS$ = this.authS.getAuthState().subscribe(e => {
       const account = get(e, 'account', null);
+      this.role = e.account.roles;
       this.company = get(account, 'company', null) || 'No company';
       const firstname = get(get(account, 'user', null), 'firstname', null) || 'firstname';
       const lastname = get(get(account, 'user', null), 'lastname', null) || 'lastname';
@@ -50,12 +51,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         lastname,
         id
       };
-      this.orderS.cartTotal().subscribe((res:any) =>{
-        console.log(res.numberOfProductsInCart)
-        // const order:any = orders.orderItems.filter((ord:any) => ord.orderStatus === 'Cart' )[0]
-        this.totalOrder = res.numberOfProductsInCart
-        // console.log(order)
-      })
+      this.getCartCount()
     });
     this.CStore.getItem('token').subscribe(e =>{
       this.impersonatorId = e.impersonatorId
@@ -70,7 +66,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       return null;
     }
   }
-
+  getCartCount(){
+    this.orderS.cartTotal().subscribe((res:any) =>{
+      console.log(res.numberOfProductsInCart)
+      // const order:any = orders.orderItems.filter((ord:any) => ord.orderStatus === 'Cart' )[0]
+      this.totalOrder = res.numberOfProductsInCart
+      // console.log(order)
+    })
+  }
   userLogOut() {
     this.authS.logout();
   }
