@@ -15,7 +15,7 @@ export class CustomerService {
   getCustomers(): Observable<any> {
     return this.reqS.get<Array<CustomerModel>>(baseEndpoints.allCustomers);
   }
-  getCustomerCustomers(id): Observable<any> {
+  getCustomerCustomers(id: any): Observable<any> {
     return this.reqS.get<Array<CustomerModel>>(baseEndpoints.allCustomers + '?customerId='+ id);
   }
   disableCustomer(id: number) {

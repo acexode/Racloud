@@ -657,6 +657,14 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       totalValue: field.productType === 'readonly' ? true : false,
     };
   }
+  get gridColumnsIsTotallyReadonly() {
+    const gridC = this.gridColumnsReadOnlyAccessStatus;
+    return (
+      gridC.discount &&
+      gridC.totalValue &&
+      gridC.quantity &&
+      gridC.value) ? true : false;
+  }
   get displayOptions() {
     const optionsStatus = get(get(this.permissions, 'actions', null), 'options', null);
     return optionsStatus === 'full' ? true : false;
@@ -803,7 +811,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     }
     tempColumn.unshift(applicationColumn);
     tempColumn.splice(2, 0, umColumn);
-    if (tempColumn.length !== 0) {
+    if (tempColumn.length !== 0 && !this.gridColumnsIsTotallyReadonly) {
       tempColumn.push(action);
     }
     return tempColumn;

@@ -147,7 +147,8 @@ export class UserTabComponent implements OnInit, OnDestroy {
     console.log(id);
   }
   manageSub(data: any) {
-    this.router.navigate(['/users/edit-user', { id: data.id, backUrl: '/customer/manage/' + this.customerId }]);
+    console.log(data);
+    this.router.navigate(['/users/edit-user', { id: data.id, companyId: this.customerId, backUrl: '/customer/manage/' + this.customerId + '/tab/users' }]);
   }
   ngOnDestroy(): void {
     this.getCustomerUsers$.unsubscribe();

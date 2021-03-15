@@ -42,8 +42,9 @@ export class UsersService {
   }
   getRoles() {
     const roles = this.reqS.get(roleEndpoints.getRoles);
-    const companies = this.reqS.get(customersEndpoints.getCustomers);
-    return forkJoin([roles, companies]);
+    // const companies = this.reqS.get(customersEndpoints.getCustomers);
+    // return forkJoin([roles, companies]);
+    return roles;
   }
   getUsers() {
     return this.reqS.get(userEndpoints.getUsers);

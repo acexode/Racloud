@@ -52,7 +52,7 @@
           </div>
           <div class="col-4 pr-16">
               <!-- <div class="btn-group w-100 d-flex flex-column" dropdown> -->
-              <div *ngIf="!isCreateUserFromCustomer" class="btn-group w-100 d-flex flex-column" dropdown [autoClose]="autoClose">
+              <div *ngIf="!disableCustomerSelectField" class="btn-group w-100 d-flex flex-column" dropdown [autoClose]="autoClose">
                   <label class="rc-grey-color companyLabel montserrat-regular-font text-weight-normal m-0">Company </label>
                   <input type="text" formControlName="companyId" hidden >
                   <a id="button-basic" dropdownToggle type="button" class="select-dropdown dropdown-toggle" aria-controls="dropdown-basic">
@@ -69,13 +69,15 @@
 
                   </ul>
               </div>
-              <div *ngIf="isCreateUserFromCustomer" class="rc-select"> 
+              <div *ngIf="disableCustomerSelectField" class="rc-select"> 
                 <label class="rc-grey-color companyLabel montserrat-regular-font text-weight-normal m-0">Company </label>
-                <select [disabled]="isCreateUserFromCustomer"   formcontrolname="companyId"
+                <select [disabled]="disableCustomerSelectField"   formcontrolname="companyId"
                   class="ng-pristine ng-valid ng-touched">
                 <!-- <option selected disabled>Select</option> -->
-                <option *ngFor="let customer of filteredOptions" [value]="customer.id" [selected]=" savedCompanyId" >
-                  {{customer.companyName}} </option>
+                <!-- <option *ngFor="let customer of filteredOptions" [value]="customer.id" [selected]="savedCompanyId" >
+                  {{customer.companyName}} </option> -->
+                  <option [value]="companyId" [selected]="savedCompanyId" >
+                  {{companyLabel}} </option> 
               </select>
             </div>
           </div>

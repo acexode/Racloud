@@ -12,6 +12,7 @@ import { MessagesService } from 'src/app/shared/messages/services/messages.servi
 import { tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CustomerService } from 'src/app/core/services/customer/customer.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-create-user',
@@ -19,10 +20,11 @@ import { CustomerService } from 'src/app/core/services/customer/customer.service
   styleUrls: ['./create-user.component.scss']
 })
 export class CreateUserComponent implements OnInit {
+  authS$: Subscription;
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/users';
   isEdit = false;
-  isCreateUserFromCustomer = false;
+  disableCustomerSelectField = false;
   user = null;
   userForm: FormGroup;
   loggedInUser = null;
@@ -106,7 +108,6 @@ export class CreateUserComponent implements OnInit {
       IconType: Icon,
     };
   }
-
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -122,37 +123,18 @@ export class CreateUserComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     const companyID = this.route.snapshot.paramMap.get('companyId');
+    this.backUrl = this.route.snapshot.paramMap.get('backUrl') || '/users';
     console.log(companyID);
     this.cStorage.getItem('token').subscribe(data => {
-      console.log(data.user);
       this.loggedInUser = data.user;
       this.loggedInUserRole = data.roles[0];
     });
+    this.initForm();
+    this.setCustomerField();
     this.service.getRoles().subscribe((res: any[]) => {
       console.log(res);
-      this.roleOptions = res[0];
-      this.companyOptions = get(res[1], 'customers', []);
-      this.filteredOptions = get(res[1], 'customers', []);
-      if (companyID) {
-        console.log(this.companyOptions);
-        this.backUrl = '/customer/manage/' + companyID + '/tab/users';
-        this.isCreateUserFromCustomer = true;
-        this.savedCompanyId = companyID;
-        const userCompany = this.companyOptions.filter(c => c.id === parseInt(companyID, 10))[0];
-        console.log(userCompany);
-        this.companyLabel = get(userCompany, 'companyName', null);
-        console.log(userCompany);
-        this.userForm.patchValue({
-          firstName: '',
-          lastName: '',
-          email: '',
-          roleId: '',
-          companyId: companyID,
-        });
-      }
+      this.roleOptions = res;
     });
-
-    this.initForm();
     if (id) {
       this.isEdit = true;
       const idx = parseInt(id, 10);
@@ -180,6 +162,52 @@ export class CreateUserComponent implements OnInit {
       });
     }
 
+  }
+  setCustomerField(): void {
+    this.authS$ = this.authS.getAuthState().subscribe(
+      e => {
+        const account = get(e, 'account', null);
+        const company = get(account, 'company', null);
+        this.companyLabel = get(company, 'companyName', null);
+        const companyType = get(company, 'companyType', '');
+        console.log(company);
+        this.processCustomers(company.id);
+        if (companyType === 'Main') {
+          this.customerS.getCustomers().subscribe(
+            res => {
+              console.log(res);
+              this.companyOptions = get(res, 'customers', []);
+              this.filteredOptions = this.companyOptions;
+              if (this.companyOptions.length < 0) {
+                console.log('sfsfsfs');
+                this.disableCustomerSelectField = true;
+              } else {
+                this.disableCustomerSelectField = false;
+              }
+            },
+            _err => {
+              console.log('an error');
+              this.disableCustomerSelectField = true;
+
+            }
+          );
+        } else {
+          this.disableCustomerSelectField = true;
+        }
+        console.log(company);
+      }
+    );
+  }
+  processCustomers(companyID: any): void {
+    if (companyID) {
+      this.savedCompanyId = companyID;
+      this.userForm.patchValue({
+        companyId: companyID,
+      });
+    }
+  }
+  get companyId() {
+    return this.userForm.get('companyId');
   }
   initForm() {
     this.userForm = this.fb.group({
@@ -298,12 +326,7 @@ export class CreateUserComponent implements OnInit {
       console.log(id, user);
       this.service.updateUser(id, user).subscribe(
         _res => {
-          if (this.isCreateUserFromCustomer) {
-            this.router.navigate([this.backUrl]);
-          } else {
-            this.router.navigate(['/users']);
-
-          }
+          this.router.navigate([this.backUrl]);
         },
         err => {
           console.log('err: ', err);
