@@ -88,13 +88,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.isLoadingStatus();
           },
           err => {
-            this.msgS.addMessage({
-              text: 'Incorrect authentication! Please try again.',
-              type: 'danger',
-              dismissible: true,
-              customClass: 'mt-32',
-              hasIcon: true,
-            });
+            this.displayMsg('Incorrect authentication! Please try again.','danger');
             this.loginForm.markAllAsTouched();
             this.loginForm.updateValueAndValidity();
             this.cdRef.markForCheck();

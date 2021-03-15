@@ -50,18 +50,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
           this.loadCountriesState$ = this.countriesS.loadCountries().subscribe(
             _res => { },
             _err => {
-              this.msgS.addMessage({
-                text: 'Please Check your Network and reload. We encounter some issues while trying to load some data for you',
-                type: 'danger',
-                dismissible: true,
-                customClass: 'mt-32',
-                hasIcon: true,
-              });
+              this.displayMsg('Please Check your Network and reload. We encounter some issues while trying to load some data for you', 'danger')
             }
           );
         }
       }
     );
+    
     this.titleService.handleNavigationTitle().subscribe((v) => {
       if (v && v === 'Not found') {
 
@@ -79,6 +74,18 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     });
+  }
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
   }
   /**
    * Allows us to get the current year
