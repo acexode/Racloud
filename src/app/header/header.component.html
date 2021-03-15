@@ -3,53 +3,76 @@
     <div
       class="header-content d-flex flex-column justify-content-between w-100"
     >
-      <div
-        class="d-flex flex-row  align-items-center justify-content-between"
-      >
+      <div class="d-flex flex-row align-items-center justify-content-between">
         <div class="w-200px pl-16 pt-20 rc-accent-blue-bg">
-
           <app-ra-logo [groupType]="raLogoType"></app-ra-logo>
-
         </div>
         <div class="d-flex col p-0 justify-content-end">
-
           <!-- <div class="pl-32 text-title pr-32"><img class="border-right " src="../../assets/images/Cart.svg" /></div> -->
 
-
-            <ul class="navbar-nav nav-row">
-              <li class="nav-item pr-2">
-                <a *ngIf="impersonatorId" (click)="stopImpersonation()" class="nav-link pr-1 stop-imp" href="javascript:;">
-                  <img  src="../../assets/images/403.svg" />
-                </a>
-              </li>
-              <li class="nav-item pr-5">
-                <a class="nav-link position-relative" href="javascript:;">
-                  <img  src="../../assets/images/Cart.svg" />
-                  <div *ngIf="totalOrder > 0" class="cart"><span>{{totalOrder}}</span></div>
-                </a>
-              </li>
-              <li class=" border-left nav-item dropdown px-3 d-flex flex-row">
-                <div class="pr-2">
-                  <h5 class="name mb-0">{{user?.firstname}} {{user?.lastname}}</h5>
-                  <h6 class="organization">{{company?.companyName}}</h6>
+          <ul class="navbar-nav nav-row">
+            <li class="nav-item pr-2">
+              <a
+                *ngIf="impersonatorId"
+                (click)="stopImpersonation()"
+                class="nav-link pr-1 stop-imp"
+                href="javascript:;"
+              >
+                <img src="../../assets/images/403.svg" />
+              </a>
+            </li>
+            <li class="nav-item pr-5">
+              <a class="nav-link position-relative" routerLink="/orders">
+                <img src="../../assets/images/Cart.svg" />
+                <div *ngIf="totalOrder > 0" class="cart">
+                  <span>{{ totalOrder }}</span>
                 </div>
-                <div class="btn-group" dropdown>
-                  <a id="button-basic" dropdownToggle role="button"  class=" arrow"
-                          aria-controls="dropdown-basic">
-                  <img src="../../assets/images/chevron.svg" /></a>
-                  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu rc-dropdown"
-                      role="menu" aria-labelledby="button-basic">
-                    <li role="menuitem" class="rc-divider-item"><a (click)="navigate(company.id, 'company')" class="dropdown-item">Company profile</a>
-                    <li role="menuitem" class="rc-divider-item"><a (click)="navigate(user.id, 'user')" class="dropdown-item">My profile</a>
-                    </li>
-                    <li class="divider rc-dropdown-divider"></li>
-                    <li role="menuitem" class="rc-divider-item"><a class="dropdown-item" (click)="userLogOut()">Log out</a>
-
-                    </li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
+              </a>
+            </li>
+            <li class="border-left nav-item dropdown px-3 d-flex flex-row">
+              <div class="pr-2">
+                <h5 class="name mb-0">
+                  {{ user?.firstname }} {{ user?.lastname }}
+                </h5>
+                <h6 class="organization">{{ company?.companyName }}</h6>
+              </div>
+              <div class="btn-group" dropdown>
+                <a
+                  id="button-basic"
+                  dropdownToggle
+                  role="button"
+                  class="arrow"
+                  aria-controls="dropdown-basic"
+                >
+                  <img src="../../assets/images/chevron.svg"
+                /></a>
+                <ul
+                  id="dropdown-basic"
+                  *dropdownMenu
+                  class="dropdown-menu rc-dropdown"
+                  role="menu"
+                  aria-labelledby="button-basic"
+                >
+                  <li role="menuitem" class="rc-divider-item">
+                    <a
+                      (click)="navigate(company.id, 'company')"
+                      class="dropdown-item"
+                      >Company profile</a
+                    >
+                  </li>
+                  <li role="menuitem" class="rc-divider-item">
+                    <a (click)="navigate(user.id, 'user')" class="dropdown-item"
+                      >My profile</a
+                    >
+                  </li>
+                  <li class="divider rc-dropdown-divider"></li>
+                  <li role="menuitem" class="rc-divider-item">
+                    <a class="dropdown-item" (click)="userLogOut()">Log out</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
