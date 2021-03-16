@@ -161,6 +161,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         } else {
           const auth = get(data, 'auth', null);
           this.permissions = getOrderDetailsPagePermissions(auth);
+          console.log(this.permissions);
           this.ngOnInitIt();
           this.setFormDisableAccess();
           this.componentForm.get('searchCompany').enable();
@@ -608,6 +609,20 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         value: field.value === 'hidden' ? true : false,
         discount: field.discount === 'hidden' ? true : false,
         totalValue: field.totalValue === 'hidden' ? true : false,
+      };
+    }
+  }
+  get fieldsReadOnlyStatus() {
+    const field = get(this.permissions, 'fields', null);
+    if (field) {
+      return {
+        orderNumber: field.orderNumber === 'readonly' ? true : false,
+        companyId: field.companyId === 'readonly' ? true : false,
+        status: field.status === 'readonly' ? true : false,
+        orderDate: field.orderDate === 'readonly' ? true : false,
+        value: field.value === 'readonly' ? true : false,
+        discount: field.discount === 'readonly' ? true : false,
+        totalValue: field.totalValue === 'readonly' ? true : false,
       };
     }
   }

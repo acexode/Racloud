@@ -39,13 +39,32 @@
           <div class="row m-0 p-0">
             <div class="col-12 px-0 mb-14">
               <app-input
-                [config]="inputConfig('Order Number')"
-                formControlName="orderNumber"
-              ></app-input>
+                [config]="
+                  inputConfig(
+                    'Order Number',
+                    'text',
+                    'Order Number here',
+                    false,
+                    '',
+                    fieldsReadOnlyStatus.orderNumber
+                  )
+                "
+              >
+                formControlName="orderNumber" ></app-input
+              >
             </div>
             <div class="col-12 px-0 mb-14">
               <app-input
-                [config]="inputConfig('Order Date', 'date')"
+                [config]="
+                  inputConfig(
+                    'Order Date',
+                    'date',
+                    'Order Date Here',
+                    false,
+                    '',
+                    fieldsReadOnlyStatus.orderDate
+                  )
+                "
                 formControlName="orderDate"
               ></app-input>
             </div>
@@ -134,7 +153,16 @@
             </div>
             <div class="col-12 px-0 mb-14">
               <app-input
-                [config]="inputConfig('Status')"
+                [config]="
+                  inputConfig(
+                    'Status',
+                    'text',
+                    'Status Here',
+                    false,
+                    '',
+                    fieldsReadOnlyStatus.status
+                  )
+                "
                 formControlName="status"
               ></app-input>
             </div>
@@ -145,7 +173,16 @@
           <div class="row m-0">
             <div class="col-12 px-0 mb-14">
               <app-input
-                [config]="inputConfig('Value')"
+                [config]="
+                  inputConfig(
+                    'Value',
+                    'text',
+                    'value here',
+                    false,
+                    '',
+                    fieldsReadOnlyStatus.value
+                  )
+                "
                 formControlName="value"
               ></app-input>
             </div>
@@ -154,7 +191,16 @@
                 (click)="
                   openOrderDiscountModal(OrderDiscountModalTemplate, orderId)
                 "
-                [config]="inputConfig('Discount', 'text', '', true, 'Currency')"
+                [config]="
+                  inputConfig(
+                    'Discount',
+                    'text',
+                    'Discount Here',
+                    true,
+                    'Currency',
+                    fieldsReadOnlyStatus.discount
+                  )
+                "
                 formControlName="discount"
               >
               </app-input>
@@ -168,7 +214,14 @@
           <div class="col-12 px-0 pt-24 px-16 pb-32 rc-ultra-light-red-bg">
             <app-input
               [config]="
-                inputConfig('Total Value', 'text', '', true, 'Currency')
+                inputConfig(
+                  'Total Value',
+                  'text',
+                  'Total Value Here',
+                  true,
+                  'Currency',
+                  fieldsReadOnlyStatus.totalValue
+                )
               "
               formControlName="totalValue"
             ></app-input>
