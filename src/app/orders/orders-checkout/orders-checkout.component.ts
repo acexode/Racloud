@@ -4,10 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
-import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
-import { TableI } from 'src/app/shared/table/models/table.interface';
 import { OrderService } from '../service.service';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
+import { ShopService } from 'src/app/shop/shop.service';
 @Component({
   selector: 'app-orders-checkout',
   templateUrl: './orders-checkout.component.html',
@@ -16,8 +15,8 @@ import {Location} from '@angular/common';
 export class OrdersCheckoutComponent implements OnInit {
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/orders';
-  checkoutDetails
-  customerDetails
+  checkoutDetails;
+  customerDetails;
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -28,48 +27,51 @@ export class OrdersCheckoutComponent implements OnInit {
     },
   };
   rows = [];
-  discountTypes =  [
-    {title: 'Percentage', name: 'button1'},
-    {title: 'Fixed', name: 'button2'},
+  discountTypes = [
+    { title: 'Percentage', name: 'button1' },
+    { title: 'Fixed', name: 'button2' },
   ];
-  selectedDiscountBtn = this.discountTypes[0]
+  selectedDiscountBtn = this.discountTypes[0];
   rowData: Array<any> = [];
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
-  addedProducts = []
-  allProducts = []
-  customers
-  savedCompanyId = null
-  disableCustomer = false
+  addedProducts = [];
+  allProducts = [];
+  customers;
+  savedCompanyId = null;
+  disableCustomer = false;
   controlStore: { [key: string]: AbstractControl; } = {};
   isDropup: boolean;
-  routeId:any
-  paymentMethod= [
-    {title: 'Bank Transfer', name: 'BankTransfer'},
-    {title: 'Credit Card', name: 'CreditCard'},
+  routeId: any;
+  paymentMethod = [
+    { title: 'Bank Transfer', name: 'BankTransfer' },
+    { title: 'Credit Card', name: 'CreditCard' },
   ];
-  orderId
-  totalValue
-  paymentMethodBtn = this.paymentMethod[0]
+  orderId;
+  totalValue;
+  paymentMethodBtn = this.paymentMethod[0];
   noProduct: boolean;
-  constructor(private msgS: MessagesService,
+  constructor(
+    private msgS: MessagesService,
     private router: Router,
     private route: ActivatedRoute,
     private _location: Location,
-    private service: OrderService) { }
+    private service: OrderService,
+    private shopS: ShopService,
+  ) { }
 
   ngOnInit(): void {
-    this.orderId = parseInt(this.route.snapshot.paramMap.get('id'), 10)
-    this.service.getSingleOrder(this.orderId).subscribe((e:any) =>{
-      console.log(e)
-      this.checkoutDetails = e
-      this.addedProducts = e.OrderItems
-      this.totalValue = this.addedProducts.map(product => product.TotalValue).reduce((total,num) => total + num)
-      this.service.getOneCustomers(e.CompanyId).subscribe((obj:any) =>{
-        this.customerDetails = obj.customer
-      })
-    })
+    this.orderId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+    this.service.getSingleOrder(this.orderId).subscribe((e: any) => {
+      console.log(e);
+      this.checkoutDetails = e;
+      this.addedProducts = e.OrderItems;
+      this.totalValue = this.addedProducts.map(product => product.TotalValue).reduce((total, num) => total + num);
+      this.service.getOneCustomers(e.CompanyId).subscribe((obj: any) => {
+        this.customerDetails = obj.customer;
+      });
+    });
   }
-  selectPaymentMethod(event,button){
+  selectPaymentMethod(event, button) {
     event.preventDefault();
     if (button === this.paymentMethodBtn) {
       this.paymentMethodBtn = undefined;
@@ -77,20 +79,21 @@ export class OrdersCheckoutComponent implements OnInit {
       this.paymentMethodBtn = button;
     }
   }
-  sendOrder(){
+  sendOrder() {
     const obj = {
       paymentMethod: this.paymentMethodBtn.name
-    }
-    this.service.sendOrder(this.orderId, obj).subscribe(e =>{
-      this.router.navigate(['orders'])
-    },(err) =>{
+    };
+    this.service.sendOrder(this.orderId, obj).subscribe(e => {
+      this.shopS.cartStore.next([]);
+      this.router.navigate(['orders']);
+    }, (err) => {
       this.displayMsg(err.error, 'danger');
-    })
+    });
   }
-  navigateBack(){
-    this._location.back()
+  navigateBack() {
+    this._location.back();
   }
-  displayMsg(msg, type){
+  displayMsg(msg, type) {
     this.msgS.addMessage({
       text: msg,
       type,
@@ -98,8 +101,8 @@ export class OrdersCheckoutComponent implements OnInit {
       customClass: 'mt-32',
       hasIcon: true,
     });
-    setTimeout(()=> {
-      this.msgS.clearMessages()
-    },5000)
+    setTimeout(() => {
+      this.msgS.clearMessages();
+    }, 5000);
   }
 }

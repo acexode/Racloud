@@ -36,7 +36,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.shopS.cartStore.subscribe(cart => {
-      this.getCartCount();
+      console.log('cart ttt', cart);
+      if (cart.length > 0) {
+        this.getCartCount();
+      } else {
+        this.totalOrder = 0;
+      }
     });
     this.authS$ = this.authS.getAuthState().subscribe(e => {
       const account = get(e, 'account', null);
@@ -69,7 +74,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   getCartCount() {
     this.orderS.cartTotal().subscribe((res: any) => {
-      console.log(res.numberOfProductsInCart);
+      console.log(res);
       // const order:any = orders.orderItems.filter((ord:any) => ord.orderStatus === 'Cart' )[0]
       this.totalOrder = res.numberOfProductsInCart;
       // console.log(order)

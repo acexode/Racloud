@@ -161,7 +161,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         } else {
           const auth = get(data, 'auth', null);
           this.permissions = getOrderDetailsPagePermissions(auth);
-          console.log(this.permissions);
           this.ngOnInitIt();
           this.setFormDisableAccess();
           this.componentForm.get('searchCompany').enable();
@@ -178,7 +177,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     });
     this.routeId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.shopS.buyStore.subscribe((e: any) => {
-      console.log(e);
       const orderId = this.routeId;
       if (e.hasOwnProperty('id') && !e.fromStore) {
         const companyId = this.componentForm.get('companyId').value || this.savedCompanyId;
@@ -198,7 +196,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         } else {
           this.displayMsg('Please select a customer', 'info');
         }
-        console.log(obj);
         this.onInitTable();
       }
     });
@@ -223,7 +220,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     if (id) {
       const idx = parseInt(id, 10);
       this.getSingleOrder$ = this.service.getSingleOrder(idx).subscribe((e: any) => {
-        // console.log(e);
         this.OrderStatus = e.OrderStatus;
         if (e.CompanyId !== null) {
           this.companyCurrencyCode = get(e, 'Currency', '');
@@ -235,11 +231,8 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         const orderItems: any[] = e.OrderItems;
         this.getShops$ = this.service.getShops().subscribe((shop: any[]) => {
           this.addedProducts = [];
-          console.log(shop);
-          console.log(orderItems);
           shop.forEach(s => {
             const index = orderItems.findIndex((item: any) => item.ProductId === s.product.id);
-            console.log(index);
             if (index > -1) {
               this.noProduct = false;
               this.addedProducts.push({
@@ -259,11 +252,9 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
               return null;
             }
           });
-          // console.log(this.addedProducts)
           const uniqueArray = this.addedProducts.filter((v, i) => {
             return this.addedProducts.indexOf(v) === i;
           });
-          console.log(this.addedProducts);
           this.shopS.cartStore.next(this.addedProducts);
           this.rowData = this.addedProducts;
           const cloneData = this.addedProducts.map((v) => {
@@ -458,7 +449,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     }
   }
   changeQuantity(type, row) {
-    console.log(type);
     this.addedProducts = this.addedProducts.map(e => {
       if (e.orderItemId === row.orderItemId && type === 'inc') {
         const obj = {
@@ -479,7 +469,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
           this.loadOrder();
         }, err => {
           this.displayMsg(err.error, 'danger');
-          console.log(err);
         });
         return e;
       }
@@ -539,7 +528,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       this.loadOrder();
     }, err => {
       if (err.status === 200) {
-        console.log(err.status);
         this.loadOrder();
       }
       this.displayMsg(err.error, 'danger');
@@ -830,7 +818,8 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     }
     tempColumn.unshift(applicationColumn);
     tempColumn.splice(2, 0, umColumn);
-    if (tempColumn.length !== 0 && !this.gridColumnsIsTotallyReadonly) {
+    /*  && !this.gridColumnsIsTotallyReadonly */
+    if (tempColumn.length !== 0) {
       tempColumn.push(action);
     }
     return tempColumn;

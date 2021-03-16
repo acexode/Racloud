@@ -558,19 +558,16 @@
     </div>
     <div
       [class]="
-        'd-flex flex-column align-items-center justify-content-center ' +
-        (gridColumnsReadOnlyAccessStatus.quantity && 'pointer-event-none')
+        'd-flex flex-column align-items-center justify-content-center '
       "
     >
       <img
-        *ngIf="!gridColumnsReadOnlyAccessStatus.quantity"
         (click)="changeQuantity('inc', row)"
         src="./../../../assets/images/Caret-up.svg"
         alt="Caret-up"
         class="icon-w20-h10"
       />
       <img
-        *ngIf="!gridColumnsReadOnlyAccessStatus.quantity"
         (click)="changeQuantity('dec', row)"
         src="./../../../assets/images/Caret-down.svg"
         alt="Caret-down"

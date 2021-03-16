@@ -1,14 +1,10 @@
-import { get } from 'lodash';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 import { CardItem } from 'src/app/shared/rc-forms/models/card-item-model';
-import { BehaviorSubject } from 'rxjs';
 import { ShopService } from 'src/app/shop/shop.service';
 import { OrderService } from 'src/app/orders/service.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CurrencyService } from 'src/app/core/services/currency/currency.service';
-import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
-import { TokenInterface } from 'src/app/core/models/token.interface';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component({
@@ -18,7 +14,7 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 })
 export class ShopCardComponent implements OnInit {
   @Input() item!: CardItem;
-  companyId
+  companyId;
   acronym;
   cardTypes = {
     wl: {
@@ -72,22 +68,18 @@ export class ShopCardComponent implements OnInit {
   };
   constructor(
     private orderS: OrderService,
-    private route: ActivatedRoute,
     private currencyS: CurrencyService,
     private authS: AuthService,
     private router: Router,
     private service: ShopService,
     private modalService: BsModalService,
-    private storeS: CustomStorageService
   ) { }
 
   ngOnInit(): void {
-    this.authS.authState.subscribe(data =>{
-      console.log(data)
-      this.companyId = data.account?.company.id
-      console.log(this.companyId)
+    this.authS.authState.subscribe(data => {
+      this.companyId = data.account?.company.id;
 
-    })
+    });
     const str = this.item?.product?.name;
     if (str) {
       this.acronym = str.split(/\s/).reduce((response, word) => response += word.slice(0, 1), '');
@@ -111,12 +103,10 @@ export class ShopCardComponent implements OnInit {
     this.cardTypes[type].productVersion = this.item?.productVersion || '& version';
   }
   buy(item) {
-    console.log(item)
-    const {productId} = item
-    console.log(productId)
+    const { productId } = item;
+    console.log(productId);
     if (this.router.url.includes('shop')) {
-      console.log('HEY')
-      item.fromStore = true
+      item.fromStore = true;
       this.service.buyStore.next(item);
       this.orderS.generateOrder().subscribe((e: any) => {
         const obj: any = {
@@ -125,13 +115,11 @@ export class ShopCardComponent implements OnInit {
           companyId: this.companyId
         };
         this.orderS.addOrderToCart(e.id, obj).subscribe((res: any) => {
-          console.log(res)
-          this.service.cartStore.next(res.OrderItems)
-          // this.router.navigateByUrl('orders/orders-details/' + e.id);
-        })
+          this.service.cartStore.next(res.OrderItems);
+        });
       });
     } else {
-      item.fromStore = false
+      item.fromStore = false;
       this.service.buyStore.next(item);
       this.modalService.hide(1);
     }
