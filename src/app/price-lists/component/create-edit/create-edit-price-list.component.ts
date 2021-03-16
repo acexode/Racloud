@@ -360,13 +360,9 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
     if (this.products && this.currency) {
       this.productS.openAddProductFormStepModal();
     } else {
-      this.msgS.addMessage({
-        text: 'You can not add product at this current time please check your newtowrk and try again.',
-        type: 'danger',
-        dismissible: true,
-        customClass: 'mt-32',
-        hasIcon: true
-      });
+      this.displayMsg(
+        'You can not add product at this current time please check your newtowrk and try again.',
+        'danger');
     }
   }
   getProductAvailabilityStatus() {
@@ -401,13 +397,8 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
     ).subscribe(
       (data) => {
         if (data.length < 1) {
-          this.msgS.addMessage({
-            text: 'Please add a product',
-            type: 'info',
-            dismissible: true,
-            customClass: 'mt-32',
-            hasIcon: true,
-          });
+          this.displayMsg(
+            'Please add a product','info');
           // loading
           this.isLoadingStatus();
         } else {
@@ -421,23 +412,15 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
               };
               this.priceListFormDataEmitter.emit(d);
             } else {
-              this.msgS.addMessage({
-                text: 'Please Select a currency',
-                type: 'info',
-                dismissible: true,
-                customClass: 'mt-32',
-                hasIcon: true,
-              });
+              this.displayMsg(
+                'Please Select a currency',
+                'info');
               this.isLoadingStatus();
             }
           } else {
-            this.msgS.addMessage({
-              text: 'Price List name field is empty',
-              type: 'info',
-              dismissible: true,
-              customClass: 'mt-32',
-              hasIcon: true,
-            });
+            this.displayMsg(
+              'Price List name field is empty',
+              'info');
             this.isLoadingStatus();
           }
         }
@@ -467,6 +450,18 @@ export class CreateEditPriceListComponent implements OnInit, OnDestroy {
   setCurrency(data: any) {
     this.currency = get(data, 'currency', '');
     this.currencySymbol = this.loadCurrencySymbol(this.currency);
+  }
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
   }
   ngOnDestroy(): void {
     this.getProducts$.unsubscribe();

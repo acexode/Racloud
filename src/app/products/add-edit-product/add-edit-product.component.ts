@@ -49,14 +49,14 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
   };
   tabs = [
     {
-      name: 'Options',
-      template: 'optionsTab',
+      name: 'Info',
+      template: 'infoTab',
       isSelected: false,
       defaultSelected: true,
     },
     {
-      name: 'Info',
-      template: 'infoTab',
+      name: 'Options',
+      template: 'optionsTab',
       isSelected: false,
       defaultSelected: false,
     }
@@ -152,7 +152,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         }
       });
       this.selectedRows = this.optionList.filter(op => op.selected === true);
-      this.setTab('Options');
+      this.setTab('Info');
     });
   }
   updateForm(data) {
@@ -201,9 +201,6 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
       ],
       productUrl: [
         '',
-        [
-          Validators.required,
-        ],
       ],
       selectedOptions: this.fb.array([])
     });

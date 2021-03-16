@@ -169,23 +169,11 @@ export class ProductsComponent implements OnInit {
   removeRow(data) {
     this.productS.deleteProducts(data.id).subscribe(
       _res => {
-        this.msgS.addMessage({
-          text: 'Product Successfully Removed',
-          type: 'success',
-          dismissible: true,
-          customClass: 'mt-32',
-          hasIcon: true,
-        });
+        this.displayMsg('Product Successfully Removed','success');
         this.getProducts();
       },
       err => {
-        this.msgS.addMessage({
-          text: err.error,
-          type: 'danger',
-          dismissible: true,
-          customClass: 'mt-32',
-          hasIcon: true,
-        });
+        this.displayMsg(err.error,'danger');
       }
     );
   }
@@ -202,13 +190,8 @@ export class ProductsComponent implements OnInit {
     if (this.temporaryRowData.value) {
       this.removeRow(this.temporaryRowData.value);
     } else {
-      this.msgS.addMessage({
-        text: 'Looks like there is a technical error. Please contact Engineer to resolve it (Error: 00RA1)',
-        type: 'danger',
-        dismissible: true,
-        customClass: 'mt-32',
-        hasIcon: true,
-      });
+      this.displayMsg('Looks like there is a technical error. Please contact Engineer to resolve it (Error: 00RA1)',
+        'danger');
     }
   }
 
@@ -218,5 +201,16 @@ export class ProductsComponent implements OnInit {
   resetTemporaryRowData() {
     this.temporaryRowData.next(null);
   };
-
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
+  }
 }

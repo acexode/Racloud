@@ -162,13 +162,9 @@ export class UsersComponent implements OnInit, OnDestroy {
     if (this.temporaryRowData.value) {
       this.removeRow(this.temporaryRowData.value);
     } else {
-      this.msgS.addMessage({
-        text: 'Looks like there is a technical error. Please contact Engineer to resolve it (Error: 00RA1)',
-        type: 'danger',
-        dismissible: true,
-        customClass: 'mt-32',
-        hasIcon: true,
-      });
+      this.displayMsg(
+        'Looks like there is a technical error. Please contact Engineer to resolve it (Error: 00RA1)',
+        'danger');
     }
     this.resetTemporaryRowData();
   }
@@ -179,6 +175,18 @@ export class UsersComponent implements OnInit, OnDestroy {
   resetTemporaryRowData() {
     this.temporaryRowData.next(null);
   };
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
+  }
   ngOnDestroy(): void {
     this.routeData$.unsubscribe();
     if (this.userData$) {
