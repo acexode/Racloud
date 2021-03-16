@@ -47,15 +47,22 @@ export class AuthGuard implements CanActivate {
   handleRoles(token: string, permissions) {
     const access = this.authS.handleRoles(token, permissions);
     if (!access) {
-      this.msgS.addMessage({
-        text: 'Accesul interzis! Nu aveti acces la aceasta resursa!',
-        type: 'danger',
-        dismissible: true,
-        timeout: 5000,
-      });
+      this.displayMsg('Accesul interzis! Nu aveti acces la aceasta resursa!','danger');
       // TODO: 403 page.
       return this.routerS.createUrlTree(['/']);
     }
     return access;
+  }
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
   }
 }

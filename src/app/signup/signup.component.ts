@@ -139,14 +139,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.reqS.post<LoginResponse>(authEndpoints.customersSignUp, data)
       .subscribe(
         res => {
-          this.msgS.addMessage({
-            text: res.message,
-            type: 'success',
-            dismissible: true,
-            timeout: 5000,
-            customClass: 'mt-32',
-            hasIcon: true
-          });
+          this.displayMsg(res.message,'success');
           // reset form
           this.signUpForm.reset();
           /* loading */
@@ -156,13 +149,7 @@ export class SignupComponent implements OnInit, OnDestroy {
           this.routerS.navigateByUrl('/login');
         },
         err => {
-          this.msgS.addMessage({
-            text: err.error,
-            type: 'danger',
-            dismissible: true,
-            customClass: 'mt-32',
-            hasIcon: true,
-          });
+          this.displayMsg(err.error,'danger');
           this.signUpForm.markAllAsTouched();
           this.signUpForm.updateValueAndValidity();
           this.cdRef.markForCheck();
@@ -178,6 +165,18 @@ export class SignupComponent implements OnInit, OnDestroy {
     if (this.signUpSubs) {
       this.signUpSubs.unsubscribe();
     }
+  }
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
   }
   ngOnDestroy(): void {
     this.resetSubs();

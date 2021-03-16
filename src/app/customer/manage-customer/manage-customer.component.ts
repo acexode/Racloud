@@ -126,13 +126,10 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
                   }
                 },
                 _err => {
-                  this.msgS.addMessage({
-                    text: 'Unable to get customer Data at this current time please check your newtowrk and try again.',
-                    type: 'danger',
-                    dismissible: true,
-                    customClass: 'mt-32',
-                    hasIcon: true
-                  });
+                  this.displayMsg(
+                    'Unable to get customer Data at this current time please check your newtowrk and try again.',
+                    'danger',
+                    );
                 }
               );
             }
@@ -142,6 +139,18 @@ export class ManageCustomerComponent implements OnInit, AfterViewInit, OnDestroy
       }
     );
 
+  }
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
   }
   /* tab */
   ngAfterViewInit() {

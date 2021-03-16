@@ -18,7 +18,7 @@
               applyClass="true"
             >
             </svg-icon>
-            {{ currentLicense?.company?.companyName }}
+            {{ currentLicenseCompany }}
           </app-button>
           <!--  -->
 
@@ -100,7 +100,7 @@
                             'text',
                             '',
                             false,
-                            fieldsPermission?.purchaseDate === 'readonly'
+                            fieldsPermission?.purchasedDate === 'readonly'
                           )
                         "
                         formControlName="purchased"

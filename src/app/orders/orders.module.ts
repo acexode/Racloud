@@ -12,6 +12,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { OrdersCheckoutComponent } from './orders-checkout/orders-checkout.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CardModule } from '../shared/card/card.module';
+import { CoreModule } from '../core/core.module';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { CardModule } from '../shared/card/card.module';
     ReactiveFormsModule,
     AngularSvgIconModule.forRoot(),
     ModalModule.forRoot(),
+    CoreModule
   ]
 })
 export class OrdersModule { }

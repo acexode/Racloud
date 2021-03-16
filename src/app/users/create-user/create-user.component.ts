@@ -50,6 +50,7 @@ export class CreateUserComponent implements OnInit {
     },
   };
   companyLabel = 'Select';
+  currentCompany
   roleLabel = 'Select'
     ;
   companyOptions = [];
@@ -142,11 +143,12 @@ export class CreateUserComponent implements OnInit {
         // const data = obj.filter(e => e.user.id.toString() === id)[0];
         console.log(this.loggedInUserRole);
         this.user = data.user;
-        this.userInfo = data;
-        console.log(data);
-        this.roleLabel = get(get(data, 'role', null), 'name', null);
-        this.companyLabel = get(get(data, 'company', null), 'companyName', null);
-        if (this.user.email === this.loggedInUser.email) {
+        this.userInfo = data
+        console.log(data)
+        this.roleLabel = get(get(data, 'role',null), 'name',null)
+        this.companyLabel = get(get(data,'company', null), 'companyName', null)
+        this.currentCompany = get(get(data,'company', null), 'companyName', null)
+        if(this.user.email === this.loggedInUser.email){
           this.canChangePassword = true;
         }
         if (this.loggedInUserRole === 'systemadmin' && this.user.email !== this.loggedInUser.email) {

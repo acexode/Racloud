@@ -438,9 +438,7 @@
 </ng-template>
 
 <ng-template #actionDropdown let-column="column" let-row="row">
-  <div
-    [class]="gridColumnsReadOnlyAccessStatus.quantity && 'pointer-event-none'"
-  >
+  <div>
     <img
       (click)="deleteItem(row)"
       src="./../../../assets/images/Delete.svg"
@@ -526,5 +524,27 @@
         class="icon-w20-h10"
       />
     </div>
+  </div>
+</ng-template>
+
+<ng-template
+  #applicationTemplate
+  let-column="column"
+  let-row="row"
+  let-value="cellValue"
+>
+  <div>
+    {{ row?.application | truncate: 30 }}
+  </div>
+</ng-template>
+
+<ng-template
+  #productTemplate
+  let-column="column"
+  let-row="row"
+  let-value="cellValue"
+>
+  <div>
+    {{ row?.productType | truncate: 30 }}
   </div>
 </ng-template>

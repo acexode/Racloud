@@ -101,14 +101,7 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
     const queryEndpoint = `${ customersEndpoints.addCustomer }`;
     this.addCustomer$ = this.reqS.post<CustomerModel>(queryEndpoint, toSendData).subscribe(
       res => {
-        this.msgS.addMessage({
-          text: 'Sucessfully updated profile',
-          type: 'success',
-          dismissible: true,
-          timeout: 5000,
-          customClass: 'mt-32',
-          hasIcon: true
-        });
+        this.displayMsg('Sucessfully updated profile','success');
         // loadingIndicator
         this.isLoadingStatus();
         // redirect to login page
@@ -116,20 +109,24 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
       },
       err => {
         console.log(err);
-        this.msgS.addMessage({
-          text: err.error,
-          type: 'danger',
-          dismissible: true,
-          timeout: 5000,
-          customClass: 'mt-32',
-          hasIcon: true
-        });
+        this.displayMsg(err.error,'danger');
         // loadingIndicator
         this.isLoadingStatus();
       }
     );
   }
-
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
+  }
   ngOnDestroy(): void { }
 
 

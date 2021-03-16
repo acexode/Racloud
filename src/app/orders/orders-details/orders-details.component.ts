@@ -44,6 +44,8 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
   @ViewChild('quantityTemplate', { static: true }) quantityTemplate: TemplateRef<any>;
   @ViewChild('discountTemplate', { static: true }) discountTemplate: TemplateRef<any>;
   @ViewChild('dropdown', { static: true }) dropdown: TemplateRef<any>;
+  @ViewChild('applicationTemplate', { static: true }) applicationTemplate: TemplateRef<any>;
+  @ViewChild('productTemplate', { static: true }) productTemplate: TemplateRef<any>;
   rows = [];
   autoClose = false;
   discountTypes = [
@@ -674,12 +676,12 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       identifier: 'application',
       label: 'Application',
       sortable: true,
-      minWidth: 226,
-      width: 90,
+      minWidth: 280,
       noGrow: true,
       sortIconPosition: 'right',
       labelPosition: 'left',
       cellContentPosition: 'left',
+      cellTemplate: this.applicationTemplate,
       filterConfig: {
         data: null,
         filterType: TableFilterType.TEXT,
@@ -691,6 +693,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       label: 'UM?',
       sortable: true,
       minWidth: 160,
+      noGrow: true,
       sortIconPosition: 'right',
       labelPosition: 'left',
       cellContentPosition: 'left',
@@ -711,6 +714,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
+        cellTemplate: this.productTemplate,
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
