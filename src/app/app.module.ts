@@ -84,7 +84,7 @@ import { UsersModule } from './users/users.module';
     CustomerModule,
     LoaderModule,
     ModalModule.forRoot(),
-    UsersModule
+    UsersModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

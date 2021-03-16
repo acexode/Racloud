@@ -11,6 +11,7 @@ import { SignupComponent } from './signup/signup.component';
 
 import { ShopComponent } from './shop/shop.component';
 import { CreateUserComponent } from './users/create-user/create-user.component';
+import { MyCompanyComponent } from './my-company/my-company.component';
 const routes: Routes = [
   {
     path: '',
@@ -124,7 +125,14 @@ const routes: Routes = [
   {
     path: 'my-profile/:id',
     component: CreateUserComponent,
-    data: { title: 'My Profile' }
+    data: { title: 'My Profile' },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'my-company/:id',
+    component: MyCompanyComponent,
+    data: { title: 'My company' },
+    canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: '/not-found' },
 ];

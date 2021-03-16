@@ -63,11 +63,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.impersonatorId = e.impersonatorId;
     });
   }
-  navigate(id, route) {
+  navigate(id: any, route: any) {
     if (route === 'user') {
       this.router.navigate(['/my-profile', id]);
     } else if (route === 'company') {
-      this.router.navigate(['customer/manage/' + id + '/tab/details']);
+      this.router.navigate(['/my-company', id]);
     } else {
       return null;
     }

@@ -1,1 +1,22 @@
-<p>my-company works!</p>
+<app-page-container [config]="containerConfig">
+  <div class="w-100" container-body>
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <!-- <h1
+            class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0 text-capitalize"
+            *ngIf="detailsData$ | async as detailsData"
+          >
+           {{ detailsData?.customer?.companyName }}
+          </h1> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="line-h1 rc-secondary-bg mt-24 mb-39"></div>
+
+    <div class="w-100 pt-40">
+      <app-customer-form></app-customer-form>
+    </div>
+  </div>
+</app-page-container>
