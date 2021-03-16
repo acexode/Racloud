@@ -95,29 +95,28 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     this.updateProfile$ = this.customerS.updateCustomerData(this.detailsId, profileData).subscribe(
       _res => {
         // sucessfully updated
-        this.msgS.addMessage({
-          text: 'Sucessfully updated profile',
-          type: 'success',
-          dismissible: true,
-          timeout: 3000,
-          customClass: 'mt-32',
-          hasIcon: true
-        });
+        this.displayMsg('Sucessfully updated profile','success');
         // stop loading
         this.isLoadingStatus();
       },
       err => {
-        this.msgS.addMessage({
-          text: err.error,
-          type: 'danger',
-          dismissible: true,
-          customClass: 'mt-32',
-          hasIcon: true
-        });
+        this.displayMsg(err.error,'danger');
         // stop loading
         this.isLoadingStatus();
       }
     );
+  }
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
   }
   ngOnDestroy(): void {
     if (this.updateProfile$) {

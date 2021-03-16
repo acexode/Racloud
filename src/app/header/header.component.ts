@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   user: any;
   impersonatorId: any;
   company: any;
+  role
   authS$: Subscription;
   totalOrder
   constructor(
@@ -40,6 +41,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     })
     this.authS$ = this.authS.getAuthState().subscribe(e => {
       const account = get(e, 'account', null);
+      this.role = e.account.roles;
       this.company = get(account, 'company', null) || 'No company';
       const firstname = get(get(account, 'user', null), 'firstname', null) || 'firstname';
       const lastname = get(get(account, 'user', null), 'lastname', null) || 'lastname';

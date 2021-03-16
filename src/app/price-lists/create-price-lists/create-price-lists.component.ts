@@ -26,27 +26,18 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
         this.priceListS.products.next(res);
       },
       _err => {
-        this.msgS.addMessage({
-          text: 'unable to load products at this time. Please refresh your browser',
-          type: 'danger',
-          dismissible: true,
-          customClass: 'mt-32',
-          hasIcon: true,
-        });
+        this.displayMsg(
+          'unable to load products at this time. Please refresh your browser',
+          'danger');
       },
     );
   }
   saveData(data: any) {
     this.createPriceList$ = this.priceListS.createPriceList(data).subscribe(
       (_res: PriceListModel) => {
-        this.msgS.addMessage({
-          text: 'Pricelist created Successfully',
-          type: 'success',
-          dismissible: true,
-          customClass: 'mt-32',
-          hasIcon: true,
-          timeout: 5000,
-        });
+        this.displayMsg(
+          'Pricelist created Successfully',
+          'success');
         this.priceListS.updateButtonLoadingStatus(true);
         this.router.navigateByUrl('/price-lists');
       },
@@ -54,16 +45,22 @@ export class CreatePriceListsComponent implements OnInit, OnDestroy {
         const msgErr = typeof err.error !== 'string'
           ? (err?.error?.currency || 'Error while trying to update price list')
           : (err.error || 'Please check your network');
-        this.msgS.addMessage({
-          text: msgErr,
-          type: 'danger',
-          dismissible: true,
-          customClass: 'mt-32',
-          hasIcon: true,
-        });
+        this.displayMsg(msgErr,'danger');
         this.priceListS.updateButtonLoadingStatus(true);
       }
     );
+  }
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
   }
   ngOnDestroy(): void {
     if (this.createPriceList$) {

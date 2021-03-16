@@ -233,17 +233,23 @@ export class CustomerComponent implements OnInit, OnDestroy {
         this.loadCustomers();
       },
       err => {
-        this.msgS.addMessage({
-          text: err.error || this.customErrorMsg,
-          type: 'danger',
-          dismissible: true,
-          customClass: 'mt-32',
-          hasIcon: true
-        });
+        this.displayMsg(err.error || this.customErrorMsg,'danger');
       }
     );
 
   };
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
+  }
   loadCustomers(): void {
     this.loadCustomers$ = this.customerS.getCustomers().subscribe(
       res => {
@@ -286,13 +292,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         }
       },
       err => {
-        this.msgS.addMessage({
-          text: err.error || this.customErrorMsg,
-          type: 'danger',
-          dismissible: true,
-          customClass: 'mt-32',
-          hasIcon: true
-        });
+        this.displayMsg(err.error || this.customErrorMsg,'danger');
       }
     );
   };
@@ -315,13 +315,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
   removeRow(rData: any) {
     this.disableTheCustomer$ = this.customerS.disableCustomer(rData.id).subscribe(
       _res => {
-        this.msgS.addMessage({
-          text: 'Successfully disabled customer',
-          type: 'danger',
-          dismissible: true,
-          customClass: 'mt-32',
-          hasIcon: true
-        });
+        this.displayMsg('Successfully disabled customer','danger');
         // reset resetTemporaryRowData
         this.resetTemporaryRowData();
         this.loadCustomers();
@@ -330,13 +324,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         // reset resetTemporaryRowData
         this.resetTemporaryRowData();
         // display msg
-        this.msgS.addMessage({
-          text: err.error || this.customErrorMsg,
-          type: 'danger',
-          dismissible: true,
-          customClass: 'mt-32',
-          hasIcon: true
-        });
+        this.displayMsg(err.error || this.customErrorMsg,'danger');
       }
     );
   }
@@ -355,13 +343,10 @@ export class CustomerComponent implements OnInit, OnDestroy {
     if (this.temporaryRowData.value) {
       this.removeRow(this.temporaryRowData.value);
     } else {
-      this.msgS.addMessage({
-        text: 'Looks like there is a technical error. Please contact Engineer to resolve it (Error: 00RA2)',
-        type: 'danger',
-        dismissible: true,
-        customClass: 'mt-32',
-        hasIcon: true,
-      });
+      this.displayMsg(
+        'Looks like there is a technical error. Please contact Engineer to resolve it (Error: 00RA2)',
+        'danger',
+       );
     }
   }
   decline(): void {

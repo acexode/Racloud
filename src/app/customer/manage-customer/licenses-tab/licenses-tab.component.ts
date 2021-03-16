@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LicenseServiceService } from 'src/app/license/license-service.service';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
@@ -54,6 +54,7 @@ export class LicensesTabComponent implements OnInit {
     private http: HttpClient,
     private services: LicenseServiceService,
     private route: ActivatedRoute,
+    private router: Router,
     private ref: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
@@ -224,8 +225,9 @@ export class LicensesTabComponent implements OnInit {
   removeRow(id: any) {
     console.log(id);
   }
-  manageSub(id: any) {
-    console.log(id);
+  manageSub(data: any) {
+    this.router.navigate(['licenses/license-edit', { id: data.Id,customerId:data.CompanyId }]);
+    console.log(data);
   }
   renewSub(id: any) {
     console.log(id);

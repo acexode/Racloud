@@ -48,6 +48,7 @@ export class CreateUserComponent implements OnInit {
     },
   };
   companyLabel = 'Select';
+  currentCompany
   roleLabel = 'Select'
     ;
   companyOptions = [];
@@ -117,7 +118,8 @@ export class CreateUserComponent implements OnInit {
     const companyID = this.route.snapshot.paramMap.get('companyId')
     console.log(companyID)
     this.cStorage.getItem('token').subscribe(data =>{
-      console.log(data.user)
+      console.log(data)
+      this.currentCompany = data.company.companyName
       this.loggedInUser = data.user
       this.loggedInUserRole = data.roles[0]
     })
@@ -134,7 +136,8 @@ export class CreateUserComponent implements OnInit {
         const userCompany = this.companyOptions.filter(c => c.id === parseInt(companyID,10))[0]
         console.log(userCompany)
         this.companyLabel = get(userCompany, 'companyName', null)
-        console.log(userCompany)
+        this.currentCompany = get(userCompany, 'companyName', null)
+        console.log(this.companyLabel)
         this.userForm.patchValue({
           firstName: '',
           lastName: '',
@@ -157,6 +160,7 @@ export class CreateUserComponent implements OnInit {
         console.log(data)
         this.roleLabel = get(get(data, 'role',null), 'name',null)
         this.companyLabel = get(get(data,'company', null), 'companyName', null)
+        this.currentCompany = get(get(data,'company', null), 'companyName', null)
         if(this.user.email === this.loggedInUser.email){
           this.canChangePassword = true;
         }

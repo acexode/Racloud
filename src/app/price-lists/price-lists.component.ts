@@ -203,13 +203,9 @@ export class PriceListsComponent implements OnInit, OnDestroy {
     if (this.temporaryRowData.value) {
       this.removeRow(this.temporaryRowData.value);
     } else {
-      this.msgS.addMessage({
-        text: 'Looks like there is a technical error. Please contact Engineer to resolve it (Error: 00RA1)',
-        type: 'danger',
-        dismissible: true,
-        customClass: 'mt-32',
-        hasIcon: true,
-      });
+      this.displayMsg(
+        'Looks like there is a technical error. Please contact Engineer to resolve it (Error: 00RA1)',
+        'danger');
     }
   }
 
@@ -219,14 +215,7 @@ export class PriceListsComponent implements OnInit, OnDestroy {
   removeRow(data: any) {
     this.deletePriceList$ = this.PriceListS.deletePriceList(data.id).subscribe(
       res => {
-        this.msgS.addMessage({
-          text: res.name + ' Pricelist Successfully Deleted',
-          type: 'success',
-          dismissible: true,
-          customClass: 'mt-32',
-          hasIcon: true,
-          timeout: 5000,
-        });
+        this.displayMsg(res.name + ' Pricelist Successfully Deleted','success');
         this.loadPriceList();
         // reset resetTemporaryRowData
         this.resetTemporaryRowData();
@@ -235,13 +224,9 @@ export class PriceListsComponent implements OnInit, OnDestroy {
         // reset resetTemporaryRowData
         this.resetTemporaryRowData();
 
-        this.msgS.addMessage({
-          text: err.error || 'Please check your network and try again. We are unable to delete the Price list at this time',
-          type: 'danger',
-          dismissible: true,
-          customClass: 'mt-32',
-          hasIcon: true,
-        });
+        this.displayMsg(
+          err.error || 'Please check your network and try again. We are unable to delete the Price list at this time',
+          'danger');
       }
     );
   }
@@ -252,6 +237,18 @@ export class PriceListsComponent implements OnInit, OnDestroy {
   resetTemporaryRowData() {
     this.temporaryRowData.next(null);
   };
+  displayMsg(msg, type){
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(()=> {
+      this.msgS.clearMessages()
+    },5000)
+  }
   ngOnDestroy(): void {
     this.priceList$.unsubscribe();
     if (this.deletePriceList$) {
