@@ -23,7 +23,7 @@
                 </a>
               </li>
               <li class="nav-item pr-5">
-                <a *ngIf="role !== 'admin' &&  role !== 'systemadmin'" class="nav-link position-relative" href="javascript:;">
+                <a *ngIf="this.company.companyType !== 'Main'" class="nav-link position-relative" href="javascript:;">
                   <img  src="../../assets/images/Cart.svg" />
                   <div *ngIf="totalOrder > 0" class="cart"><span>{{totalOrder}}</span></div>
                 </a>
