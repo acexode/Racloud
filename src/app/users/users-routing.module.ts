@@ -21,7 +21,7 @@ const routes: Routes = [
     path: 'edit-user',
     component: CreateUserComponent,
     data: { title: 'Licenses' }
-  }
+  },
 ];
 
 @NgModule({

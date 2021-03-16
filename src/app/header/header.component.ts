@@ -65,7 +65,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   navigate(id, route) {
     if (route === 'user') {
-      this.router.navigate(['users/edit-user', { id }]);
+      this.router.navigate(['/my-profile', id]);
     } else if (route === 'company') {
       this.router.navigate(['customer/manage/' + id + '/tab/details']);
     } else {

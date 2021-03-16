@@ -41,7 +41,7 @@ import { LoaderModule } from './shared/loader/loader.module';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { MyCompanyComponent } from './my-company/my-company.component';
-import { MyProfileComponent } from './my-profile/my-profile.component';
+import { UsersModule } from './users/users.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,7 +58,6 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
     SignupComponent,
     ShopComponent,
     MyCompanyComponent,
-    MyProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -84,7 +83,8 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
     TabsModule,
     CustomerModule,
     LoaderModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    UsersModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

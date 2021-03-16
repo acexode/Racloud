@@ -10,6 +10,7 @@ import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { SignupComponent } from './signup/signup.component';
 
 import { ShopComponent } from './shop/shop.component';
+import { CreateUserComponent } from './users/create-user/create-user.component';
 const routes: Routes = [
   {
     path: '',
@@ -119,6 +120,11 @@ const routes: Routes = [
     loadChildren: () => import('./price-lists/price-lists.module').then(m => m.PriceListsModule),
     canActivate: [AuthGuard],
     data: { title: 'Price List' },
+  },
+  {
+    path: 'my-profile/:id',
+    component: CreateUserComponent,
+    data: { title: 'My Profile' }
   },
   { path: '**', redirectTo: '/not-found' },
 ];
