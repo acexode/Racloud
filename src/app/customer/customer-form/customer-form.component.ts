@@ -1,6 +1,7 @@
 import { formatDate } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -18,6 +19,7 @@ import { CompanyTypes } from 'src/app/core/enum/companyTypes';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CompanyParentsService } from 'src/app/core/services/companyParents/company-parents.service';
 import { CountriesService } from 'src/app/core/services/countries/countries.service';
+import { CustomStorageService } from 'src/app/core/services/custom-storage/custom-storage.service';
 import { CustomerService } from 'src/app/core/services/customer/customer.service';
 import { LanguagesService } from 'src/app/core/services/languages/languages.service';
 import { PriceListService } from 'src/app/core/services/price-list/price-list.service';
@@ -56,12 +58,7 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
   actionPermission: any;
   backUrl = '/customer';
   selectedCurrency = ''
-  typeOptions = Object.keys(CompanyTypes).map(companyType => {
-    return {
-      id: companyType,
-      option: CompanyTypes[companyType]
-    };
-  });
+  typeOptions = []
   componentForm = this.fb.group({
     companyName: [
       '',
@@ -141,18 +138,41 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private cS: CountriesService,
+    private cStorage: CustomStorageService,
     private parentS: CompanyParentsService,
     private lgS: LanguagesService,
     private priceService: PriceListService,
     private authS: AuthService,
     private customerS: CustomerService,
+    private ref: ChangeDetectorRef
   ) { }
   ngOnChanges(changes: SimpleChanges): void {
     // this.componentForm.valueChanges.subscribe(d => {});
   }
   ngOnInit(): void {
     // get country option
-    console.log(this.componentForm.value)
+    this.cStorage.getItem('token').subscribe(data =>{
+      console.log(data)
+      this.typeOptions = Object.keys(CompanyTypes).map(companyType => {
+        return {
+          id: companyType,
+          option: CompanyTypes[companyType]
+        };
+      });
+      console.log(this.typeOptions)
+      const cType = data.company.companyType
+      console.log(cType)
+      if(cType === 'Partner'){
+        this.typeOptions = this.typeOptions.filter(t => t.id === 'partner' || t.id === 'fabricator')
+        console.log(this.typeOptions)
+      }else if(cType === 'Reseller'){
+        this.typeOptions = this.typeOptions.filter(t => t.id === 'reseller')
+      }
+      else if(cType === 'Main'){
+        this.typeOptions = this.typeOptions.filter(t => t.id !== 'main')
+      }
+      this.ref.detectChanges()
+    })
     this.countryOptions$ = this.cS.getCountriesState().pipe(
       map(d => d.data),
     );
