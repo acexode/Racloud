@@ -90,8 +90,14 @@
 
       <div *ngIf="setDisplay(fieldsPermission?.anniversaryDate)" class="col-12 mb-14 m-0 p-0">
         <app-input
+        *ngIf="editMode"
           [config]="inputConfig('Anniversary date', 'datetime-local', 'Enter Aniversary Date', false, !editMode ||fieldsPermission?.anniversaryDate === 'readonly', theFormControl.anniversaryDate)"
           formControlName="anniversaryDate"></app-input>
+          <label *ngIf="!editMode"  class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Anniversary date </label>
+          <div class="rc-form-group rc-form-group-without-prefix rc-form-group-without-prefix-disabled">
+            <input *ngIf="!editMode" type="datetime" formControlName="anniversaryDate" >
+
+          </div>
       </div>
 
       <div *ngIf="setDisplay(fieldsPermission?.subscriptionFee)" class="col-12 mb-14 m-0 p-0">

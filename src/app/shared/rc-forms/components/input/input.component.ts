@@ -1,4 +1,9 @@
-import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  forwardRef,
+  Input,
+  OnDestroy,
+  OnInit} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormBuilder } from '@angular/forms';
 import { InputConfig } from './../../models/input/input-config';
 import { get } from 'lodash';
@@ -50,7 +55,6 @@ export class InputComponent implements OnInit, ControlValueAccessor, OnDestroy {
       this.formGroup.enable({ emitEvent: true });
     }
   }
-
   getFieldValue() {
     const field = this.formGroup.get('input');
     return field ? field.value : null;
