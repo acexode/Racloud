@@ -36,7 +36,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.shopS.cartStore.subscribe(cart => {
-      console.log('cart ttt', cart);
       if (cart.length > 0) {
         this.getCartCount();
       } else {
@@ -65,16 +64,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   navigate(id: any, route: any) {
     if (route === 'user') {
-      this.router.navigate(['/my-profile', id]);
+      this.router.navigate(['/my-profile']);
     } else if (route === 'company') {
-      this.router.navigate(['/my-company', id]);
+      this.router.navigate(['/my-company']);
     } else {
       return null;
     }
   }
   getCartCount() {
     this.orderS.cartTotal().subscribe((res: any) => {
-      console.log(res);
       // const order:any = orders.orderItems.filter((ord:any) => ord.orderStatus === 'Cart' )[0]
       this.totalOrder = res.numberOfProductsInCart;
       // console.log(order)

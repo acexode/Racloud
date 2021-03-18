@@ -10,8 +10,8 @@ import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { SignupComponent } from './signup/signup.component';
 
 import { ShopComponent } from './shop/shop.component';
-import { CreateUserComponent } from './users/create-user/create-user.component';
 import { MyCompanyComponent } from './my-company/my-company.component';
+import { MyProfileComponent } from './my-profile/my-profile.component';
 const routes: Routes = [
   {
     path: '',
@@ -123,13 +123,13 @@ const routes: Routes = [
     data: { title: 'Price List' },
   },
   {
-    path: 'my-profile/:id',
-    component: CreateUserComponent,
+    path: 'my-profile',
+    component: MyProfileComponent,
     data: { title: 'My Profile' },
     canActivate: [AuthGuard],
   },
   {
-    path: 'my-company/:id',
+    path: 'my-company',
     component: MyCompanyComponent,
     data: { title: 'My company' },
     canActivate: [AuthGuard],

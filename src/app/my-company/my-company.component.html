@@ -3,12 +3,11 @@
     <div class="page-header">
       <div class="row align-items-center">
         <div class="col">
-          <!-- <h1
+          <h1
             class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0 text-capitalize"
-            *ngIf="detailsData$ | async as detailsData"
           >
-           {{ detailsData?.customer?.companyName }}
-          </h1> -->
+            Company Profile
+          </h1>
         </div>
       </div>
     </div>
@@ -16,7 +15,271 @@
     <div class="line-h1 rc-secondary-bg mt-24 mb-39"></div>
 
     <div class="w-100 pt-40">
-      <app-customer-form></app-customer-form>
+      <ng-container *ngIf="fetchCompany$; else loaderTemplate">
+        <ng-container
+          *ngIf="{
+            countryOptions: countryOptions$ | async,
+            languageOptions: languageOptions$ | async
+          } as optionData"
+        >
+          <form [formGroup]="componentForm" class="row no-gutters">
+            <div class="col-12 col-md-3 px-0 pr-0 py-0 pr-md-16 m-0">
+              <div class="col-12 mb-14 m-0 p-0">
+                <app-input
+                  [config]="
+                    inputConfig(
+                      'Name',
+                      'text',
+                      'Type Here',
+                      false,
+                      disableField
+                    )
+                  "
+                  formControlName="companyName"
+                ></app-input>
+              </div>
+
+              <div class="col-12 mb-14 m-0 p-0">
+                <app-input
+                  [config]="
+                    inputConfig(
+                      'Contact person first name',
+                      'text',
+                      'Type Here',
+                      false,
+                      disableField
+                    )
+                  "
+                  formControlName="firstName"
+                ></app-input>
+              </div>
+
+              <div class="col-12 mb-14 m-0 p-0">
+                <app-input
+                  [config]="
+                    inputConfig(
+                      'Contact person last name',
+                      'text',
+                      'Type Here',
+                      false,
+                      disableField
+                    )
+                  "
+                  formControlName="lastName"
+                ></app-input>
+              </div>
+
+              <div class="col-12 mb-14 m-0 p-0">
+                <app-select
+                  [config]="
+                    selectConfig(
+                      'Type',
+                      'Select Type',
+                      true,
+                      'id',
+                      'option',
+                      disableField
+                    )
+                  "
+                  formControlName="companyType"
+                  [options]="typeOptions"
+                ></app-select>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-3 px-0 px-md-16 m-0">
+              <div class="col-12 mx-0 p-0 mb-14 mt-6">
+                <div
+                  [class]="
+                    'rc-select ' + (disableField && 'rc-select-disabled')
+                  "
+                >
+                  <label
+                    class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0 mb-6"
+                    >Price List
+                  </label>
+                  <select
+                    [disabled]="disableField"
+                    formcontrolname="priceListId"
+                  >
+                    <option [value]="priceListId">
+                      {{ priceListName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-12 mx-0 p-0 mb-14">
+                <div
+                  [class]="
+                    'rc-select ' + (disableField && 'rc-select-disabled')
+                  "
+                >
+                  <label
+                    class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0 mb-6"
+                    >Parent
+                  </label>
+                  <select [disabled]="disableField" formcontrolname="parentId">
+                    <option [value]="parentId">
+                      {{ companyName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-12 mb-6 m-0 p-0">
+                <app-textarea
+                  [config]="textAreaConfig(disableField)"
+                  formControlName="address"
+                  id="address"
+                >
+                </app-textarea>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-3 px-0 px-md-16 m-0">
+              <div class="col-12 mb-14 m-0 p-0">
+                <app-select
+                  [config]="
+                    selectConfig(
+                      'Language',
+                      'Select Language',
+                      true,
+                      'id',
+                      'option',
+                      disableField
+                    )
+                  "
+                  formControlName="language"
+                  [options]="optionData.languageOptions"
+                ></app-select>
+              </div>
+
+              <div class="col-12 mb-14 m-0 p-0">
+                <app-select
+                  [config]="
+                    selectConfig(
+                      'Country',
+                      'Select Country',
+                      true,
+                      'code',
+                      'name',
+                      disableField
+                    )
+                  "
+                  formControlName="country"
+                  [options]="optionData.countryOptions"
+                ></app-select>
+              </div>
+
+              <div class="col-12 mb-14 m-0 p-0">
+                <app-input
+                  [config]="
+                    inputConfig(
+                      'Phone',
+                      'tel',
+                      'Type Here',
+                      false,
+                      disableField
+                    )
+                  "
+                  formControlName="phoneNumber"
+                ></app-input>
+              </div>
+
+              <div class="col-12 mb-14 m-0 p-0">
+                <app-input
+                  [config]="
+                    inputConfig(
+                      'Company Email',
+                      'email',
+                      'Type Here',
+                      false,
+                      disableField
+                    )
+                  "
+                  formControlName="email"
+                ></app-input>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-3 px-0 px-md-16 m-0">
+              <div class="col-12 mb-14 m-0 p-0">
+                <app-input
+                  [config]="
+                    inputConfig(
+                      'Anniversary date',
+                      'datetime-local',
+                      'Enter Aniversary Date',
+                      false,
+                      disableField
+                    )
+                  "
+                  formControlName="anniversaryDate"
+                ></app-input>
+              </div>
+
+              <div class="col-12 mb-14 m-0 p-0">
+                <app-input
+                  [config]="
+                    inputConfig(
+                      'Subscription fee',
+                      'text',
+                      'Type here',
+                      true,
+                      disableField
+                    )
+                  "
+                  formControlName="subscriptionFee"
+                ></app-input>
+              </div>
+
+              <div class="col-12 mb-14 m-0 p-0">
+                <app-input
+                  [config]="
+                    inputConfig(
+                      'Support hours contract',
+                      'number',
+                      'Type here',
+                      false,
+                      disableField
+                    )
+                  "
+                  formControlName="supportHoursContract"
+                ></app-input>
+              </div>
+
+              <div class="col-12 mb-14 m-0 p-0">
+                <app-input
+                  [config]="
+                    inputConfig(
+                      'Support hours available',
+                      'number',
+                      'Type here',
+                      false,
+                      disableField
+                    )
+                  "
+                  formControlName="supportHoursAvailable"
+                ></app-input>
+              </div>
+            </div>
+          </form>
+        </ng-container>
+      </ng-container>
+
+      <ng-template #loaderTemplate>
+        <div
+          class="w-100 pt-60 pb-30 d-flex flex-column justify-content-center align-items-center"
+        >
+          <app-loader type="page"></app-loader>
+          <div
+            class="rc-accent-blue-160-color montserrat-semibold-font s15-h24"
+          >
+            Please wait...
+          </div>
+        </div>
+      </ng-template>
     </div>
   </div>
 </app-page-container>

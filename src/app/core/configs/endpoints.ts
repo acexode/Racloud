@@ -4,11 +4,13 @@ export const serverBaseUrl = environment.serverUrl + '/api';
 
 export const baseEndpoints = {
   auth: serverBaseUrl + '/auth',
+  customer: serverBaseUrl + '/customer',
   customers: serverBaseUrl + '/customers',
   allCustomers: serverBaseUrl + '/allcustomers',
   priceLists: serverBaseUrl + '/pricelists',
   countries: serverBaseUrl + '/countries',
   customerparent: serverBaseUrl + '/parents',
+  user: serverBaseUrl + '/user',
 };
 
 export const authEndpoints = {
@@ -22,6 +24,7 @@ export const customersEndpoints = {
   getCustomers: serverBaseUrl + '/allcustomers',
   getOneCustomers: serverBaseUrl + '/customers',
   getCompanyUsers: serverBaseUrl + '/customers/',
+  profile: baseEndpoints.customer + '/profile'
 };
 export const productEndpoints = {
   getProducts: serverBaseUrl + '/products',
@@ -61,6 +64,7 @@ export const userEndpoints = {
   userPermissionPerPage: serverBaseUrl + '/user-permission-per-page',
   impersonate: serverBaseUrl + '/auth/impersonate',
   stopImpersonate: serverBaseUrl + '/auth/stop-impersonate',
+  profile: baseEndpoints.user + '/profile',
 };
 export const roleEndpoints = {
   getRoles: serverBaseUrl + '/roles',

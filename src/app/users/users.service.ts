@@ -97,4 +97,7 @@ export class UsersService {
   stopImpersonate(obj) {
     return this.reqS.post(userEndpoints.stopImpersonate, obj);
   }
+  getUserProfile() {
+    return this.reqS.get(userEndpoints.profile);
+  }
 }
