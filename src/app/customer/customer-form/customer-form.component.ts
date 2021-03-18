@@ -166,7 +166,7 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
         this.typeOptions = this.typeOptions.filter(t => t.id === 'partner' || t.id === 'fabricator')
         console.log(this.typeOptions)
       }else if(cType === 'Reseller'){
-        this.typeOptions = this.typeOptions.filter(t => t.id === 'reseller')
+        this.typeOptions = this.typeOptions.filter(t => t.id === 'fabricator')
       }
       else if(cType === 'Main'){
         this.typeOptions = this.typeOptions.filter(t => t.id !== 'main')
