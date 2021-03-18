@@ -23,7 +23,8 @@ const adminFull: OrderDetailsPagePermissionsData = {
     actions: {
         add: 'full',
         update: 'full',
-        delete: 'full'
+        delete: 'full',
+        options: 'full'
     }
 };
 const adminReadonly: OrderDetailsPagePermissionsData = {
@@ -47,7 +48,8 @@ const adminReadonly: OrderDetailsPagePermissionsData = {
     actions: {
         add: 'hidden',
         update: 'hidden',
-        delete: 'hidden'
+        delete: 'hidden',
+        options: 'hidden'
     }
 };
 const allHidden: OrderDetailsPagePermissionsData = {
@@ -71,7 +73,8 @@ const allHidden: OrderDetailsPagePermissionsData = {
     actions: {
         add: 'hidden',
         update: 'hidden',
-        delete: 'hidden'
+        delete: 'hidden',
+        options: 'hidden'
     }
 };
 

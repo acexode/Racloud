@@ -19,15 +19,15 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   @ViewChild('thirdTab', { read: TemplateRef }) thirdTab: TemplateRef<any>;
   optionList = [];
   selectedRows = [];
-  preselectedRows : any[] = []
+  preselectedRows: any[] = [];
   isEdit = false;
-  savedCompanyUserId
-  currentLicense
-  userLabel = 'Select'
+  savedCompanyUserId;
+  currentLicense;
+  userLabel = 'Select';
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/licenses';
-  companyUsers
-  currentLicenseCompany
+  companyUsers: any;
+  currentLicenseCompany: any;
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -59,13 +59,13 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     }
   ];
   infoForm: FormGroup;
-  partnerLicense= [
-    {title: 'Yes', name: 'button1'},
-    {title: 'No', name: 'button2'},
+  partnerLicense = [
+    { title: 'Yes', name: 'button1' },
+    { title: 'No', name: 'button2' },
   ];
   selectedPartnerLicenseBtn;
   selectedRenewBtn;
-  selectedStatus = ''
+  selectedStatus = '';
   controlStore: { [key: string]: AbstractControl; } = {};
   fieldsPermission: any;
   licenseOptionPermission: any;
@@ -83,7 +83,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     placeholder: string = '',
     prefixIcon: boolean = false,
     isDisabled: boolean = false,
-    )
+  )
     : InputConfig {
     return {
       inputLabel: {
@@ -111,45 +111,46 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
       this.backUrl = '/customer/manage/' + customerId + '/tab/license'
     }
     this.initForm();
-    if(id){
-      this.isEdit = true
-      this.service.getOneLicense(id).subscribe((obj:any) =>{
-        const data = obj.license
-        this.currentLicense = data
-        this.tabPermission = obj.schema.license.tabs
-        const filtered = []
+    if (id) {
+      this.isEdit = true;
+      this.service.getOneLicense(id).subscribe((obj: any) => {
+        const data = obj.license;
+        this.currentLicense = data;
+        this.tabPermission = obj.schema.license.tabs;
+        const filtered = [];
         for (const key in this.tabPermission) {
-          if(this.tabPermission[key] === 'full'){
-            this.tabs.forEach(tab =>{
-              if(tab.shortName === key){
-                filtered.push(tab)
+          if (this.tabPermission[key] === 'full') {
+            this.tabs.forEach(tab => {
+              if (tab.shortName === key) {
+                filtered.push(tab);
               }
-            })
+            });
           }
         }
-        this.tabs = [this.tabs[0], ...filtered]
-        this.fieldsPermission = obj.schema.license.fields
+        this.tabs = [this.tabs[0], ...filtered];
+        this.fieldsPermission = obj.schema.license.fields;
+        console.log(this.fieldsPermission);
 
         // to be replaced with BE
-        this.licenseOptionPermission = obj.schema.options.fields
+        this.licenseOptionPermission = obj.schema.options.fields;
 
-        this.licenseOptionAction = obj.schema.options.actions
-        this.actionPermission = obj.schema.license.actions
-        console.log(obj)
-        this.service.getCompanyUsers(data.companyId).subscribe((users:any) =>{
-          this.companyUsers = users.map(user => user.user)
-        })
-        console.log(data)
-        this.preselectedRows = data?.licenseOptions
-        this.getOptions()
-        const selectedP = data.isPartnerLicense ? 'Yes' : 'No'
-        const selectedR = data.renewByUserCompany ? 'Yes' : 'No'
-        const isAssigned = data.iAssigned ? 'Yes' : 'No'
-        this.selectedPartnerLicenseBtn = this.setBoolean( selectedP );
-        this.selectedRenewBtn = this.setBoolean( selectedR );
-        const exp = new Date(data.expirationDate).toLocaleDateString()
-        const purchase = new Date(data.purchaseDate).toLocaleDateString()
-        this.savedCompanyUserId = data.user?.userId
+        this.licenseOptionAction = obj.schema.options.actions;
+        this.actionPermission = obj.schema.license.actions;
+        console.log(obj);
+        this.service.getCompanyUsers(data.companyId).subscribe((users: any) => {
+          this.companyUsers = users.map(user => user.user);
+        });
+        console.log(data);
+        this.preselectedRows = data?.licenseOptions;
+        this.getOptions();
+        const selectedP = data.isPartnerLicense ? 'Yes' : 'No';
+        const selectedR = data.renewByUserCompany ? 'Yes' : 'No';
+        const isAssigned = data.iAssigned ? 'Yes' : 'No';
+        this.selectedPartnerLicenseBtn = this.setBoolean(selectedP);
+        this.selectedRenewBtn = this.setBoolean(selectedR);
+        const exp = new Date(data.expirationDate).toLocaleDateString();
+        const purchase = new Date(data.purchaseDate).toLocaleDateString();
+        this.savedCompanyUserId = data.user?.userId;
         this.infoForm.patchValue({
           productName: data.product.name,
           partner: data.ispartnerLicense,
@@ -162,50 +163,50 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
           userCompany: data.companyUser || '',
         });
         this.currentLicenseCompany = data.company.companyName
-        this.onChange(data.licenseStatus)
-        this.cdref.detectChanges()
+        this.onChange(data.licenseStatus);
+        this.cdref.detectChanges();
       });
     }
   }
-  getOptions(){
-    this.service.getOption().subscribe((options: any) =>{
+  getOptions() {
+    this.service.getOption().subscribe((options: any) => {
       // const sorted = this.preselectedRows.sort((a,b)=> a.optionId > b.optionId ? 1 : (b.optionId > a.optionId) ? -1 : 0)
-      this.optionList = options.map((obj:any) =>{
-        const index = this.preselectedRows.findIndex(idx => obj.Id === idx.optionId)
+      this.optionList = options.map((obj: any) => {
+        const index = this.preselectedRows.findIndex(idx => obj.Id === idx.optionId);
         if (index > -1) {
-          const optIdx = options.findIndex(idx => idx.Id === this.preselectedRows[index].optionId)
-          const item = options[optIdx]
-          if(item.OptionType === 'Boolean'){
-            item.ValueBoolean = this.preselectedRows[index].valueBoolean
-          } else if(item.OptionType === 'String'){
-            item.ValueString = this.preselectedRows[index].valueString
-          } else if(item.OptionType === 'ValueList'){
-            const arr = this.preselectedRows[index].valueListItems.map( v =>{
+          const optIdx = options.findIndex(idx => idx.Id === this.preselectedRows[index].optionId);
+          const item = options[optIdx];
+          if (item.OptionType === 'Boolean') {
+            item.ValueBoolean = this.preselectedRows[index].valueBoolean;
+          } else if (item.OptionType === 'String') {
+            item.ValueString = this.preselectedRows[index].valueString;
+          } else if (item.OptionType === 'ValueList') {
+            const arr = this.preselectedRows[index].valueListItems.map(v => {
               return {
                 Name: v.name,
                 Value: v.value,
                 Id: v.id
-              }
-            })
-            item.ValueList = arr
+              };
+            });
+            item.ValueList = arr;
           }
           return {
             ...item,
             PartnerAccess: this.preselectedRows[index].partnerAccess,
             UserAccess: this.preselectedRows[index].userAccess,
             selected: true
-          }
-        }else{
+          };
+        } else {
           return {
             ...obj,
             UserAccess: 'Hidden',
             PartnerAccess: 'Hidden',
             selected: false
-          }
+          };
         }
-      })
-      const sorted = this.optionList.sort((a,b)=> b.selected - a.selected)
-    })
+      });
+      const sorted = this.optionList.sort((a, b) => b.selected - a.selected);
+    });
   }
   initForm() {
     this.infoForm = this.fb.group({
@@ -298,7 +299,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   isPartnerLicense(event, button) {
     event.preventDefault();
     if (button === this.selectedPartnerLicenseBtn) {
-      this.setFormValue('partner',button.title);
+      this.setFormValue('partner', button.title);
       this.selectedPartnerLicenseBtn = undefined;
     } else {
       this.setFormValue('partner', button.title);
@@ -309,85 +310,85 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     event.preventDefault();
     if (button === this.selectedRenewBtn) {
       this.selectedRenewBtn = undefined;
-      this.setFormValue('renew',button.title);
+      this.setFormValue('renew', button.title);
     } else {
       this.setFormValue('renew', button.title);
       this.selectedRenewBtn = button;
     }
   }
   onChange(option) {
-    this.selectedStatus =option;
-    this.setFormValue('status',option);
+    this.selectedStatus = option;
+    this.setFormValue('status', option);
     this.cdref.detectChanges();
   }
-  setFormValue(field,value){
+  setFormValue(field, value) {
     this.infoForm.get(field).patchValue(value, {
       onlySelf: false
     });
   }
-  setBoolean(data){
+  setBoolean(data) {
     return this.partnerLicense.filter(e => e.title === data)[0];
   }
-  compareFn(c1: any, c2:any): boolean {
+  compareFn(c1: any, c2: any): boolean {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
   setUserId(option, field) {
-    this.savedCompanyUserId = option
-    this.userLabel = option
-    this.infoForm.get(field).patchValue(option)
+    this.savedCompanyUserId = option;
+    this.userLabel = option;
+    this.infoForm.get(field).patchValue(option);
 
   }
-  submitForm(){
+  submitForm() {
     const id = this.route.snapshot.paramMap.get('id');
-    const values = this.infoForm.value
-    const selectedP = values.partner === 'Yes' ? true : false
-    const selectedR = values.renew === 'Yes' ? true : false
-    const resArr = []
-    this.selectedRows.reverse().filter(item =>{
+    const values = this.infoForm.value;
+    const selectedP = values.partner === 'Yes' ? true : false;
+    const selectedR = values.renew === 'Yes' ? true : false;
+    const resArr = [];
+    this.selectedRows.reverse().filter(item => {
       const i = resArr.findIndex(x => x.optionId === item.Id);
-      if(i <= -1){
+      if (i <= -1) {
         const obj: any = {
           optionId: item.Id,
           userAccess: item.UserAccess,
           partnerAccess: item.PartnerAccess
-        }
-        if(item.OptionType === 'ValueList'){
-          const valueItems = []
-          item.ValueList.forEach(x =>{
-            if(x.selected){
+        };
+        if (item.OptionType === 'ValueList') {
+          const valueItems = [];
+          item.ValueList.forEach(x => {
+            if (x.selected) {
               valueItems.push({
                 id: x.Id
-              })
+              });
             }
-          })
-          if(this.isEdit){
-            obj.valueListItems = valueItems
-          }else{
-            obj.valueList = valueItems
+          });
+          if (this.isEdit) {
+            obj.valueListItems = valueItems;
+          } else {
+            obj.valueList = valueItems;
           }
-          obj.valueString = ''
+          obj.valueString = '';
         }
-        if(item.OptionType === 'String'){
-          obj.valueString = item.ValueString
-          if(this.isEdit){
-            obj.valueListItems = []
-          }else{
-            obj.valueList = []
+        if (item.OptionType === 'String') {
+          obj.valueString = item.ValueString;
+          if (this.isEdit) {
+            obj.valueListItems = [];
+          } else {
+            obj.valueList = [];
           }
         }
-        if(item.OptionType === 'Boolean'){
-          obj.valueString = ''
-          if(this.isEdit){
-            obj.valueListItems = []
-          }else{
-            obj.valueList = []
+        if (item.OptionType === 'Boolean') {
+          obj.valueString = '';
+          if (this.isEdit) {
+            obj.valueListItems = [];
+          } else {
+            obj.valueList = [];
           }
         }
         resArr.push(obj);
       }
       return null;
     });
-    if(this.isEdit){
+    if (this.isEdit) {
       const editObj = {
         id: parseInt(id, 10),
         isPartnerLicense: selectedP,
@@ -395,20 +396,20 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         licenseStatus: values.status,
         userCompany: values.userCompany,
         licenseOptions: resArr
-      }
-      this.service.updateLicense(id, editObj).subscribe(e =>{
-        this.router.navigate(['licenses'])
-      })
+      };
+      this.service.updateLicense(id, editObj).subscribe(e => {
+        this.router.navigate(['licenses']);
+      });
     }
   }
-  getRow(row){
-    this.selectedRows = row.selected
+  getRow(row) {
+    this.selectedRows = row.selected;
   }
-  setDisplay(permission){
-    if(permission === 'hidden'){
-      return false
-    }else{
-      return true
+  setDisplay(permission) {
+    if (permission === 'hidden') {
+      return false;
+    } else {
+      return true;
     }
   }
 

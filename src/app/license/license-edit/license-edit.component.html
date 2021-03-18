@@ -1,165 +1,326 @@
 <app-page-container [config]="containerConfig">
-    <div class="w-100" container-body>
-      <div class="page-header">
-        <div class="row align-items-center">
-          <div class="col">
-            <!--  -->
-            <app-button
-              color="tertiary"
-              [routerLink]="[backUrl]"
-              [class]="
-                'd-flex align-items-center rc-accent-blue-160-color montserrat-semibold-font ml-n20'
-              "
+  <div class="w-100" container-body>
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <!--  -->
+          <app-button
+            color="tertiary"
+            [routerLink]="[backUrl]"
+            [class]="
+              'd-flex align-items-center rc-accent-blue-160-color montserrat-semibold-font ml-n20'
+            "
+          >
+            <svg-icon
+              [class]="'icon-w16-h16 mr-10'"
+              [src]="caretLeftIcon"
+              alt="Icon"
+              applyClass="true"
             >
-              <svg-icon
-                [class]="'icon-w16-h16 mr-10'"
-                [src]="caretLeftIcon"
-                alt="Icon"
-                applyClass="true"
-              >
-              </svg-icon>
-              {{currentLicenseCompany}}
-            </app-button>
-            <!--  -->
+            </svg-icon>
+            {{ currentLicenseCompany }}
+          </app-button>
+          <!--  -->
 
-            <h1
-              class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0"
-            >
-              License ID {{currentLicense?.id}}
-            </h1>
-          </div>
+          <h1
+            class="s30-h40 rc-accent-blue-160-color montserrat-medium-font ls-0"
+          >
+            License ID {{ currentLicense?.id }}
+          </h1>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12">
-           <ng-container [style.display]="tabSwitch ? 'block' : 'none'">
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <ng-container [style.display]="tabSwitch ? 'block' : 'none'">
+          <app-tabs [selectedTemplate]="tabSwitch">
+            <app-tab-bar [marked]="tabMarked">
+              <app-tab-button
+                [selected]="tab.isSelected"
+                [defaultSelected]="tab.defaultSelected"
+                (click)="switchTab($event, tab.template, i)"
+                *ngFor="let tab of tabs; let i = index"
+              >
+                {{ tab.name }}
+              </app-tab-button>
+            </app-tab-bar>
 
-                <app-tabs [selectedTemplate]="tabSwitch">
-                    <app-tab-bar [marked]="tabMarked">
-                        <app-tab-button
-                            [selected]="tab.isSelected"
-                            [defaultSelected]="tab.defaultSelected"
-                            (click)="switchTab($event, tab.template, i)"
-                            *ngFor="let tab of tabs; let i = index"
-                        >
-                            {{ tab.name }}
-                        </app-tab-button>
-                    </app-tab-bar>
+            <ng-template #firstTab>
+              <div class="w-70p pt-40">
+                <form
+                  [formGroup]="infoForm"
+                  class="row no-gutters"
+                  (ngSubmit)="submitForm()"
+                >
+                  <div class="col-12 col-md-6 px-0 py-0 pr-md-16 m-0">
+                    <div
+                      *ngIf="setDisplay(fieldsPermission?.productName)"
+                      class="col mb-14 px-0"
+                    >
+                      <app-input
+                        [config]="
+                          inputConfig(
+                            'Product Name',
+                            'text',
+                            '',
+                            false,
+                            fieldsPermission?.productName === 'readonly'
+                          )
+                        "
+                        formControlName="productName"
+                      ></app-input>
+                    </div>
 
-                    <ng-template #firstTab>
+                    <div
+                      *ngIf="setDisplay(fieldsPermission?.customer)"
+                      class="col mb-14 px-0"
+                    >
+                      <app-input
+                        [config]="
+                          inputConfig(
+                            'Customer',
+                            'text',
+                            '',
+                            false,
+                            fieldsPermission?.customer === 'readonly'
+                          )
+                        "
+                        formControlName="customer"
+                      ></app-input>
+                    </div>
 
-                         <div class="w-70p pt-40">
-                            <form [formGroup]="infoForm" class="row no-gutters" (ngSubmit)="submitForm()">
+                    <div
+                      *ngIf="setDisplay(fieldsPermission?.purchaseDate)"
+                      class="col mb-14 px-0"
+                    >
+                      <app-input
+                        [config]="
+                          inputConfig(
+                            'Purchased',
+                            'text',
+                            '',
+                            false,
+                            fieldsPermission?.purchaseDate === 'readonly'
+                          )
+                        "
+                        formControlName="purchased"
+                      ></app-input>
+                    </div>
 
-                                <div class="col-12 col-md-6 px-0 py-0 pr-md-16 m-0">
+                    <div
+                      *ngIf="setDisplay(fieldsPermission?.expirationDate)"
+                      class="col mb-14 px-0"
+                    >
+                      <app-input
+                        [config]="
+                          inputConfig(
+                            'Expires',
+                            'text',
+                            '',
+                            false,
+                            fieldsPermission?.expirationDate === 'readonly'
+                          )
+                        "
+                        formControlName="expires"
+                      ></app-input>
+                    </div>
 
-                                    <div *ngIf="setDisplay(fieldsPermission?.productName)" class="col mb-14 px-0">
-                                        <app-input [config]="inputConfig('Product Name', 'text', '', false, fieldsPermission?.productName === 'readonly')" formControlName="productName"></app-input>
-                                    </div>
-
-                                    <div *ngIf="setDisplay(fieldsPermission?.customer)" class="col mb-14 px-0">
-                                        <app-input [config]="inputConfig('Customer', 'text', '', false, fieldsPermission?.customer === 'readonly')" formControlName="customer"></app-input>
-                                    </div>
-
-                                    <div *ngIf="setDisplay(fieldsPermission?.purchaseDate)" class="col mb-14 px-0">
-                                        <app-input [config]="inputConfig('Purchased', 'text', '', false, fieldsPermission?.purchasedDate === 'readonly')" formControlName="purchased"></app-input>
-                                    </div>
-
-                                    <div *ngIf="setDisplay(fieldsPermission?.expirationDate)" class="col mb-14 px-0">
-                                        <app-input [config]="inputConfig('Expires', 'text', '', false, fieldsPermission?.expirationDate === 'readonly')" formControlName="expires"></app-input>
-                                    </div>
-
-
-                                    <div *ngIf="setDisplay(fieldsPermission?.status)" class="col px-0">
-                                        <!-- <app-select
+                    <div
+                      *ngIf="setDisplay(fieldsPermission?.status)"
+                      class="col px-0"
+                    >
+                      <!-- <app-select
                                             [config]="selectionConfig('Status')"
                                             formControlName="status"
                                         ></app-select> -->
-                                        <div  class="mx-0">
-                                            <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Status </label>
-                                            <div class="rc-select" >
-                                                <select [disabled]="fieldsPermission?.status === 'readonly'" (change)="onChange($event.target.value)"  formcontrolname="status">
-                                                    <option [selected]="selectedStatus == 'Active'" value="Active">Active</option>
-                                                    <option [selected]="selectedStatus == 'Inactive'" value="Inactive">In Active</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="col-12 col-md-6 px-0 py-0 pl-md-16 m-0">
-
-                                    <div *ngIf="setDisplay(fieldsPermission?.IsPartnerlicense)" class="col mb-14 px-0">
-                                        <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Is Partner License</label>
-                                        <div class="rc-form-group rc-form-group-without-prefix" >
-                                            <app-chips [disabled]="fieldsPermission?.IsPartnerlicense === 'readonly'" *ngFor="let button of partnerLicense" class="mr-2"  [color]="(selectedPartnerLicenseBtn == button) ? 'selected' : 'default'" (click)="isPartnerLicense($event,button)">
-                                                {{button.title}}
-                                            </app-chips>
-                                        </div>
-                                    </div>
-
-                                    <div *ngIf="setDisplay(fieldsPermission?.userCompany)" class="col mb-14 px-0">
-                                        <app-input [config]="inputConfig('User Company', 'text', '', false, fieldsPermission?.userCompany === 'readonly')" formControlName="userCompany"></app-input>
-                                    </div>
-
-                                    <div *ngIf="setDisplay(fieldsPermission?.renewByUserCompany)" class="col mb-14 px-0">
-                                        <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Renew by User Company</label>
-                                        <div class="rc-form-group rc-form-group-without-prefix" >
-                                            <input type="text" hidden formControlName="renew">
-                                            <app-chips [disabled]="fieldsPermission?.renewByUserCompany === 'readonly'" *ngFor="let button of partnerLicense" class="mr-2"  [color]="(selectedRenewBtn == button) ? 'selected' : 'default'" (click)="renewbyUserCompany($event,button)">
-                                                {{button.title}}
-                                            </app-chips>
-                                        </div>
-                                    </div>
-
-                                    <div *ngIf="setDisplay(fieldsPermission?.IsAssigned)" class="col mb-14 px-0">
-                                        <app-input [config]="inputConfig('Is Assigned', 'text', '', false, fieldsPermission?.IsAssigned === 'readonly')" formControlName="isAssigned"></app-input>
-                                    </div>
-
-                                    <div *ngIf="setDisplay(fieldsPermission?.assignedTo)" class="col px-0">
-                                        <label  class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0">Assigned to</label>
-                                        <div  class="rc-select"> 
-                                            <select [disabled]="fieldsPermission?.assignedTo === 'readonly'"  formcontrolname="userId"
-                                            (change)="setUserId($event.target.value, 'userId')"  class="ng-pristine ng-valid ng-touched">
-                                                <option selected disabled>Select</option>
-                                                <option *ngFor="let user of companyUsers" [value]="user.id" [selected]="user.id === savedCompanyUserId">
-                                                {{user.firstname}} {{user.lastname}} </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    
-
-                                </div>
-                                
-
-                                <div class="col-12 submit-row">
-                                    <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
-                                        Cancel
-                                    </app-button>
-                                    <app-button type="submit" color="primary">
-                                        Save
-                                    </app-button>
-                                </div>
-
-                            </form>
-                         </div>
-                        
-                    </ng-template>
-                    <ng-template #secondTab>
-                        <app-license-options (selectedRows)="getRow($event)" [licenseOptionAction]="licenseOptionAction" [licenseOptionPermission]="licenseOptionPermission" [preselectedRows]="preselectedRows" [optionList]="optionList"></app-license-options>
-                        <div class="col-12 submit-row">
-                            <app-button [routerLink]="[backUrl]" color="secondary" class="cancel-btn">
-                                Cancel
-                            </app-button>
-                            <app-button (click)="submitForm()" color="primary">
-                                Save
-                            </app-button>
+                      <div class="mx-0">
+                        <label
+                          class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0"
+                          >Status
+                        </label>
+                        <div class="rc-select">
+                          <select
+                            [disabled]="fieldsPermission?.status === 'readonly'"
+                            (change)="onChange($event.target.value)"
+                            formcontrolname="status"
+                          >
+                            <option
+                              [selected]="selectedStatus == 'Active'"
+                              value="Active"
+                            >
+                              Active
+                            </option>
+                            <option
+                              [selected]="selectedStatus == 'Inactive'"
+                              value="Inactive"
+                            >
+                              In Active
+                            </option>
+                          </select>
                         </div>
-                    </ng-template>
-                </app-tabs>
-           </ng-container>
-        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6 px-0 py-0 pl-md-16 m-0">
+                    <div
+                      *ngIf="setDisplay(fieldsPermission?.IsPartnerlicense)"
+                      class="col mb-14 px-0"
+                    >
+                      <label
+                        class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0"
+                        >Is Partner License</label
+                      >
+                      <div class="rc-form-group rc-form-group-without-prefix">
+                        <app-chips
+                          [disabled]="
+                            fieldsPermission?.IsPartnerlicense === 'readonly'
+                          "
+                          *ngFor="let button of partnerLicense"
+                          class="mr-2"
+                          [color]="
+                            selectedPartnerLicenseBtn == button
+                              ? 'selected'
+                              : 'default'
+                          "
+                          (click)="isPartnerLicense($event, button)"
+                        >
+                          {{ button.title }}
+                        </app-chips>
+                      </div>
+                    </div>
+
+                    <div
+                      *ngIf="setDisplay(fieldsPermission?.userCompany)"
+                      class="col mb-14 px-0"
+                    >
+                      <app-input
+                        [config]="
+                          inputConfig(
+                            'User Company',
+                            'text',
+                            '',
+                            false,
+                            fieldsPermission?.userCompany === 'readonly'
+                          )
+                        "
+                        formControlName="userCompany"
+                      ></app-input>
+                    </div>
+
+                    <div
+                      *ngIf="setDisplay(fieldsPermission?.renewByUserCompany)"
+                      class="col mb-14 px-0"
+                    >
+                      <label
+                        class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0"
+                        >Renew by User Company</label
+                      >
+                      <div class="rc-form-group rc-form-group-without-prefix">
+                        <input type="text" hidden formControlName="renew" />
+                        <app-chips
+                          [disabled]="
+                            fieldsPermission?.renewByUserCompany === 'readonly'
+                          "
+                          *ngFor="let button of partnerLicense"
+                          class="mr-2"
+                          [color]="
+                            selectedRenewBtn == button ? 'selected' : 'default'
+                          "
+                          (click)="renewbyUserCompany($event, button)"
+                        >
+                          {{ button.title }}
+                        </app-chips>
+                      </div>
+                    </div>
+
+                    <div
+                      *ngIf="setDisplay(fieldsPermission?.IsAssigned)"
+                      class="col mb-14 px-0"
+                    >
+                      <app-input
+                        [config]="
+                          inputConfig(
+                            'Is Assigned',
+                            'text',
+                            '',
+                            false,
+                            fieldsPermission?.IsAssigned === 'readonly'
+                          )
+                        "
+                        formControlName="isAssigned"
+                      ></app-input>
+                    </div>
+
+                    <div
+                      *ngIf="setDisplay(fieldsPermission?.assignedTo)"
+                      class="col px-0"
+                    >
+                      <label
+                        class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0"
+                        >Assigned to</label
+                      >
+                      <div class="rc-select">
+                        <select
+                          [disabled]="
+                            fieldsPermission?.assignedTo === 'readonly'
+                          "
+                          formcontrolname="userId"
+                          (change)="setUserId($event.target.value, 'userId')"
+                          class="ng-pristine ng-valid ng-touched"
+                        >
+                          <option selected disabled>Select</option>
+                          <option
+                            *ngFor="let user of companyUsers"
+                            [value]="user.id"
+                            [selected]="user.id === savedCompanyUserId"
+                          >
+                            {{ user.firstname }} {{ user.lastname }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 submit-row">
+                    <app-button
+                      [routerLink]="[backUrl]"
+                      color="secondary"
+                      class="cancel-btn"
+                    >
+                      Cancel
+                    </app-button>
+                    <app-button type="submit" color="primary">
+                      Save
+                    </app-button>
+                  </div>
+                </form>
+              </div>
+            </ng-template>
+            <ng-template #secondTab>
+              <app-license-options
+                (selectedRows)="getRow($event)"
+                [licenseOptionAction]="licenseOptionAction"
+                [licenseOptionPermission]="licenseOptionPermission"
+                [preselectedRows]="preselectedRows"
+                [optionList]="optionList"
+              ></app-license-options>
+              <div class="col-12 submit-row">
+                <app-button
+                  [routerLink]="[backUrl]"
+                  color="secondary"
+                  class="cancel-btn"
+                >
+                  Cancel
+                </app-button>
+                <app-button (click)="submitForm()" color="primary">
+                  Save
+                </app-button>
+              </div>
+            </ng-template>
+          </app-tabs>
+        </ng-container>
+      </div>
     </div>
-    </div>
-  </app-page-container>
+  </div>
+</app-page-container>

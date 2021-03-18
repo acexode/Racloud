@@ -15,7 +15,6 @@ import { OrderService } from '../service.service';
 import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 import { get } from 'lodash';
 import { getOrderDetailsPagePermissions } from 'src/app/core/permission/order/order.details.permission';
-import { PriceListService } from 'src/app/core/services/price-list/price-list.service';
 @Component({
   selector: 'app-orders-details',
   templateUrl: './orders-details.component.html',
@@ -25,7 +24,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
 
   caretLeftIcon = '../assets/images/caret-left.svg';
   orderId = '';
-  addProduct = false
+  addProduct = false;
   Currency;
   backUrl = '/orders';
   disableForm = false;
@@ -45,6 +44,8 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
   @ViewChild('quantityTemplate', { static: true }) quantityTemplate: TemplateRef<any>;
   @ViewChild('discountTemplate', { static: true }) discountTemplate: TemplateRef<any>;
   @ViewChild('dropdown', { static: true }) dropdown: TemplateRef<any>;
+  @ViewChild('applicationTemplate', { static: true }) applicationTemplate: TemplateRef<any>;
+  @ViewChild('productTemplate', { static: true }) productTemplate: TemplateRef<any>;
   rows = [];
   autoClose = false;
   discountTypes = [
@@ -176,7 +177,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     });
     this.routeId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.shopS.buyStore.subscribe((e: any) => {
-      console.log(e)
       const orderId = this.routeId;
       if (e.hasOwnProperty('id') && !e.fromStore) {
         const companyId = this.componentForm.get('companyId').value || this.savedCompanyId;
@@ -196,7 +196,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         } else {
           this.displayMsg('Please select a customer', 'info');
         }
-        console.log(obj)
         this.onInitTable();
       }
     });
@@ -221,7 +220,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     if (id) {
       const idx = parseInt(id, 10);
       this.getSingleOrder$ = this.service.getSingleOrder(idx).subscribe((e: any) => {
-        // console.log(e);
         this.OrderStatus = e.OrderStatus;
         if (e.CompanyId !== null) {
           this.companyCurrencyCode = get(e, 'Currency', '');
@@ -232,12 +230,10 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         }
         const orderItems: any[] = e.OrderItems;
         this.getShops$ = this.service.getShops().subscribe((shop: any[]) => {
+          console.log(shop);
           this.addedProducts = [];
-          console.log(shop)
-          console.log(orderItems)
           shop.forEach(s => {
             const index = orderItems.findIndex((item: any) => item.ProductId === s.product.id);
-            console.log(index)
             if (index > -1) {
               this.noProduct = false;
               this.addedProducts.push({
@@ -257,12 +253,10 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
               return null;
             }
           });
-          // console.log(this.addedProducts)
           const uniqueArray = this.addedProducts.filter((v, i) => {
             return this.addedProducts.indexOf(v) === i;
           });
-          console.log(this.addedProducts)
-          this.shopS.cartStore.next(this.addedProducts)
+          this.shopS.cartStore.next(this.addedProducts);
           this.rowData = this.addedProducts;
           const cloneData = this.addedProducts.map((v) => {
             return { ...v };
@@ -271,7 +265,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
           if (this.addedProducts.length < 1) {
             this.noProduct = true;
           }
-          this.ref.detectChanges()
+          this.ref.detectChanges();
           const dBody = document.querySelector('.datatable-body') as HTMLElement;
           if (dBody) {
             dBody.style.minHeight = 'auto';
@@ -456,7 +450,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     }
   }
   changeQuantity(type, row) {
-    console.log(type)
     this.addedProducts = this.addedProducts.map(e => {
       if (e.orderItemId === row.orderItemId && type === 'inc') {
         const obj = {
@@ -477,7 +470,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
           this.loadOrder();
         }, err => {
           this.displayMsg(err.error, 'danger');
-          console.log(err);
         });
         return e;
       }
@@ -537,7 +529,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       this.loadOrder();
     }, err => {
       if (err.status === 200) {
-        console.log(err.status);
         this.loadOrder();
       }
       this.displayMsg(err.error, 'danger');
@@ -610,6 +601,20 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       };
     }
   }
+  get fieldsReadOnlyStatus() {
+    const field = get(this.permissions, 'fields', null);
+    if (field) {
+      return {
+        orderNumber: field.orderNumber === 'readonly' ? true : false,
+        companyId: field.companyId === 'readonly' ? true : false,
+        status: field.status === 'readonly' ? true : false,
+        orderDate: field.orderDate === 'readonly' ? true : false,
+        value: field.value === 'readonly' ? true : false,
+        discount: field.discount === 'readonly' ? true : false,
+        totalValue: field.totalValue === 'readonly' ? true : false,
+      };
+    }
+  }
   get fieldsAccessStatus() {
     const field = get(this.permissions, 'fields', null);
     if (field) {
@@ -658,17 +663,29 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       totalValue: field.productType === 'readonly' ? true : false,
     };
   }
+  get gridColumnsIsTotallyReadonly() {
+    const gridC = this.gridColumnsReadOnlyAccessStatus;
+    return (
+      gridC.discount &&
+      gridC.totalValue &&
+      gridC.quantity &&
+      gridC.value) ? true : false;
+  }
+  get displayOptions() {
+    const optionsStatus = get(get(this.permissions, 'actions', null), 'options', null);
+    return optionsStatus === 'full' ? true : false;
+  }
   getTableColumns(permission: any = this.permissions): Array<any> {
     const applicationColumn = {
       identifier: 'application',
       label: 'Application',
       sortable: true,
-      minWidth: 226,
-      width: 90,
+      minWidth: 280,
       noGrow: true,
       sortIconPosition: 'right',
       labelPosition: 'left',
       cellContentPosition: 'left',
+      cellTemplate: this.applicationTemplate,
       filterConfig: {
         data: null,
         filterType: TableFilterType.TEXT,
@@ -680,6 +697,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       label: 'UM?',
       sortable: true,
       minWidth: 160,
+      noGrow: true,
       sortIconPosition: 'right',
       labelPosition: 'left',
       cellContentPosition: 'left',
@@ -700,6 +718,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'left',
+        cellTemplate: this.productTemplate,
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -800,6 +819,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     }
     tempColumn.unshift(applicationColumn);
     tempColumn.splice(2, 0, umColumn);
+    /*  && !this.gridColumnsIsTotallyReadonly */
     if (tempColumn.length !== 0) {
       tempColumn.push(action);
     }

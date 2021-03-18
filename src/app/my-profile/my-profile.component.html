@@ -1,0 +1,112 @@
+<app-page-container [config]="containerConfig">
+  <div class="w-100" container-body>
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <div></div>
+          <app-button
+            color="tertiary"
+            [class]="
+              'd-flex align-items-center rc-accent-blue-160-color montserrat-semibold-font'
+            "
+          >
+            <span class="pyramid">{{ currentCompany }}</span> <br />
+          </app-button>
+          <h3 class="new-user">
+            {{ user?.firstName | titlecase }} {{ user?.lastName | titlecase }}
+          </h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="line-h1 rc-secondary-bg mt-24 mb-39"></div>
+
+    <div class="w-80p pt-40">
+      <form [formGroup]="userForm" class="row no-gutters">
+        <div class="col-12 px-0">
+          <div class="col-12 px-0">
+            <span class="personal-details">Personal Details</span>
+          </div>
+          <div class="row no-gutters">
+            <div class="col-4 pr-16">
+              <app-input
+                [config]="
+                  inputConfig('First Name', 'text', 'Type Here', false, true)
+                "
+                formControlName="firstName"
+              ></app-input>
+            </div>
+            <div class="col-4 px-16">
+              <app-input
+                [config]="
+                  inputConfig('Last Name', 'text', 'Type Here', false, true)
+                "
+                formControlName="lastName"
+              ></app-input>
+            </div>
+            <div class="col-4 pl-16">
+              <app-input
+                [config]="
+                  inputConfig('Email', 'text', 'Type Here', false, true)
+                "
+                formControlName="email"
+              ></app-input>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 mt-32 mb-10">
+          <span class="personal-details">Role</span>
+        </div>
+
+        <div class="col-12 px-0">
+          <div class="row no-gutters">
+            <div class="col-4 pr-16">
+              <div
+                [class]="
+                  'rc-select ' +
+                  (disableCustomerSelectField && 'rc-select-disabled')
+                "
+              >
+                <label
+                  class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0 mb-6"
+                  >Company
+                </label>
+                <select
+                  [disabled]="disableCustomerSelectField"
+                  formcontrolname="companyId"
+                >
+                  <option [value]="companyId">
+                    {{ companyLabel }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-4 pr-16">
+              <div
+                [class]="
+                  'rc-select ' +
+                  (disableCustomerSelectField && 'rc-select-disabled')
+                "
+              >
+                <label
+                  class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0 mb-6"
+                  >Role
+                </label>
+                <select
+                  [disabled]="disableCustomerSelectField"
+                  formcontrolname="companyId"
+                >
+                  <option [value]="roleId">
+                    {{ roleLabel }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</app-page-container>

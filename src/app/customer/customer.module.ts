@@ -33,6 +33,7 @@ import { CustomerFormComponent } from './customer-form/customer-form.component';
     CustomerTabComponent,
     CustomerFormComponent
   ],
+  exports: [CustomerFormComponent, DetailsTabComponent],
   imports: [
     CommonModule,
     CustomerRoutingModule,

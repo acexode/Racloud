@@ -226,11 +226,9 @@ export class LicensesListingComponent implements OnInit {
       },
     ];
     this.service.getLicenses().subscribe((data: any) => {
+      console.log(data);
       this.loadTableData(data);
     });
-  }
-  public getJSON(): Observable<any> {
-    return this.http.get('./assets/ra-table-license.json');
   }
   loadTableData(data) {
     if (data) {

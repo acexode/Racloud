@@ -42,8 +42,9 @@ export class UsersService {
   }
   getRoles() {
     const roles = this.reqS.get(roleEndpoints.getRoles);
-    const companies = this.reqS.get(customersEndpoints.getCustomers);
-    return forkJoin([roles, companies]);
+    // const companies = this.reqS.get(customersEndpoints.getCustomers);
+    // return forkJoin([roles, companies]);
+    return roles;
   }
   getUsers() {
     return this.reqS.get(userEndpoints.getUsers);
@@ -90,10 +91,13 @@ export class UsersService {
   resetPassword(obj) {
     return this.reqS.post(userEndpoints.resetPassword, obj);
   }
-  impersonate(obj){
+  impersonate(obj) {
     return this.reqS.post(userEndpoints.impersonate, obj);
   }
-  stopImpersonate(obj){
+  stopImpersonate(obj) {
     return this.reqS.post(userEndpoints.stopImpersonate, obj);
+  }
+  getUserProfile() {
+    return this.reqS.get(userEndpoints.profile);
   }
 }

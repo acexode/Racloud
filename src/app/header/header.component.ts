@@ -21,9 +21,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   user: any;
   impersonatorId: any;
   company: any;
-  role
+  role;
   authS$: Subscription;
-  totalOrder
+  totalOrder;
   constructor(
     private titleService: TitleService,
     private authS: AuthService,
@@ -35,14 +35,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.shopS.cartStore.subscribe(cart =>{
-      this.getCartCount()
-    })
+    this.shopS.cartStore.subscribe(cart => {
+      if (cart.length > 0) {
+        this.getCartCount();
+      } else {
+        this.totalOrder = 0;
+      }
+    });
     this.authS$ = this.authS.getAuthState().subscribe(e => {
       const account = get(e, 'account', null);
-      this.role = e.account.roles;
       this.company = get(account, 'company', null) || 'No company';
-      console.log(this.company)
+      console.log(this.company);
       const firstname = get(get(account, 'user', null), 'firstname', null) || 'firstname';
       const lastname = get(get(account, 'user', null), 'lastname', null) || 'lastname';
       const id = get(get(account, 'user', null), 'id', null) || get(e, 'impersonatorId', null);
@@ -52,28 +55,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
         lastname,
         id
       };
-      this.getCartCount()
+      this.getCartCount();
     });
-    this.CStore.getItem('token').subscribe(e =>{
-      this.impersonatorId = e.impersonatorId
-    })
+    this.CStore.getItem('token').subscribe(e => {
+      this.impersonatorId = e.impersonatorId;
+    });
   }
-  navigate(id, route) {
+  navigate(id: any, route: any) {
     if (route === 'user') {
-      this.router.navigate(['users/edit-user', { id }]);
+      this.router.navigate(['/my-profile']);
     } else if (route === 'company') {
-      this.router.navigate(['customer/manage/'+ id + '/tab/details']);
+      this.router.navigate(['/my-company']);
     } else {
       return null;
     }
   }
-  getCartCount(){
-    this.orderS.cartTotal().subscribe((res:any) =>{
-      console.log(res.numberOfProductsInCart)
+  getCartCount() {
+    this.orderS.cartTotal().subscribe((res: any) => {
       // const order:any = orders.orderItems.filter((ord:any) => ord.orderStatus === 'Cart' )[0]
-      this.totalOrder = res.numberOfProductsInCart
+      this.totalOrder = res.numberOfProductsInCart;
       // console.log(order)
-    })
+    });
   }
   userLogOut() {
     this.authS.logout();
@@ -81,28 +83,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
   stopImpersonation() {
     const obj = {
       impersonatorId: this.impersonatorId
-    }
-      this.CStore.getItem('oldToken').subscribe(e =>{
-        const userInfo = e
-        const account = {
-          username: userInfo.user.email,
-          image: null,
-          user: userInfo.user || null,
-          company: userInfo.company,
-          roles: userInfo.roles[0],
-        };
-        this.authS.authState.next({
-          init: true,
-          account,
-          authToken: e.token,
-          expiryDate: e.exp || null,
-        });
-        this.CStore.setItem('token', userInfo).subscribe(t =>{
-          this.userS.getUserPermissionsPerPage();
-          this.CStore.removeItem('oldToken')
+    };
+    this.CStore.getItem('oldToken').subscribe(e => {
+      const userInfo = e;
+      const account = {
+        username: userInfo.user.email,
+        image: null,
+        user: userInfo.user || null,
+        company: userInfo.company,
+        roles: userInfo.roles[0],
+      };
+      this.authS.authState.next({
+        init: true,
+        account,
+        authToken: e.token,
+        expiryDate: e.exp || null,
+      });
+      this.CStore.setItem('token', userInfo).subscribe(t => {
+        this.userS.getUserPermissionsPerPage();
+        this.CStore.removeItem('oldToken');
 
-        })
-      })
+      });
+    });
   }
   ngOnDestroy() {
     this.authS$.unsubscribe();

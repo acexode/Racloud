@@ -14,7 +14,7 @@ import { TabsModule } from '../shared/tabs/tabs.module';
 
 
 @NgModule({
-  declarations: [CreateUserComponent,UsersComponent],
+  declarations: [CreateUserComponent, UsersComponent],
   imports: [
     CommonModule,
     CommonModule,

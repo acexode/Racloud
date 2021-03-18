@@ -32,7 +32,9 @@
          <div class="col-auto float-right ml-auto" *ngIf="UserTab?.isSelected">
 
            <ng-container *ngIf="detailsData$ | async as detailsData">
-            <app-button type="button" color="primary" [routerLink]="['/users/create-user', {companyId: detailsData.customer.id, backUrl: '/customer/manage/'+detailsData.customer.id}]">
+            <app-button type="button" 
+            color="primary" 
+            [routerLink]="['/users/create-user', {companyId: detailsData.customer.id, backUrl: '/customer/manage/'+detailsData.customer.id+'/tab/users'}]">
                 Add user
             </app-button>
             

@@ -40,6 +40,9 @@ import { CustomerModule } from './customer/customer.module';
 import { LoaderModule } from './shared/loader/loader.module';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { MyCompanyComponent } from './my-company/my-company.component';
+import { UsersModule } from './users/users.module';
+import { MyProfileComponent } from './my-profile/my-profile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,6 +58,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     RaLogoComponent,
     SignupComponent,
     ShopComponent,
+    MyCompanyComponent,
+    MyProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,7 +85,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     TabsModule,
     CustomerModule,
     LoaderModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { CustomerModel } from 'src/app/customer/model/customer.model';
-import { baseEndpoints } from '../../configs/endpoints';
-import { CountriesService } from '../countries/countries.service';
+import { baseEndpoints, customersEndpoints } from '../../configs/endpoints';
 import { RequestService } from '../request/request.service';
 
 @Injectable({
@@ -15,7 +13,7 @@ export class CustomerService {
   getCustomers(): Observable<any> {
     return this.reqS.get<Array<CustomerModel>>(baseEndpoints.allCustomers);
   }
-  getCustomerCustomers(id): Observable<any> {
+  getCustomerCustomers(id: any): Observable<any> {
     return this.reqS.get<Array<CustomerModel>>(baseEndpoints.allCustomers + '?customerId='+ id);
   }
   disableCustomer(id: number) {
@@ -33,5 +31,8 @@ export class CustomerService {
   updateCustomerData(id: any, data: any): Observable<CustomerModel> {
     const queryEndpoint = `${ baseEndpoints.customers }/${ id }`;
     return this.reqS.put<CustomerModel>(queryEndpoint, data);
+  }
+  getCustomerProfile(): Observable<CustomerModel> {
+    return this.reqS.get<CustomerModel>(customersEndpoints.profile);
   }
 }
