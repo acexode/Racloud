@@ -44,7 +44,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
     this.authS$ = this.authS.getAuthState().subscribe(e => {
       const account = get(e, 'account', null);
-      this.role = e.account.roles;
       this.company = get(account, 'company', null) || 'No company';
       console.log(this.company);
       const firstname = get(get(account, 'user', null), 'firstname', null) || 'firstname';

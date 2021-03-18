@@ -136,7 +136,6 @@ export class MyCompanyComponent implements OnInit, OnChanges, OnDestroy {
         d => {
           // update form Data
           this.updateValueForForm(d);
-          console.log(d);
         }
       );
     this.customerS.getCustomerProfile().subscribe(d => console.log(d));
@@ -202,7 +201,6 @@ export class MyCompanyComponent implements OnInit, OnChanges, OnDestroy {
   }
   updateValueForForm(data: any) {
     if (typeof data !== 'undefined') {
-      console.log(data);
       // get data
       const d: CustomerModel = {
         companyName: get(data, 'companyName', ''),

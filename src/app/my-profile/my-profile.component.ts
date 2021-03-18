@@ -83,7 +83,6 @@ export class MyProfileComponent implements OnInit {
     this.initForm();
     this.userS.getUserProfile().subscribe(
       (data: any) => {
-        console.log('user profile: ', data);
         this.roleLabel = get(get(data, 'role', ''), 'name', '');
         this.companyLabel = get(get(data, 'company', ''), 'companyName', '');
         this.currentCompany = get(get(data, 'company', ''), 'companyName', '');
