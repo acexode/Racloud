@@ -25,7 +25,7 @@
               <a
                 *ngIf="this.company.companyType !== 'Main'"
                 class="nav-link position-relative"
-                href="javascript:;"
+                routerLink="/orders"
               >
                 <img src="../../assets/images/Cart.svg" />
                 <div *ngIf="totalOrder > 0" class="cart">
