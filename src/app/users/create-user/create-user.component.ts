@@ -50,7 +50,7 @@ export class CreateUserComponent implements OnInit {
     },
   };
   companyLabel = 'Select';
-  currentCompany
+  currentCompany;
   roleLabel = 'Select'
     ;
   companyOptions = [];
@@ -125,7 +125,6 @@ export class CreateUserComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     const companyID = this.route.snapshot.paramMap.get('companyId');
     this.backUrl = this.route.snapshot.paramMap.get('backUrl') || '/users';
-    console.log(companyID);
     this.cStorage.getItem('token').subscribe(data => {
       this.loggedInUser = data.user;
       this.loggedInUserRole = data.roles[0];
@@ -141,14 +140,12 @@ export class CreateUserComponent implements OnInit {
       const idx = parseInt(id, 10);
       this.service.getUser(id).subscribe((data: any) => {
         // const data = obj.filter(e => e.user.id.toString() === id)[0];
-        console.log(this.loggedInUserRole);
         this.user = data.user;
-        this.userInfo = data
-        console.log(data)
-        this.roleLabel = get(get(data, 'role',null), 'name',null)
-        this.companyLabel = get(get(data,'company', null), 'companyName', null)
-        this.currentCompany = get(get(data,'company', null), 'companyName', null)
-        if(this.user.email === this.loggedInUser.email){
+        this.userInfo = data;
+        this.roleLabel = get(get(data, 'role', null), 'name', null);
+        this.companyLabel = get(get(data, 'company', null), 'companyName', null);
+        this.currentCompany = get(get(data, 'company', null), 'companyName', null);
+        if (this.user.email === this.loggedInUser.email || this.loggedInUserRole === 'systemadmin' || this.loggedInUserRole === 'admin') {
           this.canChangePassword = true;
         }
         if (this.loggedInUserRole === 'systemadmin' && this.user.email !== this.loggedInUser.email) {
@@ -289,7 +286,6 @@ export class CreateUserComponent implements OnInit {
     this.changePasswordError = '';
     this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray modal-md' }));
     if (type === 'send') {
-      console.log(type);
     } else if (type === 'change') {
       this.changePasswordForm = this.fb.group({
         email: [
@@ -325,7 +321,6 @@ export class CreateUserComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (this.isEdit) {
       user.id = id;
-      console.log(id, user);
       this.service.updateUser(id, user).subscribe(
         _res => {
           this.router.navigate([this.backUrl]);
@@ -339,13 +334,10 @@ export class CreateUserComponent implements OnInit {
         this.router.navigate([this.backUrl]);
       });
     }
-    console.log(this.userForm.value);
   }
   changePassword() {
-    console.log(this.changePasswordForm.value);
     const value = this.changePasswordForm.value;
     this.service.changePassword(value).subscribe((e: any) => {
-      console.log(e);
       this.displayMsg(e.message, 'success');
       this.modalRef.hide();
     }, (err) => {
@@ -358,7 +350,6 @@ export class CreateUserComponent implements OnInit {
       email: this.user.email
     };
     this.service.sendResetPassword(obj).subscribe((e: any) => {
-      console.log(e);
       this.modalRef.hide();
       this.displayMsg(e.message, 'info');
     });
@@ -417,7 +408,6 @@ export class CreateUserComponent implements OnInit {
             this.impersonatorId = res.impersonatorId;
           })).subscribe(() => {
             this.authS.getAuthState().subscribe(e => {
-              console.log(e);
               const idX = get(e, 'impersonatorId', null);
               if (idX === null) {
                 this.impersonatorId = null;

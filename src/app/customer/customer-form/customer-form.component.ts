@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -54,7 +55,7 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
   fieldsPermission: any;
   actionPermission: any;
   backUrl = '/customer';
-
+  selectedCurrency = ''
   typeOptions = Object.keys(CompanyTypes).map(companyType => {
     return {
       id: companyType,
@@ -109,7 +110,7 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
       ],
     ],
     anniversaryDate: [
-      new Date(),
+      formatDate(new Date(Date.now()), 'yyyy-MM-dd H:mm', 'en'),
     ],
     subscriptionFee: [
       '',
@@ -135,7 +136,7 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
   languageOptions$: Observable<any>;
   priceListOptions$: Observable<any>;
   auth$: Subscription;
-
+  priceList = []
   getCustomerPriceList$: Subscription;
   constructor(
     private fb: FormBuilder,
@@ -151,10 +152,15 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
   }
   ngOnInit(): void {
     // get country option
+    console.log(this.componentForm.value)
     this.countryOptions$ = this.cS.getCountriesState().pipe(
       map(d => d.data),
     );
     // get customer parent options
+    this.componentForm.get('priceListId').valueChanges.subscribe(val =>{
+      console.log(val)
+      this.setCurrency(val)
+    })
     this.customerParentOptions$ = this.parentS.getParents();
     // languages options
     this.languageOptions$ = this.lgS.getLanguages();
@@ -224,7 +230,8 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
       formStatus: {
         isDisabled,
         isError: this.checkStatusOfForm(formControl),
-      }
+      },
+      currency: this.selectedCurrency ||'USD'
     };
   }
   get editMode() {
@@ -253,6 +260,8 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
         language: get(data, 'language', ''),
         priceListId: Number(get(get(data, 'priceList', {}), 'id', 0)),
       };
+      const currencyId = Number(get(get(data, 'priceList', {}), 'id', 0))
+      this.setCurrency(currencyId)
       this.componentForm.setValue({ ...d });
       this.componentForm.markAllAsTouched();
       this.componentForm.updateValueAndValidity();
@@ -282,6 +291,14 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
       });
     }
   }
+  setCurrency(currencyId){
+    this.priceListOptions$.subscribe(list =>{
+      console.log(list)
+      const price = list.filter(l => l.id === currencyId)[0]
+      this.selectedCurrency = price.currency
+      console.log(this.selectedCurrency)
+    })
+  }
   setCompanyType(companyType: string) {
     this.componentForm.get('companyType').setValue(companyType);
   }
@@ -290,6 +307,7 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
   }
   setPriceList(priceListId: number) {
     this.componentForm.get('priceListId').setValue(priceListId);
+    console.log(priceListId)
   }
   get priceListPlaceHolder() {
     return this.formEditMode ? 'Select Price List' : 'Price List Defaulfted to Parent';
