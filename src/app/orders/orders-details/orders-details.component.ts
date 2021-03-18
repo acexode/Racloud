@@ -230,6 +230,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         }
         const orderItems: any[] = e.OrderItems;
         this.getShops$ = this.service.getShops().subscribe((shop: any[]) => {
+          console.log(shop);
           this.addedProducts = [];
           shop.forEach(s => {
             const index = orderItems.findIndex((item: any) => item.ProductId === s.product.id);
