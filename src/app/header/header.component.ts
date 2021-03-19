@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   role;
   authS$: Subscription;
   totalOrder;
+  cartOrderId
   constructor(
     private titleService: TitleService,
     private authS: AuthService,
@@ -42,6 +43,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.totalOrder = 0;
       }
     });
+    this.shopS.cartId.subscribe(id => {
+      if(!id){
+        this.cartOrderId = null
+      }
+    });
+
     this.authS$ = this.authS.getAuthState().subscribe(e => {
       const account = get(e, 'account', null);
       this.company = get(account, 'company', null) || 'No company';
@@ -73,9 +80,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
   getCartCount() {
     this.orderS.cartTotal().subscribe((res: any) => {
       // const order:any = orders.orderItems.filter((ord:any) => ord.orderStatus === 'Cart' )[0]
+      console.log(res)
       this.totalOrder = res.numberOfProductsInCart;
+      this.cartOrderId = res.orderId
       // console.log(order)
     });
+  }
+  navigateToOrderDetails(){
+    console.log(this.cartOrderId)
+    if(this.cartOrderId){
+      this.router.navigate(['/orders/orders-details/' + this.cartOrderId]);
+    }else{
+      this.generateOrder()
+    }
+  }
+  generateOrder(){
+    this.orderS.generateOrder().subscribe((order:any) =>{
+      console.log(order)
+      this.cartOrderId = order.id
+      this.router.navigate(['/orders/orders-details/' + this.cartOrderId])
+    })
   }
   userLogOut() {
     this.authS.logout();

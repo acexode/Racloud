@@ -85,6 +85,7 @@ export class OrdersCheckoutComponent implements OnInit {
     };
     this.service.sendOrder(this.orderId, obj).subscribe(e => {
       this.shopS.cartStore.next([]);
+      this.shopS.cartId.next(false)
       this.router.navigate(['orders']);
     }, (err) => {
       this.displayMsg(err.error, 'danger');

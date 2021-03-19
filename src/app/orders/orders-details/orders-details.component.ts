@@ -288,6 +288,12 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
           this.componentForm.disable();
           this.ref.detectChanges();
         }
+      },err =>{
+        console.log(err)
+        this.displayMsg(err.error, 'info')
+        setTimeout(()=>{
+          this.router.navigate(['/orders/'])
+        }, 5000)
       });
     }
   }
