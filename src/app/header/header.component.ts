@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   role;
   authS$: Subscription;
   totalOrder;
+  cartOrderId
   constructor(
     private titleService: TitleService,
     private authS: AuthService,
@@ -73,9 +74,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   getCartCount() {
     this.orderS.cartTotal().subscribe((res: any) => {
       // const order:any = orders.orderItems.filter((ord:any) => ord.orderStatus === 'Cart' )[0]
+      console.log(res)
       this.totalOrder = res.numberOfProductsInCart;
+      this.cartOrderId = res.orderId
       // console.log(order)
     });
+  }
+  navigateToOrderDetails(){
+    this.router.navigate(['/orders/orders-details/' + this.cartOrderId]);
   }
   userLogOut() {
     this.authS.logout();
