@@ -188,9 +188,7 @@ export class LicensesTabComponent implements OnInit {
       },
     ];
     const id = parseInt(this.route.snapshot.paramMap.get('id'), 10)
-    console.log(id)
     this.services.getCustomerLicenses(id).subscribe((data: any) => {
-      console.log(data)
       if (data) {
         const formattedData = data.map((e: any) => {
           return {
@@ -222,16 +220,11 @@ export class LicensesTabComponent implements OnInit {
     this.tableData.next(newRows);
   }
 
-  removeRow(id: any) {
-    console.log(id);
-  }
+  removeRow(id: any) {}
   manageSub(data: any) {
     this.router.navigate(['licenses/license-edit', { id: data.Id,customerId:data.CompanyId }]);
-    console.log(data);
   }
-  renewSub(id: any) {
-    console.log(id);
-  }
+  renewSub(id: any) {}
 
 }
 

@@ -129,18 +129,15 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         }
         this.tabs = [this.tabs[0], ...filtered];
         this.fieldsPermission = obj.schema.license.fields;
-        console.log(this.fieldsPermission);
 
         // to be replaced with BE
         this.licenseOptionPermission = obj.schema.options.fields;
 
         this.licenseOptionAction = obj.schema.options.actions;
         this.actionPermission = obj.schema.license.actions;
-        console.log(obj);
         this.service.getCompanyUsers(data.companyId).subscribe((users: any) => {
           this.companyUsers = users.map(user => user.user);
         });
-        console.log(data);
         this.preselectedRows = data?.licenseOptions;
         this.getOptions();
         const selectedP = data.isPartnerLicense ? 'Yes' : 'No';

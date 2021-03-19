@@ -156,7 +156,6 @@ export class LicenseOptionsComponent implements OnInit {
       }
     ];
     const permission =  this.licenseOptionPermission
-      console.log(this.licenseOptionPermission)
     const filteredColumns = []
     for (const key in permission) {
       if (true) {
@@ -169,8 +168,6 @@ export class LicenseOptionsComponent implements OnInit {
       }
     }
     this.tableConfig.selectable = this.licenseOptionPermission?.optionCheck === 'full' ? true : false;
-    console.log(this.licenseOptionAction)
-    console.log(this.optionList)
     if(this.licenseOptionPermission?.optionCheck === 'hidden'){
       this.optionList = this.optionList.filter(opt => opt.selected)
     }
@@ -197,7 +194,6 @@ export class LicenseOptionsComponent implements OnInit {
       })
       this.tableConfig.loadingIndicator = true;
       this.rowData = this.optionList;
-      console.log(this.optionList)
       const cloneData = this.optionList.map((v: any) => {
         return { ...v };
       });
@@ -222,15 +218,9 @@ export class LicenseOptionsComponent implements OnInit {
     this.tableData.next(newRows);
   }
 
-  removeRow(row) {
-    console.log(row);
-  }
-  manageSub(id: any) {
-    console.log(id);
-  }
-  renewSub(id: any) {
-    console.log(id);
-  }
+  removeRow(row) {}
+  manageSub(id: any) {}
+  renewSub(id: any) {}
 
   setDropUp(row) {
     const idx = this.rowData.findIndex(e => e.Id === row.Id) + 1;
@@ -284,7 +274,6 @@ export class LicenseOptionsComponent implements OnInit {
       }
       return obj
     })
-    console.log(this.optionList)
     this.ref.detectChanges()
     this.reInitData(this.optionList)
   }

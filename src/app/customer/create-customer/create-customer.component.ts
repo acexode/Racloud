@@ -108,7 +108,6 @@ export class CreateCustomerComponent implements OnInit, OnDestroy {
         this.routerS.navigateByUrl('/customer');
       },
       err => {
-        console.log(err);
         this.displayMsg(err.error,'danger');
         // loadingIndicator
         this.isLoadingStatus();

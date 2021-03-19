@@ -167,7 +167,7 @@ export class OptionTabComponent implements OnInit {
       })
       this.tableConfig.loadingIndicator = true;
       this.rowData = this.optionList;
-      console.log(this.optionList)
+
       const cloneData = this.optionList.map((v: any) => {
         return { ...v };
       });
@@ -192,15 +192,9 @@ export class OptionTabComponent implements OnInit {
     this.tableData.next(newRows);
   }
 
-  removeRow(row) {
-    console.log(row);
-  }
-  manageSub(id: any) {
-    console.log(id);
-  }
-  renewSub(id: any) {
-    console.log(id);
-  }
+  removeRow(row) {}
+  manageSub(id: any) {}
+  renewSub(id: any) {}
 
   setDropUp(row) {
     const idx = this.rowData.findIndex(e => e.Id === row.Id) + 1;

@@ -132,7 +132,6 @@ export class CreateUserComponent implements OnInit {
     this.initForm();
     this.setCustomerField();
     this.service.getRoles().subscribe((res: any[]) => {
-      console.log(res);
       this.roleOptions = res;
     });
     if (id) {
@@ -169,16 +168,13 @@ export class CreateUserComponent implements OnInit {
         const company = get(account, 'company', null);
         this.companyLabel = get(company, 'companyName', null);
         const companyType = get(company, 'companyType', '');
-        console.log(company);
         this.processCustomers(company.id);
         if (companyType === 'Main') {
           this.customerS.getCustomers().subscribe(
             res => {
-              console.log(res);
               this.companyOptions = get(res, 'customers', []);
               this.filteredOptions = this.companyOptions;
               if (this.companyOptions.length < 0) {
-                console.log('sfsfsfs');
                 this.disableCustomerSelectField = true;
               } else {
                 this.disableCustomerSelectField = false;
@@ -193,7 +189,6 @@ export class CreateUserComponent implements OnInit {
         } else {
           this.disableCustomerSelectField = true;
         }
-        console.log(company);
       }
     );
   }
@@ -387,9 +382,6 @@ export class CreateUserComponent implements OnInit {
             companyType: company.companyType
           }
         })[0]
-        console.log(userCompany)
-        console.log(this.userInfo.company)
-        console.log(this.filteredOptions)
         const account = {
           username: this.userInfo.user.email,
           image: null,

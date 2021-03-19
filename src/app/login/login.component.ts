@@ -84,7 +84,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         })
         .subscribe(
           res => {
-            console.log('HTTP response', res);
             this.isLoadingStatus();
           },
           err => {

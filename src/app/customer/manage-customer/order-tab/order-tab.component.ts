@@ -194,7 +194,6 @@ export class OrderTabComponent implements OnInit, OnDestroy {
     this.tableData.next(newRows);
   }
   removeRow(row) {
-    console.log(row);
     this.orderS.deleteOrder(row.id).subscribe(e => {
       this.loadOrders();
     });
