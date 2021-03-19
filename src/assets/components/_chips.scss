@@ -11,8 +11,7 @@
   $disabled-color,
   $hover-bg,
   $hover-border,
-  $hover-color,
-
+  $hover-color
 ) {
   color: $color;
   background: $background;
@@ -27,7 +26,7 @@
     color: $disabled-color !important;
     opacity: 1;
     text-decoration: $rc-none;
-    pointer-events: none;
+    pointer-events: none !important;
   }
   &:hover,
   &.hover {
@@ -38,45 +37,45 @@
 }
 
 .chips {
-    font-family: $font-montserrat;
-    font-weight: normal;
-    min-width: $rc-btn-min-width;
-    @include button-size(
-        $btn-padding-y,
-        $btn-padding-x,
-        $btn-font-size,
-        $btn-line-height,
-        $btn-border-radius
+  font-family: $font-montserrat;
+  font-weight: normal;
+  min-width: $rc-btn-min-width;
+  @include button-size(
+    $btn-padding-y,
+    $btn-padding-x,
+    $btn-font-size,
+    $btn-line-height,
+    $btn-border-radius
+  );
+  &.default {
+    $def-shadow: transparent;
+    @include chips-style(
+      $white,
+      $rc-accent-blue-60-outline,
+      $rc-grey,
+      $white,
+      $rc-accent-blue-30-outline,
+      $rc-accent-blue-60,
+      $rc-light-grey,
+      $rc-accent-blue-outline,
+      $rc-black
     );
-    &.default {
-        $def-shadow: transparent;
-        @include chips-style(
-            $white,
-            $rc-accent-blue-60-outline,
-            $rc-grey,
-            $white,
-            $rc-accent-blue-30-outline,
-            $rc-accent-blue-60,
-            $rc-light-grey,
-            $rc-accent-blue-outline,
-            $rc-black
-        );
-        background-image: none;
-    }
+    background-image: none;
+  }
 
-    &.selected {
-        $def-shadow: transparent;
-        @include chips-style(
-            $rc-secondary-hover,
-            $rc-primary-hover-outline,
-            $rc-primary,
-            $white,
-            $rc-disabled-ouline,
-            $rc-disable-bg,
-            $rc-light-grey,
-            $rc-accent-blue-outline-b,
-            $rc-black
-        );
-        background-image: none;
-    }
+  &.selected {
+    $def-shadow: transparent;
+    @include chips-style(
+      $rc-secondary-hover,
+      $rc-primary-hover-outline,
+      $rc-primary,
+      $white,
+      $rc-disabled-ouline,
+      $rc-disable-bg,
+      $rc-light-grey,
+      $rc-accent-blue-outline-b,
+      $rc-black
+    );
+    background-image: none;
+  }
 }
