@@ -145,7 +145,7 @@ export class CreateUserComponent implements OnInit {
         this.roleLabel = get(get(data, 'role', null), 'name', null);
         this.companyLabel = get(get(data, 'company', null), 'companyName', null);
         this.currentCompany = get(get(data, 'company', null), 'companyName', null);
-        if (this.user.email === this.loggedInUser.email || this.loggedInUserRole === 'systemadmin' || this.loggedInUserRole === 'admin') {
+        if (this.user?.email === this.loggedInUser.email || this.loggedInUserRole === 'systemadmin' || this.loggedInUserRole === 'admin') {
           this.canChangePassword = true;
         }
         if (this.loggedInUserRole === 'systemadmin' && this.user.email !== this.loggedInUser.email) {
@@ -380,15 +380,25 @@ export class CreateUserComponent implements OnInit {
         this.cStorage.getItem('token').subscribe(e => {
           this.cStorage.setItem('oldToken', e);
         });
+        const currCmp = this.userInfo.company
+        const userCompany = this.filteredOptions.filter(cmp => cmp.id === currCmp.id).map(company =>{
+          return{
+            ...currCmp,
+            companyType: company.companyType
+          }
+        })[0]
+        console.log(userCompany)
+        console.log(this.userInfo.company)
+        console.log(this.filteredOptions)
         const account = {
           username: this.userInfo.user.email,
           image: null,
           user: this.userInfo.user || null,
-          company: this.userInfo.company,
+          company: userCompany,
           roles: this.userInfo.role.name,
         };
         const currentUser = {
-          company: this.userInfo.company,
+          company: userCompany,
           exp: res.expiration,
           roles: [this.userInfo.role.name],
           user: this.userInfo.user,
