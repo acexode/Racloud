@@ -81,7 +81,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
   navigateToOrderDetails(){
-    this.router.navigate(['/orders/orders-details/' + this.cartOrderId]);
+    console.log(this.cartOrderId)
+    if(this.cartOrderId){
+      this.router.navigate(['/orders/orders-details/' + this.cartOrderId]);
+    }else{
+      this.orderS.generateOrder().subscribe((order:any) =>{
+        console.log(order)
+        this.cartOrderId = order.id
+        this.router.navigate(['/orders/orders-details/' + this.cartOrderId])
+      })
+    }
   }
   userLogOut() {
     this.authS.logout();
