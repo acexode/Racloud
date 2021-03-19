@@ -300,7 +300,7 @@
               OrderStatus === 'Paid' ||
               OrderStatus === 'WaitingPaymentConfirmation'
             "
-            (click)="openModal(template, OrderStatus)"
+            (buttonClickEvent)="openModal(template, OrderStatus)"
             color="secondaryB"
             class="mr-8"
           >
@@ -311,10 +311,11 @@
             type="button"
             [disabled]="
               OrderStatus === 'Paid' ||
-              OrderStatus === 'WaitingPaymentConfirmation'
+              OrderStatus === 'WaitingPaymentConfirmation' ||
+              noDataFortable
             "
             color="primary"
-            (click)="checkout(OrderStatus)"
+            (buttonClickEvent)="checkout(OrderStatus)"
           >
             Check Out
           </app-button>
@@ -557,9 +558,7 @@
       {{ value }}
     </div>
     <div
-      [class]="
-        'd-flex flex-column align-items-center justify-content-center '
-      "
+      [class]="'d-flex flex-column align-items-center justify-content-center '"
     >
       <img
         (click)="changeQuantity('inc', row)"

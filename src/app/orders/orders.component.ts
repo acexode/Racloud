@@ -102,9 +102,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
       }
     });
   }
-  public getJSON(): Observable<any> {
-    return this.http.get('./assets/orders.json');
-  }
   filterTable(filterObj: TableFilterConfig) {
     const newRows = this.tS.filterRowInputs(
       this.tableConfig?.columns,

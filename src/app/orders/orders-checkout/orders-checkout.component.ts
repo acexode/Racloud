@@ -43,8 +43,8 @@ export class OrdersCheckoutComponent implements OnInit {
   isDropup: boolean;
   routeId: any;
   paymentMethod = [
-    { title: 'Bank Transfer', name: 'BankTransfer' },
-    { title: 'Credit Card', name: 'CreditCard' },
+    { title: 'Bank Transfer', name: 'BankTransfer', isDisabled: false },
+    { title: 'Credit Card', name: 'CreditCard', isDisabled: true },
   ];
   orderId;
   totalValue;

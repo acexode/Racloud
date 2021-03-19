@@ -34,61 +34,92 @@
     <div class="line-h1 rc-secondary-bg mt-24 mb-39"></div>
 
     <div class="w-100">
-
-        <div class="w-100 rc-light-grey-bg mt-24 p-16 d-flex flex-row">
-
-            <div class="w-240px mr-32">
-                <p class="m-0 s12-h16 rc-grey-color text-weight-normal montserrat-regular-font">
-                    Customer
-                </p>
-                <p class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular">
-                    {{customerDetails?.companyName}}
-                </p>
-            </div>
-
-            <div class="w-104px mr-32">
-                <p class="m-0 s12-h16 rc-grey-color text-weight-normal montserrat-regular-font">
-                    Order Number
-                </p>
-                <p class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular">
-                    {{checkoutDetails?.Id}}
-                </p>
-            </div>
-
-             <div class="w-104px mr-32">
-                <p class="m-0 s12-h16 rc-grey-color text-weight-normal montserrat-regular-font">
-                    Discount
-                </p>
-                <p class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular">
-                  {{checkoutDetails?.Currency}} {{checkoutDetails?.DiscountPrc}}
-                </p>
-            </div>
-
-            <div class="w-104px">
-                <p class="m-0 s12-h16 rc-grey-color text-weight-normal montserrat-regular-font">
-                    Total Value
-                </p>
-                <p class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular">
-                  {{checkoutDetails?.Currency}} {{checkoutDetails?.TotalValue}}
-                </p>
-            </div>
-
+      <div class="w-100 rc-light-grey-bg mt-24 p-16 d-flex flex-row">
+        <div class="w-240px mr-32">
+          <p
+            class="m-0 s12-h16 rc-grey-color text-weight-normal montserrat-regular-font"
+          >
+            Customer
+          </p>
+          <p
+            class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular"
+          >
+            {{ customerDetails?.companyName }}
+          </p>
         </div>
 
+        <div class="w-104px mr-32">
+          <p
+            class="m-0 s12-h16 rc-grey-color text-weight-normal montserrat-regular-font"
+          >
+            Order Number
+          </p>
+          <p
+            class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular"
+          >
+            {{ checkoutDetails?.Id }}
+          </p>
+        </div>
+
+        <div class="w-104px mr-32">
+          <p
+            class="m-0 s12-h16 rc-grey-color text-weight-normal montserrat-regular-font"
+          >
+            Discount
+          </p>
+          <p
+            class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular"
+          >
+            {{ checkoutDetails?.Currency }} {{ checkoutDetails?.DiscountPrc }}
+          </p>
+        </div>
+
+        <div class="w-104px">
+          <p
+            class="m-0 s12-h16 rc-grey-color text-weight-normal montserrat-regular-font"
+          >
+            Total Value
+          </p>
+          <p
+            class="m-0 mt-10 s14-h16 rc-black-color text-weight-normal helvetica-neue-regular"
+          >
+            {{ checkoutDetails?.Currency }} {{ checkoutDetails?.TotalValue }}
+          </p>
+        </div>
+      </div>
     </div>
     <div class="w-100 mt-14">
-        <div>
-          <label class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Payment method</label>
-          <div class="rc-form-group rc-form-group-without-prefix" >
-              <app-chips *ngFor="let button of paymentMethod" class="mr-2"  [color]="(paymentMethodBtn == button) ? 'selected' : 'default'" (click)="selectPaymentMethod($event,button)">
-                  {{button.title}}
-              </app-chips>
-          </div>
+      <div>
+        <label
+          class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0"
+          >Payment method</label
+        >
+        <div class="rc-form-group rc-form-group-without-prefix">
+          <app-chips
+            *ngFor="let button of paymentMethod"
+            [class]="'mr-2 ' + (button.isDisabled && 'pointer-event-none')"
+            [color]="paymentMethodBtn == button ? 'selected' : 'default'"
+            (chipClickEvent)="selectPaymentMethod($event, button)"
+            [disabled]="button.isDisabled"
+          >
+            {{ button.title }}
+          </app-chips>
+        </div>
       </div>
-      <div *ngIf="paymentMethodBtn.name ==='BankTransfer'" class="nothing mt-16" >
-        <img src="./../../../assets/images/info.svg" alt="Delete-icon" class="icon-40" />
+      <div
+        *ngIf="paymentMethodBtn.name === 'BankTransfer'"
+        class="nothing mt-16"
+      >
+        <img
+          src="./../../../assets/images/info.svg"
+          alt="Delete-icon"
+          class="icon-40"
+        />
         <div class="nothing-text">
-          <span>You will receive a proforma invoice with all the data necessary to make the bank transfer by email.</span>
+          <span
+            >You will receive a proforma invoice with all the data necessary to
+            make the bank transfer by email.</span
+          >
         </div>
       </div>
     </div>
@@ -98,30 +129,27 @@
       <span class="summary">Order Summary</span>
       <table class="table summaryTable mt-32">
         <tbody>
-          <tr *ngFor="let item of addedProducts;">
-            <td scope="row">{{item.Quantity}} x</td>
-            <td>{{item.ProductName}}</td>
-            <td>{{checkoutDetails?.Currency}} {{item.TotalValue}}</td>
+          <tr *ngFor="let item of addedProducts">
+            <td scope="row">{{ item.Quantity }} x</td>
+            <td>{{ item.ProductName }}</td>
+            <td>{{ checkoutDetails?.Currency }} {{ item.TotalValue }}</td>
           </tr>
           <tr class="total">
             <td colspan="2">Total Value</td>
-            <td colspan="2">{{checkoutDetails?.Currency}} {{totalValue}}</td>
+            <td colspan="2">
+              {{ checkoutDetails?.Currency }} {{ totalValue }}
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-     <div class="w-100">
-
-        <div class="w-100 rc-light-grey-bg mt-24 p-16 d-flex justify-content-end">
-
-             <app-button type="submit" (click)="sendOrder()" color="primary">
-                Send order
-            </app-button>
-
-        </div>
-
+    <div class="w-100">
+      <div class="w-100 rc-light-grey-bg mt-24 p-16 d-flex justify-content-end">
+        <app-button type="submit" (click)="sendOrder()" color="primary">
+          Send order
+        </app-button>
+      </div>
     </div>
-
   </div>
 </app-page-container>

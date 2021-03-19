@@ -230,7 +230,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
         }
         const orderItems: any[] = e.OrderItems;
         this.getShops$ = this.service.getShops().subscribe((shop: any[]) => {
-          console.log(shop);
           this.addedProducts = [];
           shop.forEach(s => {
             const index = orderItems.findIndex((item: any) => item.ProductId === s.product.id);
@@ -242,8 +241,8 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
                 discount: orderItems[index].Discount,
                 DiscountPrc: orderItems[index].DiscountPrc,
                 totalValue: orderItems[index].TotalValue,
-                application: s.product.name,
-                productType: s.product.productType,
+                application: orderItems[index].Name,
+                productType: orderItems[index].ProductName,
                 priceListId: s.id,
                 supportHours: s.supportHours,
                 renewalValue: s.renewalValue,
@@ -824,6 +823,9 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       tempColumn.push(action);
     }
     return tempColumn;
+  }
+  get noDataFortable() {
+    return this.tableData.value.length > 0 ? false : true;
   }
   ngOnDestroy() {
     this.routeData$.unsubscribe();

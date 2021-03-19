@@ -2,8 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -29,6 +31,7 @@ export class ChipsComponent implements OnInit {
   @Input() name: string;
   @Input() color: string;
   @Input() disabled: string;
+  @Output() chipClickEvent: EventEmitter<any> = new EventEmitter(null);
   defaultText = 'Default';
 
   chipClasses = {
@@ -86,6 +89,9 @@ export class ChipsComponent implements OnInit {
   getFieldValue() {
     const field = this.formGroup.get('chip');
     return field ? field.value : null;
+  }
+  onClickButton() {
+    this.chipClickEvent.emit(null);
   }
 
 }
