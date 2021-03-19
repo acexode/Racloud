@@ -240,6 +240,9 @@ export class OptionsAddEditComponent implements OnInit {
       this.service.createOption(obj).subscribe(e =>{
         console.log(e)
         this.router.navigate(['options'])
+      },err =>{
+        console.log(err)
+        this.displayMsg(err.error, 'danger')
       })
     }
   }
