@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectorRef, } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef, EventEmitter, Output, } from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -13,7 +13,7 @@ export class ButtonComponent implements OnInit {
   @Input() disabled: boolean;
 
   @Input() href: string;
-
+  @Output() buttonClickEvent: EventEmitter<any> = new EventEmitter(null);
   btnClasses = {
     primary: 'btn btn-primary',
     secondary: 'btn btn-secondary',
@@ -22,7 +22,7 @@ export class ButtonComponent implements OnInit {
   };
   constructor(private cdRef: ChangeDetectorRef) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   get btnClass() {
     if (typeof this.color === 'undefined') {
@@ -38,5 +38,8 @@ export class ButtonComponent implements OnInit {
     } else {
       return this.disabled;
     }
+  }
+  onClickButton() {
+    this.buttonClickEvent.emit(null);
   }
 }

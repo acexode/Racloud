@@ -99,7 +99,7 @@
             *ngFor="let button of paymentMethod"
             [class]="'mr-2 ' + (button.isDisabled && 'pointer-event-none')"
             [color]="paymentMethodBtn == button ? 'selected' : 'default'"
-            (click)="selectPaymentMethod($event, button)"
+            (chipClickEvent)="selectPaymentMethod($event, button)"
             [disabled]="button.isDisabled"
           >
             {{ button.title }}

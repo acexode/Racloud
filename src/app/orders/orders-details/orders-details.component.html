@@ -300,7 +300,7 @@
               OrderStatus === 'Paid' ||
               OrderStatus === 'WaitingPaymentConfirmation'
             "
-            (click)="openModal(template, OrderStatus)"
+            (buttonClickEvent)="openModal(template, OrderStatus)"
             color="secondaryB"
             class="mr-8"
           >
@@ -315,7 +315,7 @@
               noDataFortable
             "
             color="primary"
-            (click)="checkout(OrderStatus)"
+            (buttonClickEvent)="checkout(OrderStatus)"
           >
             Check Out
           </app-button>

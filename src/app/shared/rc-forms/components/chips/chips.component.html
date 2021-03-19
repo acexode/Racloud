@@ -1,5 +1,5 @@
 <ng-container>
-    <button class="chips" [class]="chipsClass" [disabled]="isDisabled">
+    <button class="chips" [class]="chipsClass" [disabled]="isDisabled" (click)="onClickButton()">
         <ng-content></ng-content>
     </button>
 </ng-container>
