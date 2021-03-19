@@ -43,6 +43,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.totalOrder = 0;
       }
     });
+    this.shopS.cartId.subscribe(id => {
+      if(!id){
+        this.cartOrderId = null
+      }
+    });
+
     this.authS$ = this.authS.getAuthState().subscribe(e => {
       const account = get(e, 'account', null);
       this.company = get(account, 'company', null) || 'No company';
@@ -85,12 +91,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if(this.cartOrderId){
       this.router.navigate(['/orders/orders-details/' + this.cartOrderId]);
     }else{
-      this.orderS.generateOrder().subscribe((order:any) =>{
-        console.log(order)
-        this.cartOrderId = order.id
-        this.router.navigate(['/orders/orders-details/' + this.cartOrderId])
-      })
+      this.generateOrder()
     }
+  }
+  generateOrder(){
+    this.orderS.generateOrder().subscribe((order:any) =>{
+      console.log(order)
+      this.cartOrderId = order.id
+      this.router.navigate(['/orders/orders-details/' + this.cartOrderId])
+    })
   }
   userLogOut() {
     this.authS.logout();
