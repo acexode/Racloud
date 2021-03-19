@@ -289,7 +289,6 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
           this.ref.detectChanges();
         }
       },err =>{
-        console.log(err)
         this.displayMsg(err.error, 'info')
         setTimeout(()=>{
           this.router.navigate(['/orders/'])

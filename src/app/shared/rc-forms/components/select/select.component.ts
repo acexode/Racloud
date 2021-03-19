@@ -193,7 +193,5 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   get selectField() {
     return this.formGroup.get('select');
   }
-  getVal(event) {
-    console.log(event.target.dataset.value);
-  }
+  getVal(event) {}
 }

@@ -104,7 +104,6 @@ export class ShopCardComponent implements OnInit {
   }
   buy(item) {
     const { productId } = item;
-    console.log(productId);
     if (this.router.url.includes('shop')) {
       item.fromStore = true;
       this.service.buyStore.next(item);
