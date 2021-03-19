@@ -311,7 +311,8 @@
             type="button"
             [disabled]="
               OrderStatus === 'Paid' ||
-              OrderStatus === 'WaitingPaymentConfirmation'
+              OrderStatus === 'WaitingPaymentConfirmation' ||
+              noDataFortable
             "
             color="primary"
             (click)="checkout(OrderStatus)"
@@ -557,9 +558,7 @@
       {{ value }}
     </div>
     <div
-      [class]="
-        'd-flex flex-column align-items-center justify-content-center '
-      "
+      [class]="'d-flex flex-column align-items-center justify-content-center '"
     >
       <img
         (click)="changeQuantity('inc', row)"

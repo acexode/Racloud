@@ -825,6 +825,9 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
     }
     return tempColumn;
   }
+  get noDataFortable() {
+    return this.tableData.value.length > 0 ? false : true;
+  }
   ngOnDestroy() {
     this.routeData$.unsubscribe();
     if (this.getSingleOrder$) {

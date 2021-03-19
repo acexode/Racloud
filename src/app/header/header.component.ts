@@ -74,7 +74,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.orderS.cartTotal().subscribe((res: any) => {
       // const order:any = orders.orderItems.filter((ord:any) => ord.orderStatus === 'Cart' )[0]
       this.totalOrder = res.numberOfProductsInCart;
-      // console.log(order)
+      console.log(res);
     });
   }
   userLogOut() {
