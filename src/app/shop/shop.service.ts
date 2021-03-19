@@ -11,7 +11,7 @@ export class ShopService {
   shopStore: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   buyStore: BehaviorSubject<any> = new BehaviorSubject({});
   cartStore: BehaviorSubject<any> = new BehaviorSubject([]);
-  cartId: BehaviorSubject<Boolean> = new BehaviorSubject(false);
+  cartId: BehaviorSubject<any> = new BehaviorSubject(false);
   constructor(private reqS: RequestService) {
     this.getShops();
   }
