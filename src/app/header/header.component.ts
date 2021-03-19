@@ -23,7 +23,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   company: any;
   role;
   authS$: Subscription;
-  totalOrder;
+  totalOrder: any;
+  orderId = 0;
   constructor(
     private titleService: TitleService,
     private authS: AuthService,
@@ -74,7 +75,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.orderS.cartTotal().subscribe((res: any) => {
       // const order:any = orders.orderItems.filter((ord:any) => ord.orderStatus === 'Cart' )[0]
       this.totalOrder = res.numberOfProductsInCart;
-      console.log(res);
+      if (res.hasOwnProperty('orderId')) {
+        this.orderId = res.orderId;
+      }
     });
   }
   userLogOut() {
@@ -105,6 +108,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
       });
     });
+  }
+  routeToOrder() {
+    if (this.orderId > 0) {
+      this.router.navigate(['/orders', 'orders-details', this.orderId]);
+    } else {
+      this.router.navigate(['/orders']);
+    }
   }
   ngOnDestroy() {
     this.authS$.unsubscribe();
