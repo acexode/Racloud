@@ -35,4 +35,7 @@ export class CustomerService {
   getCustomerProfile(): Observable<CustomerModel> {
     return this.reqS.get<CustomerModel>(customersEndpoints.profile);
   }
+  deleteCustomer(id){
+    return this.reqS.delete(customersEndpoints.getCompanyUsers + id);
+  }
 }
