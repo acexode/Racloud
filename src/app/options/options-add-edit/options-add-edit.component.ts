@@ -132,7 +132,6 @@ export class OptionsAddEditComponent implements OnInit {
         }
         this.service.isOptionInUse(id).subscribe((res:any) =>{
           this.isOptionInUse = get(res, 'isOptionInUse', false)
-          console.log(this.isOptionInUse)
         })
       })
     }else{
@@ -187,7 +186,6 @@ export class OptionsAddEditComponent implements OnInit {
     this.setFormValue('optionType',option);
     this.cdRef.detectChanges();
     // if(this.isEdit && clk){
-    //   console.log(this.optionBody)
     //   this.displayMsg('Option Type can not be changed', 'warning')
     //   this.selectedType =this.optionBody.OptionType;
     //   this.setFormValue('optionType',this.optionBody.OptionType);
@@ -213,7 +211,6 @@ export class OptionsAddEditComponent implements OnInit {
   submit(){
     const id = this.route.snapshot.paramMap.get('id');
     const values = this.optionForm.value
-    console.log(values)
     const bool = values.defaultStatus === 'True' ? true : values.defaultStatus === 'False' ? false : null;
     const optionType = this.getType(values.optionType)
     const obj:any = {
@@ -230,18 +227,14 @@ export class OptionsAddEditComponent implements OnInit {
     if(this.isEdit){
       obj.id = parseInt(id,10)
       this.service.updateOption(id, obj).subscribe(e =>{
-        console.log(e)
         this.router.navigate(['options'])
       }, err =>{
-        console.log(err)
         this.displayMsg(err.error, 'danger')
       })
     }else{
       this.service.createOption(obj).subscribe(e =>{
-        console.log(e)
         this.router.navigate(['options'])
       },err =>{
-        console.log(err)
         this.displayMsg(err.error, 'danger')
       })
     }

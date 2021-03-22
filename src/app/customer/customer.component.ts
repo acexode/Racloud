@@ -254,7 +254,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
     this.loadCustomers$ = this.customerS.getCustomers().subscribe(
       res => {
         if (res) {
-          console.log(res)
           const data = res.customers.map((v: any) => {
             return {
               ...v,
@@ -284,7 +283,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
           const sorted = filteredColumns.sort((a, b) => (a.index > b.index) ? 1 : (b.index > a.index) ? -1 : 0);
           this.tableConfig.columns = [...filteredColumns, this.tableConfig.columns[this.tableConfig.columns.length - 1]];
           // this.tableConfig.columns = filteredColumns;
-          console.log(parent)
           this.tableConfig.loadingIndicator = true;
           this.rowData = data;
           this.tableData.next(data);
@@ -341,7 +339,21 @@ export class CustomerComponent implements OnInit, OnDestroy {
   confirm(): void {
     this.modalRef.hide();
     if (this.temporaryRowData.value) {
-      this.removeRow(this.temporaryRowData.value);
+      console.log(this.temporaryRowData.value)
+      this.customerS.deleteCustomer(this.temporaryRowData.value.id).subscribe(res =>{
+        this.displayMsg(
+          'Customer deleted sucessfully',
+          'success',
+         );
+         this.loadCustomers()
+      }, err => {
+        console.log(err)
+        this.displayMsg(
+          err.error,
+          'danger',
+         );
+      })
+      // this.removeRow(this.temporaryRowData.value);
     } else {
       this.displayMsg(
         'Looks like there is a technical error. Please contact Engineer to resolve it (Error: 00RA2)',

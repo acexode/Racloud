@@ -238,7 +238,6 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     return this.productForm.get('selectedOptions') as FormArray;
   }
   submitIt() {
-    console.log();
     if (this.productForm.valid) {
       this.submitForm();
     } else {
@@ -294,7 +293,6 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
       return null;
     });
     const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
-    console.log(resArr);
     if (this.isEdit) {
       productValues.productOptions = resArr;
       productValues.id = id;

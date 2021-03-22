@@ -152,19 +152,15 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit(): void {
     // get country option
     this.cStorage.getItem('token').subscribe(data =>{
-      console.log(data)
       this.typeOptions = Object.keys(CompanyTypes).map(companyType => {
         return {
           id: companyType,
           option: CompanyTypes[companyType]
         };
       });
-      console.log(this.typeOptions)
       const cType = data.company.companyType
-      console.log(cType)
       if(cType === 'Partner'){
         this.typeOptions = this.typeOptions.filter(t => t.id === 'partner' || t.id === 'fabricator')
-        console.log(this.typeOptions)
       }else if(cType === 'Reseller'){
         this.typeOptions = this.typeOptions.filter(t => t.id === 'fabricator')
       }
@@ -178,7 +174,6 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
     );
     // get customer parent options
     this.componentForm.get('priceListId').valueChanges.subscribe(val =>{
-      console.log(val)
       this.setCurrency(val)
     })
     this.customerParentOptions$ = this.parentS.getParents();
@@ -187,7 +182,6 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
     // price listing options
     this.priceListOptions$ = this.priceService.getPriceLists();
     if (typeof this.editableData !== 'undefined') {
-      console.log(this.editableData.schema.fields);
       this.fieldsPermission = this.editableData.schema.fields;
       this.actionPermission = this.editableData.schema.actions;
     }
@@ -260,7 +254,6 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
   updateValueForForm() {
     if (typeof this.editableData !== 'undefined') {
       const data = this.editableData.customer;
-      console.log(data)
       // get data
       const d: CustomerModel = {
         companyName: get(data, 'companyName', ''),
@@ -313,10 +306,8 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
   }
   setCurrency(currencyId){
     this.priceListOptions$.subscribe(list =>{
-      console.log(list)
       const price = list.filter(l => l.id === currencyId)[0]
       this.selectedCurrency = price.currency
-      console.log(this.selectedCurrency)
     })
   }
   setCompanyType(companyType: string) {
@@ -327,7 +318,6 @@ export class CustomerFormComponent implements OnInit, OnChanges, OnDestroy {
   }
   setPriceList(priceListId: number) {
     this.componentForm.get('priceListId').setValue(priceListId);
-    console.log(priceListId)
   }
   get priceListPlaceHolder() {
     return this.formEditMode ? 'Select Price List' : 'Price List Defaulfted to Parent';

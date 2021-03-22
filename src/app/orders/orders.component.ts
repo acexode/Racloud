@@ -90,7 +90,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
   loadOrders() {
     this.service.getorders().subscribe((data: any) => {
-      console.log(data)
       if (data) {
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;

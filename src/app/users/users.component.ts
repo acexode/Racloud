@@ -160,7 +160,21 @@ export class UsersComponent implements OnInit, OnDestroy {
   confirm(): void {
     this.modalRef.hide();
     if (this.temporaryRowData.value) {
-      this.removeRow(this.temporaryRowData.value);
+      // this.removeRow(this.temporaryRowData.value);
+      const user = this.temporaryRowData.value.user
+      console.log(user)
+      this.userService.deleteUser(user.id).subscribe(res =>{
+        console.log(res)
+        this.getUsers()
+        this.displayMsg(
+          'User removed successfully !!',
+          'success');
+      },err =>{
+        console.log(err)
+        this.displayMsg(
+          'Unable to delete user',
+          'danger');
+      })
     } else {
       this.displayMsg(
         'Looks like there is a technical error. Please contact Engineer to resolve it (Error: 00RA1)',

@@ -65,7 +65,6 @@ export class EditPriceListsComponent implements OnInit, OnDestroy {
     }
   }
   updateData(data: any) {
-    console.log(data);
     const eData = {
       ...data,
       id: this.priceListId,

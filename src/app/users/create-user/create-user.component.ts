@@ -132,7 +132,6 @@ export class CreateUserComponent implements OnInit {
     this.initForm();
     this.setCustomerField();
     this.service.getRoles().subscribe((res: any[]) => {
-      console.log(res);
       this.roleOptions = res;
     });
     if (id) {
@@ -145,7 +144,7 @@ export class CreateUserComponent implements OnInit {
         this.roleLabel = get(get(data, 'role', null), 'name', null);
         this.companyLabel = get(get(data, 'company', null), 'companyName', null);
         this.currentCompany = get(get(data, 'company', null), 'companyName', null);
-        if (this.user.email === this.loggedInUser.email || this.loggedInUserRole === 'systemadmin' || this.loggedInUserRole === 'admin') {
+        if (this.user?.email === this.loggedInUser.email || this.loggedInUserRole === 'systemadmin' || this.loggedInUserRole === 'admin') {
           this.canChangePassword = true;
         }
         if (this.loggedInUserRole === 'systemadmin' && this.user.email !== this.loggedInUser.email) {
@@ -169,16 +168,13 @@ export class CreateUserComponent implements OnInit {
         const company = get(account, 'company', null);
         this.companyLabel = get(company, 'companyName', null);
         const companyType = get(company, 'companyType', '');
-        console.log(company);
         this.processCustomers(company.id);
         if (companyType === 'Main') {
           this.customerS.getCustomers().subscribe(
             res => {
-              console.log(res);
               this.companyOptions = get(res, 'customers', []);
               this.filteredOptions = this.companyOptions;
               if (this.companyOptions.length < 0) {
-                console.log('sfsfsfs');
                 this.disableCustomerSelectField = true;
               } else {
                 this.disableCustomerSelectField = false;
@@ -193,7 +189,6 @@ export class CreateUserComponent implements OnInit {
         } else {
           this.disableCustomerSelectField = true;
         }
-        console.log(company);
       }
     );
   }
@@ -380,15 +375,22 @@ export class CreateUserComponent implements OnInit {
         this.cStorage.getItem('token').subscribe(e => {
           this.cStorage.setItem('oldToken', e);
         });
+        const currCmp = this.userInfo.company
+        const userCompany = this.filteredOptions.filter(cmp => cmp.id === currCmp.id).map(company =>{
+          return{
+            ...currCmp,
+            companyType: company.companyType
+          }
+        })[0]
         const account = {
           username: this.userInfo.user.email,
           image: null,
           user: this.userInfo.user || null,
-          company: this.userInfo.company,
+          company: userCompany,
           roles: this.userInfo.role.name,
         };
         const currentUser = {
-          company: this.userInfo.company,
+          company: userCompany,
           exp: res.expiration,
           roles: [this.userInfo.role.name],
           user: this.userInfo.user,

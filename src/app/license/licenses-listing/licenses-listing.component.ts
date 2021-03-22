@@ -226,7 +226,6 @@ export class LicensesListingComponent implements OnInit {
       },
     ];
     this.service.getLicenses().subscribe((data: any) => {
-      console.log(data);
       this.loadTableData(data);
     });
   }
@@ -288,7 +287,6 @@ export class LicensesListingComponent implements OnInit {
       });
     } else {
       this.service.getLicenses().subscribe((data: any) => {
-        console.log(data);
         this.loadTableData(data);
       });
     }

@@ -208,7 +208,6 @@ export class OptionListComponent implements OnInit {
   }
   openModal(template: TemplateRef<any>, row) {
     this.rowToDelete = row
-    console.log(row)
     this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray' }));
   }
   deleteRow(){

@@ -143,11 +143,8 @@ export class UserTabComponent implements OnInit, OnDestroy {
     );
     this.tableData.next(newRows);
   }
-  removeRow(id) {
-    console.log(id);
-  }
+  removeRow(id) {}
   manageSub(data: any) {
-    console.log(data);
     this.router.navigate(['/users/edit-user', { id: data.id, companyId: this.customerId, backUrl: '/customer/manage/' + this.customerId + '/tab/users' }]);
   }
   ngOnDestroy(): void {

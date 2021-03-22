@@ -179,7 +179,6 @@ export class ProductsComponent implements OnInit {
   }
   manageSub(data: any) {
     this.router.navigate(['products/edit-product', { id: data.id }]);
-    console.log(data);
   }
   openModal(template: TemplateRef<any>, rowData: any) {
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });

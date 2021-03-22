@@ -185,7 +185,5 @@ export class AddEditOrderComponent implements OnInit {
     this.userForm.get('company').setValue(role);
     this.companyLabel = role;
   }
-  submit(){
-    console.log(this.userForm.value)
-  }
+  submit(){}
 }

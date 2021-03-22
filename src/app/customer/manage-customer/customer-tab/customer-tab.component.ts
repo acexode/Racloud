@@ -70,7 +70,6 @@ import { TableService } from 'src/app/shared/table/services/table.service';
   ) { }
   ngOnInit(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id'), 10)
-    console.log(id)
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
@@ -212,7 +211,6 @@ import { TableService } from 'src/app/shared/table/services/table.service';
       },
     ];
     this.customerS.getCustomerCustomers(id).subscribe((data) => {
-      console.log(data)
       if (data) {
         this.tableConfig.loadingIndicator = true;
         this.rowData = data.length > 0 ? data.slice(0, 16) : []
@@ -235,15 +233,10 @@ import { TableService } from 'src/app/shared/table/services/table.service';
     );
     this.tableData.next(newRows);
   }
-  removeRow(id: any) {
-    console.log(id);
-  }
+  removeRow(id: any) {}
   manageSub(data: any) {
-    console.log(data);
     this.router.navigate(['manage', data.id], { relativeTo: this.route });
   }
-  renewSub(id: any) {
-    console.log(id);
-  }
+  renewSub(id: any) {}
 
 }

@@ -52,7 +52,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authS$ = this.authS.getAuthState().subscribe(e => {
       const account = get(e, 'account', null);
       this.company = get(account, 'company', null) || 'No company';
-      console.log(this.company);
       const firstname = get(get(account, 'user', null), 'firstname', null) || 'firstname';
       const lastname = get(get(account, 'user', null), 'lastname', null) || 'lastname';
       const id = get(get(account, 'user', null), 'id', null) || get(e, 'impersonatorId', null);
@@ -80,14 +79,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   getCartCount() {
     this.orderS.cartTotal().subscribe((res: any) => {
       // const order:any = orders.orderItems.filter((ord:any) => ord.orderStatus === 'Cart' )[0]
-      console.log(res)
       this.totalOrder = res.numberOfProductsInCart;
       this.cartOrderId = res.orderId
-      // console.log(order)
     });
   }
   navigateToOrderDetails(){
-    console.log(this.cartOrderId)
     if(this.cartOrderId){
       this.router.navigate(['/orders/orders-details/' + this.cartOrderId]);
     }else{
@@ -96,7 +92,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   generateOrder(){
     this.orderS.generateOrder().subscribe((order:any) =>{
-      console.log(order)
       this.cartOrderId = order.id
       this.router.navigate(['/orders/orders-details/' + this.cartOrderId])
     })

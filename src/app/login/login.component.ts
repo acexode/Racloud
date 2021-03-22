@@ -84,7 +84,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         })
         .subscribe(
           res => {
-            console.log('HTTP response', res);
             this.isLoadingStatus();
           },
           err => {
@@ -121,7 +120,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         email: this.resetEmail.value
       }
       this.service.sendResetPassword(obj).subscribe((e: any) =>{
-        console.log(e)
         this.modalRef.hide()
         this.resetLoading = false
         this.displayMsg(e.message, 'info')
