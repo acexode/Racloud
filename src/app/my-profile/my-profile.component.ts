@@ -1,12 +1,9 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { get, tap } from 'lodash';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { get } from 'lodash';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../core/services/auth/auth.service';
-import { CustomStorageService } from '../core/services/custom-storage/custom-storage.service';
-import { CustomerService } from '../core/services/customer/customer.service';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { MessagesService } from '../shared/messages/services/messages.service';
 import { InputConfig } from '../shared/rc-forms/models/input/input-config';
@@ -25,12 +22,6 @@ export class MyProfileComponent implements OnInit {
   backUrl = '/users';
   disableCustomerSelectField = false;
   userForm: FormGroup;
-  canImpersonate = false;
-  canChangePassword = false;
-  changePasswordForm: FormGroup;
-  modalRef: BsModalRef;
-  changePasswordError = '';
-  autoClose: boolean;
   containerConfig: PageContainerConfig = {
     closeButton: true,
     theme: 'transparent',
@@ -41,7 +32,6 @@ export class MyProfileComponent implements OnInit {
     },
   };
   companyLabel = 'Select';
-  currentCompany;
   roleLabel = 'Select'
     ;
   companyOptions = [];
@@ -53,10 +43,14 @@ export class MyProfileComponent implements OnInit {
     },
     placeholder: 'Select'
   };
+  currentCompany: string;
+  userId: string;
+  userCompanyId: number;
   constructor(
     private fb: FormBuilder,
     private userS: UsersService,
     private msgS: MessagesService,
+    private router: Router,
   ) { }
 
   inputConfig(
@@ -86,6 +80,8 @@ export class MyProfileComponent implements OnInit {
         this.roleLabel = get(get(data, 'role', ''), 'name', '');
         this.companyLabel = get(get(data, 'company', ''), 'companyName', '');
         this.currentCompany = get(get(data, 'company', ''), 'companyName', '');
+        this.userId = get(get(data, 'user', ''), 'id', null);
+        this.userCompanyId = get(get(data, 'company', ''), 'id', null);
         this.disableCustomerSelectField = true;
         this.userForm.patchValue({
           firstName: data.user?.firstname,
@@ -94,7 +90,7 @@ export class MyProfileComponent implements OnInit {
           roleId: data.role?.id,
           companyId: data.company?.id,
         });
-    },
+      },
       _error => {
         this.displayMsg('Error while trying to get your profile. Please Try again', 'danger');
       }
@@ -165,6 +161,9 @@ export class MyProfileComponent implements OnInit {
       firstName: this.userForm.get('firstName').value,
       lastName: this.userForm.get('lastName').value,
     };
+  }
+  routeToUserEdit() {
+    this.router.navigate(['/users/edit-user', { id: this.userId, companyId: this.userCompanyId, backUrl: '/my-profile' }]);
   }
 }
 
