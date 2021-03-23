@@ -93,7 +93,6 @@ export class CreateUserComponent implements OnInit {
   notifyConfig: CheckboxConfig = {
     placeholder: 'Notify via email',
     checked: false
-    
   };
   loggedInUserRole: any;
   impersonatorId: any;
