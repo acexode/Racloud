@@ -70,7 +70,7 @@ export class LicensesListingComponent implements OnInit {
   fieldsPermission: any;
   actionPermission: any;
   authS$: Subscription;
-  isFabricator: boolean;
+  hasOwnLicense: boolean;
 
   constructor(
     private tS: TableService,
@@ -86,12 +86,11 @@ export class LicensesListingComponent implements OnInit {
       // this. loadTableData
       this.loadTableData(data);
     });
-    // check if fabricator
-    this.checkIfFabricator();
+    // check if Own License
+    this.checkIfOwnLicense();
   };
   loadTableData(data) {
     if (data) {
-      console.log(data);
       const formattedData = data.licenses.map((e: any) => {
         return {
           ...e,
@@ -159,17 +158,17 @@ export class LicensesListingComponent implements OnInit {
     this.router.navigate(['licenses/license-edit', { id: data.id }]);
   }
   renewSub(id: any) { }
-  get isFabricatorStatus() {
-    return this.isFabricator || false;
+  get itHasOwnLicense() {
+    return this.hasOwnLicense || false;
   }
-  checkIfFabricator() {
+  checkIfOwnLicense() {
     this.authS$ = this.authS.getAuthState().subscribe(e => {
       const companyType = get(get(get(e, 'account', null), 'company', null), 'companyType', null);
-      console.log(e, companyType);
+      const roles = get(get(e, 'account', null), 'roles', null);
       if (companyType) {
-        companyType.toLowerCase() === 'fabricator' ? this.isFabricator = true : this.isFabricator = false;
+        companyType.toLowerCase() === 'fabricator' || roles.toLowerCase() === 'user' ? this.hasOwnLicense = false : this.hasOwnLicense = true;
       } else {
-        this.isFabricator = false;
+        this.hasOwnLicense = true;
       }
     });
   }
@@ -335,7 +334,6 @@ export class LicensesListingComponent implements OnInit {
       }
     }
     const actionPermission = get(permission, 'actions', null);
-    console.log('actionPermission', actionPermission);
     if (actionPermission.manageUpdate === 'full' && actionPermission.hasOwnProperty('manageUpdate')) {
       tempColumn.push(action);
     }
