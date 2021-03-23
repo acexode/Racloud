@@ -200,21 +200,6 @@ export class LicensesListingComponent implements OnInit {
       hasFilter: true,
       cellTemplate: this.actionDropdown,
     };
-    const customerColumn = {
-      identifier: 'customer',
-      index: 3,
-      label: 'Customer',
-      sortable: true,
-      minWidth: 200,
-      sortIconPosition: 'right',
-      labelPosition: 'left',
-      cellContentPosition: 'left',
-      filterConfig: {
-        data: null,
-        filterType: TableFilterType.TEXT,
-        noIcon: true,
-      },
-    };
     const columns = [
       {
         identifier: 'productName',
@@ -240,6 +225,21 @@ export class LicensesListingComponent implements OnInit {
         sortIconPosition: 'left',
         labelPosition: 'right',
         cellContentPosition: 'right',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true,
+        },
+      },
+      {
+        identifier: 'customer',
+        index: 3,
+        label: 'Customer',
+        sortable: true,
+        minWidth: 200,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
