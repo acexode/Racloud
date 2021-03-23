@@ -95,11 +95,7 @@
       role="menu"
       aria-labelledby="button-basic"
     >
-      <li
-        *ngIf="actionPermission.manageUpdate === 'full'"
-        (click)="manageSub(row)"
-        role="menuitem"
-      >
+      <li (click)="manageSub(row)" role="menuitem">
         <a class="dropdown-item">Manage</a>
       </li>
       <!-- <li *ngIf="actionPermission.activateDeactivate === 'full'" (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li> -->

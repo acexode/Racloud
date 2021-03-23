@@ -80,7 +80,115 @@ export class LicensesListingComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
-    this.tableConfig.columns = [
+    this.service.getLicenses().subscribe((data: any) => {
+      // load table columns
+      this.tableConfig.columns = this.getTableColumns(data.schema);
+      // this. loadTableData
+      this.loadTableData(data);
+    });
+    // check if fabricator
+    this.checkIfFabricator();
+  };
+  loadTableData(data) {
+    if (data) {
+      console.log(data);
+      const formattedData = data.licenses.map((e: any) => {
+        return {
+          ...e,
+          productName: e.product.name,
+          companyName: e.company.companyName,
+          customer: e.company.companyName,
+        };
+      });
+      const filteredColumns = [];
+      this.fieldsPermission = data.schema.columns;
+      this.actionPermission = data.schema.actions;
+      this.fieldsPermission.licenseStatus = this.fieldsPermission.status;
+      this.fieldsPermission.companyName = this.fieldsPermission.customer;
+      for (const key in this.fieldsPermission) {
+        if (this.fieldsPermission[key] === 'full') {
+          this.tableConfig.columns.forEach((column) => {
+            if (column.identifier.toLowerCase() === key.toLowerCase()) {
+              filteredColumns.push(column);
+            }
+          });
+        }
+      }
+      const sorted = filteredColumns.sort((a, b) =>
+        a.index > b.index ? 1 : b.index > a.index ? -1 : 0
+      );
+      this.tableConfig.columns = [
+        ...filteredColumns,
+        this.tableConfig.columns[this.tableConfig.columns.length - 1],
+      ];
+
+      this.tableConfig.loadingIndicator = true;
+      this.rowData = formattedData;
+      const cloneData = formattedData.map((v: any) => {
+        return { ...v };
+      });
+      this.tableData.next(cloneData);
+      this.tableConfig.loadingIndicator = false;
+    }
+  }
+  filterTable(filterObj: TableFilterConfig) {
+    const newRows = this.tS.filterRowInputs(
+      this.tableConfig?.columns,
+      this.rowData,
+      filterObj
+    );
+    this.tableData.next(newRows);
+  }
+  toggle() {
+    this.tableData.next([]);
+    this.tableConfig.loadingIndicator = true;
+    if (this.showOwnLicenses) {
+      this.service.getOwnLicenses().subscribe((data: any) => {
+        this.loadTableData(data);
+      });
+    } else {
+      this.service.getLicenses().subscribe((data: any) => {
+        this.loadTableData(data);
+      });
+    }
+  }
+
+  removeRow(id: any) { }
+
+  manageSub(data: any) {
+    this.router.navigate(['licenses/license-edit', { id: data.id }]);
+  }
+  renewSub(id: any) { }
+  get isFabricatorStatus() {
+    return this.isFabricator || false;
+  }
+  checkIfFabricator() {
+    this.authS$ = this.authS.getAuthState().subscribe(e => {
+      const companyType = get(get(get(e, 'account', null), 'company', null), 'companyType', null);
+      console.log(e, companyType);
+      if (companyType) {
+        companyType.toLowerCase() === 'fabricator' ? this.isFabricator = true : this.isFabricator = false;
+      } else {
+        this.isFabricator = false;
+      }
+    });
+  }
+  getTableColumns(permission: any = this.actionPermission): Array<any> {
+    const action = {
+      identifier: 'action',
+      index: 9,
+      label: '',
+      sortable: true,
+      minWidth: 40,
+      noGrow: true,
+      headerHasFilterIcon: true,
+      sortIconPosition: 'right',
+      labelPosition: 'left',
+      cellContentPosition: 'right',
+      hasFilter: true,
+      cellTemplate: this.actionDropdown,
+    };
+    const columns = [
       {
         identifier: 'productName',
         index: 1,
@@ -214,110 +322,23 @@ export class LicensesListingComponent implements OnInit {
           filterType: TableFilterType.TEXT,
           noIcon: true,
         },
-      },
-      {
-        identifier: 'action',
-        index: 9,
-        label: '',
-        sortable: true,
-        minWidth: 40,
-        noGrow: true,
-        headerHasFilterIcon: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: true,
-        cellTemplate: this.actionDropdown,
-      },
+      }
     ];
-    this.service.getLicenses().subscribe((data: any) => {
-      this.loadTableData(data);
-    });
-    // check if fabricator
-    this.checkIfFabricator();
-  }
-  loadTableData(data) {
-    if (data) {
-      console.log(data);
-      const formattedData = data.licenses.map((e: any) => {
-        return {
-          ...e,
-          productName: e.product.name,
-          companyName: e.company.companyName,
-          customer: e.company.companyName,
-        };
-      });
-      const filteredColumns = [];
-      this.fieldsPermission = data.schema.columns;
-      this.actionPermission = data.schema.actions;
-      this.fieldsPermission.licenseStatus = this.fieldsPermission.status;
-      this.fieldsPermission.companyName = this.fieldsPermission.customer;
-      for (const key in this.fieldsPermission) {
-        if (this.fieldsPermission[key] === 'full') {
-          this.tableConfig.columns.forEach((column) => {
-            if (column.identifier.toLowerCase() === key.toLowerCase()) {
-              filteredColumns.push(column);
-            }
-          });
+    const tempColumn = [];
+    const columnsPermission = get(permission, 'columns', null);
+    for (const columnKey in columnsPermission) {
+      if (columnsPermission[columnKey] === 'full' || columnsPermission[columnKey] === 'readonly') {
+        const d = columns.find(column => column.identifier.toLowerCase() === columnKey.toLowerCase());
+        if (d) {
+          tempColumn.push(d);
         }
       }
-      const sorted = filteredColumns.sort((a, b) =>
-        a.index > b.index ? 1 : b.index > a.index ? -1 : 0
-      );
-      this.tableConfig.columns = [
-        ...filteredColumns,
-        this.tableConfig.columns[this.tableConfig.columns.length - 1],
-      ];
-
-      this.tableConfig.loadingIndicator = true;
-      this.rowData = formattedData;
-      const cloneData = formattedData.map((v: any) => {
-        return { ...v };
-      });
-      this.tableData.next(cloneData);
-      this.tableConfig.loadingIndicator = false;
     }
-  }
-  filterTable(filterObj: TableFilterConfig) {
-    const newRows = this.tS.filterRowInputs(
-      this.tableConfig?.columns,
-      this.rowData,
-      filterObj
-    );
-    this.tableData.next(newRows);
-  }
-  toggle() {
-    this.tableData.next([]);
-    this.tableConfig.loadingIndicator = true;
-    if (this.showOwnLicenses) {
-      this.service.getOwnLicenses().subscribe((data: any) => {
-        this.loadTableData(data);
-      });
-    } else {
-      this.service.getLicenses().subscribe((data: any) => {
-        this.loadTableData(data);
-      });
+    const actionPermission = get(permission, 'actions', null);
+    console.log('actionPermission', actionPermission);
+    if (actionPermission.manageUpdate === 'full' && actionPermission.hasOwnProperty('manageUpdate')) {
+      tempColumn.push(action);
     }
-  }
-
-  removeRow(id: any) { }
-
-  manageSub(data: any) {
-    this.router.navigate(['licenses/license-edit', { id: data.id }]);
-  }
-  renewSub(id: any) { }
-  get isFabricatorStatus() {
-    return this.isFabricator || false;
-  }
-  checkIfFabricator() {
-    this.authS$ = this.authS.getAuthState().subscribe(e => {
-      const companyType = get(get(get(e, 'account', null), 'company', null), 'companyType', null);
-      console.log(e, companyType);
-      if (companyType) {
-        companyType.toLowerCase() === 'fabricator' ? this.isFabricator = true : this.isFabricator = false;
-      } else {
-        this.isFabricator = false;
-      }
-    });
+    return tempColumn;
   }
 }
