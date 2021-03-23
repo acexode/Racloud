@@ -17,17 +17,14 @@ import { config } from 'rxjs';
 })
 export class CheckboxComponent implements OnInit, ControlValueAccessor {
   @Input() config: CheckboxConfig = {};
-  // @Input() checked: boolean;
-  // @Input() multiple: boolean;
   @ViewChild('input', {static: true, read: ElementRef})
   inputElementRef: ElementRef;
 
   checked = this.config.checked
-  
   constructor(private _renderer: Renderer2) { }
 
 
-  onInputChange = () => { 
+  onInputChange = () => {
     const value = this.inputElementRef.nativeElement.checked;
     this.onChange(value)
     console.log(value)
@@ -47,15 +44,12 @@ export class CheckboxComponent implements OnInit, ControlValueAccessor {
   registerOnTouched(fn: () => {}): void { this.onTouched = fn; }
 
   setDisabledState(isDisabled: boolean): void {
-    // this._renderer.setProperty(this.input.nativeElement, 'disabled', isDisabled);
+    this._renderer.setProperty(this.inputElementRef.nativeElement, 'disabled', isDisabled);
   }
 
   ngOnInit(): void {
     console.log(this.config)
   }
 
-  // get isChecked() {
-  //   return this.checked ?? false;
-  // }
 
 }
