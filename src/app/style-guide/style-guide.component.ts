@@ -1,3 +1,4 @@
+import { CheckboxConfig } from './../shared/rc-forms/models/checkbox/checkbox-config';
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -104,6 +105,14 @@ export class StyleGuideComponent implements OnInit, AfterViewInit {
     idKey: 'code',
     labelKey: 'name',
     searchable: true,
+  };
+  checkboxChecked: CheckboxConfig = {
+    placeholder: 'Checked Checkbox',
+    checked: true,
+  };
+  checkboxUnChecked: CheckboxConfig = {
+    placeholder: 'UnChecked Checkbox',
+    checked: false,
   };
   styleForm: FormGroup;
 
