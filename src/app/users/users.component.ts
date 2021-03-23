@@ -45,6 +45,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     columns: [],
     externalPaging: false,
     externalSorting: false,
+    removeExportBtn: true,
     action: true
   };
   routeData$: Subscription;
@@ -161,20 +162,20 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.modalRef.hide();
     if (this.temporaryRowData.value) {
       // this.removeRow(this.temporaryRowData.value);
-      const user = this.temporaryRowData.value.user
-      console.log(user)
-      this.userService.deleteUser(user.id).subscribe(res =>{
-        console.log(res)
-        this.getUsers()
+      const user = this.temporaryRowData.value.user;
+      console.log(user);
+      this.userService.deleteUser(user.id).subscribe(res => {
+        console.log(res);
+        this.getUsers();
         this.displayMsg(
           'User removed successfully !!',
           'success');
-      },err =>{
-        console.log(err)
+      }, err => {
+        console.log(err);
         this.displayMsg(
           'Unable to delete user',
           'danger');
-      })
+      });
     } else {
       this.displayMsg(
         'Looks like there is a technical error. Please contact Engineer to resolve it (Error: 00RA1)',
@@ -189,7 +190,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   resetTemporaryRowData() {
     this.temporaryRowData.next(null);
   };
-  displayMsg(msg, type){
+  displayMsg(msg, type) {
     this.msgS.addMessage({
       text: msg,
       type,
@@ -197,9 +198,9 @@ export class UsersComponent implements OnInit, OnDestroy {
       customClass: 'mt-32',
       hasIcon: true,
     });
-    setTimeout(()=> {
-      this.msgS.clearMessages()
-    },5000)
+    setTimeout(() => {
+      this.msgS.clearMessages();
+    }, 5000);
   }
   ngOnDestroy(): void {
     this.routeData$.unsubscribe();

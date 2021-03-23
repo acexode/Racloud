@@ -66,6 +66,7 @@ export class LicensesListingComponent implements OnInit {
     externalSorting: false,
     loadingIndicator: true,
     action: true,
+    removeExportBtn: true,
   };
   fieldsPermission: any;
   actionPermission: any;
