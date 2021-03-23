@@ -18,6 +18,6 @@
     </div>
 </ng-container> -->
 <label class="container">{{config.placeholder}}
-    <input (change)="onChange($event.target.value)" type="checkbox" [checked]="checked">
+    <input #input (change)="onInputChange()" type="checkbox" >
     <span class="checkmark"></span>
-  </label>
+</label>

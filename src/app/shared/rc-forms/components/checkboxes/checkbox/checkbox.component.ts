@@ -1,5 +1,5 @@
 import { CheckboxConfig } from './../../../models/checkbox/checkbox-config';
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, forwardRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { config } from 'rxjs';
 
@@ -19,19 +19,27 @@ export class CheckboxComponent implements OnInit, ControlValueAccessor {
   @Input() config: CheckboxConfig = {};
   // @Input() checked: boolean;
   // @Input() multiple: boolean;
+  @ViewChild('input', {static: true, read: ElementRef})
+  inputElementRef: ElementRef;
+
   checked = this.config.checked
-  onChange = (_: any) => { 
-    console.log(this.checked)
+  
+  constructor(private _renderer: Renderer2) { }
+
+
+  onInputChange = () => { 
+    const value = this.inputElementRef.nativeElement.checked;
+    this.onChange(value)
+    console.log(value)
   };
 
   onTouched = () => { };
-
-  constructor() { }
+  onChange = _ => {};
 
   writeValue(value: any): void {
     console.log(value)
-    this.checked = value ? value : false
-    // this._renderer.setProperty(this.input.nativeElement, 'checked', value);
+    this._renderer.setProperty(this.inputElementRef.nativeElement, 'value', value);
+    // this.checked = value ? value : false
   }
 
   registerOnChange(fn: (_: any) => {}): void { this.onChange = fn; }

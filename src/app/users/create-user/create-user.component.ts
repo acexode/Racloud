@@ -317,7 +317,8 @@ export class CreateUserComponent implements OnInit {
           false,
         ],
       });
-      if(this.user?.email === this.loggedInUser.email){
+      console.log(this.loggedInUserRole)
+      if(this.loggedInUserRole === 'systemadmin' || this.loggedInUserRole === 'admin'){
         this.changePasswordForm.get('oldPassword').clearValidators();
         this.changePasswordForm.get('oldPassword').updateValueAndValidity()
       }
@@ -345,14 +346,24 @@ export class CreateUserComponent implements OnInit {
   changePassword() {
     const value = this.changePasswordForm.value;
     console.log(value)
-    return
-    this.service.changePassword(value).subscribe((e: any) => {
-      this.displayMsg(e.message, 'success');
-      this.modalRef.hide();
-    }, (err) => {
-      console.log(err);
-      this.changePasswordError = err.error;
-    });
+    if(this.loggedInUserRole === 'systemadmin' || this.loggedInUserRole === 'admin'){
+      this.service.changePasswordAdmin(value).subscribe((res: any) =>{
+        console.log(res)
+        this.displayMsg(res.message, 'success');
+        this.modalRef.hide();
+      }, (err) => {
+        console.log(err);
+        this.changePasswordError = err.error;
+      })
+    }else{
+      this.service.changePassword(value).subscribe((e: any) => {
+        this.displayMsg(e.message, 'success');
+        this.modalRef.hide();
+      }, (err) => {
+        console.log(err);
+        this.changePasswordError = err.error;
+      });
+    }
   }
   sendResetPassword() {
     const obj = {
