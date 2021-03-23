@@ -1,3 +1,4 @@
+import { CheckboxConfig } from './../../shared/rc-forms/models/checkbox/checkbox-config';
 import { get } from 'lodash';
 import { CustomStorageService } from './../../core/services/custom-storage/custom-storage.service';
 import { UsersService } from './../users.service';
@@ -88,6 +89,11 @@ export class CreateUserComponent implements OnInit {
       text: 'Role'
     },
     placeholder: 'Select'
+  };
+  notifyConfig: CheckboxConfig = {
+    placeholder: 'Notify via email',
+    checked: false
+    
   };
   loggedInUserRole: any;
   impersonatorId: any;
@@ -307,8 +313,14 @@ export class CreateUserComponent implements OnInit {
             Validators.required,
           ],
         ],
+        notify: [
+          false,
+        ],
       });
-
+      if(this.user?.email === this.loggedInUser.email){
+        this.changePasswordForm.get('oldPassword').clearValidators();
+        this.changePasswordForm.get('oldPassword').updateValueAndValidity()
+      }
     }
   }
   submit() {
@@ -332,6 +344,8 @@ export class CreateUserComponent implements OnInit {
   }
   changePassword() {
     const value = this.changePasswordForm.value;
+    console.log(value)
+    return
     this.service.changePassword(value).subscribe((e: any) => {
       this.displayMsg(e.message, 'success');
       this.modalRef.hide();
