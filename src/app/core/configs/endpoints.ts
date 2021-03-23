@@ -59,6 +59,7 @@ export const userEndpoints = {
   getCreateUpdateUser: serverBaseUrl + '/users',
   getUsers: serverBaseUrl + '/users/logged-in-company-users',
   changePassword: serverBaseUrl + '/account/changepassword',
+  changePasswordAdmin: serverBaseUrl + '/account/ChangePasswordWithoutOldPassword',
   sendResetPassword: serverBaseUrl + '/send-password-reset-email',
   resetPassword: serverBaseUrl + '/account/resetpassword',
   userPermissionPerPage: serverBaseUrl + '/user-permission-per-page',

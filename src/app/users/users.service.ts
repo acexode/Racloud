@@ -85,6 +85,9 @@ export class UsersService {
   changePassword(obj) {
     return this.reqS.post(userEndpoints.changePassword, obj);
   }
+  changePasswordAdmin(obj) {
+    return this.reqS.post(userEndpoints.changePasswordAdmin, obj);
+  }
   sendResetPassword(obj) {
     return this.reqS.post(userEndpoints.sendResetPassword, obj);
   }
