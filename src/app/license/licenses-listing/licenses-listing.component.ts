@@ -1,21 +1,20 @@
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   OnInit,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
-import { omnBsConfig } from 'src/app/shared/date-picker/data/omn-bsConfig';
 import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
 import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
 import { LicenseServiceService } from '../license-service.service';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { get } from 'lodash';
 
 @Component({
   selector: 'app-licenses-listing',
@@ -70,13 +69,14 @@ export class LicensesListingComponent implements OnInit {
   };
   fieldsPermission: any;
   actionPermission: any;
+  authS$: Subscription;
+  isFabricator: boolean;
 
   constructor(
     private tS: TableService,
-    private http: HttpClient,
     private router: Router,
-    private ref: ChangeDetectorRef,
-    private service: LicenseServiceService
+    private service: LicenseServiceService,
+    private authS: AuthService,
   ) { }
   ngOnInit(): void {
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
@@ -233,9 +233,12 @@ export class LicensesListingComponent implements OnInit {
     this.service.getLicenses().subscribe((data: any) => {
       this.loadTableData(data);
     });
+    // check if fabricator
+    this.checkIfFabricator();
   }
   loadTableData(data) {
     if (data) {
+      console.log(data);
       const formattedData = data.licenses.map((e: any) => {
         return {
           ...e,
@@ -302,6 +305,19 @@ export class LicensesListingComponent implements OnInit {
   manageSub(data: any) {
     this.router.navigate(['licenses/license-edit', { id: data.id }]);
   }
-
   renewSub(id: any) { }
+  get isFabricatorStatus() {
+    return this.isFabricator || false;
+  }
+  checkIfFabricator() {
+    this.authS$ = this.authS.getAuthState().subscribe(e => {
+      const companyType = get(get(get(e, 'account', null), 'company', null), 'companyType', null);
+      console.log(e, companyType);
+      if (companyType) {
+        companyType.toLowerCase() === 'fabricator' ? this.isFabricator = true : this.isFabricator = false;
+      } else {
+        this.isFabricator = false;
+      }
+    });
+  }
 }

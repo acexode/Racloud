@@ -1,100 +1,143 @@
 <app-page-container [config]="containerConfig">
-    <div class="w-100" container-body>
-        <div class="page-header">
-            <div class="row align-items-center">
-                <div class="col">
-                    <p class="pyramid-title">PYRAMID</p>
+  <div class="w-100" container-body>
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <p class="pyramid-title">PYRAMID</p>
 
-                    <h1 class="customers-title">Licenses</h1>
-                </div>
-                <div class="col-auto float-right ml-auto d-flex flex-direction-row align-items-center">
-                    
-                        <app-toggle  [(ngModel)]="showOwnLicenses" (change)="toggle()" class="mr-32">
-                            Own licenses
-                        </app-toggle>
-                  
-                    <!--  -->
-                    <app-button routerLink="/shop" type="button" color="primary">
-                        Buy license
-                    </app-button>
-                    <!--  -->
-                </div>
-            </div>
+          <h1 class="customers-title">Licenses</h1>
         </div>
-        <ng-container>
-            <app-table [rows]="tableData | async" [config]="tableConfig" (filterData)="filterTable($event)"
-                [rowDetailConfig]="rowDetailIcons"></app-table>
-        </ng-container>
-       
+        <div
+          class="col-auto float-right ml-auto d-flex flex-direction-row align-items-center"
+        >
+          <app-toggle
+            [(ngModel)]="showOwnLicenses"
+            (change)="toggle()"
+            class="mr-32"
+            *ngIf="!isFabricatorStatus"
+          >
+            Own licenses
+          </app-toggle>
+
+          <!--  -->
+          <app-button routerLink="/shop" type="button" color="primary">
+            Buy license
+          </app-button>
+          <!--  -->
+        </div>
+      </div>
     </div>
+    <ng-container>
+      <app-table
+        [rows]="tableData | async"
+        [config]="tableConfig"
+        (filterData)="filterTable($event)"
+        [rowDetailConfig]="rowDetailIcons"
+      ></app-table>
+    </ng-container>
+  </div>
 </app-page-container>
 
 <ng-template #hoverDetailTpl let-column="column" let-row="row">
-    <div class="d-flex justify-content-end w-100">
-        <div class="d-flex bg-container justify-content-end py-10 mt-n10">
-            <div class="row-detail d-flex align-items-center"></div>
-        </div>
+  <div class="d-flex justify-content-end w-100">
+    <div class="d-flex bg-container justify-content-end py-10 mt-n10">
+      <div class="row-detail d-flex align-items-center"></div>
     </div>
+  </div>
 </ng-template>
-<ng-template #actionDropdown let-column="column" let-row="row" let-rowIndex="rowIndex">
-    <div *ngIf="rowIndex % 10 <6" class="btn-group" dropdown >
-      <a  id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
-              aria-controls="dropdown-basic">
-              <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-      </a>
-      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-          role="menu" aria-labelledby="button-basic">
-        <li *ngIf="actionPermission.manageUpdate === 'full'" (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
-       <!--  <li *ngIf="actionPermission.activateDeactivate === 'full'" (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li> -->
-      </ul>
-    </div>
-    <div *ngIf="rowIndex % 10 >= 6" class="btn-group" dropdown [dropup]="true">
-      <a  id="button-basic" dropdownToggle type="button" class="text-dark a-ellipse"
-              aria-controls="dropdown-basic">
-              <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-      </a>
-      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-          role="menu" aria-labelledby="button-basic">
-        <li *ngIf="actionPermission.manageUpdate === 'full'" (click)="manageSub(row)" role="menuitem"><a class="dropdown-item">Manage</a></li>
-        <!-- <li *ngIf="actionPermission.activateDeactivate === 'full'" (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li> -->
-      </ul>
-    </div>
-  </ng-template>
-  <ng-template #purchaseTemplate let-column="column" let-row="row">
-    <div class="row-detail d-flex">
-        {{row.purchaseDate | date:'d MMM y'}}
-    </div>        
+<ng-template
+  #actionDropdown
+  let-column="column"
+  let-row="row"
+  let-rowIndex="rowIndex"
+>
+  <div *ngIf="rowIndex % 10 < 6" class="btn-group" dropdown>
+    <a
+      id="button-basic"
+      dropdownToggle
+      type="button"
+      class="text-dark a-ellipse"
+      aria-controls="dropdown-basic"
+    >
+      <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+    </a>
+    <ul
+      id="dropdown-basic"
+      *dropdownMenu
+      class="dropdown-menu"
+      role="menu"
+      aria-labelledby="button-basic"
+    >
+      <li
+        *ngIf="actionPermission.manageUpdate === 'full'"
+        (click)="manageSub(row)"
+        role="menuitem"
+      >
+        <a class="dropdown-item">Manage</a>
+      </li>
+      <!--  <li *ngIf="actionPermission.activateDeactivate === 'full'" (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li> -->
+    </ul>
+  </div>
+  <div *ngIf="rowIndex % 10 >= 6" class="btn-group" dropdown [dropup]="true">
+    <a
+      id="button-basic"
+      dropdownToggle
+      type="button"
+      class="text-dark a-ellipse"
+      aria-controls="dropdown-basic"
+    >
+      <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+    </a>
+    <ul
+      id="dropdown-basic"
+      *dropdownMenu
+      class="dropdown-menu"
+      role="menu"
+      aria-labelledby="button-basic"
+    >
+      <li
+        *ngIf="actionPermission.manageUpdate === 'full'"
+        (click)="manageSub(row)"
+        role="menuitem"
+      >
+        <a class="dropdown-item">Manage</a>
+      </li>
+      <!-- <li *ngIf="actionPermission.activateDeactivate === 'full'" (click)="removeRow(row)" role="menuitem"><a class="dropdown-item">Delete</a></li> -->
+    </ul>
+  </div>
 </ng-template>
-  <ng-template #expireTemplate let-column="column" let-row="row">
-    <div class="row-detail d-flex">
-        {{row.expirationDate | date:'d MMM y'}}
-    </div>        
+<ng-template #purchaseTemplate let-column="column" let-row="row">
+  <div class="row-detail d-flex">
+    {{ row.purchaseDate | date: "d MMM y" }}
+  </div>
 </ng-template>
-  <ng-template #partnerLicenseTemplate let-column="column" let-row="row">
-    <div *ngIf="row.isPartnerLicense" class="row-detail d-flex">
-        Yes
-    </div>        
-    <div *ngIf="!row.isPartnerLicense" class="row-detail d-flex">
-        No
-    </div>        
+<ng-template #expireTemplate let-column="column" let-row="row">
+  <div class="row-detail d-flex">
+    {{ row.expirationDate | date: "d MMM y" }}
+  </div>
 </ng-template>
-  <ng-template #renewByUserCompanyTemplate let-column="column" let-row="row">
-    <div *ngIf="row.renewByUserCompany" class="row-detail d-flex">
-        Yes
-    </div>        
-    <div *ngIf="!row.renewByUserCompany" class="row-detail d-flex">
-        No
-    </div>        
+<ng-template #partnerLicenseTemplate let-column="column" let-row="row">
+  <div *ngIf="row.isPartnerLicense" class="row-detail d-flex">Yes</div>
+  <div *ngIf="!row.isPartnerLicense" class="row-detail d-flex">No</div>
+</ng-template>
+<ng-template #renewByUserCompanyTemplate let-column="column" let-row="row">
+  <div *ngIf="row.renewByUserCompany" class="row-detail d-flex">Yes</div>
+  <div *ngIf="!row.renewByUserCompany" class="row-detail d-flex">No</div>
 </ng-template>
 
 <ng-template #expiredIconTemplate let-column="column" let-value="cellValue">
-    <div class="table-status-column">
-        <ng-container [ngSwitch]="value">
-            <span *ngSwitchCase="1">Active</span>
-            <span *ngSwitchCase="2">InActive</span>
-            <span *ngSwitchCase="0">Expired</span>
-            <span *ngSwitchDefault>Expired</span>
-        </ng-container>
-        <img *ngIf="value === 0" src="./../../assets/images/expired.svg" alt="expired-icon" class="isExpired" />
-    </div>
+  <div class="table-status-column">
+    <ng-container [ngSwitch]="value">
+      <span *ngSwitchCase="1">Active</span>
+      <span *ngSwitchCase="2">InActive</span>
+      <span *ngSwitchCase="0">Expired</span>
+      <span *ngSwitchDefault>Expired</span>
+    </ng-container>
+    <img
+      *ngIf="value === 0"
+      src="./../../assets/images/expired.svg"
+      alt="expired-icon"
+      class="isExpired"
+    />
+  </div>
 </ng-template>
