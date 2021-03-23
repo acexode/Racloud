@@ -14,7 +14,7 @@
             [(ngModel)]="showOwnLicenses"
             (change)="toggle()"
             class="mr-32"
-            *ngIf="itHasOwnLicense"
+            *ngIf="hasOwnLicense"
           >
             Own licenses
           </app-toggle>

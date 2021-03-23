@@ -70,7 +70,8 @@ export class LicensesListingComponent implements OnInit {
   fieldsPermission: any;
   actionPermission: any;
   authS$: Subscription;
-  hasOwnLicense: boolean;
+  isFabricator: boolean;
+  isRoleUser: boolean;
 
   constructor(
     private tS: TableService,
@@ -79,6 +80,9 @@ export class LicensesListingComponent implements OnInit {
     private authS: AuthService,
   ) { }
   ngOnInit(): void {
+    // check If Fabricator Or User
+    this.checkIfFabricatorOrUser();
+    // continue process
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.service.getLicenses().subscribe((data: any) => {
       // load table columns
@@ -86,8 +90,6 @@ export class LicensesListingComponent implements OnInit {
       // this. loadTableData
       this.loadTableData(data);
     });
-    // check if Own License
-    this.checkIfOwnLicense();
   };
   loadTableData(data) {
     if (data) {
@@ -97,6 +99,7 @@ export class LicensesListingComponent implements OnInit {
           productName: e.product.name,
           companyName: e.company.companyName,
           customer: e.company.companyName,
+          status: e.licenseStatus,
         };
       });
       const filteredColumns = [];
@@ -158,17 +161,27 @@ export class LicensesListingComponent implements OnInit {
     this.router.navigate(['licenses/license-edit', { id: data.id }]);
   }
   renewSub(id: any) { }
-  get itHasOwnLicense() {
-    return this.hasOwnLicense || false;
+  get hasOwnLicense() {
+    if (this.isFabricator || this.isRoleUser) {
+      return false;
+    } else {
+      return true;
+    }
   }
-  checkIfOwnLicense() {
+  checkIfFabricatorOrUser() {
     this.authS$ = this.authS.getAuthState().subscribe(e => {
       const companyType = get(get(get(e, 'account', null), 'company', null), 'companyType', null);
       const roles = get(get(e, 'account', null), 'roles', null);
       if (companyType) {
-        companyType.toLowerCase() === 'fabricator' || roles.toLowerCase() === 'user' ? this.hasOwnLicense = false : this.hasOwnLicense = true;
+        if (companyType.toLowerCase() === 'fabricator') {
+          this.isFabricator = true;
+        }
+        if (roles.toLowerCase() === 'user') {
+          this.isRoleUser = true;
+        }
       } else {
-        this.hasOwnLicense = true;
+        this.isFabricator = false;
+        this.isRoleUser = false;
       }
     });
   }
@@ -187,13 +200,28 @@ export class LicensesListingComponent implements OnInit {
       hasFilter: true,
       cellTemplate: this.actionDropdown,
     };
+    const customerColumn = {
+      identifier: 'customer',
+      index: 3,
+      label: 'Customer',
+      sortable: true,
+      minWidth: 200,
+      sortIconPosition: 'right',
+      labelPosition: 'left',
+      cellContentPosition: 'left',
+      filterConfig: {
+        data: null,
+        filterType: TableFilterType.TEXT,
+        noIcon: true,
+      },
+    };
     const columns = [
       {
         identifier: 'productName',
         index: 1,
         label: 'Product Name',
         sortable: true,
-        minWidth: 240,
+        minWidth: 360,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -212,22 +240,6 @@ export class LicensesListingComponent implements OnInit {
         sortIconPosition: 'left',
         labelPosition: 'right',
         cellContentPosition: 'right',
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true,
-        },
-      },
-      {
-        identifier: 'companyName',
-        index: 3,
-        label: 'Customer',
-        sortable: true,
-        minWidth: 200,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'left',
         filterConfig: {
           data: null,
           filterType: TableFilterType.TEXT,
@@ -269,7 +281,7 @@ export class LicensesListingComponent implements OnInit {
         },
       },
       {
-        identifier: 'licenseStatus',
+        identifier: 'status',
         index: 6,
         label: 'Status',
         sortable: true,
