@@ -52,7 +52,6 @@ export class UserTabComponent implements OnInit, OnDestroy {
     ],
   });
   tableConfig: TableI = {
-    selectable: true,
     selectDetail: false,
     hoverDetail: true,
     columns: [],
@@ -76,7 +75,10 @@ export class UserTabComponent implements OnInit, OnDestroy {
         sortable: true,
         minWidth: 200,
         width: 90,
-        noGrow: true
+        noGrow: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
       },
       {
         identifier: 'lastname',
@@ -86,7 +88,7 @@ export class UserTabComponent implements OnInit, OnDestroy {
         width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
-        cellContentPosition: 'right'
+        cellContentPosition: 'left',
       },
       {
         identifier: 'email',
@@ -143,7 +145,7 @@ export class UserTabComponent implements OnInit, OnDestroy {
     );
     this.tableData.next(newRows);
   }
-  removeRow(id) {}
+  removeRow(id) { }
   manageSub(data: any) {
     this.router.navigate(['/users/edit-user', { id: data.id, companyId: this.customerId, backUrl: '/customer/manage/' + this.customerId + '/tab/users' }]);
   }

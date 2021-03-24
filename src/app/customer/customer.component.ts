@@ -74,8 +74,8 @@ export class CustomerComponent implements OnInit, OnDestroy {
     externalPaging: false,
     externalSorting: false,
     loadingIndicator: true,
-    action: true,
     removeExportBtn: true,
+    action: true,
   };
   isDropup: boolean;
   customErrorMsg = 'There is an issue with your network. Please Refresh your network';
@@ -118,7 +118,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
         label: 'Name',
         sortable: true,
         minWidth: 280,
-        // width: 90,
         noGrow: true,
         filterConfig: {
           data: null,
@@ -132,7 +131,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
         label: 'Country',
         sortable: true,
         minWidth: 150,
-        // width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',

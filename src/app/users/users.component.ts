@@ -39,7 +39,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     '../../assets/images/Log.svg',
   ];
   tableConfig: TableI = {
-    selectable: true,
     selectDetail: false,
     hoverDetail: true,
     columns: [],
