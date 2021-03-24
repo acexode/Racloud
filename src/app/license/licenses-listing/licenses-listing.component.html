@@ -14,7 +14,7 @@
                         </app-toggle>
                   
                     <!--  -->
-                    <app-button routerLink="/shop" type="button" color="primary">
+                    <app-button *ngIf="canBuy" routerLink="/shop" type="button" color="primary">
                         Buy license
                     </app-button>
                     <!--  -->

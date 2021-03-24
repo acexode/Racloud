@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   pageTitle$ = this.titleService.titleStore;
   user: any;
   impersonatorId: any;
+  canSeeCart = false;
   company: any;
   role;
   authS$: Subscription;
@@ -48,6 +49,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.cartOrderId = null
       }
     });
+    this.CStore.getItem('pagePermission').subscribe(page =>{
+      console.log(page)
+      this.canSeeCart = page.shop
+      console.log(this.canSeeCart)
+    })
 
     this.authS$ = this.authS.getAuthState().subscribe(e => {
       const account = get(e, 'account', null);
