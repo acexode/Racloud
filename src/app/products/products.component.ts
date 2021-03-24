@@ -71,6 +71,7 @@ export class ProductsComponent implements OnInit {
     columns: [],
     externalPaging: false,
     externalSorting: false,
+    removeExportBtn: true,
     action: true
   };
   modalRef: BsModalRef;

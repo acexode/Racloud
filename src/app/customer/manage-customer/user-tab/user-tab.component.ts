@@ -60,6 +60,7 @@ export class UserTabComponent implements OnInit, OnDestroy {
     columns: [],
     externalPaging: false,
     externalSorting: false,
+    removeExportBtn: true,
     action: true
   };
   getCustomerUsers$: Subscription;
