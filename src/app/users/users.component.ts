@@ -160,9 +160,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   confirm(): void {
     this.modalRef.hide();
     if (this.temporaryRowData.value) {
-      // this.removeRow(this.temporaryRowData.value);
       const user = this.temporaryRowData.value.user;
-      console.log(user);
       this.userService.deleteUser(user.id).subscribe(res => {
         console.log(res);
         this.getUsers();
