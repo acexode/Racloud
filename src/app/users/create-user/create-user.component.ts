@@ -1,3 +1,4 @@
+import { CheckboxConfig } from './../../shared/rc-forms/models/checkbox/checkbox-config';
 import { get } from 'lodash';
 import { CustomStorageService } from './../../core/services/custom-storage/custom-storage.service';
 import { UsersService } from './../users.service';
@@ -88,6 +89,10 @@ export class CreateUserComponent implements OnInit {
       text: 'Role'
     },
     placeholder: 'Select'
+  };
+  notifyConfig: CheckboxConfig = {
+    placeholder: 'Notify via email',
+    checked: false
   };
   loggedInUserRole: any;
   impersonatorId: any;
@@ -307,8 +312,15 @@ export class CreateUserComponent implements OnInit {
             Validators.required,
           ],
         ],
+        notify: [
+          false,
+        ],
       });
-
+      console.log(this.loggedInUserRole)
+      if(this.loggedInUserRole === 'systemadmin' || this.loggedInUserRole === 'admin'){
+        this.changePasswordForm.get('oldPassword').clearValidators();
+        this.changePasswordForm.get('oldPassword').updateValueAndValidity()
+      }
     }
   }
   submit() {
@@ -332,13 +344,25 @@ export class CreateUserComponent implements OnInit {
   }
   changePassword() {
     const value = this.changePasswordForm.value;
-    this.service.changePassword(value).subscribe((e: any) => {
-      this.displayMsg(e.message, 'success');
-      this.modalRef.hide();
-    }, (err) => {
-      console.log(err);
-      this.changePasswordError = err.error;
-    });
+    console.log(value)
+    if(this.loggedInUserRole === 'systemadmin' || this.loggedInUserRole === 'admin'){
+      this.service.changePasswordAdmin(value).subscribe((res: any) =>{
+        console.log(res)
+        this.displayMsg(res.message, 'success');
+        this.modalRef.hide();
+      }, (err) => {
+        console.log(err);
+        this.changePasswordError = err.error;
+      })
+    }else{
+      this.service.changePassword(value).subscribe((e: any) => {
+        this.displayMsg(e.message, 'success');
+        this.modalRef.hide();
+      }, (err) => {
+        console.log(err);
+        this.changePasswordError = err.error;
+      });
+    }
   }
   sendResetPassword() {
     const obj = {

@@ -235,29 +235,29 @@
     <div class="row">
         <div class="col-3 p-3">
 
-            <app-checkbox [checked]="false">
+            <app-checkbox >
                 Default, not checked
             </app-checkbox>
 
-            <app-checkbox [checked]="true">
+            <app-checkbox >
                 Selected, checked
             </app-checkbox>
 
             <!-- multiple -->
             <app-checkboxes title="All options">
-                <app-checkbox [checked]="true">
+                <app-checkbox [config]="checkboxChecked">
                     First Option
                 </app-checkbox>
                 
-                <app-checkbox [checked]="true">
+                <app-checkbox [config]="checkboxChecked">
                     second Option
                 </app-checkbox>
 
-                <app-checkbox [checked]="false">
+                <app-checkbox [config]="checkboxUnChecked">
                     First Option
                 </app-checkbox>
                 
-                <app-checkbox [checked]="false">
+                <app-checkbox [config]="checkboxUnChecked">
                     second Option
                 </app-checkbox>
 
