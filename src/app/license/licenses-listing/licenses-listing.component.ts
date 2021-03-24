@@ -1,3 +1,4 @@
+import { CustomStorageService } from './../../core/services/custom-storage/custom-storage.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -51,6 +52,7 @@ export class LicensesListingComponent implements OnInit {
       body: 'no-shadow',
     },
   };
+  canBuy = false
   rows = [];
   showOwnLicenses = false;
   rowDetailIcons = [
@@ -75,9 +77,15 @@ export class LicensesListingComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private ref: ChangeDetectorRef,
-    private service: LicenseServiceService
+    private service: LicenseServiceService,
+    private cStore: CustomStorageService
   ) { }
   ngOnInit(): void {
+    this.cStore.getItem('pagePermission').subscribe(page =>{
+      console.log(page)
+      this.canBuy = page.shop
+      console.log(this.canBuy)
+    })
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {

@@ -23,7 +23,7 @@
             </li>
             <li class="nav-item pr-5">
               <a
-                *ngIf="this.company.companyType !== 'Main'"
+                *ngIf="canSeeCart"
                 class="nav-link position-relative"
                 (click)="navigateToOrderDetails()"
               >
