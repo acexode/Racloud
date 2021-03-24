@@ -31,7 +31,7 @@ export class OptionListComponent implements OnInit {
 
 
   rowData: Array<any> = [];
-  rowToDelete  = null
+  rowToDelete = null;
   tableData: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   containerConfig: PageContainerConfig = {
     closeButton: true,
@@ -78,6 +78,7 @@ export class OptionListComponent implements OnInit {
     externalPaging: false,
     externalSorting: true,
     loadingIndicator: true,
+    removeExportBtn: true,
     action: true
   };
   isDropup: boolean;
@@ -147,7 +148,7 @@ export class OptionListComponent implements OnInit {
       },
       {
         identifier: 'action',
-         index: 9,
+        index: 9,
         label: '',
         sortable: true,
         minWidth: 40,
@@ -160,10 +161,10 @@ export class OptionListComponent implements OnInit {
         cellTemplate: this.actionDropdown
       },
     ];
-    this.getJSON()
+    this.getJSON();
   }
   public getJSON() {
-    this.service.getOption().subscribe((data:any) => {
+    this.service.getOption().subscribe((data: any) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
         this.rowData = data;
@@ -185,35 +186,35 @@ export class OptionListComponent implements OnInit {
   }
 
   removeRow(row) {
-    this.modalRef.hide()
-    this.service.deleteOption(row.Id).subscribe(e =>{
-      this.getJSON()
-      this.displayMsg('Option removed Successfully', 'success')
-    },(err)=>{
-      this.displayMsg(err.error, 'info')
-    })
+    this.modalRef.hide();
+    this.service.deleteOption(row.Id).subscribe(e => {
+      this.getJSON();
+      this.displayMsg('Option removed Successfully', 'success');
+    }, (err) => {
+      this.displayMsg(err.error, 'info');
+    });
   }
   manageSub(data: any) {
     this.router.navigate(['options/option-edit', { id: data.Id }]);
   }
-  renewSub(row: any) {}
+  renewSub(row: any) { }
   toString(arr: any[]) {
-    const str =   arr.map(e => e.Name).slice(0,5).join(', ');
-    if(arr.length > 5){
-      return str + '...'
-    }else{
-      return str
+    const str = arr.map(e => e.Name).slice(0, 5).join(', ');
+    if (arr.length > 5) {
+      return str + '...';
+    } else {
+      return str;
     }
 
   }
   openModal(template: TemplateRef<any>, row) {
-    this.rowToDelete = row
-    this.modalRef = this.modalService.show(template,  Object.assign({}, { class: 'gray' }));
+    this.rowToDelete = row;
+    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray' }));
   }
-  deleteRow(){
+  deleteRow() {
 
   }
-  displayMsg(msg, type){
+  displayMsg(msg, type) {
     this.msgS.addMessage({
       text: msg,
       type,
@@ -221,8 +222,8 @@ export class OptionListComponent implements OnInit {
       customClass: 'mt-32',
       hasIcon: true,
     });
-    setTimeout(()=> {
-      this.msgS.clearMessages()
-    },5000)
+    setTimeout(() => {
+      this.msgS.clearMessages();
+    }, 5000);
   }
 }

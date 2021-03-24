@@ -71,6 +71,7 @@ export class PriceListsComponent implements OnInit, OnDestroy {
     loadingIndicator: true,
     action: true,
     noFiltering: true,
+    removeExportBtn: true,
   };
   priceList$: Subscription;
   deletePriceList$: Subscription;
@@ -215,7 +216,7 @@ export class PriceListsComponent implements OnInit, OnDestroy {
   removeRow(data: any) {
     this.deletePriceList$ = this.PriceListS.deletePriceList(data.id).subscribe(
       res => {
-        this.displayMsg(res.name + ' Pricelist Successfully Deleted','success');
+        this.displayMsg(res.name + ' Pricelist Successfully Deleted', 'success');
         this.loadPriceList();
         // reset resetTemporaryRowData
         this.resetTemporaryRowData();
@@ -237,7 +238,7 @@ export class PriceListsComponent implements OnInit, OnDestroy {
   resetTemporaryRowData() {
     this.temporaryRowData.next(null);
   };
-  displayMsg(msg, type){
+  displayMsg(msg, type) {
     this.msgS.addMessage({
       text: msg,
       type,
@@ -245,9 +246,9 @@ export class PriceListsComponent implements OnInit, OnDestroy {
       customClass: 'mt-32',
       hasIcon: true,
     });
-    setTimeout(()=> {
-      this.msgS.clearMessages()
-    },5000)
+    setTimeout(() => {
+      this.msgS.clearMessages();
+    }, 5000);
   }
   ngOnDestroy(): void {
     this.priceList$.unsubscribe();

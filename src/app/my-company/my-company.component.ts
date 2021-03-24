@@ -1,19 +1,16 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { get } from 'lodash';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CompanyTypes } from '../core/enum/companyTypes';
 import { AuthService } from '../core/services/auth/auth.service';
-import { CompanyParentsService } from '../core/services/companyParents/company-parents.service';
 import { CountriesService } from '../core/services/countries/countries.service';
 import { CustomerService } from '../core/services/customer/customer.service';
 import { LanguagesService } from '../core/services/languages/languages.service';
-import { PriceListService } from '../core/services/price-list/price-list.service';
 import { CustomerModel } from '../customer/model/customer.model';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
-import { MessagesService } from '../shared/messages/services/messages.service';
 import { InputConfig } from '../shared/rc-forms/models/input/input-config';
 import { SelectConfig } from '../shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from '../shared/rc-forms/models/textarea/textarea-config';
@@ -121,11 +118,10 @@ export class MyCompanyComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private cS: CountriesService,
-    private parentS: CompanyParentsService,
     private lgS: LanguagesService,
-    private priceService: PriceListService,
     private authS: AuthService,
     private customerS: CustomerService,
+    private router: Router,
   ) { }
   ngOnChanges(changes: SimpleChanges): void {
     // this.componentForm.valueChanges.subscribe(d => {});
@@ -134,11 +130,11 @@ export class MyCompanyComponent implements OnInit, OnChanges, OnDestroy {
     this.fetchCompany$ = this.customerS.getCustomerProfile()
       .subscribe(
         d => {
+          console.log(d);
           // update form Data
           this.updateValueForForm(d);
         }
       );
-    this.customerS.getCustomerProfile().subscribe(d => console.log(d));
     // get country option
     this.countryOptions$ = this.cS.getCountriesState().pipe(
       map(d => d.data),
@@ -306,6 +302,10 @@ export class MyCompanyComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       return false;
     }
+  }
+
+  routeToCustomerDetailsEdit() {
+    this.router.navigate(['/customer', 'manage', this.parentId, 'tab', 'details']);
   }
 }
 

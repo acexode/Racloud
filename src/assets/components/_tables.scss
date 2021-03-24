@@ -1,12 +1,12 @@
 @import "../variables";
 @import "../mixins";
 
-.ngx-datatable.bootstrap  {
+.ngx-datatable.bootstrap {
   border-top: 1px solid $rc-secondary;
 }
 .ngx-datatable.bootstrap .datatable-body .datatable-row-wrapper {
   position: relative;
-  
+
   .datatable-row-detail {
     background-color: $white;
     width: 100%;
@@ -22,12 +22,10 @@
     }
     .ngx-datatable.bootstrap {
       .datatable-header {
-       
         border-bottom: 1px solid $rc-accent-blue-60;
       }
       .datatable-header-cell {
         border-bottom: 1px solid $rc-accent-blue-60;
-        
       }
       .datatable-body-cell {
         border-bottom: 1px solid $rc-accent-blue-60;
@@ -71,13 +69,12 @@
     cursor: inherit;
     pointer-events: none !important;
   }
-  .datatable-header { 
+  .datatable-header {
     background-color: $white;
     &.active {
       color: $base-text-color !important;
       background-color: $ultra-light-red !important;
-      border-bottom: 1px solid #D9471F;
-
+      border-bottom: 1px solid #d9471f;
     }
     .datatable-header-cell {
       vertical-align: bottom;
@@ -99,6 +96,7 @@
         padding: rem(8) rem(12) rem(8) rem(12);
         height: rem(40);
         word-wrap: break-word !important;
+        cursor: pointer !important;
         svg {
           color: $rc-accent-blue;
         }
@@ -107,17 +105,18 @@
             transform: rotate(180deg);
           }
         }
-        .first-row > div::nth-child(2){
+        .first-row > div::nth-child(2) {
           background: green;
         }
       }
       .second-row {
         padding: 0;
-        
       }
       &:first-child {
         .first-row {
-          padding-left: rem(8); /* changed by ereyomi from rem(37) to rem(0) to remove left padding */
+          padding-left: rem(
+            8
+          ); /* changed by ereyomi from rem(37) to rem(0) to remove left padding */
           padding-bottom: rem(8);
         }
         .second-row {
@@ -165,7 +164,7 @@
       font-size: 14px;
       letter-spacing: 0;
       line-height: 16px;
-      border-bottom: 1px solid #D9471F;
+      border-bottom: 1px solid #d9471f;
       .datatable-body-cell-label {
         .custom-control-label {
           &:before {
@@ -199,19 +198,19 @@
     &.active {
       color: $rc-black !important;
       background-color: $ultra-light-red !important;
-      border-bottom: 1px solid #D9471F;
+      border-bottom: 1px solid #d9471f;
     }
     &.hover {
       color: $rc-black !important;
       background-color: $ultra-light-red !important;
-      border-bottom: 1px solid #D9471F;
+      border-bottom: 1px solid #d9471f;
       &.datatable-row-even {
         background-color: $ultra-light-red !important;
-        border-bottom: 1px solid #D9471F;
+        border-bottom: 1px solid #d9471f;
       }
       &.datatable-row-odd {
         background-color: $ultra-light-red !important;
-        border-bottom: 1px solid #D9471F;
+        border-bottom: 1px solid #d9471f;
       }
     }
     .datatable-body-cell {
@@ -276,12 +275,11 @@
                 font-weight: normal !important;
               }
             }
-            &.active{
+            &.active {
               a {
                 border: $rc-primary-outline;
               }
             }
-            
           }
         }
       }
@@ -417,7 +415,7 @@
 .ngx-datatable {
   /* height */
   ::-webkit-scrollbar {
-    height: rem(8); 
+    height: rem(8);
   }
 
   /* Track */
@@ -555,8 +553,12 @@
   @include align-items(center);
 }
 .datatable-body-cell,
-.ngx-datatable.fixed-row .datatable-scroll .datatable-body-row .datatable-body-cell, 
-.ngx-datatable.fixed-row .d,atatable-scroll .datatable-body-row .datatable-body-group-cell {
+.ngx-datatable.fixed-row
+  .datatable-scroll
+  .datatable-body-row
+  .datatable-body-cell,
+.ngx-datatable.fixed-row .d,
+atatable-scroll .datatable-body-row .datatable-body-group-cell {
   /* white-space: normal !important;
   word-wrap: break-word !important; */
   text-overflow: ellipsis !important;
