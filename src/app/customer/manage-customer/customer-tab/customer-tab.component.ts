@@ -14,7 +14,7 @@ import { TableService } from 'src/app/shared/table/services/table.service';
   templateUrl: './customer-tab.component.html',
   styleUrls: ['./customer-tab.component.scss']
 })
-  export class CustomerTabComponent implements OnInit {
+export class CustomerTabComponent implements OnInit {
   @ViewChild('hoverDetailTpl', { static: true }) hoverDetailTpl: TemplateRef<any>;
   @ViewChild('subFeeTemplate', { static: true }) subFeeTemplate: TemplateRef<any>;
   @ViewChild('actionDropdown', { static: true }) actionDropdown: any;
@@ -57,6 +57,7 @@ import { TableService } from 'src/app/shared/table/services/table.service';
     externalPaging: false,
     externalSorting: false,
     loadingIndicator: true,
+    removeExportBtn: true,
     action: true
   };
   isDropup: boolean;
@@ -69,7 +70,7 @@ import { TableService } from 'src/app/shared/table/services/table.service';
     private customerS: CustomerService,
   ) { }
   ngOnInit(): void {
-    const id = parseInt(this.route.snapshot.paramMap.get('id'), 10)
+    const id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.columns = [
       {
@@ -213,10 +214,10 @@ import { TableService } from 'src/app/shared/table/services/table.service';
     this.customerS.getCustomerCustomers(id).subscribe((data) => {
       if (data) {
         this.tableConfig.loadingIndicator = true;
-        this.rowData = data.length > 0 ? data.slice(0, 16) : []
+        this.rowData = data.length > 0 ? data.slice(0, 16) : [];
         const cloneData = data.length > 0 ? data.slice(0, 16).map((v: any) => {
           return { ...v };
-        }): [];
+        }) : [];
         this.tableData.next(cloneData);
         this.tableConfig.loadingIndicator = false;
       }
@@ -233,10 +234,10 @@ import { TableService } from 'src/app/shared/table/services/table.service';
     );
     this.tableData.next(newRows);
   }
-  removeRow(id: any) {}
+  removeRow(id: any) { }
   manageSub(data: any) {
     this.router.navigate(['manage', data.id], { relativeTo: this.route });
   }
-  renewSub(id: any) {}
+  renewSub(id: any) { }
 
 }

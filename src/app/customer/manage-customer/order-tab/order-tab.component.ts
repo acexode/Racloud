@@ -39,6 +39,7 @@ export class OrderTabComponent implements OnInit, OnDestroy {
     columns: [],
     externalPaging: false,
     externalSorting: false,
+    removeExportBtn: true,
     action: true
   };
   route$: Subscription;

@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   role;
   authS$: Subscription;
   totalOrder;
-  cartOrderId
+  cartOrderId;
   constructor(
     private titleService: TitleService,
     private authS: AuthService,
@@ -45,15 +45,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     });
     this.shopS.cartId.subscribe(id => {
-      if(!id){
-        this.cartOrderId = null
+      if (!id) {
+        this.cartOrderId = null;
       }
     });
-    this.CStore.getItem('pagePermission').subscribe(page =>{
-      console.log(page)
-      this.canSeeCart = page.shop
-      console.log(this.canSeeCart)
-    })
+    this.CStore.getItem('pagePermission').subscribe(page => {
+      this.canSeeCart = page.shop;
+    });
 
     this.authS$ = this.authS.getAuthState().subscribe(e => {
       const account = get(e, 'account', null);
@@ -86,21 +84,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.orderS.cartTotal().subscribe((res: any) => {
       // const order:any = orders.orderItems.filter((ord:any) => ord.orderStatus === 'Cart' )[0]
       this.totalOrder = res.numberOfProductsInCart;
-      this.cartOrderId = res.orderId
+      this.cartOrderId = res.orderId;
     });
   }
-  navigateToOrderDetails(){
-    if(this.cartOrderId){
+  navigateToOrderDetails() {
+    if (this.cartOrderId) {
       this.router.navigate(['/orders/orders-details/' + this.cartOrderId]);
-    }else{
-      this.generateOrder()
+    } else {
+      this.generateOrder();
     }
   }
-  generateOrder(){
-    this.orderS.generateOrder().subscribe((order:any) =>{
-      this.cartOrderId = order.id
-      this.router.navigate(['/orders/orders-details/' + this.cartOrderId])
-    })
+  generateOrder() {
+    this.orderS.generateOrder().subscribe((order: any) => {
+      this.cartOrderId = order.id;
+      this.router.navigate(['/orders/orders-details/' + this.cartOrderId]);
+    });
   }
   userLogOut() {
     this.authS.logout();
