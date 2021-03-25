@@ -167,7 +167,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     }
   }
   getOptions() {
-    this.service.optionStore.subscribe((options: any) => {
+    this.service.getOption().subscribe((options: any) => {
       console.log(options)
       // const sorted = this.preselectedRows.sort((a,b)=> a.optionId > b.optionId ? 1 : (b.optionId > a.optionId) ? -1 : 0)
       this.optionList = options.map((obj: any) => {

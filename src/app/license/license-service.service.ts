@@ -9,7 +9,6 @@ import { BehaviorSubject } from 'rxjs';
 export class LicenseServiceService {
   optionStore: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   constructor(private reqS: RequestService) {
-    this.getAllOption()
    }
 
   createOption(obj){
@@ -18,14 +17,8 @@ export class LicenseServiceService {
   updateOption(id, obj){
     return this.reqS.put(optionEndpoints.getOptions +'/'+id,obj)
   }
-  getAllOption(){
-    this.reqS.get(optionEndpoints.getOptions).toPromise().then((e:[]) =>{
-      console.log(e)
-      this.optionStore.next(e)
-    })
-  }
+
   getOption(){
-    
     return this.reqS.get(optionEndpoints.getOptions)
   }
   getLicenses(){
