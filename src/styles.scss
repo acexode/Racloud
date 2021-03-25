@@ -151,3 +151,9 @@ a {
   max-width: 382px;
   margin: 6.5rem auto;
 }
+
+@media (min-width: 992px){
+  .modal-lg, .modal-xl {
+      max-width: 992px !important;
+  }
+}
