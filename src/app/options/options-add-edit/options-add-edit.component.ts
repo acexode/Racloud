@@ -179,6 +179,7 @@ export class OptionsAddEditComponent implements OnInit {
   }
 
   deleteValue(index) {
+    console.log(this.valueLists.controls)
     this.valueLists.removeAt(index);
   }
   onChange(option, clk) {
@@ -218,7 +219,17 @@ export class OptionsAddEditComponent implements OnInit {
       optionType,
     }
     if(optionType === 'ValueList'){
-      obj.valueList = values.valueList
+      // obj.valueList = values.valueList
+      console.log(values.valueList)
+      const mList = values.valueList.map((val, i) =>{
+        return {
+          name: val.name,
+          value: (Math.pow(2,i)),
+          id: val.id
+        }
+      })
+      console.log(mList)
+      obj.valueList = mList
     }else if(optionType === 'Boolean'){
       obj.valueBoolean = bool
     }else{

@@ -65,13 +65,13 @@ export class ProductsComponent implements OnInit {
     ],
   });
   tableConfig: TableI = {
-    selectable: true,
     selectDetail: false,
     hoverDetail: true,
     loadingIndicator: true,
     columns: [],
     externalPaging: false,
     externalSorting: false,
+    removeExportBtn: true,
     action: true
   };
   modalRef: BsModalRef;
@@ -169,11 +169,11 @@ export class ProductsComponent implements OnInit {
   removeRow(data) {
     this.productS.deleteProducts(data.id).subscribe(
       _res => {
-        this.displayMsg('Product Successfully Removed','success');
+        this.displayMsg('Product Successfully Removed', 'success');
         this.getProducts();
       },
       err => {
-        this.displayMsg(err.error,'danger');
+        this.displayMsg(err.error, 'danger');
       }
     );
   }
@@ -200,7 +200,7 @@ export class ProductsComponent implements OnInit {
   resetTemporaryRowData() {
     this.temporaryRowData.next(null);
   };
-  displayMsg(msg, type){
+  displayMsg(msg, type) {
     this.msgS.addMessage({
       text: msg,
       type,
@@ -208,8 +208,8 @@ export class ProductsComponent implements OnInit {
       customClass: 'mt-32',
       hasIcon: true,
     });
-    setTimeout(()=> {
-      this.msgS.clearMessages()
-    },5000)
+    setTimeout(() => {
+      this.msgS.clearMessages();
+    }, 5000);
   }
 }

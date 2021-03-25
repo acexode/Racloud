@@ -1,5 +1,5 @@
+import { CustomStorageService } from './../../core/services/custom-storage/custom-storage.service';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -8,14 +8,15 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { PageContainerConfig } from 'src/app/shared/container/models/page-container-config.interface';
-import { omnBsConfig } from 'src/app/shared/date-picker/data/omn-bsConfig';
 import { TableFilterConfig } from 'src/app/shared/table/models/table-filter-config.interface';
 import { TableFilterType } from 'src/app/shared/table/models/table-filter-types';
 import { TableI } from 'src/app/shared/table/models/table.interface';
 import { TableService } from 'src/app/shared/table/services/table.service';
 import { LicenseServiceService } from '../license-service.service';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { get } from 'lodash';
 
 @Component({
   selector: 'app-licenses-listing',
@@ -51,6 +52,7 @@ export class LicensesListingComponent implements OnInit {
       body: 'no-shadow',
     },
   };
+  canBuy = false
   rows = [];
   showOwnLicenses = false;
   rowDetailIcons = [
@@ -66,169 +68,39 @@ export class LicensesListingComponent implements OnInit {
     externalSorting: false,
     loadingIndicator: true,
     action: true,
+    removeExportBtn: true,
   };
   fieldsPermission: any;
   actionPermission: any;
+  authS$: Subscription;
+  isFabricator: boolean;
+  isRoleUser: boolean;
 
   constructor(
     private tS: TableService,
-    private http: HttpClient,
     private router: Router,
+    private authS: AuthService,
     private ref: ChangeDetectorRef,
-    private service: LicenseServiceService
+    private service: LicenseServiceService,
+    private cStore: CustomStorageService
   ) { }
   ngOnInit(): void {
+    // check If Fabricator Or User
+    this.checkIfFabricatorOrUser();
+    // continue process
+    this.cStore.getItem('pagePermission').subscribe(page =>{
+      console.log(page)
+      this.canBuy = page.shop
+      console.log(this.canBuy)
+    });
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
-    this.tableConfig.columns = [
-      {
-        identifier: 'productName',
-        index: 1,
-        label: 'Product Name',
-        sortable: true,
-        minWidth: 240,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          placeholder: 'Search',
-        },
-      },
-      {
-        identifier: 'orderId',
-        index: 2,
-        label: 'Order ID',
-        sortable: true,
-        minWidth: 100,
-        sortIconPosition: 'left',
-        labelPosition: 'right',
-        cellContentPosition: 'right',
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true,
-        },
-      },
-      {
-        identifier: 'companyName',
-        index: 3,
-        label: 'Customer',
-        sortable: true,
-        minWidth: 250,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'left',
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true,
-        },
-      },
-      {
-        identifier: 'purchaseDate',
-        index: 4,
-        label: 'Purchased',
-        sortable: true,
-        minWidth: 160,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'left',
-        cellTemplate: this.purchaseTemplate,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true,
-        },
-      },
-      {
-        identifier: 'expirationDate',
-        index: 5,
-        label: 'Expires',
-        sortable: true,
-        minWidth: 100,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'left',
-        cellTemplate: this.expireTemplate,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true,
-        },
-      },
-      {
-        identifier: 'licenseStatus',
-        index: 6,
-        label: 'Status',
-        sortable: true,
-        minWidth: 100,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        cellTemplate: this.expiredIconTemplate,
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true,
-        },
-      },
-      {
-        identifier: 'isPartnerLicense',
-        index: 7,
-        label: 'Partner license',
-        sortable: true,
-        minWidth: 100,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'left',
-        cellTemplate: this.partnerLicenseTemplate,
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true,
-        },
-      },
-      {
-        identifier: 'renewByUserCompany',
-        index: 8,
-        label: 'Renew by User Company',
-        sortable: true,
-        minWidth: 136,
-        noGrow: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'left',
-        cellTemplate: this.renewByUserCompanyTemplate,
-        hasFilter: true,
-        filterConfig: {
-          data: null,
-          filterType: TableFilterType.TEXT,
-          noIcon: true,
-        },
-      },
-      {
-        identifier: 'action',
-        index: 9,
-        label: '',
-        sortable: true,
-        minWidth: 40,
-        noGrow: true,
-        headerHasFilterIcon: true,
-        sortIconPosition: 'right',
-        labelPosition: 'left',
-        cellContentPosition: 'right',
-        hasFilter: true,
-        cellTemplate: this.actionDropdown,
-      },
-    ];
     this.service.getLicenses().subscribe((data: any) => {
+      // load table columns
+      this.tableConfig.columns = this.getTableColumns(data.schema);
+      // this. loadTableData
       this.loadTableData(data);
     });
-  }
+  };
   loadTableData(data) {
     if (data) {
       const formattedData = data.licenses.map((e: any) => {
@@ -237,6 +109,7 @@ export class LicensesListingComponent implements OnInit {
           productName: e.product.name,
           companyName: e.company.companyName,
           customer: e.company.companyName,
+          status: e.licenseStatus,
         };
       });
       const filteredColumns = [];
@@ -297,6 +170,195 @@ export class LicensesListingComponent implements OnInit {
   manageSub(data: any) {
     this.router.navigate(['licenses/license-edit', { id: data.id }]);
   }
-
   renewSub(id: any) { }
+  get hasOwnLicense() {
+    if (this.isFabricator || this.isRoleUser) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  checkIfFabricatorOrUser() {
+    this.authS$ = this.authS.getAuthState().subscribe(e => {
+      const companyType = get(get(get(e, 'account', null), 'company', null), 'companyType', null);
+      const roles = get(get(e, 'account', null), 'roles', null);
+      if (companyType) {
+        if (companyType.toLowerCase() === 'fabricator') {
+          this.isFabricator = true;
+        }
+        if (roles.toLowerCase() === 'user') {
+          this.isRoleUser = true;
+        }
+      } else {
+        this.isFabricator = false;
+        this.isRoleUser = false;
+      }
+    });
+  }
+  getTableColumns(permission: any = this.actionPermission): Array<any> {
+    const action = {
+      identifier: 'action',
+      index: 9,
+      label: '',
+      sortable: true,
+      minWidth: 40,
+      noGrow: true,
+      headerHasFilterIcon: true,
+      sortIconPosition: 'right',
+      labelPosition: 'left',
+      cellContentPosition: 'right',
+      hasFilter: true,
+      cellTemplate: this.actionDropdown,
+    };
+    const columns = [
+      {
+        identifier: 'productName',
+        index: 1,
+        label: 'Product Name',
+        sortable: true,
+        minWidth: 360,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'right',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          placeholder: 'Search',
+        },
+      },
+      {
+        identifier: 'orderId',
+        index: 2,
+        label: 'Order ID',
+        sortable: true,
+        minWidth: 100,
+        sortIconPosition: 'left',
+        labelPosition: 'right',
+        cellContentPosition: 'right',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true,
+        },
+      },
+      {
+        identifier: 'customer',
+        index: 3,
+        label: 'Customer',
+        sortable: true,
+        minWidth: 200,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true,
+        },
+      },
+      {
+        identifier: 'purchaseDate',
+        index: 4,
+        label: 'Purchased',
+        sortable: true,
+        minWidth: 130,
+        noGrow: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
+        cellTemplate: this.purchaseTemplate,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true,
+        },
+      },
+      {
+        identifier: 'expirationDate',
+        index: 5,
+        label: 'Expires',
+        sortable: true,
+        minWidth: 100,
+        noGrow: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
+        cellTemplate: this.expireTemplate,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true,
+        },
+      },
+      {
+        identifier: 'status',
+        index: 6,
+        label: 'Status',
+        sortable: true,
+        minWidth: 100,
+        noGrow: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'right',
+        cellTemplate: this.expiredIconTemplate,
+        hasFilter: true,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true,
+        },
+      },
+      {
+        identifier: 'isPartnerLicense',
+        index: 7,
+        label: 'Partner license',
+        sortable: true,
+        minWidth: 100,
+        noGrow: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
+        cellTemplate: this.partnerLicenseTemplate,
+        hasFilter: true,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true,
+        },
+      },
+      {
+        identifier: 'renewByUserCompany',
+        index: 8,
+        label: 'Renew by User Company',
+        sortable: true,
+        minWidth: 136,
+        noGrow: true,
+        sortIconPosition: 'right',
+        labelPosition: 'left',
+        cellContentPosition: 'left',
+        cellTemplate: this.renewByUserCompanyTemplate,
+        hasFilter: true,
+        filterConfig: {
+          data: null,
+          filterType: TableFilterType.TEXT,
+          noIcon: true,
+        },
+      }
+    ];
+    const tempColumn = [];
+    const columnsPermission = get(permission, 'columns', null);
+    for (const columnKey in columnsPermission) {
+      if (columnsPermission[columnKey] === 'full' || columnsPermission[columnKey] === 'readonly') {
+        const d = columns.find(column => column.identifier.toLowerCase() === columnKey.toLowerCase());
+        if (d) {
+          tempColumn.push(d);
+        }
+      }
+    }
+    const actionPermission = get(permission, 'actions', null);
+    if (actionPermission.manageUpdate === 'full' && actionPermission.hasOwnProperty('manageUpdate')) {
+      tempColumn.push(action);
+    }
+    return tempColumn;
+  }
 }

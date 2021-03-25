@@ -288,11 +288,11 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
           this.componentForm.disable();
           this.ref.detectChanges();
         }
-      },err =>{
-        this.displayMsg(err.error, 'info')
-        setTimeout(()=>{
-          this.router.navigate(['/orders/'])
-        }, 5000)
+      }, err => {
+        this.displayMsg(err.error, 'info');
+        setTimeout(() => {
+          this.router.navigate(['/orders/']);
+        }, 5000);
       });
     }
   }
@@ -684,7 +684,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       identifier: 'application',
       label: 'Application',
       sortable: true,
-      minWidth: 280,
+      minWidth: 200,
       noGrow: true,
       sortIconPosition: 'right',
       labelPosition: 'left',
@@ -700,7 +700,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       identifier: 'um',
       label: 'UM?',
       sortable: true,
-      minWidth: 160,
+      minWidth: 100,
       noGrow: true,
       sortIconPosition: 'right',
       labelPosition: 'left',
