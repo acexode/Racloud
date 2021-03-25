@@ -46,6 +46,7 @@ export class LicensesTabComponent implements OnInit {
     externalPaging: false,
     externalSorting: false,
     loadingIndicator: true,
+    removeExportBtn: true,
     action: true
   };
   isDropup: boolean;
