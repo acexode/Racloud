@@ -1,13 +1,16 @@
 import { licenseEndpoints, customersEndpoints, optionEndpoints } from './../core/configs/endpoints';
 import { Injectable } from '@angular/core';
 import { RequestService } from '../core/services/request/request.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LicenseServiceService {
-
-  constructor(private reqS: RequestService) { }
+  optionStore: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  constructor(private reqS: RequestService) {
+    this.getAllOption()
+   }
 
   createOption(obj){
     return this.reqS.post(optionEndpoints.createOption,obj)
@@ -15,7 +18,14 @@ export class LicenseServiceService {
   updateOption(id, obj){
     return this.reqS.put(optionEndpoints.getOptions +'/'+id,obj)
   }
+  getAllOption(){
+    this.reqS.get(optionEndpoints.getOptions).toPromise().then((e:[]) =>{
+      console.log(e)
+      this.optionStore.next(e)
+    })
+  }
   getOption(){
+    
     return this.reqS.get(optionEndpoints.getOptions)
   }
   getLicenses(){

@@ -1,3 +1,5 @@
+import { CompanyTypes } from './../../core/enum/companyTypes';
+import { CustomStorageService } from './../../core/services/custom-storage/custom-storage.service';
 import { ProductServiceService } from './../../products/product-service.service';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
@@ -45,6 +47,8 @@ export class LicenseOptionsComponent implements OnInit {
   };
   access = ['Editable', 'Hidden', 'Read Only']
   rows = [];
+  companyType
+  userPermission
   rowValue = null;
   rowDetailIcons = [
     '../../assets/images/Edit.svg',
@@ -67,9 +71,17 @@ export class LicenseOptionsComponent implements OnInit {
     private footerS: FooterService,
     private http: HttpClient,
     private productS: ProductServiceService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private cStore: CustomStorageService,
   ) { }
   ngOnInit(): void {
+    this.cStore.getItem('token').subscribe(store =>{
+      console.log(store)
+      this.companyType = store.company.companyType
+      const role = store.roles[0]
+      this.userPermission = (role !== 'user' && this.companyType === 'Main') ? true : false;
+      console.log(this.userPermission)
+    })
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.selectDetailTemplate = this.selectDetailTemplate;
     // this.tableConfig.columns = [
@@ -157,6 +169,7 @@ export class LicenseOptionsComponent implements OnInit {
     ];
     const permission =  this.licenseOptionPermission
     const filteredColumns = []
+    console.log(this.optionList)
     for (const key in permission) {
       if (true) {
         const idx = columns.findIndex(col => col.tempFieldName === key)
@@ -176,6 +189,7 @@ export class LicenseOptionsComponent implements OnInit {
 
     // }
     this.tableConfig.columns = filteredColumns
+    console.log(this.optionList)
     if (this.optionList) {
       this.optionList = this.optionList.map(e => {
         if(e.OptionType === 'ValueList'){
@@ -200,6 +214,7 @@ export class LicenseOptionsComponent implements OnInit {
       this.tableData.next(cloneData);
       this.tableConfig.loadingIndicator = false;
     }
+    console.log(this.optionList)
     // this.getJSON().subscribe((data) => {
     // });
   }
