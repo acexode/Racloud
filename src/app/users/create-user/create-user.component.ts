@@ -334,11 +334,15 @@ export class CreateUserComponent implements OnInit {
         },
         err => {
           console.log('err: ', err);
+          this.displayMsg(err.error, 'danger')
         }
       );
     } else {
       this.service.createUser(user).subscribe(e => {
         this.router.navigate([this.backUrl]);
+      },err => {
+        console.log('err: ', err);
+        this.displayMsg(err.error, 'danger')
       });
     }
   }
