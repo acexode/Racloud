@@ -39,6 +39,7 @@
           <div class="row m-0 p-0">
             <div class="col-12 px-0 mb-14">
               <app-input
+              formControlName="orderNumber"
                 [config]="
                   inputConfig(
                     'Order Number',
@@ -50,7 +51,7 @@
                   )
                 "
               >
-                formControlName="orderNumber" ></app-input
+                </app-input
               >
             </div>
             <div class="col-12 px-0 mb-14">
@@ -594,6 +595,6 @@
   let-value="cellValue"
 >
   <div>
-    {{ row?.productType | truncate: 30 }}
+    {{ row?.productType | truncate: 20 }}
   </div>
 </ng-template>
