@@ -74,7 +74,8 @@ export class CustomerComponent implements OnInit, OnDestroy {
     externalPaging: false,
     externalSorting: false,
     loadingIndicator: true,
-    action: true
+    removeExportBtn: true,
+    action: true,
   };
   isDropup: boolean;
   customErrorMsg = 'There is an issue with your network. Please Refresh your network';
@@ -117,7 +118,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
         label: 'Name',
         sortable: true,
         minWidth: 280,
-        // width: 90,
         noGrow: true,
         filterConfig: {
           data: null,
@@ -131,7 +131,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
         label: 'Country',
         sortable: true,
         minWidth: 150,
-        // width: 100,
         sortIconPosition: 'right',
         labelPosition: 'left',
         cellContentPosition: 'right',
@@ -233,12 +232,12 @@ export class CustomerComponent implements OnInit, OnDestroy {
         this.loadCustomers();
       },
       err => {
-        this.displayMsg(err.error || this.customErrorMsg,'danger');
+        this.displayMsg(err.error || this.customErrorMsg, 'danger');
       }
     );
 
   };
-  displayMsg(msg, type){
+  displayMsg(msg, type) {
     this.msgS.addMessage({
       text: msg,
       type,
@@ -246,9 +245,9 @@ export class CustomerComponent implements OnInit, OnDestroy {
       customClass: 'mt-32',
       hasIcon: true,
     });
-    setTimeout(()=> {
-      this.msgS.clearMessages()
-    },5000)
+    setTimeout(() => {
+      this.msgS.clearMessages();
+    }, 5000);
   }
   loadCustomers(): void {
     this.loadCustomers$ = this.customerS.getCustomers().subscribe(
@@ -272,7 +271,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
                   filteredColumns.push(column);
                 }
               });
-            }else if(typeof this.fieldsPermission[key] === 'object'){
+            } else if (typeof this.fieldsPermission[key] === 'object') {
               this.tableConfig.columns.forEach(column => {
                 if (column.identifier === key) {
                   filteredColumns.push(column);
@@ -290,7 +289,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         }
       },
       err => {
-        this.displayMsg(err.error || this.customErrorMsg,'danger');
+        this.displayMsg(err.error || this.customErrorMsg, 'danger');
       }
     );
   };
@@ -313,7 +312,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
   removeRow(rData: any) {
     this.disableTheCustomer$ = this.customerS.disableCustomer(rData.id).subscribe(
       _res => {
-        this.displayMsg('Successfully disabled customer','danger');
+        this.displayMsg('Successfully disabled customer', 'danger');
         // reset resetTemporaryRowData
         this.resetTemporaryRowData();
         this.loadCustomers();
@@ -322,7 +321,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         // reset resetTemporaryRowData
         this.resetTemporaryRowData();
         // display msg
-        this.displayMsg(err.error || this.customErrorMsg,'danger');
+        this.displayMsg(err.error || this.customErrorMsg, 'danger');
       }
     );
   }
@@ -339,26 +338,26 @@ export class CustomerComponent implements OnInit, OnDestroy {
   confirm(): void {
     this.modalRef.hide();
     if (this.temporaryRowData.value) {
-      console.log(this.temporaryRowData.value)
-      this.customerS.deleteCustomer(this.temporaryRowData.value.id).subscribe(res =>{
+      console.log(this.temporaryRowData.value);
+      this.customerS.deleteCustomer(this.temporaryRowData.value.id).subscribe(res => {
         this.displayMsg(
           'Customer deleted sucessfully',
           'success',
-         );
-         this.loadCustomers()
+        );
+        this.loadCustomers();
       }, err => {
-        console.log(err)
+        console.log(err);
         this.displayMsg(
           err.error,
           'danger',
-         );
-      })
+        );
+      });
       // this.removeRow(this.temporaryRowData.value);
     } else {
       this.displayMsg(
         'Looks like there is a technical error. Please contact Engineer to resolve it (Error: 00RA2)',
         'danger',
-       );
+      );
     }
   }
   decline(): void {

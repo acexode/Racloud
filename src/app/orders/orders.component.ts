@@ -56,6 +56,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
     externalPaging: false,
     externalSorting: false,
     loadingIndicator: true,
+    removeExportBtn: true,
     action: true
   };
   routeData$: Subscription;
@@ -127,7 +128,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
       add: this.permissions?.actions.add === 'full' ? true : false,
       view: this.permissions?.actions.view === 'full' ? true : false,
       delete: this.permissions?.actions.delete === 'full' ? true : false,
-    }
+    };
   }
   getTableColumns(permission: any): Array<any> {
     const columns = [
@@ -286,7 +287,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
         'danger');
     }
   }
-  displayMsg(msg, type){
+  displayMsg(msg, type) {
     this.msgS.addMessage({
       text: msg,
       type,
@@ -294,9 +295,9 @@ export class OrdersComponent implements OnInit, OnDestroy {
       customClass: 'mt-32',
       hasIcon: true,
     });
-    setTimeout(()=> {
-      this.msgS.clearMessages()
-    },5000)
+    setTimeout(() => {
+      this.msgS.clearMessages();
+    }, 5000);
   }
   decline(): void {
     this.modalRef.hide();
