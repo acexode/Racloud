@@ -235,6 +235,7 @@ export class OptionTabComponent implements OnInit {
       }
       return obj
     })
+    // console.log(this.optionList)
     this.reInitData(this.optionList)
   }
   setUserAccess(row, access){

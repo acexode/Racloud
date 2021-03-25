@@ -115,7 +115,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
       this.isEdit = true;
       this.service.getOneLicense(id).subscribe((obj: any) => {
         const data = obj.license;
-        console.log(obj)
+        // console.log(obj)
         this.currentLicense = data;
         this.tabPermission = obj.schema.license.tabs;
         const filtered = [];
@@ -168,7 +168,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   }
   getOptions() {
     this.service.getOption().subscribe((options: any) => {
-      console.log(options)
+      // console.log(options)
       // const sorted = this.preselectedRows.sort((a,b)=> a.optionId > b.optionId ? 1 : (b.optionId > a.optionId) ? -1 : 0)
       this.optionList = options.map((obj: any) => {
         const index = this.preselectedRows.findIndex(idx => obj.Id === idx.optionId);
@@ -180,7 +180,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
           } else if (item.OptionType === 'String') {
             item.ValueString = this.preselectedRows[index].valueString;
           } else if (item.OptionType === 'ValueList') {
-            console.log(item)
+            // console.log(item)
             const arr = this.preselectedRows[index].valueListItems.map(v => {
               return {
                 Name: v.name,

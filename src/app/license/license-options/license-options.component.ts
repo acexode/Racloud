@@ -76,11 +76,9 @@ export class LicenseOptionsComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.cStore.getItem('token').subscribe(store =>{
-      console.log(store)
       this.companyType = store.company.companyType
       const role = store.roles[0]
       this.userPermission = (role !== 'user' && this.companyType === 'Main') ? true : false;
-      console.log(this.userPermission)
     })
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.selectDetailTemplate = this.selectDetailTemplate;
@@ -169,7 +167,7 @@ export class LicenseOptionsComponent implements OnInit {
     ];
     const permission =  this.licenseOptionPermission
     const filteredColumns = []
-    console.log(this.optionList)
+
     for (const key in permission) {
       if (true) {
         const idx = columns.findIndex(col => col.tempFieldName === key)
@@ -189,7 +187,6 @@ export class LicenseOptionsComponent implements OnInit {
 
     // }
     this.tableConfig.columns = filteredColumns
-    console.log(this.optionList)
     if (this.optionList) {
       this.optionList = this.optionList.map(e => {
         if(e.OptionType === 'ValueList'){
@@ -214,7 +211,6 @@ export class LicenseOptionsComponent implements OnInit {
       this.tableData.next(cloneData);
       this.tableConfig.loadingIndicator = false;
     }
-    console.log(this.optionList)
     // this.getJSON().subscribe((data) => {
     // });
   }
@@ -299,7 +295,7 @@ export class LicenseOptionsComponent implements OnInit {
     });
     this.productS.SetOptionList(data)
     this.tableData.next(cloneData);
-    this.ref.detectChanges()
+    this.ref.detectChanges();
   }
   onCheckValueBoolean($event, row){
     const checked = $event.target.checked

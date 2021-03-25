@@ -119,27 +119,62 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     });
     if (id) {
       this.isEdit = true;
-      this.productS.getProducts().subscribe((obj: any) => {
+      this.productS.getSingleProduct(id).subscribe((obj: any) => {
         this.productOptions = obj;
-        const data = obj.filter(e => e.id.toString() === id)[0];
-        this.product = data;
-        this.preselectedRows = data.productOptions;
-        this.updateForm(data);
+        // const data = obj.filter(e => e.id.toString() === id)[0];
+        // this.product = data;
+        this.preselectedRows = obj.ProductOptions;
+        const modifiedObj = {
+          applicationId: obj.Application.id,
+          name: obj.Name,
+          productType: obj.ProductType,
+          description: obj.Description,
+          productUrl: obj.ProductUrl,
+          productCode: obj.ProductCode
+        }
+        this.updateForm(modifiedObj);
+        this.getOptions()
       });
     } else {
       this.productS.getProducts().subscribe((obj: any) => {
         this.productOptions = obj;
       });
     }
+  }
+  getOptions(){
     this.service.getOption().subscribe((options: any) => {
       this.optionList = options.map((obj: any, idx) => {
-        const index = this.preselectedRows.findIndex(x => obj.Id === x.optionId);
+        const index = this.preselectedRows.findIndex(x => obj.Id === x.OptionId);
         if (index > -1) {
-          const item = options[idx];
+          const optIdx = options.findIndex(idx => idx.Id === this.preselectedRows[index].OptionId);
+          const item = options[optIdx];
+          if (item.OptionType === 'Boolean') {
+            item.ValueBoolean = this.preselectedRows[index].ValueBoolean;
+          } else if (item.OptionType === 'String') {
+            item.ValueString = this.preselectedRows[index].ValueString;
+          } else if (item.OptionType === 'ValueList') {
+            const arr = item.ValueList.map(val =>{
+              const presele = this.preselectedRows[index].ValueListItems
+              const pIndex = presele.findIndex(vx => vx.id === val.Id )
+              if(pIndex > -1){
+                return {
+                  ...val,
+                  optionSelected: true
+                };
+              }else{
+                return {
+                  ...val,
+                  optionSelected: false
+                };
+              }
+            })
+            item.ValueList = arr;
+
+          }
           return {
             ...item,
-            PartnerAccess: this.preselectedRows[index].partnerAccess,
-            UserAccess: this.preselectedRows[index].userAccess,
+            PartnerAccess: this.preselectedRows[index].PartnerAccess,
+            UserAccess: this.preselectedRows[index].UserAccess,
             selected: true
           };
         } else {
@@ -161,8 +196,8 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
       name: data.name,
       productType: data.productType,
       description: data.description,
-      productUrl: get(data, 'productUrl', ''),
-      productCode: get(data, 'productCode', ''),
+      productUrl: data.productUrl,
+      productCode: data.productCode
     });
     this.selectedproductType = data.productType;
     this.selectedapplicationId = parseInt(data.applicationId, 10);
@@ -319,8 +354,8 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     }
   }
   getRow(row) {
-    this.selectedRows = row.selected;
-    this.updateList(row.selected);
+    this.selectedRows = row.selected
+    // this.updateList(row.selected);
   }
   displayMsg(msg, type) {
     this.msgS.addMessage({
@@ -335,7 +370,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     }, 5000);
   }
   updateList(preselected: any) {
-    this.resetPriceList();
+    this.resetPriceList()
     preselected.forEach((dd: any) => {
       const idx = this.optionList.findIndex(x => x.Id === dd.Id);
       if (idx > -1) {
