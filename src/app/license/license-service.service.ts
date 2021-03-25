@@ -21,6 +21,9 @@ export class LicenseServiceService {
   getOption(){
     return this.reqS.get(optionEndpoints.getOptions)
   }
+  getAllOption(){
+    return this.reqS.get(optionEndpoints.getOptions)
+  }
   getLicenses(){
     return this.reqS.get(licenseEndpoints.getLicenses)
   }
