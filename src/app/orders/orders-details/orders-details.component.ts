@@ -822,7 +822,7 @@ export class OrdersDetailsComponent implements OnInit, OnDestroy {
       }
     }
     tempColumn.unshift(applicationColumn);
-    tempColumn.splice(2, 0, umColumn);
+    // tempColumn.splice(2, 0, umColumn);
     /*  && !this.gridColumnsIsTotallyReadonly */
     if (tempColumn.length !== 0) {
       tempColumn.push(action);
