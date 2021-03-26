@@ -146,7 +146,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
       this.optionList = options.map((obj: any, idx) => {
         const index = this.preselectedRows.findIndex(x => obj.Id === x.OptionId);
         if (index > -1) {
-          const optIdx = options.findIndex(idx => idx.Id === this.preselectedRows[index].OptionId);
+          const optIdx = options.findIndex(opt => opt.Id === this.preselectedRows[index].OptionId);
           const item = options[optIdx];
           if (item.OptionType === 'Boolean') {
             item.ValueBoolean = this.preselectedRows[index].ValueBoolean;
