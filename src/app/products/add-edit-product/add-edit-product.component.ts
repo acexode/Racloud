@@ -191,6 +191,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         }
       });
       this.selectedRows = this.optionList.filter(op => op.selected === true);
+      const sorted = this.optionList.sort((a, b) => b.selected - a.selected);
       this.setTab('Info');
     });
   }
@@ -298,7 +299,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
         if (item.OptionType === 'ValueList') {
           const valueItems = [];
           item.ValueList.forEach(x => {
-            if (x.selected) {
+            if (x.optionSelected) {
               valueItems.push({
                 id: x.Id
               });
@@ -338,13 +339,15 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
       this.productS.updateProducts(id, productValues).subscribe(e => {
         this.isLoading = false;
         this.displayMsg('Product updated successfully', 'success');
-        // this.router.navigate(['products']);
+        const sorted = this.optionList.sort((a, b) => b.selected - a.selected);
+        this.setTab('info')
       });
     } else {
       productValues.selectedOptions = resArr;
       this.productS.createProducts(productValues).subscribe(e => {
         this.isLoading = false;
         this.displayMsg('Product saved successfully', 'success');
+        const sorted = this.optionList.sort((a, b) => b.selected - a.selected);
       });
     }
   }

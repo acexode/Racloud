@@ -22,7 +22,11 @@
     <div class="line-h1 rc-secondary-bg mt-24 mb-39"></div>
 
     <div class="w-80p pt-40">
-      <form [formGroup]="userForm" class="row no-gutters">
+      <form
+        [formGroup]="userForm"
+        class="row no-gutters"
+        (submit)="updateProfile()"
+      >
         <div class="col-12 px-0">
           <div class="col-12 px-0">
             <span class="personal-details">Personal Details</span>
@@ -31,7 +35,13 @@
             <div class="col-4 pr-16">
               <app-input
                 [config]="
-                  inputConfig('First Name', 'text', 'Type Here', false, true)
+                  inputConfig(
+                    'First Name',
+                    'text',
+                    'Type Here',
+                    false,
+                    isNotEditMode
+                  )
                 "
                 formControlName="firstName"
               ></app-input>
@@ -39,7 +49,13 @@
             <div class="col-4 px-16">
               <app-input
                 [config]="
-                  inputConfig('Last Name', 'text', 'Type Here', false, true)
+                  inputConfig(
+                    'Last Name',
+                    'text',
+                    'Type Here',
+                    false,
+                    isNotEditMode
+                  )
                 "
                 formControlName="lastName"
               ></app-input>
@@ -47,7 +63,13 @@
             <div class="col-4 pl-16">
               <app-input
                 [config]="
-                  inputConfig('Email', 'text', 'Type Here', false, true)
+                  inputConfig(
+                    'Email',
+                    'text',
+                    'Type Here',
+                    false,
+                    isNotEditMode
+                  )
                 "
                 formControlName="email"
               ></app-input>
@@ -96,7 +118,7 @@
                 </label>
                 <select
                   [disabled]="disableCustomerSelectField"
-                  formcontrolname="companyId"
+                  formcontrolname="roleId"
                 >
                   <option [value]="roleId">
                     {{ roleLabel }}
@@ -106,17 +128,46 @@
             </div>
           </div>
         </div>
-      </form>
-    </div>
+        <div class="w-100">
+          <div
+            class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-between"
+          >
+            <div class="d-flex">
+              <app-button
+                type="button"
+                color="primary"
+                (buttonClickEvent)="editProfile()"
+                *ngIf="isNotEditMode"
+              >
+                Edit
+              </app-button>
+            </div>
 
-    <div class="w-80p">
-      <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-between">
-        <div class="d-flex">
-          <app-button type="button" color="primary" (click)="routeToUserEdit()">
-            Edit
-          </app-button>
+            <div>
+              <app-button
+                type="submit"
+                color="secondary"
+                class="mr-10"
+                *ngIf="!isNotEditMode"
+                [disabled]="isLoading"
+                (buttonClickEvent)="cancleProfileEditing()"
+              >
+                Cancle
+              </app-button>
+
+              <app-button
+                type="submit"
+                color="primary"
+                *ngIf="!isNotEditMode"
+                [disabled]="isLoading"
+              >
+                <app-loader type="button" *ngIf="isLoading"></app-loader>
+                <span *ngIf="!isLoading"> Update </span>
+              </app-button>
+            </div>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </app-page-container>

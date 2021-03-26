@@ -7,6 +7,7 @@ import { PageContainerConfig } from 'src/app/shared/container/models/page-contai
 import { InputConfig } from 'src/app/shared/rc-forms/models/input/input-config';
 import { SelectConfig } from 'src/app/shared/rc-forms/models/select/select-config';
 import { LicenseServiceService } from '../license-service.service';
+import { MessagesService } from 'src/app/shared/messages/services/messages.service';
 
 @Component({
   selector: 'app-license-edit',
@@ -70,12 +71,15 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
   fieldsPermission: any;
   licenseOptionPermission: any;
   licenseOptionAction: any;
+  licenseID: any;
   actionPermission: any;
   tabPermission: any;
+  isLoading: boolean;
   constructor(private fb: FormBuilder, private cdref: ChangeDetectorRef,
     private service: LicenseServiceService,
     private router: Router,
     private authS: AuthService,
+    private msgS: MessagesService,
     private http: HttpClient, private route: ActivatedRoute,) { }
   inputConfig(
     label: string,
@@ -105,66 +109,69 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     };
   }
   ngOnInit(): void {
-    const id = parseInt(this.route.snapshot.paramMap.get('id'), 10)
+    this.licenseID = parseInt(this.route.snapshot.paramMap.get('id'), 10)
     const customerId = parseInt(this.route.snapshot.paramMap.get('customerId'), 10)
     if(customerId){
       this.backUrl = '/customer/manage/' + customerId + '/tab/license'
     }
     this.initForm();
-    if (id) {
+    if (this.licenseID) {
       this.isEdit = true;
-      this.service.getOneLicense(id).subscribe((obj: any) => {
-        const data = obj.license;
-        // console.log(obj)
-        this.currentLicense = data;
-        this.tabPermission = obj.schema.license.tabs;
-        const filtered = [];
-        for (const key in this.tabPermission) {
-          if (this.tabPermission[key] === 'full') {
-            this.tabs.forEach(tab => {
-              if (tab.shortName === key) {
-                filtered.push(tab);
-              }
-            });
-          }
-        }
-        this.tabs = [this.tabs[0], ...filtered];
-        this.fieldsPermission = obj.schema.license.fields;
-
-        // to be replaced with BE
-        this.licenseOptionPermission = obj.schema.options.fields;
-
-        this.licenseOptionAction = obj.schema.options.actions;
-        this.actionPermission = obj.schema.license.actions;
-        this.service.getCompanyUsers(data.companyId).subscribe((users: any) => {
-          this.companyUsers = users.map(user => user.user);
-        });
-        this.preselectedRows = data?.licenseOptions;
-        this.getOptions();
-        const selectedP = data.isPartnerLicense ? 'Yes' : 'No';
-        const selectedR = data.renewByUserCompany ? 'Yes' : 'No';
-        const isAssigned = data.iAssigned ? 'Yes' : 'No';
-        this.selectedPartnerLicenseBtn = this.setBoolean(selectedP);
-        this.selectedRenewBtn = this.setBoolean(selectedR);
-        const exp = new Date(data.expirationDate).toLocaleDateString();
-        const purchase = new Date(data.purchaseDate).toLocaleDateString();
-        this.savedCompanyUserId = data.user?.userId;
-        this.infoForm.patchValue({
-          productName: data.product.name,
-          partner: data.ispartnerLicense,
-          purchased: purchase,
-          customer: data.company.companyName,
-          expires: exp,
-          userId: this.savedCompanyUserId,
-          renew: data.renewByUserCompany,
-          isAssigned,
-          userCompany: data.companyUser || '',
-        });
-        this.currentLicenseCompany = data.company.companyName
-        this.onChange(data.licenseStatus);
-        this.cdref.detectChanges();
-      });
+      this.loadLicense(this.licenseID)
     }
+  }
+  loadLicense(id){
+    this.service.getOneLicense(id).subscribe((obj: any) => {
+      const data = obj.license;
+      // console.log(obj)
+      this.currentLicense = data;
+      this.tabPermission = obj.schema.license.tabs;
+      const filtered = [];
+      for (const key in this.tabPermission) {
+        if (this.tabPermission[key] === 'full') {
+          this.tabs.forEach(tab => {
+            if (tab.shortName === key) {
+              filtered.push(tab);
+            }
+          });
+        }
+      }
+      this.tabs = [this.tabs[0], ...filtered];
+      this.fieldsPermission = obj.schema.license.fields;
+
+      // to be replaced with BE
+      this.licenseOptionPermission = obj.schema.options.fields;
+
+      this.licenseOptionAction = obj.schema.options.actions;
+      this.actionPermission = obj.schema.license.actions;
+      this.service.getCompanyUsers(data.companyId).subscribe((users: any) => {
+        this.companyUsers = users.map(user => user.user);
+      });
+      this.preselectedRows = data?.licenseOptions;
+      this.getOptions();
+      const selectedP = data.isPartnerLicense ? 'Yes' : 'No';
+      const selectedR = data.renewByUserCompany ? 'Yes' : 'No';
+      const isAssigned = data.iAssigned ? 'Yes' : 'No';
+      this.selectedPartnerLicenseBtn = this.setBoolean(selectedP);
+      this.selectedRenewBtn = this.setBoolean(selectedR);
+      const exp = new Date(data.expirationDate).toLocaleDateString();
+      const purchase = new Date(data.purchaseDate).toLocaleDateString();
+      this.savedCompanyUserId = data.user?.userId;
+      this.infoForm.patchValue({
+        productName: data.product.name,
+        partner: data.ispartnerLicense,
+        purchased: purchase,
+        customer: data.company.companyName,
+        expires: exp,
+        userId: this.savedCompanyUserId,
+        renew: data.renewByUserCompany,
+        isAssigned,
+        userCompany: data.companyUser || '',
+      });
+      this.currentLicenseCompany = data.company.companyName
+      this.onChange(data.licenseStatus);
+      this.cdref.detectChanges();
+    });
   }
   getOptions() {
     this.service.getOption().subscribe((options: any) => {
@@ -172,7 +179,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
       // const sorted = this.preselectedRows.sort((a,b)=> a.optionId > b.optionId ? 1 : (b.optionId > a.optionId) ? -1 : 0)
       this.optionList = options.map((obj: any) => {
         const index = this.preselectedRows.findIndex(idx => obj.Id === idx.optionId);
-        if (index > -1) {
+         if (index > -1) {
           const optIdx = options.findIndex(idx => idx.Id === this.preselectedRows[index].optionId);
           const item = options[optIdx];
           if (item.OptionType === 'Boolean') {
@@ -180,14 +187,21 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
           } else if (item.OptionType === 'String') {
             item.ValueString = this.preselectedRows[index].valueString;
           } else if (item.OptionType === 'ValueList') {
-            // console.log(item)
-            const arr = this.preselectedRows[index].valueListItems.map(v => {
-              return {
-                Name: v.name,
-                Value: v.value,
-                Id: v.id
-              };
-            });
+            const arr = item.ValueList.map(val =>{
+              const presele = this.preselectedRows[index].valueListItems
+              const pIndex = presele.findIndex(vx => vx.id === val.Id )
+              if(pIndex > -1){
+                return {
+                  ...val,
+                  optionSelected: true
+                };
+              }else{
+                return {
+                  ...val,
+                  optionSelected: false
+                };
+              }
+            })
             item.ValueList = arr;
           }
           return {
@@ -196,7 +210,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
             UserAccess: this.preselectedRows[index].userAccess,
             selected: true
           };
-        } else {
+         } else {
           return {
             ...obj,
             UserAccess: 'Hidden',
@@ -339,11 +353,13 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
 
   }
   submitForm() {
+    this.isLoading = true;
     const id = this.route.snapshot.paramMap.get('id');
     const values = this.infoForm.value;
     const selectedP = values.partner === 'Yes' ? true : false;
     const selectedR = values.renew === 'Yes' ? true : false;
     const resArr = [];
+    console.log(this.selectedRows)
     this.selectedRows.reverse().filter(item => {
       const i = resArr.findIndex(x => x.optionId === item.Id);
       if (i <= -1) {
@@ -355,7 +371,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         if (item.OptionType === 'ValueList') {
           const valueItems = [];
           item.ValueList.forEach(x => {
-            if (x.selected) {
+            if (x.optionSelected) {
               valueItems.push({
                 id: x.Id
               });
@@ -398,7 +414,11 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
         licenseOptions: resArr
       };
       this.service.updateLicense(id, editObj).subscribe(e => {
-        this.router.navigate(['licenses']);
+        // this.router.navigate(['licenses']);
+        this.isLoading = false;
+        this.loadLicense(this.licenseID)
+        this.displayMsg('License updated successfully', 'success');
+        this.setTab('info')
       });
     }
   }
@@ -410,6 +430,31 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
       return false;
     } else {
       return true;
+    }
+  }
+  displayMsg(msg, type) {
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(() => {
+      this.msgS.clearMessages();
+    }, 5000);
+  }
+  setTab(tabName: any) {
+    const tabIndex = this.tabs.findIndex(tab => tab.name.toLowerCase() === tabName.toLowerCase());
+    this.ressetTabSelectStatus();
+    if (tabIndex > -1) {
+      const tab = this.tabs[tabIndex].template;
+      this.tabSwitch = this[tab];
+      this.tabs[tabIndex].defaultSelected = true;
+      this.tabs[tabIndex].isSelected = true;
+    } else {
+      this.tabs[0].defaultSelected = true;
+      this.tabs[0].isSelected = true;
     }
   }
 

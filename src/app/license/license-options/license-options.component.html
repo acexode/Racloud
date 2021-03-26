@@ -74,7 +74,7 @@
         <!-- <a (click)="setDropUp(row)" id="button-basic" dropdownToggle type="button" class="a-ellipse text"                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                     {{toString(value)}}                 </a> -->
         <div class="d-flex justify-content-between w-100"> <a (click)="setDropUp(row)" id="button-basic" dropdownToggle
             type="button" class="text-dark a-ellipse" id="dropdownMenuButton" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false"> <span class="text"> {{toString(row.ValueList)}}{{row.ValueList.length}}</span> </a> <img
+            aria-haspopup="true" aria-expanded="false"> <span class="text"> {{row.displayValue}}</span> </a> <img
             *ngIf="rowValue != row" src="assets/images/chevron.svg" alt="expired-icon" class="chevron" /> <img
             *ngIf="rowValue == row" src="assets/images/Chevron-red.svg" alt="expired-icon" class="chevron" /> </div>
         <ul aria-labelledby="dropdownMenuButton" *dropdownMenu class="dropdown-menu" role="menu"
@@ -82,10 +82,10 @@
           <table class="w-100">
             <tbody class="w-100">
               <tr *ngFor="let val of row.ValueList" class="tables-cell8">
-                <td *ngIf="val.selected"> <label class="container"> <input type="checkbox" [value]="val.Name"
+                <td *ngIf="val.optionSelected"> <label class="container"> <input type="checkbox" [value]="val.Name"
                       (change)="onCheckValueList($event, row, val.Id)" checked="checked"> <span
                       class="checkmark"></span> </label> </td>
-                <td *ngIf="!val.selected"> <label class="container"> <input type="checkbox" [value]="val.Name"
+                <td *ngIf="!val.optionSelected"> <label class="container"> <input type="checkbox" [value]="val.Name"
                       (change)="onCheckValueList($event, row, val.Id)"> <span class="checkmark"></span> </label> </td>
                 <td style="width:427px;">{{val.Name}}</td>
               </tr>

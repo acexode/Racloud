@@ -188,10 +188,11 @@ export class LicenseOptionsComponent implements OnInit {
     // }
     this.tableConfig.columns = filteredColumns
     if (this.optionList) {
+      console.log(this.optionList)
       this.optionList = this.optionList.map(e => {
         if(e.OptionType === 'ValueList'){
           const filt = e.ValueList.filter(f => f.optionSelected)
-          const displayValue =  e.ValueList.map(e => e.Name).slice(0,3).join(', ');
+          const displayValue =  filt.map(e => e.Name).slice(0,3).join(', ');
           console.log(filt)
           if(filt.length){
             e.displayValue = displayValue
@@ -319,6 +320,7 @@ export class LicenseOptionsComponent implements OnInit {
   }
   onCheckValueList($event, row, valueId){
     const checked = $event.target.checked
+    console.log(checked)
     this.optionList = this.optionList.map(e => {
       if(e.Id === row.Id){
         if(e.OptionType === 'ValueList'){
@@ -338,6 +340,7 @@ export class LicenseOptionsComponent implements OnInit {
           }else{
             e.displayValue = 'No value selected'
           }
+          console.log(arrObj)
           return {
             ...e,
             selected: true,
@@ -349,6 +352,7 @@ export class LicenseOptionsComponent implements OnInit {
       return e
     })
     this.reInitData(this.optionList)
+    this.ref.detectChanges()
   }
   updateValue(event, cell, rowIndex) {
     const idx = this.optionList.findIndex(e => e.Id === rowIndex);
