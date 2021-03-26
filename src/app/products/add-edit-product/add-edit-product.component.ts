@@ -153,15 +153,19 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
           } else if (item.OptionType === 'String') {
             item.ValueString = this.preselectedRows[index].ValueString;
           } else if (item.OptionType === 'ValueList') {
+            const displayValue =   item.ValueList.map(e => e.Name).slice(0,3).join(', ');
             const arr = item.ValueList.map(val =>{
+             console.log(val)
               const presele = this.preselectedRows[index].ValueListItems
               const pIndex = presele.findIndex(vx => vx.id === val.Id )
+              console.log(pIndex)
               if(pIndex > -1){
                 return {
                   ...val,
                   optionSelected: true
                 };
-              }else{
+              }else if(pIndex < 0){
+                console.log('not selected')
                 return {
                   ...val,
                   optionSelected: false
@@ -331,26 +335,17 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     if (this.isEdit) {
       productValues.productOptions = resArr;
       productValues.id = id;
-      if (resArr.length === 0) {
+      this.productS.updateProducts(id, productValues).subscribe(e => {
         this.isLoading = false;
-        this.displayMsg('Options must be selected', 'info');
-      } else {
-        this.productS.updateProducts(id, productValues).subscribe(e => {
-          this.isLoading = false;
-          this.router.navigate(['products']);
-        });
-      }
+        this.displayMsg('Product updated successfully', 'success');
+        // this.router.navigate(['products']);
+      });
     } else {
       productValues.selectedOptions = resArr;
-      if (resArr.length === 0) {
+      this.productS.createProducts(productValues).subscribe(e => {
         this.isLoading = false;
-        this.displayMsg('Options must be selected', 'info');
-      } else {
-        this.productS.createProducts(productValues).subscribe(e => {
-          this.isLoading = false;
-          this.router.navigate(['products']);
-        });
-      }
+        this.displayMsg('Product saved successfully', 'success');
+      });
     }
   }
   getRow(row) {

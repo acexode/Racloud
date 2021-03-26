@@ -190,6 +190,14 @@ export class LicenseOptionsComponent implements OnInit {
     if (this.optionList) {
       this.optionList = this.optionList.map(e => {
         if(e.OptionType === 'ValueList'){
+          const filt = e.ValueList.filter(f => f.optionSelected)
+          const displayValue =  e.ValueList.map(e => e.Name).slice(0,3).join(', ');
+          console.log(filt)
+          if(filt.length){
+            e.displayValue = displayValue
+          }else{
+            e.displayValue = 'No value selected'
+          }
           const arrObj = e.ValueList.map(val => {
             return {
               ...val,
@@ -302,6 +310,7 @@ export class LicenseOptionsComponent implements OnInit {
     this.checkedValueList = this.optionList.map(obj => {
       if(obj.Id === row.Id){
         obj.ValueBoolean = checked
+        obj.selected = checked
         return obj
       }
       return obj
@@ -316,11 +325,22 @@ export class LicenseOptionsComponent implements OnInit {
           const arrObj = e.ValueList.map(val => {
             if(val.Id === valueId){
               val.selected = checked
+              val.optionSelected = checked
             }
             return val
           })
+          console.log(arrObj)
+          const filt = arrObj.filter(f => f.optionSelected)
+          const displayValue =  filt.map(e => e.Name).slice(0,3).join(', ');
+          console.log(filt)
+          if(filt.length){
+            e.displayValue = displayValue
+          }else{
+            e.displayValue = 'No value selected'
+          }
           return {
             ...e,
+            selected: true,
             ValueList: arrObj
           }
         }
@@ -334,6 +354,7 @@ export class LicenseOptionsComponent implements OnInit {
     const idx = this.optionList.findIndex(e => e.Id === rowIndex);
     this.editing[rowIndex + '-' + cell] = false;
     this.optionList[idx][cell] = event.target.value;
+    this.optionList[idx].selected = true
     this.optionList = [...this.optionList];
     this.reInitData(this.optionList)
   }
