@@ -66,6 +66,7 @@ export const userEndpoints = {
   impersonate: serverBaseUrl + '/auth/impersonate',
   stopImpersonate: serverBaseUrl + '/auth/stop-impersonate',
   profile: baseEndpoints.user + '/profile',
+  updateProfile: baseEndpoints.user + '/profile/update',
 };
 export const roleEndpoints = {
   getRoles: serverBaseUrl + '/roles',

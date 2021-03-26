@@ -5,6 +5,7 @@ import { Observable, forkJoin, BehaviorSubject } from 'rxjs';
 import { CustomStorageService } from '../core/services/custom-storage/custom-storage.service';
 import { distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 import { UserPagePermissions, UserPagePermissionsModel } from '../core/permission/user/user.page.permission.interface';
+import { UserProfileUpdateModel } from './models/update-user-model';
 
 @Injectable({
   providedIn: 'root'
@@ -102,5 +103,8 @@ export class UsersService {
   }
   getUserProfile() {
     return this.reqS.get(userEndpoints.profile);
+  }
+  updateUserProfile(data: UserProfileUpdateModel) {
+    return this.reqS.put<UserProfileUpdateModel>(userEndpoints.updateProfile, data);
   }
 }

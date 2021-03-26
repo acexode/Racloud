@@ -1,124 +1,332 @@
-<ng-container *ngIf="
-        {
-            countryOptions: countryOptions$ | async, 
-            customerParentOptions: customerParentOptions$ | async, 
-            languageOptions: languageOptions$ | async,
-            priceListOptions: priceListOptions$ | async
-        } 
-        as optionData">
-  <form [formGroup]="componentForm" class="row no-gutters" (submit)="getValue()">
-
+<ng-container
+  *ngIf="{
+    countryOptions: countryOptions$ | async,
+    customerParentOptions: customerParentOptions$ | async,
+    languageOptions: languageOptions$ | async,
+    priceListOptions: priceListOptions$ | async
+  } as optionData"
+>
+  <form
+    [formGroup]="componentForm"
+    class="row no-gutters"
+    (submit)="getValue()"
+  >
     <div class="col-12 col-md-3 px-0 pr-0 py-0 pr-md-16 m-0">
-
-      <div *ngIf="setDisplay(fieldsPermission?.parent.companyName)" class="col-12 mb-14 m-0 p-0">
+      <div
+        *ngIf="setDisplay(fieldsPermission?.parent.companyName)"
+        class="col-12 mb-14 m-0 p-0"
+      >
         <app-input
-          [config]="inputConfig('Name', 'text', 'Type Here', false, fieldsPermission?.parent.companyName === 'readonly', theFormControl.companyName)"
-          formControlName="companyName"></app-input>
+          [config]="
+            inputConfig(
+              'Name',
+              'text',
+              'Type Here',
+              false,
+              fieldsPermission?.parent.companyName === 'readonly',
+              theFormControl.companyName
+            )
+          "
+          formControlName="companyName"
+        ></app-input>
       </div>
 
-      <div *ngIf="setDisplay(fieldsPermission?.firstName)" class="col-12 mb-14 m-0 p-0">
+      <div
+        *ngIf="setDisplay(fieldsPermission?.firstName)"
+        class="col-12 mb-14 m-0 p-0"
+      >
         <app-input
-          [config]="inputConfig('Contact person first name','text', 'Type Here', false, fieldsPermission?.firstName === 'readonly', theFormControl.firstName)"
-          formControlName="firstName"></app-input>
+          [config]="
+            inputConfig(
+              'Contact person first name',
+              'text',
+              'Type Here',
+              false,
+              fieldsPermission?.firstName === 'readonly',
+              theFormControl.firstName
+            )
+          "
+          formControlName="firstName"
+        ></app-input>
       </div>
 
-      <div *ngIf="setDisplay(fieldsPermission?.lastName)" class="col-12 mb-14 m-0 p-0">
+      <div
+        *ngIf="setDisplay(fieldsPermission?.lastName)"
+        class="col-12 mb-14 m-0 p-0"
+      >
         <app-input
-          [config]="inputConfig('Contact person last name', 'text', 'Type Here', false, fieldsPermission?.lastName === 'readonly', theFormControl.lastName)"
-          formControlName="lastName"></app-input>
+          [config]="
+            inputConfig(
+              'Contact person last name',
+              'text',
+              'Type Here',
+              false,
+              fieldsPermission?.lastName === 'readonly',
+              theFormControl.lastName
+            )
+          "
+          formControlName="lastName"
+        ></app-input>
       </div>
 
-      <div *ngIf="setDisplay(fieldsPermission?.companyType)" class="col-12 mb-14 m-0 p-0">
+      <div
+        *ngIf="setDisplay(fieldsPermission?.companyType)"
+        class="col-12 mb-14 m-0 p-0"
+      >
         <app-select
-          [config]="selectConfig('Type', 'Select Type', true, 'id', 'option', fieldsPermission?.companyType === 'readonly', theFormControl.companyType)"
-          formControlName="companyType" [options]="typeOptions"></app-select>
+          [config]="
+            selectConfig(
+              'Type',
+              'Select Type',
+              true,
+              'id',
+              'option',
+              fieldsPermission?.companyType === 'readonly',
+              theFormControl.companyType
+            )
+          "
+          formControlName="companyType"
+          [options]="typeOptions"
+        ></app-select>
       </div>
-
     </div>
 
     <div class="col-12 col-md-3 px-0 px-md-16 m-0">
-      <div *ngIf="setDisplay(fieldsPermission?.priceList.id)" class="col-12 mx-0 p-0 mb-14">
+      <div
+        *ngIf="setDisplay(fieldsPermission?.priceList.id)"
+        class="col-12 mx-0 p-0 mb-14"
+      >
         <app-select
-          [config]="selectConfig('Price List', priceListPlaceHolder, true, 'id', 'name', !isAdmin || fieldsPermission?.priceList.id === 'readonly', theFormControl.priceListId)"
-          formControlName="priceListId" [options]="optionData.priceListOptions"></app-select>
+          [config]="
+            selectConfig(
+              'Price List',
+              priceListPlaceHolder,
+              true,
+              'id',
+              'name',
+              !isAdmin || fieldsPermission?.priceList.id === 'readonly',
+              theFormControl.priceListId
+            )
+          "
+          formControlName="priceListId"
+          [options]="optionData.priceListOptions"
+        ></app-select>
       </div>
 
-      <div *ngIf="setDisplay(fieldsPermission?.parent.id)" class="col-12 mx-0 p-0 mb-14">
+      <div
+        *ngIf="setDisplay(fieldsPermission?.parent.id)"
+        class="col-12 mx-0 p-0 mb-14"
+      >
         <app-select
-          [config]="selectConfig('Parent', 'Select Parent', true, 'id', 'companyName',fieldsPermission?.parent.id === 'readonly', theFormControl.parentId)"
-          formControlName="parentId" [options]="optionData.customerParentOptions"></app-select>
+          [config]="
+            selectConfig(
+              'Parent',
+              'Select Parent',
+              true,
+              'id',
+              'companyName',
+              fieldsPermission?.parent.id === 'readonly',
+              theFormControl.parentId
+            )
+          "
+          formControlName="parentId"
+          [options]="optionData.customerParentOptions"
+        ></app-select>
       </div>
 
-      <div *ngIf="setDisplay(fieldsPermission?.address)" class="col-12 mb-6 m-0 p-0">
-        <app-textarea [config]="textAreaConfig(fieldsPermission?.address === 'readonly', theFormControl.address)"
-          formControlName="address" id="address">
+      <div
+        *ngIf="setDisplay(fieldsPermission?.address)"
+        class="col-12 mb-6 m-0 p-0"
+      >
+        <app-textarea
+          [config]="
+            textAreaConfig(
+              fieldsPermission?.address === 'readonly',
+              theFormControl.address
+            )
+          "
+          formControlName="address"
+          id="address"
+        >
         </app-textarea>
       </div>
-
     </div>
 
-
     <div class="col-12 col-md-3 px-0 px-md-16 m-0">
-      <div *ngIf="setDisplay(fieldsPermission?.language)" class="col-12 mb-14 m-0 p-0">
+      <div
+        *ngIf="setDisplay(fieldsPermission?.language)"
+        class="col-12 mb-14 m-0 p-0"
+      >
         <app-select
-          [config]="selectConfig('Language', 'Select Language', true, 'id', 'option', fieldsPermission?.language === 'readonly', theFormControl.language)"
-          formControlName="language" [options]="optionData.languageOptions"></app-select>
+          [config]="
+            selectConfig(
+              'Language',
+              'Select Language',
+              true,
+              'id',
+              'option',
+              fieldsPermission?.language === 'readonly',
+              theFormControl.language
+            )
+          "
+          formControlName="language"
+          [options]="optionData.languageOptions"
+        ></app-select>
       </div>
 
-      <div *ngIf="setDisplay(fieldsPermission?.country)" class="col-12 mb-14 m-0 p-0">
+      <div
+        *ngIf="setDisplay(fieldsPermission?.country)"
+        class="col-12 mb-14 m-0 p-0"
+      >
         <app-select
-          [config]="selectConfig('Country', 'Select Country', true, 'code', 'name', fieldsPermission?.country === 'readonly', theFormControl.country)"
-          formControlName="country" [options]="optionData.countryOptions"></app-select>
+          [config]="
+            selectConfig(
+              'Country',
+              'Select Country',
+              true,
+              'code',
+              'name',
+              fieldsPermission?.country === 'readonly',
+              theFormControl.country
+            )
+          "
+          formControlName="country"
+          [options]="optionData.countryOptions"
+        ></app-select>
       </div>
 
-      <div *ngIf="setDisplay(fieldsPermission?.phoneNumber)" class="col-12 mb-14 m-0 p-0">
+      <div
+        *ngIf="setDisplay(fieldsPermission?.phoneNumber)"
+        class="col-12 mb-14 m-0 p-0"
+      >
         <app-input
-          [config]="inputConfig('Phone', 'tel', 'Type Here', false, fieldsPermission?.phoneNumber === 'readonly', theFormControl.phoneNumber)"
-          formControlName="phoneNumber"></app-input>
+          [config]="
+            inputConfig(
+              'Phone',
+              'tel',
+              'Type Here',
+              false,
+              fieldsPermission?.phoneNumber === 'readonly',
+              theFormControl.phoneNumber
+            )
+          "
+          formControlName="phoneNumber"
+        ></app-input>
       </div>
 
-      <div *ngIf="setDisplay(fieldsPermission?.email)" class="col-12 mb-14 m-0 p-0">
+      <div
+        *ngIf="setDisplay(fieldsPermission?.email)"
+        class="col-12 mb-14 m-0 p-0"
+      >
         <app-input
-          [config]="inputConfig('Company Email', 'email', 'Type Here', false, fieldsPermission?.email === 'readonly', theFormControl.email)"
-          formControlName="email"></app-input>
+          [config]="
+            inputConfig(
+              'Company Email',
+              'email',
+              'Type Here',
+              false,
+              fieldsPermission?.email === 'readonly',
+              theFormControl.email
+            )
+          "
+          formControlName="email"
+        ></app-input>
       </div>
-
     </div>
 
-
     <div class="col-12 col-md-3 px-0 px-md-16 m-0">
-
-      <div *ngIf="setDisplay(fieldsPermission?.anniversaryDate)" class="col-12 mb-14 m-0 p-0">
+      <div
+        *ngIf="setDisplay(fieldsPermission?.anniversaryDate)"
+        class="col-12 mb-14 m-0 p-0"
+      >
         <app-input
-        *ngIf="editMode"
-          [config]="inputConfig('Anniversary date', 'datetime-local', 'Enter Aniversary Date', false, !editMode ||fieldsPermission?.anniversaryDate === 'readonly', theFormControl.anniversaryDate)"
-          formControlName="anniversaryDate"></app-input>
-          <label *ngIf="!editMode"  class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0">Anniversary date </label>
-          <div class="rc-form-group rc-form-group-without-prefix rc-form-group-without-prefix-disabled">
-            <input *ngIf="!editMode" type="datetime" formControlName="anniversaryDate" >
-
-          </div>
+          *ngIf="editMode"
+          [config]="
+            inputConfig(
+              'Anniversary date',
+              'datetime-local',
+              'Enter Aniversary Date',
+              false,
+              !editMode || fieldsPermission?.anniversaryDate === 'readonly',
+              theFormControl.anniversaryDate
+            )
+          "
+          formControlName="anniversaryDate"
+        ></app-input>
+        <label
+          *ngIf="!editMode"
+          class="rc-grey-color s12-h16 montserrat-regular-font text-weight-normal m-0 ls-0"
+          >Anniversary date
+        </label>
+        <div
+          class="rc-form-group rc-form-group-without-prefix rc-form-group-without-prefix-disabled"
+        >
+          <input
+            *ngIf="!editMode"
+            type="datetime"
+            formControlName="anniversaryDate"
+          />
+        </div>
       </div>
 
-      <div *ngIf="setDisplay(fieldsPermission?.subscriptionFee)" class="col-12 mb-14 m-0 p-0">
+      <div
+        *ngIf="setDisplay(fieldsPermission?.subscriptionFee)"
+        class="col-12 mb-14 m-0 p-0"
+      >
         <app-input
-          [config]="inputConfig('Subscription fee', 'text', 'Type here', true, !editMode || fieldsPermission?.subscriptionFee === 'readonly', theFormControl.subscriptionFee)"
-          formControlName="subscriptionFee"></app-input>
+          [config]="
+            inputConfig(
+              'Subscription fee',
+              'text',
+              'Type here',
+              true,
+              !editMode || fieldsPermission?.subscriptionFee === 'readonly',
+              theFormControl.subscriptionFee
+            )
+          "
+          formControlName="subscriptionFee"
+        ></app-input>
       </div>
 
-      <div *ngIf="setDisplay(fieldsPermission?.supportHoursContract)" class="col-12 mb-14 m-0 p-0">
+      <div
+        *ngIf="setDisplay(fieldsPermission?.supportHoursContract)"
+        class="col-12 mb-14 m-0 p-0"
+      >
         <app-input
-          [config]="inputConfig('Support hours contract','number', 'Type here', false, !editMode ||fieldsPermission?.supportHoursContract === 'readonly', theFormControl.supportHoursContract)"
-          formControlName="supportHoursContract"></app-input>
+          [config]="
+            inputConfig(
+              'Support hours contract',
+              'number',
+              'Type here',
+              false,
+              !editMode ||
+                fieldsPermission?.supportHoursContract === 'readonly',
+              theFormControl.supportHoursContract
+            )
+          "
+          formControlName="supportHoursContract"
+        ></app-input>
       </div>
 
-      <div *ngIf="setDisplay(fieldsPermission?.supportHoursAvailable)" class="col-12 mb-14 m-0 p-0">
+      <div
+        *ngIf="setDisplay(fieldsPermission?.supportHoursAvailable)"
+        class="col-12 mb-14 m-0 p-0"
+      >
         <app-input
-          [config]="inputConfig('Support hours available','number', 'Type here', false, !editMode ||fieldsPermission?.supportHoursAvailable === 'readonly', theFormControl.supportHoursAvailable)"
-          formControlName="supportHoursAvailable"></app-input>
+          [config]="
+            inputConfig(
+              'Support hours available',
+              'number',
+              'Type here',
+              false,
+              !editMode ||
+                fieldsPermission?.supportHoursAvailable === 'readonly',
+              theFormControl.supportHoursAvailable
+            )
+          "
+          formControlName="supportHoursAvailable"
+        ></app-input>
       </div>
-
-
     </div>
 
     <div class="w-100">
@@ -127,13 +335,14 @@
           class="mr-8" [routerLink]="[buttons.buttonB.link || defaultToButtons.buttonB.link]">
           {{buttons.buttonB.name}}
         </app-button> -->
-        <app-button type="submit" color="primary"
-          [disabled]="!componentForm.valid || isLoading || activateBtn">
+        <app-button
+          type="submit"
+          color="primary"
+          [disabled]="!componentForm.valid || isLoading || activateBtn"
+        >
           <app-loader type="button" *ngIf="isLoading"></app-loader>
-          <span *ngIf="!isLoading">{{buttons.buttonA}}</span>
+          <span *ngIf="!isLoading">{{ buttons.buttonA }}</span>
         </app-button>
-
-
       </div>
     </div>
   </form>
