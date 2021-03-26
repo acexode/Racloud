@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AdminCompanyProfileUpdateModel } from 'src/app/customer/model/admin-company-profile-update';
 import { CustomerModel } from 'src/app/customer/model/customer.model';
 import { baseEndpoints, customersEndpoints } from '../../configs/endpoints';
 import { RequestService } from '../request/request.service';
@@ -14,7 +15,7 @@ export class CustomerService {
     return this.reqS.get<Array<CustomerModel>>(baseEndpoints.allCustomers);
   }
   getCustomerCustomers(id: any): Observable<any> {
-    return this.reqS.get<Array<CustomerModel>>(baseEndpoints.allCustomers + '?customerId='+ id);
+    return this.reqS.get<Array<CustomerModel>>(baseEndpoints.allCustomers + '?customerId=' + id);
   }
   disableCustomer(id: number) {
     const customerDisapbleEndpoint = `${ baseEndpoints.customers }/${ id }/disable-customer`;
@@ -35,7 +36,10 @@ export class CustomerService {
   getCustomerProfile(): Observable<CustomerModel> {
     return this.reqS.get<CustomerModel>(customersEndpoints.profile);
   }
-  deleteCustomer(id){
+  deleteCustomer(id) {
     return this.reqS.delete(customersEndpoints.getCompanyUsers + id);
+  }
+  updateCustomerProfile(data: AdminCompanyProfileUpdateModel): Observable<any> {
+    return this.reqS.put(customersEndpoints.profileUpdate, data);
   }
 }

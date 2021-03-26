@@ -3,7 +3,8 @@ import {
   forwardRef,
   Input,
   OnDestroy,
-  OnInit} from '@angular/core';
+  OnInit
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormBuilder } from '@angular/forms';
 import { InputConfig } from './../../models/input/input-config';
 import { get } from 'lodash';

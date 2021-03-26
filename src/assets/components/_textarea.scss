@@ -2,40 +2,45 @@
 @import "../variables";
 
 .rc-form-textArea {
-    width: 100%;
-    min-height: rem(110);
-    border: $rc-accent-blue-60-outline;
-    resize: vertical;
-    font-family: $font-helveticaNeue;
-    color: $rc-black;
-    font-size: rem(14) !important;
-    line-height: rem(16) !important;
-    padding: rem(8) rem(12);
-    border-radius: rem(2);
-    letter-spacing: 0;
-    outline: none;
+  width: 100%;
+  min-height: rem(110);
+  border: $rc-accent-blue-60-outline;
+  resize: vertical;
+  font-family: $font-helveticaNeue;
+  color: $rc-black;
+  font-size: rem(14) !important;
+  line-height: rem(16) !important;
+  padding: rem(8) rem(12);
+  border-radius: rem(2);
+  letter-spacing: 0;
+  outline: none;
+  @include inputPlaceholder() {
+    color: $rc-grey;
+    opacity: 1;
+  }
+  &.invalid,
+  &:invalid {
+    border: $rc-red-outline;
     @include inputPlaceholder() {
-        color: $rc-grey;
-        opacity: 1;
+      color: $rc-red;
     }
-    &.invalid,
-    &:invalid {
-        border: $rc-red-outline;
-        @include inputPlaceholder() {
-            color: $rc-red;
-        }
-    }
-    &:hover {
-        border: $rc-secondary-ouline;
-    }
-    &:focus {
-        color: $rc-black !important;
-        border: $rc-secondary-focus-outline;
-    }
-    &::-webkit-resizer {
-        width: rem(14);
-        height: rem(14);
-        background: url("~src/assets/images/Rectangle.svg") no-repeat;
-    }
-    
+  }
+  &:hover {
+    border: $rc-secondary-ouline;
+  }
+  &:focus {
+    color: $rc-black !important;
+    border: $rc-secondary-focus-outline;
+  }
+  &::-webkit-resizer {
+    width: rem(14);
+    height: rem(14);
+    background: url("~src/assets/images/Rectangle.svg") no-repeat;
+  }
+  &:disabled,
+  &.disabled {
+    border: $rc-secondary-ouline;
+    background: $rc-light-grey;
+    color: $rc-accent-blue-30;
+  }
 }

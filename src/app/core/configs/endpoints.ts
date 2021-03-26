@@ -24,7 +24,8 @@ export const customersEndpoints = {
   getCustomers: serverBaseUrl + '/allcustomers',
   getOneCustomers: serverBaseUrl + '/customers',
   getCompanyUsers: serverBaseUrl + '/customers/',
-  profile: baseEndpoints.customer + '/profile'
+  profile: baseEndpoints.customer + '/profile',
+  profileUpdate: baseEndpoints.customer + '/profile/update',
 };
 export const productEndpoints = {
   getProducts: serverBaseUrl + '/products',

@@ -22,7 +22,11 @@
             languageOptions: languageOptions$ | async
           } as optionData"
         >
-          <form [formGroup]="componentForm" class="row no-gutters">
+          <form
+            [formGroup]="componentForm"
+            class="row no-gutters"
+            (submit)="updateCompanyProfile()"
+          >
             <div class="col-12 col-md-3 px-0 pr-0 py-0 pr-md-16 m-0">
               <div class="col-12 mb-14 m-0 p-0">
                 <app-input
@@ -32,7 +36,7 @@
                       'text',
                       'Type Here',
                       false,
-                      disableField
+                      isNotInEditMode
                     )
                   "
                   formControlName="companyName"
@@ -47,7 +51,7 @@
                       'text',
                       'Type Here',
                       false,
-                      disableField
+                      isNotInEditMode
                     )
                   "
                   formControlName="firstName"
@@ -62,7 +66,7 @@
                       'text',
                       'Type Here',
                       false,
-                      disableField
+                      isNotInEditMode
                     )
                   "
                   formControlName="lastName"
@@ -129,7 +133,7 @@
 
               <div class="col-12 mb-6 m-0 p-0">
                 <app-textarea
-                  [config]="textAreaConfig(disableField)"
+                  [config]="textAreaConfig(isNotInEditMode)"
                   formControlName="address"
                   id="address"
                 >
@@ -164,7 +168,7 @@
                       true,
                       'code',
                       'name',
-                      disableField
+                      isNotInEditMode
                     )
                   "
                   formControlName="country"
@@ -180,7 +184,7 @@
                       'tel',
                       'Type Here',
                       false,
-                      disableField
+                      isNotInEditMode
                     )
                   "
                   formControlName="phoneNumber"
@@ -195,7 +199,7 @@
                       'email',
                       'Type Here',
                       false,
-                      disableField
+                      isNotInEditMode
                     )
                   "
                   formControlName="email"
@@ -264,6 +268,44 @@
                 ></app-input>
               </div>
             </div>
+            <div class="w-100" *ngIf="isAdmin">
+              <div
+                class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-between"
+              >
+                <div class="d-flex">
+                  <app-button
+                    type="button"
+                    color="primary"
+                    *ngIf="isNotInEditMode"
+                    (buttonClickEvent)="editProfile()"
+                  >
+                    Edit
+                  </app-button>
+                </div>
+                <div>
+                  <app-button
+                    type="submit"
+                    color="secondary"
+                    class="mr-10"
+                    *ngIf="!isNotInEditMode"
+                    [disabled]="isLoading"
+                    (buttonClickEvent)="cancleProfileEditing()"
+                  >
+                    Cancle
+                  </app-button>
+
+                  <app-button
+                    type="submit"
+                    color="primary"
+                    *ngIf="!isNotInEditMode"
+                    [disabled]="isLoading"
+                  >
+                    <app-loader type="button" *ngIf="isLoading"></app-loader>
+                    <span *ngIf="!isLoading"> Update </span>
+                  </app-button>
+                </div>
+              </div>
+            </div>
           </form>
         </ng-container>
       </ng-container>
@@ -280,20 +322,6 @@
           </div>
         </div>
       </ng-template>
-    </div>
-
-    <div class="w-100">
-      <div class="rc-light-grey-bg mt-15 p-16 d-flex justify-content-between">
-        <div class="d-flex">
-          <app-button
-            type="button"
-            color="primary"
-            (click)="routeToCustomerDetailsEdit()"
-          >
-            Edit
-          </app-button>
-        </div>
-      </div>
     </div>
   </div>
 </app-page-container>

@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { get } from 'lodash';
-import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
 import { MessagesService } from '../shared/messages/services/messages.service';
@@ -18,10 +16,10 @@ import { UsersService } from '../users/users.service';
 })
 
 export class MyProfileComponent implements OnInit, OnDestroy {
-  isNotInEditMode = false; // to be changed to true (for edit)
+  isNotInEditMode = true;
   caretLeftIcon = '../assets/images/caret-left.svg';
   backUrl = '/users';
-  disableCustomerSelectField = false;
+  disableCustomerSelectField = true;
   userForm: FormGroup;
   containerConfig: PageContainerConfig = {
     closeButton: true,
@@ -54,7 +52,6 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private userS: UsersService,
     private msgS: MessagesService,
-    private router: Router,
   ) { }
 
   inputConfig(
@@ -157,14 +154,26 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       lastName: this.userForm.get('lastName').value,
     };
   }
-  routeToUserEdit() {
-    this.router.navigate(['/users/edit-user', { id: this.userId, companyId: this.userCompanyId, backUrl: '/my-profile' }]);
+  enableFields() {
+    this.userForm.get('firstName').enable();
+    this.userForm.get('lastName').enable();
+    this.userForm.get('email').enable();
+  }
+  disableFields() {
+    this.userForm.get('firstName').disable();
+    this.userForm.get('lastName').disable();
+    this.userForm.get('email').disable();
   }
   editProfile() {
+    this.enableFields();
     this.isNotInEditMode = false;
   }
   cancleProfileEditing() {
+    this.disableFields();
     this.isNotInEditMode = true;
+  }
+  get isNotEditMode() {
+    return this.isNotInEditMode;
   }
   updateProfile() {
     // start porocess

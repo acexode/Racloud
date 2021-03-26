@@ -9,8 +9,10 @@ import { AuthService } from '../core/services/auth/auth.service';
 import { CountriesService } from '../core/services/countries/countries.service';
 import { CustomerService } from '../core/services/customer/customer.service';
 import { LanguagesService } from '../core/services/languages/languages.service';
+import { AdminCompanyProfileUpdateModel } from '../customer/model/admin-company-profile-update';
 import { CustomerModel } from '../customer/model/customer.model';
 import { PageContainerConfig } from '../shared/container/models/page-container-config.interface';
+import { MessagesService } from '../shared/messages/services/messages.service';
 import { InputConfig } from '../shared/rc-forms/models/input/input-config';
 import { SelectConfig } from '../shared/rc-forms/models/select/select-config';
 import { TextAreaConfig } from '../shared/rc-forms/models/textarea/textarea-config';
@@ -20,7 +22,10 @@ import { TextAreaConfig } from '../shared/rc-forms/models/textarea/textarea-conf
   templateUrl: './my-company.component.html',
   styleUrls: ['./my-company.component.scss']
 })
-export class MyCompanyComponent implements OnInit, OnChanges, OnDestroy {
+export class MyCompanyComponent implements OnInit, OnDestroy {
+  isNotInEditMode = true;
+  isLoading = false;
+  edittableFields = ['firstName', 'lastName', 'email', 'companyName', 'address', 'country', 'phoneNumber'];
   backUrl = '/customer';
 
   typeOptions = Object.keys(CompanyTypes).map(companyType => {
@@ -47,15 +52,9 @@ export class MyCompanyComponent implements OnInit, OnChanges, OnDestroy {
     ],
     companyType: [
       null,
-      [
-        Validators.required,
-      ],
     ],
     parentId: [
       null,
-      [
-        Validators.required,
-      ],
     ],
     address: [
       '',
@@ -90,9 +89,6 @@ export class MyCompanyComponent implements OnInit, OnChanges, OnDestroy {
     ],
     language: [
       null,
-      [
-        Validators.required,
-      ],
     ],
     priceListId: [
       null,
@@ -122,11 +118,8 @@ export class MyCompanyComponent implements OnInit, OnChanges, OnDestroy {
     private authS: AuthService,
     private customerS: CustomerService,
     private router: Router,
-  ) { }
-  ngOnChanges(changes: SimpleChanges): void {
-    // this.componentForm.valueChanges.subscribe(d => {});
-  }
-  ngOnInit(): void {
+    private msgS: MessagesService,
+  ) { } ngOnInit(): void {
     this.fetchCompany$ = this.customerS.getCustomerProfile()
       .subscribe(
         d => {
@@ -208,7 +201,6 @@ export class MyCompanyComponent implements OnInit, OnChanges, OnDestroy {
         address: get(data, 'address', ''),
         country: get(data, 'country', ''),
         phoneNumber: get(data, 'phoneNumber', ''),
-        // anniversaryDate: getUTCLongMonthDate(get(data, 'anniversaryDate', '')),
         anniversaryDate: get(data, 'anniversaryDate', ''),
         subscriptionFee: get(data, 'subscriptionFee', ''),
         supportHoursContract: get(data, 'supportHoursContract', ''),
@@ -218,8 +210,6 @@ export class MyCompanyComponent implements OnInit, OnChanges, OnDestroy {
       };
       this.componentForm.setValue({ ...d });
       this.setCompanyAndPriceListName(data);
-      this.componentForm.markAllAsTouched();
-      this.componentForm.updateValueAndValidity();
     }
   }
   setCompanyAndPriceListName(data: any) {
@@ -243,42 +233,6 @@ export class MyCompanyComponent implements OnInit, OnChanges, OnDestroy {
   }
   get theFormControl() {
     return this.componentForm.controls;
-  }
-  markDirty() {
-    this.markGroupDirty(this.componentForm);
-  }
-  markGroupDirty(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach(key => {
-      switch (formGroup.get(key).constructor.name) {
-        case 'FormGroup':
-          this.markGroupDirty(formGroup.get(key) as FormGroup);
-          break;
-        case 'FormArray':
-          this.markArrayDirty(formGroup.get(key) as FormArray);
-          break;
-        case 'FormControl':
-          this.markControlDirty(formGroup.get(key) as FormControl);
-          break;
-      }
-    });
-  }
-  markArrayDirty(formArray: FormArray) {
-    formArray.controls.forEach(control => {
-      switch (control.constructor.name) {
-        case 'FormGroup':
-          this.markGroupDirty(control as FormGroup);
-          break;
-        case 'FormArray':
-          this.markArrayDirty(control as FormArray);
-          break;
-        case 'FormControl':
-          this.markControlDirty(control as FormControl);
-          break;
-      }
-    });
-  }
-  markControlDirty(formControl: FormControl) {
-    formControl.markAsDirty();
   }
   setDisplay(permission) {
     if (permission === 'hidden') {
@@ -306,6 +260,64 @@ export class MyCompanyComponent implements OnInit, OnChanges, OnDestroy {
 
   routeToCustomerDetailsEdit() {
     this.router.navigate(['/customer', 'manage', this.parentId, 'tab', 'details']);
+  }
+  enableFields() {
+    this.edittableFields.forEach(field => {
+      this.componentForm.get(field).enable();
+    });
+  }
+  disableFields() {
+    this.edittableFields.forEach(field => {
+      this.componentForm.get(field).disable();
+    });
+  }
+  editProfile() {
+    this.enableFields();
+    this.isNotInEditMode = false;
+  }
+  cancleProfileEditing() {
+    this.disableFields();
+    this.isNotInEditMode = true;
+  }
+  updateCompanyProfile() {
+    this.isLoadingStatus();
+    const d: AdminCompanyProfileUpdateModel = {
+      firstName: this.componentForm.get('firstName').value,
+      lastName: this.componentForm.get('lastName').value,
+      email: this.componentForm.get('email').value,
+      companyName: this.componentForm.get('companyName').value,
+      address: this.componentForm.get('address').value,
+      country: this.componentForm.get('country').value,
+      phoneNumber: this.componentForm.get('phoneNumber').value,
+    };
+    this.customerS.updateCustomerProfile(d).subscribe(
+      _resp => {
+        // start porocess
+        this.isLoadingStatus();
+        this.displayMsg('Profile Successfully updated', 'success');
+        this.cancleProfileEditing();
+      },
+      error => {
+        this.displayMsg(error.error, 'danger');
+        // start porocess
+        this.isLoadingStatus();
+      }
+    );
+  }
+  isLoadingStatus() {
+    this.isLoading = !this.isLoading;
+  }
+  displayMsg(msg: string, type: string) {
+    this.msgS.addMessage({
+      text: msg,
+      type,
+      dismissible: true,
+      customClass: 'mt-32',
+      hasIcon: true,
+    });
+    setTimeout(() => {
+      this.msgS.clearMessages();
+    }, 5000);
   }
 }
 

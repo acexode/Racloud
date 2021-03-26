@@ -40,7 +40,7 @@
                     'text',
                     'Type Here',
                     false,
-                    isNotInEditMode
+                    isNotEditMode
                   )
                 "
                 formControlName="firstName"
@@ -54,7 +54,7 @@
                     'text',
                     'Type Here',
                     false,
-                    isNotInEditMode
+                    isNotEditMode
                   )
                 "
                 formControlName="lastName"
@@ -68,7 +68,7 @@
                     'text',
                     'Type Here',
                     false,
-                    isNotInEditMode
+                    isNotEditMode
                   )
                 "
                 formControlName="email"
@@ -136,8 +136,8 @@
               <app-button
                 type="button"
                 color="primary"
-                (click)="editProfile()"
-                *ngIf="isNotInEditMode"
+                (buttonClickEvent)="editProfile()"
+                *ngIf="isNotEditMode"
               >
                 Edit
               </app-button>
@@ -148,7 +148,7 @@
                 type="submit"
                 color="secondary"
                 class="mr-10"
-                *ngIf="!isNotInEditMode"
+                *ngIf="!isNotEditMode"
                 [disabled]="isLoading"
                 (buttonClickEvent)="cancleProfileEditing()"
               >
@@ -158,7 +158,7 @@
               <app-button
                 type="submit"
                 color="primary"
-                *ngIf="!isNotInEditMode"
+                *ngIf="!isNotEditMode"
                 [disabled]="isLoading"
               >
                 <app-loader type="button" *ngIf="isLoading"></app-loader>
