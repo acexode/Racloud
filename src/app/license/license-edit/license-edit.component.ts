@@ -167,12 +167,12 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
     }
   }
   getOptions() {
-    this.service.getOption().subscribe((options: any) => {
-      // console.log(options)
-      // const sorted = this.preselectedRows.sort((a,b)=> a.optionId > b.optionId ? 1 : (b.optionId > a.optionId) ? -1 : 0)
+    this.service.getAllOption().subscribe((options: any) => {
+      console.log(options)
+      //  const sorted = this.preselectedRows.sort((a,b)=> a.optionId > b.optionId ? 1 : (b.optionId > a.optionId) ? -1 : 0)
       this.optionList = options.map((obj: any) => {
         const index = this.preselectedRows.findIndex(idx => obj.Id === idx.optionId);
-        if (index > -1) {
+         if (index > -1) {
           const optIdx = options.findIndex(idx => idx.Id === this.preselectedRows[index].optionId);
           const item = options[optIdx];
           if (item.OptionType === 'Boolean') {
@@ -180,14 +180,21 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
           } else if (item.OptionType === 'String') {
             item.ValueString = this.preselectedRows[index].valueString;
           } else if (item.OptionType === 'ValueList') {
-            // console.log(item)
-            const arr = this.preselectedRows[index].valueListItems.map(v => {
-              return {
-                Name: v.name,
-                Value: v.value,
-                Id: v.id
-              };
-            });
+            const arr = item.ValueList.map(val =>{
+              const presele = this.preselectedRows[index].valueListItems
+              const pIndex = presele.findIndex(vx => vx.id === val.Id )
+              if(pIndex > -1){
+                return {
+                  ...val,
+                  optionSelected: true
+                };
+              }else{
+                return {
+                  ...val,
+                  optionSelected: false
+                };
+              }
+            })
             item.ValueList = arr;
           }
           return {
@@ -196,7 +203,7 @@ export class LicenseEditComponent implements OnInit, AfterViewInit {
             UserAccess: this.preselectedRows[index].userAccess,
             selected: true
           };
-        } else {
+         } else {
           return {
             ...obj,
             UserAccess: 'Hidden',
