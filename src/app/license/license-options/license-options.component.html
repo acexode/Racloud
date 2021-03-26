@@ -82,10 +82,10 @@
           <table class="w-100">
             <tbody class="w-100">
               <tr *ngFor="let val of row.ValueList" class="tables-cell8">
-                <td *ngIf="val.selected"> <label class="container"> <input type="checkbox" [value]="val.Name"
+                <td *ngIf="val.optionSelected"> <label class="container"> <input type="checkbox" [value]="val.Name"
                       (change)="onCheckValueList($event, row, val.Id)" checked="checked"> <span
                       class="checkmark"></span> </label> </td>
-                <td *ngIf="!val.selected"> <label class="container"> <input type="checkbox" [value]="val.Name"
+                <td *ngIf="!val.optionSelected"> <label class="container"> <input type="checkbox" [value]="val.Name"
                       (change)="onCheckValueList($event, row, val.Id)"> <span class="checkmark"></span> </label> </td>
                 <td style="width:427px;">{{val.Name}}</td>
               </tr>
