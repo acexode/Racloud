@@ -13,14 +13,13 @@
           <app-toggle
             [(ngModel)]="showOwnLicenses"
             (change)="toggle()"
-            class="mr-32"
             *ngIf="hasOwnLicense"
           >
             Own licenses
           </app-toggle>
 
           <!--  -->
-          <app-button *ngIf="canBuy" routerLink="/shop" type="button" color="primary">
+          <app-button class="ml-32" *ngIf="canBuy" routerLink="/shop" type="button" color="primary">
             Buy license
           </app-button>
           <!--  -->
