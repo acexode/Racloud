@@ -192,7 +192,7 @@ export class LicenseOptionsComponent implements OnInit {
       this.optionList = this.optionList.map(e => {
         if(e.OptionType === 'ValueList'){
           const filt = e.ValueList.filter(f => f.optionSelected)
-          const displayValue =  filt.map(e => e.Name).slice(0,3).join(', ');
+          const displayValue =  filt.map(fe => fe.Name).slice(0,3).join(', ');
           console.log(filt)
           if(filt.length){
             e.displayValue = displayValue
