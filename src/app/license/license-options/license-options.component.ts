@@ -333,7 +333,7 @@ export class LicenseOptionsComponent implements OnInit {
           })
           console.log(arrObj)
           const filt = arrObj.filter(f => f.optionSelected)
-          const displayValue =  filt.map(e => e.Name).slice(0,3).join(', ');
+          const displayValue =  filt.map(fe => fe.Name).slice(0,3).join(', ');
           console.log(filt)
           if(filt.length){
             e.displayValue = displayValue
