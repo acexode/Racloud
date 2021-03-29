@@ -233,6 +233,16 @@ export class OptionTabComponent implements OnInit {
   }
   getRow(item){
     this.rowValue = item.selected[0]
+    this.optionList = this.optionList.map(opt =>{
+      if(this.rowValue.Id === opt.Id){
+        return {
+          ...opt,
+          selected: true
+        }
+      }
+      return opt
+    })
+    console.log(item)
     this.selectedRows.emit(item)
   }
   setPartnerAccess(row, access){
@@ -288,6 +298,7 @@ export class OptionTabComponent implements OnInit {
   }
   onCheckValueList($event, row, valueId){
     const checked = $event.target.checked
+    console.log(this.optionList)
     this.optionList = this.optionList.map(e => {
       if(e.Id === row.Id){
         if(e.OptionType === 'ValueList'){
@@ -298,10 +309,10 @@ export class OptionTabComponent implements OnInit {
             }
             return val
           })
-          console.log(arrObj)
+          // console.log(arrObj)
           const filt = arrObj.filter(f => f.optionSelected)
           const displayValue =  filt.map(fe => fe.Name).slice(0,3).join(', ');
-          console.log(filt)
+          // console.log(filt)
           if(filt.length){
             e.displayValue = displayValue
           }else{
@@ -318,7 +329,7 @@ export class OptionTabComponent implements OnInit {
       }
       return e
     })
-    console.log(this.optionList)
+    // console.log(this.optionList)
     this.reInitData(this.optionList)
     this.ref.detectChanges()
   }

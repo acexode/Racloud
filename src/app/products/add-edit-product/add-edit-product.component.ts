@@ -119,27 +119,32 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
     });
     if (id) {
       this.isEdit = true;
-      this.productS.getSingleProduct(id).subscribe((obj: any) => {
-        this.productOptions = obj;
-        // const data = obj.filter(e => e.id.toString() === id)[0];
-        // this.product = data;
-        this.preselectedRows = obj.ProductOptions;
-        const modifiedObj = {
-          applicationId: obj.Application.id,
-          name: obj.Name,
-          productType: obj.ProductType,
-          description: obj.Description,
-          productUrl: obj.ProductUrl,
-          productCode: obj.ProductCode
-        }
-        this.updateForm(modifiedObj);
-        this.getOptions()
-      });
+      this.getProduct(id)
     } else {
+      this.getOptions()
       this.productS.getProducts().subscribe((obj: any) => {
         this.productOptions = obj;
       });
     }
+  }
+  getProduct(id){
+    console.log(id)
+    this.productS.getSingleProduct(id).subscribe((obj: any) => {
+      this.productOptions = obj;
+      // const data = obj.filter(e => e.id.toString() === id)[0];
+      // this.product = data;
+      this.preselectedRows = obj.ProductOptions;
+      const modifiedObj = {
+        applicationId: obj.Application.id,
+        name: obj.Name,
+        productType: obj.ProductType,
+        description: obj.Description,
+        productUrl: obj.ProductUrl,
+        productCode: obj.ProductCode
+      }
+      this.updateForm(modifiedObj);
+      this.getOptions()
+    });
   }
   getOptions(){
     this.service.getOption().subscribe((options: any) => {
@@ -339,8 +344,7 @@ export class AddEditProductComponent implements OnInit, AfterViewInit {
       this.productS.updateProducts(id, productValues).subscribe(e => {
         this.isLoading = false;
         this.displayMsg('Product updated successfully', 'success');
-        const sorted = this.optionList.sort((a, b) => b.selected - a.selected);
-        this.setTab('info')
+        this.getProduct(id)
       });
     } else {
       productValues.selectedOptions = resArr;
