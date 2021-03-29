@@ -193,9 +193,12 @@ export class AuthService {
       if (permission) {
         if (pagePermissions[permission]) {
           redirectTo = `/${ permission }`;
-          if (redirectTo === '/customers') {
-            redirectTo = '/customer';
-          }
+          console.log(pagePermissions)
+          console.log(redirectTo)
+          redirectTo = '/licenses';
+          // if (redirectTo === '/customers') {
+          //   redirectTo = '/customer';
+          // }
           break;
         }
       }
