@@ -100,7 +100,7 @@
                     <app-button *ngIf="canChangePassword" (click)="openModal(changePasswordTemplate, 'change')" color="secondary" class="cancel-btn floatLeft">
                         Change Password
                     </app-button>
-                      <app-button *ngIf="!canChangePassword" (click)="openModal(sendResetPasswordTemplate, 'send')"  color="secondary" class="cancel-btn floatLeft">
+                      <app-button *ngIf="!canChangePassword && isEdit" (click)="openModal(sendResetPasswordTemplate, 'send')"  color="secondary" class="cancel-btn floatLeft">
                         Reset Password
                     </app-button>
                       <app-button *ngIf="canImpersonate" [disabled]="impersonatorId" (click)="impersonate()"  color="secondary" class="cancel-btn floatLeft">
@@ -146,7 +146,7 @@
         Cancel
       </app-button>
 
-      <app-button type="button"  color="primary" (click)="sendResetPassword()">
+      <app-button  type="button"  color="primary" (click)="sendResetPassword()">
         Send reset password email
       </app-button>
     </div>
