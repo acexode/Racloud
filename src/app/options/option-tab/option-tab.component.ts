@@ -233,16 +233,27 @@ export class OptionTabComponent implements OnInit {
   }
   getRow(item){
     this.rowValue = item.selected[0]
-    this.optionList = this.optionList.map(opt =>{
-      if(this.rowValue.Id === opt.Id){
-        return {
-          ...opt,
-          selected: true
-        }
-      }
-      return opt
-    })
+    const selectedArray = item.selected
+     
     console.log(item)
+    if(selectedArray.length){
+      for(let i=0; i < selectedArray.length; i++){
+        this.optionList = this.optionList.map(opt =>{
+          if(selectedArray[i].Id === opt.Id){
+            return {
+              ...opt,
+              selected: true
+            }
+          }else{
+            return {
+              ...opt,
+              selected: opt.selected ? true : false
+            }
+          }
+        })
+      }
+    }
+    console.log(this.optionList)
     this.selectedRows.emit(item)
   }
   setPartnerAccess(row, access){
