@@ -71,6 +71,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.impersonatorId = e.impersonatorId;
     });
   }
+  get isAdmin() {
+    const auth = this.authS.authState.value;
+    const authAccount = get(auth, 'account', null);
+    const role = get(authAccount, 'roles', null);
+    if (role !== null || role !== '') {
+      return (role.toLowerCase() === 'systemadmin' || role.toLowerCase() === 'admin')
+        ? true : false;
+    } else {
+      return false;
+    }
+  }
   navigate(id: any, route: any) {
     if (route === 'user') {
       this.router.navigate(['/my-profile']);
