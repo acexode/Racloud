@@ -57,7 +57,7 @@
                   role="menu"
                   aria-labelledby="button-basic"
                 >
-                  <li role="menuitem" class="rc-divider-item">
+                  <li role="menuitem" class="rc-divider-item" *ngIf="isAdmin">
                     <a
                       (click)="navigate(company.id, 'company')"
                       class="dropdown-item"
