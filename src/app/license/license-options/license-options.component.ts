@@ -76,11 +76,9 @@ export class LicenseOptionsComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.cStore.getItem('token').subscribe(store =>{
-      console.log(store)
       this.companyType = store.company.companyType
       const role = store.roles[0]
       this.userPermission = (role !== 'user' && this.companyType === 'Main') ? true : false;
-      console.log(this.userPermission)
     })
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.tableConfig.selectDetailTemplate = this.selectDetailTemplate;
@@ -169,7 +167,7 @@ export class LicenseOptionsComponent implements OnInit {
     ];
     const permission =  this.licenseOptionPermission
     const filteredColumns = []
-    console.log(this.optionList)
+
     for (const key in permission) {
       if (true) {
         const idx = columns.findIndex(col => col.tempFieldName === key)
@@ -189,10 +187,18 @@ export class LicenseOptionsComponent implements OnInit {
 
     // }
     this.tableConfig.columns = filteredColumns
-    console.log(this.optionList)
     if (this.optionList) {
+      console.log(this.optionList)
       this.optionList = this.optionList.map(e => {
         if(e.OptionType === 'ValueList'){
+          const filt = e.ValueList.filter(f => f.optionSelected)
+          const displayValue =  filt.map(fe => fe.Name).slice(0,3).join(', ');
+          console.log(filt)
+          if(filt.length){
+            e.displayValue = displayValue
+          }else{
+            e.displayValue = 'No value selected'
+          }
           const arrObj = e.ValueList.map(val => {
             return {
               ...val,
@@ -214,7 +220,6 @@ export class LicenseOptionsComponent implements OnInit {
       this.tableData.next(cloneData);
       this.tableConfig.loadingIndicator = false;
     }
-    console.log(this.optionList)
     // this.getJSON().subscribe((data) => {
     // });
   }
@@ -263,6 +268,25 @@ export class LicenseOptionsComponent implements OnInit {
   }
   getRow(item){
     this.rowValue = item.selected[0]
+    console.log(item)
+    const selectedArray = item.selected
+    if(selectedArray.length){
+      selectedArray.forEach(s =>{
+        this.optionList = this.optionList.map(opt =>{
+          if(s.Id === opt.Id){
+            return {
+              ...opt,
+              selected: true
+            }
+          }else{
+            return {
+              ...opt,
+              selected: opt.selected ? true : false
+            }
+          }
+        })
+      }
+      )}
     this.selectedRows.emit(item)
   }
   setPartnerAccess(row, access){
@@ -299,13 +323,14 @@ export class LicenseOptionsComponent implements OnInit {
     });
     this.productS.SetOptionList(data)
     this.tableData.next(cloneData);
-    this.ref.detectChanges()
+    this.ref.detectChanges();
   }
   onCheckValueBoolean($event, row){
     const checked = $event.target.checked
     this.checkedValueList = this.optionList.map(obj => {
       if(obj.Id === row.Id){
         obj.ValueBoolean = checked
+        obj.selected = checked
         return obj
       }
       return obj
@@ -314,17 +339,30 @@ export class LicenseOptionsComponent implements OnInit {
   }
   onCheckValueList($event, row, valueId){
     const checked = $event.target.checked
+    console.log(checked)
     this.optionList = this.optionList.map(e => {
       if(e.Id === row.Id){
         if(e.OptionType === 'ValueList'){
           const arrObj = e.ValueList.map(val => {
             if(val.Id === valueId){
               val.selected = checked
+              val.optionSelected = checked
             }
             return val
           })
+          console.log(arrObj)
+          const filt = arrObj.filter(f => f.optionSelected)
+          const displayValue =  filt.map(fe => fe.Name).slice(0,3).join(', ');
+          console.log(filt)
+          if(filt.length){
+            e.displayValue = displayValue
+          }else{
+            e.displayValue = 'No value selected'
+          }
+          console.log(arrObj)
           return {
             ...e,
+            selected: true,
             ValueList: arrObj
           }
         }
@@ -333,11 +371,13 @@ export class LicenseOptionsComponent implements OnInit {
       return e
     })
     this.reInitData(this.optionList)
+    this.ref.detectChanges()
   }
   updateValue(event, cell, rowIndex) {
     const idx = this.optionList.findIndex(e => e.Id === rowIndex);
     this.editing[rowIndex + '-' + cell] = false;
     this.optionList[idx][cell] = event.target.value;
+    this.optionList[idx].selected = true
     this.optionList = [...this.optionList];
     this.reInitData(this.optionList)
   }

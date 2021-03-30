@@ -95,8 +95,11 @@ export class TableComponent implements OnInit, OnChanges {
     this.selectedRows.emit({selected: this.selected})
   }
   setSelecetedRow(rows) {
-    const selectedrows = rows.filter(obj => obj.selected === true);
-    this.selected = [...selectedrows];
+    console.log(rows)
+    if(rows){
+      const selectedrows = rows.filter(obj => obj.selected === true);
+      this.selected = [...selectedrows];
+    }
   }
   @HostListener('window:resize', ['$event'])
   onResize(event) {

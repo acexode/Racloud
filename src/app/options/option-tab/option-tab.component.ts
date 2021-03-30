@@ -149,9 +149,18 @@ export class OptionTabComponent implements OnInit {
         cellTemplate: this.UserAccess
       }
     ];
+    console.log(this.optionList)
     if (this.optionList) {
       this.optionList = this.optionList.map(e => {
         if(e.OptionType === 'ValueList'){
+          const filt = e.ValueList.filter(f => f.optionSelected)
+          const displayValue =  filt.map(fe => fe.Name).slice(0,3).join(', ');
+          console.log(filt)
+          if(filt.length){
+            e.displayValue = displayValue
+          }else{
+            e.displayValue = 'No value selected'
+          }
           const arrObj = e.ValueList.map(val => {
             return {
               ...val,
@@ -213,15 +222,37 @@ export class OptionTabComponent implements OnInit {
     return typeof value === 'string';
   }
   toString(arr: any[]) {;
-    const str =   arr.map(e => e.Name).slice(0,3).join(', ');
+    // console.log(arr)
+    const str =   arr.filter(v =>v.optionSelected).map(e => e.Name).slice(0,3).join(', ');
     if(arr.length > 3){
       return str + '...'
     }else{
-      return str
+      console.log(str)
+      return str.length ? str : 'No value selected'
     }
   }
   getRow(item){
     this.rowValue = item.selected[0]
+    const selectedArray = item.selected
+    console.log(item)
+    if(selectedArray.length){
+      selectedArray.forEach(s =>{
+        this.optionList = this.optionList.map(opt =>{
+          if(s.Id === opt.Id){
+            return {
+              ...opt,
+              selected: true
+            }
+          }else{
+            return {
+              ...opt,
+              selected: opt.selected ? true : false
+            }
+          }
+        })
+      })
+    }
+    console.log(this.optionList)
     this.selectedRows.emit(item)
   }
   setPartnerAccess(row, access){
@@ -235,6 +266,7 @@ export class OptionTabComponent implements OnInit {
       }
       return obj
     })
+    // console.log(this.optionList)
     this.reInitData(this.optionList)
   }
   setUserAccess(row, access){
@@ -262,28 +294,44 @@ export class OptionTabComponent implements OnInit {
   }
   onCheckValueBoolean($event, row){
     const checked = $event.target.checked
+    console.log(checked)
     this.checkedValueList = this.optionList.map(obj => {
       if(obj.Id === row.Id){
         obj.ValueBoolean = checked
+        obj.selected = true
         return obj
       }
       return obj
     })
+    console.log(this.optionList)
     this.reInitData(this.optionList)
   }
   onCheckValueList($event, row, valueId){
     const checked = $event.target.checked
+    console.log(this.optionList)
     this.optionList = this.optionList.map(e => {
       if(e.Id === row.Id){
         if(e.OptionType === 'ValueList'){
           const arrObj = e.ValueList.map(val => {
             if(val.Id === valueId){
               val.selected = checked
+              val.optionSelected = checked
             }
             return val
           })
+          // console.log(arrObj)
+          const filt = arrObj.filter(f => f.optionSelected)
+          const displayValue =  filt.map(fe => fe.Name).slice(0,3).join(', ');
+          // console.log(filt)
+          if(filt.length){
+            e.displayValue = displayValue
+          }else{
+            e.displayValue = 'No value selected'
+          }
+          console.log(e)
           return {
             ...e,
+            selected: true,
             ValueList: arrObj
           }
         }
@@ -291,12 +339,16 @@ export class OptionTabComponent implements OnInit {
       }
       return e
     })
+    // console.log(this.optionList)
     this.reInitData(this.optionList)
+    this.ref.detectChanges()
   }
   updateValue(event, cell, rowIndex) {
     const idx = this.optionList.findIndex(e => e.Id === rowIndex);
     this.editing[rowIndex + '-' + cell] = false;
     this.optionList[idx][cell] = event.target.value;
+    this.optionList[idx].selected = true
+    console.log(this.optionList[idx])
     this.optionList = [...this.optionList];
     this.reInitData(this.optionList)
   }
