@@ -14,6 +14,7 @@ export interface CardItem {
         name?: string;
         description?: string;
         productType?: string;
+        productCode?: string;
     };
     priceList?: {
         currency: string;
