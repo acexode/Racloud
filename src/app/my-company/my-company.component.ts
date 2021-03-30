@@ -123,7 +123,6 @@ export class MyCompanyComponent implements OnInit, OnDestroy {
     this.fetchCompany$ = this.customerS.getCustomerProfile()
       .subscribe(
         d => {
-          console.log(d);
           // update form Data
           this.updateValueForForm(d);
         }
@@ -250,7 +249,7 @@ export class MyCompanyComponent implements OnInit, OnDestroy {
     const auth = this.authS.authState.value;
     const authAccount = get(auth, 'account', null);
     const role = get(authAccount, 'roles', null);
-    if (role) {
+    if (role !== null || role !== '') {
       return (role.toLowerCase() === 'systemadmin' || role.toLowerCase() === 'admin')
         ? true : false;
     } else {
