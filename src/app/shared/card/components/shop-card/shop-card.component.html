@@ -6,7 +6,9 @@
                 <p class="s12-h16 montserrat-bold-font ls-0 m-0 rc-accent-blue-bg">{{acronym| uppercase}}</p>
             </div>
             <div class="rc-full-title">
-                <p class="montserrat-semibold-font s15-h24 text-weight-bold rc-accent-blue-160-color ls-0 m-0 p-0">{{item?.product?.name | titlecase}}</p>
+                <p class="montserrat-semibold-font s15-h24 text-weight-bold rc-accent-blue-160-color ls-0 m-0 p-0 shop-title">
+                    {{(item?.product?.name.length > 40) ? ((item?.product?.name | slice:0:35)+'...' | titlecase) : (item?.product?.name | titlecase)}}
+                </p>
             </div>
         </div>
 
