@@ -271,9 +271,9 @@ export class LicenseOptionsComponent implements OnInit {
     console.log(item)
     const selectedArray = item.selected
     if(selectedArray.length){
-      for(let i=0; i < selectedArray.length; i++){
+      selectedArray.forEach(s =>{
         this.optionList = this.optionList.map(opt =>{
-          if(selectedArray[i].Id === opt.Id){
+          if(s.Id === opt.Id){
             return {
               ...opt,
               selected: true
@@ -286,7 +286,7 @@ export class LicenseOptionsComponent implements OnInit {
           }
         })
       }
-    }
+      )}
     this.selectedRows.emit(item)
   }
   setPartnerAccess(row, access){

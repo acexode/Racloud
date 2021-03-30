@@ -234,12 +234,11 @@ export class OptionTabComponent implements OnInit {
   getRow(item){
     this.rowValue = item.selected[0]
     const selectedArray = item.selected
-     
     console.log(item)
     if(selectedArray.length){
-      for(let i=0; i < selectedArray.length; i++){
+      selectedArray.forEach(s =>{
         this.optionList = this.optionList.map(opt =>{
-          if(selectedArray[i].Id === opt.Id){
+          if(s.Id === opt.Id){
             return {
               ...opt,
               selected: true
@@ -251,7 +250,7 @@ export class OptionTabComponent implements OnInit {
             }
           }
         })
-      }
+      })
     }
     console.log(this.optionList)
     this.selectedRows.emit(item)
