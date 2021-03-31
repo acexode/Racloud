@@ -101,7 +101,6 @@ export class LicensesListingComponent implements OnInit {
   };
   loadTableData(data) {
     if (data) {
-      console.log(data);
       const formattedData = data.licenses.map((e: any) => {
         return {
           ...e,
