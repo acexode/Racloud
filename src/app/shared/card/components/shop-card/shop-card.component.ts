@@ -102,7 +102,7 @@ export class ShopCardComponent implements OnInit {
     this.cardTypes[type].productName = this.item?.product.name || 'Product name';
     this.cardTypes[type].productVersion = this.item?.productVersion || '& version';
   }
-  buy(item) {
+  buy(item: any) {
     const { productId } = item;
     if (this.router.url.includes('shop')) {
       item.fromStore = true;

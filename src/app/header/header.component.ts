@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   authS$: Subscription;
   totalOrder;
   cartOrderId;
+  makeHeartBeat = false;
   constructor(
     private titleService: TitleService,
     private authS: AuthService,
@@ -96,6 +97,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       // const order:any = orders.orderItems.filter((ord:any) => ord.orderStatus === 'Cart' )[0]
       this.totalOrder = res.numberOfProductsInCart;
       this.cartOrderId = res.orderId;
+      this.doHeartBeat();
     });
   }
   navigateToOrderDetails() {
@@ -139,6 +141,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
       });
     });
+  }
+  doHeartBeat() {
+    this.makeHeartBeat = true;
+    setTimeout(() => {
+      this.makeHeartBeat = false;
+    }, 2000);
   }
   ngOnDestroy() {
     this.authS$.unsubscribe();
