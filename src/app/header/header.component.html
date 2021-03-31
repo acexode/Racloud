@@ -29,7 +29,11 @@
               >
                 <img src="../../assets/images/Cart.svg" />
                 <div class="pulse"></div>
-                <div *ngIf="totalOrder > 0" class="cart">
+                <div
+                  *ngIf="totalOrder > 0"
+                  class="cart"
+                  [ngClass]="{ heartbeat: makeHeartBeat }"
+                >
                   <span>{{ totalOrder }}</span>
                 </div>
               </a>
