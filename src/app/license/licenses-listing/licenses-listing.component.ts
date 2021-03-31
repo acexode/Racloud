@@ -52,7 +52,7 @@ export class LicensesListingComponent implements OnInit {
       body: 'no-shadow',
     },
   };
-  canBuy = false
+  canBuy = false;
   rows = [];
   showOwnLicenses = false;
   rowDetailIcons = [
@@ -88,10 +88,8 @@ export class LicensesListingComponent implements OnInit {
     // check If Fabricator Or User
     this.checkIfFabricatorOrUser();
     // continue process
-    this.cStore.getItem('pagePermission').subscribe(page =>{
-      console.log(page)
-      this.canBuy = page.shop
-      console.log(this.canBuy)
+    this.cStore.getItem('pagePermission').subscribe(page => {
+      this.canBuy = page.shop;
     });
     this.tableConfig.hoverDetailTemplate = this.hoverDetailTpl;
     this.service.getLicenses().subscribe((data: any) => {
@@ -103,6 +101,7 @@ export class LicensesListingComponent implements OnInit {
   };
   loadTableData(data) {
     if (data) {
+      console.log(data);
       const formattedData = data.licenses.map((e: any) => {
         return {
           ...e,

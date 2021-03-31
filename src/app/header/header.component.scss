@@ -2,12 +2,12 @@
 @import "../../assets/mixins";
 
 .header {
-  background-color: #F7F9FB;
+  background-color: #f7f9fb;
   height: rem(56);
   .status-area {
     background-color: $light-grey-2;
   }
-  .bg-sidebar{
+  .bg-sidebar {
     background-color: $sidebar;
   }
   .logo {
@@ -16,8 +16,8 @@
       height: rem(40);
     }
   }
-  .logo-title{  
-    color: #FFFFFF;
+  .logo-title {
+    color: #ffffff;
     font-family: Comfortaa;
     font-size: 16px;
     font-weight: bold;
@@ -37,7 +37,7 @@
     background-color: $green;
   }
 }
-.stop-imp img{
+.stop-imp img {
   width: 20px;
 }
 .header-text-bold {
@@ -51,7 +51,7 @@
   line-height: rem(16);
   letter-spacing: -0.2px;
 }
-.left-side {  
+.left-side {
   cursor: pointer;
   .avatar {
     width: rem(50);
@@ -123,14 +123,12 @@
   border: 1px solid $medium-grey-2 !important;
   border-radius: rem(8) !important;
   padding: rem(16) 0;
-
 }
 .dropdown-item {
   padding: rem(8) 16px;
   border-bottom: 1px solid $medium-green-3 !important;
   cursor: pointer;
 }
-
 
 .name {
   color: #464976;
@@ -140,13 +138,13 @@
   line-height: 24px;
   text-align: right;
 }
-.organization { 
-  color: #878999;  
+.organization {
+  color: #878999;
   font-family: Montserrat;
   font-size: 12px;
   letter-spacing: 0;
   line-height: 16px;
-  float: right
+  float: right;
 }
 
 .choose-company {
@@ -156,32 +154,31 @@
   letter-spacing: 0;
   line-height: 16px;
 }
-.rc-dropdown .dropdown-item{
+.rc-dropdown .dropdown-item {
   border-bottom: none !important;
 }
-.rc-item{
+.rc-item {
   padding: 8px 16px;
 }
-.rc-divider-item{
- 
+.rc-divider-item {
   padding: 8px 16px;
 }
-.rc-item a {  
+.rc-item a {
   color: #878999;
   font-family: Montserrat;
   font-size: 15px;
   letter-spacing: 0;
   line-height: 24px;
 }
-.rc-item .secondary { 
+.rc-item .secondary {
   color: #878999;
   font-family: Montserrat;
   font-size: 12px;
   letter-spacing: 0;
   line-height: 16px;
 }
-.rc-dropdown-divider{
-  border-top: 1px solid #CDE0EC !important;
+.rc-dropdown-divider {
+  border-top: 1px solid #cde0ec !important;
   margin: 8px 0px;
 }
 .cart {
@@ -191,10 +188,10 @@
   position: absolute;
   top: 3px;
   left: 10px;
-  border: 2px solid #FFFFFF;
+  border: 2px solid #ffffff;
   border-radius: 50%;
-  background-color: #D9471F;
-  color: #FFFFFF;
+  background-color: #d9471f;
+  color: #ffffff;
   font-family: "Helvetica Neue";
   font-size: 9px;
   font-weight: bold;
@@ -202,4 +199,41 @@
   line-height: 16px;
   text-align: center;
 }
+.pulse {
+  position: absolute;
+  top: -1px;
+  left: 6px;
+  height: 28px;
+  width: 28px;
+  z-index: 10;
+  border: 5px solid #d9471f;
+  border-radius: 70px;
+  animation: pulse 1s ease-out infinite;
+}
 
+@keyframes pulse {
+  0% {
+    -webkit-transform: scale(0);
+    opacity: 0;
+  }
+
+  25% {
+    -webkit-transform: scale(0.1);
+    opacity: 0.1;
+  }
+
+  50% {
+    -webkit-transform: scale(0.5);
+    opacity: 0.3;
+  }
+
+  75% {
+    -webkit-transform: scale(0.8);
+    opacity: 0.5;
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    opacity: 0;
+  }
+}
